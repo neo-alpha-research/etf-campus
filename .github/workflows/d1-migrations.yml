@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       target_date:
-        description: "Target date to re-publish canonical market snapshot (YYYY-MM-DD)"
+        description: "Target date to verify (YYYY-MM-DD, leave blank for latest)"
         required: false
-        default: "2026-09-16"
+        default: ""
 
 permissions:
   contents: read
@@ -67,4 +67,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: |
-          npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date='${{ inputs.target_date }}' ORDER BY index_code ASC;"
+          TARGET_DT="${{ inputs.target_date }}"
+          if [ -z "$TARGET_DT" ]; then
+            npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date = (SELECT MAX(as_of_date) FROM market_source_index_daily) ORDER BY index_code ASC;"
+          else
+            npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date = '$TARGET_DT' ORDER BY index_code ASC;"
+          fi

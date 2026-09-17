@@ -120,4 +120,6 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
    - 일회성 도구를 상시 도구로 승격할 때는 하드코딩된 날짜·버전을 CLI 인자(`--target-date`) 또는 동적 메타데이터 조회로 반드시 교체하라.
 5. **작성과 적용의 엄격한 분리 (Apply Verification SSOT)**:
    - 설정·스키마·인프라 변경 시 "작성했다"와 "적용했다"를 철저히 구분하라. 파일 존재는 증거가 아니며, 적용 후 실제 조회 결과(Observation)만 완료의 증거로 인정한다.
+6. **검사의 검출력 실증 규율 (Failure Detection Verification Mandate)**:
+   - 실패 유형에 대응하는 검사를 만들 때, 그 검사가 실제 발생했던 사례를 잡는지 테스트로 증명하라. 검사 개수가 아니라 검출 여부가 완료 기준이다.
 

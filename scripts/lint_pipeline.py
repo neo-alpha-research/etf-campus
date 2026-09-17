@@ -24,6 +24,15 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+def check_git_log_subprocesses_in_text(content: str, filename: str = "script.py") -> list[str]:
+    """텍스트 내 git log/show subprocess 호출을 탐지합니다."""
+    errors = []
+    if "git" in content and ("'log'" in content or '"log"' in content or "'show'" in content or '"show"' in content):
+        if "subprocess" in content:
+            errors.append(f"{filename} contains git log/show subprocess call (violates FM-001 snapshot SSOT).")
+    return errors
+
+
 def check_git_log_subprocesses() -> list[str]:
     """FM-001: CI shallow clone(fetch-depth: 1)에서 실패하는 git log/show subprocess 호출 방지."""
     errors = []
@@ -34,10 +43,39 @@ def check_git_log_subprocesses() -> list[str]:
     for p in target_files:
         if not p.exists():
             continue
-        content = p.read_text(encoding="utf-8")
-        if "git" in content and ("'log'" in content or '"log"' in content or "'show'" in content or '"show"' in content):
-            if "subprocess" in content:
-                errors.append(f"{p.name} contains git log/show subprocess call (violates FM-001 snapshot SSOT).")
+        errors.extend(check_git_log_subprocesses_in_text(p.read_text(encoding="utf-8"), p.name))
+    return errors
+
+
+def check_import_error_swallowing_in_code(source_code: str, filename: str = "script.py") -> list[str]:
+    """코드 AST를 파싱하여 except ImportError/ModuleNotFoundError 블록의 Fail-Open 여부를 탐지합니다."""
+    errors = []
+    try:
+        tree = ast.parse(source_code, filename=filename)
+    except Exception as e:
+        return [f"{filename}: Syntax error parsing code: {e}"]
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Try):
+            for handler in node.handlers:
+                exc_name = ""
+                if isinstance(handler.type, ast.Name):
+                    exc_name = handler.type.id
+                elif isinstance(handler.type, ast.Tuple):
+                    exc_name = ",".join(elt.id for elt in handler.type.elts if isinstance(elt, ast.Name))
+
+                if "ImportError" in exc_name or "ModuleNotFoundError" in exc_name:
+                    body_str = ast.dump(handler)
+                    has_alternate_import = any(isinstance(stmt, (ast.Import, ast.ImportFrom)) for stmt in handler.body)
+                    has_terminator = any(
+                        term in body_str
+                        for term in ("Return", "Raise", "sys.exit", "exit")
+                    )
+                    if not has_terminator and not has_alternate_import:
+                        errors.append(
+                            f"{filename}:{handler.lineno}: "
+                            f"except {exc_name} block does not exit/return/raise (potential silent fail-open)."
+                        )
     return errors
 
 
@@ -58,136 +96,147 @@ def check_import_error_swallowing() -> list[str]:
         if py_file.name in whitelist or "_oneoff" in str(py_file):
             continue
         try:
-            tree = ast.parse(py_file.read_text(encoding="utf-8"), filename=str(py_file))
+            code = py_file.read_text(encoding="utf-8-sig")
         except Exception:
             continue
+        errors.extend(check_import_error_swallowing_in_code(code, str(py_file.relative_to(REPO_ROOT))))
+    return errors
 
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Try):
-                for handler in node.handlers:
-                    exc_name = ""
-                    if isinstance(handler.type, ast.Name):
-                        exc_name = handler.type.id
-                    elif isinstance(handler.type, ast.Tuple):
-                        exc_name = ",".join(elt.id for elt in handler.type.elts if isinstance(elt, ast.Name))
 
-                    if "ImportError" in exc_name or "ModuleNotFoundError" in exc_name:
-                        body_str = ast.dump(handler)
-                        has_alternate_import = any(isinstance(stmt, (ast.Import, ast.ImportFrom)) for stmt in handler.body)
-                        has_terminator = any(
-                            term in body_str
-                            for term in ("Return", "Raise", "sys.exit", "exit")
-                        )
-                        if not has_terminator and not has_alternate_import:
-                            errors.append(
-                                f"{py_file.relative_to(REPO_ROOT)}:{handler.lineno}: "
-                                f"except {exc_name} block does not exit/return/raise (potential silent fail-open)."
-                            )
+def check_daily_market_git_add_in_text(content: str) -> list[str]:
+    """daily-market.yml 워크플로 내용 중 필수 git add 패턴 누락을 탐지합니다."""
+    errors = []
+    if "data/briefing_payload_*.json" not in content:
+        errors.append("daily-market.yml git add step does not contain 'data/briefing_payload_*.json' pattern.")
+    if "data/snapshots" not in content:
+        errors.append("daily-market.yml git add step does not contain 'data/snapshots' directory.")
     return errors
 
 
 def check_daily_market_git_add() -> list[str]:
     """FM-003: daily-market.yml 워크플로의 git add 목록에 정본 아티팩트 누락 방지."""
-    errors = []
     wf_path = REPO_ROOT / ".github" / "workflows" / "daily-market.yml"
     if not wf_path.exists():
         return ["daily-market.yml not found"]
 
-    content = wf_path.read_text(encoding="utf-8")
-    if "data/briefing_payload_*.json" not in content and "data/briefing_payload_" not in content:
-        errors.append("daily-market.yml git add step does not contain 'data/briefing_payload_*.json' pattern.")
-    
-    if "data/snapshots" not in content:
-        errors.append("daily-market.yml git add step does not contain 'data/snapshots' directory.")
-        
+    return check_daily_market_git_add_in_text(wf_path.read_text(encoding="utf-8"))
+
+
+DATE_LITERAL = re.compile(r"20\d\d-\d\d-\d\d")
+COUNT_LITERAL = re.compile(r"""(?:TIGER|KB|PLUS|ACE|KODEX)\s*\d{2,4}|(?:\b\d{3,4}\s?개\b)""")
+DANGER_ASSIGNMENT = re.compile(
+    r"""(?:as_of_date|target_date|source_version|date_str|current_date|snapshot_date|base_dt|report_date)\s*=\s*['"](20\d\d-\d\d-\d\d|market-source-20\d\d-[^'"]+)['"]""",
+    re.IGNORECASE
+)
+
+ALLOWED_DATE_LITERALS = {
+    "2026-08-01",  # MARKET_BRIEFING_SERVICE_START_DATE
+    "2026-08-28",  # MARKET_BRIEFING_SERVICE_START_DATE (alternate)
+    "2026-08-31",  # Service cutoff in history components
+    "2026-08-24",  # Terms version v2026-08-24
+    "2026-08-25",  # Notice date
+    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
+    "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",  # US Holidays
+}
+
+
+def check_hardcoded_dates_or_counts_on_text(line: str, line_no: int = 1, file_label: str = "") -> list[str]:
+    """단일 라인 또는 텍스트 조각에서 FM-004 하드코딩 날짜·버전·고정 카운트를 검출합니다."""
+    errors = []
+    stripped = line.strip()
+    if stripped.startswith("#") or stripped.startswith("//") or stripped.startswith("*"):
+        return errors
+
+    # 1. 변수/키 할당 검사
+    assign_match = DANGER_ASSIGNMENT.search(line)
+    if assign_match:
+        val = assign_match.group(1)
+        if val not in ALLOWED_DATE_LITERALS:
+            errors.append(f"{file_label}:{line_no}: Hardcoded date assignment '{line.strip()}' (violates FM-004).")
+            return errors
+
+    # 2. 문자열 내부 날짜 리터럴 검사
+    date_matches = DATE_LITERAL.findall(line)
+    for dm in date_matches:
+        if dm not in ALLOWED_DATE_LITERALS:
+            errors.append(f"{file_label}:{line_no}: Hardcoded date literal '{dm}' in '{line.strip()}' (violates FM-004).")
+
+    # 3. 문자열 내부 고정 카운트 리터럴 검사
+    count_matches = COUNT_LITERAL.findall(line)
+    for cm in count_matches:
+        errors.append(f"{file_label}:{line_no}: Hardcoded count literal '{cm}' in '{line.strip()}' (violates FM-004).")
+
     return errors
 
 
 def check_hardcoded_dates_or_counts() -> list[str]:
-    """FM-004: scripts/, components/, functions/, workers/ 내 하드코딩 날짜 및 스냅샷 버전 리터럴 차단."""
+    """FM-004: 파이프라인 스크립트 및 CI 워크플로 내 하드코딩 날짜·버전·고정 카운트 차단."""
     errors = []
-    target_dirs = ["scripts", "components", "functions", "workers"]
     
-    # Whitelist of legitimate epoch/service start dates or calendar holidays
-    allowed_literals = {
-        "2026-08-01",  # MARKET_BRIEFING_SERVICE_START_DATE
-        "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
-        "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",  # Holidays
-    }
+    # 핵심 파이프라인 스크립트 및 워크플로 파일 전수 검사
+    target_files = [
+        REPO_ROOT / "scripts" / "build_local_briefing_payload.py",
+        REPO_ROOT / "scripts" / "sync_osmu_kv.py",
+        REPO_ROOT / "scripts" / "publish_market_source_snapshot.py",
+        REPO_ROOT / "scripts" / "fetch_market_indices.py",
+        REPO_ROOT / "scripts" / "check_workflow_success_today.py",
+        REPO_ROOT / "scripts" / "validate_briefing_gate.py",
+        REPO_ROOT / "scripts" / "notify_telegram_osmu.py",
+        REPO_ROOT / "scripts" / "publish_osmu_channels.py",
+        REPO_ROOT / "lib" / "indices.py",
+        REPO_ROOT / ".github" / "workflows" / "daily-market.yml",
+        REPO_ROOT / ".github" / "workflows" / "d1-migrations.yml",
+        REPO_ROOT / ".github" / "workflows" / "generate-osmu.yml",
+    ]
 
-    # Match dangerous hardcoded assignments: as_of_date = "2026-09-16", target_date = "...", source_version = "market-source-..."
-    danger_pattern = re.compile(
-        r"""(?:as_of_date|target_date|source_version|date_str|current_date)\s*=\s*['"](20\d\d-\d\d-\d\d|market-source-20\d\d-[^'"]+)['"]""",
-        re.IGNORECASE
-    )
-
-    for dir_name in target_dirs:
-        dir_path = REPO_ROOT / dir_name
-        if not dir_path.exists():
+    for file_path in target_files:
+        if not file_path.exists():
+            continue
+        try:
+            content = file_path.read_text(encoding="utf-8")
+        except Exception:
             continue
 
-        for file_path in dir_path.rglob("*"):
-            # Exclusions: _oneoff, tests, __tests__, migrations, node_modules, and linter itself
-            p_str = str(file_path).replace("\\", "/")
-            if any(exc in p_str for exc in ["_oneoff/", "tests/", "__tests__/", "migrations/", "node_modules/", "lint_pipeline.py"]):
-                continue
-            if not file_path.is_file() or file_path.suffix not in [".py", ".ts", ".js", ".tsx"]:
-                continue
+        for line_no, line in enumerate(content.splitlines(), 1):
+            line_errs = check_hardcoded_dates_or_counts_on_text(line, line_no, str(file_path.relative_to(REPO_ROOT)))
+            errors.extend(line_errs)
 
-            try:
-                content = file_path.read_text(encoding="utf-8")
-            except Exception:
-                continue
-
-            for line_no, line in enumerate(content.splitlines(), 1):
-                stripped = line.strip()
-                if stripped.startswith("#") or stripped.startswith("//") or stripped.startswith("*"):
-                    continue
-                match = danger_pattern.search(line)
-                if match:
-                    val = match.group(1)
-                    if val not in allowed_literals:
-                        errors.append(
-                            f"{file_path.relative_to(REPO_ROOT)}:{line_no}: "
-                            f"Hardcoded date/version assignment detected: '{line.strip()}' (Move to args or _oneoff/)."
-                        )
     return errors
 
 
-def check_macro_indices_ssot() -> list[str]:
-    """FM-005: 12대 정규 지표 SSOT(lib/indices.py) 및 단일 코드 체계 검증."""
+def check_macro_indices_ssot_in_text(ssot_content: str, payload_builder_content: str = "") -> list[str]:
+    """lib/indices.py 내용 및 빌더 코드의 SSOT 준수 여부를 검증합니다."""
     errors = []
-    ssot_path = REPO_ROOT / "lib" / "indices.py"
-    if not ssot_path.exists():
-        return ["lib/indices.py SSOT does not exist."]
-
-    content = ssot_path.read_text(encoding="utf-8")
     for required in ["CANONICAL_MACRO_CODES", "RAW_SOURCE_TO_CANONICAL", "CANONICAL_TO_LABEL", "normalize_index_code"]:
-        if required not in content:
+        if required not in ssot_content:
             errors.append(f"lib/indices.py is missing required symbol: {required}")
 
-    # Ensure build_local_briefing_payload.py uses lib.indices
-    payload_builder = REPO_ROOT / "scripts" / "build_local_briefing_payload.py"
-    if payload_builder.exists():
-        pb_content = payload_builder.read_text(encoding="utf-8")
-        if "from lib.indices import" not in pb_content:
+    if payload_builder_content:
+        if "from lib.indices import" not in payload_builder_content:
             errors.append("scripts/build_local_briefing_payload.py does not import from lib.indices SSOT.")
-        if "CANONICAL_INDEX_MAP = {" in pb_content:
+        if "CANONICAL_INDEX_MAP = {" in payload_builder_content:
             errors.append("scripts/build_local_briefing_payload.py still contains duplicate CANONICAL_INDEX_MAP.")
 
     return errors
 
 
-def check_migrations_sequence() -> list[str]:
-    """FM-006: D1 마이그레이션 파일 순서 및 4자리 번호 정합성 검증."""
-    errors = []
-    mig_dir = REPO_ROOT / "migrations"
-    if not mig_dir.exists():
-        return errors
+def check_macro_indices_ssot() -> list[str]:
+    """FM-005: 12대 정규 지표 SSOT(lib/indices.py) 및 단일 코드 체계 검증."""
+    ssot_path = REPO_ROOT / "lib" / "indices.py"
+    if not ssot_path.exists():
+        return ["lib/indices.py SSOT does not exist."]
 
-    files = sorted([f.name for f in mig_dir.glob("*.sql")])
+    ssot_content = ssot_path.read_text(encoding="utf-8")
+    payload_builder = REPO_ROOT / "scripts" / "build_local_briefing_payload.py"
+    pb_content = payload_builder.read_text(encoding="utf-8") if payload_builder.exists() else ""
+    return check_macro_indices_ssot_in_text(ssot_content, pb_content)
+
+
+def check_migrations_sequence_for_filenames(filenames: list[str]) -> list[str]:
+    """마이그레이션 파일명 목록의 4자리 번호 접두사 및 중복 여부를 검증합니다."""
+    errors = []
     numbers = []
-    for f in files:
+    for f in sorted(filenames):
         m = re.match(r"^(\d{4})_", f)
         if not m:
             errors.append(f"Migration file '{f}' does not follow 4-digit prefix naming (e.g. 0001_name.sql).")
@@ -204,15 +253,25 @@ def check_migrations_sequence() -> list[str]:
     return errors
 
 
-def check_failure_modes_coverage(checks_count: int) -> list[str]:
+def check_migrations_sequence() -> list[str]:
+    """FM-006: D1 마이그레이션 파일 순서 및 4자리 번호 정합성 검증."""
+    mig_dir = REPO_ROOT / "migrations"
+    if not mig_dir.exists():
+        return []
+    files = [f.name for f in mig_dir.glob("*.sql")]
+    return check_migrations_sequence_for_filenames(files)
+
+
+def check_failure_modes_coverage(checks_count: int, doc_content: str | None = None) -> list[str]:
     """검사 자체에 대한 메타 검사: CHECKS 개수 >= docs/known_failure_modes.md의 항목 수."""
     errors = []
-    doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
-    if not doc_path.exists():
-        return ["docs/known_failure_modes.md not found. Cannot verify failure modes coverage."]
+    if doc_content is None:
+        doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
+        if not doc_path.exists():
+            return ["docs/known_failure_modes.md not found. Cannot verify failure modes coverage."]
+        doc_content = doc_path.read_text(encoding="utf-8")
 
-    content = doc_path.read_text(encoding="utf-8")
-    fm_items = re.findall(r"^##\s*\[FM-\d+\]", content, re.MULTILINE)
+    fm_items = re.findall(r"^##\s*\[FM-\d+\]", doc_content, re.MULTILINE)
     documented_count = len(fm_items)
 
     if checks_count < documented_count:

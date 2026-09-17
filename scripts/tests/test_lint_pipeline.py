@@ -36,6 +36,8 @@ from scripts.lint_pipeline import (
     check_destructive_migrations_baseline_in_text,
     check_working_tree_secrets_in_text,
     check_wip_commit_subjects,
+    check_exemption_disclosure_in_text,
+    check_exemption_disclosure,
     check_failure_modes_coverage,
     strip_sql_comments,
 )
@@ -272,14 +274,14 @@ class TestPipelineLinterRegression(unittest.TestCase):
         # 2. 지시 3 회귀 테스트: 문서에만 미등록 FM-999가 추가된 경우 (검사 누락 탐지 실증)
         doc_with_fm999 = (
             "## [FM-001] A\n## [FM-002] B\n## [FM-003] C\n## [FM-004] D\n## [FM-005] E\n"
-            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n## [FM-011] K\n## [FM-012] L\n## [FM-013] M\n## [FM-999] Unknown\n"
+            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n## [FM-011] K\n## [FM-012] L\n## [FM-013] M\n## [FM-014] N\n## [FM-999] Unknown\n"
         )
         missing_check_errs = check_failure_modes_coverage(ALL_CHECKS, doc_with_fm999)
         self.assertGreater(len(missing_check_errs), 0, "문서에만 FM-999가 있으면 '검사 누락'이 검출되어야 합니다.")
         self.assertTrue(any("검사 누락" in e and "FM-999" in e for e in missing_check_errs))
 
         # 3. 지시 3 회귀 테스트: 린터에만 미문서화 FM-999가 추가된 경우 (문서 누락 탐지 실증)
-        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010", "FM-011", "FM-012", "FM-013", "FM-999"])
+        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010", "FM-011", "FM-012", "FM-013", "FM-014", "FM-999"])
         missing_doc_errs = check_failure_modes_coverage(checks_with_extra, None)
         self.assertGreater(len(missing_doc_errs), 0, "린터에만 FM-999가 있으면 '문서 누락'이 검출되어야 합니다.")
         self.assertTrue(any("문서 누락" in e and "FM-999" in e for e in missing_doc_errs))
@@ -540,7 +542,25 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertNotIn(full_key, errs[0], "오류 메시지에 시크릿 전문이 노출되어서는 안 됩니다.")
         self.assertIn("AIzaSyCvPN7n...", errs[0], "오류 메시지에 마스킹된 앞 12자 접두사가 포함되어야 합니다.")
 
-    # === FM-013 회귀 테스트 2건 ===
+    def test_fm012_scans_environment_notes_file(self):
+        """FM-012 ⑤: .environment_notes.txt 등 비표준 파일은 .env 접두 오탐으로 제외되지 않고 검사 대상에 포함됨을 실증 (C절 1)."""
+        sample_text = 'KEY = "' + 'AIzaSy' + 'CvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s"'
+        errs = check_working_tree_secrets_in_text(sample_text, ".environment_notes.txt")
+        self.assertEqual(len(errs), 1, ".environment_notes.txt 파일 내의 시크릿은 검출되어야 합니다.")
+        self.assertIn("Google API Key", errs[0])
+
+        # 파일명 필터링 조건 검증: .env, .dev.vars, .env.local은 제외 대상이지만 .environment_notes.txt는 제외되지 않음
+        def is_exempt_env(fname: str) -> bool:
+            return fname in {".env", ".dev.vars"} or fname.startswith(".env.") or fname.startswith(".dev.vars.")
+
+        self.assertTrue(is_exempt_env(".env"))
+        self.assertTrue(is_exempt_env(".dev.vars"))
+        self.assertTrue(is_exempt_env(".env.local"))
+        self.assertTrue(is_exempt_env(".dev.vars.local"))
+        self.assertFalse(is_exempt_env(".environment_notes.txt"), ".environment_notes.txt는 스캔 대상에 포함되어야 합니다.")
+        self.assertFalse(is_exempt_env(".env_backup.txt"), ".env_backup.txt는 스캔 대상에 포함되어야 합니다.")
+
+    # === FM-013 회귀 테스트 3건 ===
     def test_fm013_detects_wip_commit_subjects(self):
         """FM-013 ①: wip(compare): ... 라인 검출 실증."""
         wip_subjects = [
@@ -561,6 +581,44 @@ class TestPipelineLinterRegression(unittest.TestCase):
         ]
         errs = check_wip_commit_subjects(compliant_subjects)
         self.assertEqual(len(errs), 0, "규격 준수 커밋 메시지는 통과해야 합니다.")
+
+    def test_fm013_detects_wip_subject_without_commit_hash(self):
+        """FM-013 ③: 커밋 해시가 없는 커밋 제목 자체(wip:... 등)도 검출 실증 (C절 2)."""
+        subjects_without_hash = [
+            "wip(compare): integrate EtfCompareTimeseriesChart into CompareClient",
+            "checkpoint: temporary commit",
+            "temp: test run",
+        ]
+        errs = check_wip_commit_subjects(subjects_without_hash)
+        self.assertEqual(len(errs), 3, "해시 없는 wip/checkpoint/temp 제목도 검출되어야 합니다.")
+        self.assertTrue(all("violates FM-013" in e for e in errs))
+
+    # === FM-014 회귀 테스트 2건 ===
+    def test_fm014_detects_undisclosed_exemption(self):
+        """FM-014 ①: 면제 대상이 SSOT 문서에 누락된 경우 fail-closed 차단 검증."""
+        incomplete_doc = """
+        ## [검사 면제 목록 SSOT]
+        | 검사명 | 면제 대상 | 사유 |
+        |---|---|---|
+        | FM-011 | 0001 | legacy |
+        """
+        errs = check_exemption_disclosure_in_text(incomplete_doc)
+        self.assertGreater(len(errs), 0, "SSOT 문서에 면제 항목이 누락되면 차단되어야 합니다.")
+        self.assertTrue(any("violates FM-014" in e for e in errs))
+
+        # 누락된 특정 항목 검증 (예: da0bccda)
+        missing_commit_errs = check_exemption_disclosure_in_text(
+            incomplete_doc,
+            {"FM-013": {"da0bccda", "80620aa4"}}
+        )
+        self.assertEqual(len(missing_commit_errs), 2)
+        self.assertTrue(any("da0bccda" in e for e in missing_commit_errs))
+        self.assertTrue(any("80620aa4" in e for e in missing_commit_errs))
+
+    def test_fm014_passes_when_all_disclosed(self):
+        """FM-014 ②: docs/known_failure_modes.md에 모든 면제 상수가 공개되어 정상 통과함을 실증."""
+        errs = check_exemption_disclosure()
+        self.assertEqual(len(errs), 0, f"현재 SSOT 문서와 코드 내 면제 상수가 완벽히 일치해야 합니다: {errs}")
 
 
 if __name__ == "__main__":

@@ -217,6 +217,36 @@
   2. 린터에 `check_wip_commits_on_main()`을 등록하여 `origin/main` 최근 30개 커밋에서 `^\S+\s+(wip|checkpoint|temp)[\(:]` 패턴 커밋을 기계적으로 검출·차단 (FM-013 제정 이전 과거 기준점 3건은 baseline으로 격리 관리).
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_wip_commits_on_main()`
 
+---
+
+## [FM-014] Exemption Disclosure SSOT Enforcement
+- **관측 사례**: 2026-09-17 FM-013 검사 구현 시 과거 이력(`da0bccda`, `80620aa4`, `444dce37`)을 화이트리스트 상수(`WIP_HISTORICAL_BASELINE_COMMITS`)로 면제 처리했으나, 보고서에 "FM-013 PASSED"만 기재되고 면제된 커밋 3건 및 사유가 투명하게 공개되지 않아 검사 통과의 전제 조건이 은폐된 문제.
+- **발생 위치**: `scripts/lint_pipeline.py:check_exemption_disclosure()`, `docs/known_failure_modes.md` 「검사 면제 목록 SSOT」
+- **실제 발생 코드 조각**:
+  ```python
+  WIP_HISTORICAL_BASELINE_COMMITS = {"da0bccda", "80620aa4", "444dce37"}
+  ```
+- **근본 원인**: 코드 내 면제 상수(`*_EXEMPT*`, `*_BASELINE_*`)가 문서화 및 보고서에 공개되지 않아도 검사가 통과되는 구조적 결함.
+- **방어 대책**:
+  1. `docs/known_failure_modes.md` 말미에 「검사 면제 목록 SSOT」 섹션을 공식 신설하여 모든 면제 대상과 사유를 단일 진실 공급원으로 공개.
+  2. 린터에 `check_exemption_disclosure()`를 등록하여 코드 내 모든 면제 상수 원소(`0001`~`0026`, `android/app/google-services.json`, `.dev.vars`, `.env`, `da0bccda`, `80620aa4`, `444dce37` 등)가 「검사 면제 목록 SSOT」 섹션 본문에 문자열로 100% 명시되어 있는지 자동 대조·검증 (미등재 시 fail-closed 차단).
+  3. `AGENTS.md` 규율 9에 면제 목록이 있는 검사 통과 시 면제 항목 및 사유 필수 명시 규율 추가.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_exemption_disclosure()`
+
+---
+
+## [검사 면제 목록 SSOT]
+
+| 검사명 | 면제 대상 | 사유 | 등록 일시 |
+|---|---|---|:---:|
+| **FM-011: Destructive Schema Migration Baseline Enforcement** | `0001`, `0002`, `0003`, `0004`, `0005`, `0006`, `0007`, `0008`, `0009`, `0010`, `0011`, `0012`, `0013`, `0014`, `0015`, `0016`, `0017`, `0018`, `0019`, `0020`, `0021`, `0022`, `0023`, `0024`, `0025`, `0026` | 0001~0024는 baseline 감사 인프라 도입 이전 레거시 마이그레이션이며, 0025는 migration_baselines 테이블 자체를 생성한 DDL이고, 0026은 0024 사후 정정 마이그레이션임. 0027 이후 DDL부터 엄격 강제. | 2026-09-17 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `android/app/google-services.json` | Firebase 공개 모바일 클라이언트 식별자 파일로, 보안 비밀키가 아닌 번들 식별자이므로 스캔 예외 허용. | 2026-09-17 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `.env`, `.dev.vars`, `.env.*`, `.dev.vars.*` | Cloudflare Worker 로컬 개발(wrangler dev) 및 Node 런타임 전용 설정 파일이며, .gitignore 및 .githooks/pre-commit(diff --cached)에 의해 저장소 커밋이 원천 차단됨. | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `da0bccda` | `wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart` (2026-09-17 21:08:44 +0900). 기능 브랜치 역병합으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `80620aa4` | `wip(compare): integrate EtfCompareTimeseriesChart into CompareClient` (2026-09-17 20:33:48 +0900). 동일 기능 브랜치 작업 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `444dce37` | `wip(compare): save compare timeseries chart components to feature branch` (2026-09-17 20:29:43 +0900). 기능 브랜치 최초 생성 시점의 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+
+
 
 
 

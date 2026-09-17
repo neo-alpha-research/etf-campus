@@ -608,7 +608,8 @@ def check_working_tree_secrets() -> list[str]:
 
             # Cloudflare Wrangler(wrangler dev) 및 Node 로컬 개발 전용 환경설정 파일은
             # .gitignore 및 .githooks/pre-commit에서 이미 원천 차단되므로 로컬 작업 트리 스캔에서 제외
-            if fname.startswith((".env", ".dev.vars")):
+            # (접두 매칭으로 인한 오탐 제외 방지를 위해 정확 집합 + .env.* / .dev.vars.* 패턴으로 한정)
+            if fname in {".env", ".dev.vars"} or fname.startswith(".env.") or fname.startswith(".dev.vars."):
                 continue
 
 
@@ -636,7 +637,7 @@ def check_working_tree_secrets() -> list[str]:
 
 
 # FM-013: main 브랜치 WIP/checkpoint 커밋 유입 방지
-WIP_COMMIT_PATTERN = re.compile(r"^\S+\s+(wip|checkpoint|temp)[\(:]", re.IGNORECASE)
+WIP_COMMIT_PATTERN = re.compile(r"^(?:\S+\s+)?(wip|checkpoint|temp)[\(:]", re.IGNORECASE)
 
 # 과거 브랜치 역병합 사고로 인해 main에 기포함된 과거 기준점 커밋 (Section 0 관측 사례: da0bccda, 444dce37)
 # 0001~0026 마이그레이션 baseline 면제(FM-011)와 동일하게, FM-013 제정 이전 과거 이력은 기준선으로 보존합니다.
@@ -687,6 +688,46 @@ def check_wip_commits_on_main(origin_ref: str = "origin/main", count: int = 30) 
         return [f"FM-013 Fail-Closed: Exception inspecting git log: {e}"]
 
 
+def check_exemption_disclosure_in_text(
+    doc_content: str,
+    required_exemptions: dict[str, set[str]] | None = None,
+) -> list[str]:
+    """FM-014: 코드 내 면제 대상 원소가 docs/known_failure_modes.md의 [검사 면제 목록 SSOT] 섹션에 공개되어 있는지 검증 (순수 함수)."""
+    marker = "## [검사 면제 목록 SSOT]"
+    if marker not in doc_content:
+        return [f"'{marker}' section missing from failure modes document (violates FM-014)."]
+
+    ssot_section = doc_content.split(marker, 1)[1]
+
+    if required_exemptions is None:
+        required_exemptions = {
+            "FM-011 (BASELINE_EXEMPT_MIGRATIONS)": BASELINE_EXEMPT_MIGRATIONS,
+            "FM-012 (SECRET_SCAN_EXEMPT)": SECRET_SCAN_EXEMPT | {".env", ".dev.vars"},
+            "FM-013 (WIP_HISTORICAL_BASELINE_COMMITS)": WIP_HISTORICAL_BASELINE_COMMITS,
+        }
+
+    errors = []
+    for category, items in sorted(required_exemptions.items()):
+        for item in sorted(items):
+            if item not in ssot_section:
+                errors.append(
+                    f"{category} exemption '{item}' is not disclosed in '{marker}' section (violates FM-014)."
+                )
+    return errors
+
+
+def check_exemption_disclosure() -> list[str]:
+    """FM-014: 코드 내 모든 면제 상수(마이그레이션, 시크릿 스캔, WIP 베이스라인)의 SSOT 문서 공개 여부 검증."""
+    doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
+    if not doc_path.exists():
+        return ["docs/known_failure_modes.md not found (violates FM-014)."]
+    try:
+        content = doc_path.read_text(encoding="utf-8")
+    except Exception as e:
+        return [f"Failed to read docs/known_failure_modes.md: {e}"]
+    return check_exemption_disclosure_in_text(content)
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -702,6 +743,7 @@ ALL_CHECKS = [
     ("check_destructive_migrations_baseline", check_destructive_migrations_baseline, "FM-011: Destructive Schema Migration Baseline Enforcement"),
     ("check_working_tree_secrets", check_working_tree_secrets, "FM-012: Working Tree Plaintext Secret Detection"),
     ("check_wip_commits_on_main", check_wip_commits_on_main, "FM-013: WIP Commit on Main Branch Prohibition"),
+    ("check_exemption_disclosure", check_exemption_disclosure, "FM-014: Exemption Disclosure SSOT Enforcement"),
 ]
 
 

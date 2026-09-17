@@ -183,5 +183,40 @@
   2. 린터(`check_destructive_migrations_baseline()`)를 통해 `DROP TABLE`, `ALTER TABLE`, 또는 `DELETE FROM`을 포함하는 신규 마이그레이션(0027번 이후)이 `migration_baselines`에 `INSERT INTO`, `pre_count`, `post_count` 3대 요소를 온전히 기록하지 않으면 기계적으로 차단.
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_destructive_migrations_baseline()`
 
+---
+
+## [FM-012] Working Tree Plaintext Secret Detection
+- **관측 사례**: 2026-09-17 포렌식 스캔 작업 중 일회성 스크랩 파일(`scripts/_oneoff/gemini_forensic_scan.txt`)에 평문 시크릿(Google API Key `AIzaSyCvPN7n...`, Gemini CLI Token `AQ.Ab8RN6IhU...` 등 7건)이 미추적(untracked) 상태로 생성되었으나, 기존 `git grep` 기반 검사는 추적 파일만 검사하고 기존 파이프라인 린터(FM-008)는 `_oneoff/` 디렉터리를 스캔에서 제외하여 로컬 검사를 통과하고 pre-commit 훅에서 비로소 차단된 문제.
+- **발생 위치**: `scripts/_oneoff/gemini_forensic_scan.txt`, `scripts/lint_pipeline.py:check_working_tree_secrets()`
+- **실제 발생 코드 조각**:
+  ```
+  -  "AIzaSyCvPN7n..." // Primary
+  -  "AQ.Ab8RN6IhU..." // Backup CLI Token
+  ```
+- **근본 원인**: `git grep`의 추적 파일 한정 스캔 및 린터 내 `_oneoff/` 디렉터리 예외 처리로 인해 작업 트리에 존재하는 미추적/임시 파일의 시크릿 노출을 감지하지 못함.
+- **방어 대책**:
+  1. `.gitignore`에 `scripts/_oneoff/*forensic*`, `scripts/_oneoff/*secret*`, `scripts/_oneoff/*.key`, `scripts/_oneoff/*token*` 가드 등록.
+  2. 린터에 `check_working_tree_secrets()`를 등록하여 `.git`, `node_modules` 등 빌드/의존성 캐시를 제외한 작업 트리 전체 파일을 전수 스캔 (1MB 이하, 바이너리 제외).
+  3. `android/app/google-services.json`(Firebase 공개 모바일 클라이언트 식별자) 외 일체의 디렉터리(`_oneoff/` 포함) 예외 불허.
+  4. 위반 보고 시 키 전문 출력을 금지하고 앞 12자만 마스킹하여 2차 유출 원천 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_working_tree_secrets()`
+
+---
+
+## [FM-013] WIP Commit on Main Branch Prohibition
+- **관측 사례**: 2026-09-17 `feat/compare-timeseries-chart` 작업 중 `wip` 커밋(`da0bccda`, `444dce37`) 및 병합 커밋(`5881130e`, `e285332a`)이 기능 브랜치에서 `main` 브랜치로 역병합/푸시되어 프로덕션 `main` 브랜치 이력에 `wip` 체크포인트가 노출된 문제.
+- **발생 위치**: `git log origin/main --oneline`, `AGENTS.md` 규율 10
+- **실제 발생 코드 조각**:
+  ```
+  da0bccda wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart
+  444dce37 wip(compare): save compare timeseries chart components to feature branch
+  ```
+- **근본 원인**: 브랜치 격리 규율에서 머지 방향(`작업 브랜치 → main` 단방향)을 명시하지 않아, 작업 브랜치에서 `git merge main`을 수행한 뒤 해당 브랜치 헤드를 그대로 `main`에 푸시하는 역병합이 발생함.
+- **방어 대책**:
+  1. `AGENTS.md` 규율 10에 `작업 브랜치 → main` 단방향 머지 원칙 및 `wip`/`checkpoint`/`temp`/`test(ci)` 커밋의 main 유입 전면 금지 명문화.
+  2. 린터에 `check_wip_commits_on_main()`을 등록하여 `origin/main` 최근 30개 커밋에서 `^\S+\s+(wip|checkpoint|temp)[\(:]` 패턴 커밋을 기계적으로 검출·차단 (FM-013 제정 이전 과거 기준점 3건은 baseline으로 격리 관리).
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_wip_commits_on_main()`
+
+
 
 

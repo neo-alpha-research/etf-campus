@@ -73,4 +73,10 @@ data/regulatory/sources/kofia_dis_response_*.xml
 dist/
 workers/**/dist/
 
+# One-off forensic and secret scratch files
+scripts/_oneoff/*forensic*
+scripts/_oneoff/*secret*
+scripts/_oneoff/*.key
+scripts/_oneoff/*token*
+
 

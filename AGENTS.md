@@ -141,8 +141,11 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 9. **인용 규율 및 외부 상태 서술 제한 (Raw Citation & Evidence Tagging Mandate)**:
    - CI 실패 로그, 원시 명령 출력, 파일명, 커밋 해시 등을 보고할 때 기억이나 임의 재구성을 절대 금지하며, 실제 실행된 콘솔/도구의 원시 출력(Raw Output)을 파일 저장 또는 클립보드/로그에서 100% 그대로 복사 인용하라. 각 인용 블록 앞에는 실행한 생성 명령(`$ <cmd>`)을 병기한다.
    - **증거 등급 분리**: 모든 보고 서술은 `[실측]`(코드·CLI·API 실측치), `[전언]`(운영자 확인 사실), `[미확인]`(관측 불가 추정)으로 엄격히 태깅한다. 에이전트가 직접 관측할 수 없는 외부 영역(외부 웹 콘솔 폐기 상태, 운영자 계정 상태, 조직 내부 의사결정 등)은 `[전언]`(출처·일시 명시) 또는 `[미확인]` 태그 없이는 작성을 엄격히 금지한다.
-10. **직접 푸시 제한 규율 (Branch Isolation Mandate)**:
-   - `main` 브랜치에 반복적인 직접 푸시(연속 땜질 푸시)를 금지한다. 복합 작업이나 실패 복구 작업은 전용 작업 브랜치(`fix/*`, `feat/*`)에서 테스트 및 실증을 100% 완료한 후, 단 1회의 깔끔한 머지(Clean Merge/Fast-Forward)로 `main`에 반영하라.
+10. **브랜치 격리 및 머지 방향 규율 (Branch Isolation & Merge Direction Mandate)**:
+   - 동일 파일을 2회 연속 수정해야 하는 상황이면 `main` 직접 푸시를 중단하고 전용 작업 브랜치에서 해결한다.
+   - **머지 방향은 항상 `작업 브랜치 → main` 단방향이다.** `main`에 체크아웃한 상태에서 `git merge <작업브랜치>`로 통합하며, 작업 브랜치에서 `git merge main`으로 만든 병합 커밋을 `main`에 푸시하는 것을 금지한다. 작업 브랜치의 최신화가 필요하면 `git rebase main` 또는 `git merge main`을 쓰되, **그 브랜치를 그대로 main에 밀지 않는다.**
+   - 커밋 메시지에 `wip`, `checkpoint`, `temp`, `test(ci)` 접두/표현이 포함된 커밋은 **`main`에 도달해서는 안 된다.** 작업 브랜치에서 `git rebase -i`로 정리(squash)한 뒤 통합한다.
+   - `main`에 푸시하기 전 `git log origin/main..HEAD --oneline`을 확인하고, 위 금지 표현이 포함된 커밋이 있으면 푸시를 중단한다.
 
 
 

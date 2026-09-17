@@ -34,6 +34,8 @@ from scripts.lint_pipeline import (
     check_migration_workflow_deployment_gate_in_text,
     check_cron_workflows_on_default_branch,
     check_destructive_migrations_baseline_in_text,
+    check_working_tree_secrets_in_text,
+    check_wip_commit_subjects,
     check_failure_modes_coverage,
     strip_sql_comments,
 )
@@ -270,14 +272,14 @@ class TestPipelineLinterRegression(unittest.TestCase):
         # 2. 지시 3 회귀 테스트: 문서에만 미등록 FM-999가 추가된 경우 (검사 누락 탐지 실증)
         doc_with_fm999 = (
             "## [FM-001] A\n## [FM-002] B\n## [FM-003] C\n## [FM-004] D\n## [FM-005] E\n"
-            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n## [FM-011] K\n## [FM-999] Unknown\n"
+            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n## [FM-011] K\n## [FM-012] L\n## [FM-013] M\n## [FM-999] Unknown\n"
         )
         missing_check_errs = check_failure_modes_coverage(ALL_CHECKS, doc_with_fm999)
         self.assertGreater(len(missing_check_errs), 0, "문서에만 FM-999가 있으면 '검사 누락'이 검출되어야 합니다.")
         self.assertTrue(any("검사 누락" in e and "FM-999" in e for e in missing_check_errs))
 
         # 3. 지시 3 회귀 테스트: 린터에만 미문서화 FM-999가 추가된 경우 (문서 누락 탐지 실증)
-        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010", "FM-011", "FM-999"])
+        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010", "FM-011", "FM-012", "FM-013", "FM-999"])
         missing_doc_errs = check_failure_modes_coverage(checks_with_extra, None)
         self.assertGreater(len(missing_doc_errs), 0, "린터에만 FM-999가 있으면 '문서 누락'이 검출되어야 합니다.")
         self.assertTrue(any("문서 누락" in e and "FM-999" in e for e in missing_doc_errs))
@@ -505,6 +507,60 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertIn("0025", BASELINE_EXEMPT_MIGRATIONS)
         self.assertIn("0026", BASELINE_EXEMPT_MIGRATIONS)
         self.assertNotIn("0027", BASELINE_EXEMPT_MIGRATIONS)
+
+    # === FM-012 회귀 테스트 4건 ===
+    def test_fm012_detects_google_api_key_33char(self):
+        """FM-012 ①: AIzaSy 33자 포함 텍스트 검출 실증."""
+        sample_text = 'GEMINI_KEY = "' + 'AIzaSy' + 'CvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s"'
+        errs = check_working_tree_secrets_in_text(sample_text, "sample.py")
+        self.assertEqual(len(errs), 1, "AIzaSy 33자 Google API Key가 검출되어야 합니다.")
+        self.assertIn("Google API Key", errs[0])
+        self.assertIn("violates FM-012", errs[0])
+
+    def test_fm012_detects_gemini_cli_token_40char(self):
+        """FM-012 ②: AQ.Ab8 40자+ 토큰 검출 실증."""
+        sample_text = 'TOKEN = "' + 'AQ.Ab8' + 'RN6IhUi86rXWfKKSlb4Okj2tUS0kVVVs8ygq94s1vElw1Ng"'
+        errs = check_working_tree_secrets_in_text(sample_text, "config.json")
+        self.assertEqual(len(errs), 1, "AQ.Ab8 40자+ Gemini CLI 토큰이 검출되어야 합니다.")
+        self.assertIn("Gemini CLI Session Token", errs[0])
+        self.assertIn("violates FM-012", errs[0])
+
+    def test_fm012_google_services_json_exempt(self):
+        """FM-012 ③: android/app/google-services.json 경로는 통과 실증 (오탐 방지)."""
+        sample_text = '{"api_key": [{"current_key": "' + 'AIzaSy' + 'CvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s"}]}'
+        errs = check_working_tree_secrets_in_text(sample_text, "android/app/google-services.json")
+        self.assertEqual(len(errs), 0, "android/app/google-services.json 경로는 스캔 예외로 정상 통과해야 합니다.")
+
+    def test_fm012_masks_secret_in_error_message(self):
+        """FM-012 ④: 위반 메시지에 키 전문이 노출되지 않고 마스킹(앞 12자 + ...)되는지 검증."""
+        full_key = 'AIzaSy' + 'CvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s'
+        sample_text = f'KEY = "{full_key}"'
+        errs = check_working_tree_secrets_in_text(sample_text, "test.env")
+        self.assertGreater(len(errs), 0)
+        self.assertNotIn(full_key, errs[0], "오류 메시지에 시크릿 전문이 노출되어서는 안 됩니다.")
+        self.assertIn("AIzaSyCvPN7n...", errs[0], "오류 메시지에 마스킹된 앞 12자 접두사가 포함되어야 합니다.")
+
+    # === FM-013 회귀 테스트 2건 ===
+    def test_fm013_detects_wip_commit_subjects(self):
+        """FM-013 ①: wip(compare): ... 라인 검출 실증."""
+        wip_subjects = [
+            "da0bccda wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart",
+            "444dce37 checkpoint: temporary state",
+            "12345678 temp(core): debug logging",
+        ]
+        errs = check_wip_commit_subjects(wip_subjects)
+        self.assertEqual(len(errs), 3, "wip/checkpoint/temp 커밋이 검출되어야 합니다.")
+        self.assertTrue(all("violates FM-013" in e for e in errs))
+
+    def test_fm013_allows_compliant_commit_subjects(self):
+        """FM-013 ②: feat(compare): ... 라인 통과 실증."""
+        compliant_subjects = [
+            "1443a9c9 feat(compare): resolve Step 84 price anomaly gate and timeseries chart enhancements",
+            "3b10d7cb fix(pipeline): harden deployment gate entrypoint validation, eliminate toml fallback",
+            "2b3d85bd feat(pipeline): strengthen deployment gate with Cloudflare REST API",
+        ]
+        errs = check_wip_commit_subjects(compliant_subjects)
+        self.assertEqual(len(errs), 0, "규격 준수 커밋 메시지는 통과해야 합니다.")
 
 
 if __name__ == "__main__":

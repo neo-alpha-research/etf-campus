@@ -253,7 +253,7 @@ jobs:
         run: |
           npx wrangler d1 migrations apply etf-prices --remote
 
-      - name: Publish canonical market-source snapshot and event outbox
+      - name: Publish canonical market-source snapshot to D1
         # Run even when the repository snapshot did not change so a previously failed
         # source-hub ingest can recover without another external API collection.
         continue-on-error: true
@@ -262,7 +262,13 @@ jobs:
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
-        run: python scripts/publish_market_source_snapshot.py
+        run: python scripts/publish_market_source_snapshot.py --skip-trigger
+
+      - name: Trigger market briefing publication event
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        env:
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+        run: python scripts/publish_market_source_snapshot.py --trigger-only
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')

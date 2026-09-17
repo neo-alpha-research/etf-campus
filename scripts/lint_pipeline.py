@@ -12,6 +12,7 @@ CI 및 로컬에서 기계적으로 원천 차단합니다.
 from __future__ import annotations
 
 import ast
+import os
 import re
 import subprocess
 import sys
@@ -551,6 +552,141 @@ def check_destructive_migrations_baseline() -> list[str]:
     return errors
 
 
+# FM-012: 작업 트리 전체 평문 시크릿 스캔
+# Firebase 공개 클라이언트 식별자는 보안 시크릿이 아닌 공개 모바일 앱 번들 식별자이므로 스캔 예외로 허용합니다.
+SECRET_SCAN_EXEMPT = {"android/app/google-services.json"}
+
+SECRET_PATTERNS = [
+    ("Google API Key", re.compile(r"AIzaSy[A-Za-z0-9_-]{33}")),
+    ("Gemini CLI Session Token", re.compile(r"AQ\.Ab8[A-Za-z0-9_-]{40,}")),
+    ("Telegram Bot Token", re.compile(r"[0-9]{9,11}:AA[A-Za-z0-9_-]{33}")),
+    ("Meta / Threads Access Token", re.compile(r"(?:THAAN|IGAAd)[A-Za-z0-9_-]{50,}")),
+]
+
+
+def check_working_tree_secrets_in_text(content: str, filename: str) -> list[str]:
+    """단일 파일 텍스트에서 시크릿 패턴 검출 (순수 함수).
+    보안을 위해 위반 메시지에 키 전문을 출력하지 않고 앞 12자만 마스킹하여 반환합니다.
+    """
+    norm_path = filename.replace("\\", "/")
+    if norm_path in SECRET_SCAN_EXEMPT or norm_path.endswith("android/app/google-services.json"):
+        return []
+
+    errors = []
+    for line_no, line in enumerate(content.splitlines(), start=1):
+        for pattern_name, regex in SECRET_PATTERNS:
+            m = regex.search(line)
+            if m:
+                matched_secret = m.group(0)
+                masked_preview = matched_secret[:12] + "..."
+                errors.append(
+                    f"{filename}:{line_no}: 시크릿 패턴 '{pattern_name}' 검출 "
+                    f"(앞 12자: {masked_preview}, violates FM-012)"
+                )
+    return errors
+
+
+def check_working_tree_secrets() -> list[str]:
+    """FM-012: 작업 트리 전체(추적·미추적 무관) 평문 시크릿 탐지."""
+    errors = []
+    # 빌드/패키지 캐시 및 로컬 비추적 아카이브 디렉터리 제외 (_oneoff/는 반드시 스캔에 포함)
+    exclude_dirs = {
+        ".git", "node_modules", ".next", "out", ".venv", "__pycache__",
+        "_archive", "OSMU_Archive", "coverage", ".wrangler", "dist",
+    }
+
+    for root, dirs, files in os.walk(REPO_ROOT):
+        # Prune excluded directories in-place
+        dirs[:] = [d for d in dirs if d not in exclude_dirs]
+
+        for fname in sorted(files):
+            file_path = Path(root) / fname
+            rel_path = file_path.relative_to(REPO_ROOT).as_posix()
+
+            if rel_path in SECRET_SCAN_EXEMPT:
+                continue
+
+            # Cloudflare Wrangler(wrangler dev) 및 Node 로컬 개발 전용 환경설정 파일은
+            # .gitignore 및 .githooks/pre-commit에서 이미 원천 차단되므로 로컬 작업 트리 스캔에서 제외
+            if fname.startswith((".env", ".dev.vars")):
+                continue
+
+
+            try:
+                stat = file_path.stat()
+                # 1MB 초과 대용량 데이터 파일은 텍스트 파싱 부하 방지 및 정적 시크릿 저장 용도가 아니므로 제외
+                if stat.st_size > 1_048_576:
+                    continue
+
+                with open(file_path, "rb") as f:
+                    chunk = f.read(8192)
+                    # 첫 8KB에 NUL 바이트가 포함된 바이너리 파일은 skip
+                    if b"\x00" in chunk:
+                        continue
+                    rest = f.read()
+                    full_bytes = chunk + rest
+                    text = full_bytes.decode("utf-8", errors="replace")
+
+                file_errs = check_working_tree_secrets_in_text(text, rel_path)
+                errors.extend(file_errs)
+            except (OSError, UnicodeDecodeError):
+                continue
+
+    return errors
+
+
+# FM-013: main 브랜치 WIP/checkpoint 커밋 유입 방지
+WIP_COMMIT_PATTERN = re.compile(r"^\S+\s+(wip|checkpoint|temp)[\(:]", re.IGNORECASE)
+
+# 과거 브랜치 역병합 사고로 인해 main에 기포함된 과거 기준점 커밋 (Section 0 관측 사례: da0bccda, 444dce37)
+# 0001~0026 마이그레이션 baseline 면제(FM-011)와 동일하게, FM-013 제정 이전 과거 이력은 기준선으로 보존합니다.
+WIP_HISTORICAL_BASELINE_COMMITS = {"da0bccda", "80620aa4", "444dce37"}
+
+
+def check_wip_commit_subjects(subjects: list[str]) -> list[str]:
+    """커밋 한 줄 목록(hash message)에서 wip/checkpoint/temp 패턴 검출 (단위 테스트 가능한 순수 함수)."""
+    errors = []
+    for line in subjects:
+        line_clean = line.strip()
+        if not line_clean:
+            continue
+        if WIP_COMMIT_PATTERN.search(line_clean):
+            errors.append(
+                f"WIP commit detected: '{line_clean}' (violates FM-013 / 규율 10). "
+                f"Squash or reword wip/checkpoint/temp commits before integrating into main."
+            )
+    return errors
+
+
+def check_wip_commits_on_main(origin_ref: str = "origin/main", count: int = 30) -> list[str]:
+    """FM-013: main 브랜치 최근 커밋에서 wip/checkpoint/temp 패턴 커밋 차단."""
+    try:
+        res = subprocess.run(
+            ["git", "log", origin_ref, "--oneline", f"-n{count}"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT),
+        )
+        if res.returncode != 0:
+            res = subprocess.run(
+                ["git", "log", "main", "--oneline", f"-n{count}"],
+                capture_output=True,
+                text=True,
+                cwd=str(REPO_ROOT),
+            )
+            if res.returncode != 0:
+                return [f"FM-013 Fail-Closed: Cannot inspect git log on {origin_ref}: {res.stderr.strip()}"]
+
+        lines = [line.strip() for line in res.stdout.splitlines() if line.strip()]
+        non_baseline_lines = [
+            line for line in lines
+            if not any(line.startswith(c) for c in WIP_HISTORICAL_BASELINE_COMMITS)
+        ]
+        return check_wip_commit_subjects(non_baseline_lines)
+    except Exception as e:
+        return [f"FM-013 Fail-Closed: Exception inspecting git log: {e}"]
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -564,7 +700,10 @@ ALL_CHECKS = [
     ("check_migration_workflow_deployment_gate", check_migration_workflow_deployment_gate, "FM-009: Pre-Migration Deployment Gate Enforcement"),
     ("check_cron_workflows_on_default_branch", check_cron_workflows_on_default_branch, "FM-010: Cron Workflow Default Branch Presence"),
     ("check_destructive_migrations_baseline", check_destructive_migrations_baseline, "FM-011: Destructive Schema Migration Baseline Enforcement"),
+    ("check_working_tree_secrets", check_working_tree_secrets, "FM-012: Working Tree Plaintext Secret Detection"),
+    ("check_wip_commits_on_main", check_wip_commits_on_main, "FM-013: WIP Commit on Main Branch Prohibition"),
 ]
+
 
 
 

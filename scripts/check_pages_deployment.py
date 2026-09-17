@@ -38,9 +38,12 @@ def evaluate_deployments(
         tuple[status, message, details]
         status in ("SUCCESS", "FAILURE", "WAITING_BUILD", "WAITING_DEPLOYMENT", "NO_PROD")
     """
-    prod_deployments = [d for d in deployments if d.get("environment") == "production"]
+    prod_deployments = [d for d in deployments if str(d.get("environment", "")).lower() == "production"]
     if not prod_deployments:
-        return "NO_PROD", "No production deployment found in deployment list.", {}
+        if not deployments:
+            return "NO_PROD", "Deployment list is empty (0 deployments returned by wrangler).", {"total_deployments": 0}
+        envs = list({d.get("environment", "unknown") for d in deployments})
+        return "NO_PROD", f"No production deployment found among {len(deployments)} deployments (environments: {envs}).", {"total_deployments": len(deployments), "environments": envs}
 
     # created_on 기준 내림차순 명시 정렬 (wrangler 출력 순서 가정 배제)
     prod_deployments.sort(key=lambda d: str(d.get("created_on", "")), reverse=True)
@@ -109,6 +112,19 @@ def fetch_pages_deployments(project_name: str) -> list[dict[str, Any]]:
         )
     if not isinstance(data, list):
         raise ValueError(f"Expected list of deployments from wrangler, got {type(data)}")
+
+    if not data:
+        try:
+            p_res = subprocess.run(["npx", "wrangler", "pages", "project", "list"], capture_output=True, text=True, timeout=10)
+            print(f"ℹ️ [Deployment Gate Diagnostic] `wrangler pages project list` output:\nSTDOUT: {p_res.stdout}\nSTDERR: {p_res.stderr}", file=sys.stderr)
+        except Exception as e:
+            print(f"ℹ️ [Deployment Gate Diagnostic] Failed to list projects: {e}", file=sys.stderr)
+    else:
+        sample = data[0]
+        trigger = sample.get("deployment_trigger", {})
+        meta = trigger.get("metadata", {}) if isinstance(trigger, dict) else {}
+        print(f"ℹ️ [Deployment Gate Info] Fetched {len(data)} deployments. Latest item env='{sample.get('environment')}', branch='{meta.get('branch')}', commit='{meta.get('commit_hash')}', status='{sample.get('latest_stage', {}).get('status')}'")
+
     return data
 
 

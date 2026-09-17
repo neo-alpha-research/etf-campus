@@ -36,3 +36,5 @@ jobs:
           npm --workspace=workers/market-briefing-publisher run typecheck
           npm --workspace=workers/market-briefing-distributor run typecheck
           npm --workspace=workers/community-maintenance run typecheck
+      - name: Pipeline Integrity Linter
+        run: python scripts/lint_pipeline.py

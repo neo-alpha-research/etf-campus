@@ -105,3 +105,14 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 - **장황한 설명 제거 및 여백 최소화 (High-Density & Max-Visibility)**:
   - 이미지 내 불필요한 2줄 부연 설명이나 사족을 전면 제거하고 핵심 팩트와 수치 위주로 간결하게 압축한다.
   - 줄어든 여백 공간을 활용해 작은 글씨(설명/뱃지/수치)를 최대로 키우고 볼드화하여, 모바일 타임라인(360~430px) 축소 상태에서도 즉각적인 판독이 가능하게 한다.
+
+## 개발 완결성 및 보고 규율 (Engineering Completeness & Commit Mandate)
+1. **대체 대상 제거 원칙 (Superseded Path Removal)**:
+   - 기능을 추가할 때, 그 기능이 대체하는 기존 경로를 찾아 같은 커밋에서 즉시 제거하라. 대체 대상이 없으면 없다는 것을 보고에 명시하라.
+2. **커밋 보고 3대 필수 형식 (Addition / Modification / Deletion)**:
+   - 모든 커밋 보고에 "추가 / 변경 / 제거" 세 줄을 반드시 포함하라. 제거가 없으면 "제거: 없음 (사유: ...)"과 같이 그 이유를 적어라.
+3. **폴백 검증 의무화 (Tested Fallback Mandate)**:
+   - 폴백을 만들려면 그 폴백이 실제로 동작함을 검증하는 테스트를 같은 커밋에 넣어라. 테스트를 못 넣으면 폴백을 만들지 마라.
+4. **작성과 적용의 엄격한 분리 (Apply Verification SSOT)**:
+   - 설정·스키마·인프라 변경 시 "작성했다"와 "적용했다"를 철저히 구분하라. 파일 존재는 증거가 아니며, 적용 후 실제 조회 결과(Observation)만 완료의 증거로 인정한다.
+

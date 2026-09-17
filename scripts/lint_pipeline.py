@@ -386,27 +386,36 @@ def check_untracked_pipeline_files_in_status(status_lines: list[str]) -> list[st
     return errors
 
 
-def check_cron_workflows_on_default_branch(origin_ref: str = "origin/main") -> list[str]:
-    """CI 및 브랜치 환경: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 존재하는지 검증."""
+def check_cron_workflows_on_default_branch(
+    origin_ref: str = "origin/main",
+    wf_dir: Path | None = None,
+    origin_wfs: set[str] | None = None,
+) -> list[str]:
+    """FM-010: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 존재하는지 검증 (Fail-Closed)."""
     errors = []
-    wf_dir = REPO_ROOT / ".github" / "workflows"
-    if not wf_dir.exists():
+    target_dir = wf_dir if wf_dir is not None else (REPO_ROOT / ".github" / "workflows")
+    if not target_dir.exists():
         return errors
 
-    try:
-        res = subprocess.run(
-            ["git", "ls-tree", "--name-only", origin_ref, ".github/workflows/"],
-            capture_output=True,
-            text=True,
-            cwd=str(REPO_ROOT),
-        )
-        if res.returncode != 0:
-            return []
-        origin_wfs = {Path(p.strip()).name for p in res.stdout.splitlines() if p.strip()}
-    except Exception:
-        return []
+    if origin_wfs is None:
+        try:
+            res = subprocess.run(
+                ["git", "ls-tree", "--name-only", origin_ref, ".github/workflows/"],
+                capture_output=True,
+                text=True,
+                cwd=str(REPO_ROOT),
+            )
+            if res.returncode != 0:
+                return [
+                    f"FM-010 Fail-Closed: Cannot inspect workflows on {origin_ref} "
+                    f"(git ls-tree exited {res.returncode}: {res.stderr.strip()}). "
+                    f"Ref must be available to verify cron workflow scheduling."
+                ]
+            origin_wfs = {Path(p.strip()).name for p in res.stdout.splitlines() if p.strip()}
+        except Exception as e:
+            return [f"FM-010 Fail-Closed: Exception inspecting workflows on {origin_ref}: {e}"]
 
-    for wf_path in wf_dir.glob("*.yml"):
+    for wf_path in sorted(target_dir.glob("*.yml")):
         try:
             content = wf_path.read_text(encoding="utf-8")
         except Exception:
@@ -414,39 +423,33 @@ def check_cron_workflows_on_default_branch(origin_ref: str = "origin/main") -> l
         if "cron:" in content and wf_path.name not in origin_wfs:
             errors.append(
                 f"{wf_path.name} has cron schedule but is not present on {origin_ref}. "
-                f"GitHub Actions scheduled triggers will NOT run until committed to default branch (violates FM-008)."
+                f"GitHub Actions scheduled triggers will NOT run until committed to default branch (violates FM-010)."
             )
     return errors
 
 
 def check_untracked_pipeline_files() -> list[str]:
-    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다 (로컬 pre-push 및 CI 정합성 검증)."""
-    errors = []
-    # 1. 로컬 pre-push 집행: git status --porcelain 검사
+    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다 (로컬 pre-push 집행)."""
     try:
         res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=str(REPO_ROOT))
-        if res.returncode == 0:
-            errors.extend(check_untracked_pipeline_files_in_status(res.stdout.splitlines()))
+        if res.returncode != 0:
+            return [f"git status failed: {res.stderr.strip()}"]
+        return check_untracked_pipeline_files_in_status(res.stdout.splitlines())
     except Exception as e:
-        errors.append(f"Failed to run git status: {e}")
-
-    # 2. CI/브랜치 워크플로 정합성: cron 워크플로가 origin/main에 존재하는지 검증
-    errors.extend(check_cron_workflows_on_default_branch())
-
-    return errors
+        return [f"Failed to run git status: {e}"]
 
 
 def check_migration_workflow_deployment_gate_in_text(content: str, filename: str = "workflow") -> list[str]:
-    """FM-009: d1-migrations.yml에 Pages 배포 확인 게이트가 마이그레이션 스텝 앞에 존재하는지 검증."""
+    """FM-009: d1-migrations.yml에 check_pages_deployment.py 게이트 실행이 마이그레이션 스텝 앞에 존재하는지 검증."""
     errors = []
     if "wrangler d1 migrations apply" in content:
         mig_idx = content.find("wrangler d1 migrations apply")
-        gate_kw = "Wait for Pages deployment"
-        gate_idx = content.find(gate_kw)
+        gate_script = "check_pages_deployment.py"
+        gate_idx = content.find(gate_script)
         if gate_idx == -1:
-            errors.append(f"{filename}: Missing Pages deployment verification gate before D1 migrations (violates FM-009).")
+            errors.append(f"{filename}: Missing 'check_pages_deployment.py' gate execution before D1 migrations (violates FM-009).")
         elif gate_idx > mig_idx:
-            errors.append(f"{filename}: Pages deployment gate appears AFTER migration apply step (violates FM-009).")
+            errors.append(f"{filename}: 'check_pages_deployment.py' gate appears AFTER migration apply step (violates FM-009).")
     return errors
 
 
@@ -457,6 +460,42 @@ def check_migration_workflow_deployment_gate() -> list[str]:
         return [".github/workflows/d1-migrations.yml does not exist (violates FM-009)."]
     content = wf_path.read_text(encoding="utf-8")
     return check_migration_workflow_deployment_gate_in_text(content, str(wf_path.relative_to(REPO_ROOT)))
+
+
+def check_destructive_migrations_baseline_in_text(content: str, filename: str = "migration.sql") -> list[str]:
+    """FM-011: 파괴적 스키마 변경(DROP TABLE, ALTER TABLE 등) 시 migration_baselines 기록 여부 검증 (순수 함수)."""
+    errors = []
+    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE)\b", content, re.IGNORECASE))
+    if is_destructive and "migration_baselines" not in content:
+        errors.append(
+            f"{filename}: Destructive migration contains schema alteration/drop without recording to migration_baselines (violates FM-011). "
+            f"Follow docs/migration_template.sql."
+        )
+    return errors
+
+
+def check_destructive_migrations_baseline() -> list[str]:
+    """FM-011: 파괴적 D1 마이그레이션 적용 시 migration_baselines 사전/사후 행수 기록 강제."""
+    errors = []
+    mig_dir = REPO_ROOT / "migrations"
+    if not mig_dir.exists():
+        return errors
+
+    for sql_file in sorted(mig_dir.glob("*.sql")):
+        m = re.match(r"^(\d{4})_", sql_file.name)
+        if not m:
+            continue
+        num = int(m.group(1))
+        # 0024 이전 레거시 및 0025, 0026(베이스라인 인프라/정정 마이그레이션) 제외
+        if num <= 26:
+            continue
+        try:
+            content = sql_file.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        errors.extend(check_destructive_migrations_baseline_in_text(content, sql_file.name))
+
+    return errors
 
 
 # 등록된 전수 검사 목록 (Ordered SSOT)
@@ -470,6 +509,8 @@ ALL_CHECKS = [
     ("check_versioned_pk_unversioned_query", check_versioned_pk_unversioned_query, "FM-007: Unversioned Query & Version-Keyed PK Prevention"),
     ("check_untracked_pipeline_files", check_untracked_pipeline_files, "FM-008: Untracked Pipeline & Workflow Files Prevention"),
     ("check_migration_workflow_deployment_gate", check_migration_workflow_deployment_gate, "FM-009: Pre-Migration Deployment Gate Enforcement"),
+    ("check_cron_workflows_on_default_branch", check_cron_workflows_on_default_branch, "FM-010: Cron Workflow Default Branch Presence"),
+    ("check_destructive_migrations_baseline", check_destructive_migrations_baseline, "FM-011: Destructive Schema Migration Baseline Enforcement"),
 ]
 
 

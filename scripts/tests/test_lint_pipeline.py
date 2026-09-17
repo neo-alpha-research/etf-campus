@@ -27,12 +27,13 @@ from scripts.lint_pipeline import (
     check_hardcoded_dates_or_counts_on_text,
     check_macro_indices_ssot_in_text,
     check_migrations_sequence_for_filenames,
+    check_versioned_pk_unversioned_query_in_text,
     check_failure_modes_coverage,
 )
 
 
 class TestPipelineLinterRegression(unittest.TestCase):
-    """실제 발생했던 6대 장애 모드(FM-001 ~ FM-006) 재현 스니펫 검출 검증."""
+    """실제 발생했던 7대 장애 모드(FM-001 ~ FM-007) 재현 스니펫 검출 검증."""
 
     def test_fm001_detects_git_log_subprocesses(self):
         """FM-001: CI shallow clone에서 실패하는 git log/show subprocess 호출 탐지 검증."""
@@ -193,8 +194,50 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertGreater(len(errors_dup), 0, "중복 마이그레이션 번호가 검출되어야 합니다.")
 
         # 3. 과거 레거시 0012 허용 및 정상 시퀀스
-        compliant_files = ["0012_a.sql", "0012_b.sql", "0022_expand.sql", "0023_purge.sql"]
+        compliant_files = ["0012_a.sql", "0012_b.sql", "0022_expand.sql", "0023_purge.sql", "0024_single.sql"]
         self.assertEqual(len(check_migrations_sequence_for_filenames(compliant_files)), 0)
+
+    def test_fm007_detects_versioned_pk_and_conflict(self):
+        """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지 검증."""
+        # 1. 실제 발생: market_source_index_daily 테이블 생성 시 PK에 source_version 포함
+        faulty_ddl = (
+            "CREATE TABLE market_source_index_daily (\n"
+            "  as_of_date TEXT NOT NULL,\n"
+            "  source_version TEXT NOT NULL,\n"
+            "  index_code TEXT NOT NULL,\n"
+            "  PRIMARY KEY (as_of_date, source_version, index_code)\n"
+            ");\n"
+        )
+        errors_ddl = check_versioned_pk_unversioned_query_in_text(faulty_ddl, "0023_purge.sql")
+        self.assertGreater(len(errors_ddl), 0, "버전이 포함된 PK DDL이 검출되어야 합니다.")
+        self.assertTrue(any("FM-007" in err or "versioned PK" in err for err in errors_ddl))
+
+        # 2. 실제 발생: Ingest 코드 내 ON CONFLICT(as_of_date, source_version, index_code)
+        faulty_ingest = (
+            "INSERT INTO market_source_index_daily (as_of_date, source_version, index_code) VALUES (?, ?, ?)\n"
+            "ON CONFLICT(as_of_date, source_version, index_code) DO UPDATE SET close_value=excluded.close_value;\n"
+        )
+        errors_ingest = check_versioned_pk_unversioned_query_in_text(faulty_ingest, "ingest-market-source.js")
+        self.assertGreater(len(errors_ingest), 0, "버전이 포함된 ON CONFLICT 절이 검출되어야 합니다.")
+        self.assertTrue(any("FM-007" in err or "ON CONFLICT" in err for err in errors_ingest))
+
+        # 3. 정상 준수 DDL (PK: as_of_date, index_code)
+        compliant_ddl = (
+            "CREATE TABLE market_source_index_daily (\n"
+            "  as_of_date TEXT NOT NULL,\n"
+            "  source_version TEXT NOT NULL,\n"
+            "  index_code TEXT NOT NULL,\n"
+            "  PRIMARY KEY (as_of_date, index_code)\n"
+            ");\n"
+        )
+        self.assertEqual(len(check_versioned_pk_unversioned_query_in_text(compliant_ddl, "0024.sql")), 0)
+
+        # 4. 정상 준수 Ingest (ON CONFLICT(as_of_date, index_code))
+        compliant_ingest = (
+            "INSERT INTO market_source_index_daily (as_of_date, source_version, index_code) VALUES (?, ?, ?)\n"
+            "ON CONFLICT(as_of_date, index_code) DO UPDATE SET close_value=excluded.close_value;\n"
+        )
+        self.assertEqual(len(check_versioned_pk_unversioned_query_in_text(compliant_ingest, "ingest.js")), 0)
 
     def test_meta_failure_modes_coverage(self):
         """메타 게이트: 린터 검사 수(CHECKS) >= docs/known_failure_modes.md 고유 항목 수."""
@@ -228,6 +271,12 @@ class TestPipelineLinterRegression(unittest.TestCase):
         )
         err_fm002 = check_import_error_swallowing_in_code(snippet_fm002, "contract.py")
         self.assertGreater(len(err_fm002), 0, "카탈로그에 등록된 FM-002 스니펫이 검출되어야 합니다.")
+
+        # FM-007 스니펫 검출
+        self.assertIn("PRIMARY KEY (as_of_date, source_version, index_code)", content)
+        snippet_fm007 = "market_source_index_daily PRIMARY KEY (as_of_date, source_version, index_code)"
+        err_fm007 = check_versioned_pk_unversioned_query_in_text(snippet_fm007, "known_failure_modes.md")
+        self.assertGreater(len(err_fm007), 0, "카탈로그에 등록된 FM-007 스니펫이 검출되어야 합니다.")
 
 
 if __name__ == "__main__":

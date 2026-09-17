@@ -95,3 +95,25 @@
 - **근본 원인**: D1 마이그레이션 제약이 너무 좁았고, 송신 측 스크립트도 2개로 하드코딩됨.
 - **방어 대책**: 마이그레이션 0023으로 12대 정규 지표 화이트리스트 CHECK 제약 재설정 및 마이그레이션 파일 순서·네이밍 정합성 자동 검증.
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_migrations_sequence()`
+
+---
+
+## [FM-007] Unversioned Query on Version-Keyed Snapshot Table
+- **관측 사례**: 2026-09-17 `market_source_index_daily` 테이블의 PK에 `source_version`이 포함(`(as_of_date, source_version, index_code)`)되어 있을 때, 조회 쿼리가 버전 조건 없이 `WHERE as_of_date = '$TARGET_DT'`만으로 조회하여, 당일 데이터 수정이나 재발행(re-publish) 발생 시 버전별 12건이 누적(총 24건 이상)되어 API/클라이언트에 중복 반환될 수 있는 위험.
+- **발생 위치**: `migrations/0007_market_source_snapshot_hub.sql:39`, `migrations/0023_purge_raw_ticker_index_codes.sql:27`, `.github/workflows/d1-migrations.yml:71`
+- **실제 발생 코드 조각**:
+  ```sql
+  PRIMARY KEY (as_of_date, source_version, index_code)
+  ```
+  ```sql
+  SELECT as_of_date, index_code, index_name, close_value, change_pct
+  FROM market_source_index_daily
+  WHERE as_of_date = '$TARGET_DT' ORDER BY index_code ASC;
+  ```
+- **근본 원인**: 서빙 및 조회 대상 테이블임에도 PK에 버전 컬럼이 포함되어 재발행 시 upsert되지 않고 append되며, 조회 측에서는 버전 조건 없이 조회하여 행 중복이 발생함.
+- **방어 대책**:
+  1. 조회 대상 테이블(`market_source_index_daily`)의 PK를 `(as_of_date, index_code)`로 변경(Migration 0024)하여 당일 재발행 시 자동 upsert 및 12건 고정 보장.
+  2. 과거 버전 이력이 필요할 경우 별도의 감사 테이블(`market_source_index_daily_audit`)로 분리.
+  3. 린터가 서빙 테이블 PK에 `source_version` 포함 여부 및 버전 없는 쿼리 패턴을 기계적으로 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_versioned_pk_unversioned_query()`
+

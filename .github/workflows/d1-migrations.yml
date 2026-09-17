@@ -69,7 +69,10 @@ jobs:
         run: |
           TARGET_DT="${{ inputs.target_date }}"
           if [ -z "$TARGET_DT" ]; then
+            npx wrangler d1 execute etf-prices --remote --command "SELECT COUNT(*) AS total_rows, COUNT(DISTINCT index_code) AS unique_indices FROM market_source_index_daily WHERE as_of_date = (SELECT MAX(as_of_date) FROM market_source_index_daily);"
             npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date = (SELECT MAX(as_of_date) FROM market_source_index_daily) ORDER BY index_code ASC;"
           else
+            npx wrangler d1 execute etf-prices --remote --command "SELECT COUNT(*) AS total_rows, COUNT(DISTINCT index_code) AS unique_indices FROM market_source_index_daily WHERE as_of_date = '$TARGET_DT';"
             npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date = '$TARGET_DT' ORDER BY index_code ASC;"
           fi
+          npx wrangler d1 execute etf-prices --remote --command "SELECT COUNT(*) AS audit_rows FROM market_source_index_daily_audit;"

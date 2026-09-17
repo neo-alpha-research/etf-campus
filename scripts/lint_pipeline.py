@@ -282,6 +282,45 @@ def check_failure_modes_coverage(checks_count: int, doc_content: str | None = No
     return errors
 
 
+def check_versioned_pk_unversioned_query_in_text(content: str, filename: str = "script") -> list[str]:
+    """DDL/쿼리 텍스트 내에서 market_source_index_daily의 PK에 source_version이 포함되거나
+    ON CONFLICT에 source_version이 포함된 Fail-Open 패턴을 탐지합니다."""
+    errors = []
+    if "market_source_index_daily" in content and "PRIMARY KEY" in content:
+        if re.search(r"PRIMARY\s+KEY\s*\([^)]*as_of_date[^)]*source_version[^)]*index_code[^)]*\)", content, re.IGNORECASE):
+            errors.append(
+                f"{filename}: market_source_index_daily has versioned PK (violates FM-007). "
+                f"PK must be (as_of_date, index_code) to ensure clean upsert on re-issuance."
+            )
+
+    if "market_source_index_daily" in content and "ON CONFLICT" in content:
+        if re.search(r"ON\s+CONFLICT\s*\(\s*as_of_date\s*,\s*source_version\s*,\s*index_code\s*\)", content, re.IGNORECASE):
+            errors.append(
+                f"{filename}: market_source_index_daily ON CONFLICT clause includes source_version (violates FM-007). "
+                f"Must conflict on (as_of_date, index_code) so re-publish upserts existing rows."
+            )
+
+    return errors
+
+
+def check_versioned_pk_unversioned_query() -> list[str]:
+    """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지."""
+    errors = []
+    ingest_path = REPO_ROOT / "functions" / "api" / "internal" / "ingest-market-source.js"
+    if ingest_path.exists():
+        content = ingest_path.read_text(encoding="utf-8")
+        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(ingest_path.relative_to(REPO_ROOT))))
+
+    mig_0024 = REPO_ROOT / "migrations" / "0024_single_version_market_source_index_daily.sql"
+    if mig_0024.exists():
+        content = mig_0024.read_text(encoding="utf-8")
+        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(mig_0024.relative_to(REPO_ROOT))))
+    else:
+        errors.append("Migration 0024_single_version_market_source_index_daily.sql does not exist (violates FM-007).")
+
+    return errors
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -290,6 +329,7 @@ ALL_CHECKS = [
     ("check_hardcoded_dates_or_counts", check_hardcoded_dates_or_counts, "FM-004: Hardcoded Production Dates & Literals Detection"),
     ("check_macro_indices_ssot", check_macro_indices_ssot, "FM-005: Macro Indices SSOT & D1 Canonical Code Adherence"),
     ("check_migrations_sequence", check_migrations_sequence, "FM-006: D1 Migration Sequence & Naming Integrity"),
+    ("check_versioned_pk_unversioned_query", check_versioned_pk_unversioned_query, "FM-007: Unversioned Query & Version-Keyed PK Prevention"),
 ]
 
 

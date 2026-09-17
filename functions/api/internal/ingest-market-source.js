@@ -169,16 +169,24 @@ async function finalizeSnapshot(env, common, indices) {
       const supportedIndices = indices.filter((index) => Boolean(index && index.code));
       if (supportedIndices.length > 0) {
         const now = nowIso();
-        const statements = supportedIndices.map((index) => db.prepare(
-          `INSERT INTO market_source_index_daily (
-             as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
-             volume_value, source_hash, ingested_at
-           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-           ON CONFLICT(as_of_date, source_version, index_code) DO UPDATE SET
-             index_name=excluded.index_name, close_value=excluded.close_value, change_points=excluded.change_points,
-             change_pct=excluded.change_pct, volume_value=excluded.volume_value, source_hash=excluded.source_hash,
-             ingested_at=excluded.ingested_at`,
-        ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, existing.index_source_hash || "resync", now));
+        const statements = supportedIndices.flatMap((index) => [
+          db.prepare(
+            `INSERT INTO market_source_index_daily (
+               as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+               volume_value, source_hash, ingested_at
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(as_of_date, index_code) DO UPDATE SET
+               source_version=excluded.source_version, index_name=excluded.index_name, close_value=excluded.close_value,
+               change_points=excluded.change_points, change_pct=excluded.change_pct, volume_value=excluded.volume_value,
+               source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
+          ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, existing.index_source_hash || "resync", now),
+          db.prepare(
+            `INSERT INTO market_source_index_daily_audit (
+               as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+               volume_value, source_hash, ingested_at
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, existing.index_source_hash || "resync", now),
+        ]);
         await env.ETF_PRICES.batch(statements);
       }
       return { status: "already_ready", asOfDate: common.asOfDate, sourceVersion: common.sourceVersion, indicesUpdated: supportedIndices.length };
@@ -198,16 +206,24 @@ async function finalizeSnapshot(env, common, indices) {
   const now = nowIso();
   const supportedIndices = indices.filter((index) => Boolean(index && index.code));
   const statements = [
-    ...supportedIndices.map((index) => db.prepare(
-      `INSERT INTO market_source_index_daily (
-         as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
-         volume_value, source_hash, ingested_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(as_of_date, source_version, index_code) DO UPDATE SET
-         index_name=excluded.index_name, close_value=excluded.close_value, change_points=excluded.change_points,
-         change_pct=excluded.change_pct, volume_value=excluded.volume_value, source_hash=excluded.source_hash,
-         ingested_at=excluded.ingested_at`,
-    ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now)),
+    ...supportedIndices.flatMap((index) => [
+      db.prepare(
+        `INSERT INTO market_source_index_daily (
+           as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+           volume_value, source_hash, ingested_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(as_of_date, index_code) DO UPDATE SET
+           source_version=excluded.source_version, index_name=excluded.index_name, close_value=excluded.close_value,
+           change_points=excluded.change_points, change_pct=excluded.change_pct, volume_value=excluded.volume_value,
+           source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
+      ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now),
+      db.prepare(
+        `INSERT INTO market_source_index_daily_audit (
+           as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+           volume_value, source_hash, ingested_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now),
+    ]),
     db.prepare(
       `UPDATE market_source_snapshot_manifest
        SET status='ready', ready_at=?, updated_at=?

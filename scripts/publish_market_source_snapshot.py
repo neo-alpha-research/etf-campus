@@ -172,12 +172,30 @@ def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str
         },
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")[:500]
-        raise RuntimeError(f"Market source ingest returned HTTP {error.code}: {detail}") from error
+    max_retries = 3
+    retry_delay = 5.0
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as error:
+            detail = error.read().decode("utf-8", errors="replace")[:500]
+            # Retry only on server errors (5xx) where deployment or transient lag might recover
+            if error.code >= 500 and attempt < max_retries:
+                print(f"⚠️ Ingest returned HTTP {error.code} on attempt {attempt}/{max_retries}. Retrying in {retry_delay}s... ({detail})", file=sys.stderr)
+                time.sleep(retry_delay)
+                retry_delay *= 2
+                continue
+            raise RuntimeError(f"Market source ingest returned HTTP {error.code}: {detail}") from error
+        except urllib.error.URLError as error:
+            if attempt < max_retries:
+                print(f"⚠️ Network error on attempt {attempt}/{max_retries}: {error}. Retrying in {retry_delay}s...", file=sys.stderr)
+                time.sleep(retry_delay)
+                retry_delay *= 2
+                continue
+            raise
+
 
 
 def chunks(records: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]]:

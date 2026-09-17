@@ -110,9 +110,11 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 1. **대체 대상 제거 및 정리 범위 제한 원칙 (Scoped Superseded Path Removal)**:
    - 기능을 추가할 때, 그 기능이 대체하는 기존 경로를 찾아 같은 커밋에서 즉시 제거하라. 대체 대상이 없으면 없다는 것을 보고에 명시하라.
    - **정리 범위 제한**: 정리 범위는 **"작업 중인 파일과 그 파일이 직접 호출하는 경로"**로 엄격히 한정한다. 그 밖의 정리가 필요해 보이면 임의로 삭제하지 말고 반드시 목록으로 보고하여 승인을 받아라.
-2. **커밋 보고 3대 필수 형식 (Addition / Modification / Deletion per Commit)**:
-   - 모든 커밋 보고에 "추가 / 변경 / 제거" 세 줄을 반드시 포함하라. 제거가 없으면 "제거: 없음 (사유: ...)"과 같이 그 이유를 적어라.
-   - **복수 커밋 시 개별 작성 의무**: 여러 커밋을 만들었다면 커밋별로 각각 3줄 형식을 누락 없이 적어라.
+2. **커밋 보고 4대 필수 형식 (Addition / Modification / Deletion / Discard per Commit)**:
+   - 모든 커밋 보고에 "추가 / 변경 / 제거 / 폐기" 네 줄을 반드시 포함하라.
+   - 제거가 없으면 "제거: 없음 (사유: ...)", 버린 작업 트리 변경이 없으면 "폐기: 없음"과 같이 그 이유를 적어라.
+   - **폐기 항목 명시**: `git checkout`, `git restore`, `git reset`, `git stash drop` 등으로 버린 변경이 있는 경우 그 대상과 사유를 반드시 "폐기:" 줄에 명시하라.
+   - **복수 커밋 시 개별 작성 의무**: 여러 커밋을 만들었다면 커밋별로 각각 4줄 형식을 누락 없이 적어라.
 3. **폴백 검증 의무화 (Tested Fallback Mandate)**:
    - 폴백을 만들려면 그 폴백이 실제로 동작함을 검증하는 테스트를 같은 커밋에 넣어라. 테스트를 못 넣으면 폴백을 만들지 마라.
 4. **일회성 도구 격리 및 상시 승격 규율 (One-off Isolation & Parameterization Mandate)**:
@@ -122,4 +124,12 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
    - 설정·스키마·인프라 변경 시 "작성했다"와 "적용했다"를 철저히 구분하라. 파일 존재는 증거가 아니며, 적용 후 실제 조회 결과(Observation)만 완료의 증거로 인정한다.
 6. **검사의 검출력 실증 규율 (Failure Detection Verification Mandate)**:
    - 실패 유형에 대응하는 검사를 만들 때, 그 검사가 실제 발생했던 사례를 잡는지 테스트로 증명하라. 검사 개수가 아니라 검출 여부가 완료 기준이다.
+7. **보고 원시 출력 규율 (Raw Output Mandate)**:
+   - 보고서에 아래 네 명령의 출력을 요약 없이 그대로 첨부하라:
+     - `git log -n <N> --oneline`
+     - `git rev-list --count origin/main..HEAD`
+     - `git status --short`
+     - `gh run list -L 5`
+   - 워크플로를 재실행한 경우, 실패한 실행의 ID와 실패 원인을 반드시 함께 적어라.
+
 

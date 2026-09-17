@@ -76,3 +76,6 @@ jobs:
             npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, index_code, index_name, close_value, change_pct FROM market_source_index_daily WHERE as_of_date = '$TARGET_DT' ORDER BY index_code ASC;"
           fi
           npx wrangler d1 execute etf-prices --remote --command "SELECT COUNT(*) AS audit_rows FROM market_source_index_daily_audit;"
+          npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, COUNT(*) AS count_per_date, COUNT(DISTINCT index_code) AS unique_indices FROM market_source_index_daily GROUP BY as_of_date ORDER BY as_of_date DESC LIMIT 5;"
+          npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, source_version, COUNT(*) AS audit_count_per_version FROM market_source_index_daily_audit GROUP BY as_of_date, source_version ORDER BY as_of_date DESC, source_version DESC LIMIT 10;"
+          npx wrangler d1 execute etf-prices --remote --command "SELECT (SELECT COUNT(*) FROM market_source_index_daily) AS current_total, (SELECT COUNT(*) FROM market_source_index_daily_audit) AS audit_total;"

@@ -13,25 +13,20 @@ Pydantic v2 기반 엄격한 단일 데이터 무결성 스키마 계약(Briefin
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 from pydantic import BaseModel, Field, model_validator
 
-# 12대 정규 거시 지표 집합 (Canonical Codes)
-CANONICAL_MACRO_CODES = frozenset({
-    "KOSPI", "KOSDAQ", "VKOSPI", "SPX", "NDX", "VIX",
-    "USDKRW", "KR10Y", "DGS10", "CLF", "GC", "SI"
-})
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-CODE_ALIAS_MAP = {
-    "^GSPC": "SPX",
-    "^IXIC": "NDX",
-    "^VIX": "VIX",
-    "^TNX": "DGS10",
-    "CL=F": "CLF",
-    "GC=F": "GC",
-    "SI=F": "SI",
-    "KRW=X": "USDKRW",
-}
+from lib.indices import (
+    CANONICAL_MACRO_CODES,
+    RAW_SOURCE_TO_CANONICAL as CODE_ALIAS_MAP,
+    normalize_index_code,
+)
 
 
 class MacroIndexItem(BaseModel):

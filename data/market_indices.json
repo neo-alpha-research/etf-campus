@@ -37,7 +37,7 @@
     },
     {
       "label": "원/달러",
-      "code": "KRW=X",
+      "code": "USDKRW",
       "value": 1353.3,
       "change": 0.59,
       "changePoints": 8.0,
@@ -51,7 +51,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "S&P 500",
-      "code": "^GSPC"
+      "code": "SPX"
     },
     {
       "value": 25978.42,
@@ -60,7 +60,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "나스닥",
-      "code": "^IXIC"
+      "code": "NDX"
     },
     {
       "value": 5.01,
@@ -69,7 +69,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "미 국채 10년물",
-      "code": "^TNX"
+      "code": "DGS10"
     },
     {
       "value": 17.71,
@@ -78,7 +78,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "VIX",
-      "code": "^VIX"
+      "code": "VIX"
     },
     {
       "value": 101.96,
@@ -87,7 +87,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "WTI 원유",
-      "code": "CL=F"
+      "code": "CLF"
     },
     {
       "value": 4306.0,
@@ -96,7 +96,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "금 선물",
-      "code": "GC=F"
+      "code": "GC"
     },
     {
       "value": 63.42,
@@ -105,7 +105,7 @@
       "as_of_date": "2026-09-16",
       "is_closed": false,
       "label": "은 선물",
-      "code": "SI=F"
+      "code": "SI"
     }
   ]
 }

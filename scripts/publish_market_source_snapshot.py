@@ -25,6 +25,17 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from lib.indices import (
+    CANONICAL_MACRO_CODES,
+    normalize_index_code,
+    get_index_label,
+    validate_canonical_macro_codes,
+)
+
 KST = dt.timezone(dt.timedelta(hours=9))
 MAX_ETFS_PER_BATCH = 100
 DEFAULT_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-market-source"
@@ -206,10 +217,12 @@ def main() -> None:
         raw_code = item.get("code") or item.get("label")
         if not raw_code:
             continue
-        # Map back to D1 ingest payload format
+        canon_code = normalize_index_code(raw_code)
+        canon_name = get_index_label(canon_code)
+        # Map back to D1 ingest payload format with canonical code
         indices.append({
-            "code": raw_code,
-            "name": item.get("label", raw_code),
+            "code": canon_code,
+            "name": canon_name,
             "asOfDate": item.get("as_of_date", as_of_date),
             "close": item.get("value", 0.0),
             "changePoints": item.get("changePoints", 0.0),
@@ -217,7 +230,12 @@ def main() -> None:
             "volumeValue": item.get("volumeValue", 0.0) if item.get("volumeValue") is not None else None,
         })
 
-    # Still enforce date validation on KOSPI and KOSDAQ
+    # Strict validation: CANONICAL_MACRO_CODES must be 100% complete for D1 ingestion
+    is_valid_canon, missing_codes = validate_canonical_macro_codes(indices)
+    if not is_valid_canon:
+        raise RuntimeError(f"D1 snapshot ingestion blocked: missing canonical macro codes {sorted(missing_codes)}")
+
+    # Enforce date validation on KOSPI and KOSDAQ
     kospi_kosdaq = [idx for idx in indices if idx["code"] in ("KOSPI", "KOSDAQ")]
     if len(kospi_kosdaq) < 2:
         raise RuntimeError("Validated snapshot must contain both KOSPI and KOSDAQ.")

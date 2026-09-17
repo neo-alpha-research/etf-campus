@@ -107,12 +107,17 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
   - 줄어든 여백 공간을 활용해 작은 글씨(설명/뱃지/수치)를 최대로 키우고 볼드화하여, 모바일 타임라인(360~430px) 축소 상태에서도 즉각적인 판독이 가능하게 한다.
 
 ## 개발 완결성 및 보고 규율 (Engineering Completeness & Commit Mandate)
-1. **대체 대상 제거 원칙 (Superseded Path Removal)**:
+1. **대체 대상 제거 및 정리 범위 제한 원칙 (Scoped Superseded Path Removal)**:
    - 기능을 추가할 때, 그 기능이 대체하는 기존 경로를 찾아 같은 커밋에서 즉시 제거하라. 대체 대상이 없으면 없다는 것을 보고에 명시하라.
-2. **커밋 보고 3대 필수 형식 (Addition / Modification / Deletion)**:
+   - **정리 범위 제한**: 정리 범위는 **"작업 중인 파일과 그 파일이 직접 호출하는 경로"**로 엄격히 한정한다. 그 밖의 정리가 필요해 보이면 임의로 삭제하지 말고 반드시 목록으로 보고하여 승인을 받아라.
+2. **커밋 보고 3대 필수 형식 (Addition / Modification / Deletion per Commit)**:
    - 모든 커밋 보고에 "추가 / 변경 / 제거" 세 줄을 반드시 포함하라. 제거가 없으면 "제거: 없음 (사유: ...)"과 같이 그 이유를 적어라.
+   - **복수 커밋 시 개별 작성 의무**: 여러 커밋을 만들었다면 커밋별로 각각 3줄 형식을 누락 없이 적어라.
 3. **폴백 검증 의무화 (Tested Fallback Mandate)**:
    - 폴백을 만들려면 그 폴백이 실제로 동작함을 검증하는 테스트를 같은 커밋에 넣어라. 테스트를 못 넣으면 폴백을 만들지 마라.
-4. **작성과 적용의 엄격한 분리 (Apply Verification SSOT)**:
+4. **일회성 도구 격리 및 상시 승격 규율 (One-off Isolation & Parameterization Mandate)**:
+   - 일회성 도구/스크립트는 반드시 `scripts/_oneoff/`에 격리 보관하고, 상시 자동화 CI 워크플로에 절대 연결하지 마라.
+   - 일회성 도구를 상시 도구로 승격할 때는 하드코딩된 날짜·버전을 CLI 인자(`--target-date`) 또는 동적 메타데이터 조회로 반드시 교체하라.
+5. **작성과 적용의 엄격한 분리 (Apply Verification SSOT)**:
    - 설정·스키마·인프라 변경 시 "작성했다"와 "적용했다"를 철저히 구분하라. 파일 존재는 증거가 아니며, 적용 후 실제 조회 결과(Observation)만 완료의 증거로 인정한다.
 

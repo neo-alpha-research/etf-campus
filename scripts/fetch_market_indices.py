@@ -13,6 +13,16 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import csv
 
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from lib.indices import (
+    CANONICAL_MACRO_CODES,
+    normalize_index_code,
+    validate_canonical_macro_codes,
+)
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 KRX_INDEX_URLS = {
@@ -502,12 +512,15 @@ def main():
         usdkrw_data = fetch_index_data("KRW=X", target_date_str)
         if usdkrw_data:
             usdkrw_data["label"] = "원/달러"
-            usdkrw_data["code"] = "KRW=X"
+            usdkrw_data["code"] = normalize_index_code("KRW=X")
+            usdkrw_data["source_symbol"] = "KRW=X"
 
     if usdkrw_data:
+        usdkrw_data["code"] = normalize_index_code(usdkrw_data.get("code") or "USDKRW")
         results.append(usdkrw_data)
     elif "원/달러" in old_map:
         fb = dict(old_map["원/달러"])
+        fb["code"] = normalize_index_code(fb.get("code") or "USDKRW")
         fb["is_stale"] = True
         results.append(fb)
         logging.warning("Recovered 원/달러 from previous snapshot fallback.")
@@ -520,24 +533,31 @@ def main():
         data = fetch_index_data(symbol, target_date_str)
         if data:
             data["label"] = label
-            data["code"] = symbol
+            data["code"] = normalize_index_code(symbol)
+            data["source_symbol"] = symbol
             results.append(data)
         elif label in old_map:
             fb = dict(old_map[label])
+            fb["code"] = normalize_index_code(fb.get("code") or symbol)
             fb["is_stale"] = True
             results.append(fb)
             logging.warning(f"Recovered {label} ({symbol}) from previous snapshot fallback.")
         else:
             failed_labels.append(label)
 
-    # 5. 무결성 검증 (12개 필수 지표 전수 확인)
+    # 5. 무결성 검증 (12개 필수 지표 및 12대 정규 지표 코드 전수 확인)
+    for r in results:
+        r["code"] = normalize_index_code(r.get("code") or r.get("label"))
+
+    is_valid_canonical, missing_codes = validate_canonical_macro_codes(results)
+    if not is_valid_canonical:
+        logging.error(f"Missing required canonical macro indices: {sorted(missing_codes)}")
+        sys.exit(1)
+
     collected_labels = {r.get("label") for r in results}
     missing_labels = [l for l in ALL_REQUIRED_LABELS if l not in collected_labels]
     if missing_labels:
         logging.error(f"Missing required indices after fetch and fallback: {missing_labels}")
-
-    if len(results) < 10:
-        logging.error(f"Collected only {len(results)}/{len(ALL_REQUIRED_LABELS)} indices. Aborting.")
         sys.exit(1)
 
     # 6. 이전 거래일 대비 중복 검사

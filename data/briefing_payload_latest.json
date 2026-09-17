@@ -32,7 +32,7 @@
       },
       {
         "code": "VKOSPI",
-        "label": "VKOSPI",
+        "label": "코스피 변동성지수",
         "close": 44.4,
         "change_pct": -2.7,
         "change_points": -1.23,

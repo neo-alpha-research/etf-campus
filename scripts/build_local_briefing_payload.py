@@ -27,6 +27,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from lib.indices import (
+    CANONICAL_MACRO_CODES,
+    normalize_index_code,
+    get_index_label,
+)
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 if hasattr(sys.stderr, "reconfigure"):
@@ -264,20 +270,7 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     all_total_trade = sum(e["tradeValue"] for e in all_etfs)
     all_top10_trade_share = round((all_top10_trade_val / all_total_trade * 100), 2) if all_total_trade > 0 else 0.0
 
-    # 4. Market Indices
-    CANONICAL_INDEX_MAP = {
-        "KOSPI": "KOSPI", "KOSDAQ": "KOSDAQ", "VKOSPI": "VKOSPI", "KR10Y": "KR10Y",
-        "KRW=X": "USDKRW", "USDKRW": "USDKRW", "^GSPC": "SPX", "SPX": "SPX",
-        "^IXIC": "NDX", "NDX": "NDX", "^TNX": "DGS10", "DGS10": "DGS10",
-        "^VIX": "VIX", "VIX": "VIX", "CL=F": "CLF", "CLF": "CLF",
-        "GC=F": "GC", "GC": "GC", "SI=F": "SI", "SI": "SI",
-    }
-    LABEL_INDEX_MAP = {
-        "KOSPI": "코스피", "KOSDAQ": "코스닥", "VKOSPI": "VKOSPI", "KR10Y": "국채 10년",
-        "USDKRW": "원/달러", "SPX": "S&P 500", "NDX": "나스닥", "DGS10": "미 국채 10년물",
-        "VIX": "VIX", "CLF": "WTI 원유", "GC": "금 선물", "SI": "은 선물",
-    }
-
+    # 4. Market Indices (Using SSOT lib.indices)
     market_indices: list[dict[str, Any]] = []
     if indices_path.exists():
         with indices_path.open("r", encoding="utf-8") as f:
@@ -285,8 +278,8 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
             raw_indices = idx_data.get("indices", []) if isinstance(idx_data, dict) else idx_data
             for idx in raw_indices:
                 raw_code = idx.get("code") or idx.get("label", "")
-                canon = CANONICAL_INDEX_MAP.get(raw_code, raw_code)
-                label = LABEL_INDEX_MAP.get(canon, idx.get("label", canon))
+                canon = normalize_index_code(raw_code)
+                label = get_index_label(canon)
                 market_indices.append({
                     "code": canon,
                     "label": label,

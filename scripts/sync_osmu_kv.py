@@ -392,6 +392,28 @@ def main() -> int:
                     email=email,
                 )
                 print("✅ Done" if ok_prev else "⚠️ Failed")
+
+                # Smart merge: Preserve verified rich multi-day flows and time series if local file lacks them
+                try:
+                    prev_json = json.loads(prev_bytes.decode("utf-8"))
+                    prev_b = prev_json.get("briefing") or prev_json
+                    cand_b = candidate_data.get("briefing") or candidate_data
+                    merged = False
+                    if (not cand_b.get("weeklyFundFlows") or len(cand_b.get("weeklyFundFlows") or []) == 0) and prev_b.get("weeklyFundFlows"):
+                        cand_b["weeklyFundFlows"] = prev_b["weeklyFundFlows"]
+                        merged = True
+                    if (not cand_b.get("monthlyFundFlows") or len(cand_b.get("monthlyFundFlows") or []) == 0) and prev_b.get("monthlyFundFlows"):
+                        cand_b["monthlyFundFlows"] = prev_b["monthlyFundFlows"]
+                        merged = True
+                    if not cand_b.get("marketScaleTimeSeries") and prev_b.get("marketScaleTimeSeries"):
+                        cand_b["marketScaleTimeSeries"] = prev_b["marketScaleTimeSeries"]
+                        merged = True
+                    if merged:
+                        with open(payload_file, "w", encoding="utf-8") as pf:
+                            json.dump(candidate_data, pf, ensure_ascii=False, indent=2)
+                        print("🔄 [Smart Merge] Preserved verified multi-day flows & time-series into local payload.")
+                except Exception as merge_err:
+                    print(f"⚠️ [Smart Merge Notice] KV merge bypassed: {merge_err}")
             finally:
                 if temp_prev_file.exists():
                     temp_prev_file.unlink()

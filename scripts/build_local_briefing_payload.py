@@ -172,13 +172,20 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
 
     # 1. Classification & Peer Groups Map
     peer_map: dict[str, str] = {}
+    topic_family_map: dict[str, str] = {}
+    ticker_family_map: dict[str, str] = {}
     if comparison_path.exists():
         with comparison_path.open("r", encoding="utf-8-sig") as f:
             for r in csv.DictReader(f):
                 tk = r.get("ticker", "").strip().upper()
                 topic = r.get("comparison_topic", "").strip()
+                fam = r.get("asset_family", "").strip()
                 if tk and topic and topic not in ("미확인 주식전략", "미분류", "-"):
                     peer_map[tk] = topic
+                    if fam and topic not in topic_family_map:
+                        topic_family_map[topic] = fam
+                if tk and fam:
+                    ticker_family_map[tk] = fam
 
     # 2. General vs Non-general ETFs
     general_etfs: list[dict[str, Any]] = []
@@ -196,8 +203,11 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
         nav = to_float(r.get("nav"))
         disparity = to_float(r.get("disparity"))
 
-        # Canonical asset class fallback
-        if not asset_class or asset_class == "주식":
+        # Canonical asset class fallback using SSOT comparison classification
+        comp_fam = ticker_family_map.get(tk)
+        if comp_fam in ("원자재", "채권", "혼합자산", "금리·파킹"):
+            asset_class = comp_fam
+        elif not asset_class or asset_class == "주식":
             asset_class = "주식-해외" if re.search(r"미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우", name, re.I) else "주식-국내"
 
         item = {
@@ -350,9 +360,12 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
         eq_ret = round(sum(e["changePct"] for e in group) / len(group), 2)
         wt_ret = round(sum(e["changePct"] * e["aum"] for e in group) / p_aum, 2) if p_aum > 0 else eq_ret
         top_etf = max(group, key=lambda e: e["aum"])
+        canon_ac = topic_family_map.get(pg)
+        if not canon_ac or canon_ac == "주식":
+            canon_ac = group[0]["assetClass"]
         peer_groups.append({
             "peerGroup": pg,
-            "assetClass": group[0]["assetClass"],
+            "assetClass": canon_ac,
             "etfCount": len(group),
             "equalWeightReturnPct": eq_ret,
             "cappedAumWeightedReturnPct": wt_ret,
@@ -429,6 +442,58 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     final_fund_flow = existing_data.get("fundFlow") if has_valid_existing else local_flows
     final_prev_as_of = existing_data.get("prevAsOfDate") or detected_prev_date
 
+    # Market Scale 4-Category Snapshot (Local canonical calculation)
+    all_total_aum = sum(e["aum"] for e in all_etfs)
+    all_total_trade = sum(e["tradeValue"] for e in all_etfs)
+    scale_cats: dict[str, list[dict[str, Any]]] = {"general": [], "parking": [], "leveraged": [], "inverse": []}
+    for e in all_etfs:
+        rt = e["riskType"]
+        ac = e["assetClass"]
+        nm = e["name"]
+        if rt in ("leverage", "leveraged"):
+            scale_cats["leveraged"].append(e)
+        elif rt == "inverse":
+            scale_cats["inverse"].append(e)
+        elif any(term in ac for term in ("금리", "파킹", "CD91", "KOFR", "SOFR")) or any(term in nm for term in ("CD금리", "KOFR", "SOFR", "머니마켓", "단기채권", "파킹")):
+            scale_cats["parking"].append(e)
+        else:
+            scale_cats["general"].append(e)
+
+    cat_labels = {
+        "general": "일반 실물 ETF",
+        "parking": "파킹·단기자금",
+        "leveraged": "레버리지",
+        "inverse": "인버스",
+    }
+    categories_list = []
+    for c_key in ["general", "parking", "leveraged", "inverse"]:
+        c_items = scale_cats[c_key]
+        c_aum = sum(item["aum"] for item in c_items)
+        c_trade = sum(item["tradeValue"] for item in c_items)
+        categories_list.append({
+            "category": c_key,
+            "label": cat_labels[c_key],
+            "aum": round(c_aum / 100_000_000, 1),
+            "aumSharePct": round(c_aum / all_total_aum * 100, 1) if all_total_aum > 0 else 0.0,
+            "tradeValue": round(c_trade / 100_000_000, 1),
+            "tradeSharePct": round(c_trade / all_total_trade * 100, 1) if all_total_trade > 0 else 0.0,
+            "turnoverPct": round(c_trade / c_aum * 100, 2) if c_aum > 0 else 0.0,
+            "etfCount": len(c_items),
+        })
+
+    local_market_scale_snapshot = {
+        "totalEtfCount": len(all_etfs),
+        "generalEtfCount": len(scale_cats["general"]),
+        "totalAum": round(all_total_aum / 100_000_000, 1),
+        "totalTradeValue": round(all_total_trade / 100_000_000, 1),
+        "marketTurnoverPct": round(all_total_trade / all_total_aum * 100, 2) if all_total_aum > 0 else 0.0,
+        "categories": categories_list,
+        "composition": [
+            {"type": c["category"], "label": c["label"], "aum": c["aum"], "pct": c["aumSharePct"], "count": c["etfCount"]}
+            for c in categories_list
+        ],
+    }
+
     # Construct final payload matching MarketBriefingPayload interface
     payload: dict[str, Any] = {
         "asOfDate": as_of_date,
@@ -472,16 +537,20 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
             "totalAum": gen_total_aum,
             "totalTradeValue": gen_total_trade,
         }),
-        "marketScaleSnapshot": (existing_data.get("marketScaleSnapshot") if existing_is_same_date else None),
-        "marketScaleTimeSeries": (existing_data.get("marketScaleTimeSeries") if existing_is_same_date else None),
+        "marketScaleSnapshot": (
+            existing_data.get("marketScaleSnapshot")
+            if (existing_is_same_date and existing_data.get("marketScaleSnapshot") and len(existing_data["marketScaleSnapshot"].get("categories", [])) > 0)
+            else local_market_scale_snapshot
+        ),
+        "marketScaleTimeSeries": (existing_data.get("marketScaleTimeSeries") if existing_is_same_date else existing_data.get("marketScaleTimeSeries")),
         "assetClasses": asset_classes,
         "peerGroups": peer_groups,
         "fundFlow": final_fund_flow,
         "periodicFlows": {
             "dailyFundFlows": final_fund_flow.get("general", {}),
         },
-        "weeklyFundFlows": (existing_data.get("weeklyFundFlows") if existing_is_same_date else []),
-        "monthlyFundFlows": (existing_data.get("monthlyFundFlows") if existing_is_same_date else []),
+        "weeklyFundFlows": (existing_data.get("weeklyFundFlows") or []),
+        "monthlyFundFlows": (existing_data.get("monthlyFundFlows") or []),
         "focusEtfs": focus_etfs,
         "disparityWarning": disparity_warning[:10],
         # Compatibility top-level aliases for renderers

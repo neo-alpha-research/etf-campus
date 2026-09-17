@@ -211,7 +211,7 @@ function calculatePeerGroups(quotes: any[]): any {
   const results = [];
   for (const [, data] of groups.entries()) {
     const rows = data.rows;
-    if (rows.length < 3) continue; // 최소 3개 이상
+    if (rows.length < 2) continue; // 최소 2개 이상 (피어 그룹 비교 가능 최소 단위)
     
     // 동일가중 평균
     const equalWeightReturn = rows.reduce((sum, r) => sum + r.change_pct, 0) / rows.length;
@@ -449,7 +449,7 @@ async function calculatePeriodicFundFlows(
   const monthlyAll: any[] = [];
 
   for (const [, g] of groups.entries()) {
-    if (g.members.length < 3) continue;
+    if (g.members.length < 2) continue; // 최소 2개 이상
 
     const ret5List: number[] = [];
     const ret20List: number[] = [];

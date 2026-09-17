@@ -166,4 +166,30 @@ describe("EtfCompareTimeseriesChart", () => {
     expect(banner).toBeDefined();
     expect(banner.textContent).toContain("비교 시작일이 자동 축소되었습니다");
   });
+
+  // ⑤ 법정 면책 문구 및 스크린 리더 테이블 렌더 검증
+  it("⑤ 법정 면책 문구 및 스크린 리더 접근성: 3종 컴플라이언스 각주와 스크린 리더용 표가 정상 렌더링된다", () => {
+    const basket = [createMockEtf("BASE", "대표 ETF")];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      BASE: createMockSeries("BASE", dates60, 10000, 50),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    // 3 Legal Disclaimers
+    expect(screen.getByText(/분배금은 분배락일 종가로 재투자했다고 가정한 이론 수치이며/)).toBeInTheDocument();
+    expect(screen.getByText(/세금은 반영하지 않은 세전 기준입니다/)).toBeInTheDocument();
+    expect(screen.getByText(/과거 성과가 미래 수익을 보장하지 않습니다/)).toBeInTheDocument();
+
+    // Accessible table for screen readers
+    const table = screen.getByRole("table", { hidden: true });
+    expect(table).toBeInTheDocument();
+    expect(table.className).toContain("sr-only");
+  });
 });

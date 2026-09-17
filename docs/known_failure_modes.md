@@ -128,11 +128,12 @@
   ?? scripts/threads/generate_thread.py
   ?? scripts/threads/threads_bank.json
   ```
-- **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함.
+- **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함. 또한 CI 클린 체크아웃(`actions/checkout`) 환경에서는 untracked 파일이 원리적으로 존재하지 않으므로(`git status --porcelain`이 항상 빈 문자열), CI 단독 검사로는 검출이 불가능함.
 - **방어 대책**:
-  1. 린터(`scripts/lint_pipeline.py`)에 git status 기반 untracked 파이프라인 파일(`check_untracked_pipeline_files()`) 검출기 추가.
-  2. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 상태를 CI 및 로컬에서 기계적으로 차단.
-- **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()`
+  1. **실효 집행 지점 로컬 이전**: 저장소 버전 관리 대상인 `.githooks/pre-push`에 린터(`scripts/lint_pipeline.py`) 및 회귀 테스트를 필수 배치하고, `npm run prepare`(`git config core.hooksPath .githooks`)로 모든 개발 환경에 자동 동기화하여 푸시 전 untracked 파일 존재 시 `git push`를 원천 차단.
+  2. **CI 환경 워크플로 정합성 검사**: CI에서는 `cron:` 스케줄을 포함하는 워크플로가 기본 브랜치(`origin/main`)에 누락되지 않았는지 정합성 검증.
+  3. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 방치 방지.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()` (로컬 pre-push 훅 집행)
 
 ---
 

@@ -45,19 +45,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: |
-          echo "Verifying Cloudflare Pages deployment for commit: ${{ github.sha }}"
-          for i in $(seq 1 24); do
-            DEPLOYED=$(npx wrangler pages deployment list --project-name etf-campus --json \
-                       | jq -r '.[0].deployment_trigger.metadata.commit_hash // empty')
-            if [ "$DEPLOYED" = "${{ github.sha }}" ]; then
-              echo "✅ Cloudflare Pages 배포 확인 완료: $DEPLOYED (시도: $i/24)"
-              exit 0
-            fi
-            echo "대기 중... (시도: $i/24) 현재 배포된 SHA=$DEPLOYED / 기대 SHA=${{ github.sha }}"
-            sleep 10
-          done
-          echo "::error::Pages 배포가 현재 커밋(${{ github.sha }})을 반영하지 못했습니다 (4분 타임아웃)."
-          exit 1
+          python scripts/check_pages_deployment.py --project-name etf-campus --expected-sha "${{ github.sha }}"
 
       - name: Apply unapplied D1 migrations
         env:
@@ -99,3 +87,4 @@ jobs:
           npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, COUNT(*) AS count_per_date, COUNT(DISTINCT index_code) AS unique_indices FROM market_source_index_daily GROUP BY as_of_date ORDER BY as_of_date DESC LIMIT 5;"
           npx wrangler d1 execute etf-prices --remote --command "SELECT as_of_date, source_version, COUNT(*) AS audit_count_per_version FROM market_source_index_daily_audit GROUP BY as_of_date, source_version ORDER BY as_of_date DESC, source_version DESC LIMIT 10;"
           npx wrangler d1 execute etf-prices --remote --command "SELECT (SELECT COUNT(*) FROM market_source_index_daily) AS current_total, (SELECT COUNT(*) FROM market_source_index_daily_audit) AS audit_total;"
+          npx wrangler d1 execute etf-prices --remote --command "SELECT id, migration_name, target_table, pre_count, post_count, details, recorded_at FROM migration_baselines ORDER BY id DESC LIMIT 5;"

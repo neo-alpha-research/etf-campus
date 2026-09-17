@@ -125,11 +125,14 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 6. **검사의 검출력 실증 규율 (Failure Detection Verification Mandate)**:
    - 실패 유형에 대응하는 검사를 만들 때, 그 검사가 실제 발생했던 사례를 잡는지 테스트로 증명하라. 검사 개수가 아니라 검출 여부가 완료 기준이다.
 7. **보고 원시 출력 규율 (Raw Output Mandate)**:
-   - 보고서에 아래 네 명령의 출력을 요약 없이 그대로 첨부하라:
+   - 보고서에 아래 여섯 명령의 출력을 요약 없이 그대로 첨부하라:
+     - `git branch --show-current`
+     - `git log origin/main -n 1 --oneline`
      - `git log -n <N> --oneline`
      - `git rev-list --count origin/main..HEAD`
      - `git status --short`
      - `gh run list -L 5`
+   - 보고 시점과 현재 상태가 다를 수 있으므로, 보고 직후 추가 커밋이 발생하면 **해당 커밋도 같은 형식으로 추가 보고**하라.
    - 워크플로를 재실행한 경우, 실패한 실행의 ID와 실패 원인을 반드시 함께 적어라.
 
 

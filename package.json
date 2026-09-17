@@ -23,7 +23,8 @@
     "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
     "verify:utf8": "node scripts/verify-utf8.mjs",
     "test": "npm run verify:utf8 && vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",
@@ -60,7 +61,8 @@
     "tailwindcss": "4.3.3",
     "tsx": "^4.19.3",
     "typescript": "5.9.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.10",
+    "wrangler": "^4.31.0"
   },
   "workspaces": [
     "workers/market-briefing-publisher",

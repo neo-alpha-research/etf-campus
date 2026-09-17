@@ -34,7 +34,26 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const [hoveredTicker, setHoveredTicker] = useState<string | null>(null);
   const [seriesMap, setSeriesMap] = useState<Record<string, SeriesV2Data | null>>({});
   const [loadedKey, setLoadedKey] = useState<string>("");
+  const [manifest, setManifest] = useState<{ asOf: string; tickers?: Record<string, string> } | null>(null);
   const seriesCacheRef = useRef<Map<string, SeriesV2Data>>(new Map());
+
+  // Dynamic manifest fetch on mount
+  useEffect(() => {
+    let isMounted = true;
+    fetch("/data/series/v2/manifest.json", { cache: "no-cache" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { asOf: string; tickers?: Record<string, string> } | null) => {
+        if (isMounted && data) {
+          setManifest(data);
+        }
+      })
+      .catch(() => {
+        // Fallback gracefully
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const currentKey = `${basket.map((e) => e.ticker).join(",")}_${period}`;
   const isLoadingSeries = basket.length > 0 && loadedKey !== currentKey;
@@ -115,15 +134,16 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     let isMounted = true;
     const isRecent = period === "1M" || period === "3M" || period === "6M" || period === "1Y";
     const fileSuffix = isRecent ? ".recent.json" : ".json";
-    const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}`;
+    const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}_${manifest?.asOf || "default"}`;
 
     const fetchPromises = basket.map(async (etf) => {
-      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}`;
+      const version = manifest?.tickers?.[etf.ticker] || manifest?.asOf || "20260916";
+      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${version}`;
       if (seriesCacheRef.current.has(cacheKey)) {
         return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)! };
       }
       try {
-        const res = await fetch(`/data/series/v2/${etf.ticker}${fileSuffix}?v=20260916`);
+        const res = await fetch(`/data/series/v2/${etf.ticker}${fileSuffix}?v=${version}`);
         if (!res.ok) {
           return { ticker: etf.ticker, data: null };
         }
@@ -150,7 +170,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     return () => {
       isMounted = false;
     };
-  }, [mounted, basket, period]);
+  }, [mounted, basket, period, manifest]);
 
 
 

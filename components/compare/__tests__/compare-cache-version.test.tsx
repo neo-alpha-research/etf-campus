@@ -1,120 +1,49 @@
-import { render, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi, afterEach } from "vitest";
-import { CompareClient } from "../compare-client";
-import type { Etf } from "@/lib/domain/etf-types";
+import { describe, expect, it } from "vitest";
+import { getSeriesUrl, type SeriesManifest } from "../compare-client";
 
-// Mock next/navigation
-vi.mock("next/navigation", () => ({
-  useSearchParams: () => new URLSearchParams("tickers=069500&period=1m&basis=pr"),
-  usePathname: () => "/compare",
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    prefetch: vi.fn(),
-  }),
-}));
+describe("CompareClient Dynamic Cache Versioning & URL Generation", () => {
+  it("manifest가 제공되면 asOf 버전이 URL의 ?v= 파라미터로 동적 부착된다", () => {
+    const manifest: SeriesManifest = {
+      asOf: "20260918",
+      tickers: {},
+    };
 
-describe("CompareClient Dynamic Cache Versioning", () => {
-  const mockEtfs: Etf[] = [
-    {
-      ticker: "069500",
-      name: "KODEX 200",
-      assetClass: "국내주식",
-      category: "시장대표",
-      close: 35000,
-      changePct: 0.5,
-      tradeValue: 100000,
-      aum: 500000,
-      returns: { "1m": 1.2 },
-    } as unknown as Etf,
-  ];
+    const urlRecent = getSeriesUrl("069500", true, manifest);
+    expect(urlRecent).toBe("/data/series/v2/069500.recent.json?v=20260918");
 
-  const originalFetch = global.fetch;
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-    vi.restoreAllMocks();
+    const urlFull = getSeriesUrl("069500", false, manifest);
+    expect(urlFull).toBe("/data/series/v2/069500.json?v=20260918");
   });
 
-  it("manifest의 asOf가 갱신되면 시계열 요청 URL에 해당 버전이 동적으로 부착된다", async () => {
-    const fetchedUrls: string[] = [];
+  it("manifest에 특정 종목의 tickers 버전이 존재하면 asOf보다 종목별 버전이 우선 적용된다", () => {
+    const manifest: SeriesManifest = {
+      asOf: "20260918",
+      tickers: {
+        "069500": "20260920_custom",
+      },
+    };
 
-    global.fetch = vi.fn().mockImplementation((url: string) => {
-      fetchedUrls.push(url);
-      if (url.includes("manifest.json")) {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({ asOf: "20260918", tickers: {} }),
-        });
-      }
-      if (url.includes("/data/series/v2/069500")) {
-        return Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              ticker: "069500",
-              startDate: "2026-08-01",
-              dates: ["2026-08-01"],
-              close: [35000],
-              tr: [35000],
-              netTr: [35000],
-              hasDistribution: false,
-              asOf: "2026-09-18",
-            }),
-        });
-      }
-      return Promise.resolve({ ok: false });
-    });
+    const urlOverridden = getSeriesUrl("069500", true, manifest);
+    expect(urlOverridden).toBe("/data/series/v2/069500.recent.json?v=20260920_custom");
 
-    render(<CompareClient etfs={mockEtfs} />);
-
-    await waitFor(() => {
-      const seriesCall = fetchedUrls.find((u) => u.includes("/data/series/v2/069500"));
-      expect(seriesCall).toBeDefined();
-      expect(seriesCall).toContain("?v=20260918");
-    });
+    const urlDefault = getSeriesUrl("122630", true, manifest);
+    expect(urlDefault).toBe("/data/series/v2/122630.recent.json?v=20260918");
   });
 
-  it("manifest의 tickers에 개별 종목 버전이 정의되어 있으면 개별 버전이 우선 적용된다", async () => {
-    const fetchedUrls: string[] = [];
+  it("manifest 로드 실패 또는 null일 때 기본 fallback 버전(20260916)이 유지된다", () => {
+    const url = getSeriesUrl("069500", true, null);
+    expect(url).toBe("/data/series/v2/069500.recent.json?v=20260916");
+  });
 
-    global.fetch = vi.fn().mockImplementation((url: string) => {
-      fetchedUrls.push(url);
-      if (url.includes("manifest.json")) {
-        return Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              asOf: "20260918",
-              tickers: { "069500": "20260920_custom" },
-            }),
-        });
-      }
-      if (url.includes("/data/series/v2/069500")) {
-        return Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              ticker: "069500",
-              startDate: "2026-08-01",
-              dates: ["2026-08-01"],
-              close: [35000],
-              tr: [35000],
-              netTr: [35000],
-              hasDistribution: false,
-              asOf: "2026-09-20",
-            }),
-        });
-      }
-      return Promise.resolve({ ok: false });
-    });
+  it("manifest asOf가 변경되면 요청 URL이 실제로 달라진다 (Gate Verification)", () => {
+    const manifestV1: SeriesManifest = { asOf: "20260916" };
+    const manifestV2: SeriesManifest = { asOf: "20260917" };
 
-    render(<CompareClient etfs={mockEtfs} />);
+    const url1 = getSeriesUrl("069500", true, manifestV1);
+    const url2 = getSeriesUrl("069500", true, manifestV2);
 
-    await waitFor(() => {
-      const seriesCall = fetchedUrls.find((u) => u.includes("/data/series/v2/069500"));
-      expect(seriesCall).toBeDefined();
-      expect(seriesCall).toContain("?v=20260920_custom");
-    });
+    expect(url1).not.toEqual(url2);
+    expect(url1).toContain("?v=20260916");
+    expect(url2).toContain("?v=20260917");
   });
 });

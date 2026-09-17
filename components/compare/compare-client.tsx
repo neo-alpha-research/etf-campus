@@ -13,6 +13,21 @@ import {
 import { useEffect, useCallback, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 
+export interface SeriesManifest {
+  asOf: string;
+  tickers?: Record<string, string>;
+}
+
+export function getSeriesUrl(
+  ticker: string,
+  isRecent: boolean,
+  manifest: SeriesManifest | null
+): string {
+  const fileSuffix = isRecent ? ".recent.json" : ".json";
+  const version = manifest?.tickers?.[ticker] || manifest?.asOf || "20260916";
+  return `/data/series/v2/${ticker}${fileSuffix}?v=${version}`;
+}
+
 export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const { basket, mounted, toastMessage, showToast, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket(etfs);
   const searchParams = useSearchParams();
@@ -137,13 +152,13 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}_${manifest?.asOf || "default"}`;
 
     const fetchPromises = basket.map(async (etf) => {
-      const version = manifest?.tickers?.[etf.ticker] || manifest?.asOf || "20260916";
-      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${version}`;
+      const url = getSeriesUrl(etf.ticker, isRecent, manifest);
+      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${url}`;
       if (seriesCacheRef.current.has(cacheKey)) {
         return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)! };
       }
       try {
-        const res = await fetch(`/data/series/v2/${etf.ticker}${fileSuffix}?v=${version}`);
+        const res = await fetch(url);
         if (!res.ok) {
           return { ticker: etf.ticker, data: null };
         }

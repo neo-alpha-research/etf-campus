@@ -37,10 +37,13 @@ def generate_series_v2(root_dir=None):
                 if t:
                     tickers_with_dist.add(t.strip())
 
-    tr_files = glob.glob(str(root_dir / "public" / "data" / "returns" / "tr_index" / "*.json"))
+    tr_files = sorted(glob.glob(str(root_dir / "public" / "data" / "returns" / "tr_index" / "*.json")))
     manifest_tickers = {}
     latest_global_date = "2023-01-02"
 
+    # Step 1: Ingest all points and compute master KRX trading calendar
+    all_raw_data = {}
+    master_dates_set = set()
     for tf in tr_files:
         ticker = Path(tf).stem.strip()
         with open(tf, "r", encoding="utf-8") as f:
@@ -50,10 +53,57 @@ def generate_series_v2(root_dir=None):
         if not points:
             continue
 
-        dates = [p["date"] for p in points]
-        close = [format_num(p.get("close")) for p in points]
-        tr = [format_num(p.get("tr_index")) for p in points]
-        net_tr = [format_num(p.get("net_tr_index")) for p in points]
+        all_raw_data[ticker] = points
+        for p in points:
+            master_dates_set.add(p["date"])
+
+    master_calendar = sorted(list(master_dates_set))
+    total_filled_points = 0
+
+    # Step 2: Generate aligned v2 series with LOCF for internal calendar gaps
+    for ticker, points in all_raw_data.items():
+        first_date = points[0]["date"]
+        last_date = points[-1]["date"]
+
+        active_calendar = [d for d in master_calendar if first_date <= d <= last_date]
+        point_by_date = {p["date"]: p for p in points}
+
+        dates = []
+        close = []
+        tr = []
+        net_tr = []
+        filled = []
+
+        last_close = None
+        last_tr = None
+        last_net_tr = None
+
+        for idx, d in enumerate(active_calendar):
+            if d in point_by_date:
+                p = point_by_date[d]
+                c_val = format_num(p.get("close"))
+                tr_val = format_num(p.get("tr_index"))
+                ntr_val = format_num(p.get("net_tr_index"))
+
+                if c_val is not None:
+                    last_close = c_val
+                if tr_val is not None:
+                    last_tr = tr_val
+                if ntr_val is not None:
+                    last_net_tr = ntr_val
+
+                dates.append(d)
+                close.append(c_val)
+                tr.append(tr_val)
+                net_tr.append(ntr_val)
+            else:
+                # Trading halt / gap -> LOCF
+                dates.append(d)
+                close.append(last_close)
+                tr.append(last_tr)
+                net_tr.append(last_net_tr)
+                filled.append(idx)
+                total_filled_points += 1
 
         has_dist = ticker in tickers_with_dist
         as_of = dates[-1] if dates else ""
@@ -71,11 +121,15 @@ def generate_series_v2(root_dir=None):
             "tr": tr,
             "netTr": net_tr,
             "hasDistribution": has_dist,
+            "filled": filled,
             "asOf": as_of
         }
 
         # Recent series object (last 250 points)
         recent_count = min(len(dates), 250)
+        cutoff = len(dates) - recent_count
+        recent_filled = [idx - cutoff for idx in filled if idx >= cutoff]
+
         recent_obj = {
             "ticker": ticker,
             "startDate": dates[-recent_count] if dates else "",
@@ -84,6 +138,7 @@ def generate_series_v2(root_dir=None):
             "tr": tr[-recent_count:],
             "netTr": net_tr[-recent_count:],
             "hasDistribution": has_dist,
+            "filled": recent_filled,
             "asOf": as_of
         }
 
@@ -105,7 +160,7 @@ def generate_series_v2(root_dir=None):
     with open(out_dir / "manifest.json", "w", encoding="utf-8") as f:
         json.dump(manifest, f, separators=(',', ':'), indent=2)
 
-    print(f"Generated v2 series for {len(manifest_tickers)} tickers in {out_dir}")
+    print(f"Generated v2 series for {len(manifest_tickers)} tickers in {out_dir} (total LOCF filled points: {total_filled_points})")
     return len(manifest_tickers)
 
 if __name__ == "__main__":

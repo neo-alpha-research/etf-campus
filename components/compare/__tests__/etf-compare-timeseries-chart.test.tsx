@@ -192,4 +192,24 @@ describe("EtfCompareTimeseriesChart", () => {
     expect(table).toBeInTheDocument();
     expect(table.className).toContain("sr-only");
   });
+
+  // ⑥ 모바일 제스처 최적화 touch-action: pan-y
+  it("⑥ 모바일 제스처 최적화: SVG 및 컨테이너에 touchAction 'pan-y'가 적용되어 모바일 세로 스크롤을 방해하지 않는다", () => {
+    const basket = [createMockEtf("BASE", "대표 ETF")];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      BASE: createMockSeries("BASE", dates60, 10000, 50),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    const svg = screen.getByTestId("compare-timeseries-svg");
+    expect(svg).toBeInTheDocument();
+    expect(svg.style.touchAction).toBe("pan-y");
+  });
 });

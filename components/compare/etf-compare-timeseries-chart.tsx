@@ -542,10 +542,11 @@ export function EtfCompareTimeseriesChart({
           <div className="text-xs text-slate-400">비교 가능한 시계열 데이터가 없습니다.</div>
         </div>
       ) : (
-        <div className="relative w-full">
+        <div className="relative w-full" style={{ touchAction: "pan-y" }}>
           <svg
             ref={svgRef}
             viewBox={`0 0 ${width} ${height}`}
+            style={{ touchAction: "pan-y" }}
             className="w-full h-auto select-none overflow-visible"
             role="img"
             aria-label={accessibleSummary}

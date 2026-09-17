@@ -92,7 +92,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0"
+          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0" pytest
 
 
       - name: Refresh official ETF data

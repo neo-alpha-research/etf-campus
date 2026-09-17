@@ -23,6 +23,7 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.lint_pipeline import (
     ALL_CHECKS,
     BASELINE_EXEMPT_MIGRATIONS,
+    SECRET_SCAN_DIR_EXEMPT,
     check_git_log_subprocesses_in_text,
     check_import_error_swallowing_in_code,
     check_daily_market_git_add_in_text,
@@ -642,6 +643,31 @@ class TestPipelineLinterRegression(unittest.TestCase):
             self.assertEqual(len(errs), 1)
             self.assertIn("No exemption constants discovered", errs[0])
             self.assertIn("fail-closed", errs[0])
+
+    def test_fm012_scans_archive_directory(self):
+        """FM-012 ⑥: _archive 디렉터리가 스캔 대상에 포함되어, 임시 패치/아카이브 파일 내 시크릿이 검출됨을 실증 (B절 10-①)."""
+        import scripts.lint_pipeline as lp
+        archive_dir = REPO_ROOT / "_archive"
+        archive_dir.mkdir(parents=True, exist_ok=True)
+        test_file = archive_dir / "temp_secret_test.patch"
+        try:
+            sample_secret = 'AIzaSy' + 'CvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s'
+            test_file.write_text(f"diff --git a/test.txt b/test.txt\n+KEY={sample_secret}\n", encoding="utf-8")
+            errs = lp.check_working_tree_secrets()
+            self.assertTrue(any("temp_secret_test.patch" in e and "Google API Key" in e for e in errs),
+                            f"_archive 디렉터리 내의 시크릿이 정상 검출되어야 합니다: {errs}")
+        finally:
+            if test_file.exists():
+                test_file.unlink()
+
+    def test_fm014_detects_undisclosed_dir_exempt(self):
+        """FM-014 ⑤: SECRET_SCAN_DIR_EXEMPT에 새 디렉터리 추가 시 SSOT 미공개 상태이면 FM-014가 차단함을 실증 (B절 10-②)."""
+        import scripts.lint_pipeline as lp
+        new_dirs = lp.SECRET_SCAN_DIR_EXEMPT | {"_undisclosed_secret_vault"}
+        with patch.dict(lp.__dict__, {"SECRET_SCAN_DIR_EXEMPT": new_dirs}):
+            errs = lp.check_exemption_disclosure()
+            self.assertGreater(len(errs), 0, "SSOT에 미공개된 제외 디렉터리가 추가되면 차단되어야 합니다.")
+            self.assertTrue(any("_undisclosed_secret_vault" in e for e in errs))
 
 
 if __name__ == "__main__":

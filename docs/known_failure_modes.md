@@ -242,9 +242,15 @@
 | **FM-011: Destructive Schema Migration Baseline Enforcement** | `0001`, `0002`, `0003`, `0004`, `0005`, `0006`, `0007`, `0008`, `0009`, `0010`, `0011`, `0012`, `0013`, `0014`, `0015`, `0016`, `0017`, `0018`, `0019`, `0020`, `0021`, `0022`, `0023`, `0024`, `0025`, `0026` | 0001~0024는 baseline 감사 인프라 도입 이전 레거시 마이그레이션이며, 0025는 migration_baselines 테이블 자체를 생성한 DDL이고, 0026은 0024 사후 정정 마이그레이션임. 0027 이후 DDL부터 엄격 강제. | 2026-09-17 |
 | **FM-012: Working Tree Plaintext Secret Detection** | `android/app/google-services.json` | Firebase 공개 모바일 클라이언트 식별자 파일로, 보안 비밀키가 아닌 번들 식별자이므로 스캔 예외 허용. | 2026-09-17 |
 | **FM-012: Working Tree Plaintext Secret Detection** | `.env`, `.dev.vars`, `.env.*`, `.dev.vars.*` | Cloudflare Worker 로컬 개발(wrangler dev) 및 Node 런타임 전용 설정 파일이며, .gitignore 및 .githooks/pre-commit(diff --cached)에 의해 저장소 커밋이 원천 차단됨. | 2026-09-18 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `SECRET_SCAN_DIR_EXEMPT`: `.git`, `node_modules`, `.next`, `out`, `.venv`, `__pycache__`, `coverage`, `.wrangler`, `dist` | 패키지 의존성/빌드 산출물/로컬 가상환경 캐시 디렉터리로, 정적 소스코드가 아니므로 작업 트리 평문 시크릿 탐지에서 제외. (_archive/ 및 OSMU_Archive/는 스캔 대상에 필수 포함). | 2026-09-18 |
 | **FM-013: WIP Commit on Main Branch Prohibition** | `da0bccda` | `wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart` (2026-09-17 21:08:44 +0900). 기능 브랜치 역병합으로 main에 기포함된 과거 이력. | 2026-09-18 |
 | **FM-013: WIP Commit on Main Branch Prohibition** | `80620aa4` | `wip(compare): integrate EtfCompareTimeseriesChart into CompareClient` (2026-09-17 20:33:48 +0900). 동일 기능 브랜치 작업 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
 | **FM-013: WIP Commit on Main Branch Prohibition** | `444dce37` | `wip(compare): save compare timeseries chart components to feature branch` (2026-09-17 20:29:43 +0900). 기능 브랜치 최초 생성 시점의 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+
+---
+
+### [Stash 56건 아카이브 및 복원 SSOT]
+2026-09-18 기준 소실되었던 56건의 Stash는 `archive/stash-00-<sha8>` ~ `archive/stash-55-<sha8>` 56개 불활성 태그로 고정되어 영구 보존(gc 면역)되었습니다. `git stash show -p`로 추출된 패치 파일은 untracked 파일을 포함하지 않으므로, **태그가 단일 진실 공급원(SSOT)이자 정본**입니다. 필요 시 개별 복원 명령은 `git stash store -m "<원본 메시지>" <태그의 SHA>`를 사용하며, `git gc`, `git prune`, `git reflog expire`의 임의 실행은 엄격히 금지됩니다.
 
 
 

@@ -552,7 +552,13 @@ def check_destructive_migrations_baseline() -> list[str]:
     return errors
 
 
-# FM-012: 작업 트리 전체 평문 시크릿 스캔
+# FM-012: 작업 트리 전체 평문 시크릿 스캔 제외 디렉터리 SSOT
+# 빌드/패키지 캐시 디렉터리 한정 제외. _archive/ 및 OSMU_Archive/는 스캔에 반드시 포함되어야 합니다.
+SECRET_SCAN_DIR_EXEMPT = {
+    ".git", "node_modules", ".next", "out", ".venv", "__pycache__",
+    "coverage", ".wrangler", "dist",
+}
+
 # Firebase 공개 클라이언트 식별자는 보안 시크릿이 아닌 공개 모바일 앱 번들 식별자이므로 스캔 예외로 허용합니다.
 SECRET_SCAN_EXEMPT = {"android/app/google-services.json"}
 
@@ -589,15 +595,10 @@ def check_working_tree_secrets_in_text(content: str, filename: str) -> list[str]
 def check_working_tree_secrets() -> list[str]:
     """FM-012: 작업 트리 전체(추적·미추적 무관) 평문 시크릿 탐지."""
     errors = []
-    # 빌드/패키지 캐시 및 로컬 비추적 아카이브 디렉터리 제외 (_oneoff/는 반드시 스캔에 포함)
-    exclude_dirs = {
-        ".git", "node_modules", ".next", "out", ".venv", "__pycache__",
-        "_archive", "OSMU_Archive", "coverage", ".wrangler", "dist",
-    }
 
     for root, dirs, files in os.walk(REPO_ROOT):
-        # Prune excluded directories in-place
-        dirs[:] = [d for d in dirs if d not in exclude_dirs]
+        # Prune excluded directories in-place using module-level SSOT constant
+        dirs[:] = [d for d in dirs if d not in SECRET_SCAN_DIR_EXEMPT]
 
         for fname in sorted(files):
             file_path = Path(root) / fname
@@ -702,7 +703,7 @@ def check_exemption_disclosure_in_text(
     if required_exemptions is None:
         required_exemptions = {}
         for name, value in list(globals().items()):
-            if ("_EXEMPT" in name or "_BASELINE_" in name) and isinstance(value, (set, frozenset)):
+            if re.search(r"(_EXEMPT|_BASELINE_|_EXCLUDE|_SKIP|_ALLOWLIST|_WHITELIST)", name) and isinstance(value, (set, frozenset)):
                 required_exemptions[name] = set(value)
         if not required_exemptions:
             return ["No exemption constants discovered — FM-014 검사 자체가 무력화됨 (fail-closed)."]

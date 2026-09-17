@@ -162,5 +162,9 @@ def main():
             
     logging.info(f"Successfully wrote {len(ticker_groups)} TR index JSON files to {json_dir}")
 
+    # 6. Generate v2 columnar series
+    from scripts.generate_series_v2 import generate_series_v2
+    generate_series_v2(root_dir)
+
 if __name__ == "__main__":
     main()

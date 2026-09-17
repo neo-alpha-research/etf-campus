@@ -4,12 +4,13 @@ import type { MarketRegime } from "./market-regime";
 // Gemini API 토큰 풀 (환경변수/Secret 주입 방식)
 export const MASTER_GEMINI_TOKENS: string[] = [];
 
-// 최신 3.8 Flash부터 하향식으로 강하하는 4계층 모델 워터폴
+// 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
 export const MODEL_WATERFALL = [
   "gemini-3.8-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
   "gemini-flash-latest",
+  "gemini-2.5-flash",
 ];
 
 export interface PolishedNarrative extends MarketRegime {
@@ -42,7 +43,6 @@ export interface PolishedNarrative extends MarketRegime {
   threadsWatchPoint: string;
 
   // Common
-  firstComment?: string;
   source: "gemini-refined" | "rule-engine-fallback";
   modelUsed?: string;
   tokenIndex?: number;
@@ -100,7 +100,12 @@ export async function reviewAndRefineWithGemini(
   const flat = payload.flatCount ?? 0;
   const topInflowsList = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 5) || [];
   const topInflowsStr = topInflowsList.length > 0
-    ? topInflowsList.map(i => `${i.name || (i as any).etfName} +${i.inflow || Math.round(((i as any).netInflowValue || 0) / 100000000)}억원`).join(", ")
+    ? topInflowsList.map(i => {
+        const item = i as { name?: string; etfName?: string; inflow?: number; netInflowValue?: number };
+        const name = item.name || item.etfName || "";
+        const inflowVal = item.inflow ?? Math.round((item.netInflowValue || 0) / 100000000);
+        return `${name} +${inflowVal}억원`;
+      }).join(", ")
     : "집계 중";
 
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
@@ -245,7 +250,13 @@ export async function reviewAndRefineWithGemini(
         });
 
         if (response.ok) {
-          const data: any = await response.json();
+          const data = (await response.json()) as {
+            candidates?: Array<{
+              content?: {
+                parts?: Array<{ text?: string }>;
+              };
+            }>;
+          };
           const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
           if (candidateText && candidateText.trim()) {
@@ -335,8 +346,9 @@ export async function reviewAndRefineWithGemini(
           failoverHistory.push(`Token #${realIdx} ${modelName} (HTTP ${response.status})`);
           continue;
         }
-      } catch (err: any) {
-        failoverHistory.push(`Token #${realIdx} ${modelName} (${err?.message || err})`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        failoverHistory.push(`Token #${realIdx} ${modelName} (${msg})`);
         continue;
       }
     }

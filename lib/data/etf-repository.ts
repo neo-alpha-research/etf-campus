@@ -7,10 +7,13 @@ import {
   RISK_TYPES,
   type AssetClass,
   type Etf,
-    type EtfClassification,
+  type EtfClassification,
+  type EtfReturns,
   type ListingDateStatus,
   type PensionStatus,
   type PensionLimit,
+  type PensionSourceType,
+  type PensionConfidenceLevel,
   type IsaStatus,
   type IsaTaxType,
   type IsaTaxBenefit,
@@ -173,8 +176,8 @@ function loadIssuerPensionDisclosureDates(dataDirectory: string): Map<string, st
   if (!fs.existsSync(manifestPath)) return datesByIssuerId;
 
   try {
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
-    for (const [key, meta] of Object.entries<any>(manifest)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as Record<string, { collected_at?: string }>;
+    for (const [key, meta] of Object.entries(manifest)) {
       if (!key.startsWith("issuers/")) continue;
       const parts = key.split("/");
       if (parts.length >= 3) {
@@ -262,11 +265,11 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       ) as PensionStatus,
       pensionSource: (optionalText(master, "pension_source") || optionalText(pension, "final_src") || "미확인") as string,
       pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
-      pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as any,
+      pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as PensionSourceType | null,
       pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,
-      pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as any,
-      personalPension: (optionalText(master, "personal_pension") || optionalText(pension, "personal_pension") || null) as any,
-      personalPensionLimit: (optionalText(master, "personal_pension_limit") || optionalText(pension, "personal_pension_limit") || null) as any,
+      pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as PensionConfidenceLevel | null,
+      personalPension: (optionalText(master, "personal_pension") || optionalText(pension, "personal_pension") || null) as "가능" | "불가" | null,
+      personalPensionLimit: (optionalText(master, "personal_pension_limit") || optionalText(pension, "personal_pension_limit") || null) as "100%" | "불가" | null,
       personalPensionAsOfDate: issuerPensionDates.get(issuer.issuerId) ?? null,
       isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
       isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,
@@ -296,8 +299,8 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
         "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
         itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
-      returnsTr: Object.keys(trData.tr).length > 0 ? (trData.tr as any) : undefined,
-      returnsNetTr: Object.keys(trData.netTr).length > 0 ? (trData.netTr as any) : undefined,
+      returnsTr: Object.keys(trData.tr).length > 0 ? (trData.tr as EtfReturns) : undefined,
+      returnsNetTr: Object.keys(trData.netTr).length > 0 ? (trData.netTr as EtfReturns) : undefined,
       itdAnchor: {
         price: parseOptionalNullableNumber(returns, "itd_anchor_close", `returns:${ticker}`),
         date: optionalText(returns, "itd_anchor_date"),

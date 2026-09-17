@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import type { Etf } from "@/lib/domain/etf-types";
+import type { Etf, EtfReturns } from "@/lib/domain/etf-types";
+import type { EtfClassification } from "@/lib/domain/etf-classification";
 import { Dashboard } from "../dashboard";
 
 function etf(overrides: Partial<Etf>): Etf {
@@ -663,7 +664,7 @@ describe("Dashboard", () => {
       etf({
         ticker: "CC_BOND",
         name: "ACE 미국30년국채액티브(H)커버드콜",
-        classification: { strategy: "커버드콜" } as any,
+        classification: { strategy: "커버드콜" } as unknown as EtfClassification,
         aum: 100_000_000_000,
         pension: "가능",
         pensionLimit: "100% (안전자산)",
@@ -671,7 +672,7 @@ describe("Dashboard", () => {
       etf({
         ticker: "CC_EQUITY",
         name: "TIGER 미국나스닥100커버드콜",
-        classification: { strategy: "커버드콜" } as any,
+        classification: { strategy: "커버드콜" } as unknown as EtfClassification,
         aum: 200_000_000_000,
         pension: "가능",
         pensionLimit: "70% (위험자산)",
@@ -696,8 +697,8 @@ describe("Dashboard", () => {
   it("테이블 컬럼 헤더 클릭 시 해당 열로 정렬되고 재클릭 시 정렬 방향이 토글된다", async () => {
     window.history.replaceState(null, "", "/quick");
     const sortSample = [
-      etf({ ticker: "ETF_A", name: "종목A", aum: 500_000_000_000, tradeValue: 10_000_000_000, returns: { "1d": 1.0 } as any }),
-      etf({ ticker: "ETF_B", name: "종목B", aum: 100_000_000_000, tradeValue: 50_000_000_000, returns: { "1d": 5.0 } as any }),
+      etf({ ticker: "ETF_A", name: "종목A", aum: 500_000_000_000, tradeValue: 10_000_000_000, returns: { "1d": 1.0 } as unknown as EtfReturns }),
+      etf({ ticker: "ETF_B", name: "종목B", aum: 100_000_000_000, tradeValue: 50_000_000_000, returns: { "1d": 5.0 } as unknown as EtfReturns }),
     ];
     render(<Dashboard etfs={sortSample} />);
 

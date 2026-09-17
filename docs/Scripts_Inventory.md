@@ -65,5 +65,5 @@
 
 ## 5. 과거 1회성 마이그레이션 아카이브 (Historical Migrations)
 
-`scripts/` 내의 `collect_income_page2_prices.py`, `calculate_page3_metrics.py`, `run_distribution_registry_52.py`, `create_lead_magnet_*.py` 등은 서비스 런칭 초기 특정 데이터셋 구축 또는 리드마그넷 제작을 위해 작성된 **과거 1회성 실행 스크립트**입니다.
-이들은 정기 파이프라인에서 실행되지 않으며, 과거 데이터 구축 이력 추적 및 재현성 확보를 위한 참조용 자산으로 보관됩니다.
+초기 데이터셋 구축, 리드마그넷 제작, 단발성 패치 목적으로 작성된 과거 1회성 스크립트(`run_distribution_registry_*.py`, `recompute_step6_*.js`, `cleanup_*.py`, `step1_rollback_alignment.py` 등)는 정기 자동화 파이프라인의 오작동 및 운영 혼선을 방지하기 위해 `_archive/scripts/legacy_migrations/` 로 안전하게 이전 보관되었습니다.
+이들은 정기 파이프라인에서 일체 실행되지 않으며, 과거 데이터 구축 이력 추적 및 재현성 확보를 위한 감사 참조용 자산으로 격리 관리됩니다.

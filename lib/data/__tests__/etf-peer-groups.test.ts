@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/etf-peer-groups";
 import { loadEtfs } from "@/lib/data/etf-repository";
 import { readCsv } from "@/lib/data/csv";
+import type { EtfReturns } from "@/lib/domain/etf-types";
 
 const etfs = loadEtfs();
 const byTicker = new Map(etfs.map((etf) => [etf.ticker, etf]));
@@ -237,13 +238,13 @@ describe("classification data contracts", () => {
   it("Zero-Hallucination: TR 12m 정렬 시 PR 1년 수익률로 혼용 fallback하지 않는다", () => {
     const base = etfs[0]!;
     const candA: PeerCandidate = {
-      etf: { ...base, ticker: "TR_HAS", returnsTr: { ...base.returnsTr, "12m": 10 } as any, returns: { ...base.returns, "12m": 5 } as any, aum: 100, tradeValue: 100 },
+      etf: { ...base, ticker: "TR_HAS", returnsTr: { ...base.returnsTr, "12m": 10 } as unknown as EtfReturns, returns: { ...base.returns, "12m": 5 } as unknown as EtfReturns, aum: 100, tradeValue: 100 },
       profile: profile({ ticker: "TR_HAS" }),
       similarityScore: 50,
       reasons: [],
     };
     const candB: PeerCandidate = {
-      etf: { ...base, ticker: "TR_MISSING", returnsTr: undefined, returns: { ...base.returns, "12m": 20 } as any, aum: 100, tradeValue: 100 },
+      etf: { ...base, ticker: "TR_MISSING", returnsTr: undefined, returns: { ...base.returns, "12m": 20 } as unknown as EtfReturns, aum: 100, tradeValue: 100 },
       profile: profile({ ticker: "TR_MISSING" }),
       similarityScore: 50,
       reasons: [],

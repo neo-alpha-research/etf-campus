@@ -6,12 +6,13 @@
 // Gemini API 토큰 풀 (환경변수/Secret 주입 방식)
 export const MASTER_GEMINI_TOKENS: string[] = [];
 
-// 최신 3.8 Flash부터 하향식으로 강하하는 4계층 모델 워터폴
+// 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
 export const MODEL_WATERFALL = [
   "gemini-3.8-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
   "gemini-flash-latest",
+  "gemini-2.5-flash",
 ];
 
 export interface GeminiWaterfallOptions {
@@ -23,7 +24,7 @@ export interface GeminiWaterfallOptions {
   envKey?: string;
 }
 
-export interface GeminiWaterfallResult<T = any> {
+export interface GeminiWaterfallResult<T = unknown> {
   success: boolean;
   text?: string;
   data?: T;
@@ -65,7 +66,7 @@ export function getAllGeminiTokens(customEnvKey?: string): string[] {
 /**
  * 7대 토큰 풀과 5계층 모델 워터폴을 순회하며 Gemini API를 안전하게 호출합니다.
  */
-export async function callGeminiWithWaterfall<T = any>(
+export async function callGeminiWithWaterfall<T = unknown>(
   options: GeminiWaterfallOptions
 ): Promise<GeminiWaterfallResult<T>> {
   const {
@@ -82,7 +83,7 @@ export async function callGeminiWithWaterfall<T = any>(
     return { success: false, error: "사용 가능한 Gemini API 토큰이 없습니다." };
   }
 
-  const requestBody: any = {
+  const requestBody: Record<string, unknown> = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
       temperature,
@@ -90,7 +91,7 @@ export async function callGeminiWithWaterfall<T = any>(
   };
 
   if (responseJson) {
-    requestBody.generationConfig.responseMimeType = "application/json";
+    (requestBody.generationConfig as Record<string, unknown>).responseMimeType = "application/json";
   }
 
   if (systemInstruction) {
@@ -126,7 +127,13 @@ export async function callGeminiWithWaterfall<T = any>(
         });
 
         if (response.ok) {
-          const data: any = await response.json();
+          const data = (await response.json()) as {
+            candidates?: Array<{
+              content?: {
+                parts?: Array<{ text?: string }>;
+              };
+            }>;
+          };
           let candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
           if (candidateText && candidateText.trim()) {
@@ -137,7 +144,7 @@ export async function callGeminiWithWaterfall<T = any>(
               } else if (candidateText.startsWith("```")) {
                 candidateText = candidateText.replace(/^```/, "").replace(/```$/, "").trim();
               }
-              let parsed: any;
+              let parsed: unknown;
               try {
                 parsed = JSON.parse(candidateText);
               } catch {
@@ -190,8 +197,9 @@ export async function callGeminiWithWaterfall<T = any>(
           failoverHistory.push(`Token #${realIdx} ${modelName} (HTTP ${response.status})`);
           continue;
         }
-      } catch (err: any) {
-        failoverHistory.push(`Token #${realIdx} ${modelName} (${err?.message || err})`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        failoverHistory.push(`Token #${realIdx} ${modelName} (${msg})`);
         continue;
       } finally {
         clearTimeout(timeoutTimer);

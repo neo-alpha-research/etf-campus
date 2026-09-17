@@ -103,7 +103,7 @@ export type MarketBriefing = {
   };
   weeklyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
   monthlyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
-  marketScale?: any;
+  marketScale?: MarketScaleSnapshot;
   marketScaleSnapshot?: MarketScaleSnapshot;
   marketScaleTimeSeries?: MarketScaleTimeSeries;
   disparityWarning: DisparityWarning[];

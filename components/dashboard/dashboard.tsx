@@ -357,13 +357,13 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
 
   const syncSubFiltersFromParams = (params: URLSearchParams) => {
     const v = params.get("vintage");
-    if (v && TDF_VINTAGES.includes(v as any)) setSelectedVintage(v);
+    if (v && (TDF_VINTAGES as readonly string[]).includes(v)) setSelectedVintage(v);
     const r = params.get("range");
-    if (r && ["30d", "60d", "90d"].includes(r)) setSelectedNewRange(r as any);
+    if (r === "30d" || r === "60d" || r === "90d") setSelectedNewRange(r);
     const th = params.get("theme");
-    if (th && COVERED_CALL_THEMES.some((t) => t.id === th)) setSelectedCoveredCallTheme(th as any);
+    if (th && COVERED_CALL_THEMES.some((t) => t.id === th)) setSelectedCoveredCallTheme(th as CoveredCallThemeCategory);
     const cat = params.get("category");
-    if (cat && MIXED_BOND_CATEGORIES.some((c) => c.id === cat)) setSelectedMixedBondCategory(cat as any);
+    if (cat && MIXED_BOND_CATEGORIES.some((c) => c.id === cat)) setSelectedMixedBondCategory(cat as MixedBondSubCategory);
     const m = params.get("mult");
     if (m) {
       const parsed = m.split(",").filter((item): item is DerivMultiplierType => ["lev2x", "inv2x", "inv1x"].includes(item));

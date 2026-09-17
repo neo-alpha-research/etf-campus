@@ -1170,7 +1170,7 @@ export function MarketBriefing() {
                       <span className="text-neutral-300">/</span>
                       <span className="text-[10.5px] text-neutral-400 tabular-nums">
                         <span className="hidden sm:inline">전체 </span>
-                        {(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'}
+                        {(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개` : '—'}
                       </span>
                       <InfoTooltip 
                         text="시장 왜곡을 방지하기 위해 초단기 파킹형(CD/KOFR) 및 레버리지·인버스 상품을 제외한 실물 일반 ETF만을 정제 집계한 분석 모수입니다."
@@ -1273,7 +1273,7 @@ export function MarketBriefing() {
                     {pulse.allTop10TradeSharePct ? (
                       <div className="border-l border-neutral-200 pl-3.5">
                         <div className="flex items-center gap-1">
-                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'})</span>
+                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개` : '—'})</span>
                         </div>
                         <div className="mt-1 flex items-baseline gap-1">
                           <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">
@@ -1841,7 +1841,7 @@ export function MarketBriefing() {
                       <span className="text-sm font-bold text-neutral-500">조원</span>
                     </div>
                     <span className="text-[11.5px] font-bold text-neutral-400 tabular-nums whitespace-nowrap">
-                      {(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)}개 종목` : '—'}
+                      {(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개 종목` : '—'}
                     </span>
                   </div>
                 </div>

@@ -83,6 +83,7 @@ export function getReturnPeriods(mode: InvestorMode): readonly ReturnPeriod[] {
 }
 
 export function getDefaultPeriod(_mode?: InvestorMode): ReturnPeriod {
+  void _mode;
   return "1d";
 }
 

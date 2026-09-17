@@ -26,7 +26,7 @@ describe("StyleOnboarding Component", () => {
     expect(JSON.parse(localStorage.getItem(STYLE_STORAGE_KEY)!).status).toBe("skipped");
   });
 
-  it("1~10 슬라이더로 10문항에 답하면 동물 결과(1층)가 먼저 나오고, 이어서 처방 3문항(2층)으로 도서가 배정된다", async () => {
+  it("1~10 슬라이더로 10문항에 답하면 동물 결과(1층)가 먼저 나오고, 이어서 마무리 3문항(2층)으로 도서가 배정된다", async () => {
     render(<StyleOnboarding />);
     openStyleOnboarding();
     await screen.findByRole("dialog");
@@ -56,11 +56,11 @@ describe("StyleOnboarding Component", () => {
     expect(screen.getByRole("link", { name: "일반 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/quick?mode=general");
     expect(screen.getByRole("link", { name: "내 동물 유형(원칙을 지키는 거북이) 전용 페이지 보기" })).toHaveAttribute("href", "/style/turtle");
 
-    // 2층 처방 3문항 시작하기
+    // 2층 마무리 3문항 시작하기
     expect(screen.getByText("내 계좌에 비어 있는 도서 1권 찾기")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /처방 3문항 시작하기/ }));
+    fireEvent.click(screen.getByRole("button", { name: /마무리 3문항 시작하기/ }));
 
-    // 3문항 처방 답변
+    // 3문항 마무리 답변
     for (const [pIndex, pQ] of PRESCRIPTION_QUESTIONS.entries()) {
       expect(screen.getByText(pQ.title)).toBeInTheDocument();
       // B 선택지 (map -> index-asset-allocation) 클릭
@@ -68,11 +68,11 @@ describe("StyleOnboarding Component", () => {
       fireEvent.click(optionB);
 
       fireEvent.click(screen.getByRole("button", {
-        name: pIndex === PRESCRIPTION_QUESTIONS.length - 1 ? "처방 도서 확인" : "다음 처방 질문",
+        name: pIndex === PRESCRIPTION_QUESTIONS.length - 1 ? "도서 결과 확인" : "다음 질문",
       }));
     }
 
-    // 처방 결과 도서 확인 (②편 지수·자산배분)
+    // 진단 결과 도서 확인 (②편 지수·자산배분)
     expect(screen.getByText("나의 퇴직연금 ETF 시작 도서")).toBeInTheDocument();
     expect(screen.getAllByText("감정을 끄고 시스템으로 ② 지수·자산배분").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/②편\(지수·자산배분\)은 계좌 전체의 목표 비율과 허용 밴드를 세우는 상위 규정서/)).toBeInTheDocument();

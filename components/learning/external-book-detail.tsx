@@ -357,7 +357,7 @@ export function ExternalBookDetail({
             <div>
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 border border-blue-300/60 flex items-center gap-1">
-                  🚀 쿠팡 로켓배송 · 내일 도착
+                  쿠팡 파트너스 안내
                 </span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {book.publisher} 정식 출간 도서
@@ -378,13 +378,13 @@ export function ExternalBookDetail({
                     {book.discountPrice.toLocaleString()}원
                   </span>
                   <span className="text-xs font-black text-red-600">
-                    (10% 할인 · 로켓배송 무료)
+                    (10% 할인 · 배송 혜택)
                   </span>
                 </div>
               )}
 
               <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
-                쿠팡 로켓배송으로 주문 시 <strong>내일 바로 받아보실 수 있습니다.</strong> 빠른 배송과 할인 혜택으로 ETF 실전 학습을 시작해 보세요.
+                쿠팡 상품 페이지에서 실시간 재고와 배송 일정을 확인하실 수 있습니다. 도서 정보와 할인 혜택을 확인해 보세요.
               </p>
             </div>
 
@@ -392,15 +392,15 @@ export function ExternalBookDetail({
               href={book.affiliateUrl}
               rel="sponsored nofollow noopener"
               target="_blank"
-              aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
+              aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
               className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0073E9] hover:bg-[#005fb8] px-6 py-3 text-sm font-black text-white shadow-sm transition-all hover:shadow-md active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-blue-500"
             >
-              <span>🚀 로켓배송으로 내일 받기</span>
+              <span>쿠팡에서 도서 확인하기</span>
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
           <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
-            * 본 링크는 쿠팡 파트너스 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
+            * 본 링크에는 쿠팡 파트너스 활동이 포함되어 있으며, 이에 따라 운영자에게 일정액의 수수료가 제공됩니다.
           </p>
         </section>
       )}

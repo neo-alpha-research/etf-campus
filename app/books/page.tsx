@@ -22,14 +22,19 @@ export default function BooksPage() {
             빅 3 서점 교차 검증
           </span>
           <span className="rounded-full bg-blue-50 text-blue-700 px-2 py-0.5 text-[11px] font-bold border border-blue-200">
-            🚀 전 도서 로켓배송 (내일 도착)
+            온라인 서점 랭킹 순
           </span>
         </div>
         <p className="mt-0.5 text-xs sm:text-sm text-neutral-600 truncate sm:whitespace-normal">
-          국내 대형 서점 실시간 베스트셀러 교차 검증 및 전 도서 쿠팡 로켓배송 지원 리포트입니다.
+          국내 대형 서점 베스트셀러 순위를 교차 검증해 정리한 목록입니다.
         </p>
       </div>
       <Tickery className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" pose="learning" priority sizes="(max-width: 640px) 40px, 48px" />
+    </div>
+
+    {/* 제휴 링크 대가 수령 고지 (표시광고법 추천·보증 심사지침 준수) */}
+    <div className="mt-3 rounded-xl border border-line bg-neutral-50 px-4 py-2.5 text-xs text-neutral-600 leading-relaxed">
+      이 페이지의 도서 링크에는 쿠팡 파트너스 활동이 포함되어 있으며, 이에 따라 일정액의 수수료를 제공받습니다.
     </div>
 
     {/* 도서 큐레이션 인덱스 (카테고리 탭 및 도서 카드) */}

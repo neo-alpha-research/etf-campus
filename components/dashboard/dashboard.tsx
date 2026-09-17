@@ -641,10 +641,10 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
             <div className="rounded-lg border border-indigo-100 bg-white/90 p-2.5 shadow-2xs">
               <div className="flex items-center gap-1.5 font-extrabold text-indigo-950 text-xs">
                 <span>🚀</span>
-                <span>실질 주식 비중 최대 85% 극대화</span>
+                <span>실질 주식 비중 85%까지 편입 가능</span>
               </div>
               <p className="mt-1 text-[11px] leading-snug text-neutral-600">
-                안전자산 30% 한도에 주식 40~50% 혼합형을 채우면, 계좌 전체 주식 비중을 <strong>70% ➔ 82~85%</strong>까지 합법적으로 확장할 수 있습니다.
+                안전자산 30% 한도에 주식 40~50% 혼합형을 편입하면, 계좌 전체 실질 주식 비중이 <strong>70% ➔ 82~85%</strong> 수준으로 구성됩니다.
               </p>
             </div>
 

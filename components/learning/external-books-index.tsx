@@ -301,9 +301,9 @@ export function ExternalBooksIndex({
                       target="_blank"
                       rel="sponsored nofollow noopener"
                       className="inline-flex w-full min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0073E9] hover:bg-[#005fb8] px-4 text-xs sm:text-sm font-black text-white transition-all active:scale-[0.98] shadow-sm hover:shadow-md"
-                      aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
+                      aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
                     >
-                      <span>🚀 로켓배송으로 내일 받기</span>
+                      <span>쿠팡에서 도서 확인하기</span>
                       <span className="text-[10px] text-white/80">↗</span>
                     </a>
                   )}
@@ -323,7 +323,7 @@ export function ExternalBooksIndex({
 
       {/* 하단 제휴 마케팅 공정위 고지 */}
       <p className="mt-4 text-right text-[11px] text-muted">
-        ※ 본 페이지의 도서 구매 링크는 쿠팡 파트너스 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
+        ※ 본 페이지의 도서 구매 링크는 쿠팡 파트너스 활동의 일환으로, 이에 따라 운영자에게 일정액의 수수료가 제공됩니다.
       </p>
 
       {/* 고해상도 표지 확대 모달 (Lightbox) */}

@@ -30,7 +30,7 @@ export function StylePageClient() {
             내 퇴직연금 계좌의 빈칸을 찾는 3분 스타일 진단
           </h1>
           <p className="mt-3 text-base sm:text-lg text-muted max-w-2xl mx-auto leading-relaxed">
-            남의 추천을 따라 사기 전에, 내 탐색 성향(1층 10종 동물)과 내 계좌에 빠진 시스템(2층 3대 결손)을 먼저 확인해 보세요.
+            남의 추천을 따라 사기 전에, 내 탐색 성향(1층 10종 동물)과 내 계좌에 빠진 시스템(2층 3대 공백)을 먼저 확인해 보세요.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -86,28 +86,28 @@ export function StylePageClient() {
           </div>
         </section>
 
-        {/* 3대 결손 소개 */}
+        {/* 3대 공백 소개 */}
         <section className="mt-14 rounded-2xl border border-line bg-neutral-50/70 p-6 sm:p-8" aria-labelledby="deficits">
           <h2 id="deficits" className="text-xl font-extrabold text-strong">
-            내 계좌에 비어 있는 3대 결손(Deficit) 처방
+            내 계좌에 비어 있는 3대 공백 점검
           </h2>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-xl border border-line bg-surface p-5">
-              <span className="text-xs font-extrabold text-brand-700">처방 1</span>
+              <span className="text-xs font-extrabold text-brand-700">항목 1</span>
               <h3 className="mt-1 text-base font-extrabold text-strong">신호(Signal) 엔진</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted">
                 언제 사고 언제 교체할지 객관적 지표로 결정하는 규칙 엔진 (1편 모멘텀 도서 매핑)
               </p>
             </div>
             <div className="rounded-xl border border-line bg-surface p-5">
-              <span className="text-xs font-extrabold text-brand-700">처방 2</span>
+              <span className="text-xs font-extrabold text-brand-700">항목 2</span>
               <h3 className="mt-1 text-base font-extrabold text-strong">지도(Map) 규정서</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted">
                 주식, 채권, 대체자산 목표 비중과 리밸런싱 한 장 규정서 (2편 지수·자산배분 도서 매핑)
               </p>
             </div>
             <div className="rounded-xl border border-line bg-surface p-5">
-              <span className="text-xs font-extrabold text-brand-700">처방 3</span>
+              <span className="text-xs font-extrabold text-brand-700">항목 3</span>
               <h3 className="mt-1 text-base font-extrabold text-strong">현금흐름(Income) 루틴</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted">
                 원금 삭감 없는 지속 가능한 분배금 재원과 인출 원칙 (3편 배당·현금흐름 도서 매핑)

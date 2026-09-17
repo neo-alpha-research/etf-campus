@@ -949,11 +949,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               </div>
             </div>
 
-            {/* 단일 슬림 카드 (절세 실익 극대화 안내) */}
+            {/* 단일 슬림 카드 (절세 실익 비교 안내) */}
             <div className="mt-2 rounded-lg bg-white/75 py-2 px-3 border border-amber-200/60 text-xs">
               <div className="flex items-center gap-1.5 font-bold text-amber-950">
                 <span className="text-amber-500 shrink-0 text-xs">✨</span>
-                <span>해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화</span>
+                <span>해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 비교</span>
                 <span className="text-[10px] font-semibold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">15.4% 배당소득세 절세</span>
               </div>
               <p className="mt-1 text-[11.5px] text-amber-950/90 leading-snug">

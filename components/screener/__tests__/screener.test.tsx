@@ -355,7 +355,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
     expect(screen.getByText("조세특례제한법 제91조의18")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "중개형 ISA (절세 혜택형) 조건 제거" })).toBeInTheDocument();
-    expect(screen.getByText(/해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화/)).toBeInTheDocument();
+    expect(screen.getByText(/해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 비교/)).toBeInTheDocument();
     expect(screen.getByText(/레버리지·인버스 ETF는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 후 매매 가능/)).toBeInTheDocument();
     expect(screen.queryByText("교육필요")).not.toBeInTheDocument();
     expect(screen.queryByText("ISA(교육필요)")).not.toBeInTheDocument();

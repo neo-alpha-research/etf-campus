@@ -293,13 +293,13 @@ export function StyleOnboarding() {
         {screen === "welcome" ? (
           <div className="pb-2 pt-1 text-center">
             <Tickery className="mx-auto h-20 w-20" pose="welcome" priority sizes="80px" />
-            <p className="mt-2 text-sm font-extrabold text-brand-700">약 3분 · 13문항 (10문항 + 처방 3문항) · 정답 없음</p>
+            <p className="mt-2 text-sm font-extrabold text-brand-700">약 3분 · 13문항 (10문항 + 마무리 3문항) · 정답 없음</p>
             <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나의 ETF 전공 적성 검사</h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-muted sm:text-base">
-              ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 10가지 동물 유형과 함께, 내 계좌의 결손을 채워줄 3편 시리즈 시작점을 처방해 드립니다.
+              ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 10가지 동물 유형과 함께, 내 계좌의 공백을 채워줄 3편 시리즈 시작점을 안내해 드립니다.
             </p>
             <div className="mx-auto mt-4 grid max-w-lg grid-cols-3 gap-2" aria-label="투자 스타일 점검 영역">
-              {["위험 대응", "정보 탐색", "도서 처방"].map((label) => (
+              {["위험 대응", "정보 탐색", "도서 안내"].map((label) => (
                 <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-2 py-2.5 text-xs font-extrabold text-neutral-700" key={label}>
                   {label}
                 </div>
@@ -446,7 +446,7 @@ export function StyleOnboarding() {
         {screen === "prescription" && pQuestion ? (
           <div className="pb-3 pt-4">
             <div className="flex items-center justify-between text-xs font-bold text-muted">
-              <span>처방 문항 {pStep + 1} / {PRESCRIPTION_QUESTIONS.length}</span>
+              <span>마무리 문항 {pStep + 1} / {PRESCRIPTION_QUESTIONS.length}</span>
               <button className="min-h-9 underline-offset-4 hover:underline" onClick={() => setScreen("result")} type="button">나중에 하기</button>
             </div>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-100">
@@ -504,7 +504,7 @@ export function StyleOnboarding() {
                 onClick={nextPrescription}
                 type="button"
               >
-                {pStep === PRESCRIPTION_QUESTIONS.length - 1 ? "처방 도서 확인" : "다음 처방 질문"}
+                {pStep === PRESCRIPTION_QUESTIONS.length - 1 ? "도서 결과 확인" : "다음 질문"}
               </button>
             </div>
           </div>
@@ -635,13 +635,13 @@ export function StyleOnboarding() {
               {!completed.prescription ? (
                 <div className="rounded-3xl border-2 border-brand-300 bg-brand-50/70 p-5 text-center sm:p-6">
                   <span className="inline-flex items-center gap-1 rounded-full bg-brand-100 px-3 py-1 text-xs font-extrabold text-brand-800">
-                    <Sparkles className="h-3.5 w-3.5" /> 마무리 3문항 처방
+                    <Sparkles className="h-3.5 w-3.5" /> 마무리 3문항 점검
                   </span>
                   <h3 className="mt-2 text-xl font-extrabold text-brand-950 sm:text-2xl">
                     내 계좌에 비어 있는 도서 1권 찾기
                   </h3>
                   <p className="mx-auto mt-2 max-w-md text-xs sm:text-sm leading-relaxed text-brand-900/80">
-                    동물 유형으로 정보 습관을 확인했다면, 이제 내 퇴직연금 계좌에서 어떤 도서(신호·지도·현금흐름)가 시작점이 될지 3문항으로 처방해 드립니다.
+                    동물 유형으로 정보 습관을 확인했다면, 이제 내 퇴직연금 계좌에서 어떤 도서(신호·지도·현금흐름)가 시작점이 될지 3문항으로 안내해 드립니다.
                   </p>
                   <button
                     className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-700 px-6 py-2.5 text-sm font-extrabold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-brand-800"
@@ -652,7 +652,7 @@ export function StyleOnboarding() {
                     }}
                     type="button"
                   >
-                    <span>처방 3문항 시작하기 (약 1분)</span>
+                    <span>마무리 3문항 시작하기 (약 1분)</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -661,7 +661,7 @@ export function StyleOnboarding() {
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
                     <div className="flex items-center gap-2">
                       <span className="rounded-full bg-brand-700 px-2.5 py-0.5 text-xs font-extrabold text-white">
-                        처방 결과
+                        진단 결과
                       </span>
                       <span className="text-xs font-extrabold text-strong">
                         나의 퇴직연금 ETF 시작 도서
@@ -676,7 +676,7 @@ export function StyleOnboarding() {
                       }}
                       type="button"
                     >
-                      <RotateCcw className="h-3 w-3" /> 처방 다시 받기
+                      <RotateCcw className="h-3 w-3" /> 다시 진단하기
                     </button>
                   </div>
 

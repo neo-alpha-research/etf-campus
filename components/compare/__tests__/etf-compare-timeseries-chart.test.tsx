@@ -212,4 +212,81 @@ describe("EtfCompareTimeseriesChart", () => {
     expect(svg).toBeInTheDocument();
     expect(svg.style.touchAction).toBe("pan-y");
   });
+
+  // ⑦ 격리 종목 안내 배너 렌더 검증
+  it("⑦ 격리 종목 안내: quarantinedMap에 등재된 종목이 있을 때 경고 배너가 표시된다", () => {
+    const basket = [
+      createMockEtf("069500", "KODEX 200"),
+      createMockEtf("122630", "KODEX 레버리지"),
+    ];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      "122630": createMockSeries("122630", dates60, 10000, 50),
+    };
+    const quarantinedMap = {
+      "069500": { reason: "unadjusted_corporate_action" },
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+        quarantinedMap={quarantinedMap}
+      />
+    );
+
+    const banner = screen.getByTestId("quarantined-ticker-banner");
+    expect(banner).toBeInTheDocument();
+    expect(banner.textContent).toContain("069500");
+    expect(banner.textContent).toContain("일시 격리되었습니다");
+  });
+
+  // ⑧ 레버리지/인버스 경고 배너 및 축 정의 뱃지 검증
+  it("⑧ 레버리지/인버스 경고 및 축 정의 뱃지: 레버리지 종목 포함 시 음의 복리 경고가 표시되고 TR/PR 축 뱃지가 표시된다", () => {
+    const basket = [createMockEtf("122630", "KODEX 레버리지")];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      "122630": createMockSeries("122630", dates60, 10000, 50),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        isTrMode={true}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    const warning = screen.getByTestId("leverage-inverse-warning");
+    expect(warning).toBeInTheDocument();
+    expect(warning.textContent).toContain("음의 복리");
+
+    expect(screen.getByText(/\[TR\] 분배금 재투자 수정기준가 기준/)).toBeInTheDocument();
+  });
+
+  // ⑨ 내부 결측(gapped) 안내 배너 검증
+  it("⑨ 내부 결측(gapped) 안내: 한 종목에 거래정지 결측(6일 이상)이 포함되어 LOCF 보정된 경우 안내 배너가 표시된다", () => {
+    const basket = [
+      createMockEtf("AAA", "종목 A"),
+      createMockEtf("BBB", "종목 B"),
+    ];
+    // BBB has 7 days gap within the active 1M window (indices 40 to 47)
+    const datesB = dates60.filter((_, i) => i < 40 || i > 47);
+    const seriesMap: Record<string, SeriesV2Data> = {
+      AAA: createMockSeries("AAA", dates60, 10000, 50),
+      BBB: createMockSeries("BBB", datesB, 10000, 50),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    const notice = screen.getByTestId("gapped-series-notice");
+    expect(notice).toBeInTheDocument();
+    expect(notice.textContent).toContain("거래정지/결측 구간");
+  });
 });

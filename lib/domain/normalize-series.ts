@@ -32,7 +32,7 @@ export type NormalizedSeries = {
   terminalReturn: number | null;
   anchorDate: string;
   maxDrawdown: number; // 음수 %, 선택 기간 내
-  coverage: "full" | "partial" | "insufficient";
+  coverage: "ok" | "insufficient" | "gapped";
 };
 
 export type TruncatedReason = {
@@ -334,9 +334,10 @@ export function normalizeMulti(
       }
     }
 
-    const coverage: "full" | "partial" | "insufficient" = isPartialCoverage
-      ? "partial"
-      : "full";
+    const hasInternalGap = points.some((pt) => pt.isFilled);
+    const coverage: "ok" | "insufficient" | "gapped" = hasInternalGap
+      ? "gapped"
+      : "ok";
 
     return {
       ticker: item.ticker,

@@ -7,10 +7,15 @@ Path: public/data/series/v2/{ticker}.json
 """
 
 import os
+import sys
 import glob
 import json
 import csv
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 def format_num(val):
     if val is None:
@@ -18,7 +23,7 @@ def format_num(val):
     r = round(float(val), 2)
     return int(r) if r.is_integer() else r
 
-def generate_series_v2(root_dir=None):
+def generate_series_v2(root_dir=None, fail_on_quarantine: bool = False):
     if root_dir is None:
         root_dir = Path(__file__).resolve().parent.parent
     else:
@@ -28,6 +33,9 @@ def generate_series_v2(root_dir=None):
     out_dir.mkdir(parents=True, exist_ok=True)
 
     dist_csv = root_dir / "data" / "distributions" / "etf_distribution_events.csv"
+    ca_csv = root_dir / "data" / "corporate_actions" / "etf_corporate_actions.csv"
+    master_csv = root_dir / "data" / "etf_master_draft.csv"
+
     tickers_with_dist = set()
     if dist_csv.exists():
         with open(dist_csv, "r", encoding="utf-8") as f:
@@ -36,6 +44,30 @@ def generate_series_v2(root_dir=None):
                 t = r.get("ticker") or r.get("code") or r.get("itemcode")
                 if t:
                     tickers_with_dist.add(t.strip())
+
+    # Pre-generation Audit: verify input series against corporate actions ledger
+    quarantined_tickers = {}
+    try:
+        from scripts.verify_split_adjustment import verify_splits
+        cat1, cat2, cat3, cat4 = verify_splits(
+            series_dir=str(root_dir / "public" / "data" / "returns" / "tr_index"),
+            ca_file=str(ca_csv),
+            master_file=str(master_csv),
+        )
+        for r in cat2:
+            quarantined_tickers[r["ticker"]] = {
+                "status": "quarantined",
+                "reason": r.get("reason", "unadjusted_corporate_action"),
+                "as_of": r.get("date", ""),
+            }
+        for r in cat3:
+            quarantined_tickers[r["ticker"]] = {
+                "status": "quarantined",
+                "reason": "unregistered_price_limit_anomaly",
+                "as_of": r.get("date", ""),
+            }
+    except Exception as e:
+        print(f"[WARN] verify_splits check skipped during generation: {e}")
 
     tr_files = sorted(glob.glob(str(root_dir / "public" / "data" / "returns" / "tr_index" / "*.json")))
     manifest_tickers = {}
@@ -112,6 +144,11 @@ def generate_series_v2(root_dir=None):
         if as_of > latest_global_date:
             latest_global_date = as_of
 
+        if ticker in quarantined_tickers:
+            # Preserve quarantined entry in manifest, do not generate corrupt price series
+            manifest_tickers[ticker] = quarantined_tickers[ticker]
+            continue
+
         # Full series object
         full_obj = {
             "ticker": ticker,
@@ -161,7 +198,19 @@ def generate_series_v2(root_dir=None):
         json.dump(manifest, f, separators=(',', ':'), indent=2)
 
     print(f"Generated v2 series for {len(manifest_tickers)} tickers in {out_dir} (total LOCF filled points: {total_filled_points})")
+
+    if quarantined_tickers:
+        print(f"\n[ALERT: QUARANTINED TICKERS] {len(quarantined_tickers)} tickers quarantined due to price integrity violations:")
+        for t, q in quarantined_tickers.items():
+            print(f"  - {t}: {q['reason']} (as of {q['as_of']})")
+        if fail_on_quarantine:
+            raise RuntimeError(f"Gate Fail-Closed: {len(quarantined_tickers)} tickers quarantined: {list(quarantined_tickers.keys())}")
+
     return len(manifest_tickers)
 
 if __name__ == "__main__":
-    generate_series_v2()
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate v2 timeseries contracts")
+    parser.add_argument("--fail-on-quarantine", action="store_true", help="Exit with error if any tickers are quarantined")
+    args = parser.parse_args()
+    generate_series_v2(fail_on_quarantine=args.fail_on_quarantine)

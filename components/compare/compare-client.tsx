@@ -13,9 +13,17 @@ import {
 import { useEffect, useCallback, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 
+export interface ManifestTickerEntry {
+  status?: "ok" | "quarantined";
+  reason?: string;
+  as_of?: string;
+  asOf?: string;
+  version?: string;
+}
+
 export interface SeriesManifest {
   asOf: string;
-  tickers?: Record<string, string>;
+  tickers?: Record<string, string | ManifestTickerEntry>;
 }
 
 export function getSeriesUrl(
@@ -24,7 +32,13 @@ export function getSeriesUrl(
   manifest: SeriesManifest | null
 ): string {
   const fileSuffix = isRecent ? ".recent.json" : ".json";
-  const version = manifest?.tickers?.[ticker] || manifest?.asOf;
+  const entry = manifest?.tickers?.[ticker];
+  let version = manifest?.asOf;
+  if (typeof entry === "string") {
+    version = entry;
+  } else if (entry && typeof entry === "object") {
+    version = entry.version || entry.asOf || entry.as_of || manifest?.asOf;
+  }
   const query = version ? `?v=${version}` : "";
   return `/data/series/v2/${ticker}${fileSuffix}${query}`;
 }
@@ -49,8 +63,9 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const [isConfirmingClear, setIsConfirmingClear] = useState(false);
   const [hoveredTicker, setHoveredTicker] = useState<string | null>(null);
   const [seriesMap, setSeriesMap] = useState<Record<string, SeriesV2Data | null>>({});
+  const [quarantinedMap, setQuarantinedMap] = useState<Record<string, { reason: string }>>({});
   const [loadedKey, setLoadedKey] = useState<string>("");
-  const [manifest, setManifest] = useState<{ asOf: string; tickers?: Record<string, string> } | null>(null);
+  const [manifest, setManifest] = useState<SeriesManifest | null>(null);
   const seriesCacheRef = useRef<Map<string, SeriesV2Data>>(new Map());
 
   // Dynamic manifest fetch on mount
@@ -58,7 +73,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     let isMounted = true;
     fetch("/data/series/v2/manifest.json", { cache: "no-cache" })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data: { asOf: string; tickers?: Record<string, string> } | null) => {
+      .then((data: SeriesManifest | null) => {
         if (isMounted && data) {
           setManifest(data);
         }
@@ -149,37 +164,50 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
 
     let isMounted = true;
     const isRecent = period === "1M" || period === "3M" || period === "6M" || period === "1Y";
-    const fileSuffix = isRecent ? ".recent.json" : ".json";
     const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}_${manifest?.asOf || "default"}`;
 
     const fetchPromises = basket.map(async (etf) => {
+      const entry = manifest?.tickers?.[etf.ticker];
+      if (entry && typeof entry === "object" && entry.status === "quarantined") {
+        return {
+          ticker: etf.ticker,
+          data: null,
+          quarantined: true,
+          reason: entry.reason || "데이터 정합성 검증 중",
+        };
+      }
       const url = getSeriesUrl(etf.ticker, isRecent, manifest);
       const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${url}`;
       if (seriesCacheRef.current.has(cacheKey)) {
-        return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)! };
+        return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)!, quarantined: false, reason: "" };
       }
       try {
         const res = await fetch(url);
         if (!res.ok) {
-          return { ticker: etf.ticker, data: null };
+          return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
         }
         const data: SeriesV2Data = await res.json();
         seriesCacheRef.current.set(cacheKey, data);
-        return { ticker: etf.ticker, data };
+        return { ticker: etf.ticker, data, quarantined: false, reason: "" };
       } catch {
-        return { ticker: etf.ticker, data: null };
+        return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
       }
     });
 
     Promise.allSettled(fetchPromises).then((results) => {
       if (!isMounted) return;
       const newMap: Record<string, SeriesV2Data | null> = {};
+      const newQuarantined: Record<string, { reason: string }> = {};
       for (const r of results) {
         if (r.status === "fulfilled") {
           newMap[r.value.ticker] = r.value.data;
+          if (r.value.quarantined) {
+            newQuarantined[r.value.ticker] = { reason: r.value.reason || "데이터 정합성 검증 중" };
+          }
         }
       }
       setSeriesMap(newMap);
+      setQuarantinedMap(newQuarantined);
       setLoadedKey(requestKey);
     });
 
@@ -339,6 +367,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
               period={period}
               onPeriodChange={setPeriod}
               seriesMap={seriesMap}
+              quarantinedMap={quarantinedMap}
               isLoading={isLoadingSeries}
               onHoverTicker={setHoveredTicker}
               focusedTicker={hoveredTicker}

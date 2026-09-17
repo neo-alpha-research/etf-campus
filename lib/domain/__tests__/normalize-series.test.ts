@@ -32,8 +32,8 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     const res = normalizeMulti([inputA, inputB], dates[0], dates[29]);
     expect(res.anchorDate).toBe(dates[0]);
     expect(res.series).toHaveLength(2);
-    expect(res.series[0].coverage).toBe("full");
-    expect(res.series[1].coverage).toBe("full");
+    expect(res.series[0].coverage).toBe("ok");
+    expect(res.series[1].coverage).toBe("ok");
     expect(res.series[0].points[0].value).toBe(0);
     expect(res.series[0].terminalReturn).toBe(29);
     expect(res.series[1].points[0].value).toBe(0);
@@ -156,7 +156,7 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     // AAA should still anchor at dates[0]
     expect(res.anchorDate).toBe(dates[0]);
     const aSeries = res.series.find((s) => s.ticker === "AAA")!;
-    expect(aSeries.coverage).toBe("full");
+    expect(aSeries.coverage).toBe("ok");
   });
 
   // ⑥ 2023-01-02 클램프
@@ -240,5 +240,95 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     const res = normalizeMulti([input], dates[0], dates[4]);
     expect(res.series[0].maxDrawdown).toBe(-20);
     expect(res.series[0].terminalReturn).toBe(14); // (114/100 - 1) * 100 = 14%
+  });
+
+  // ⑩ [Step 84 회귀 1] 겹침 충분: 20거래일 이상 및 내부 결측 없을 때 coverage: "ok"
+  it("⑩ [Step 84 회귀 1] 겹침 충분: 20거래일 이상 및 내부 결측 없을 때 coverage: 'ok'", () => {
+    const dates = makeDates("2024-03-01", 30);
+    const inputA: SeriesInput = {
+      ticker: "AAA",
+      dates,
+      values: dates.map((_, i) => 10000 + i * 50),
+    };
+    const inputB: SeriesInput = {
+      ticker: "BBB",
+      dates,
+      values: dates.map((_, i) => 20000 + i * 100),
+    };
+
+    const res = normalizeMulti([inputA, inputB], dates[0], dates[29]);
+    expect(res.series).toHaveLength(2);
+    expect(res.series[0].coverage).toBe("ok");
+    expect(res.series[1].coverage).toBe("ok");
+  });
+
+  // ⑪ [Step 84 회귀 2] 겹침 부족: 거래일 20일 미만일 때 coverage: "insufficient"
+  it("⑪ [Step 84 회귀 2] 겹침 부족: 거래일 20일 미만일 때 coverage: 'insufficient'", () => {
+    const dates = makeDates("2024-03-01", 30);
+    // BBB listed on day 15, only 15 trading days (< 20)
+    const datesB = dates.slice(15);
+    const inputA: SeriesInput = {
+      ticker: "AAA",
+      dates,
+      values: dates.map((_, i) => 10000 + i * 50),
+    };
+    const inputB: SeriesInput = {
+      ticker: "BBB",
+      dates: datesB,
+      values: datesB.map((_, i) => 20000 + i * 100),
+    };
+
+    const res = normalizeMulti([inputA, inputB], dates[0], dates[29]);
+    const bSeries = res.series.find((s) => s.ticker === "BBB")!;
+    expect(bSeries.coverage).toBe("insufficient");
+    expect(bSeries.points).toHaveLength(0);
+  });
+
+  // ⑫ [Step 84 회귀 3] 겹침 내부 결측: 5거래일 초과 거래정지 결측 구간 존재 시 coverage: "gapped"
+  it("⑫ [Step 84 회귀 3] 겹침 내부 결측: 5거래일 초과 거래정지 결측 구간 존재 시 coverage: 'gapped'", () => {
+    const dates = makeDates("2024-03-01", 40);
+    // BBB missing 7 trading days (index 10 to 16 inclusive)
+    const datesB = dates.filter((_, i) => i < 10 || i > 16);
+    const inputA: SeriesInput = {
+      ticker: "AAA",
+      dates,
+      values: dates.map((_, i) => 10000 + i * 50),
+    };
+    const inputB: SeriesInput = {
+      ticker: "BBB",
+      dates: datesB,
+      values: datesB.map((_, i) => 20000 + i * 100),
+    };
+
+    const res = normalizeMulti([inputA, inputB], dates[0], dates[39]);
+    const aSeries = res.series.find((s) => s.ticker === "AAA")!;
+    const bSeries = res.series.find((s) => s.ticker === "BBB")!;
+    expect(aSeries.coverage).toBe("ok");
+    expect(bSeries.coverage).toBe("gapped");
+    expect(bSeries.points.some((p) => p.isFilled)).toBe(true);
+  });
+
+  // ⑬ [Step 84 회귀 4] 정규화 앵커가 공통 첫 거래일인지 검증
+  it("⑬ [Step 84 회귀 4] 정규화 앵커가 공통 첫 거래일인지 검증: 후발 상장일이 앵커가 되고 양쪽 0% 일치", () => {
+    const dates = makeDates("2024-03-01", 50);
+    // AAA listed on day 0, BBB listed on day 20 (30 days >= 20)
+    const datesB = dates.slice(20);
+    const inputA: SeriesInput = {
+      ticker: "AAA",
+      dates,
+      values: dates.map((_, i) => 10000 + i * 50),
+    };
+    const inputB: SeriesInput = {
+      ticker: "BBB",
+      dates: datesB,
+      values: datesB.map((_, i) => 20000 + i * 100),
+    };
+
+    const res = normalizeMulti([inputA, inputB], dates[0], dates[49]);
+    expect(res.anchorDate).toBe(dates[20]); // First common trading day
+    const aAnchor = res.series.find((s) => s.ticker === "AAA")!.points.find((p) => p.date === dates[20]);
+    const bAnchor = res.series.find((s) => s.ticker === "BBB")!.points.find((p) => p.date === dates[20]);
+    expect(aAnchor?.value).toBe(0);
+    expect(bAnchor?.value).toBe(0);
   });
 });

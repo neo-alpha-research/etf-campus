@@ -139,3 +139,60 @@ def test_series_v2_locf_gap_filling(tmp_path):
     # filled index should be [1]
     assert data_b["filled"] == [1]
 
+def test_series_v2_quarantine_manifest(tmp_path):
+    """Verify that tickers with corporate action anomalies are marked quarantined in manifest and fail-closed when requested."""
+    from scripts.generate_series_v2 import generate_series_v2
+
+    fake_root = tmp_path / "repo"
+    fake_tr_dir = fake_root / "public" / "data" / "returns" / "tr_index"
+    fake_tr_dir.mkdir(parents=True)
+    fake_ca_dir = fake_root / "data" / "corporate_actions"
+    fake_ca_dir.mkdir(parents=True)
+    fake_ca_csv = fake_ca_dir / "etf_corporate_actions.csv"
+
+    # Corporate actions ledger with split for ticker SPLIT_ETF on 2026-07-31
+    with open(fake_ca_csv, "w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["action_id", "ticker", "action_type", "effective_date", "ratio_numerator", "ratio_denominator", "source_id", "verification_status"])
+        writer.writerow(["ca_01", "SPLIT_ETF", "stock_split", "2026-07-31", "2", "1", "krx_test", "official_verified"])
+
+    # SPLIT_ETF has unadjusted cliff on 2026-07-31 (10000 -> 5000: -50%)
+    split_etf = {
+        "points": [
+            {"date": "2026-07-30", "close": 10000, "tr_index": 10000, "net_tr_index": 10000},
+            {"date": "2026-07-31", "close": 5000, "tr_index": 5000, "net_tr_index": 5000},
+        ]
+    }
+    # CLEAN_ETF has normal price
+    clean_etf = {
+        "points": [
+            {"date": "2026-07-30", "close": 10000, "tr_index": 10000, "net_tr_index": 10000},
+            {"date": "2026-07-31", "close": 10100, "tr_index": 10100, "net_tr_index": 10100},
+        ]
+    }
+
+    with open(fake_tr_dir / "SPLIT_ETF.json", "w", encoding="utf-8") as f:
+        json.dump(split_etf, f)
+    with open(fake_tr_dir / "CLEAN_ETF.json", "w", encoding="utf-8") as f:
+        json.dump(clean_etf, f)
+
+    # When generate_series_v2 runs without fail_on_quarantine
+    generate_series_v2(fake_root, fail_on_quarantine=False)
+
+    manifest_path = fake_root / "public" / "data" / "series" / "v2" / "manifest.json"
+    assert manifest_path.exists()
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    assert "SPLIT_ETF" in manifest["tickers"]
+    q_entry = manifest["tickers"]["SPLIT_ETF"]
+    assert isinstance(q_entry, dict)
+    assert q_entry["status"] == "quarantined"
+    assert "stock_split" in q_entry["reason"]
+
+    # When fail_on_quarantine is True, it must raise RuntimeError
+    with pytest.raises(RuntimeError) as exc_info:
+        generate_series_v2(fake_root, fail_on_quarantine=True)
+    assert "Gate Fail-Closed" in str(exc_info.value)
+
+

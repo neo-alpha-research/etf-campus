@@ -82,8 +82,11 @@ def verify_splits(
 
     print(f"[Corporate Actions Ledger] Registered actions: {len(actions)}")
 
-    tr_files = sorted(glob.glob(str(tr_path / "*.json")))
-    print(f"[Price Series Audit] Auditing {len(tr_files)} ETF price files...")
+    tr_files = [
+        f for f in sorted(glob.glob(str(tr_path / "*.json")))
+        if not f.endswith(".recent.json") and os.path.basename(f) != "manifest.json"
+    ]
+    print(f"[Price Series Audit] Auditing {len(tr_files)} ETF price files in {tr_path}...")
 
     cat1_in_ledger_adjusted: list[dict] = []
     cat2_in_ledger_unadjusted: list[dict] = []
@@ -102,7 +105,15 @@ def verify_splits(
             print(f"Error reading {tf}: {e}")
             continue
 
-        points = data.get("points", [])
+        if "points" in data:
+            points = data["points"]
+        elif "dates" in data and "close" in data:
+            dates = data["dates"]
+            close = data["close"]
+            points = [{"date": dates[i], "close": close[i]} for i in range(len(dates))]
+        else:
+            points = []
+
         if not points:
             continue
 
@@ -213,11 +224,12 @@ def verify_splits(
 
 def main():
     parser = argparse.ArgumentParser(description="Audit ETF price series against corporate actions ledger")
+    parser.add_argument("--series-dir", type=str, default="public/data/returns/tr_index", help="Directory of price series files (default: public/data/returns/tr_index)")
     parser.add_argument("--threshold", type=float, default=0.40, help="Surveillance price jump threshold (default: 0.40)")
     parser.add_argument("--strict", action="store_true", help="Treat any >= threshold jump as anomaly unless in ledger")
     args = parser.parse_args()
 
-    cat1, cat2, cat3, cat4 = verify_splits(threshold=args.threshold, strict_threshold_only=args.strict)
+    cat1, cat2, cat3, cat4 = verify_splits(series_dir=args.series_dir, threshold=args.threshold, strict_threshold_only=args.strict)
 
     if cat2 or cat3:
         sys.exit(1)

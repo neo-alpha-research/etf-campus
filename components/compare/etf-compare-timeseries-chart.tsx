@@ -68,6 +68,7 @@ export interface EtfCompareTimeseriesChartProps {
   period?: ComparePeriod;
   onPeriodChange?: (period: ComparePeriod) => void;
   seriesMap?: Record<string, SeriesV2Data | null>;
+  quarantinedMap?: Record<string, { reason: string }>;
   isLoading?: boolean;
   onHoverTicker?: (ticker: string | null) => void;
   focusedTicker?: string | null;
@@ -80,6 +81,7 @@ export function EtfCompareTimeseriesChart({
   period = "3M",
   onPeriodChange,
   seriesMap = {},
+  quarantinedMap = {},
   isLoading = false,
   onHoverTicker,
   focusedTicker,
@@ -134,6 +136,32 @@ export function EtfCompareTimeseriesChart({
       hasZeroDistEtfs: zeroDist,
     };
   }, [basket, seriesMap, isTrMode, period]);
+
+  const quarantinedList = useMemo(() => {
+    return basket
+      .filter((e) => quarantinedMap[e.ticker])
+      .map((e) => ({
+        ticker: e.ticker,
+        name: e.name || e.ticker,
+        reason: quarantinedMap[e.ticker]?.reason || "데이터 정합성 검증 중",
+      }));
+  }, [basket, quarantinedMap]);
+
+  const hasLeveragedOrInverse = useMemo(() => {
+    return basket.some((e) => {
+      const name = e.name || "";
+      return (
+        name.includes("레버리지") ||
+        name.includes("2X") ||
+        name.includes("2x") ||
+        name.includes("인버스")
+      );
+    });
+  }, [basket]);
+
+  const hasGappedSeries = useMemo(() => {
+    return normalizedResult?.series.some((s) => s.coverage === "gapped") ?? false;
+  }, [normalizedResult]);
 
   // 2. SVG Geometry Specifications
   // Width: 1000px viewBox
@@ -383,7 +411,9 @@ export function EtfCompareTimeseriesChart({
       });
   }, [normalizedResult, basket]);
 
-  const isPartial = normalizedResult.series.some((s) => s.coverage === "partial");
+  const isPartial =
+    normalizedResult.truncated.some((t) => t.reason === "late_listing") ||
+    (normalizedResult.series as any).some((s: any) => s.coverage === "partial");
 
   // Hovered Point Summary Data
   const hoveredSummary = useMemo(() => {
@@ -457,6 +487,23 @@ export function EtfCompareTimeseriesChart({
       </div>
 
       {/* 2. Warning Banners */}
+      {quarantinedList.length > 0 && (
+        <div
+          className="flex items-start gap-2 p-2.5 mb-2 text-xs text-amber-800 dark:text-amber-200 bg-amber-500/10 border border-amber-500/30 rounded-lg"
+          data-testid="quarantined-ticker-banner"
+        >
+          <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+          <div className="space-y-0.5">
+            <span className="font-semibold block">가격 데이터 정합성 검증 종목 안내:</span>
+            {quarantinedList.map((q) => (
+              <p key={q.ticker}>
+                • {q.name} ({q.ticker}): 액면분할/합병 등 기업행위 원장 검증 중으로 비교 차트에서 일시 격리되었습니다. ({q.reason})
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
+
       {isPartial && (
         <div
           className="flex items-center gap-1.5 p-2 mb-2 text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-lg"
@@ -475,6 +522,30 @@ export function EtfCompareTimeseriesChart({
           <Info className="w-4 h-4 shrink-0 text-slate-500" />
           <span>
             {insufficientTickers.map((t) => t.name).join(", ")} 종목은 거래일수 부족(20일 미만)으로 시계열 비교에서 제외되었습니다.
+          </span>
+        </div>
+      )}
+
+      {hasLeveragedOrInverse && (
+        <div
+          className="flex items-start gap-1.5 p-2 mb-2 text-[11px] text-amber-800 dark:text-amber-300 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 rounded-lg"
+          data-testid="leverage-inverse-warning"
+        >
+          <span className="shrink-0">⚠️</span>
+          <span>
+            레버리지/인버스 종목 포함: 일일 수익률의 N배를 추종하므로, 횡보장에서는 복리 음의 효과(음의 복리)로 인해 누적 수익률이 기초지수 배수와 크게 차이날 수 있습니다.
+          </span>
+        </div>
+      )}
+
+      {hasGappedSeries && (
+        <div
+          className="flex items-start gap-1.5 p-2 mb-2 text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-lg"
+          data-testid="gapped-series-notice"
+        >
+          <span className="shrink-0">ℹ️</span>
+          <span>
+            거래정지/결측 구간: 해당 종목의 거래 정지일은 직전 거래일 종가(LOCF)로 보정되어 차트에 점선으로 표시됩니다.
           </span>
         </div>
       )}
@@ -519,9 +590,13 @@ export function EtfCompareTimeseriesChart({
           </div>
         ) : (
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-[11px]">
-            <span>누적수익률 기준</span>
+            <span className="font-bold text-slate-700 dark:text-slate-200">
+              {isTrMode
+                ? "[TR] 분배금 재투자 수정기준가 기준 (세전 복리 총수익률)"
+                : "[PR] 정규 시장 종가 기준 (분배금 제외 단순 가격수익률)"}
+            </span>
             <span>·</span>
-            <span>선택 기간: {period} ({isTrMode ? "TR 세전 재투자" : "시장가격 PR"})</span>
+            <span>선택 기간: {period}</span>
           </div>
         )}
       </div>
@@ -804,6 +879,9 @@ export function EtfCompareTimeseriesChart({
 
       {/* 5. Static Legal Disclaimers (자본시장법 제101조 및 금융 컴플라이언스 3종 상시 각주) */}
       <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 font-normal">
+        <p className="font-semibold text-slate-700 dark:text-slate-300">
+          * 본 자료는 투자 판단을 돕기 위한 단순 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.
+        </p>
         <p>• 분배금은 분배락일 종가로 재투자했다고 가정한 이론 수치이며, 실제 지급일·재투자 시점·거래비용은 반영하지 않았습니다.</p>
         <p>• 세금은 반영하지 않은 세전 기준입니다. 계좌 유형에 따라 실제 세후 수익률은 달라집니다.</p>
         <p>• 과거 성과가 미래 수익을 보장하지 않습니다.</p>

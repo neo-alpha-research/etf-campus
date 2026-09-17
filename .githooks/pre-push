@@ -2,6 +2,7 @@
 echo "🛡️ [Pre-Push Hook] Running pre-push verification (Secrets + Lint + TypeScript + Workers + Pipeline Linter)..."
 
 echo "0/5 Scanning repository for API keys / token leaks..."
+# android/app/google-services.json은 Firebase 모바일 앱의 공개 클라이언트 식별자이므로 시크릿 스캔 예외로 허용
 if git grep -E '(AIzaSy[A-Za-z0-9_-]{33}|AQ\.Ab8[A-Za-z0-9_-]{40,})' -- ':!android/app/google-services.json' ':!docs/known_failure_modes.md' >/dev/null 2>&1; then
   echo "❌ [Pre-Push Hook] Plaintext Gemini API Key/Token found in repo files! Push blocked." >&2
   exit 1
@@ -30,17 +31,18 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "4/5 Checking Pipeline Integrity & Failure Modes Linter (FM-001 ~ FM-009)..."
+echo "4/5 Checking Pipeline Integrity & Failure Modes Linter (FM-001 ~ FM-011)..."
 python scripts/lint_pipeline.py
 if [ $? -ne 0 ]; then
   echo "❌ [Pre-Push Hook] Pipeline Integrity Linter failed! Push blocked." >&2
   exit 1
 fi
 
-echo "5/5 Running Pipeline Linter unit & regression tests..."
-python -m unittest scripts/tests/test_lint_pipeline.py
+echo "5/5 Running Pipeline Linter & Deployment Gate unit tests..."
+python -m unittest scripts/tests/test_lint_pipeline.py && \
+python -m unittest scripts/tests/test_check_pages_deployment.py
 if [ $? -ne 0 ]; then
-  echo "❌ [Pre-Push Hook] Pipeline Linter tests failed! Push blocked." >&2
+  echo "❌ [Pre-Push Hook] Pipeline Linter / Gate tests failed! Push blocked." >&2
   exit 1
 fi
 

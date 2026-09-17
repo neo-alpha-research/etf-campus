@@ -13,6 +13,7 @@ import re
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 # Ensure root directory is on sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -30,6 +31,8 @@ from scripts.lint_pipeline import (
     check_versioned_pk_unversioned_query_in_text,
     check_untracked_pipeline_files_in_status,
     check_migration_workflow_deployment_gate_in_text,
+    check_cron_workflows_on_default_branch,
+    check_destructive_migrations_baseline_in_text,
     check_failure_modes_coverage,
 )
 
@@ -262,20 +265,20 @@ class TestPipelineLinterRegression(unittest.TestCase):
         errors = check_failure_modes_coverage(ALL_CHECKS)
         self.assertEqual(len(errors), 0, f"현재 린터 검사 집합과 문서 집합이 완전히 일치해야 합니다: {errors}")
 
-        # 2. 지시 3 회귀 테스트: 문서에만 FM-010이 추가된 경우 (검사 누락 탐지 실증)
-        mock_doc_with_fm010 = (
+        # 2. 지시 3 회귀 테스트: 문서에만 미등록 FM-999가 추가된 경우 (검사 누락 탐지 실증)
+        doc_with_fm999 = (
             "## [FM-001] A\n## [FM-002] B\n## [FM-003] C\n## [FM-004] D\n## [FM-005] E\n"
-            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n"
+            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n## [FM-011] K\n## [FM-999] Unknown\n"
         )
-        missing_check_errs = check_failure_modes_coverage(ALL_CHECKS, mock_doc_with_fm010)
-        self.assertGreater(len(missing_check_errs), 0, "문서에만 FM-010이 있으면 '검사 누락'이 검출되어야 합니다.")
-        self.assertTrue(any("검사 누락" in e and "FM-010" in e for e in missing_check_errs))
+        missing_check_errs = check_failure_modes_coverage(ALL_CHECKS, doc_with_fm999)
+        self.assertGreater(len(missing_check_errs), 0, "문서에만 FM-999가 있으면 '검사 누락'이 검출되어야 합니다.")
+        self.assertTrue(any("검사 누락" in e and "FM-999" in e for e in missing_check_errs))
 
-        # 3. 지시 3 회귀 테스트: 린터에만 FM-010이 추가된 경우 (문서 누락 탐지 실증)
-        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010"])
+        # 3. 지시 3 회귀 테스트: 린터에만 미문서화 FM-999가 추가된 경우 (문서 누락 탐지 실증)
+        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010", "FM-011", "FM-999"])
         missing_doc_errs = check_failure_modes_coverage(checks_with_extra, None)
-        self.assertGreater(len(missing_doc_errs), 0, "린터에만 FM-010이 있으면 '문서 누락'이 검출되어야 합니다.")
-        self.assertTrue(any("문서 누락" in e and "FM-010" in e for e in missing_doc_errs))
+        self.assertGreater(len(missing_doc_errs), 0, "린터에만 FM-999가 있으면 '문서 누락'이 검출되어야 합니다.")
+        self.assertTrue(any("문서 누락" in e and "FM-999" in e for e in missing_doc_errs))
 
     def test_catalog_file_snippets_integrity(self):
         """docs/known_failure_modes.md에 등록된 실제 코드 스니펫들이 린터에 검출되는지 연동 검증."""
@@ -326,24 +329,99 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertFalse(any("screener.json" in e for e in errors))
 
     def test_fm009_detects_missing_pages_deployment_gate(self):
-        """FM-009: D1 마이그레이션 전 Pages 배포 확인 게이트 누락 탐지 검증."""
-        # 1. 실제 발생했던 취약 워크플로 (배포 확인 게이트 없이 바로 마이그레이션 적용)
+        """FM-009: D1 마이그레이션 전 check_pages_deployment.py 게이트 실행 누락 탐지 검증."""
+        # 1. 실제 발생했던 취약 워크플로 (게이트 스크립트 실행 없이 바로 마이그레이션 적용)
         vulnerable_workflow = """
         - name: Apply unapplied D1 migrations
           run: npx wrangler d1 migrations apply etf-prices --remote
         """
         errs = check_migration_workflow_deployment_gate_in_text(vulnerable_workflow, "vulnerable.yml")
-        self.assertGreater(len(errs), 0, "배포 확인 게이트가 없는 워크플로는 검출되어야 합니다.")
+        self.assertGreater(len(errs), 0, "check_pages_deployment.py 게이트가 없는 워크플로는 검출되어야 합니다.")
 
-        # 2. 방어된 정상 워크플로 (Wait for Pages deployment 스텝이 먼저 실행됨)
+        # 2. 방어된 정상 워크플로 (check_pages_deployment.py 스크립트가 선행 실행됨)
         safe_workflow = """
         - name: Wait for Pages deployment of current SHA
-          run: echo "check deployment"
+          run: python scripts/check_pages_deployment.py --expected-sha "abc"
         - name: Apply unapplied D1 migrations
           run: npx wrangler d1 migrations apply etf-prices --remote
         """
         safe_errs = check_migration_workflow_deployment_gate_in_text(safe_workflow, "safe.yml")
-        self.assertEqual(len(safe_errs), 0, "배포 게이트가 선행된 워크플로는 통과해야 합니다.")
+        self.assertEqual(len(safe_errs), 0, "check_pages_deployment.py가 선행된 워크플로는 통과해야 합니다.")
+
+    def test_fm010_detects_cron_workflow_not_on_default_branch(self):
+        """FM-010: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 없는 경우 탐지 및 Fail-Closed 검증."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            # 워크플로 2개 생성: 하나는 cron 포함, 하나는 PR 전용
+            cron_wf = tmppath / "threads-daily-post.yml"
+            cron_wf.write_text("on:\n  schedule:\n    - cron: '0 22 * * *'\n", encoding="utf-8")
+
+            pr_wf = tmppath / "ci-fast.yml"
+            pr_wf.write_text("on:\n  pull_request:\n", encoding="utf-8")
+
+            # 1. origin_wfs에 threads-daily-post.yml이 없는 경우 -> 검출 실증
+            origin_wfs_missing = {"ci-fast.yml"}
+            errs = check_cron_workflows_on_default_branch(
+                origin_ref="origin/main",
+                wf_dir=tmppath,
+                origin_wfs=origin_wfs_missing,
+            )
+            self.assertEqual(len(errs), 1, "origin에 없는 cron 워크플로가 검출되어야 합니다.")
+            self.assertIn("threads-daily-post.yml", errs[0])
+            self.assertIn("violates FM-010", errs[0])
+
+            # 2. origin_wfs에 존재하는 경우 -> 통과 실증
+            origin_wfs_present = {"threads-daily-post.yml", "ci-fast.yml"}
+            clean_errs = check_cron_workflows_on_default_branch(
+                origin_ref="origin/main",
+                wf_dir=tmppath,
+                origin_wfs=origin_wfs_present,
+            )
+            self.assertEqual(len(clean_errs), 0, "origin에 등록된 cron 워크플로는 정상 통과해야 합니다.")
+
+    @patch("subprocess.run")
+    def test_fm010_fail_closed_on_git_ls_tree_failure(self, mock_run: MagicMock):
+        """FM-010 지시 2 회귀 테스트: git ls-tree 실패 시 fail-open(빈배열)하지 않고 Fail-Closed 오류 반환."""
+        mock_proc = MagicMock()
+        mock_proc.returncode = 128
+        mock_proc.stderr = "fatal: Not a valid object name origin/main"
+        mock_run.return_value = mock_proc
+
+        errs = check_cron_workflows_on_default_branch("origin/main")
+        self.assertGreater(len(errs), 0, "git ls-tree 실패 시 fail-closed 오류가 발생해야 합니다.")
+        self.assertIn("FM-010 Fail-Closed", errs[0])
+
+    def test_fm011_detects_destructive_migration_without_baseline(self):
+        """FM-011 지시 3 회귀 테스트: 파괴적 스키마 변경 마이그레이션의 migration_baselines 기록 누락 탐지 검증."""
+        # 1. 취약 DDL: DROP TABLE 포함하지만 migration_baselines 기록 누락
+        vulnerable_ddl = """
+        DROP TABLE market_source_index_daily;
+        CREATE TABLE market_source_index_daily (
+          as_of_date TEXT NOT NULL,
+          index_code TEXT NOT NULL,
+          PRIMARY KEY (as_of_date, index_code)
+        );
+        """
+        errs = check_destructive_migrations_baseline_in_text(vulnerable_ddl, "0027_destructive.sql")
+        self.assertGreater(len(errs), 0, "migration_baselines 기록이 없는 파괴적 마이그레이션은 검출되어야 합니다.")
+        self.assertTrue(any("FM-011" in e for e in errs))
+
+        # 2. 정상 DDL: migration_baselines 기록 포함
+        compliant_ddl = """
+        INSERT INTO migration_baselines (migration_name, target_table, pre_count, post_count, details)
+        VALUES ('0027_destructive', 'market_source_index_daily', 10, -1, 'started');
+        DROP TABLE market_source_index_daily;
+        CREATE TABLE market_source_index_daily (id INTEGER PRIMARY KEY);
+        UPDATE migration_baselines SET post_count = 10 WHERE migration_name = '0027_destructive';
+        """
+        compliant_errs = check_destructive_migrations_baseline_in_text(compliant_ddl, "0027_destructive.sql")
+        self.assertEqual(len(compliant_errs), 0, "migration_baselines 기록이 포함된 마이그레이션은 통과해야 합니다.")
+
+        # 3. 비파괴적 DDL: CREATE TABLE IF NOT EXISTS만 있는 경우 통과
+        safe_ddl = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY);"
+        safe_errs = check_destructive_migrations_baseline_in_text(safe_ddl, "0028_safe.sql")
+        self.assertEqual(len(safe_errs), 0, "비파괴적 마이그레이션은 통과해야 합니다.")
 
 
 if __name__ == "__main__":

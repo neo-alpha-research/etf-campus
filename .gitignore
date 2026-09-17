@@ -37,6 +37,7 @@ data/staging/
 *.sql
 !migrations/*.sql
 !scripts/*.sql
+!docs/*.sql
 temp_holdings_chunks/
 *.tmp
 .*-temp

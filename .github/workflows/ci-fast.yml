@@ -1,12 +1,14 @@
 name: Fast Validation
 
 on: 
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/**'
   pull_request:
     branches: [main]
     paths-ignore:
       - 'data/**'
-      - 'docs/**'
-      - '**.md'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +38,3 @@ jobs:
           npm --workspace=workers/market-briefing-publisher run typecheck
           npm --workspace=workers/market-briefing-distributor run typecheck
           npm --workspace=workers/community-maintenance run typecheck
-      - name: Pipeline Integrity Linter
-        run: python scripts/lint_pipeline.py
-      - name: Pipeline Integrity Linter Tests
-        run: python -m unittest scripts/tests/test_lint_pipeline.py

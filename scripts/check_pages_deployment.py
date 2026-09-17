@@ -7,9 +7,10 @@ D1 파괴적 마이그레이션 적용 전, 현재 커밋의 Pages 코드가 pro
 정상 빌드/배포(status == 'success') 완료되었는지 엄격히 검증합니다.
 
 FM-009 방어 핵심 메커니즘:
-1. Preview 배포와 격리하여 반드시 `environment == "production"` 배포만 필터링합니다.
-2. `commit_hash == expected_sha` AND `latest_stage.status == "success"` 둘 다 만족할 때만 통과합니다.
-3. `latest_stage.status == "failure"`인 경우 추가 대기 없이 즉시 Fail-Closed(exit 1) 종료합니다.
+1. Preview 배포와 격리하여 `environment == "production"` 배포만 `created_on` 내림차순 명시 정렬하여 최신 배포를 선택합니다.
+2. `commit_hash == expected_sha` 전체 SHA 완전 일치 AND `latest_stage.status == "success"` 둘 다 만족할 때만 통과합니다.
+3. 접두 일치(7자)나 short_id 폴백은 일체 불허합니다.
+4. `latest_stage.status == "failure"` 또는 wrangler CLI 실행 실패 시 대기 없이 즉시 Fail-Closed(exit 1) 종료합니다.
 """
 
 from __future__ import annotations
@@ -21,6 +22,11 @@ import subprocess
 import sys
 import time
 from typing import Any
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
 
 
 def evaluate_deployments(
@@ -36,9 +42,13 @@ def evaluate_deployments(
     if not prod_deployments:
         return "NO_PROD", "No production deployment found in deployment list.", {}
 
+    # created_on 기준 내림차순 명시 정렬 (wrangler 출력 순서 가정 배제)
+    prod_deployments.sort(key=lambda d: str(d.get("created_on", "")), reverse=True)
     latest_prod = prod_deployments[0]
+
     trigger_metadata = latest_prod.get("deployment_trigger", {}).get("metadata", {})
-    commit_hash = trigger_metadata.get("commit_hash", "") or latest_prod.get("short_id", "")
+    # short_id 폴백 금지, 오직 trigger commit_hash만 인정
+    commit_hash = trigger_metadata.get("commit_hash", "")
     latest_stage = latest_prod.get("latest_stage", {})
     stage_name = latest_stage.get("name", "")
     stage_status = latest_stage.get("status", "")
@@ -52,8 +62,8 @@ def evaluate_deployments(
         "created_on": latest_prod.get("created_on", ""),
     }
 
-    # 1. 기대 SHA와 일치하는 경우
-    if commit_hash == expected_sha or (expected_sha and commit_hash.startswith(expected_sha[:7])):
+    # 1. 기대 SHA와 완전 일치 (Full SHA Match Only)
+    if commit_hash and commit_hash == expected_sha:
         if stage_status == "failure":
             msg = (
                 f"Production deployment for commit {commit_hash} FAILED at stage '{stage_name}'. "
@@ -82,20 +92,24 @@ def evaluate_deployments(
 
 
 def fetch_pages_deployments(project_name: str) -> list[dict[str, Any]]:
-    """wrangler CLI를 실행하여 Pages 배포 목록 JSON을 가져옵니다."""
+    """wrangler CLI를 실행하여 Pages 배포 목록 JSON을 가져옵니다.
+    실패 시 빈 배열로 삼키지 않고 즉시 예외를 발생시킵니다 (Fail-Closed).
+    """
     cmd = ["npx", "wrangler", "pages", "deployment", "list", "--project-name", project_name, "--json"]
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    if res.returncode != 0:
+        raise RuntimeError(
+            f"wrangler pages deployment list CLI failed (exit {res.returncode}): {res.stderr.strip()}"
+        )
     try:
-        res = subprocess.run(cmd, capture_output=True, text=True, check=True)
         data = json.loads(res.stdout)
-        if isinstance(data, list):
-            return data
-        return []
-    except subprocess.CalledProcessError as e:
-        print(f"⚠️ wrangler pages deployment list failed (exit {e.returncode}): {e.stderr}", file=sys.stderr)
-        return []
     except json.JSONDecodeError as e:
-        print(f"⚠️ Failed to parse wrangler deployment JSON output: {e}", file=sys.stderr)
-        return []
+        raise RuntimeError(
+            f"Failed to parse wrangler deployment JSON output: {e}\nRaw output: {res.stdout[:500]}"
+        )
+    if not isinstance(data, list):
+        raise ValueError(f"Expected list of deployments from wrangler, got {type(data)}")
+    return data
 
 
 def wait_for_pages_deployment(
@@ -122,7 +136,13 @@ def wait_for_pages_deployment(
             )
             return 1
 
-        deployments = fetch_pages_deployments(project_name)
+        try:
+            deployments = fetch_pages_deployments(project_name)
+        except Exception as e:
+            # CLI 실행/인증/권한 실패는 지연 폴링 없이 즉시 Fail-Closed 중단
+            print(f"❌ [Deployment Gate CLI Failure] Immediate abort on CLI error: {e}", file=sys.stderr)
+            return 1
+
         status, msg, details = evaluate_deployments(deployments, expected_sha)
 
         if status == "SUCCESS":

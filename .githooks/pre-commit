@@ -8,6 +8,7 @@ if [ -n "$FORBIDDEN_FILES" ]; then
   exit 1
 fi
 
+# android/app/google-services.json은 Firebase 모바일 앱의 공개 클라이언트 식별자이므로 시크릿 스캔 예외로 허용
 DIFF_ADDED=$(git diff --cached -U0 -- ':!android/app/google-services.json')
 
 if echo "$DIFF_ADDED" | grep -E '^\+[^+].*AIzaSy[A-Za-z0-9_-]{33}' >/dev/null; then

@@ -130,9 +130,8 @@
   ```
 - **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함. 또한 CI 클린 체크아웃(`actions/checkout`) 환경에서는 untracked 파일이 원리적으로 존재하지 않으므로(`git status --porcelain`이 항상 빈 문자열), CI 단독 검사로는 검출이 불가능함.
 - **방어 대책**:
-  1. **실효 집행 지점 로컬 이전**: 저장소 버전 관리 대상인 `.githooks/pre-push`에 린터(`scripts/lint_pipeline.py`) 및 회귀 테스트를 필수 배치하고, `npm run prepare`(`git config core.hooksPath .githooks`)로 모든 개발 환경에 자동 동기화하여 푸시 전 untracked 파일 존재 시 `git push`를 원천 차단.
-  2. **CI 환경 워크플로 정합성 검사**: CI에서는 `cron:` 스케줄을 포함하는 워크플로가 기본 브랜치(`origin/main`)에 누락되지 않았는지 정합성 검증.
-  3. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 방치 방지.
+  1. **실효 집행 지점 로컬 이전**: 저장소 버전 관리 대상인 `.githooks/pre-push`에 린터(`scripts/lint_pipeline.py`) 및 회귀 테스트를 필수 배치하고, `npm run prepare`(`git config core.hooksPath .githooks`)로 모든 개발 환경에 자동 동기화하여 푸시 전 untracked 파일 존재 시 `git push`를 원천 차단. (단, `git push --no-verify`로 로컬 훅이 우회될 수 있으므로 전 브랜치 대상 중앙 집중식 CI 워크플로 `pipeline-integrity.yml`을 상시 병행 집행).
+  2. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 방치 방지.
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()` (로컬 pre-push 훅 집행)
 
 ---
@@ -150,8 +149,36 @@
   ```
 - **근본 원인**: 코드 배포와 DB 마이그레이션 순서가 역전되어, 약 2분간 지속되는 Pages 빌드 시간 동안 구버전 코드가 신규 파괴적 스키마(PK 변경)에 접근하여 충돌 발생.
 - **방어 대책**:
-  1. `d1-migrations.yml` 워크플로에서 마이그레이션 스텝 앞에 **Cloudflare Pages 배포 완료 확인 게이트(Wait for Pages deployment of current SHA)**를 필수 배치하여, 현재 커밋의 코드 배포가 완료된 후에만 D1 마이그레이션 및 재발행을 수행하도록 보장.
+  1. `d1-migrations.yml` 워크플로에서 마이그레이션 스텝 앞에 **Cloudflare Pages 배포 완료 확인 게이트(`scripts/check_pages_deployment.py`)**를 필수 배치하여, 현재 커밋의 코드 배포가 완료된 후에만 D1 마이그레이션 및 재발행을 수행하도록 보장.
   2. `publish_market_source_snapshot.py`에 HTTP 5xx 발생 시 지수 백오프 자동 재시도 로직 유지.
-- **자동 검사**: `.github/workflows/d1-migrations.yml` 내 `Wait for Pages deployment of current SHA` 게이트 및 단위 테스트.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_migration_workflow_deployment_gate()`
+
+---
+
+## [FM-010] Cron Workflow Inactive on Non-Default Branch
+- **관측 사례**: 2026-09-17 `threads-daily-post.yml` 등 `cron` 스케줄을 포함하는 워크플로가 원격 피처 브랜치(`feat/threads-automation`)에 추적된 상태로 존재하지만, GitHub Actions는 기본 브랜치(`main`)에 커밋된 워크플로만 cron 스케줄로 실행하므로 스케줄 트리거가 전혀 동작하지 않는 문제 (FM-008의 untracked 상태와 구분되는 별도 실패 유형).
+- **발생 위치**: `.github/workflows/threads-daily-post.yml`
+- **실제 발생 코드 조각**:
+  ```yaml
+  on:
+    schedule:
+      - cron: "0 22 * * *"
+  ```
+- **근본 원인**: GitHub Actions의 스케줄러 아키텍처 제약(기본 브랜치 전용)에 대한 인지 부족으로 인해 비기본 브랜치에 스케줄 워크플로를 격리한 채 배포 대기.
+- **방어 대책**:
+  1. 린터에 `check_cron_workflows_on_default_branch()`를 독립 검사로 등록하여 `cron:` 스케줄을 포함하는 워크플로가 `origin/main` 목록에 존재하는지 기계적으로 대조.
+  2. `git ls-tree` 실패나 `origin/main` 부재 시 조용히 통과(fail-open)하지 않고 즉시 오류를 반환(Fail-Closed)하여 CI 및 로컬에서 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_cron_workflows_on_default_branch()`
+
+---
+
+## [FM-011] Destructive Schema Migration Without Baseline Record
+- **관측 사례**: D1 마이그레이션 0024처럼 테이블을 DROP/재생성하거나 PK를 변경하는 파괴적 스키마 변경 시, 사전/사후 행 수 기준값이 SQL 내부에서 원자적으로 기록되지 않아 데이터 누락 여부를 사후 검증하기 어렵고 데이터 신뢰성을 훼손하는 문제.
+- **발생 위치**: `migrations/0024_single_version_market_source_index_daily.sql`
+- **근본 원인**: 스키마 파괴적 변경 시 사전 상태와 사후 상태의 카운트를 측정·기록하는 메커니즘 부재.
+- **방어 대책**:
+  1. `docs/migration_template.sql` 3단계 표준(사전 카운트 기록 -> DDL 변경 -> 사후 카운트 업데이트) 수립.
+  2. 린터(`check_destructive_migrations_baseline()`)를 통해 `DROP TABLE`, `ALTER TABLE`, 또는 `PRIMARY KEY` 재정의를 포함하는 신규 마이그레이션이 `migration_baselines`에 기록하지 않으면 기계적으로 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_destructive_migrations_baseline()`
 
 

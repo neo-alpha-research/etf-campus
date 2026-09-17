@@ -10,13 +10,17 @@ KST = timezone(timedelta(hours=9))
 
 def check_daily_market_ssot(now_kst: datetime) -> bool:
     """Check if data/etf_master_draft.csv already contains today's expected trading day."""
+    scripts_dir = str(Path(__file__).resolve().parent)
+    repo_root = str(Path(__file__).resolve().parents[1])
+    for p in (scripts_dir, repo_root):
+        if p not in sys.path:
+            sys.path.insert(0, p)
+
     try:
         from trading_days import load_holidays, latest_trading_day
-    except ImportError:
-        try:
-            from scripts.trading_days import load_holidays, latest_trading_day
-        except ImportError:
-            return False
+    except ImportError as e:
+        print(f"❌ [FATAL] Failed to import trading_days: {e}", file=sys.stderr)
+        sys.exit(1)
 
     holidays_path = Path("data/market_holidays.txt")
     if not holidays_path.exists():

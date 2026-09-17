@@ -52,16 +52,11 @@ def normalize_date(raw: str) -> str:
 
 
 def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str) -> tuple[dict[str, Any], str]:
-    """
-    1순위: data/snapshots/master_YYYY-MM-DD.csv 명시적 물리 파일 조회
-    2순위: Git 커밋 이력에서 직전 거래일의 etf_master_draft.csv 스냅샷 조회
-    (Cloudflare D1이나 외부 API 의존성 0%)
-    """
     cleaned_curr = target_date.replace("-", "").strip()
     prev_map: dict[str, dict[str, Any]] = {}
     detected_prev_date = ""
 
-    # 1. First priority: check data/snapshots/ directory
+    # 1. Sole SSOT: check data/snapshots/ directory
     snapshots_dir = Path("data/snapshots")
     if snapshots_dir.exists():
         candidates = []
@@ -83,36 +78,8 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
             except Exception as e:
                 print(f"⚠️ Error reading snapshot file {best_path}: {e}", file=sys.stderr)
 
-    # 2. Second priority: search git commit history if snapshot file was not found
     if not prev_map:
-        try:
-            log_res = subprocess.run(
-                ["git", "log", "-n", "15", "--format=%H", "data/etf_master_draft.csv"],
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
-            commits = [c.strip() for c in log_res.stdout.splitlines() if c.strip()]
-            for c in commits:
-                show_res = subprocess.run(
-                    ["git", "show", f"{c}:data/etf_master_draft.csv"],
-                    capture_output=True,
-                    text=True,
-                    encoding="utf-8-sig",
-                    timeout=10,
-                )
-                if show_res.returncode == 0:
-                    reader = csv.DictReader(io.StringIO(show_res.stdout))
-                    first = next(reader, None)
-                    if first and first.get("bas_dt", "").replace("-", "").strip() < cleaned_curr:
-                        raw_dt = first.get("bas_dt", "").replace("-", "").strip()
-                        detected_prev_date = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:]}"
-                        reader = csv.DictReader(io.StringIO(show_res.stdout))
-                        prev_map = {r["ticker"].strip().upper(): r for r in reader}
-                        print(f"📦 [Fund Flow] Loaded previous snapshot from git: {c[:8]} ({detected_prev_date})")
-                        break
-        except Exception as e:
-            print(f"⚠️ Git history lookup for previous quotes failed: {e}", file=sys.stderr)
+        print(f"⚠️ [Fund Flow] No prior trading day snapshot found in data/snapshots/ for date < {cleaned_curr}.", file=sys.stderr)
 
     general_flows: list[dict[str, Any]] = []
     all_flows: list[dict[str, Any]] = []
@@ -428,17 +395,37 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
                 "disparityPct": e["disparityPct"],
             })
 
-    # 8.5 Archive current master snapshot for robust file-based lookups
+    # 8.5 Archive current master snapshot for robust file-based lookups (4 columns: ticker, shares, nav, bas_dt)
     try:
         snapshots_dir = data_dir / "snapshots"
         snapshots_dir.mkdir(parents=True, exist_ok=True)
         current_snap_file = snapshots_dir / f"master_{as_of_date}.csv"
-        if not current_snap_file.exists():
-            import shutil
-            shutil.copy2(master_path, current_snap_file)
-            print(f"💾 [Snapshot] Archived daily master snapshot: {current_snap_file}")
+        
+        # Write slim snapshot (~30KB vs 500KB)
+        with current_snap_file.open("w", encoding="utf-8-sig", newline="") as sf:
+            writer = csv.DictWriter(sf, fieldnames=["ticker", "shares", "nav", "bas_dt"])
+            writer.writeheader()
+            for r in master_rows:
+                writer.writerow({
+                    "ticker": r.get("ticker", "").strip().upper(),
+                    "shares": str(r.get("shares", "0")).strip(),
+                    "nav": str(r.get("nav") or r.get("close") or "0").strip(),
+                    "bas_dt": str(r.get("bas_dt", as_of_date)).strip(),
+                })
+        print(f"💾 [Snapshot] Archived daily slim snapshot ({len(master_rows)} rows): {current_snap_file}")
+
+        # Retain only latest 7 snapshots, prune older files
+        snap_files = sorted(snapshots_dir.glob("master_*.csv"))
+        if len(snap_files) > 7:
+            for old_snap in snap_files[:-7]:
+                try:
+                    old_snap.unlink()
+                    print(f"🧹 [Snapshot Prune] Pruned older snapshot: {old_snap.name}")
+                except Exception as prune_err:
+                    print(f"⚠️ Failed to prune snapshot {old_snap}: {prune_err}", file=sys.stderr)
     except Exception as e:
-        print(f"⚠️ Failed to archive master snapshot: {e}", file=sys.stderr)
+        print(f"❌ [FATAL] Failed to archive master snapshot: {e}", file=sys.stderr)
+        sys.exit(1)
 
     # 9. Smart Money Fund Flow (Zero-D1 Local Calculation SSOT)
     local_flows, detected_prev_date = calculate_local_fund_flows(master_rows, as_of_date)
@@ -547,17 +534,26 @@ def main() -> None:
             sys.exit(1)
         print("🛡️ [Schema Gate] Verified 100% data completeness & integrity via BriefingContract!")
     except ImportError as e:
-        print(f"⚠️ Warning: Could not import BriefingContract ({e}), continuing with standard output.", file=sys.stderr)
+        print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
+        print("   Schema validation is strictly mandatory for canonical payload generation. Aborting.", file=sys.stderr)
+        sys.exit(1)
 
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
+    as_of = payload["briefing"]["asOfDate"]
+    date_out_path = out_path.parent / f"briefing_payload_{as_of}.json"
+
+    # 1. Immutable daily canonical artifact
+    with date_out_path.open("w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    # 2. Latest pointer artifact
     with out_path.open("w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    as_of = payload["briefing"]["asOfDate"]
     gen_count = payload["briefing"]["pulse"]["generalEtfCount"]
-    print(f"✅ Successfully generated local briefing payload for {as_of} (General ETFs: {gen_count}) -> {out_path}")
+    print(f"✅ Successfully generated local briefing payload for {as_of} (General ETFs: {gen_count}) -> {date_out_path} & {out_path}")
 
 
 if __name__ == "__main__":

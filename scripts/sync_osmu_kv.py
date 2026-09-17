@@ -332,12 +332,17 @@ def main() -> int:
         print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
 
     # 3. Direct Market Briefing JSON Payload to KV (Zero-D1 Read Acceleration)
-    payload_file = Path("data") / "briefing_payload_latest.json"
+    date_payload_file = Path("data") / f"briefing_payload_{target_date}.json"
+    latest_payload_file = Path("data") / "briefing_payload_latest.json"
+    payload_file = date_payload_file if date_payload_file.exists() else latest_payload_file
+
     if not payload_file.exists():
         try:
             subprocess.run(["python", "scripts/build_local_briefing_payload.py", f"--target-date={target_date}"], check=True)
+            payload_file = date_payload_file if date_payload_file.exists() else latest_payload_file
         except Exception as e:
-            print(f"⚠️ Failed to generate local briefing payload: {e}")
+            print(f"❌ [Fail-Closed] Failed to generate local briefing payload: {e}", file=sys.stderr)
+            return 1
 
     if payload_file.exists():
         payload_key = f"market-briefing:v0:payload:{target_date}:v1"
@@ -359,7 +364,9 @@ def main() -> int:
                 return 1
             print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
         except ImportError as e:
-            print(f"⚠️ Warning: Could not import BriefingContract ({e}), proceeding with basic safety check.", file=sys.stderr)
+            print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
+            print("   Schema validation is strictly mandatory before Cloudflare KV sync. Aborting.", file=sys.stderr)
+            return 1
 
         # Backup existing KV payload to market-briefing:v0:payload:prev before overwrite
         prev_bytes = download_from_kv_via_rest(

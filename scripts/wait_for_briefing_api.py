@@ -48,6 +48,41 @@ def main() -> int:
     formatted_date = f"{target_date[:4]}-{target_date[4:6]}-{target_date[6:]}" if len(target_date) == 8 else target_date
     print(f"🔍 [API Waiter] Waiting for market briefing data to serve asOfDate: {formatted_date} ({target_date})")
 
+    # 1. Primary Check: Local Repository SSOT (Instant 0s Pass)
+    master_file = Path("data/etf_master_draft.csv")
+    payload_date_file = Path(f"data/briefing_payload_{formatted_date}.json")
+    payload_latest_file = Path("data/briefing_payload_latest.json")
+
+    is_local_ready = False
+    if master_file.exists():
+        try:
+            with open(master_file, encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                first_row = next(reader, None)
+                if first_row and first_row.get("bas_dt", "").strip().replace("-", "") == target_date:
+                    is_local_ready = True
+        except Exception as e:
+            print(f"⚠️ [API Waiter] Error verifying local master: {e}", file=sys.stderr)
+
+    if not is_local_ready:
+        for pf in (payload_date_file, payload_latest_file):
+            if pf.exists():
+                try:
+                    with open(pf, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    as_of = (data.get("briefing", {}).get("asOfDate") or data.get("asOfDate") or "").replace("-", "").strip()
+                    if as_of == target_date:
+                        is_local_ready = True
+                        break
+                except Exception:
+                    pass
+
+    if is_local_ready:
+        print(f"⚡ [API Waiter] Local repository verified data is READY for {formatted_date}!")
+        print("✅ [API Waiter] Fast-pass authorized (Zero-D1 Dependency, 0s delay).")
+        return 0
+
+    # 2. Polling Remote API endpoints if local data was not yet available
     max_attempts = 3
     delay_seconds = 5
 
@@ -55,7 +90,6 @@ def main() -> int:
     pages_url = f"https://etf-campus.pages.dev/api/briefings/latest?_t={time.time()}"
 
     for attempt in range(1, max_attempts + 1):
-        # 1. Primary: Check Distributor Worker (where Queue consumer writes immediately on data ingestion)
         try:
             req = urllib.request.Request(worker_url, headers={"User-Agent": "ETF-Campus-Waiter/1.0"})
             with urllib.request.urlopen(req, timeout=10) as resp:
@@ -69,10 +103,9 @@ def main() -> int:
                 if as_of == target_date:
                     print(f"✅ [API Waiter] Confirmed via Distributor Worker! Serving target date {formatted_date}.")
                     return 0
-        except Exception as e:
+        except Exception:
             pass
 
-        # 2. Secondary: Fallback check Pages
         try:
             req = urllib.request.Request(pages_url, headers={"User-Agent": "ETF-Campus-Waiter/1.0"})
             with urllib.request.urlopen(req, timeout=10) as resp:
@@ -93,21 +126,7 @@ def main() -> int:
 
         time.sleep(delay_seconds)
 
-    # 3. Resilient Local Fallback Check
-    master_file = Path("data/etf_master_draft.csv")
-    if master_file.exists():
-        try:
-            with open(master_file, encoding="utf-8-sig") as f:
-                reader = csv.DictReader(f)
-                first_row = next(reader, None)
-                if first_row and first_row.get("bas_dt", "").strip().replace("-", "") == target_date:
-                    print(f"⚡ [API Waiter] Remote API delayed, but local verified master is READY for {formatted_date}!")
-                    print("✅ [API Waiter] Authorizing instant local fallback rendering (Zero-D1 Dependency).")
-                    return 0
-        except Exception as e:
-            print(f"⚠️ [API Waiter] Error verifying local master: {e}", file=sys.stderr)
-
-    print(f"❌ [API Waiter] Error: Timeout waiting for target date {formatted_date} and no local match found. Refusing to generate OSMU with stale data.", file=sys.stderr)
+    print(f"❌ [API Waiter] Error: Timeout waiting for target date {formatted_date} across local and remote channels.", file=sys.stderr)
     return 1
 
 

@@ -163,12 +163,16 @@ async function main() {
     const repoRoot = process.cwd().endsWith("market-briefing-distributor")
       ? path.resolve(process.cwd(), "../..")
       : process.cwd();
-    const localPayloadPath = path.join(repoRoot, "data", "briefing_payload_latest.json");
+    const datePayloadPath = cliOpts.date ? path.join(repoRoot, "data", `briefing_payload_${cliOpts.date}.json`) : null;
+    const latestPayloadPath = path.join(repoRoot, "data", "briefing_payload_latest.json");
+    let localPayloadPath = (datePayloadPath && fs.existsSync(datePayloadPath)) ? datePayloadPath : latestPayloadPath;
 
     try {
       if (!fs.existsSync(localPayloadPath)) {
         console.log('[OSMU Render] Generating local briefing payload from repository data...');
-        execSync(`python scripts/build_local_briefing_payload.py`, { cwd: repoRoot, stdio: 'inherit' });
+        const cmd = cliOpts.date ? `python scripts/build_local_briefing_payload.py --target-date=${cliOpts.date}` : `python scripts/build_local_briefing_payload.py`;
+        execSync(cmd, { cwd: repoRoot, stdio: 'inherit' });
+        localPayloadPath = (datePayloadPath && fs.existsSync(datePayloadPath)) ? datePayloadPath : latestPayloadPath;
       }
 
       if (fs.existsSync(localPayloadPath)) {
@@ -176,7 +180,7 @@ async function main() {
         const candidate = localData.briefing || localData;
         if (!cliOpts.date || candidate.asOfDate === cliOpts.date) {
           raw = candidate;
-          console.log(`✅ [OSMU Render] Successfully loaded payload via Local Repository Fallback for ${raw.asOfDate}!`);
+          console.log(`✅ [OSMU Render] Successfully loaded payload via Local Repository Fallback (${path.basename(localPayloadPath)}) for ${raw.asOfDate}!`);
         }
       }
     } catch (localErr) {

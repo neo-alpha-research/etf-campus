@@ -51,40 +51,68 @@ def normalize_date(raw: str) -> str:
     return raw.strip()
 
 
-def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str) -> dict[str, Any]:
+def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str) -> tuple[dict[str, Any], str]:
     """
-    Git 커밋 이력에서 직전 거래일의 etf_master_draft.csv 스냅샷을 조회하여,
-    1,171개 ETF의 당일 실질 순유입액(1차 시장 발행주식수 변동분 * NAV)을 직접 계산합니다.
+    1순위: data/snapshots/master_YYYY-MM-DD.csv 명시적 물리 파일 조회
+    2순위: Git 커밋 이력에서 직전 거래일의 etf_master_draft.csv 스냅샷 조회
     (Cloudflare D1이나 외부 API 의존성 0%)
     """
     cleaned_curr = target_date.replace("-", "").strip()
     prev_map: dict[str, dict[str, Any]] = {}
+    detected_prev_date = ""
 
-    try:
-        log_res = subprocess.run(
-            ["git", "log", "-n", "15", "--format=%H", "data/etf_master_draft.csv"],
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
-        commits = [c.strip() for c in log_res.stdout.splitlines() if c.strip()]
-        for c in commits:
-            show_res = subprocess.run(
-                ["git", "show", f"{c}:data/etf_master_draft.csv"],
+    # 1. First priority: check data/snapshots/ directory
+    snapshots_dir = Path("data/snapshots")
+    if snapshots_dir.exists():
+        candidates = []
+        for p in snapshots_dir.glob("master_*.csv"):
+            m = re.search(r"master_(\d{4}-?\d{2}-?\d{2})\.csv", p.name)
+            if m:
+                snap_date = m.group(1).replace("-", "")
+                if snap_date < cleaned_curr:
+                    candidates.append((snap_date, p))
+        if candidates:
+            candidates.sort(key=lambda x: x[0], reverse=True)
+            best_snap_date, best_path = candidates[0]
+            try:
+                with best_path.open("r", encoding="utf-8-sig") as f:
+                    reader = csv.DictReader(f)
+                    prev_map = {r["ticker"].strip().upper(): r for r in reader}
+                    detected_prev_date = f"{best_snap_date[:4]}-{best_snap_date[4:6]}-{best_snap_date[6:]}"
+                    print(f"📦 [Fund Flow] Loaded previous snapshot from file: {best_path} ({detected_prev_date})")
+            except Exception as e:
+                print(f"⚠️ Error reading snapshot file {best_path}: {e}", file=sys.stderr)
+
+    # 2. Second priority: search git commit history if snapshot file was not found
+    if not prev_map:
+        try:
+            log_res = subprocess.run(
+                ["git", "log", "-n", "15", "--format=%H", "data/etf_master_draft.csv"],
                 capture_output=True,
                 text=True,
-                encoding="utf-8-sig",
                 timeout=10,
             )
-            if show_res.returncode == 0:
-                reader = csv.DictReader(io.StringIO(show_res.stdout))
-                first = next(reader, None)
-                if first and first.get("bas_dt", "").replace("-", "").strip() < cleaned_curr:
+            commits = [c.strip() for c in log_res.stdout.splitlines() if c.strip()]
+            for c in commits:
+                show_res = subprocess.run(
+                    ["git", "show", f"{c}:data/etf_master_draft.csv"],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8-sig",
+                    timeout=10,
+                )
+                if show_res.returncode == 0:
                     reader = csv.DictReader(io.StringIO(show_res.stdout))
-                    prev_map = {r["ticker"].strip().upper(): r for r in reader}
-                    break
-    except Exception as e:
-        print(f"⚠️ Git history lookup for previous quotes failed: {e}", file=sys.stderr)
+                    first = next(reader, None)
+                    if first and first.get("bas_dt", "").replace("-", "").strip() < cleaned_curr:
+                        raw_dt = first.get("bas_dt", "").replace("-", "").strip()
+                        detected_prev_date = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:]}"
+                        reader = csv.DictReader(io.StringIO(show_res.stdout))
+                        prev_map = {r["ticker"].strip().upper(): r for r in reader}
+                        print(f"📦 [Fund Flow] Loaded previous snapshot from git: {c[:8]} ({detected_prev_date})")
+                        break
+        except Exception as e:
+            print(f"⚠️ Git history lookup for previous quotes failed: {e}", file=sys.stderr)
 
     general_flows: list[dict[str, Any]] = []
     all_flows: list[dict[str, Any]] = []
@@ -126,7 +154,7 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
     general_flows.sort(key=lambda x: x["netInflowValue"], reverse=True)
     all_flows.sort(key=lambda x: x["netInflowValue"], reverse=True)
 
-    return {
+    flow_dict = {
         "general": {
             "topInflows": general_flows[:5],
             "topOutflows": general_flows[-5:][::-1],
@@ -136,6 +164,7 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
             "topOutflows": all_flows[-5:][::-1],
         },
     }
+    return flow_dict, detected_prev_date
 
 
 def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> dict[str, Any]:
@@ -399,9 +428,31 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
                 "disparityPct": e["disparityPct"],
             })
 
+    # 8.5 Archive current master snapshot for robust file-based lookups
+    try:
+        snapshots_dir = data_dir / "snapshots"
+        snapshots_dir.mkdir(parents=True, exist_ok=True)
+        current_snap_file = snapshots_dir / f"master_{as_of_date}.csv"
+        if not current_snap_file.exists():
+            import shutil
+            shutil.copy2(master_path, current_snap_file)
+            print(f"💾 [Snapshot] Archived daily master snapshot: {current_snap_file}")
+    except Exception as e:
+        print(f"⚠️ Failed to archive master snapshot: {e}", file=sys.stderr)
+
+    # 9. Smart Money Fund Flow (Zero-D1 Local Calculation SSOT)
+    local_flows, detected_prev_date = calculate_local_fund_flows(master_rows, as_of_date)
+    has_valid_existing = bool(
+        existing_is_same_date
+        and len(existing_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])) >= 5
+    )
+    final_fund_flow = existing_data.get("fundFlow") if has_valid_existing else local_flows
+    final_prev_as_of = existing_data.get("prevAsOfDate") or detected_prev_date
+
     # Construct final payload matching MarketBriefingPayload interface
     payload: dict[str, Any] = {
         "asOfDate": as_of_date,
+        "prevAsOfDate": final_prev_as_of,
         "publicationVersion": 1,
         "publishedAt": f"{as_of_date}T08:30:00+09:00",
         "updatedAt": f"{as_of_date}T08:30:00+09:00",
@@ -445,18 +496,9 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
         "marketScaleTimeSeries": (existing_data.get("marketScaleTimeSeries") if existing_is_same_date else None),
         "assetClasses": asset_classes,
         "peerGroups": peer_groups,
-        # 9. Smart Money Fund Flow (Zero-D1 Local Calculation SSOT)
-        "fundFlow": (
-            existing_data.get("fundFlow")
-            if (existing_is_same_date and len(existing_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])) >= 5)
-            else calculate_local_fund_flows(master_rows, as_of_date)
-        ),
+        "fundFlow": final_fund_flow,
         "periodicFlows": {
-            "dailyFundFlows": (
-                existing_data.get("fundFlow", {}).get("general", {})
-                if (existing_is_same_date and len(existing_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])) >= 5)
-                else calculate_local_fund_flows(master_rows, as_of_date).get("general", {})
-            ),
+            "dailyFundFlows": final_fund_flow.get("general", {}),
         },
         "weeklyFundFlows": (existing_data.get("weeklyFundFlows") if existing_is_same_date else []),
         "monthlyFundFlows": (existing_data.get("monthlyFundFlows") if existing_is_same_date else []),

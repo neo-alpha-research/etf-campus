@@ -38,6 +38,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -260,7 +262,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+          for file in data/snapshots data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

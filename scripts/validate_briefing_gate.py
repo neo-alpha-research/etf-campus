@@ -37,7 +37,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 
 MAX_SPIKE_PCT = 15.0
-MIN_ETF_COUNT = 800
+MIN_ETF_COUNT = 950
 
 
 def get_target_bas_dt() -> str:

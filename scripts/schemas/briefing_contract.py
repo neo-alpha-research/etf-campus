@@ -98,9 +98,30 @@ class FundFlowItem(BaseModel):
         return data
 
 
+from datetime import date, datetime
+
+# 지표별 합리적 정상 수치 범위 (Sanity Range)
+SANITY_RANGE: dict[str, tuple[float, float]] = {
+    "KOSPI": (500.0, 10000.0),
+    "KOSDAQ": (200.0, 3000.0),
+    "VKOSPI": (8.0, 80.0),
+    "SPX": (2000.0, 15000.0),
+    "NDX": (8000.0, 60000.0),
+    "VIX": (8.0, 90.0),
+    "USDKRW": (900.0, 2000.0),
+    "KR10Y": (0.1, 10.0),
+    "DGS10": (0.1, 10.0),
+    "CLF": (10.0, 200.0),
+    "GC": (500.0, 10000.0),
+    "SI": (5.0, 200.0),
+}
+MAX_DAILY_CHANGE_PCT = 15.0
+
+
 class BriefingContract(BaseModel):
     as_of_date: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
-    general_etf_count: int = Field(ge=800)
+    prev_as_of_date: str = Field(default="", pattern=r"^(\d{4}-\d{2}-\d{2})?$")
+    general_etf_count: int = Field(ge=950)  # 1,023개 기준 여유 7% (급락 탐지)
     general_total_aum: float = Field(gt=0)
     aum_weighted_return_pct: float
     market_indices: list[MacroIndexItem] = Field(min_length=12, max_length=12)
@@ -126,6 +147,29 @@ class BriefingContract(BaseModel):
         ]
         if mismatched_dates:
             raise ValueError(f"지표 기준일자 불일치 발생: {mismatched_dates} != {self.as_of_date}")
+
+        # 3. 12대 거시 지표 Sanity Range 및 등락폭(±15%) 검사
+        for m in self.market_indices:
+            if m.code in SANITY_RANGE:
+                min_val, max_val = SANITY_RANGE[m.code]
+                if not (min_val <= m.value <= max_val):
+                    raise ValueError(
+                        f"지표 [{m.code}] 수치({m.value})가 정상 범위({min_val} ~ {max_val})를 벗어났습니다."
+                    )
+            if abs(m.change_pct) > MAX_DAILY_CHANGE_PCT:
+                raise ValueError(
+                    f"지표 [{m.code}] 일간 등락률({m.change_pct:+.2f}%)이 허용 한계(±{MAX_DAILY_CHANGE_PCT}%)를 초과했습니다."
+                )
+
+        # 4. 전일 대비 기준일자 간격 검사 (1~5영업일 이내)
+        if self.prev_as_of_date:
+            d_curr = datetime.fromisoformat(self.as_of_date).date()
+            d_prev = datetime.fromisoformat(self.prev_as_of_date).date()
+            gap = (d_curr - d_prev).days
+            if not (1 <= gap <= 5):
+                raise ValueError(
+                    f"전일 스냅샷 기준일 간격 이상: {self.prev_as_of_date} -> {self.as_of_date} ({gap}일 차이, 1~5일 허용)"
+                )
 
         return self
 
@@ -156,6 +200,10 @@ def extract_contract_inputs(raw_dict: dict[str, Any]) -> dict[str, Any]:
     if len(as_of) == 8 and as_of.isdigit():
         as_of = f"{as_of[:4]}-{as_of[4:6]}-{as_of[6:]}"
 
+    prev_as_of = str(raw.get("prevAsOfDate") or raw.get("prev_as_of_date") or "").strip()
+    if len(prev_as_of) == 8 and prev_as_of.isdigit():
+        prev_as_of = f"{prev_as_of[:4]}-{prev_as_of[4:6]}-{prev_as_of[6:]}"
+
     gen_count = (
         pulse.get("generalEtfCount")
         or raw.get("generalEtfCount")
@@ -182,6 +230,7 @@ def extract_contract_inputs(raw_dict: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "as_of_date": as_of,
+        "prev_as_of_date": prev_as_of,
         "general_etf_count": int(gen_count),
         "general_total_aum": float(total_aum),
         "aum_weighted_return_pct": float(weighted_ret),

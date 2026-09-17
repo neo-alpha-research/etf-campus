@@ -458,6 +458,24 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertGreater(len(post_errs), 0, "post_count 기록이 누락된 경우 차단되어야 합니다.")
         self.assertTrue(any("post_count" in e for e in post_errs))
 
+        # 6. 지시 3 후속 회귀 테스트: DELETE FROM만 있고 baselines 기록 없는 마이그레이션 차단 (0023 precedent)
+        delete_without_baseline_ddl = """
+        DELETE FROM market_source_index_daily WHERE source_version != 'v1';
+        """
+        delete_errs = check_destructive_migrations_baseline_in_text(delete_without_baseline_ddl, "0027_delete_purge.sql")
+        self.assertGreater(len(delete_errs), 0, "DELETE FROM을 포함한 파괴적 마이그레이션은 차단되어야 합니다.")
+        self.assertTrue(any("FM-011" in e for e in delete_errs))
+
+        # 7. 지시 3 후속 회귀 테스트: details 문자열 리터럴에 '--'가 포함되고 post_count가 뒤에 오는 정상 마이그레이션 통과 (오탐 방지)
+        string_with_dash_ddl = """
+        INSERT INTO migration_baselines (migration_name, target_table, pre_count, post_count, details)
+        VALUES ('0027_cleanup', 'market_source_index_daily', 100, -1, 'purge raw index codes -- keep only canonical');
+        DELETE FROM market_source_index_daily WHERE index_code LIKE '^%';
+        UPDATE migration_baselines SET post_count = 80 WHERE migration_name = '0027_cleanup';
+        """
+        dash_errs = check_destructive_migrations_baseline_in_text(string_with_dash_ddl, "0027_cleanup.sql")
+        self.assertEqual(len(dash_errs), 0, "문자열 리터럴 내 '--'가 포함되어도 post_count가 정상 인식되어 통과해야 합니다.")
+
     def test_strip_sql_comments(self):
         """strip_sql_comments 순수 함수 단위 테스트: 라인 주석 및 블록 주석 제거 검증."""
         sql = (
@@ -473,6 +491,12 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertNotIn("inline comment", cleaned)
         self.assertIn("SELECT 1;", cleaned)
         self.assertIn("SELECT 2;", cleaned)
+
+        # 문자열 리터럴 내의 -- 및 /* */ 보존 검증 (오탐 방지)
+        sql_with_literal = "INSERT INTO t (col) VALUES ('keep -- not a comment /* neither */'); -- strip this"
+        cleaned_literal = strip_sql_comments(sql_with_literal)
+        self.assertIn("keep -- not a comment /* neither */", cleaned_literal)
+        self.assertNotIn("strip this", cleaned_literal)
 
     def test_baseline_exempt_migrations(self):
         """BASELINE_EXEMPT_MIGRATIONS 상수 무결성 검증: 0001~0026 면제, 0027부터 엄격 적용."""

@@ -148,6 +148,32 @@ class TestCheckPagesDeployment(unittest.TestCase):
         )
         self.assertEqual(exit_code, 1, "API HTTP 오류 시 폴링 없이 즉시 1로 종료해야 합니다.")
 
+    def test_short_sha_rejected_at_entrypoint_with_zero_polling(self):
+        """지시 2 회귀 테스트 ①: 7자리 단축 SHA 입력 시 폴링 0회로 진입점에서 즉시 fail-closed 오류(exit 1)."""
+        with patch("scripts.check_pages_deployment.fetch_pages_deployments") as mock_fetch:
+            exit_code = wait_for_pages_deployment(
+                "test-project",
+                "e9914f3",  # 7-char short SHA
+                account_id="mock-account",
+                api_token="mock-token",
+                timeout_seconds=60,
+            )
+            self.assertEqual(exit_code, 1)
+            mock_fetch.assert_not_called()
+
+    def test_39_char_sha_rejected_at_entrypoint_with_zero_polling(self):
+        """지시 2 회귀 테스트 ②: 39자리 불완전 SHA 입력 시 폴링 0회로 진입점에서 즉시 fail-closed 오류(exit 1)."""
+        with patch("scripts.check_pages_deployment.fetch_pages_deployments") as mock_fetch:
+            exit_code = wait_for_pages_deployment(
+                "test-project",
+                "e9914f368c056ae51d273e0a5e59565e902febe",  # 39 chars
+                account_id="mock-account",
+                api_token="mock-token",
+                timeout_seconds=60,
+            )
+            self.assertEqual(exit_code, 1)
+            mock_fetch.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

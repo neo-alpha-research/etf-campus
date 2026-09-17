@@ -156,7 +156,7 @@ describe("EtfCompareTimeseriesChart", () => {
     render(
       <EtfCompareTimeseriesChart
         basket={basket}
-        period="1M"
+        period="3M"
         seriesMap={seriesMap}
       />
     );

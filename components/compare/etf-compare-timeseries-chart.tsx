@@ -645,9 +645,10 @@ export function EtfCompareTimeseriesChart({
 
                 if (!currentSegment || currentSegment.isFilled !== pt.isFilled) {
                   // Connect with last point if transitioning to avoid gap
-                  const prevPt = currentSegment && currentSegment.points.length > 0
-                    ? currentSegment.points[currentSegment.points.length - 1]
-                    : null;
+                  const prevPt: { x: number; y: number } | null =
+                    currentSegment && currentSegment.points.length > 0
+                      ? currentSegment.points[currentSegment.points.length - 1]
+                      : null;
                   currentSegment = {
                     isFilled: pt.isFilled,
                     points: prevPt ? [prevPt, { x, y }] : [{ x, y }],

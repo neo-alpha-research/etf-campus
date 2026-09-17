@@ -22,6 +22,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from scripts.lint_pipeline import (
     ALL_CHECKS,
+    BASELINE_EXEMPT_MIGRATIONS,
     check_git_log_subprocesses_in_text,
     check_import_error_swallowing_in_code,
     check_daily_market_git_add_in_text,
@@ -34,6 +35,7 @@ from scripts.lint_pipeline import (
     check_cron_workflows_on_default_branch,
     check_destructive_migrations_baseline_in_text,
     check_failure_modes_coverage,
+    strip_sql_comments,
 )
 
 
@@ -348,6 +350,17 @@ class TestPipelineLinterRegression(unittest.TestCase):
         safe_errs = check_migration_workflow_deployment_gate_in_text(safe_workflow, "safe.yml")
         self.assertEqual(len(safe_errs), 0, "check_pages_deployment.py가 선행된 워크플로는 통과해야 합니다.")
 
+        # 3. 지시 3 회귀 테스트: 스텝 제목(name:)에만 check_pages_deployment.py가 있고 실제 python 실행 명령이 누락된 경우 차단
+        title_only_workflow = """
+        - name: Wait for Pages deployment of current SHA (check_pages_deployment.py)
+          run: echo "Not invoking python script"
+        - name: Apply unapplied D1 migrations
+          run: npx wrangler d1 migrations apply etf-prices --remote
+        """
+        title_errs = check_migration_workflow_deployment_gate_in_text(title_only_workflow, "title_only.yml")
+        self.assertGreater(len(title_errs), 0, "스텝 제목에만 파일명이 있고 python 실행이 없는 경우 검출되어야 합니다.")
+        self.assertTrue(any("Missing actual execution command" in e for e in title_errs))
+
     def test_fm010_detects_cron_workflow_not_on_default_branch(self):
         """FM-010: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 없는 경우 탐지 및 Fail-Closed 검증."""
         import tempfile
@@ -422,6 +435,52 @@ class TestPipelineLinterRegression(unittest.TestCase):
         safe_ddl = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY);"
         safe_errs = check_destructive_migrations_baseline_in_text(safe_ddl, "0028_safe.sql")
         self.assertEqual(len(safe_errs), 0, "비파괴적 마이그레이션은 통과해야 합니다.")
+
+        # 4. 지시 3 회귀 테스트: 주석(-- 및 /* */)에만 baselines 텍스트가 존재하는 경우 차단
+        comment_only_ddl = """
+        -- INSERT INTO migration_baselines (migration_name, target_table, pre_count, post_count) VALUES ('0027', 'tbl', 10, 10);
+        /* INSERT INTO migration_baselines (pre_count, post_count) VALUES (10, 10); */
+        DROP TABLE market_source_index_daily;
+        CREATE TABLE market_source_index_daily (id INTEGER PRIMARY KEY);
+        """
+        comment_errs = check_destructive_migrations_baseline_in_text(comment_only_ddl, "0027_comment_only.sql")
+        self.assertGreater(len(comment_errs), 0, "주석에만 baseline이 작성된 경우 차단되어야 합니다.")
+        self.assertTrue(any("FM-011" in e for e in comment_errs))
+
+        # 5. 지시 3 회귀 테스트: post_count 기록 누락 차단
+        missing_post_ddl = """
+        INSERT INTO migration_baselines (migration_name, target_table, pre_count)
+        VALUES ('0027_destructive', 'market_source_index_daily', 10);
+        DROP TABLE market_source_index_daily;
+        CREATE TABLE market_source_index_daily (id INTEGER PRIMARY KEY);
+        """
+        post_errs = check_destructive_migrations_baseline_in_text(missing_post_ddl, "0027_missing_post.sql")
+        self.assertGreater(len(post_errs), 0, "post_count 기록이 누락된 경우 차단되어야 합니다.")
+        self.assertTrue(any("post_count" in e for e in post_errs))
+
+    def test_strip_sql_comments(self):
+        """strip_sql_comments 순수 함수 단위 테스트: 라인 주석 및 블록 주석 제거 검증."""
+        sql = (
+            "-- single line comment\n"
+            "SELECT 1;\n"
+            "/* multi-line\n"
+            "   block comment */\n"
+            "SELECT 2; -- inline comment"
+        )
+        cleaned = strip_sql_comments(sql)
+        self.assertNotIn("single line comment", cleaned)
+        self.assertNotIn("multi-line", cleaned)
+        self.assertNotIn("inline comment", cleaned)
+        self.assertIn("SELECT 1;", cleaned)
+        self.assertIn("SELECT 2;", cleaned)
+
+    def test_baseline_exempt_migrations(self):
+        """BASELINE_EXEMPT_MIGRATIONS 상수 무결성 검증: 0001~0026 면제, 0027부터 엄격 적용."""
+        self.assertIn("0001", BASELINE_EXEMPT_MIGRATIONS)
+        self.assertIn("0024", BASELINE_EXEMPT_MIGRATIONS)
+        self.assertIn("0025", BASELINE_EXEMPT_MIGRATIONS)
+        self.assertIn("0026", BASELINE_EXEMPT_MIGRATIONS)
+        self.assertNotIn("0027", BASELINE_EXEMPT_MIGRATIONS)
 
 
 if __name__ == "__main__":

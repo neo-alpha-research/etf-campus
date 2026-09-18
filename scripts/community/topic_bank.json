@@ -385,7 +385,8 @@
         "복리",
         "재투자"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-19"
     },
     {
       "id": "sca-026",
@@ -2005,7 +2006,8 @@
         "자산배분",
         "클래식전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-19"
     },
     {
       "id": "sp-046",
@@ -2439,7 +2441,8 @@
         "복리효과",
         "시뮬레이션"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-19"
     },
     {
       "id": "qna-045",

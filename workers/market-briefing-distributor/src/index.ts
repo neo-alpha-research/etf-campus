@@ -429,7 +429,7 @@ export async function publishToThreadsLive(
   env: Env,
   payload: MarketBriefingPayload,
   force = false
-): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
+): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string; isTokenExpired?: boolean }> {
   // 0. Circuit Breaker & Freshness Guard
   const validation = await validateBriefingPayload(payload, env, { force });
   if (!validation.isSafe) {
@@ -534,7 +534,12 @@ export async function publishToThreadsLive(
     });
     const createData: any = await createRes.json();
     if (!createData.id) {
-      return { success: false, error: `Failed to create Threads container: ${JSON.stringify(createData)}` };
+      const errObj = createData?.error;
+      const isTokenExpired = errObj?.code === 190 || errObj?.error_subcode === 463 || errObj?.type === "OAuthException";
+      const errMsg = isTokenExpired
+        ? `[Meta Threads Token Expired] ${errObj?.message || "OAuthException code 190"}. Please refresh THREADS_ACCESS_TOKEN.`
+        : `Failed to create Threads container: ${JSON.stringify(createData)}`;
+      return { success: false, error: errMsg, isTokenExpired };
     }
 
     // If media is IMAGE, wait for Meta to finish fetching and processing the image before publishing
@@ -557,7 +562,12 @@ export async function publishToThreadsLive(
     const pubData: any = await pubRes.json();
     const publishedPostId = pubData.id;
     if (!publishedPostId) {
-      return { success: false, error: `Failed to publish Threads post: ${JSON.stringify(pubData)}` };
+      const errObj = pubData?.error;
+      const isTokenExpired = errObj?.code === 190 || errObj?.error_subcode === 463 || errObj?.type === "OAuthException";
+      const errMsg = isTokenExpired
+        ? `[Meta Threads Token Expired] ${errObj?.message || "OAuthException code 190"}. Please refresh THREADS_ACCESS_TOKEN.`
+        : `Failed to publish Threads post: ${JSON.stringify(pubData)}`;
+      return { success: false, error: errMsg, isTokenExpired };
     }
 
     const permalink = `https://www.threads.net/@neo.alphareader/post/${publishedPostId}`;

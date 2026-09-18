@@ -175,7 +175,42 @@ def main() -> int:
             except Exception:
                 pass
 
-        if quarantined_items:
+        # Check for OSMU channel publish errors (including Meta token expiration)
+        osmu_error_data = None
+        osmu_candidates = []
+        if latest_dir:
+            osmu_candidates.append(latest_dir / "osmu_publish_error.json")
+        osmu_candidates.append(Path("OSMU_Archive") / as_of_date / "osmu_publish_error.json")
+        for cand in osmu_candidates:
+            if cand.exists():
+                try:
+                    osmu_error_data = json.loads(cand.read_text(encoding="utf-8"))
+                    break
+                except Exception:
+                    pass
+
+        if osmu_error_data and osmu_error_data.get("has_token_expired"):
+            failed_threads = osmu_error_data.get("results", {}).get("threads", {})
+            err_detail = failed_threads.get("error", "OAuthException 60-day limit reached")
+            msg = (
+                f"🚨 [ETF CAMPUS 긴급 경보] Meta Threads 60일 토큰 만료 (배포 차단)\n\n"
+                f"• 기준일자: {as_of_date}\n"
+                f"• 원인: Meta Threads Long-lived Access Token의 60일 유효기간이 만료되었습니다.\n"
+                f"• 상세 에러: {err_detail}\n\n"
+                f"👉 긴급 조치: Meta 개발자 센터에서 User Token 재발급 후 Cloudflare Secrets(THREADS_ACCESS_TOKEN) 업데이트 필요\n\n"
+                f"👉 관리 대시보드:\n{dashboard_link}\n"
+            )
+        elif osmu_error_data:
+            failed_channels = [ch for ch, res in osmu_error_data.get("results", {}).items() if not res.get("success")]
+            channel_str = ", ".join(failed_channels) if failed_channels else "알 수 없음"
+            msg = (
+                f"🚨 [ETF CAMPUS 경보] OSMU 채널 자동 배포 실패\n\n"
+                f"• 기준일자: {as_of_date}\n"
+                f"• 실패 채널: {channel_str}\n"
+                f"• 중단 사유: {args.reason}\n\n"
+                f"👉 관리 대시보드:\n{dashboard_link}\n"
+            )
+        elif quarantined_items:
             q_lines = "\n".join([f"  • {tk}: {reason} (기준일 {as_of})" for tk, reason, as_of in quarantined_items])
             msg = (
                 f"🚨 [ETF CAMPUS 경보] 가격 시계열 무결성 격리(Quarantine) 차단\n\n"

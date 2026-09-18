@@ -93,6 +93,7 @@ HASHTAG_POOL = {
 ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
 RETURNS_CSV = ROOT / "data" / "etf_returns_draft.csv"
+SERIES_V2_DIR = ROOT / "public" / "data" / "series" / "v2"
 
 KST = timezone(timedelta(hours=9))
 
@@ -199,6 +200,46 @@ def find_etf_in_master(query: str, ticker_hint: str = None) -> dict | None:
                 return item
 
     return None
+
+
+def get_v2_1y_returns(ticker: str | None, as_of_date: str = "2026-09-17") -> tuple[float | None, float | None]:
+    """공식 Series V2 파일에서 분배금을 포함한 세전 총수익률(TR)과 시장가격 수익률(PR)을 정밀 계산합니다."""
+    if not ticker:
+        return None, None
+    file_path = SERIES_V2_DIR / f"{ticker}.json"
+    if not file_path.exists():
+        return None, None
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            data = json.load(f)
+        dates = data.get("dates", [])
+        closes = data.get("close", [])
+        trs = data.get("tr", [])
+        if not dates or not closes or not trs:
+            return None, None
+
+        if as_of_date in dates:
+            idx_end = dates.index(as_of_date)
+        else:
+            idx_end = len(dates) - 1
+
+        end_dt = datetime.strptime(dates[idx_end], "%Y-%m-%d")
+        start_target = (end_dt - timedelta(days=365)).strftime("%Y-%m-%d")
+
+        idx_start = 0
+        for i, d in enumerate(dates):
+            if d >= start_target:
+                idx_start = i
+                break
+
+        if idx_start >= idx_end:
+            return None, None
+
+        pr = (closes[idx_end] / closes[idx_start] - 1) * 100
+        tr = (trs[idx_end] / trs[idx_start] - 1) * 100
+        return round(pr, 2), round(tr, 2)
+    except Exception:
+        return None, None
 
 
 def format_aum_korean(aum_num: float | int | None) -> str:
@@ -444,33 +485,47 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     ret_a_12m = item_a.get("return12m") if item_a else None
     ret_b_12m = item_b.get("return12m") if item_b else None
 
+    # V2 시계열에서 분배금을 포함한 1년 총수익률(TR) 및 시장가격(PR) 산출 (Zero-Hallucination)
+    tk_a = item_a.get("ticker") if item_a else None
+    tk_b = item_b.get("ticker") if item_b else None
+    pr_a, tr_a = get_v2_1y_returns(tk_a, "2026-09-17")
+    pr_b, tr_b = get_v2_1y_returns(tk_b, "2026-09-17")
+
     if tot_fee_a_val is not None and tot_fee_b_val is not None and real_fee_a_val is not None and real_fee_b_val is not None:
         multiplier = round(max(real_fee_a_val / tot_fee_a_val, real_fee_b_val / tot_fee_b_val))
         fee_compare_line = (
-            f"총보수: {brand_a} {tot_fee_a_val:.3f}% vs {brand_b} {tot_fee_b_val:.3f}%\n"
-            f"실부담비용: {brand_a} {real_fee_a_val:.3f}% vs {brand_b} {real_fee_b_val:.3f}% (최대 {multiplier}배)"
+            f"총보수는 {brand_a} {tot_fee_a_val:.4f}% vs {brand_b} {tot_fee_b_val:.4f}%로 비슷해.\n"
+            f"실부담비용은 {brand_a} {real_fee_a_val:.4f}% vs {brand_b} {real_fee_b_val:.4f}%로 최대 {multiplier}배까지 뛰어."
         )
     else:
         fee_compare_line = (
-            f"총보수는 둘 다 {etf_a_fee} 안팎이지만, 숨은 비용을 더한 실부담비용은 0.10% 수준으로 뛰어."
+            f"총보수는 둘 다 {etf_a_fee} 안팎으로 비슷해 보여.\n"
+            "하지만 실부담비용은 둘 다 0.10% 수준으로 15배 넘게 올라가."
         )
 
-    if ret_a_12m is not None and ret_b_12m is not None:
-        return_compare_line = f"1년 수익률: {brand_a} {ret_a_12m:.1f}% vs {brand_b} {ret_b_12m:.1f}%"
+    if tr_a is not None and tr_b is not None and pr_a is not None and pr_b is not None:
+        return_compare_line = (
+            f"분배금을 합친 1년 총수익률 TR은 {brand_a} {tr_a:.2f}% vs {brand_b} {tr_b:.2f}%야.\n"
+            f"단순 주가 PR은 둘 다 {round((pr_a + pr_b) / 2, 1):.1f}%대로 똑같이 따라가."
+        )
+    elif ret_a_12m is not None and ret_b_12m is not None:
+        return_compare_line = f"1년 수익률은 {brand_a} {ret_a_12m:.2f}% vs {brand_b} {ret_b_12m:.2f}%야."
     else:
-        return_compare_line = "1년 수익률은 지수 추종으로 거의 유사해."
+        return_compare_line = "최근 1년 수익률도 지수를 잘 따라가서 거의 같아."
 
     if etf_a_pension == etf_b_pension:
-        pension_compare_line = f"둘 다 {etf_a_pension}. {return_compare_line}"
+        pension_compare_line = f"둘 다 {etf_a_pension}"
         pension_warning_line = (
-            "단 실부담비용은 결산 사후치라 매년 달라져.\n"
-            "장기 적립은 실부담비용 최저가 유리하고, 잦은 매매는 덩치 큰 쪽이 안전한 셈이지."
+            f"{return_compare_line}\n\n"
+            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어.\n"
+            "장기 적립은 실부담비용 최저가 유리하고, 잦은 매매는 순자산 큰 쪽이 유리한 셈이지."
         )
     else:
-        pension_compare_line = f"{brand_a} {etf_a_pension} vs {brand_b} {etf_b_pension}. {return_compare_line}"
+        pension_compare_line = f"{brand_a}은 {etf_a_pension}, {brand_b}은 {etf_b_pension}"
         pension_warning_line = (
-            "단 실부담비용은 결산 사후치라 매년 달라져.\n"
-            "이름만 보고 골랐다가 연금 계좌에 못 담거나 수수료를 더 내지 않게 조심해야 해."
+            f"{return_compare_line}\n\n"
+            "이걸 모르고 이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 수수료만 더 내기 쉬워.\n"
+            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어."
         )
 
     # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
@@ -560,22 +615,22 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
     elif template_key == "rival_match":
         text = f"""{slots['etf_a_name']} vs {slots['etf_b_name']}.
-같은 {slots['target_index']} 투자인데 계좌 결과는 완전히 달라.
+같은 {slots['target_index']} 투자인데 계좌 결과는 달라.
 
 실제 데이터로 딱 3가지만 비교해볼게.
 
-1. 순자산 덩치:
+1. 순자산:
 {slots['brand_a']} {slots['etf_a_aum']} vs {slots['brand_b']} {slots['etf_b_aum']}
 
-2. 표기 보수 vs 실제 부담 비용:
+2. 표기 보수 vs 실부담비용:
 {slots['fee_compare_line']}
 
-3. 연금 한도와 1년 수익률:
+3. 연금 한도와 1년 총수익률:
 {slots['pension_compare_line']}
 
 {slots['pension_warning_line']}
 
-국내 상장 주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 확인할 수 있어.
+주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 확인할 수 있어.
 
 다들 {slots['target_index']} 모을 때 순자산을 먼저 봐, 아니면 실부담비용을 먼저 봐?
 

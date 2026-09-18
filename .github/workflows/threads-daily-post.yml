@@ -1,9 +1,6 @@
 name: Threads daily post generation
 
 on:
-  schedule:
-    # 매일 KST 07:00 (= UTC 22:00 전날) — 가장 이른 골든타임 전 준비
-    - cron: "0 22 * * *"
   workflow_dispatch:
     inputs:
       date:

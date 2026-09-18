@@ -242,6 +242,10 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         run: python scripts/build_local_briefing_payload.py
 
+      - name: Regenerate public screener and search index
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: npx --yes tsx scripts/generate-screener-json.ts
+
       - name: Ingest daily ETF prices to D1 (Downstream Consumer)
         continue-on-error: true
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')

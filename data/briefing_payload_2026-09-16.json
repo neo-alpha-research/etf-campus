@@ -1802,20 +1802,13 @@
     ],
     "disparityWarning": [
       {
-        "ticker": "265690",
-        "name": "ACE 러시아MSCI(합성)",
-        "assetClass": "주식-해외",
-        "nav": 48.42,
-        "price": 8535.0,
-        "disparityPct": 17527.01
-      },
-      {
         "ticker": "0164G0",
         "name": "RISE 차이나AI반도체TOP4Plus",
         "assetClass": "주식-해외",
         "nav": 11925.15,
         "price": 12475.0,
-        "disparityPct": 4.61
+        "disparityPct": 4.61,
+        "etfName": "RISE 차이나AI반도체TOP4Plus"
       },
       {
         "ticker": "450190",
@@ -1823,7 +1816,8 @@
         "assetClass": "주식-국내",
         "nav": 46521.41,
         "price": 48445.0,
-        "disparityPct": 4.13
+        "disparityPct": 4.13,
+        "etfName": "KODEX 한중반도체(합성)"
       },
       {
         "ticker": "396520",
@@ -1831,7 +1825,8 @@
         "assetClass": "주식-해외",
         "nav": 12626.44,
         "price": 13090.0,
-        "disparityPct": 3.67
+        "disparityPct": 3.67,
+        "etfName": "TIGER 차이나반도체FACTSET"
       },
       {
         "ticker": "0162L0",
@@ -1839,7 +1834,8 @@
         "assetClass": "주식-해외",
         "nav": 13022.89,
         "price": 13475.0,
-        "disparityPct": 3.47
+        "disparityPct": 3.47,
+        "etfName": "KODEX 차이나AI반도체TOP10"
       },
       {
         "ticker": "449690",
@@ -1847,7 +1843,8 @@
         "assetClass": "주식-국내",
         "nav": 46109.06,
         "price": 47625.0,
-        "disparityPct": 3.29
+        "disparityPct": 3.29,
+        "etfName": "TIGER 한중반도체(합성)"
       },
       {
         "ticker": "416090",
@@ -1855,7 +1852,8 @@
         "assetClass": "주식-해외",
         "nav": 12012.34,
         "price": 12400.0,
-        "disparityPct": 3.23
+        "disparityPct": 3.23,
+        "etfName": "ACE 중국과창판STAR50"
       },
       {
         "ticker": "428510",
@@ -1863,7 +1861,8 @@
         "assetClass": "주식-해외",
         "nav": 22351.23,
         "price": 23000.0,
-        "disparityPct": 2.9
+        "disparityPct": 2.9,
+        "etfName": "KODEX 차이나AI테크액티브"
       },
       {
         "ticker": "0047A0",
@@ -1871,7 +1870,8 @@
         "assetClass": "주식-해외",
         "nav": 12148.53,
         "price": 12495.0,
-        "disparityPct": 2.85
+        "disparityPct": 2.85,
+        "etfName": "TIGER 차이나테크TOP10"
       },
       {
         "ticker": "261920",
@@ -1879,7 +1879,8 @@
         "assetClass": "주식-해외",
         "nav": 12023.93,
         "price": 11705.0,
-        "disparityPct": -2.65
+        "disparityPct": -2.65,
+        "etfName": "ACE MSCI필리핀(합성)"
       }
     ],
     "headlineText": "국내 ETF 시장 AUM 37.3조원 규모, 상승 우세 마감",

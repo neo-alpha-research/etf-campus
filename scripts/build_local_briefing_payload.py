@@ -388,18 +388,28 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
             "tradeSharePct": round(e["tradeValue"] / gen_total_trade * 100, 2) if gen_total_trade > 0 else 0.0,
         })
 
-    # 8. Disparity Warning (Abs Disparity >= 2.0%)
+    # 8. Disparity Warning (General ETFs only, trade_value >= 10,000,000 KRW, Domestic >= 1.0%, Overseas >= 3.0%)
     disparity_warning: list[dict[str, Any]] = []
-    for e in sorted(all_etfs, key=lambda x: abs(x["disparityPct"]), reverse=True):
-        if abs(e["disparityPct"]) >= 2.0:
+    for e in general_etfs:
+        disp = e.get("disparityPct")
+        trade_val = e.get("tradeValue") or 0.0
+        # 저유동성 및 거래정지 종목 제외 (최소 거래대금 1,000만원 이상)
+        if disp is None or trade_val < 10_000_000:
+            continue
+        
+        asset_cls = e.get("assetClass", "")
+        threshold = 1.0 if "국내" in asset_cls else 3.0
+        if abs(disp) >= threshold:
             disparity_warning.append({
                 "ticker": e["ticker"],
                 "name": e["name"],
-                "assetClass": e["assetClass"],
+                "etfName": e["name"],
+                "assetClass": asset_cls,
                 "nav": e["nav"],
                 "price": e["close"],
-                "disparityPct": e["disparityPct"],
+                "disparityPct": disp,
             })
+    disparity_warning.sort(key=lambda x: abs(x["disparityPct"]), reverse=True)
 
     # 8.5 Archive current master snapshot for robust file-based lookups (4 columns: ticker, shares, nav, bas_dt)
     try:
@@ -552,7 +562,7 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
         "weeklyFundFlows": (existing_data.get("weeklyFundFlows") or []),
         "monthlyFundFlows": (existing_data.get("monthlyFundFlows") or []),
         "focusEtfs": focus_etfs,
-        "disparityWarning": disparity_warning[:10],
+        "disparityWarning": disparity_warning,
         # Compatibility top-level aliases for renderers
         "headlineText": f"국내 ETF 시장 AUM {round(gen_total_aum / 10_000_000_000_000, 1)}조원 규모, {market_temp} 마감",
         "marketTemperature": market_temp,

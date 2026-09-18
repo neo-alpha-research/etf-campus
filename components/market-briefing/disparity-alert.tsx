@@ -5,14 +5,19 @@ import { DisparityWarning } from "@/lib/hooks/use-market-briefing";
 import Link from "next/link";
 import { AlertTriangle, TrendingUp, TrendingDown, ChevronRight, ChevronDown, ChevronUp, CheckCircle2, Info } from "lucide-react";
 
+type LegacyWarning = DisparityWarning & {
+  disparity_pct?: number;
+  etf_name?: string;
+  asset_class?: string;
+  name?: string;
+};
+
 export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // 1. 데이터 분류 및 정렬 (고평가 내림차순, 저평가 오름차순)
   const { premiums, discounts } = useMemo(() => {
     if (!warnings || warnings.length === 0) return { premiums: [], discounts: [] };
-
-    type LegacyWarning = DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
     const premList: DisparityWarning[] = [];
     const discList: DisparityWarning[] = [];
 
@@ -89,9 +94,9 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
               <div className="mt-3 space-y-2.5 w-full max-w-full box-border">
                 {topPremiums.length > 0 ? (
                   topPremiums.map((w, idx) => {
-                    const legacyW = w as DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
+                    const legacyW = w as LegacyWarning;
                     const pct = Number(legacyW.disparityPct ?? legacyW.disparity_pct ?? 0);
-                    const name = legacyW.etfName ?? legacyW.etf_name ?? "";
+                    const name = legacyW.etfName ?? legacyW.etf_name ?? legacyW.name ?? "";
                     const assetClass = legacyW.assetClass ?? legacyW.asset_class ?? "";
 
                     return (
@@ -158,9 +163,9 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
               <div className="mt-3 space-y-2.5 w-full max-w-full box-border">
                 {topDiscounts.length > 0 ? (
                   topDiscounts.map((w, idx) => {
-                    const legacyW = w as DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
+                    const legacyW = w as LegacyWarning;
                     const pct = Number(legacyW.disparityPct ?? legacyW.disparity_pct ?? 0);
-                    const name = legacyW.etfName ?? legacyW.etf_name ?? "";
+                    const name = legacyW.etfName ?? legacyW.etf_name ?? legacyW.name ?? "";
                     const assetClass = legacyW.assetClass ?? legacyW.asset_class ?? "";
 
                     return (

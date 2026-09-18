@@ -275,26 +275,51 @@ def main() -> int:
     print(f"📦 Cloudflare Account: {account_id}, KV Namespace: {namespace_id}")
 
     base_dir = Path("OSMU_Archive") / target_date
-    if not base_dir.exists():
-        print(f"❌ Error: OSMU directory '{base_dir}' does not exist!", file=sys.stderr)
-        return 1
+    has_osmu_dir = base_dir.exists()
+    if not has_osmu_dir:
+        print(f"⚠️ Notice: OSMU directory '{base_dir}' does not exist, skipping image uploads and proceeding to JSON payload sync.")
 
     success_count = 0
     total_count = 0
 
-    # 1. Instagram Carousel Slides (1 to 6)
-    for slide_no in range(1, 7):
-        slide_path = base_dir / "1_Instagram" / f"instagram_slide_{slide_no}.png"
-        key = f"image:instagram:{target_date}:{slide_no}"
-        if slide_path.exists():
+    if has_osmu_dir:
+        # 1. Instagram Carousel Slides (1 to 6)
+        for slide_no in range(1, 7):
+            slide_path = base_dir / "1_Instagram" / f"instagram_slide_{slide_no}.png"
+            key = f"image:instagram:{target_date}:{slide_no}"
+            if slide_path.exists():
+                total_count += 1
+                size_kb = slide_path.stat().st_size / 1024
+                print(f"📤 Uploading {key} ({size_kb:.1f} KB)...", end=" ")
+                ok = upload_to_kv_via_rest(
+                    account_id=account_id,
+                    namespace_id=namespace_id,
+                    key=key,
+                    file_path=slide_path,
+                    api_token=api_token,
+                    api_key=api_key,
+                    email=email,
+                )
+                if ok:
+                    print("✅ Done")
+                    success_count += 1
+                else:
+                    print("❌ Failed")
+            else:
+                print(f"⚠️ Warning: Slide file '{slide_path}' not found, skipping.")
+
+        # 2. Threads Infographic Image
+        threads_path = base_dir / "2_Threads" / "threads_image.png"
+        threads_key = f"image:threads:{target_date}"
+        if threads_path.exists():
             total_count += 1
-            size_kb = slide_path.stat().st_size / 1024
-            print(f"📤 Uploading {key} ({size_kb:.1f} KB)...", end=" ")
+            size_kb = threads_path.stat().st_size / 1024
+            print(f"📤 Uploading {threads_key} ({size_kb:.1f} KB)...", end=" ")
             ok = upload_to_kv_via_rest(
                 account_id=account_id,
                 namespace_id=namespace_id,
-                key=key,
-                file_path=slide_path,
+                key=threads_key,
+                file_path=threads_path,
                 api_token=api_token,
                 api_key=api_key,
                 email=email,
@@ -305,31 +330,7 @@ def main() -> int:
             else:
                 print("❌ Failed")
         else:
-            print(f"⚠️ Warning: Slide file '{slide_path}' not found, skipping.")
-
-    # 2. Threads Infographic Image
-    threads_path = base_dir / "2_Threads" / "threads_image.png"
-    threads_key = f"image:threads:{target_date}"
-    if threads_path.exists():
-        total_count += 1
-        size_kb = threads_path.stat().st_size / 1024
-        print(f"📤 Uploading {threads_key} ({size_kb:.1f} KB)...", end=" ")
-        ok = upload_to_kv_via_rest(
-            account_id=account_id,
-            namespace_id=namespace_id,
-            key=threads_key,
-            file_path=threads_path,
-            api_token=api_token,
-            api_key=api_key,
-            email=email,
-        )
-        if ok:
-            print("✅ Done")
-            success_count += 1
-        else:
-            print("❌ Failed")
-    else:
-        print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
+            print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
 
     # 3. Direct Market Briefing JSON Payload to KV (Zero-D1 Read Acceleration)
     date_payload_file = Path("data") / f"briefing_payload_{target_date}.json"

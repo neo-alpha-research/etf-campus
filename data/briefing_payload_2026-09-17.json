@@ -1792,76 +1792,31 @@
     ],
     "disparityWarning": [
       {
-        "ticker": "265690",
-        "name": "ACE 러시아MSCI(합성)",
-        "assetClass": "주식-해외",
-        "nav": 48.42,
-        "price": 8535.0,
-        "disparityPct": 17527.01
-      },
-      {
         "ticker": "0142D0",
         "name": "TIGER 미국AI데이터센터TOP4Plus",
+        "etfName": "TIGER 미국AI데이터센터TOP4Plus",
         "assetClass": "주식-해외",
         "nav": 10128.58,
         "price": 10500.0,
         "disparityPct": 3.67
       },
       {
-        "ticker": "0176E0",
-        "name": "RISE 미국AI전력인프라액티브",
-        "assetClass": "리츠·인프라",
-        "nav": 9434.18,
-        "price": 9715.0,
-        "disparityPct": 2.98
-      },
-      {
-        "ticker": "225130",
-        "name": "ACE 골드선물 레버리지(합성 H)",
-        "assetClass": "원자재",
-        "nav": 47566.04,
-        "price": 46290.0,
-        "disparityPct": -2.68
-      },
-      {
-        "ticker": "0127R0",
-        "name": "RISE 미국AI클라우드인프라",
-        "assetClass": "리츠·인프라",
-        "nav": 15895.59,
-        "price": 16320.0,
-        "disparityPct": 2.67
-      },
-      {
-        "ticker": "0218K0",
-        "name": "BNK 스마트카",
+        "ticker": "446690",
+        "name": "KODEX 아시아AI반도체exChina액티브",
+        "etfName": "KODEX 아시아AI반도체exChina액티브",
         "assetClass": "주식-국내",
-        "nav": 10287.03,
-        "price": 10520.0,
-        "disparityPct": 2.26
+        "nav": 58201.46,
+        "price": 57425.0,
+        "disparityPct": -1.33
       },
       {
-        "ticker": "0133E0",
-        "name": "TIGER 차이나증권",
-        "assetClass": "주식-해외",
-        "nav": 8464.14,
-        "price": 8275.0,
-        "disparityPct": -2.23
-      },
-      {
-        "ticker": "464920",
-        "name": "PLUS 일본반도체소부장",
-        "assetClass": "주식-해외",
-        "nav": 22754.97,
-        "price": 22280.0,
-        "disparityPct": -2.09
-      },
-      {
-        "ticker": "204480",
-        "name": "TIGER 차이나CSI300레버리지(합성)",
-        "assetClass": "주식-해외",
-        "nav": 23429.52,
-        "price": 22950.0,
-        "disparityPct": -2.05
+        "ticker": "275300",
+        "name": "KODEX 우량주",
+        "etfName": "KODEX 우량주",
+        "assetClass": "주식-국내",
+        "nav": 29273.66,
+        "price": 28970.0,
+        "disparityPct": -1.04
       }
     ],
     "headlineText": "국내 ETF 시장 AUM 37.8조원 규모, 상승 우세 마감",

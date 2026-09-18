@@ -626,7 +626,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
           <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-indigo-200/60">
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="inline-flex items-center rounded-md bg-indigo-600 px-2 py-0.5 text-[11px] font-extrabold text-white tracking-tight">
-                퇴직연금 82% 자산배분 전략
+                퇴직연금 85% 자산배분 전략
               </span>
               <span className="text-[11px] font-bold text-indigo-950">
                 근퇴법상 안전자산 100% 인정 (위험자산 70% 한도 미적용)
@@ -644,7 +644,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                 <span>실질 주식 비중 85%까지 편입 가능</span>
               </div>
               <p className="mt-1 text-[11px] leading-snug text-neutral-600">
-                안전자산 30% 한도에 주식 40~50% 혼합형을 편입하면, 계좌 전체 실질 주식 비중이 <strong>70% ➔ 82~85%</strong> 수준으로 구성됩니다.
+                안전자산 30% 한도에 주식 최대 50% 채권혼합형을 편입하면, 계좌 전체 실질 주식 비중이 <strong>70% ➔ 최대 85%</strong>까지 확장 구성됩니다.
               </p>
             </div>
 

@@ -194,7 +194,7 @@ describe("Dashboard", () => {
     expect(screen.getByRole("columnheader", { name: "1개월 수익률" })).toHaveTextContent("1개월");
   });
 
-  it("혼합채권 모드는 82% 자산배분 가이드 카드와 5대 투자유형 퀵 필터를 제공한다", async () => {
+  it("혼합채권 모드는 85% 자산배분 가이드 카드와 5대 투자유형 퀵 필터를 제공한다", async () => {
     const mbEtfs = [
       etf({
         ticker: "MB1",
@@ -239,7 +239,7 @@ describe("Dashboard", () => {
     await waitFor(() => expect(screen.getByRole("heading", { name: /혼합채권 ETF/ })).toBeInTheDocument());
 
     // 1. 헤더 카피 및 가이드 카드 검증
-    expect(screen.getByText("퇴직연금 82% 자산배분 전략")).toBeInTheDocument();
+    expect(screen.getByText("퇴직연금 85% 자산배분 전략")).toBeInTheDocument();
     expect(screen.getByText(/근퇴법상 안전자산 100% 인정/)).toBeInTheDocument();
     expect(screen.getByText(/실질 주식 비중 85%까지 편입 가능/)).toBeInTheDocument();
     expect(screen.getByText(/주식\+채권 분산 쿠션 및 단일종목 집중/)).toBeInTheDocument();

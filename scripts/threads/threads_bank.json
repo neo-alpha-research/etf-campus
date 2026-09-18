@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "2.1.0",
-    "description": "Threads 바이럴 포스트 발행 이력 (v2.1 - 친절한 반말체 및 실데이터 연동)",
+    "version": "2.2.0",
+    "description": "Threads 바이럴 포스트 발행 이력 (v2.2 - 8대 킬러 템플릿 및 자본시장법 컴플라이언스 준수)",
     "created": "2026-09-18",
     "format_rotation": [
       "cost_bust",
@@ -9,6 +9,8 @@
       "rival_match",
       "life_stage",
       "dividend_trap",
+      "product_mechanics",
+      "investor_mindset",
       "quick_qna"
     ],
     "publish_start_date": "2026-09-18"

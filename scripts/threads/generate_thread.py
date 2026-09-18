@@ -36,7 +36,7 @@ FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
 KST = timezone(timedelta(hours=9))
 
 # ──────────────────────────────────────────────
-# 6대 킬러 템플릿 아키텍처 (인간 체온 + 실데이터)
+# 8대 킬러 템플릿 아키텍처 (인간 체온 + 실데이터 + 컴플라이언스 준수)
 # ──────────────────────────────────────────────
 TEMPLATES = {
     "cost_bust": {
@@ -45,7 +45,7 @@ TEMPLATES = {
     },
     "tax_escape": {
         "name": "손실 공포 / 세금 함정 구출형",
-        "description": "연금저축/IRP 중도인출 시 세액공제 미신청 원금의 비과세 인출 법적 팩트 전달",
+        "description": "연금저축/IRP 중도인출 시 세액공제 미신청 원금의 비과세 인출 및 제도적 팩트 전달",
     },
     "rival_match": {
         "name": "라이벌 ETF 맞대결 / 판정형",
@@ -59,9 +59,17 @@ TEMPLATES = {
         "name": "고배당의 착시 / 원금 방어형",
         "description": "월배당 12% 커버드콜의 원금 잠식 메커니즘을 짚고 총수익률 관점 환기",
     },
+    "product_mechanics": {
+        "name": "상품 구조 / 이름 뒤에 숨은 원리 해부형",
+        "description": "합성, 액티브, 스트립, 파킹형, 레버리지 등 ETF 명칭 속 구조적 장단점과 위험 분석",
+    },
+    "investor_mindset": {
+        "name": "장기 투자 멘탈 / 데이터 팩트 검증형",
+        "description": "고점 매수 공포, 하락장 손절 방어, 리밸런싱 및 적립식 원칙을 과거 데이터로 검증",
+    },
     "quick_qna": {
         "name": "초보 Q&A / 즉각 반전 해결형",
-        "description": "초보 투자자의 단골 질문에 대해 반은 맞고 반은 틀리다로 시작해 사이다 정리",
+        "description": "초보 투자자의 단골 질문에 대해 팩트 기반 결론과 실전 가이드를 명쾌하게 제시",
     },
 }
 
@@ -70,10 +78,12 @@ TEMPLATES = {
 # ──────────────────────────────────────────────
 HASHTAG_POOL = {
     "cost_bust": ["#ETF실부담비용", "#ETF수수료", "#ETF비용비교"],
-    "tax_escape": ["#연금저축절세", "#IRP절세", "#연금세금"],
-    "rival_match": ["#ETF비교", "#S&P500ETF", "#나스닥ETF"],
-    "life_stage": ["#맞벌이재테크", "#연금포트폴리오", "#절세계좌"],
+    "tax_escape": ["#연금저축절세", "#IRP절세", "#연금세금", "#절세계좌"],
+    "rival_match": ["#ETF비교", "#SP500ETF", "#나스닥ETF"],
+    "life_stage": ["#맞벌이재테크", "#맞벌이절세", "#절세계좌"],
     "dividend_trap": ["#월배당ETF", "#커버드콜ETF", "#배당투자"],
+    "product_mechanics": ["#ETF기초", "#채권ETF", "#파킹형ETF", "#ETF공부"],
+    "investor_mindset": ["#장기투자", "#적립식투자", "#자산배분", "#멘탈관리"],
     "quick_qna": ["#ETF초보", "#ISA계좌", "#재테크기초"],
 }
 
@@ -269,23 +279,31 @@ def route_template(topic: dict) -> str:
     if "vs" in full_text.lower() or ("비교" in full_text and any(b in full_text.lower() for b in ["kodex", "tiger", "ace", "sol", "rise", "plus"])):
         return "rival_match"
 
-    # 2. 고배당의 착시 / 원금 방어 (커버드콜, 월배당, 분배율, 배당률)
-    if any(k in full_text for k in ["커버드콜", "월배당", "옵션", "분배금", "분배율", "원금", "리츠"]):
+    # 2. 고배당의 착시 / 원금 방어 (커버드콜, 월배당, 옵션, 분배금, 분배율, 리츠)
+    if any(k in full_text for k in ["커버드콜", "월배당", "옵션", "분배금", "분배율", "리츠"]):
         return "dividend_trap"
 
     # 3. 3040 맞벌이 / 계좌 분리 / 생애주기
-    if any(k in full_text for k in ["맞벌이", "부부", "생애주기", "나이", "포트폴리오", "자산배분", "30대", "40대", "50대", "글라이드패스", "목돈", "배분", "퇴직금"]):
+    if any(k in full_text for k in ["맞벌이", "부부", "생애주기", "30대", "40대", "50대", "자녀", "증여", "육아휴직", "글라이드패스", "목돈", "퇴직금"]):
         return "life_stage"
 
-    # 4. 숨은 비용 고발 (실부담비용, 수수료, 총보수, 기타비용, 괴리율, 추적오차)
-    if any(k in full_text for k in ["실부담비용", "기타비용", "매매중개수수료", "수수료", "총보수", "괴리율", "추적오차", "비용"]):
+    # 4. 숨은 비용 고발 (실부담비용, 기타비용, 매매중개수수료, 수수료, 총보수, 괴리율, 추적오차)
+    if any(k in full_text for k in ["실부담비용", "기타비용", "매매중개수수료", "수수료", "총보수", "괴리율", "추적오차"]):
         return "cost_bust"
 
-    # 5. 세금 함정 구출 (세금, 세액공제, 중도인출, 중도해지, 연금저축, IRP)
-    if any(k in full_text for k in ["세금", "세액공제", "중도인출", "중도해지", "기타소득세", "연금소득세", "16.5%"]):
+    # 5. 세금 함정 구출 / 제도 방어 (세금, 세액공제, 중도인출, 중도해지, 건보료, 피부양자, 종합과세)
+    if any(k in full_text for k in ["세금", "세액공제", "중도인출", "중도해지", "기타소득세", "연금소득세", "16.5%", "건보료", "피부양자", "종합과세", "금융소득", "비과세"]):
         return "tax_escape"
 
-    # 6. 초보 Q&A
+    # 6. 상품 구조 해부 (합성, 액티브, 스트립, 파킹형, 레버리지, 인버스, 환헤지, 상장폐지)
+    if any(k in full_text for k in ["합성", "액티브", "스트립", "파킹", "CD금리", "KOFR", "레버리지", "인버스", "환헤지", "환노출", "상장폐지", "물가연동", "듀레이션"]):
+        return "product_mechanics"
+
+    # 7. 장기 투자 멘탈 / 데이터 검증 (고점 매수, 리밸런싱, 적립식, 하락장 멘탈, FIRE)
+    if any(k in full_text for k in ["고점", "공포", "리밸런싱", "적립", "자동매수", "자동 매수", "FIRE", "심리", "원칙", "하락장", "버킷", "장기 투자", "마인드"]):
+        return "investor_mindset"
+
+    # 8. 초보 Q&A (순수 직관적 질의응답)
     return "quick_qna"
 
 
@@ -349,10 +367,36 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     if not qna_question.endswith("?"):
         qna_question += " 어떻게 해야 할까?"
 
-    clean_excerpt = excerpt.replace("합니다", "해").replace("입니다", "이야").replace("됩니다", "돼").replace("있습니다", "있어")
-    first_sentence = clean_excerpt.split(".")[0].strip()
-    if not first_sentence:
-        first_sentence = "절세 계좌를 활용하면 세후 수익률 단위가 완전히 달라져"
+    clean_excerpt = excerpt.replace("합니다", "해").replace("입니다", "이야").replace("됩니다", "돼").replace("있습니다", "있어").replace("드립니다", "드려")
+    sentences = [s.strip() for s in clean_excerpt.split(".") if len(s.strip()) > 5]
+
+    # Q&A core answer (1~2 sentences)
+    if sentences:
+        qna_core_answer = ". ".join(sentences[:2]) + "."
+    else:
+        qna_core_answer = "세부 규정과 공시 기준을 정확히 확인해야 불필요한 손실을 막을 수 있어."
+
+    # Dynamic CTA for Q&A (Context-aware)
+    if any(k in title for k in ["건보", "피부양자", "건강보험"]):
+        qna_dynamic_cta = "다들 금융소득 늘어날 때 건강보험료 기준 꼼꼼하게 따져보고 있어?"
+    elif any(k in title for k in ["외화", "환전", "환헤지", "달러"]):
+        qna_dynamic_cta = "다들 환전해서 해외 직투해, 아니면 국내 상장 ETF 담아?"
+    elif any(k in title for k in ["증권사", "파산", "예탁"]):
+        qna_dynamic_cta = "증권사 고를 때 수수료랑 거래 편의성 중 뭘 가장 중요하게 봐?"
+    elif any(k in title for k in ["ISA", "만기"]):
+        qna_dynamic_cta = "다들 ISA 만기 3년 채우고 연금 계좌로 넘길 계획이야?"
+    elif any(k in title for k in ["출금", "결제", "T+2"]):
+        qna_dynamic_cta = "다들 ETF 매도하고 출금 일정 헷갈렸던 적 없어?"
+    else:
+        qna_dynamic_cta = "다들 이 내용 미리 알고 있었어, 아니면 처음 알았어?"
+
+    # Mechanics slots
+    mechanics_target = title.split(":")[0].strip() if ":" in title else title.split("(")[0].strip()
+    mechanics_explanation = ". ".join(sentences[:2]) + "." if sentences else "구조적 특성에 따라 수익률과 위험 프로파일이 완전히 달라져."
+
+    # Mindset slots
+    mindset_target = title.split(":")[0].strip() if ":" in title else title
+    mindset_explanation = ". ".join(sentences[:2]) + "." if sentences else "역사적 데이터를 살펴보면 단기 변동성보다 일관된 원칙 유지가 성과를 좌우해."
 
     if etf_a_pension == etf_b_pension:
         pension_compare_line = f"둘 다 {etf_a_pension}"
@@ -393,7 +437,12 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         "pension_warning_line": pension_warning_line,
         "dividend_yield": dividend_yield,
         "qna_question": qna_question,
-        "qna_core_answer": f"{first_sentence}.",
+        "qna_core_answer": qna_core_answer,
+        "qna_dynamic_cta": qna_dynamic_cta,
+        "mechanics_target": mechanics_target,
+        "mechanics_explanation": mechanics_explanation,
+        "mindset_target": mindset_target,
+        "mindset_explanation": mindset_explanation,
         "as_of_date": as_of_date,
         "footer_provenance": footer_provenance,
     }
@@ -462,17 +511,17 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
     elif template_key == "life_stage":
         text = f"""3040 맞벌이 부부가 가장 많이 하는 실수.
-남편 계좌 하나에 몰아넣기.
+한 사람 명의로만 연금 계좌 몰아주기.
 
-절세 계좌는 무조건 부부 각자 명의로 찢어야 돈을 지켜.
+절세 계좌는 무조건 부부 각자 명의로 쪼개야 세금을 아껴.
 
-연금저축 세액공제는 1인당 연 600만 원이라 둘이면 연 1,200만 원이야.
-IRP까지 합치면 둘이서 연간 최대 1,800만 원까지 세액공제를 받을 수 있어.
-나중에 55세 이후 연금 탈 때도 사적연금 1,500만 원 분리과세 한도가 각자 적용돼.
+연금저축 세액공제 한도는 1인당 연 600만 원이라 둘이면 연 1,200만 원이야.
+IRP까지 합치면 부부 합산 연간 최대 1,800만 원까지 세액공제를 받을 수 있어.
+나중에 55세 넘어 연금 탈 때도 사적연금 1,500만 원 분리과세 한도가 각자 적용되거든.
 
-한 명 계좌로 몰았다가 나중에 건강보험료 피부양자 탈락하고 세금 폭탄 맞지 마.
+한 명 계좌로 몰았다가 나중에 건강보험료 피부양자 탈락하고 세금 부담 커져서 후회하지 마.
 
-부부 연금 포트폴리오에 담기 좋은 계좌별 추천 ETF 지도는 프로필 링크 [ETF 캠퍼스]에 정리해뒀어.
+부부 상황별 절세 계좌 매수 가능 여부와 1,171개 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 전수 대조해볼 수 있어.
 
 부부 절세 계좌, 다들 어떻게 나눠서 굴리고 있어?
 
@@ -494,21 +543,50 @@ IRP까지 합치면 둘이서 연간 최대 1,800만 원까지 세액공제를 �
 
 {hashtag}{slots['footer_provenance']}"""
 
+    elif template_key == "product_mechanics":
+        text = f"""{slots['mechanics_target']} 뒤에 붙은 단어 하나.
+무슨 구조인지 제대로 모르고 샀다간 낭패 봐.
+
+{slots['mechanics_explanation']}
+
+이름에 붙은 구조를 모르면 장기 투자할 때 보이지 않는 롤오버 비용이나 변동성 잠식으로 원금을 갉아먹히기 쉬워.
+내가 굴리는 돈의 목적이 연금인지 단기 파킹인지에 따라 담아야 할 상품 구조가 완전히 다른 셈이지.
+
+국내 1,171개 ETF의 세부 구조와 연금 계좌 매수 가능 여부는 프로필 링크 [ETF 캠퍼스]에 전수 정리해뒀어.
+
+다들 ETF 고를 때 상품 이름 뒤에 붙은 구조 꼼꼼히 확인하고 담는 편이야?
+
+{hashtag}{slots['footer_provenance']}"""
+
+    elif template_key == "investor_mindset":
+        text = f"""{slots['mindset_target']}.
+원칙 없이 감정으로 대응하면 손실을 키우기 십상이야.
+
+{slots['mindset_explanation']}
+
+단기 등락에 일희일비해서 매수 버튼을 멈추거나 공포에 던지는 순간 복리의 마법은 깨져버려.
+역사적 통계와 명확한 기준을 가진 사람만이 시장의 변동성을 수익으로 바꿔내는 셈이지.
+
+국내 상장 주요 지수 ETF들의 장기 실부담비용과 괴리율 데이터는 프로필 링크 [ETF 캠퍼스]에서 전수 대조해볼 수 있어.
+
+다들 시장이 크게 흔들릴 때 계획대로 적립했어, 아니면 잠시 멈췄어?
+
+{hashtag}{slots['footer_provenance']}"""
+
     else:  # quick_qna
         text = f"""{slots['qna_question']}
 물어보기 쑥스러워 혼자 검색만 하던 사람들 많을 거야.
 
-결론부터 말하면 반은 맞고 반은 틀려.
+결론부터 짚어줄게.
 
 {slots['qna_core_answer']}
 
-일반 주식 계좌에서 거래하면 배당소득세 15.4%를 바로 떼이지만,
-절세 계좌를 쓰면 비과세 혜택과 저율 분리과세로 세후 수익이 완전히 달라져.
-어디서 담느냐에 따라 3년 뒤 손에 쥐는 돈의 단위가 바뀌는 셈이지.
+금융 제도는 조금만 파고들면 손실을 막고 내 자산을 지키는 안전장치가 다 마련되어 있어.
+규정을 모르고 지나치면 낼 필요 없는 비용이나 세금을 물게 되는 셈이지.
 
-내 상황에 맞는 ISA와 연금 계좌별 ETF 추천 포트폴리오는 프로필 링크 [ETF 캠퍼스]에 다 정리해뒀어.
+국내 1,171개 ETF의 세제적격 여부와 실부담비용 비교는 프로필 링크 [ETF 캠퍼스]에서 바로 검색해볼 수 있어.
 
-다들 해외 ETF 모을 때 일반 계좌 써, 아니면 절세 계좌 써?
+{slots['qna_dynamic_cta']}
 
 {hashtag}{slots['footer_provenance']}"""
 
@@ -605,7 +683,7 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
 
     print(f"\n[INFO] [THREADS] Threads 바이럴 포스트 생성 완료 ({date_str})")
     print(f"  - 매핑 템플릿 : [{template_key}] {TEMPLATES[template_key]['name']}")
-    print(f"  - 추천 발행시각: KST {publish_time} (저녁 골든타임 Jitter)")
+    print(f"  - 예정 발행시각: KST {publish_time} (저녁 골든타임 Jitter)")
     print(f"  - 원천 주제 ID : {topic['id']} ({topic['board']})")
     print(f"  - 공백포함 글자: {len(text)}자 (스윗스팟 400~450자)")
     print(f"  - 단일 해시태그: {hashtag}\n")

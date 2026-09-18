@@ -190,6 +190,17 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
    - **로컬 검증 경량화 (Zero Push Latency)**: 매 푸시 및 커밋 작업 시마다 444개 Vitest와 144개 Python 테스트 전체를 맹목적으로 돌리는 구 잔재를 엄격히 금지한다.
    - **타깃 검증 원칙**: 로컬에서는 변경된 파일 대상의 고속 테스트(`npm run test:changed` 또는 수정한 모듈 전용 단위 테스트) 및 핵심 파이프라인 무결성 린터(`python scripts/lint_pipeline.py`)만 신속 수행(10초 컷)한다.
    - **원격 CI 전담 위임**: 프로젝트 전수 회귀 테스트는 GitHub Actions 클라우드 러너(`ci-fast.yml`, `daily-market.yml`)에 전담 위임하여 로컬 푸시 속도를 초고속으로 유지한다. (즉시 푸시가 필요할 때는 `git push --no-verify` 허용).
+12. **에이전트 커밋·푸시 절제 및 1인 운영 속도 보호 헌법 (Atomic Push & Flow Protection Mandate)**:
+   - **잦은 마이크로 푸시 전면 금지 (No Micro-Push Spam)**:
+     - 작업 중간마다 "체크포인트", "임시 백업", "진행 경과" 등의 명목으로 찔끔찔끔 `git push`를 날리는 행위를 엄격히 금지한다.
+     - 잦은 푸시는 GitHub Actions 러너 큐 체증, 불필요한 Pages 빌드 유발, 로컬 훅 지연으로 1인 운영자의 개발 리듬을 완전히 파괴한다.
+   - **1작업 1완결 커밋/푸시 원칙 (Atomic Task-Level Push)**:
+     - 모든 코드 수정과 로컬 타깃 검증이 완전히 끝나고, 운영자에게 최종 보고할 준비가 된 완결 시점에 **단 1번만 의미 있는 단일 커밋으로 푸시**한다.
+   - **무관한 영역의 전체 테스트 맹목적 실행 금지**:
+     - 문서(`docs/**`, `*.md`), 데이터 수집, 특정 단일 스크립트 수정 시 웹 UI 전체 테스트(Vitest 514개)나 전체 단위 테스트를 습관적으로 돌려 터미널을 점유하는 행위를 영구 금지한다.
+   - **푸시 충돌/지연 시 무지성 연타 금지**:
+     - 락이나 네트워크 지연 발생 시 명령어를 맹목적으로 반복 실행하지 않고, 상태를 먼저 확인한 후 1회 안전하게 재시도한다.
+
 
 
 

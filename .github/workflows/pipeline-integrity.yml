@@ -2,7 +2,21 @@ name: Pipeline Integrity
 
 on:
   push:
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+      - 'migrations/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'requirements.txt'
   pull_request:
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+      - 'migrations/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'requirements.txt'
   workflow_dispatch:
 
 permissions:
@@ -20,7 +34,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Fetch origin main for cron workflow scheduling check (FM-010)
+        run: git fetch origin main --depth=1 || true
 
       - name: Set up Python
         uses: actions/setup-python@v5

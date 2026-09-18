@@ -8,6 +8,11 @@ on:
       - 'data/**'
       - 'docs/**'
       - '**.md'
+      - 'scripts/**'
+      - '.archive_etf/**'
+      - 'OSMU_Archive/**'
+      - '.githooks/**'
+      - 'public/images/**'
 
 permissions:
   contents: read

@@ -259,7 +259,7 @@ describe("Dashboard", () => {
     expect(screen.queryByText("TIME 미국나스닥100채권혼합50액티브")).not.toBeInTheDocument();
   });
 
-  it("TDF 모드는 글라이드패스 2열 가이드 카드와 실존 6대 빈티지 및 내 나이 추천 퀵 필터를 제공한다", async () => {
+  it("TDF 모드는 글라이드패스 2열 가이드 카드와 실존 6대 빈티지 및 내 나이 맞춤 퀵 필터를 제공한다", async () => {
     const tdfEtfs = [
       etf({
         ticker: "TDF30",
@@ -328,7 +328,7 @@ describe("Dashboard", () => {
     expect(screen.queryByRole("button", { name: /2035/ })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /2055/ })).not.toBeInTheDocument();
 
-    // 3. 내 나이 맞춤 추천 검증 (50대 클릭 시 2040 매핑 및 100% 정상 필터링)
+    // 3. 내 나이 맞춤 매핑 검증 (50대 클릭 시 2040 매핑 및 100% 정상 필터링)
     const age50Button = screen.getByRole("button", { name: "50대 (2040)" });
     expect(age50Button).toBeInTheDocument();
     fireEvent.click(age50Button);

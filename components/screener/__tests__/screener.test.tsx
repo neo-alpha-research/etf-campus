@@ -475,7 +475,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("퇴직연금 탭 가이드 카드에 혼합채권과 TDF 바로가기 크로스 링크 브릿지를 렌더링한다", () => {
     render(<Screener etfs={items} />);
-    expect(screen.getByText("안전자산 30% 채우기 추천:")).toBeInTheDocument();
+    expect(screen.getByText("안전자산 30% 퀵 탐색:")).toBeInTheDocument();
     const mixedBondsLink = screen.getByRole("link", { name: /채권혼합 \(주식 최대 50% 편입\)/ });
     expect(mixedBondsLink).toHaveAttribute("href", "/quick?mode=mixed_bonds");
     const tdfLink = screen.getByRole("link", { name: /적격 TDF \(은퇴 시점별 자동 리밸런싱\)/ });
@@ -582,7 +582,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.change(searchInput, { target: { value: "대형" } });
     expect(searchInput).toHaveValue("대형");
 
-    expect(screen.getByText("추천 ETF (1개)")).toBeInTheDocument();
+    expect(screen.getByText("검색 제안 종목 (1개)")).toBeInTheDocument();
     expect(screen.getAllByText("대형 일반 ETF").length).toBeGreaterThanOrEqual(1);
   });
 });

@@ -35,7 +35,7 @@ export function CompareThemes({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
       <span className="text-sm font-extrabold text-neutral-800 whitespace-nowrap flex items-center">
-        🔥 추천 비교 조합 <span className="text-neutral-300 font-normal ml-2">|</span>
+        🔥 인기 비교 조합 <span className="text-neutral-300 font-normal ml-2">|</span>
       </span>
       {/* Scrollable on small screens, wrap on larger ones */}
       <div className="flex overflow-x-auto sm:flex-wrap items-center gap-2 pb-2 sm:pb-0 hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">

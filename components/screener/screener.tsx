@@ -839,7 +839,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             <div className="mt-2 pt-2 border-t border-brand-200/50 flex flex-wrap items-center justify-between gap-1.5 text-xs">
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-[11px] font-bold text-brand-950 flex items-center gap-1">
-                  <span>안전자산 30% 채우기 추천:</span>
+                  <span>안전자산 30% 퀵 탐색:</span>
                 </span>
                 <Link
                   href="/quick?mode=mixed_bonds"
@@ -1150,7 +1150,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         {isSearchFocused && searchSuggestions.length > 0 && (
           <ul className="absolute z-50 mt-1 w-full overflow-hidden rounded-xl border border-line bg-surface shadow-xl animate-in fade-in zoom-in-95 duration-100">
             <li className="bg-neutral-50/80 px-3 py-1.5 text-[11px] font-bold text-neutral-500 border-b border-line flex items-center justify-between">
-              <span>추천 ETF ({searchSuggestions.length}개)</span>
+              <span>검색 제안 종목 ({searchSuggestions.length}개)</span>
               <span className="text-[10px] text-brand-700 font-semibold">클릭 시 종목 상세 분석 바로가기</span>
             </li>
             {searchSuggestions.map((etf) => (

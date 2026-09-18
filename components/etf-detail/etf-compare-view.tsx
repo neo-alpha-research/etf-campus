@@ -442,7 +442,7 @@ export function EtfCompareView({
             <span>⚡ 5종목 한눈에 뷰</span>
             {compareList.length >= 3 && (
               <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-brand-100 text-brand-700 font-black sm:hidden">
-                추천
+                인기
               </span>
             )}
           </button>

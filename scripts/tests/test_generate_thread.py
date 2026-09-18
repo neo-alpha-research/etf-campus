@@ -57,6 +57,10 @@ class TestThreadsViralEngine(unittest.TestCase):
             self.assertNotIn("추천", text, f"[{tmpl}] '추천' 단어가 본문에 포함되어 있습니다!")
             self.assertNotIn("포트폴리오 추천", text, f"[{tmpl}] '포트폴리오 추천' 단어가 포함되어 있습니다!")
 
+            # 금융위원회 퇴직연금감독규정 개정(주식 50% 한도 상향) 및 무결성 검증
+            self.assertNotIn("82%", text, f"[{tmpl}] 구 규정 잔재(82%)가 본문에 포함되어 있습니다! 현행 기준은 85%입니다.")
+            self.assertNotIn("40% 혼합", text, f"[{tmpl}] 구 규정 잔재(40% 혼합)가 포함되어 있습니다! 현행 기준은 50% 미만입니다.")
+
             # 법정 면책 문구 및 공인 출처 표기 검증
             self.assertIn("한국거래소(KRX)", text, f"[{tmpl}] 공인 원천 표기가 누락되었습니다!")
             self.assertIn("특정 종목의 매수·매도를 권유하지 않습니다", text, f"[{tmpl}] 법정 면책 문구가 누락되었습니다!")

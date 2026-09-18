@@ -110,7 +110,7 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
   // 헤더 생성
   let headerLabel = "직접 비교그룹";
   if (directPeerCount === 0) {
-    headerLabel = "자동 추천 비교그룹";
+    headerLabel = "동종 테마 유사 비교그룹";
   } else if (directPeerCount < selected.candidates.length) {
     headerLabel = "직접/유사 비교그룹 (확장됨)";
   } else {

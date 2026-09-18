@@ -1106,7 +1106,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                         ? "bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-300"
                         : "bg-indigo-50 border border-indigo-200 text-indigo-800 hover:bg-indigo-100"
                     }`}
-                    title={`${rec.label} (${rec.birth}) 추천 빈티지 ${rec.vintage}`}
+                    title={`${rec.label} (${rec.birth}) 매핑 빈티지 ${rec.vintage}`}
                   >
                     {rec.label} ({rec.vintage})
                   </button>

@@ -257,7 +257,7 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.getByRole("columnheader", { name: "퇴직연금" })).toBeInTheDocument();
   });
 
-  it("3종목 이상 비교 시 '추천' 배지는 sm:hidden 클래스가 적용되어 모바일에서만 노출된다", () => {
+  it("3종목 이상 비교 시 '인기' 배지는 sm:hidden 클래스가 적용되어 모바일에서만 노출된다", () => {
     const etfList: Partial<Etf>[] = [
       { ticker: "000001", name: "ETF 1", returns: { "12m": 10.0 } },
       { ticker: "000002", name: "ETF 2", returns: { "12m": 12.0 } },
@@ -266,7 +266,7 @@ describe("EtfCompareView selectionReasons", () => {
 
     render(<EtfCompareView basket={etfList as Etf[]} />);
 
-    const badge = screen.getByText("추천");
+    const badge = screen.getByText("인기");
     expect(badge).toBeInTheDocument();
     expect(badge.className).toContain("sm:hidden");
   });

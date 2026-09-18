@@ -301,9 +301,6 @@ async function main() {
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
   console.log(`[OSMU Render] Generated ${slides.length} slides.`);
 
-  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
   const osmuBaseDir = path.join(repoRoot, "OSMU_Archive");
   const outputDir = path.join(osmuBaseDir, targetDate, "1_Instagram");
   fs.mkdirSync(outputDir, { recursive: true });

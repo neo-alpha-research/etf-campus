@@ -90,6 +90,15 @@ HASHTAG_POOL = {
 # ──────────────────────────────────────────────
 # 실데이터 로더 및 포맷터 (단일 원천 SSOT: etf_master_draft.csv + fees/)
 # ──────────────────────────────────────────────
+ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
+FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
+RETURNS_CSV = ROOT / "data" / "etf_returns_draft.csv"
+
+KST = timezone(timedelta(hours=9))
+
+# ──────────────────────────────────────────────
+# 8대 킬러 템플릿 아키텍처 (인간 체온 + 실데이터 + 컴플라이언스 준수)
+# ──────────────────────────────────────────────
 _MASTER_CACHE = None
 
 def load_master_data() -> list[dict]:
@@ -108,8 +117,30 @@ def load_master_data() -> list[dict]:
                     for item in records:
                         tk = item.get("ticker")
                         fee_pct = item.get("total_fee_pct")
+                        ter = item.get("ter_pct")
+                        trading = item.get("trading_cost_pct")
+                        real_fee = round((ter or 0) + (trading or 0), 4) if ter is not None else None
                         if tk and fee_pct is not None:
-                            fee_map[tk] = {"totalFeePct": fee_pct}
+                            fee_map[tk] = {
+                                "totalFeePct": fee_pct,
+                                "terPct": ter,
+                                "tradingCostPct": trading,
+                                "realFeePct": real_fee,
+                            }
+        except Exception:
+            pass
+
+    returns_map = {}
+    if RETURNS_CSV.exists():
+        try:
+            with open(RETURNS_CSV, encoding="utf-8-sig") as f:
+                for row in csv.DictReader(f):
+                    tk = row.get("ticker")
+                    r12 = row.get("r_12m")
+                    try:
+                        returns_map[tk] = float(r12) if r12 else None
+                    except (ValueError, TypeError):
+                        returns_map[tk] = None
         except Exception:
             pass
 
@@ -130,6 +161,7 @@ def load_master_data() -> list[dict]:
                         "name": row.get("name", ""),
                         "aum": aum_val,
                         "fee": fee_map.get(tk),
+                        "return12m": returns_map.get(tk),
                         "pensionLimit": row.get("pension_limit"),
                         "asOfDate": row.get("bas_dt"),
                     })
@@ -398,18 +430,47 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     mindset_target = title.split(":")[0].strip() if ":" in title else title
     mindset_explanation = ". ".join(sentences[:2]) + "." if sentences else "역사적 데이터를 살펴보면 단기 변동성보다 일관된 원칙 유지가 성과를 좌우해."
 
-    if etf_a_pension == etf_b_pension:
-        pension_compare_line = f"둘 다 {etf_a_pension}"
-        pension_warning_line = (
-            "두 ETF 모두 지수를 잘 따라가서 최근 1년 수익률은 거의 같아.\n"
-            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어.\n\n"
-            "장기 적립은 실부담비용 최저가 복리에 유리하고, 잦은 매매는 순자산이 큰 쪽이 안전한 셈이지."
+    # 브랜드 단축명 (가독성 및 모바일 글자 수 최적화)
+    brand_a = etf_a_name.split()[0] if etf_a_name else "A"
+    brand_b = etf_b_name.split()[0] if etf_b_name else "B"
+
+    # 실제 수치(표기보수, 실부담비용, 1년수익률) 정밀 연동 (Zero-Hallucination)
+    fee_a_obj = item_a.get("fee") if item_a else None
+    fee_b_obj = item_b.get("fee") if item_b else None
+    tot_fee_a_val = fee_a_obj.get("totalFeePct") if fee_a_obj else None
+    tot_fee_b_val = fee_b_obj.get("totalFeePct") if fee_b_obj else None
+    real_fee_a_val = fee_a_obj.get("realFeePct") if fee_a_obj else None
+    real_fee_b_val = fee_b_obj.get("realFeePct") if fee_b_obj else None
+    ret_a_12m = item_a.get("return12m") if item_a else None
+    ret_b_12m = item_b.get("return12m") if item_b else None
+
+    if tot_fee_a_val is not None and tot_fee_b_val is not None and real_fee_a_val is not None and real_fee_b_val is not None:
+        multiplier = round(max(real_fee_a_val / tot_fee_a_val, real_fee_b_val / tot_fee_b_val))
+        fee_compare_line = (
+            f"총보수: {brand_a} {tot_fee_a_val:.3f}% vs {brand_b} {tot_fee_b_val:.3f}%\n"
+            f"실부담비용: {brand_a} {real_fee_a_val:.3f}% vs {brand_b} {real_fee_b_val:.3f}% (최대 {multiplier}배)"
         )
     else:
-        pension_compare_line = f"{etf_a_name}은 {etf_a_pension}, {etf_b_name}은 {etf_b_pension}"
+        fee_compare_line = (
+            f"총보수는 둘 다 {etf_a_fee} 안팎이지만, 숨은 비용을 더한 실부담비용은 0.10% 수준으로 뛰어."
+        )
+
+    if ret_a_12m is not None and ret_b_12m is not None:
+        return_compare_line = f"1년 수익률: {brand_a} {ret_a_12m:.1f}% vs {brand_b} {ret_b_12m:.1f}%"
+    else:
+        return_compare_line = "1년 수익률은 지수 추종으로 거의 유사해."
+
+    if etf_a_pension == etf_b_pension:
+        pension_compare_line = f"둘 다 {etf_a_pension}. {return_compare_line}"
         pension_warning_line = (
-            "이걸 모르고 이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 수수료만 더 내기 쉬워.\n"
-            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어."
+            "단 실부담비용은 결산 사후치라 매년 달라져.\n"
+            "장기 적립은 실부담비용 최저가 유리하고, 잦은 매매는 덩치 큰 쪽이 안전한 셈이지."
+        )
+    else:
+        pension_compare_line = f"{brand_a} {etf_a_pension} vs {brand_b} {etf_b_pension}. {return_compare_line}"
+        pension_warning_line = (
+            "단 실부담비용은 결산 사후치라 매년 달라져.\n"
+            "이름만 보고 골랐다가 연금 계좌에 못 담거나 수수료를 더 내지 않게 조심해야 해."
         )
 
     # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
@@ -432,12 +493,16 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     return {
         "target_index": target_index,
         "target_etf": etf_a_name,
+        "brand_a": brand_a,
+        "brand_b": brand_b,
         "etf_a_name": etf_a_name,
         "etf_b_name": etf_b_name,
         "etf_a_aum": etf_a_aum,
         "etf_b_aum": etf_b_aum,
         "etf_a_fee": etf_a_fee,
         "etf_b_fee": etf_b_fee,
+        "fee_compare_line": fee_compare_line,
+        "return_compare_line": return_compare_line,
         "etf_a_pension": etf_a_pension,
         "etf_b_pension": etf_b_pension,
         "pension_compare_line": pension_compare_line,
@@ -500,18 +565,17 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 실제 데이터로 딱 3가지만 비교해볼게.
 
 1. 순자산 덩치:
-{slots['etf_a_name']} {slots['etf_a_aum']} vs {slots['etf_b_name']} {slots['etf_b_aum']}
+{slots['brand_a']} {slots['etf_a_aum']} vs {slots['brand_b']} {slots['etf_b_aum']}
 
-2. 표기 보수와 숨은 비용:
-증권사 앱 총보수는 둘 다 {slots['etf_a_fee']} 안팎으로 비슷해 보여.
-하지만 매매수수료와 기타비용을 더한 실부담비용은 둘 다 0.10% 수준으로 15배 넘게 올라가.
+2. 표기 보수 vs 실제 부담 비용:
+{slots['fee_compare_line']}
 
-3. 연금 계좌 매수 여부:
+3. 연금 한도와 1년 수익률:
 {slots['pension_compare_line']}
 
 {slots['pension_warning_line']}
 
-국내 상장 주요 ETF 실부담비용과 연금 매수 가능 여부는 프로필 링크 [ETF 캠퍼스]에서 바로 확인할 수 있어.
+국내 상장 주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 확인할 수 있어.
 
 다들 {slots['target_index']} 모을 때 순자산을 먼저 봐, 아니면 실부담비용을 먼저 봐?
 

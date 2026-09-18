@@ -89,5 +89,12 @@
     "국내주식형_절세낮음": 353,
     "기타_절세높음": 818,
     "사전교육대상_Y": 72
+  },
+  "personal_pension_breakdown": {
+    "eligible": 1068,
+    "ineligible": 103,
+    "pending": 0,
+    "coverage_ratio": 1.0,
+    "last_updated": "2026-09-19T08:18:10.224803+09:00"
   }
 }

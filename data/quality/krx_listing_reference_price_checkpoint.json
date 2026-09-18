@@ -420,6 +420,20 @@
       "status": "official_verified",
       "ticker": "0227K0"
     },
+    "0227L0": {
+      "existing_anchor_close": null,
+      "isin": "KR70227L0006",
+      "listing_date": "2026-09-16",
+      "name": "HANARO 미국에이전틱AI TOP2+",
+      "notice_applied_date": "",
+      "notice_title": "",
+      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "receipt_no": "",
+      "reference_price": null,
+      "source_url": "",
+      "status": "manual_review_required",
+      "ticker": "0227L0"
+    },
     "0228G0": {
       "existing_anchor_close": null,
       "isin": "KR70228G0002",
@@ -531,8 +545,64 @@
       "source_url": "https://kind.krx.co.kr/external/2026/08/31/000958/20260831002016/99401.htm",
       "status": "official_verified",
       "ticker": "0234N0"
+    },
+    "0238F0": {
+      "existing_anchor_close": null,
+      "isin": "KR70238F0001",
+      "listing_date": "2026-09-16",
+      "name": "KODEX 미국AI메모리TOP2플러스",
+      "notice_applied_date": "",
+      "notice_title": "",
+      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "receipt_no": "",
+      "reference_price": null,
+      "source_url": "",
+      "status": "manual_review_required",
+      "ticker": "0238F0"
+    },
+    "0238P0": {
+      "existing_anchor_close": null,
+      "isin": "KR70238P0009",
+      "listing_date": "2026-09-16",
+      "name": "TIGER 미국S&P500미국채혼합50",
+      "notice_applied_date": "",
+      "notice_title": "",
+      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "receipt_no": "",
+      "reference_price": null,
+      "source_url": "",
+      "status": "manual_review_required",
+      "ticker": "0238P0"
+    },
+    "0239Y0": {
+      "existing_anchor_close": null,
+      "isin": "KR70239Y0007",
+      "listing_date": "2026-09-16",
+      "name": "PLUS 코리아HBM반도체",
+      "notice_applied_date": "",
+      "notice_title": "",
+      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "receipt_no": "",
+      "reference_price": null,
+      "source_url": "",
+      "status": "manual_review_required",
+      "ticker": "0239Y0"
+    },
+    "0239Z0": {
+      "existing_anchor_close": null,
+      "isin": "KR70239Z0006",
+      "listing_date": "2026-09-16",
+      "name": "PLUS AI반도체소부장액티브",
+      "notice_applied_date": "",
+      "notice_title": "",
+      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "receipt_no": "",
+      "reference_price": null,
+      "source_url": "",
+      "status": "manual_review_required",
+      "ticker": "0239Z0"
     }
   },
-  "updated_at": "2026-09-15T08:07:37+09:00",
+  "updated_at": "2026-09-19T08:17:59+09:00",
   "version": 1
 }

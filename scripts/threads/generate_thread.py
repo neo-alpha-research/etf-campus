@@ -32,7 +32,6 @@ TOPIC_BANK = ROOT / "scripts" / "community" / "topic_bank.json"
 THREADS_BANK = Path(__file__).parent / "threads_bank.json"
 ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
-FEE_REGISTRY_FALLBACK = ROOT / "data" / "fees" / "etf_fee_registry_official_single_source.json"
 
 KST = timezone(timedelta(hours=9))
 
@@ -90,20 +89,19 @@ def load_master_data() -> list[dict]:
         return _MASTER_CACHE
 
     fee_map = {}
-    for p in [FEE_REGISTRY_FALLBACK, FEE_REGISTRY]:
-        if p.exists():
-            try:
-                with open(p, encoding="utf-8") as f:
-                    data = json.load(f)
-                    records = data.get("records", []) if isinstance(data, dict) else data
-                    if isinstance(records, list):
-                        for item in records:
-                            tk = item.get("ticker")
-                            fee_pct = item.get("total_fee_pct")
-                            if tk and fee_pct is not None:
-                                fee_map[tk] = {"totalFeePct": fee_pct}
-            except Exception:
-                pass
+    if FEE_REGISTRY.exists():
+        try:
+            with open(FEE_REGISTRY, encoding="utf-8") as f:
+                data = json.load(f)
+                records = data.get("records", []) if isinstance(data, dict) else data
+                if isinstance(records, list):
+                    for item in records:
+                        tk = item.get("ticker")
+                        fee_pct = item.get("total_fee_pct")
+                        if tk and fee_pct is not None:
+                            fee_map[tk] = {"totalFeePct": fee_pct}
+        except Exception:
+            pass
 
     master_list = []
     if ETF_MASTER_CSV.exists():

@@ -16,14 +16,15 @@ describe("loadOfficialEtfFeeIndex - Unit Logic", () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  it("preferred 파일의 레코드가 fallback 레코드를 정상적으로 덮어쓴다", () => {
-    const fallbackData = [
+  it("단일 etf_fee_registry.json 파일의 레코드를 정상적으로 파싱하여 인덱스를 생성한다", () => {
+    const registryData = [
       {
         ticker: "000010",
-        total_fee_pct: 0.15,
-        other_cost_pct: 0.05,
-        trading_cost_pct: 0.02,
-        verification_status: "official_single_source",
+        total_fee_pct: 0.12,
+        other_cost_pct: 0.04,
+        trading_cost_pct: 0.01,
+        verification_status: "verified_official",
+        dart_receipt_no: "20260901000123",
       },
       {
         ticker: "000020",
@@ -32,32 +33,15 @@ describe("loadOfficialEtfFeeIndex - Unit Logic", () => {
       },
     ];
 
-    const preferredData = [
-      {
-        ticker: "000010",
-        total_fee_pct: 0.12, // override
-        other_cost_pct: 0.04,
-        trading_cost_pct: 0.01,
-        verification_status: "verified_official",
-        dart_receipt_no: "20260901000123",
-      },
-    ];
-
-    fs.writeFileSync(
-      path.join(tempDir, "fees", "etf_fee_registry_official_single_source.json"),
-      JSON.stringify(fallbackData),
-      "utf8",
-    );
     fs.writeFileSync(
       path.join(tempDir, "fees", "etf_fee_registry.json"),
-      JSON.stringify(preferredData),
+      JSON.stringify(registryData),
       "utf8",
     );
 
     const index = loadOfficialEtfFeeIndex(tempDir);
     expect(index.size).toBe(2);
 
-    // 000010는 preferred 값으로 덮어씌워짐
     const fee10 = index.get("000010");
     expect(fee10).toEqual({
       totalFeePct: 0.12,
@@ -74,7 +58,6 @@ describe("loadOfficialEtfFeeIndex - Unit Logic", () => {
       sourceNote: null,
     });
 
-    // 000020는 fallback 값이 유지됨
     const fee20 = index.get("000020");
     expect(fee20?.totalFeePct).toBe(0.3);
     expect(fee20?.verificationStatus).toBe("official_single_source");

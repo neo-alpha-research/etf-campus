@@ -60,7 +60,6 @@ def resolve_amc(name: str) -> str:
 
 def build_audit_ledger():
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
     sources_dir = REPO_ROOT / "data/regulatory/sources"
     out_audit_csv = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
 
@@ -68,10 +67,10 @@ def build_audit_ledger():
     with master_path.open("r", encoding="utf-8-sig") as f:
         master_rows = list(csv.DictReader(f))
 
-    # 2. Load Verification Ledger
+    # 2. Load Existing Audit Ledger if available to preserve metadata
     verification_ledger: Dict[str, Dict[str, str]] = {}
-    if ledger_path.exists():
-        with ledger_path.open("r", encoding="utf-8-sig") as f:
+    if out_audit_csv.exists():
+        with out_audit_csv.open("r", encoding="utf-8-sig") as f:
             for r in csv.DictReader(f):
                 tk = r.get("ticker", "").strip().upper()
                 if tk:
@@ -275,6 +274,8 @@ def build_audit_ledger():
             "audit_check_method": check_method,
             "audit_notes": audit_note,
             "verified_at": v_at,
+            "verified_by": v_entry.get("verified_by") or "",
+            "expires_at": v_entry.get("expires_at") or "",
             "audit_status": audit_status,
         })
 
@@ -301,6 +302,8 @@ def build_audit_ledger():
         "audit_check_method",
         "audit_notes",
         "verified_at",
+        "verified_by",
+        "expires_at",
         "audit_status",
     ]
 

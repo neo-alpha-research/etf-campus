@@ -459,37 +459,32 @@ def test_e5_manifest_sha256_hash_validation():
     manifest_path = REPO_ROOT / "data/regulatory/sources/evidence_manifest.json"
     assert manifest_path.is_file(), "evidence_manifest.json must exist"
 
-    # Testing with official ledger rows produces 0 E5 violations
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
-    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
-        ledger_rows = list(csv.DictReader(f))
+    # Testing with official audit rows produces 0 E5 violations
+    audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
+    with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+        audit_rows = list(csv.DictReader(f))
 
-    viols = validate_evidence_integrity(ledger_rows=ledger_rows)
+    viols = validate_evidence_integrity(audit_rows=audit_rows)
     assert len(viols["E5"]) == 0, f"E5 hash check failed: {viols['E5']}"
 
 
 def test_official_ledgers_evidence_integrity_zero_violations():
-    """Verify that both official ledgers pass E1 through E5 with zero violations."""
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    """Verify that official audit ledger passes E1 through E5 with zero violations."""
     audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
-
-    assert ledger_path.exists(), "Verification ledger must exist"
     assert audit_path.exists(), "Audit ledger must exist"
 
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
-    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
-        ledger_rows = list(csv.DictReader(f))
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
     with master_path.open("r", encoding="utf-8-sig", newline="") as f:
         master_rows = list(csv.DictReader(f))
 
+    audit_verified_y = sum(1 for r in audit_rows if str(r.get("pension_verified") or "").strip() == "Y")
     master_y = sum(1 for r in master_rows if str(r.get("pension_verified") or "").strip() == "Y")
-    assert len(ledger_rows) == master_y, f"Verification ledger must have {master_y} rows, got {len(ledger_rows)}"
+    assert audit_verified_y == master_y, f"Audit ledger verified count must match master {master_y}, got {audit_verified_y}"
     assert len(audit_rows) == len(master_rows), f"Audit ledger must have {len(master_rows)} rows, got {len(audit_rows)}"
 
-
-    violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+    violations = validate_evidence_integrity(audit_rows=audit_rows)
     total_viols = sum(len(v) for v in violations.values())
 
     for rule, v_list in violations.items():
@@ -659,23 +654,24 @@ def test_s6a_e0_disallows_identical_quote_reuse():
 
 
 def test_reformed_ledger_and_queue_counts():
-    """Verify honest Phase 3E verified state: 1,163 verified (99.7%), 4 unverified (0.3%), 0 overlap."""
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    """Verify verified state: 1,163 verified, 8 unverified, 0 overlap."""
+    audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
 
-    with ledger_path.open("r", encoding="utf-8-sig") as f:
-        ledger_rows = list(csv.DictReader(f))
+    with audit_path.open("r", encoding="utf-8-sig") as f:
+        audit_rows = list(csv.DictReader(f))
     with queue_path.open("r", encoding="utf-8-sig") as f:
         queue_rows = list(csv.DictReader(f))
     with master_path.open("r", encoding="utf-8-sig") as f:
         master_rows = list(csv.DictReader(f))
 
+    verified_rows = [r for r in audit_rows if str(r.get("pension_verified") or "").strip() == "Y"]
     master_y = sum(1 for r in master_rows if str(r.get("pension_verified") or "").strip() == "Y")
-    assert len(ledger_rows) == master_y
-    assert len(ledger_rows) + len(queue_rows) == len(master_rows)
+    assert len(verified_rows) == master_y
+    assert len(verified_rows) + len(queue_rows) == len(master_rows)
 
-    ledger_tickers = {r["ticker"].strip().upper() for r in ledger_rows}
+    ledger_tickers = {r["ticker"].strip().upper() for r in verified_rows}
     queue_tickers = {r["ticker"].strip().upper() for r in queue_rows}
 
     assert len(ledger_tickers & queue_tickers) == 0
@@ -727,9 +723,9 @@ def test_r12_summary_counts_strictly_match_ledger_and_master():
     with summary_path.open("r", encoding="utf-8") as f:
         summary = json.load(f)
 
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
-    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
-        ledger_count = len(list(csv.DictReader(f)))
+    audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
+    with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+        ledger_count = sum(1 for r in csv.DictReader(f) if str(r.get("pension_verified") or "").strip() == "Y")
 
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
     with master_path.open("r", encoding="utf-8-sig", newline="") as f:

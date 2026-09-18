@@ -31,6 +31,7 @@ from scripts.schemas.briefing_contract import (
     BriefingContract,
     validate_briefing_payload,
 )
+from scripts.schemas.contract_constants import MACRO_MAX_DAILY_CHANGE_PCT
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -174,11 +175,13 @@ def main() -> int:
     # Financial Sanity Spikes Check
     spikes: list[str] = []
     for m in contract.market_indices:
-        if abs(m.change_pct) > MAX_SPIKE_PCT:
-            spikes.append(f"{m.code} 등락률 {m.change_pct:+.2f}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
+        allowed = MACRO_MAX_DAILY_CHANGE_PCT.get(m.code, MACRO_MAX_DAILY_CHANGE_PCT.get("DEFAULT", 15.0))
+        if abs(m.change_pct) > allowed:
+            spikes.append(f"{m.code} 등락률 {m.change_pct:+.2f}% (허용 한계: ±{allowed}%)")
 
-    if abs(contract.aum_weighted_return_pct) > MAX_SPIKE_PCT:
-        spikes.append(f"시장 가중수익률 {contract.aum_weighted_return_pct:+.2f}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
+    default_limit = MACRO_MAX_DAILY_CHANGE_PCT.get("DEFAULT", 15.0)
+    if abs(contract.aum_weighted_return_pct) > default_limit:
+        spikes.append(f"시장 가중수익률 {contract.aum_weighted_return_pct:+.2f}% (허용 한계: ±{default_limit}%)")
 
     if spikes:
         print(f"\n❌ [GATE FAIL] ABNORMAL FINANCIAL SPIKES DETECTED ({len(spikes)} items):", file=sys.stderr)

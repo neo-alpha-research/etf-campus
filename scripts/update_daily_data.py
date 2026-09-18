@@ -29,7 +29,7 @@ except ImportError:
 
 BASE_URL = "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo"
 KRX_ETF_DAILY_URL = "https://data-dbg.krx.co.kr/svc/apis/etp/etf_bydd_trd"
-FILES = ("etf_master_draft.csv", "etf_returns_draft.csv", "pension_verify_sheet.csv")
+FILES = ("etf_master_draft.csv", "etf_returns_draft.csv")
 PERIODS = {
     "r_1d": ("days", 1),
     "r_1w": ("days", 7),
@@ -543,10 +543,8 @@ def main() -> None:
     data_dir = Path(args.data_dir)
     old_master, master_fields = read_csv(data_dir / FILES[0])
     old_returns, return_fields = read_csv(data_dir / FILES[1])
-    old_pension, pension_fields = read_csv(data_dir / FILES[2])
     master_by_ticker = {row["ticker"]: row for row in old_master}
     returns_by_ticker = {row["ticker"]: row for row in old_returns}
-    pension_by_ticker = {row["ticker"]: row for row in old_pension}
 
     target = (
         datetime.strptime(args.target, "%Y%m%d").date()
@@ -703,7 +701,6 @@ def main() -> None:
 
     new_master: list[dict[str, object]] = []
     new_returns: list[dict[str, object]] = []
-    new_pension: list[dict[str, object]] = []
     close_field = f"close_{as_of_text}"
     return_fields = [field for field in return_fields if not field.startswith("close_")]
     return_fields = ["ticker", "name", close_field] + [field for field in return_fields if field not in ("ticker", "name")]
@@ -844,26 +841,6 @@ def main() -> None:
         old_return["itd_return_type"] = "price_return"
         new_returns.append(old_return)
 
-        pension = dict(pension_by_ticker.get(ticker, {}))
-        if not pension:
-            pension = {"official_src": "", "issuer_official": "", "verify_status": "신규 확인 필요", "final_pension": "확인중", "final_src": "pending"}
-        structural_pension = pension_rule(risk, name, base_index)
-        if (
-            str(pension.get("final_pension") or "") == "확인중"
-            and str(structural_pension).startswith("불가")
-        ):
-            pension.update({
-                "verify_status": "구조 규칙 자동 판정",
-                "final_pension": "불가",
-                "final_src": "구조규칙",
-            })
-        pension.update({key: existing.get(key, "") for key in master_fields if key in pension_fields})
-        if existing.get("pension_eligible"):
-            pension["final_pension"] = existing["pension_eligible"]
-        if existing.get("pension_source"):
-            pension["final_src"] = existing["pension_source"]
-        new_pension.append(pension)
-
     for field in PERIODS:
         populated = sum(str(row.get(field) or "").strip() != "" for row in new_returns)
         coverage = populated / len(new_returns) if new_returns else 0
@@ -888,7 +865,6 @@ def main() -> None:
         temp = Path(temp_name)
         write_csv(temp / FILES[0], new_master, master_fields)
         write_csv(temp / FILES[1], new_returns, return_fields)
-        write_csv(temp / FILES[2], new_pension, pension_fields)
         for filename in FILES:
             os.replace(temp / filename, data_dir / filename)
 

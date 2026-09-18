@@ -39,12 +39,11 @@ const toInfo = (row: RegistryRow): EtfFeeInfo => ({
   primarySourceType: row.primary_source_type ?? null, primarySourceUrl: row.primary_source_url ?? null, dartReceiptNo: row.dart_receipt_no ?? null, secondarySourceUrl: row.secondary_source_url ?? null, sourceNote: row.source_note ?? null,
 });
 export function loadOfficialEtfFeeIndex(dataDirectory: string): Map<string, EtfFeeInfo> {
-  const preferred = path.join(dataDirectory, "fees", "etf_fee_registry.json");
-  const fallback = path.join(dataDirectory, "fees", "etf_fee_registry_official_single_source.json");
-  const rows = loadRows(preferred);
-  const fallbackRows = loadRows(fallback);
-  const merged = new Map<string, RegistryRow>();
-  for (const row of fallbackRows) if (row.ticker) merged.set(row.ticker, row);
-  for (const row of rows) if (row.ticker) merged.set(row.ticker, row);
-  return new Map([...merged.entries()].map(([ticker, row]) => [ticker, toInfo(row)]));
+  const filePath = path.join(dataDirectory, "fees", "etf_fee_registry.json");
+  const rows = loadRows(filePath);
+  const map = new Map<string, EtfFeeInfo>();
+  for (const row of rows) {
+    if (row.ticker) map.set(row.ticker, toInfo(row));
+  }
+  return map;
 }

@@ -48,7 +48,7 @@
 
 ### 3.1 인프라 아키텍처 (100% Serverless Cloud-Native)
 - **GitHub Actions**:
-  - `kofia-fee-sync.yml`: 매월 1일, 5일, 10일 KOFIA DIS 전자공시 수집 -> 펀드유형 및 실부담비용 동기화 -> `scripts/pipeline/sync_kofia_personal_pension.py` 자동 실행 -> 5대 원장 일괄 커밋 -> `market-briefing-production.yml` 트리거.
+  - `kofia-fee-sync.yml`: 매월 1일, 5일, 10일 KOFIA DIS 전자공시 수집 -> 펀드유형 및 실부담비용 동기화 -> `scripts/pipeline/sync_kofia_personal_pension.py` 자동 실행 -> 마스터 SSOT 및 파생 산출물 일괄 커밋 -> `market-briefing-production.yml` 트리거.
   - `daily-market.yml`: 화~토 일일 마켓 데이터 수집 -> Gate A (`validate_pension_consistency.py`) 및 Gate 1 (`validate_evidence_integrity.py`) 검증 관문 통과 후 배포.
 - **Cloudflare Pages / Workers**:
   - `prebuild` 단계에서 `scripts/generate-screener-json.ts`를 실행하여 1,167개 ETF 최신 데이터를 정적 JSON(`public/data/screener.json`)으로 번들링.
@@ -60,8 +60,8 @@
 
 ## 4. 원장 관리 및 불변 규칙 (Immutable Rules)
 
-1. **5대 원장 원자적 동기화**:
-   - 개인연금 상태 변경은 반드시 `scripts/pipeline/sync_kofia_personal_pension.py`를 통해 5대 원장(`personal_pension_registry.json`, `pension_verify_sheet.csv`, `etf_master_draft.csv`, `public/data/screener.json`, `pension_verification_summary.json`)에 동시 반영되어야 합니다.
+1. **마스터 SSOT 원자적 동기화**:
+   - 개인연금 상태 변경은 반드시 `scripts/pipeline/sync_kofia_personal_pension.py`를 통해 마스터 SSOT(`etf_master_draft.csv`) 및 파생 산출물(`public/data/screener.json`, `pension_verification_summary.json`)에 동시 반영되어야 합니다.
 2. **분류 데이터 파일 보존 규칙**:
    - `data/comparison/etf_comparison_classification.csv`는 행 단위 증분 수정만 허용하며, 임의 전면 재생성을 엄격히 금지합니다.
 3. **용어 표준화 준수**:

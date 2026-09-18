@@ -1,33 +1,20 @@
 import { describe, expect, it } from "vitest";
 import path from "node:path";
 import { readCsv } from "@/lib/data/csv";
-import { ETF_TAXONOMY_MAP } from "../../../workers/market-briefing-publisher/src/taxonomy-map";
 
-describe("SSOT Taxonomy Synchronization Contract", () => {
+describe("SSOT ETF Comparison Classification Invariant Contract", () => {
   const csvPath = path.join(process.cwd(), "data", "comparison", "etf_comparison_classification.csv");
   const classifications = readCsv(csvPath);
 
-  it("Master CSV and Market Briefing Worker have identical ETF ticker coverage", () => {
+  it("분류 마스터 CSV가 1,100종목 이상의 충분한 ETF 유니버스를 포괄한다", () => {
     expect(classifications.length).toBeGreaterThan(1100);
-    const mapTickers = Object.keys(ETF_TAXONOMY_MAP);
-    expect(mapTickers.length).toBe(classifications.length);
-
-    for (const row of classifications) {
-      expect(ETF_TAXONOMY_MAP[row.ticker]).toBeDefined();
-    }
   });
 
-  it("1:1 alignment between asset_family and Worker assetClass across all ETFs", () => {
+  it("모든 등록 종목은 6자리 영숫자 티커 및 유효한 자산군/비교토픽을 보유한다", () => {
     for (const row of classifications) {
-      const mapped = ETF_TAXONOMY_MAP[row.ticker];
-      expect(mapped?.assetClass).toBe(row.asset_family);
-    }
-  });
-
-  it("1:1 alignment between comparison_topic and Worker peerGroup across all ETFs", () => {
-    for (const row of classifications) {
-      const mapped = ETF_TAXONOMY_MAP[row.ticker];
-      expect(mapped?.peerGroup).toBe(row.comparison_topic);
+      expect(row.ticker).toMatch(/^[0-9A-Z]{6}$/);
+      expect(row.asset_family).toBeTruthy();
+      expect(row.comparison_topic).toBeTruthy();
     }
   });
 
@@ -37,11 +24,9 @@ describe("SSOT Taxonomy Synchronization Contract", () => {
 
     expect(chinaWeeklyCoveredCall).toBeDefined();
     expect(chinaWeeklyCoveredCall?.comparison_topic).toBe("해외 월배당 & 커버드콜");
-    expect(ETF_TAXONOMY_MAP["0094L0"]?.peerGroup).toBe("해외 월배당 & 커버드콜");
 
     expect(chinaHangSengCoveredCall).toBeDefined();
     expect(chinaHangSengCoveredCall?.comparison_topic).toBe("해외 월배당 & 커버드콜");
-    expect(ETF_TAXONOMY_MAP["0128D0"]?.peerGroup).toBe("해외 월배당 & 커버드콜");
   });
 
   it("자산배분 & 채권혼합의 subtopic은 단일종목, 시장대표, TDF 등으로 정밀 세분화된다", () => {

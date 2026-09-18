@@ -22,7 +22,6 @@ if (fs.existsSync(outputPath) && !process.argv.includes("--force")) {
 const snapshot = buildSnapshot({
   masterRows: readCsvFile(path.join(dataDirectory, "etf_master_draft.csv")),
   returnRows: readCsvFile(path.join(dataDirectory, "etf_returns_draft.csv")),
-  pensionRows: readCsvFile(path.join(dataDirectory, "pension_verify_sheet.csv")),
   snapshotDate,
 });
 

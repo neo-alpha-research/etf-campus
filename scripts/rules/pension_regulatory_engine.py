@@ -105,8 +105,8 @@ _KOFIA_FUND_TYPES_CACHE: dict[str, str] | None = None
 
 
 def load_verified_ledger_entries(ledger_path: Path | None = None) -> dict[str, dict[str, str]]:
-    """Load valid, unexpired entries from pension_verification_ledger.csv."""
-    path = ledger_path or (REPO_ROOT / "data" / "regulatory" / "pension_verification_ledger.csv")
+    """Load valid, unexpired entries from pension_audit_ledger.csv."""
+    path = ledger_path or (REPO_ROOT / "data" / "regulatory" / "pension_audit_ledger.csv")
     entries: dict[str, dict[str, str]] = {}
     if not path.exists():
         return entries
@@ -119,10 +119,15 @@ def load_verified_ledger_entries(ledger_path: Path | None = None) -> dict[str, d
                 tk = str(row.get("ticker") or "").strip().upper()
                 if not tk:
                     continue
+                # Only verified entries
+                if str(row.get("pension_verified") or "Y").strip() != "Y":
+                    continue
                 expires_at = str(row.get("expires_at") or "").strip()
                 # If expiration date is specified and expired, do not consider verified
                 if expires_at and expires_at < today_str:
                     continue
+                if not row.get("verified_limit") and row.get("pension_limit"):
+                    row["verified_limit"] = row["pension_limit"]
                 entries[tk] = row
     except Exception as e:
         print(f"[WARN] Failed to read verification ledger at {path}: {e}")
@@ -598,8 +603,8 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         if col not in fields:
             fields.append(col)
 
-    # Prune delisted tickers from pension_verification_ledger.csv if any exist
-    ledger_path = REPO_ROOT / "data" / "regulatory" / "pension_verification_ledger.csv"
+    # Prune delisted tickers from pension_audit_ledger.csv if any exist
+    ledger_path = REPO_ROOT / "data" / "regulatory" / "pension_audit_ledger.csv"
     if ledger_path.is_file():
         master_tickers = {str(r.get("ticker") or "").strip().upper() for r in rows if r.get("ticker")}
         with ledger_path.open("r", encoding="utf-8-sig") as f:
@@ -613,7 +618,7 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
                 writer = csv.DictWriter(f, fieldnames=l_fields)
                 writer.writeheader()
                 writer.writerows(active_l_rows)
-            print(f"[INFO] Pruned {pruned_count} delisted ticker(s) from pension_verification_ledger.csv")
+            print(f"[INFO] Pruned {pruned_count} delisted ticker(s) from pension_audit_ledger.csv")
 
     ledger = load_verified_ledger_entries()
     divergences: list[dict[str, Any]] = []

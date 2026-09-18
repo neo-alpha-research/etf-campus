@@ -35,6 +35,5 @@ jobs:
       - run: npm run build
       - name: Typecheck active Cloudflare Workers
         run: |
-          npm --workspace=workers/market-briefing-publisher run typecheck
           npm --workspace=workers/market-briefing-distributor run typecheck
           npm --workspace=workers/community-maintenance run typecheck

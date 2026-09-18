@@ -162,10 +162,6 @@ jobs:
             echo "Snapshot is still stale; the next hourly schedule will retry." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Refresh classification review draft
-        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
-        run: python scripts/build_classification_review.py
-
       - name: Classify new listings via regulatory engine & sync personal pension & onboard taxonomy
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: |
@@ -215,7 +211,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index public/data/series/v2 | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index public/data/series/v2 | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -241,6 +237,10 @@ jobs:
       - name: Build local briefing payload snapshot (Canonical SSOT)
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         run: python scripts/build_local_briefing_payload.py
+
+      - name: Regenerate public screener and search index
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: npx --yes tsx scripts/generate-screener-json.ts
 
       - name: Ingest daily ETF prices to D1 (Downstream Consumer)
         continue-on-error: true
@@ -287,7 +287,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

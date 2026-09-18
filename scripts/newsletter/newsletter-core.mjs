@@ -68,18 +68,19 @@ export function readCsvFile(filePath) {
 export function buildSnapshot({ masterRows, returnRows, pensionRows, snapshotDate }) {
   parseIsoDate(snapshotDate);
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
-  const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
+  const pensionByTicker = pensionRows ? indexUnique(pensionRows, "ticker", "pension_rows") : null;
 
-  if (masterRows.length !== returnRows.length || masterRows.length !== pensionRows.length) {
-    throw new Error(`데이터 행 수가 일치하지 않습니다: master=${masterRows.length}, returns=${returnRows.length}, pension=${pensionRows.length}`);
+  if (masterRows.length !== returnRows.length) {
+    throw new Error(`데이터 행 수가 일치하지 않습니다: master=${masterRows.length}, returns=${returnRows.length}`);
   }
 
   const records = masterRows.map((master) => {
     const ticker = requireValue(master, "ticker", "etf_master_draft.csv");
     const source = `ticker:${ticker}`;
     const returns = returnsByTicker.get(ticker);
-    const pension = pensionByTicker.get(ticker);
-    if (!returns || !pension) throw new Error(`${source}: 수익률 또는 연금 검증 행이 누락됐습니다.`);
+    if (!returns) throw new Error(`${source}: 수익률 행이 누락됐습니다.`);
+    const pension = pensionByTicker?.get(ticker);
+    const pensionStatus = master.pension_eligible?.trim() || pension?.final_pension || "불가";
 
     return {
       ticker,
@@ -87,7 +88,7 @@ export function buildSnapshot({ masterRows, returnRows, pensionRows, snapshotDat
       aum: parseNumber(master.aum, "aum", source),
       assetClass: requireValue(master, "asset_class", source),
       riskType: requireValue(master, "risk_type", source),
-      pensionStatus: requireValue(pension, "final_pension", source),
+      pensionStatus,
       asOfDate: requireValue(master, "bas_dt", source),
       listingDate: master.listing_date?.trim() || null,
       return1w: parseNullableNumber(returns.r_1w, "r_1w", source),

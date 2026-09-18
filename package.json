@@ -18,12 +18,13 @@
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",
-    "check:ci": "npm run lint && npx tsc --noEmit -p tsconfig.ci.json && npm test && npm --workspace=workers/market-briefing-publisher run typecheck && npm --workspace=workers/market-briefing-distributor run typecheck && npm --workspace=workers/community-maintenance run typecheck",
+    "check:ci": "npm run lint && npx tsc --noEmit -p tsconfig.ci.json && npm test && npm --workspace=workers/market-briefing-distributor run typecheck && npm --workspace=workers/community-maintenance run typecheck",
     "newsletter:snapshot": "node scripts/newsletter/create-weekly-snapshot.mjs",
     "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
     "verify:utf8": "node scripts/verify-utf8.mjs",
     "test": "npm run verify:utf8 && vitest run",
     "test:watch": "vitest",
+    "test:changed": "vitest run --changed",
     "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
@@ -65,7 +66,6 @@
     "wrangler": "^4.31.0"
   },
   "workspaces": [
-    "workers/market-briefing-publisher",
     "workers/market-briefing-distributor",
     "workers/community-maintenance"
   ]

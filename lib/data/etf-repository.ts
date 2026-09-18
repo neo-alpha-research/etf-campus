@@ -91,6 +91,10 @@ function deriveIso6166Isin(ticker: string): string {
 }
 
 function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
+  const comparisonPath = path.join(dataDirectory, "comparison", "etf_comparison_classification.csv");
+  if (fs.existsSync(comparisonPath)) {
+    return indexUnique(readCsv(comparisonPath), "ticker", "etf_comparison_classification.csv");
+  }
   const classificationPath = path.join(dataDirectory, "classification", "etf_classification_review_draft.csv");
   if (!fs.existsSync(classificationPath)) return new Map();
   return indexUnique(readCsv(classificationPath), "ticker", "etf_classification_review_draft.csv");
@@ -98,6 +102,43 @@ function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
 
 function parseClassification(row: CsvRow | undefined): EtfClassification | null {
   if (!row) return null;
+
+  const isComparisonCsv = "asset_family" in row || "region_primary" in row;
+  if (isComparisonCsv) {
+    const assetFamily = optionalText(row, "asset_family");
+    const regionPrimary = optionalText(row, "region_primary");
+    const comparisonTopic = optionalText(row, "comparison_topic");
+    const comparisonSubtopic = optionalText(row, "comparison_subtopic");
+    const strategyStyle = optionalText(row, "strategy_style");
+    const payoffStructure = optionalText(row, "payoff_structure");
+    const fxHedgeRaw = optionalText(row, "fx_hedge");
+    const status = optionalText(row, "classification_status") ?? "verified_official";
+
+    let fxHedge: string | null = null;
+    if (fxHedgeRaw === "hedged") fxHedge = "환헤지";
+    else if (fxHedgeRaw === "unhedged") fxHedge = "환노출";
+
+    let strategy: string | null = null;
+    if (payoffStructure === "covered_call") strategy = "커버드콜";
+    else if (payoffStructure === "buffer") strategy = "버퍼";
+    else if (strategyStyle === "active") strategy = "액티브";
+    else strategy = "일반";
+
+    const marketScope = regionPrimary && !["해당없음", "미확인", "-"].includes(regionPrimary) ? regionPrimary : null;
+
+    return {
+      published: true,
+      marketScope,
+      assetClass: assetFamily,
+      assetDetail: comparisonSubtopic || comparisonTopic || null,
+      strategy,
+      fxHedge,
+      reviewStatus: status,
+      reviewPriority: "",
+      sourceUrl: optionalText(row, "official_source_url"),
+      evidenceSummary: optionalText(row, "evidence_basis"),
+    };
+  }
 
   const reviewStatus = optionalText(row, "review_status") ?? "미검수";
   const published = ["자동확정", "수기확정"].includes(reviewStatus);
@@ -212,24 +253,20 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const distributionByTicker = loadDistributionSummaryIndex(dataDirectory);
 
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
-  const pensionRows = readCsv(path.join(dataDirectory, "pension_verify_sheet.csv"));
 
   const masterByTicker = indexUnique(masterRows, "ticker", "etf_master_draft.csv");
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
-  const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
   const classificationByTicker = loadClassificationIndex(dataDirectory);
   const trReturnsByTicker = loadTrReturnsIndex(dataDirectory);
   const issuerPensionDates = loadIssuerPensionDisclosureDates(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
-  assertCompleteJoin(pensionByTicker, tickers, "pension_verify_sheet.csv");
 
   return masterRows.map((master) => {
     const ticker = requireField(master, "ticker", "etf_master_draft.csv");
     const returns = returnsByTicker.get(ticker)!;
     const trData = trReturnsByTicker.get(ticker) || { tr: {}, netTr: {} };
-    const pension = pensionByTicker.get(ticker)!;
 
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
@@ -259,20 +296,20 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(
-        (optionalText(master, "pension_eligible") || optionalText(pension, "final_pension") || "불가") as string,
+        (optionalText(master, "pension_eligible") || "불가") as string,
         PENSION_STATUSES,
         "pension_eligible"
       ) as PensionStatus,
-      pensionSource: (optionalText(master, "pension_source") || optionalText(pension, "final_src") || "미확인") as string,
-      pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
-      pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as PensionSourceType | null,
-      pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,
-      pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as PensionConfidenceLevel | null,
-      personalPension: (optionalText(master, "personal_pension") || optionalText(pension, "personal_pension") || null) as "가능" | "불가" | null,
-      personalPensionLimit: (optionalText(master, "personal_pension_limit") || optionalText(pension, "personal_pension_limit") || null) as "100%" | "불가" | null,
+      pensionSource: (optionalText(master, "pension_source") || "미확인") as string,
+      pensionLimit: optionalText(master, "pension_limit") as PensionLimit | null,
+      pensionSourceType: optionalText(master, "pension_source") as PensionSourceType | null,
+      pensionVerified: optionalText(master, "pension_verified") as "Y" | "N" | null,
+      pensionConfidence: optionalText(master, "pension_confidence") as PensionConfidenceLevel | null,
+      personalPension: (optionalText(master, "personal_pension") || null) as "가능" | "불가" | null,
+      personalPensionLimit: (optionalText(master, "personal_pension_limit") || null) as "100%" | "불가" | null,
       personalPensionAsOfDate: issuerPensionDates.get(issuer.issuerId) ?? null,
-      isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
-      isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,
+      isaEligible: optionalText(master, "isa_eligible") as IsaStatus | null,
+      isaEducationRequired: optionalText(master, "isa_education_required") as "Y" | "N" | null,
       isaTaxType: (optionalText(master, "isa_tax_type") || null) as IsaTaxType | null,
       isaTaxBenefit: (optionalText(master, "isa_tax_benefit") || null) as IsaTaxBenefit | null,
       liquidity: requireField(master, "liquidity", `master:${ticker}`),

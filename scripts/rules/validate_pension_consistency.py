@@ -82,14 +82,14 @@ RULE_DESCRIPTIONS = {
     "R7": "이름에 레버리지/인버스 포함 -> pension_limit = 불가",
     "R8": "pension_source = 법령조건직접판정 -> 판정 조건 일치",
     "R9": "엔진 재실행 결과 vs 마스터 CSV 전 행 100% 일치",
-    "R10": "pension_verification_ledger.csv와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
-    "R11": "원장의 고유 ticker 수 == 마스터의 pension_verified=='Y' 수",
-    "R12": "summary.json의 verified_count == 검증 원장 행수 == 마스터 pension_verified='Y' 수 == total - 큐 행수",
+    "R10": "pension_audit_ledger.csv(검증 완료)와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
+    "R11": "감사 원장의 검증 ticker 수 == 마스터의 pension_verified=='Y' 수",
+    "R12": "summary.json의 verified_count == 감사 원장 검증 행수 == 마스터 pension_verified='Y' 수 == total - 큐 행수",
     "P1": "비레버리지 1,064종 전원 -> personal_pension = '가능', personal_pension_limit = '100%' (표준약관 제8조 당연 적격)",
     "P2": "riskType in ('leverage', 'inverse') 또는 레버리지/인버스 명칭 -> personal_pension = '불가', personal_pension_limit = '불가' (편입 원천 차단)",
     "P3": "개인연금 미설명/미확인 잔여 종목 0건 (100% 커버리지 무결성)",
     "P4": "한화 8종(CX8) 등 비레버리지 공시 종목 -> personal_pension = '가능', personal_pension_limit = '100%' 유지 검증",
-    "P5": "개인연금 원장 간 정합 검사: registry 종목 수 == screener personalPension 집계 == master personal_pension 100% 일치",
+    "P5": "개인연금 마스터-스크리너 정합 검사: master 종목 수 == screener 종목 수 == 100% 필드 일치",
 }
 
 
@@ -110,14 +110,6 @@ def validate_pension_consistency(
 
     violations: dict[str, list[dict[str, Any]]] = {rule: [] for rule in RULE_DESCRIPTIONS}
 
-    unexplained_path = REPO_ROOT / "data" / "regulatory" / "unexplained_coverage.json"
-    unexplained_tickers: set[str] = set()
-    if unexplained_path.exists():
-        try:
-            with open(unexplained_path, "r", encoding="utf-8") as f:
-                unexplained_tickers = set(json.load(f).get("unexplained_items", {}).keys())
-        except Exception:
-            pass
 
     for r in master_rows:
         tk = str(r.get("ticker") or "").strip()
@@ -291,16 +283,20 @@ def validate_pension_consistency(
                 "reason": f"한화 공시 파싱 실패: {e}",
             })
 
-    # R10: pension_verification_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
+    # R10: pension_audit_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
     if ledger_path is None:
-        ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+        ledger_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     if queue_path is None:
         queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
 
     ledger_tickers: set[str] = set()
     if ledger_path.exists():
         with ledger_path.open("r", encoding="utf-8-sig") as f:
-            ledger_tickers = {row["ticker"].strip().upper() for row in csv.DictReader(f) if row.get("ticker")}
+            ledger_tickers = {
+                row["ticker"].strip().upper()
+                for row in csv.DictReader(f)
+                if row.get("ticker") and str(row.get("pension_verified") or "Y").strip() == "Y"
+            }
 
     queue_tickers: set[str] = set()
     if queue_path.exists():
@@ -358,17 +354,10 @@ def validate_pension_consistency(
                 "reason": f"summary.json parsing or read failure: {e}",
             })
 
-    # P5: 개인연금 원장 간 정합 검사: registry 종목 수 == screener personalPension 집계 == master personal_pension 100% 일치
-    reg_path = REPO_ROOT / "data" / "regulatory" / "personal_pension_registry.json"
+    # P5: 개인연금 마스터-스크리너 정합 검사: master 종목 수 == screener 종목 수 == 100% 필드 일치
     screener_path = REPO_ROOT / "public" / "data" / "screener.json"
 
-    if not reg_path.exists():
-        violations["P5"].append({
-            "ticker": "REGISTRY",
-            "name": "personal_pension_registry.json",
-            "reason": f"personal_pension_registry.json 파일이 존재하지 않음: {reg_path}",
-        })
-    elif not screener_path.exists():
+    if not screener_path.exists():
         violations["P5"].append({
             "ticker": "SCREENER",
             "name": "screener.json",
@@ -376,21 +365,12 @@ def validate_pension_consistency(
         })
     else:
         try:
-            with open(reg_path, "r", encoding="utf-8") as f:
-                reg_data = json.load(f)
             with open(screener_path, "r", encoding="utf-8") as f:
                 screener_data = json.load(f)
 
-            reg_items = reg_data.get("items", {})
             screener_items = {x["ticker"]: x for x in screener_data}
             master_tickers = {r.get("ticker"): r for r in master_rows if r.get("ticker")}
 
-            if len(reg_items) != len(master_tickers):
-                violations["P5"].append({
-                    "ticker": "COUNT",
-                    "name": "personal_pension_registry.json",
-                    "reason": f"registry 종목 수 ({len(reg_items)}) != master 종목 수 ({len(master_tickers)})",
-                })
             if len(screener_items) != len(master_tickers):
                 violations["P5"].append({
                     "ticker": "COUNT",
@@ -401,31 +381,6 @@ def validate_pension_consistency(
             for tk, m_row in master_tickers.items():
                 m_pers = str(m_row.get("personal_pension") or "").strip()
                 m_lim = str(m_row.get("personal_pension_limit") or "").strip()
-
-                reg_item = reg_items.get(tk)
-                if not reg_item:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"master 종목이 personal_pension_registry.json에 누락됨",
-                    })
-                    continue
-
-                r_pers = str(reg_item.get("personal_pension") or "").strip()
-                r_lim = str(reg_item.get("personal_pension_limit") or "").strip()
-
-                if m_pers != r_pers:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"personal_pension 불일치: master='{m_pers}' vs registry='{r_pers}'",
-                    })
-                if m_lim != r_lim:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"personal_pension_limit 불일치: master='{m_lim}' vs registry='{r_lim}'",
-                    })
 
                 sc_item = screener_items.get(tk)
                 if not sc_item:
@@ -454,7 +409,7 @@ def validate_pension_consistency(
         except Exception as e:
             violations["P5"].append({
                 "ticker": "ALL",
-                "name": "personal_pension_registry.json",
+                "name": "screener.json",
                 "reason": f"P5 정합 검사 파싱 오류: {e}",
             })
 
@@ -516,19 +471,14 @@ def main() -> int:
         print(f"\n>>> Gate A (Internal Consistency): FAILED ({total_violations} violations detected).\n", file=sys.stderr)
 
     # Gate 1: Serial Chain to Evidence Integrity Validation
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
     audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     evidence_violations_count = 0
 
-    if ledger_path.exists():
-        with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
-            ledger_rows = list(csv.DictReader(f))
-        audit_rows = None
-        if audit_path.exists():
-            with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
-                audit_rows = list(csv.DictReader(f))
+    if audit_path.exists():
+        with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+            audit_rows = list(csv.DictReader(f))
 
-        e_viols = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+        e_viols = validate_evidence_integrity(audit_rows=audit_rows)
         evidence_violations_count = sum(len(v) for v in e_viols.values())
 
         print("=" * 80)

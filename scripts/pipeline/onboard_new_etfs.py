@@ -7,7 +7,6 @@ scripts/pipeline/onboard_new_etfs.py
 2. 신규 ETF 발견 시 규칙 기반으로 자산군, 지역, 카테고리, 토픽, 수익구조를 자동 추론
 3. peer_group_registry.csv 에 존재하는 최적 피어그룹으로 매핑하거나 격리형 PG-PENDING 등록
 4. etf_comparison_classification.csv 에 행 단위 증분 추가 (AGENTS.md 규칙 준수)
-5. workers/market-briefing-publisher/src/taxonomy-map.ts 동기화
 """
 
 from __future__ import annotations
@@ -29,7 +28,6 @@ ROOT = Path(__file__).resolve().parents[2]
 MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 CLASSIFICATION_CSV = ROOT / "data" / "comparison" / "etf_comparison_classification.csv"
 REGISTRY_CSV = ROOT / "data" / "comparison" / "peer_group_registry.csv"
-TAXONOMY_MAP_TS = ROOT / "workers" / "market-briefing-publisher" / "src" / "taxonomy-map.ts"
 
 
 def slug(value: str) -> str:
@@ -228,40 +226,6 @@ def classify_etf(master_row: dict[str, str], existing_groups: dict[str, dict[str
     return class_row, new_reg_row
 
 
-def sync_taxonomy_map(new_records: list[dict[str, str]]) -> None:
-    if not TAXONOMY_MAP_TS.exists() or not new_records:
-        return
-
-    content = TAXONOMY_MAP_TS.read_text(encoding="utf-8")
-    
-    match = re.search(r"export const ETF_TAXONOMY_MAP: Record<string, \{ assetClass: string; peerGroup: string \}> = ({[\s\S]+?});", content)
-    if not match:
-        print("⚠️ Warning: Could not find ETF_TAXONOMY_MAP structure in taxonomy-map.ts", file=sys.stderr)
-        return
-
-    try:
-        current_map = json.loads(match.group(1))
-    except Exception:
-        current_map = {}
-
-    updated = False
-    for rec in new_records:
-        t = rec["ticker"]
-        current_map[t] = {
-            "assetClass": rec["asset_family"],
-            "peerGroup": rec["comparison_topic"],
-        }
-        updated = True
-
-    if updated:
-        sorted_map = dict(sorted(current_map.items()))
-        formatted_json = json.dumps(sorted_map, ensure_ascii=False, indent=2)
-        new_header = f"// SSOT ETF Taxonomy Mapping for Market Briefing Peer Groups (Fully Synchronized SSOT with {len(sorted_map)} ETFs)\n"
-        new_body = f"export const ETF_TAXONOMY_MAP: Record<string, {{ assetClass: string; peerGroup: string }}> = {formatted_json};\n"
-        TAXONOMY_MAP_TS.write_text(new_header + new_body, encoding="utf-8")
-        print(f"🔄 Synchronized workers/market-briefing-publisher/src/taxonomy-map.ts ({len(sorted_map)} ETFs).")
-
-
 def main() -> int:
     if not MASTER_CSV.exists() or not CLASSIFICATION_CSV.exists():
         print(f"❌ Error: Required master or classification CSV missing.", file=sys.stderr)
@@ -314,8 +278,6 @@ def main() -> int:
             writer.writeheader()
             writer.writerows(all_reg_rows)
         print(f"📝 Appended {len(new_reg_rows)} row(s) to {REGISTRY_CSV.name} (Total: {len(all_reg_rows)})")
-
-    sync_taxonomy_map(new_class_rows)
 
     print("🎉 Zero-agent ETF onboarding completed successfully!")
     return 0

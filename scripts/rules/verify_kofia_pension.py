@@ -186,8 +186,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--ledger",
         type=Path,
-        default=REPO_ROOT / "data/regulatory/pension_verification_ledger.csv",
-        help="Path to pension_verification_ledger.csv",
+        default=REPO_ROOT / "data/regulatory/pension_audit_ledger.csv",
+        help="Path to pension_audit_ledger.csv",
     )
     parser.add_argument(
         "--prospectus-mixed-bonds",

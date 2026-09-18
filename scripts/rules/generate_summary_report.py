@@ -18,10 +18,6 @@ from scripts.rules.validate_evidence_integrity import validate_evidence_integrit
 
 
 def generate_summary() -> dict[str, Any]:
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
-    with open(ledger_path, "r", encoding="utf-8-sig", newline="") as f:
-        ledger_rows = list(csv.DictReader(f))
-
     audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     with open(audit_path, "r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
@@ -44,10 +40,15 @@ def generate_summary() -> dict[str, Any]:
     }
     master_Y_count = len(master_verified_tickers)
 
-    # Count tiers and grades from verification ledger
+    verified_rows = [
+        r for r in audit_rows
+        if str(r.get("pension_verified") or "").strip() == "Y"
+    ]
+
+    # Count tiers and grades from verified audit rows
     tiers: dict[str, int] = {}
     grades: dict[str, int] = {}
-    for r in ledger_rows:
+    for r in verified_rows:
         t = str(r.get("evidence_tier") or "").strip()
         g = str(r.get("evidence_grade") or "").strip()
         if t:
@@ -57,11 +58,11 @@ def generate_summary() -> dict[str, Any]:
 
     # Statutory basis count: strictly E1, E1B, E2, E3 (excluding RULE_NAME)
     statutory_basis_count = sum(grades.get(k, 0) for k in ["E1", "E1B", "E2", "E3"])
-    verified_count = len(ledger_rows)
+    verified_count = len(verified_rows)
     unverified_count = len(queue_rows)
 
     # Validate evidence integrity to get live S5 violation count
-    e_viols = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+    e_viols = validate_evidence_integrity(audit_rows=audit_rows)
     s5_violations_count = len(e_viols.get("S5", []))
 
     safe_caution_remaining = sum(
@@ -126,8 +127,8 @@ def generate_summary() -> dict[str, Any]:
     }
 
     # 4 Strict Assertions mandated by Claude Opus 5.0 audit:
-    assert summary["verified_count"] == len(ledger_rows), (
-        f"verified_count ({summary['verified_count']}) != ledger rows ({len(ledger_rows)})"
+    assert summary["verified_count"] == len(verified_rows), (
+        f"verified_count ({summary['verified_count']}) != audit verified rows ({len(verified_rows)})"
     )
     assert summary["verified_count"] == master_Y_count, (
         f"verified_count ({summary['verified_count']}) != master Y count ({master_Y_count})"

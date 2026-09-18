@@ -28,7 +28,6 @@ if str(REPO_ROOT) not in sys.path:
 
 BROKER_DIR = REPO_ROOT / "data/regulatory/sources/brokers/koreainvestment"
 MANIFEST_PATH = REPO_ROOT / "data/regulatory/sources/evidence_manifest.json"
-LEDGER_PATH = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
 AUDIT_PUB_PATH = REPO_ROOT / "public/data/regulatory/pension_audit_ledger.csv"
 AUDIT_DATA_PATH = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
 MASTER_PATH = REPO_ROOT / "data/etf_master_draft.csv"
@@ -208,11 +207,11 @@ def update_ledger_expiration_dates(as_of_date: datetime.date) -> int:
     new_expires_at = (as_of_date + datetime.timedelta(days=90)).isoformat()
     updated_count = 0
 
-    if not LEDGER_PATH.is_file():
+    if not AUDIT_DATA_PATH.is_file():
         return 0
 
     rows = []
-    with LEDGER_PATH.open("r", encoding="utf-8-sig") as f:
+    with AUDIT_DATA_PATH.open("r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         fieldnames = reader.fieldnames
         for r in reader:
@@ -221,23 +220,13 @@ def update_ledger_expiration_dates(as_of_date: datetime.date) -> int:
                 updated_count += 1
             rows.append(r)
 
-    with LEDGER_PATH.open("w", encoding="utf-8-sig", newline="") as f:
+    with AUDIT_DATA_PATH.open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
-    if AUDIT_PUB_PATH.is_file():
-        audit_rows = []
-        with AUDIT_PUB_PATH.open("r", encoding="utf-8-sig") as f:
-            reader = csv.DictReader(f)
-            afields = reader.fieldnames
-            for r in reader:
-                audit_rows.append(r)
-        with AUDIT_PUB_PATH.open("w", encoding="utf-8-sig", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=afields)
-            writer.writeheader()
-            writer.writerows(audit_rows)
-        shutil.copy2(AUDIT_PUB_PATH, AUDIT_DATA_PATH)
+    if AUDIT_PUB_PATH.parent.is_dir():
+        shutil.copy2(AUDIT_DATA_PATH, AUDIT_PUB_PATH)
 
     return updated_count
 

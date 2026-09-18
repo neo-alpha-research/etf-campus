@@ -158,7 +158,23 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     first_bas_dt = master_rows[0].get("bas_dt", "").strip()
     as_of_date = target_date if target_date else normalize_date(first_bas_dt)
 
-    # 0. Check existing briefing payload to preserve verified fund flows and scale metrics
+    # 0. Load distribution events for dividend ex-date detection
+    dist_path = data_dir / "distributions" / "etf_distribution_events.csv"
+    ex_div_map: dict[str, dict[str, Any]] = {}
+    if dist_path.exists():
+        try:
+            with dist_path.open("r", encoding="utf-8-sig") as f:
+                for d_row in csv.DictReader(f):
+                    d_tk = (d_row.get("ticker") or d_row.get("code") or d_row.get("itemcode") or "").strip().upper()
+                    d_ex = (d_row.get("ex_date") or d_row.get("krx_apply_date") or d_row.get("issuer_ex_date") or "").strip()
+                    if d_tk and d_ex == as_of_date:
+                        ex_div_map[d_tk] = d_row
+            if ex_div_map:
+                print(f"📅 [Distribution] Detected {len(ex_div_map)} ETF(s) with official ex-dividend date on {as_of_date}")
+        except Exception as e:
+            print(f"⚠️ [Distribution] Warning loading distribution events: {e}", file=sys.stderr)
+
+    # 0.1 Check existing briefing payload to preserve verified fund flows and scale metrics
     existing_payload_path = data_dir / "briefing_payload_latest.json"
     existing_data: dict[str, Any] = {}
     if existing_payload_path.exists():
@@ -411,8 +427,14 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
             continue
         
         asset_cls = e.get("assetClass", "")
-        threshold = 1.0 if "국내" in asset_cls else 3.0
+        is_ex_div = (e["ticker"] in ex_div_map)
+        # 분배락(배당락) 당일에는 1일 현금성 정산 시차를 감안하여 괴리율 임계값을 완화(5.0%)하고, [분배락] 플래그 부여
+        base_threshold = 1.0 if "국내" in asset_cls else 3.0
+        threshold = 5.0 if is_ex_div else base_threshold
+
         if abs(disp) >= threshold:
+            dist_event = ex_div_map.get(e["ticker"], {})
+            dist_krw = to_float(dist_event.get("distribution_per_share_krw"))
             disparity_warning.append({
                 "ticker": e["ticker"],
                 "name": e["name"],
@@ -421,6 +443,8 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
                 "nav": e["nav"],
                 "price": e["close"],
                 "disparityPct": disp,
+                "isExDividend": is_ex_div,
+                "distributionPerShareKrw": dist_krw if is_ex_div else None,
             })
     disparity_warning.sort(key=lambda x: abs(x["disparityPct"]), reverse=True)
 

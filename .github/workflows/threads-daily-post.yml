@@ -2,8 +2,8 @@ name: Threads daily post generation
 
 on:
   schedule:
-    # 매일 KST 07:00 (= UTC 22:00 전날) — 가장 이른 골든타임 전 준비
-    - cron: "0 22 * * *"
+    # 매일 KST 06:00 (= UTC 21:00 전날) — 오전 골든타임 대비
+    - cron: "0 21 * * *"
   workflow_dispatch:
     inputs:
       date:
@@ -49,15 +49,23 @@ jobs:
 
       - name: Generate Threads post
         if: github.event.inputs.dry_run != 'true'
-        run: python scripts/threads/generate_thread.py --date "${{ env.TARGET_DATE }}"
+        run: |
+          cd scripts/threads
+          python generate_thread.py --date "${{ env.TARGET_DATE }}"
         env:
           PYTHONIOENCODING: utf-8
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_TOKENS: ${{ secrets.GEMINI_TOKENS }}
 
       - name: Generate Threads post (dry-run)
         if: github.event.inputs.dry_run == 'true'
-        run: python scripts/threads/generate_thread.py --date "${{ env.TARGET_DATE }}" --dry-run
+        run: |
+          cd scripts/threads
+          python generate_thread.py --date "${{ env.TARGET_DATE }}" --dry-run
         env:
           PYTHONIOENCODING: utf-8
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_TOKENS: ${{ secrets.GEMINI_TOKENS }}
 
       - name: Check for changes
         if: github.event.inputs.dry_run != 'true'
@@ -76,8 +84,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add scripts/threads/threads_bank.json
           git commit -m "feat(threads): generate daily post for ${{ env.TARGET_DATE }} [skip ci]"
-          git pull origin main --rebase
-          git push origin main
+          git pull origin feat/threads-automation --rebase
+          git push origin feat/threads-automation
 
       - name: Report result
         if: always()
@@ -94,10 +102,11 @@ jobs:
               print(f"Total posts generated : {total}")
               if d["posts"]:
                   latest = d["posts"][-1]
-                  print(f"Latest : {latest['date']} @ KST {latest['publish_time_kst']}")
-                  print(f"Format : {latest['format_type']}")
-                  print(f"Topic  : {latest['source_topic_id']}")
-                  print(f"Chars  : {latest['char_count']}")
+                  print(f"Latest   : {latest['date']} @ KST {latest['publish_time_kst']}")
+                  print(f"Format   : {latest['format_type']}")
+                  print(f"Topic    : {latest['source_topic_id']}")
+                  print(f"Method   : {latest.get('generation_method', 'unknown')}")
+                  print(f"Chars    : {latest['char_count']}")
           except Exception as e:
               print(f"Report error: {e}")
           PYEOF

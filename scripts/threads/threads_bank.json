@@ -1,84 +1,11 @@
 {
   "meta": {
-    "version": "1.0.0",
-    "description": "Threads 바이럴 포스트 발행 이력",
-    "created": "2026-09-17",
-    "format_rotation": [
-      "number_fact",
-      "common_mistake",
-      "comparison",
-      "checklist",
-      "qa_curation"
-    ],
+    "version": "2.0.0",
+    "description": "Threads 바이럴 포스트 발행 이력 (v2.0 - Gemini 기반)",
+    "created": "2026-09-18",
+    "format_rotation": ["number_fact", "common_mistake", "comparison", "checklist", "qa_curation"],
     "publish_start_date": "2026-09-18"
   },
-  "posts": [
-    {
-      "id": "threads-2026-09-18",
-      "date": "2026-09-18",
-      "publish_time_kst": "20:01",
-      "format_type": "number_fact",
-      "source_topic_id": "sca-001",
-      "source_board": "stock-cost-analysis",
-      "hashtag": "#ETF비용분석",
-      "char_count": 220,
-      "text": "KODEX vs TIGER vs ACE 미국S&P500 ETF 실부담비용 최신 비교 (20.\n\n국내 3대 S&P500 ETF의 총보수·기타비용·매매수수료 합산 실부담비용을 공시 기준으로 비교해요.\n\n투자 전 운용사 공시 자료를 통해 최신 수치를 반드시 확인해 보세요.\n\n다들 S&P500 관련해서 어떤 기준으로 선택했어?\n\n#ETF비용분석\n\n* 투자 판단의 최종 책임은 투자자 본인에게 있어요.",
-      "status": "draft"
-    },
-    {
-      "id": "threads-2026-09-19",
-      "date": "2026-09-19",
-      "publish_time_kst": "20:33",
-      "format_type": "common_mistake",
-      "source_topic_id": "sp-001",
-      "source_board": "strategy-portfolio",
-      "hashtag": "#IRP투자",
-      "char_count": 172,
-      "text": "나이에 따라 달라지는 리스크 허용 범위와 투자 기간을 반영한 연령별 ETF 자산배분 비율 제안.\n\n\n\n나이에 따라 달라지는 리스크 허용 범위와 투자 기간을 반영한 연령별 ETF 자산배분 비율 제안.\n\n혹시 자산배분에서 실수한 경험이 있어?\n\n#IRP투자\n\n* 투자 판단의 최종 책임은 투자자 본인에게 있어요.",
-      "status": "draft"
-    },
-    {
-      "id": "threads-2026-09-20",
-      "date": "2026-09-20",
-      "publish_time_kst": "20:06",
-      "format_type": "comparison",
-      "source_topic_id": "qna-001",
-      "source_board": "free-qna",
-      "hashtag": "#연금저축",
-      "char_count": 192,
-      "text": "연금저축 중도 해지 vs IRP 담보대출.\n어떤 차이가 있을까.\n\n연금저축 중도 해지 시 세금 손실과 IRP 담보대출 이자 비용을 비교하여 최적 선택지를 안내해요.\n\n실부담비용·추적오차·AUM을 함께 비교해 보면 답이 보여요.\n\n다들 비교할 때 어떤 기준을 가장 중요하게 봐?\n\n#연금저축\n\n* 투자 판단의 최종 책임은 투자자 본인에게 있어요.",
-      "status": "draft"
-    },
-    {
-      "id": "threads-2026-09-21",
-      "date": "2026-09-21",
-      "publish_time_kst": "20:03",
-      "format_type": "checklist",
-      "source_topic_id": "sca-002",
-      "source_board": "stock-cost-analysis",
-      "hashtag": "#ETF실부담비용",
-      "char_count": 206,
-      "text": "나스닥100 관련 꼭 확인해야 할 포인트.\n\n✅ 같은 나스닥100 지수를 추종하는 두 상품의 장기 추적오차율과 실부담비용을 2년 데이터로 비교해요.\n✅ 운용사 공시 자료에서 최신 수치를 확인해 보세요\n✅ 계좌 유형별로 적용 방식이 다를 수 있어요\n\n마지막으로 나스닥100 확인해 본 게 언제야?\n\n#ETF실부담비용\n\n* 투자 판단의 최종 책임은 투자자 본인에게 있어요.",
-      "status": "draft"
-    },
-    {
-      "id": "threads-2026-09-22",
-      "date": "2026-09-22",
-      "publish_time_kst": "12:55",
-      "format_type": "qa_curation",
-      "source_topic_id": "sp-002",
-      "source_board": "strategy-portfolio",
-      "hashtag": "#자산배분",
-      "char_count": 172,
-      "text": "\"코어-위성 전략 실전 설계: S&P500 80% + 인도·금·채권 20% 4계좌 분산 포트폴리오에 대해 궁금해하는 분들이 많아요.\"\n\n핵심 자산에 위성 자산을 더한 코어-위성 포트폴리오 구체적 설계.\n\n이 부분에 대해 다들 어떻게 생각해?\n\n#자산배분\n\n* 투자 판단의 최종 책임은 투자자 본인에게 있어요.",
-      "status": "draft"
-    }
-  ],
-  "published_topic_ids": [
-    "sca-001",
-    "sp-001",
-    "qna-001",
-    "sca-002",
-    "sp-002"
-  ]
+  "posts": [],
+  "published_topic_ids": []
 }

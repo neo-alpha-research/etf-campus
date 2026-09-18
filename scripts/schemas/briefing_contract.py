@@ -29,12 +29,7 @@ from lib.indices import (
 )
 
 
-# 후행 윈도 집계 데이터에 한해 캐리포워드를 허용하는 필드 화이트리스트 SSOT (FM-014 규율 준수)
-CARRY_FORWARD_ALLOWLIST: frozenset[str] = frozenset({
-    "weeklyFundFlows",
-    "monthlyFundFlows",
-    "marketScaleTimeSeries",
-})
+from scripts.schemas.contract_constants import CARRY_FORWARD_ALLOWLIST
 
 
 class MacroIndexItem(BaseModel):

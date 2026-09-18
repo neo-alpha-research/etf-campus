@@ -239,15 +239,23 @@ jobs:
         run: python scripts/build_local_briefing_payload.py
 
       - name: Set up Node.js
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        if: steps.guard.outputs.skip != 'true'
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: Install Node dependencies
+      - name: Cache node_modules
+        id: node-modules-cache
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Node dependencies
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Regenerate public screener and search index
@@ -369,7 +377,3 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
         run: python3 scripts/notify_telegram_osmu.py --failure --reason="데이터 적재 또는 브리핑 품질 게이트 차단"
-
-
-
-

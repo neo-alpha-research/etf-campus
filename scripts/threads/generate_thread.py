@@ -304,6 +304,10 @@ def sanitize_text(text: str) -> str:
     # 비문 '다들은' -> '다들' 일괄 수정
     text = text.replace("다들은", "다들")
 
+    # 자본시장법 제101조 컴플라이언스 강제 (추천/포트폴리오 추천 자동 중화)
+    text = text.replace("포트폴리오 추천", "포트폴리오 구성 기준")
+    text = text.replace("추천", "선택 기준")
+
     # 금지 어미 제거 (~거든, ~했거든 -> ~잖아, ~어, ~했어)
     text = re.sub(r"했거든\b", "했어", text)
     text = re.sub(r"있거든\b", "있어", text)
@@ -494,8 +498,8 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     if tot_fee_a_val is not None and tot_fee_b_val is not None and real_fee_a_val is not None and real_fee_b_val is not None:
         multiplier = round(max(real_fee_a_val / tot_fee_a_val, real_fee_b_val / tot_fee_b_val))
         fee_compare_line = (
-            f"총보수는 {brand_a} {tot_fee_a_val:.4f}% vs {brand_b} {tot_fee_b_val:.4f}%로 비슷해.\n"
-            f"실부담비용은 {brand_a} {real_fee_a_val:.4f}% vs {brand_b} {real_fee_b_val:.4f}%로 최대 {multiplier}배까지 뛰어."
+            f"총보수는 {brand_a} {tot_fee_a_val:.2f}% vs {brand_b} {tot_fee_b_val:.2f}% 안팎이야.\n"
+            f"실부담비용은 {brand_a} {real_fee_a_val:.2f}% vs {brand_b} {real_fee_b_val:.2f}%로 최대 {multiplier}배 뛰어."
         )
     else:
         fee_compare_line = (
@@ -505,11 +509,11 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
 
     if tr_a is not None and tr_b is not None and pr_a is not None and pr_b is not None:
         return_compare_line = (
-            f"분배금을 합친 1년 총수익률 TR은 {brand_a} {tr_a:.2f}% vs {brand_b} {tr_b:.2f}%야.\n"
-            f"단순 주가 PR은 둘 다 {round((pr_a + pr_b) / 2, 1):.1f}%대로 똑같이 따라가."
+            f"1년 총수익률 TR은 {brand_a} {tr_a:.1f}% vs {brand_b} {tr_b:.1f}%야.\n"
+            f"지수 추종력 PR은 둘 다 {round((pr_a + pr_b) / 2, 1):.1f}%대로 비슷해."
         )
     elif ret_a_12m is not None and ret_b_12m is not None:
-        return_compare_line = f"1년 수익률은 {brand_a} {ret_a_12m:.2f}% vs {brand_b} {ret_b_12m:.2f}%야."
+        return_compare_line = f"1년 수익률은 {brand_a} {ret_a_12m:.1f}% vs {brand_b} {ret_b_12m:.1f}%야."
     else:
         return_compare_line = "최근 1년 수익률도 지수를 잘 따라가서 거의 같아."
 
@@ -517,15 +521,15 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         pension_compare_line = f"둘 다 {etf_a_pension}"
         pension_warning_line = (
             f"{return_compare_line}\n\n"
-            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어.\n"
-            "장기 적립은 실부담비용 최저가 유리하고, 잦은 매매는 순자산 큰 쪽이 유리한 셈이지."
+            "단 실부담비용은 직전 결산 사후 공시라 매년 달라질 수 있어.\n"
+            "장기 적립은 비용 낮은 쪽, 잦은 매매는 순자산 큰 쪽이 유리해."
         )
     else:
-        pension_compare_line = f"{brand_a}은 {etf_a_pension}, {brand_b}은 {etf_b_pension}"
+        pension_compare_line = f"{brand_a} {etf_a_pension}, {brand_b} {etf_b_pension}"
         pension_warning_line = (
             f"{return_compare_line}\n\n"
-            "이걸 모르고 이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 수수료만 더 내기 쉬워.\n"
-            "단 실부담비용은 직전 결산 사후 역산치라 매년 바뀔 수 있어."
+            "이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 비용만 더 낼 수 있어.\n"
+            "단 실부담비용은 직전 결산 사후 공시라 매년 달라질 수 있어."
         )
 
     # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
@@ -617,20 +621,18 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
         text = f"""{slots['etf_a_name']} vs {slots['etf_b_name']}.
 같은 {slots['target_index']} 투자인데 계좌 결과는 달라.
 
-실제 데이터로 딱 3가지만 비교해볼게.
-
 1. 순자산:
 {slots['brand_a']} {slots['etf_a_aum']} vs {slots['brand_b']} {slots['etf_b_aum']}
 
 2. 표기 보수 vs 실부담비용:
 {slots['fee_compare_line']}
 
-3. 연금 한도와 1년 총수익률:
+3. 연금 한도와 1년 수익률:
 {slots['pension_compare_line']}
 
 {slots['pension_warning_line']}
 
-주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 확인할 수 있어.
+주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 볼 수 있어.
 
 다들 {slots['target_index']} 모을 때 순자산을 먼저 봐, 아니면 실부담비용을 먼저 봐?
 
@@ -711,7 +713,7 @@ IRP까지 합치면 부부 합산 연간 최대 1,800만 원까지 세액공제�
 금융 제도는 조금만 파고들면 손실을 막고 내 자산을 지키는 안전장치가 다 마련되어 있어.
 규정을 모르고 지나치면 낼 필요 없는 비용이나 세금을 물게 되는 셈이지.
 
-국내 1,171개 ETF의 세제적격 여부와 실부담비용 비교는 프로필 링크 [ETF 캠퍼스]에서 바로 검색해볼 수 있어.
+국내 상장 1,100여 개 주요 ETF의 세제적격 여부와 실부담비용 비교는 프로필 링크 [ETF 캠퍼스]에서 바로 검색해볼 수 있어.
 
 {slots['qna_dynamic_cta']}
 

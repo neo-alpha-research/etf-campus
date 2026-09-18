@@ -73,10 +73,14 @@ function parseCliArgs(): PipelineCliOptions {
   return opts;
 }
 
-function syncToKv(targetDate: string) {
-  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
+function getRepoRoot(): string {
+  return process.cwd().endsWith("market-briefing-distributor")
     ? path.resolve(process.cwd(), "../..")
     : process.cwd();
+}
+
+function syncToKv(targetDate: string) {
+  const repoRoot = getRepoRoot();
   const baseDir = path.join(repoRoot, "OSMU_Archive", targetDate).replace(/\\/g, '/');
   const distDir = path.join(repoRoot, "workers", "market-briefing-distributor");
 
@@ -104,9 +108,7 @@ function syncToKv(targetDate: string) {
 }
 
 function deployWorker() {
-  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const repoRoot = getRepoRoot();
   const distDir = path.join(repoRoot, "workers", "market-briefing-distributor");
 
   console.log('[OSMU Pipeline] Deploying market-briefing-distributor worker...');
@@ -127,9 +129,7 @@ async function main() {
   let raw: any = null;
 
   // 1. Primary SSOT: Local Repository Briefing Payload (Zero Network Delay, Anti-Stale)
-  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const repoRoot = getRepoRoot();
   const datePayloadPath = cliOpts.date ? path.join(repoRoot, "data", `briefing_payload_${cliOpts.date}.json`) : null;
   const latestPayloadPath = path.join(repoRoot, "data", "briefing_payload_latest.json");
   let localPayloadPath = (datePayloadPath && fs.existsSync(datePayloadPath)) ? datePayloadPath : latestPayloadPath;
@@ -400,7 +400,15 @@ ${svgStr}
   fs.mkdirSync(emailDir, { recursive: true });
   fs.writeFileSync(path.join(emailDir, 'email_body.html'), newsletter.html, 'utf-8');
   fs.writeFileSync(path.join(emailDir, 'newsletter.html'), newsletter.html, 'utf-8');
-  console.log(`- Email Newsletter -> HTML ${newsletter.html.length.toLocaleString()} bytes`);
+  fs.writeFileSync(path.join(emailDir, 'newsletter_responsive.html'), newsletter.html, 'utf-8');
+
+  // Maintain 3_Newsletter directory for seamless cross-tool compatibility
+  const newsletterDir = path.join(osmuBaseDir, targetDate, "3_Newsletter");
+  fs.mkdirSync(newsletterDir, { recursive: true });
+  fs.writeFileSync(path.join(newsletterDir, 'email_body.html'), newsletter.html, 'utf-8');
+  fs.writeFileSync(path.join(newsletterDir, 'newsletter.html'), newsletter.html, 'utf-8');
+  fs.writeFileSync(path.join(newsletterDir, 'newsletter_responsive.html'), newsletter.html, 'utf-8');
+  console.log(`- Email Newsletter -> HTML ${newsletter.html.length.toLocaleString()} bytes (saved to 3_Email & 3_Newsletter)`);
 
   if (browser) {
     await browser.close();

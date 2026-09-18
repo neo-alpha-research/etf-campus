@@ -47,8 +47,5 @@ jobs:
       - name: Pipeline Integrity Linter
         run: python scripts/lint_pipeline.py
 
-      - name: Pipeline Integrity Linter Tests
-        run: python -m unittest scripts/tests/test_lint_pipeline.py
-
-      - name: Check Pages Deployment Tests
-        run: python -m unittest scripts/tests/test_check_pages_deployment.py
+      - name: Run all scripts unit tests (including threads & zero-hallucination)
+        run: python -m unittest discover -s scripts/tests

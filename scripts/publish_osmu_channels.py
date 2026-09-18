@@ -92,24 +92,39 @@ def send_newsletter_email(target_date: str, force: bool = False) -> tuple[bool, 
     if not smtp_user or not smtp_pass:
         return True, "SMTP credentials not provided in environment. Skipping email transmission."
 
-    # Tier 3 Guard: Local transmission receipt
-    receipt_dir = Path("OSMU_Archive") / target_date / "3_Newsletter"
-    receipt_file = receipt_dir / "email_sent_receipt.json"
-    if receipt_file.exists() and not force:
-        try:
-            receipt_data = json.loads(receipt_file.read_text(encoding="utf-8"))
-            sent_at = receipt_data.get("sent_at", "earlier")
-            return True, f"Email already transmitted at {sent_at} for {target_date}. Duplicate transmission skipped."
-        except Exception:
-            pass
+    # Tier 3 Guard: Local transmission receipt (dual path support: 3_Newsletter & 3_Email)
+    candidate_dirs = [
+        Path("OSMU_Archive") / target_date / "3_Newsletter",
+        Path("OSMU_Archive") / target_date / "3_Email",
+    ]
+    receipt_dir = candidate_dirs[0]
+    for d in candidate_dirs:
+        receipt_file = d / "email_sent_receipt.json"
+        if receipt_file.exists() and not force:
+            try:
+                receipt_data = json.loads(receipt_file.read_text(encoding="utf-8"))
+                sent_at = receipt_data.get("sent_at", "earlier")
+                return True, f"Email already transmitted at {sent_at} for {target_date}. Duplicate transmission skipped."
+            except Exception:
+                pass
+        if d.exists():
+            receipt_dir = d
 
     html_content = ""
-    local_html = receipt_dir / "newsletter_responsive.html"
-    if local_html.exists():
-        try:
-            html_content = local_html.read_text(encoding="utf-8")
-        except Exception:
-            pass
+    for d in candidate_dirs:
+        for fname in ["newsletter_responsive.html", "newsletter.html", "email_body.html"]:
+            local_html = d / fname
+            if local_html.exists():
+                try:
+                    loaded = local_html.read_text(encoding="utf-8")
+                    if loaded.strip():
+                        html_content = loaded
+                        print(f"   📄 Loaded newsletter HTML directly from local SSOT: {local_html}")
+                        break
+                except Exception:
+                    pass
+        if html_content:
+            break
 
     if not html_content:
         url = f"{DISTRIBUTOR_HOST}/api/preview/newsletter?date={urllib.parse.quote(target_date, safe='')}"

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "dev": "wrangler dev",
     "deploy:preview": "wrangler deploy --env preview",
     "deploy": "wrangler deploy",

@@ -29,7 +29,10 @@ from lib.indices import (
 )
 
 
-from scripts.schemas.contract_constants import CARRY_FORWARD_ALLOWLIST
+from scripts.schemas.contract_constants import (
+    CARRY_FORWARD_ALLOWLIST,
+    MACRO_MAX_DAILY_CHANGE_PCT,
+)
 
 
 class MacroIndexItem(BaseModel):
@@ -166,10 +169,12 @@ class BriefingContract(BaseModel):
                     raise ValueError(
                         f"지표 [{m.code}] 수치({m.value})가 정상 범위({min_val} ~ {max_val})를 벗어났습니다."
                     )
-            if m.change_pct is not None and abs(m.change_pct) > MAX_DAILY_CHANGE_PCT:
-                raise ValueError(
-                    f"지표 [{m.code}] 일간 등락률({m.change_pct:+.2f}%)이 허용 한계(±{MAX_DAILY_CHANGE_PCT}%)를 초과했습니다."
-                )
+            if m.change_pct is not None:
+                allowed_pct = MACRO_MAX_DAILY_CHANGE_PCT.get(m.code, MACRO_MAX_DAILY_CHANGE_PCT.get("DEFAULT", 15.0))
+                if abs(m.change_pct) > allowed_pct:
+                    raise ValueError(
+                        f"지표 [{m.code}] 일간 등락률({m.change_pct:+.2f}%)이 허용 한계(±{allowed_pct}%)를 초과했습니다."
+                    )
 
         # 4. 전일 대비 기준일자 간격 검사 (1~5영업일 이내)
         if self.prev_as_of_date:

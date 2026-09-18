@@ -53,6 +53,7 @@ def generate_series_v2(root_dir=None, fail_on_quarantine: bool = True):
             series_dir=str(root_dir / "public" / "data" / "returns" / "tr_index"),
             ca_file=str(ca_csv),
             master_file=str(master_csv),
+            dist_file=str(dist_csv),
         )
         for r in cat2:
             quarantined_tickers[r["ticker"]] = {

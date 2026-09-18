@@ -1,9 +1,14 @@
 import json
 import os
 import shutil
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from scripts.verify_split_adjustment import verify_splits
 
@@ -15,17 +20,23 @@ class TestVerifySplitAdjustment(unittest.TestCase):
         self.series_dir = os.path.join(self.temp_dir, "series")
         self.ca_file = os.path.join(self.temp_dir, "etf_corporate_actions.csv")
         self.master_file = os.path.join(self.temp_dir, "etf_master.csv")
+        self.dist_file = os.path.join(self.temp_dir, "etf_distribution_events.csv")
         os.makedirs(self.series_dir, exist_ok=True)
 
-        # Base master: 069500 (1X), 122630 (2X)
+        # Base master: 069500 (1X), 122630 (2X), 489030 (Covered Call)
         with open(self.master_file, "w", encoding="utf-8-sig") as f:
             f.write("ticker,name\n")
             f.write("069500,KODEX 200\n")
             f.write("122630,KODEX 레버리지\n")
+            f.write("489030,PLUS 고배당주위클리커버드콜\n")
 
         # Empty corporate actions
         with open(self.ca_file, "w", encoding="utf-8-sig") as f:
             f.write("action_id,etf_id,ticker,action_type,effective_date,ratio_numerator,ratio_denominator,source_id,verification_status,supersedes_action_id,updated_at,note\n")
+
+        # Empty distributions
+        with open(self.dist_file, "w", encoding="utf-8-sig") as f:
+            f.write("event_id,etf_id,ticker,etf_name,issuer_ex_date,krx_apply_date,ex_date,record_date,pay_date,distribution_per_share_krw,distribution_type,event_status,currency,ex_rights_reference_price_krw,issuer_source_id,krx_source_id,issuer_amount_verified,krx_ex_date_verified,verification_status,verification_note,supersedes_event_id,source_collected_at,updated_at\n")
 
     def tearDown(self):
         shutil.rmtree(self.temp_dir, ignore_errors=True)
@@ -93,9 +104,32 @@ class TestVerifySplitAdjustment(unittest.TestCase):
             series_dir=self.series_dir,
             ca_file=self.ca_file,
             master_file=self.master_file,
+            dist_file=self.dist_file,
         )
         self.assertEqual(len(cat2), 1)
         self.assertEqual(cat2[0]["ticker"], "069500")
+
+    def test_distribution_ex_date_recognized_in_ledger(self):
+        # Register an official distribution event (103 KRW) on 2026-07-30
+        with open(self.dist_file, "a", encoding="utf-8-sig") as f:
+            f.write("ev_1,etf_1,489030,PLUS 고배당주위클리커버드콜,2026-07-30,2026-07-30,2026-07-30,2026-07-31,2026-08-04,103,ordinary_cash,paid,KRW,,issuer_1,,true,false,partial,note,,2026-09-01,2026-09-17\n")
+
+        # Price drops due to distribution on 2026-07-30
+        p_dist = os.path.join(self.series_dir, "489030.json")
+        with open(p_dist, "w", encoding="utf-8") as f:
+            json.dump({"points": [{"date": "2026-07-29", "close": 10000}, {"date": "2026-07-30", "close": 9897}]}, f)
+
+        cat1, cat2, cat3, cat4 = verify_splits(
+            series_dir=self.series_dir,
+            ca_file=self.ca_file,
+            master_file=self.master_file,
+            dist_file=self.dist_file,
+        )
+        self.assertEqual(len(cat2), 0)
+        self.assertEqual(len(cat3), 0)
+        self.assertEqual(len(cat1), 1)
+        self.assertEqual(cat1[0]["ticker"], "489030")
+        self.assertIn("Verified distribution ex-date", cat1[0]["reason"])
 
 
 if __name__ == "__main__":

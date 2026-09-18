@@ -259,6 +259,7 @@
 | **FM-013: WIP Commit on Main Branch Prohibition** | `444dce37` | `wip(compare): save compare timeseries chart components to feature branch` (2026-09-17 20:29:43 +0900). 기능 브랜치 최초 생성 시점의 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
 | **FM-015: Missing Script Execution Entrypoint** | `SCRIPT_ENTRYPOINT_EXEMPT`: `validate_components_clean.py`, `verify_all_comparisons.py`, `verify_broker_pension.py`, `verify_kind_issue_summaries.py`, `verify_kofia_pension.py`, `verify_return_circuit_breaker.py` | 수동 점검 도구, 레거시 감사 도구(FM-004로 대체된 컴포넌트 검사 등), 또는 연구 보고서 전용 검증 산출물로 상시 CI 실행 대상에서 제외. | 2026-09-18 |
 | **FM-014: Exemption Disclosure SSOT** | `CARRY_FORWARD_ALLOWLIST`: `weeklyFundFlows`, `monthlyFundFlows`, `marketScaleTimeSeries` | 후행 윈도 집계 데이터에 한해 전일 KV로부터의 캐리포워드를 허용하며, 당일 종가/지수/등락률은 제외. 이월 시 반드시 `<field>AsOf` 명시 의무화. | 2026-09-18 |
+| **FM-014: Exemption Disclosure SSOT** | `MACRO_MAX_DAILY_CHANGE_PCT`: `DEFAULT`, `VIX`, `VKOSPI`, `CLF`, `GC`, `SI`, `KR10Y`, `DGS10`, `USDKRW` | 거시 지표별 일간 최대 허용 등락폭(대표 주가지수 ±15%, VIX/VKOSPI 변동성 ±60%, 원자재/금리 ±25%). 월말/분기말 급변 및 지정학적 변동성 시 브리핑 서킷 오탐 차단. | 2026-09-18 |
 
 ---
 

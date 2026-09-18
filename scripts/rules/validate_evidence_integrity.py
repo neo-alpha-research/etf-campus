@@ -832,33 +832,32 @@ def validate_evidence_integrity(
 
     # 12. S11: Statutory Personal Pension Evidence Verification (개인연금 법정 적격 증거 검증)
     # Personal pension eligible items must be backed by official disclosure and strictly exclude leverage/inverse.
-    personal_reg_path = REPO_ROOT / "data" / "regulatory" / "personal_pension_registry.json"
-    if personal_reg_path.is_file():
-        try:
-            with personal_reg_path.open("r", encoding="utf-8") as f:
-                p_reg = json.load(f)
-            for tk, pinfo in p_reg.get("items", {}).items():
-                p_status = pinfo.get("personal_pension")
-                nm = pinfo.get("name", "")
-                is_lev = any(k in nm for k in ("레버리지", "인버스", "2X", "2x", "-1X", "-2X", "Leverage", "Inverse"))
-                if is_lev and p_status == "가능":
-                    violations["S11"].append({
-                        "ticker": tk,
-                        "name": nm,
-                        "reason": f"S11 위반: 레버리지/인버스 종목 '{tk}'({nm})가 개인연금 '가능'으로 등록됨 (표준약관 제8조 위반)",
-                    })
-                if p_status == "가능":
-                    ev = pinfo.get("evidence", "")
-                    if ev and not (REPO_ROOT / ev).is_file():
-                        violations["S11"].append({
-                            "ticker": tk,
-                            "name": nm,
-                            "reason": f"S11 위반: 개인연금 '가능' 종목의 증거 파일이 존재하지 않음: {ev}",
-                        })
-        except Exception as e:
+    if master_rows is None:
+        master_file = REPO_ROOT / "data" / "etf_master_draft.csv"
+        if master_file.is_file():
+            with master_file.open("r", encoding="utf-8-sig") as f:
+                master_rows = list(csv.DictReader(f))
+        else:
+            master_rows = []
+
+    kofia_evidence_file = REPO_ROOT / "data/regulatory/sources/kofia_evidence_extract_20260905.xml"
+    for r in master_rows:
+        p_status = str(r.get("personal_pension") or "").strip()
+        nm = str(r.get("name") or "").strip()
+        tk = str(r.get("ticker") or "").strip().upper()
+        risk = str(r.get("risk_type") or "").strip().lower()
+        is_lev = risk in ("leverage", "inverse") or any(k in nm for k in ("레버리지", "인버스", "2X", "2x", "-1X", "-2X", "Leverage", "Inverse"))
+        if is_lev and p_status == "가능":
             violations["S11"].append({
-                "ticker": "ALL",
-                "reason": f"S11 검증 실패: {e}",
+                "ticker": tk,
+                "name": nm,
+                "reason": f"S11 위반: 레버리지/인버스 종목 '{tk}'({nm})가 개인연금 '가능'으로 등록됨 (표준약관 제8조 위반)",
+            })
+        if p_status == "가능" and not kofia_evidence_file.is_file():
+            violations["S11"].append({
+                "ticker": tk,
+                "name": nm,
+                "reason": f"S11 위반: 개인연금 '가능' 종목의 증거 파일이 존재하지 않음: {kofia_evidence_file}",
             })
 
     return violations

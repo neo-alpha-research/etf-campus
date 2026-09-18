@@ -89,7 +89,7 @@ RULE_DESCRIPTIONS = {
     "P2": "riskType in ('leverage', 'inverse') 또는 레버리지/인버스 명칭 -> personal_pension = '불가', personal_pension_limit = '불가' (편입 원천 차단)",
     "P3": "개인연금 미설명/미확인 잔여 종목 0건 (100% 커버리지 무결성)",
     "P4": "한화 8종(CX8) 등 비레버리지 공시 종목 -> personal_pension = '가능', personal_pension_limit = '100%' 유지 검증",
-    "P5": "개인연금 원장 간 정합 검사: registry 종목 수 == screener personalPension 집계 == master personal_pension 100% 일치",
+    "P5": "개인연금 마스터-스크리너 정합 검사: master 종목 수 == screener 종목 수 == 100% 필드 일치",
 }
 
 
@@ -354,17 +354,10 @@ def validate_pension_consistency(
                 "reason": f"summary.json parsing or read failure: {e}",
             })
 
-    # P5: 개인연금 원장 간 정합 검사: registry 종목 수 == screener personalPension 집계 == master personal_pension 100% 일치
-    reg_path = REPO_ROOT / "data" / "regulatory" / "personal_pension_registry.json"
+    # P5: 개인연금 마스터-스크리너 정합 검사: master 종목 수 == screener 종목 수 == 100% 필드 일치
     screener_path = REPO_ROOT / "public" / "data" / "screener.json"
 
-    if not reg_path.exists():
-        violations["P5"].append({
-            "ticker": "REGISTRY",
-            "name": "personal_pension_registry.json",
-            "reason": f"personal_pension_registry.json 파일이 존재하지 않음: {reg_path}",
-        })
-    elif not screener_path.exists():
+    if not screener_path.exists():
         violations["P5"].append({
             "ticker": "SCREENER",
             "name": "screener.json",
@@ -372,21 +365,12 @@ def validate_pension_consistency(
         })
     else:
         try:
-            with open(reg_path, "r", encoding="utf-8") as f:
-                reg_data = json.load(f)
             with open(screener_path, "r", encoding="utf-8") as f:
                 screener_data = json.load(f)
 
-            reg_items = reg_data.get("items", {})
             screener_items = {x["ticker"]: x for x in screener_data}
             master_tickers = {r.get("ticker"): r for r in master_rows if r.get("ticker")}
 
-            if len(reg_items) != len(master_tickers):
-                violations["P5"].append({
-                    "ticker": "COUNT",
-                    "name": "personal_pension_registry.json",
-                    "reason": f"registry 종목 수 ({len(reg_items)}) != master 종목 수 ({len(master_tickers)})",
-                })
             if len(screener_items) != len(master_tickers):
                 violations["P5"].append({
                     "ticker": "COUNT",
@@ -397,31 +381,6 @@ def validate_pension_consistency(
             for tk, m_row in master_tickers.items():
                 m_pers = str(m_row.get("personal_pension") or "").strip()
                 m_lim = str(m_row.get("personal_pension_limit") or "").strip()
-
-                reg_item = reg_items.get(tk)
-                if not reg_item:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"master 종목이 personal_pension_registry.json에 누락됨",
-                    })
-                    continue
-
-                r_pers = str(reg_item.get("personal_pension") or "").strip()
-                r_lim = str(reg_item.get("personal_pension_limit") or "").strip()
-
-                if m_pers != r_pers:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"personal_pension 불일치: master='{m_pers}' vs registry='{r_pers}'",
-                    })
-                if m_lim != r_lim:
-                    violations["P5"].append({
-                        "ticker": tk,
-                        "name": m_row.get("name", ""),
-                        "reason": f"personal_pension_limit 불일치: master='{m_lim}' vs registry='{r_lim}'",
-                    })
 
                 sc_item = screener_items.get(tk)
                 if not sc_item:
@@ -450,7 +409,7 @@ def validate_pension_consistency(
         except Exception as e:
             violations["P5"].append({
                 "ticker": "ALL",
-                "name": "personal_pension_registry.json",
+                "name": "screener.json",
                 "reason": f"P5 정합 검사 파싱 오류: {e}",
             })
 

@@ -8,7 +8,6 @@ Implements the official 3-status Personal Pension Architecture:
 3. '확인중' (10 ETFs): Non-leverage new listings pending KOFIA monthly disclosure batch update
 
 Atomically updates:
-- data/regulatory/personal_pension_registry.json
 - data/etf_master_draft.csv
 - public/data/screener.json
 - data/reports/pension_verification_summary.json
@@ -33,13 +32,13 @@ EVIDENCE_REF = "data/regulatory/sources/kofia_evidence_extract_20260905.xml"
 
 def run_sync(dry_run: bool = False) -> dict[str, int]:
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
-    registry_path = REPO_ROOT / "data/regulatory/personal_pension_registry.json"
     screener_path = REPO_ROOT / "public/data/screener.json"
     summary_path = REPO_ROOT / "data/reports/pension_verification_summary.json"
     kofia_path = REPO_ROOT / "data/regulatory/kofia_fund_types.csv"
 
-    now_iso = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).isoformat()
-    today_str = now_iso.split("T")[0]
+    now_iso = datetime.timezone(datetime.timedelta(hours=9))
+    now_iso_str = datetime.datetime.now(now_iso).isoformat()
+    today_str = now_iso_str.split("T")[0]
 
     # 1. Load KOFIA Fund Types
     kofia_tickers = set()
@@ -55,19 +54,13 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
         master_rows = list(csv.DictReader(f))
         master_fieldnames = list(master_rows[0].keys())
 
-    # 3. Load Existing Registry
-    with registry_path.open("r", encoding="utf-8") as f:
-        registry_data = json.load(f)
-
-    # 4. Load Screener
+    # 3. Load Screener
     with screener_path.open("r", encoding="utf-8") as f:
         screener_items = json.load(f)
 
-    # 6. Load Summary
+    # 4. Load Summary
     with summary_path.open("r", encoding="utf-8") as f:
         summary_data = json.load(f)
-
-    reg_items = registry_data.get("items", {})
 
     counts = {"가능": 0, "불가": 0, "확인중": 0}
 
@@ -109,35 +102,6 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
 
     # Apply updates
     master_by_ticker = {r["ticker"].strip().upper(): r for r in master_rows}
-    for tk, u in updates.items():
-        if tk in reg_items:
-            reg_items[tk]["personal_pension"] = u["personal_pension"]
-            reg_items[tk]["personal_pension_limit"] = u["personal_pension_limit"]
-            reg_items[tk]["reason"] = u["reason"]
-            reg_items[tk]["evidence"] = u["evidence"]
-            reg_items[tk]["source"] = u["source"]
-            reg_items[tk]["confidence"] = u["confidence"]
-            reg_items[tk]["verified_at"] = today_str
-        else:
-            m = master_by_ticker.get(tk, {})
-            nm = m.get("name", "").strip()
-            brand = nm.split()[0] if nm else ""
-            reg_items[tk] = {
-                "ticker": tk,
-                "name": nm,
-                "issuer_brand": brand,
-                "personal_pension": u["personal_pension"],
-                "personal_pension_limit": u["personal_pension_limit"],
-                "retirement_pension": m.get("pension_eligible", "가능"),
-                "retirement_pension_limit": m.get("pension_limit", "100% (안전자산)" if u["personal_pension"] == "가능" else "불가"),
-                "isa_eligible": m.get("isa_eligible", "가능"),
-                "source": u["source"],
-                "confidence": u["confidence"],
-                "evidence": u["evidence"],
-                "reason": u["reason"],
-                "verified_at": today_str,
-            }
-
 
     for r in master_rows:
         tk = r.get("ticker", "").strip().upper()
@@ -174,40 +138,19 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
                 "asOfDate": m.get("bas_dt", today_str.replace("-", "")),
             })
 
-    # Prune delisted items from registry and screener so they strictly match active master universe
+    # Prune delisted items from screener so they strictly match active master universe
     master_ticker_set = set(master_by_ticker.keys())
-    reg_items = {tk: v for tk, v in reg_items.items() if tk in master_ticker_set}
-    registry_data["items"] = reg_items
     screener_items = [it for it in screener_items if it.get("ticker", "").strip().upper() in master_ticker_set]
 
-    # Update Registry metadata
-    total = len(reg_items)
-    covered = counts["가능"] + counts["불가"]
-    registry_data["updated_at"] = today_str
-    registry_data["coverage"] = {
-        "covered_count": covered,
-        "total_count": total,
-        "coverage_ratio": round(covered / total, 4) if total else 0.0,
-    }
-    registry_data["summary"] = {
-        "eligible_count": counts["가능"],
-        "ineligible_count": counts["불가"],
-        "unverified_count": counts["확인중"],
-        "personal_only_count": 34,
-    }
-    registry_data["stats"] = {
-        "가능": counts["가능"],
-        "불가": counts["불가"],
-        "확인중": counts["확인중"],
-    }
-
     # Update Summary metadata
+    total = len(master_rows)
+    covered = counts["가능"] + counts["불가"]
     summary_data["personal_pension_breakdown"] = {
         "eligible": counts["가능"],
         "ineligible": counts["불가"],
         "pending": counts["확인중"],
         "coverage_ratio": round(covered / total, 4) if total else 0.0,
-        "last_updated": now_iso,
+        "last_updated": now_iso_str,
     }
 
     if dry_run:
@@ -215,9 +158,6 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
         return counts
 
     # Write files
-    with registry_path.open("w", encoding="utf-8") as f:
-        json.dump(registry_data, f, ensure_ascii=False, indent=2)
-
     with master_path.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=master_fieldnames)
         w.writeheader()
@@ -229,7 +169,7 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
     with summary_path.open("w", encoding="utf-8") as f:
         json.dump(summary_data, f, ensure_ascii=False, indent=2)
 
-    print("[OK] All 4 ledgers atomically synchronized!")
+    print("[OK] Master, Screener, and Summary atomically synchronized!")
     return counts
 
 

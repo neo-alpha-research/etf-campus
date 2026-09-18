@@ -91,6 +91,10 @@ function deriveIso6166Isin(ticker: string): string {
 }
 
 function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
+  const comparisonPath = path.join(dataDirectory, "comparison", "etf_comparison_classification.csv");
+  if (fs.existsSync(comparisonPath)) {
+    return indexUnique(readCsv(comparisonPath), "ticker", "etf_comparison_classification.csv");
+  }
   const classificationPath = path.join(dataDirectory, "classification", "etf_classification_review_draft.csv");
   if (!fs.existsSync(classificationPath)) return new Map();
   return indexUnique(readCsv(classificationPath), "ticker", "etf_classification_review_draft.csv");
@@ -98,6 +102,43 @@ function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
 
 function parseClassification(row: CsvRow | undefined): EtfClassification | null {
   if (!row) return null;
+
+  const isComparisonCsv = "asset_family" in row || "region_primary" in row;
+  if (isComparisonCsv) {
+    const assetFamily = optionalText(row, "asset_family");
+    const regionPrimary = optionalText(row, "region_primary");
+    const comparisonTopic = optionalText(row, "comparison_topic");
+    const comparisonSubtopic = optionalText(row, "comparison_subtopic");
+    const strategyStyle = optionalText(row, "strategy_style");
+    const payoffStructure = optionalText(row, "payoff_structure");
+    const fxHedgeRaw = optionalText(row, "fx_hedge");
+    const status = optionalText(row, "classification_status") ?? "verified_official";
+
+    let fxHedge: string | null = null;
+    if (fxHedgeRaw === "hedged") fxHedge = "환헤지";
+    else if (fxHedgeRaw === "unhedged") fxHedge = "환노출";
+
+    let strategy: string | null = null;
+    if (payoffStructure === "covered_call") strategy = "커버드콜";
+    else if (payoffStructure === "buffer") strategy = "버퍼";
+    else if (strategyStyle === "active") strategy = "액티브";
+    else strategy = "일반";
+
+    const marketScope = regionPrimary && !["해당없음", "미확인", "-"].includes(regionPrimary) ? regionPrimary : null;
+
+    return {
+      published: true,
+      marketScope,
+      assetClass: assetFamily,
+      assetDetail: comparisonSubtopic || comparisonTopic || null,
+      strategy,
+      fxHedge,
+      reviewStatus: status,
+      reviewPriority: "",
+      sourceUrl: optionalText(row, "official_source_url"),
+      evidenceSummary: optionalText(row, "evidence_basis"),
+    };
+  }
 
   const reviewStatus = optionalText(row, "review_status") ?? "미검수";
   const published = ["자동확정", "수기확정"].includes(reviewStatus);

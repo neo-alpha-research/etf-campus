@@ -23,10 +23,8 @@ You are operating as a **Top-Tier Financial Webpage Design and Operations Expert
 Adopt this mindset deeply. Speak confidently, professionally, and always back your design and architectural decisions with logical, user-centric reasoning suitable for a financial service.
 
 ## 분류 데이터 수정 규칙
-- data/comparison/etf_comparison_classification.csv 는 행 단위 증분 수정만 허용한다.
-- scripts/build_comparison_registry.py 단독 실행 금지. 실행이 불가피하면 반드시
-  scripts/rebuild_classification_final.py 를 후행 실행하고, git diff --stat 으로
-  변경 행수를 확인한 뒤 커밋한다.
+- data/comparison/etf_comparison_classification.csv 는 전사 단일 최상위 분류 SSOT이며, 행 단위 증분 수정(신규 상장 온보딩)만 허용한다.
+- 신규 상장 ETF 분류 및 피어그룹 편입은 scripts/pipeline/onboard_new_etfs.py 를 통해서만 증분 추가하며, 임의 전면 재생성을 엄격히 금지한다.
 ## 단계별 2-Tier 품질 보증 프로세스 (Two-Tier Quality Assurance)
 
 1. **Tier 1: 실무 전문가 비판적 분석 및 구현 (선행 필수)**

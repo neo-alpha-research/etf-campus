@@ -1,11 +1,34 @@
 {
   "meta": {
-    "version": "2.0.0",
-    "description": "Threads 바이럴 포스트 발행 이력 (v2.0 - Gemini 기반)",
+    "version": "2.1.0",
+    "description": "Threads 바이럴 포스트 발행 이력 (v2.1 - 친절한 반말체 및 실데이터 연동)",
     "created": "2026-09-18",
-    "format_rotation": ["number_fact", "common_mistake", "comparison", "checklist", "qa_curation"],
+    "format_rotation": [
+      "cost_bust",
+      "tax_escape",
+      "rival_match",
+      "life_stage",
+      "dividend_trap",
+      "quick_qna"
+    ],
     "publish_start_date": "2026-09-18"
   },
-  "posts": [],
-  "published_topic_ids": []
+  "posts": [
+    {
+      "id": "threads-2026-09-18",
+      "date": "2026-09-18",
+      "publish_time_kst": "20:46",
+      "template_key": "rival_match",
+      "template_name": "라이벌 ETF 맞대결 / 판정형",
+      "source_topic_id": "sca-001",
+      "source_board": "stock-cost-analysis",
+      "hashtag": "#SP500",
+      "char_count": 483,
+      "text": "KODEX 미국S&P500 vs TIGER 미국S&P500.\n같은 S&P500 투자인데 계좌 결과는 완전히 달라.\n\n실제 데이터로 딱 3가지만 비교해볼게.\n\n1. 굴리는 덩치 순자산:\nKODEX 미국S&P500 10.1조 원 vs TIGER 미국S&P500 20.3조 원\n\n2. 떼어가는 보수:\nKODEX 미국S&P500 0.0062% vs TIGER 미국S&P500 0.0068%\n\n3. 연금 계좌 매수 여부:\n둘 다 퇴직연금 DC/IRP에서 70% 담을 수 있어\n\n표기 보수 0.001% 차이도 20년 복리로 굴러가면 수천만 원 격차로 벌어지는 셈이지.\n\n국내 1,171개 ETF 진짜 실부담비용이랑 내 연금 계좌 매수 가능 여부는 프로필 링크 [ETF 캠퍼스]에 전수 정리해뒀어.\n\n다들 S&P500 모을 때 어떤 기준으로 골라서 담고 있어?\n\n#SP500\n\n* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.",
+      "status": "ready"
+    }
+  ],
+  "published_topic_ids": [
+    "sca-001"
+  ]
 }

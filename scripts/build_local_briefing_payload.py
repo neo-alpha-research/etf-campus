@@ -32,6 +32,7 @@ from lib.indices import (
     normalize_index_code,
     get_index_label,
 )
+from lib.calendar import is_trading_day
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -279,9 +280,12 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     all_top10_trade_val = sum(e["tradeValue"] for e in all_sorted_by_trade[:10])
     all_total_trade = sum(e["tradeValue"] for e in all_etfs)
     all_top10_trade_share = round((all_top10_trade_val / all_total_trade * 100), 2) if all_total_trade > 0 else 0.0
-
-    # 4. Market Indices (Using SSOT lib.indices)
+ 
+    # 4. Market Indices (Using SSOT lib.indices and lib.calendar)
     market_indices: list[dict[str, Any]] = []
+    us_macro_codes = {"SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"}
+    krx_macro_codes = {"KOSPI", "KOSDAQ", "VKOSPI", "KR10Y"}
+
     if indices_path.exists():
         with indices_path.open("r", encoding="utf-8") as f:
             idx_data = json.load(f)
@@ -290,6 +294,15 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
                 raw_code = idx.get("code") or idx.get("label", "")
                 canon = normalize_index_code(raw_code)
                 label = get_index_label(canon)
+
+                is_closed_by_calendar = False
+                if canon in us_macro_codes and not is_trading_day("US", as_of_date):
+                    is_closed_by_calendar = True
+                elif canon in krx_macro_codes and not is_trading_day("KRX", as_of_date):
+                    is_closed_by_calendar = True
+
+                is_closed = bool(idx.get("is_closed") or is_closed_by_calendar)
+
                 market_indices.append({
                     "code": canon,
                     "label": label,
@@ -297,7 +310,7 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
                     "change_pct": to_float(idx.get("change") or idx.get("change_pct")),
                     "change_points": to_float(idx.get("changePoints") or idx.get("change_points")),
                     "as_of_date": idx.get("as_of_date", as_of_date),
-                    "is_closed": idx.get("is_closed", False),
+                    "is_closed": is_closed,
                 })
 
     kospi = next((i for i in market_indices if i["code"] in ("KOSPI", "^KS11")), {})

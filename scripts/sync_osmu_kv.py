@@ -348,28 +348,7 @@ def main() -> int:
     if payload_file.exists():
         payload_key = f"market-briefing:v0:payload:{target_date}:v1"
         
-        # Zero-Hallucination & Fail-Closed Schema Contract Validation
-        REPO_ROOT = Path(__file__).resolve().parent.parent
-        if str(REPO_ROOT) not in sys.path:
-            sys.path.insert(0, str(REPO_ROOT))
-
-        try:
-            from scripts.schemas.briefing_contract import validate_briefing_payload
-            with open(payload_file, "r", encoding="utf-8") as pf:
-                candidate_data = json.load(pf)
-            is_valid, errs, contract = validate_briefing_payload(candidate_data)
-            if not is_valid:
-                print(f"❌ [Fail-Closed] {payload_file} failed BriefingContract validation. Aborting KV sync to prevent corrupt publication:", file=sys.stderr)
-                for err in errs:
-                    print(f"  * {err}", file=sys.stderr)
-                return 1
-            print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
-        except ImportError as e:
-            print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
-            print("   Schema validation is strictly mandatory before Cloudflare KV sync. Aborting.", file=sys.stderr)
-            return 1
-
-        # Backup existing KV payload to market-briefing:v0:payload:prev before overwrite
+        # Backup and Smart-Merge previous KV payload BEFORE schema contract validation
         prev_bytes = download_from_kv_via_rest(
             account_id=account_id,
             namespace_id=namespace_id,
@@ -394,30 +373,61 @@ def main() -> int:
                 )
                 print("✅ Done" if ok_prev else "⚠️ Failed")
 
-                # Smart merge: Preserve verified rich multi-day flows and time series if local file lacks them
+                # Smart merge: Preserve verified rich multi-day flows and time series with explicit AsOf tagging
                 try:
+                    with open(payload_file, "r", encoding="utf-8") as pf:
+                        candidate_data = json.load(pf)
                     prev_json = json.loads(prev_bytes.decode("utf-8"))
                     prev_b = prev_json.get("briefing") or prev_json
                     cand_b = candidate_data.get("briefing") or candidate_data
+                    prev_as_of = prev_b.get("asOfDate") or prev_b.get("as_of_date") or ""
                     merged = False
+
                     if (not cand_b.get("weeklyFundFlows") or len(cand_b.get("weeklyFundFlows") or []) == 0) and prev_b.get("weeklyFundFlows"):
                         cand_b["weeklyFundFlows"] = prev_b["weeklyFundFlows"]
+                        cand_b["weeklyFundFlowsAsOf"] = prev_as_of
+                        cand_b["weeklyFundFlowsIsCarried"] = True
                         merged = True
                     if (not cand_b.get("monthlyFundFlows") or len(cand_b.get("monthlyFundFlows") or []) == 0) and prev_b.get("monthlyFundFlows"):
                         cand_b["monthlyFundFlows"] = prev_b["monthlyFundFlows"]
+                        cand_b["monthlyFundFlowsAsOf"] = prev_as_of
+                        cand_b["monthlyFundFlowsIsCarried"] = True
                         merged = True
                     if not cand_b.get("marketScaleTimeSeries") and prev_b.get("marketScaleTimeSeries"):
                         cand_b["marketScaleTimeSeries"] = prev_b["marketScaleTimeSeries"]
+                        cand_b["marketScaleTimeSeriesAsOf"] = prev_as_of
+                        cand_b["marketScaleTimeSeriesIsCarried"] = True
                         merged = True
                     if merged:
                         with open(payload_file, "w", encoding="utf-8") as pf:
                             json.dump(candidate_data, pf, ensure_ascii=False, indent=2)
-                        print("🔄 [Smart Merge] Preserved verified multi-day flows & time-series into local payload.")
+                        print(f"🔄 [Smart Merge] Merged multi-day flows & time-series with explicit as-of ({prev_as_of}) into local payload.")
                 except Exception as merge_err:
                     print(f"⚠️ [Smart Merge Notice] KV merge bypassed: {merge_err}")
             finally:
                 if temp_prev_file.exists():
                     temp_prev_file.unlink()
+
+        # Zero-Hallucination & Fail-Closed Schema Contract Validation (Must run AFTER merge)
+        REPO_ROOT = Path(__file__).resolve().parent.parent
+        if str(REPO_ROOT) not in sys.path:
+            sys.path.insert(0, str(REPO_ROOT))
+
+        try:
+            from scripts.schemas.briefing_contract import validate_briefing_payload
+            with open(payload_file, "r", encoding="utf-8") as pf:
+                candidate_data = json.load(pf)
+            is_valid, errs, contract = validate_briefing_payload(candidate_data)
+            if not is_valid:
+                print(f"❌ [Fail-Closed] {payload_file} failed BriefingContract validation. Aborting KV sync to prevent corrupt publication:", file=sys.stderr)
+                for err in errs:
+                    print(f"  * {err}", file=sys.stderr)
+                return 1
+            print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
+        except ImportError as e:
+            print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
+            print("   Schema validation is strictly mandatory before Cloudflare KV sync. Aborting.", file=sys.stderr)
+            return 1
 
         total_count += 1
         print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")

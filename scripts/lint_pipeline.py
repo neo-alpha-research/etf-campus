@@ -25,6 +25,10 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.schemas.briefing_contract import CARRY_FORWARD_ALLOWLIST
 
 
 def check_git_log_subprocesses_in_text(content: str, filename: str = "script.py") -> list[str]:

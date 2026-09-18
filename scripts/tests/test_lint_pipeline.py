@@ -636,10 +636,11 @@ class TestPipelineLinterRegression(unittest.TestCase):
     def test_fm014_fail_closed_when_no_exemptions_discovered(self):
         """FM-014 ④: 면제 상수가 전혀 탐색되지 않을 경우 fail-closed 차단 실증."""
         import scripts.lint_pipeline as lp
-        # globals에서 _EXEMPT와 _BASELINE_ 상수를 임시 제거하여 탐색 0건 시뮬레이션
+        import re
+        # globals에서 모든 면제/허용목록 상수를 임시 제거하여 탐색 0건 시뮬레이션
         filtered_dict = {
             k: v for k, v in lp.__dict__.items()
-            if "_EXEMPT" not in k and "_BASELINE_" not in k
+            if not re.search(r"(_EXEMPT|_BASELINE_|_EXCLUDE|_SKIP|_ALLOWLIST|_WHITELIST)", k)
         }
         with patch.dict(lp.__dict__, filtered_dict, clear=True):
             errs = lp.check_exemption_disclosure_in_text("## [검사 면제 목록 SSOT]\nsome text")

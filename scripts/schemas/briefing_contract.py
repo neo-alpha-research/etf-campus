@@ -29,13 +29,22 @@ from lib.indices import (
 )
 
 
+# 후행 윈도 집계 데이터에 한해 캐리포워드를 허용하는 필드 화이트리스트 SSOT (FM-014 규율 준수)
+CARRY_FORWARD_ALLOWLIST: frozenset[str] = frozenset({
+    "weeklyFundFlows",
+    "monthlyFundFlows",
+    "marketScaleTimeSeries",
+})
+
+
 class MacroIndexItem(BaseModel):
     code: str
     label: str = ""
-    value: float  # None 불가
-    change_pct: float  # None 불가
+    value: float | None = None
+    change_pct: float | None = None
     change_points: float = 0.0
     as_of_date: str = ""
+    is_closed: bool = False
 
     @model_validator(mode="before")
     @classmethod
@@ -43,26 +52,30 @@ class MacroIndexItem(BaseModel):
         if isinstance(data, dict):
             raw_code = str(data.get("code") or data.get("label") or "").strip()
             canon_code = CODE_ALIAS_MAP.get(raw_code, raw_code)
+            is_closed = bool(data.get("is_closed") or data.get("isClosed") or False)
 
             val = data.get("value")
             if val is None:
                 val = data.get("close")
-            if val is None:
-                raise ValueError(f"지표 [{raw_code}]의 value/close 값이 누락되었습니다 (None 불가).")
 
             chg = data.get("change_pct")
             if chg is None:
                 chg = data.get("change")
-            if chg is None:
-                raise ValueError(f"지표 [{raw_code}]의 change_pct 값이 누락되었습니다 (None 불가).")
+
+            if not is_closed:
+                if val is None:
+                    raise ValueError(f"지표 [{raw_code}]의 value/close 값이 누락되었습니다 (None 불가, 개장일 필수).")
+                if chg is None:
+                    raise ValueError(f"지표 [{raw_code}]의 change_pct 값이 누락되었습니다 (None 불가, 개장일 필수).")
 
             return {
                 "code": canon_code,
                 "label": str(data.get("label") or canon_code),
-                "value": float(val),
-                "change_pct": float(chg),
+                "value": float(val) if val is not None else None,
+                "change_pct": float(chg) if chg is not None else (0.0 if is_closed else None),
                 "change_points": float(data.get("change_points") or data.get("changePoints") or 0.0),
                 "as_of_date": str(data.get("as_of_date") or data.get("asOfDate") or "").strip(),
+                "is_closed": is_closed,
             }
         return data
 
@@ -123,6 +136,11 @@ class BriefingContract(BaseModel):
     top_inflows: list[FundFlowItem] = Field(min_length=5)
     top_outflows: list[FundFlowItem] = Field(min_length=5)
 
+    # 캐리포워드 메타데이터
+    carried_fields: dict[str, str] = Field(default_factory=dict)
+    unmarked_carry_fields: list[str] = Field(default_factory=list)
+    forbidden_carry_fields: list[str] = Field(default_factory=list)
+
     @model_validator(mode="after")
     def validate_macro_set_and_dates(self) -> BriefingContract:
         # 1. 12대 지표 집합(Set) 완전 일치 검사
@@ -134,24 +152,26 @@ class BriefingContract(BaseModel):
                 f"12대 거시 지표 불일치 발생! 누락 지표={missing}, 허용 외 지표={extra}"
             )
 
-        # 2. 기준일자 일치 검사 (as_of_date가 명시된 지표 대상)
+        # 2. 기준일자 일치 검사 (as_of_date가 명시된 지표 대상, 캘린더상 휴장은 제외)
         mismatched_dates = [
             f"{m.code}({m.as_of_date})"
             for m in self.market_indices
-            if m.as_of_date and m.as_of_date != self.as_of_date
+            if m.as_of_date and m.as_of_date != self.as_of_date and not m.is_closed
         ]
         if mismatched_dates:
-            raise ValueError(f"지표 기준일자 불일치 발생: {mismatched_dates} != {self.as_of_date}")
+            raise ValueError(f"지표 기준일자 불일치 발생 (휴장 아닌 지표는 당일 필수): {mismatched_dates} != {self.as_of_date}")
 
-        # 3. 12대 거시 지표 Sanity Range 및 등락폭(±15%) 검사
+        # 3. 12대 거시 지표 Sanity Range 및 등락폭(±15%) 검사 (휴장 아닌 지표 대상)
         for m in self.market_indices:
-            if m.code in SANITY_RANGE:
+            if m.is_closed and m.value is None:
+                continue
+            if m.value is not None and m.code in SANITY_RANGE:
                 min_val, max_val = SANITY_RANGE[m.code]
                 if not (min_val <= m.value <= max_val):
                     raise ValueError(
                         f"지표 [{m.code}] 수치({m.value})가 정상 범위({min_val} ~ {max_val})를 벗어났습니다."
                     )
-            if abs(m.change_pct) > MAX_DAILY_CHANGE_PCT:
+            if m.change_pct is not None and abs(m.change_pct) > MAX_DAILY_CHANGE_PCT:
                 raise ValueError(
                     f"지표 [{m.code}] 일간 등락률({m.change_pct:+.2f}%)이 허용 한계(±{MAX_DAILY_CHANGE_PCT}%)를 초과했습니다."
                 )
@@ -165,6 +185,32 @@ class BriefingContract(BaseModel):
                 raise ValueError(
                     f"전일 스냅샷 기준일 간격 이상: {self.prev_as_of_date} -> {self.as_of_date} ({gap}일 차이, 1~5일 허용)"
                 )
+
+        # 5. 캐리포워드 무결성 검증 (Opus 5.0 지시서 준수)
+        if self.unmarked_carry_fields:
+            raise ValueError(
+                f"무표기 캐리포워드 감지 차단: {self.unmarked_carry_fields} 필드가 이월되었으나 "
+                f"명시적 기준일자(<field>AsOf) 표기가 누락되었습니다."
+            )
+
+        if self.forbidden_carry_fields:
+            raise ValueError(
+                f"불법 캐리포워드 감지 차단: {self.forbidden_carry_fields} 필드는 "
+                f"캐리포워드 허용 목록({sorted(CARRY_FORWARD_ALLOWLIST)})에 포함되지 않습니다. "
+                f"당일 종가/지수/등락률은 이월이 절대 금지됩니다."
+            )
+
+        for field_name, carried_as_of in self.carried_fields.items():
+            if field_name not in CARRY_FORWARD_ALLOWLIST:
+                raise ValueError(
+                    f"필드 [{field_name}]는 캐리포워드 불가 필드입니다 (허용: {sorted(CARRY_FORWARD_ALLOWLIST)})."
+                )
+            if carried_as_of != self.as_of_date:
+                import re
+                if not re.match(r"^\d{4}-\d{2}-\d{2}$", carried_as_of):
+                    raise ValueError(
+                        f"이월 필드 [{field_name}]의 기준일자({carried_as_of}) 형식이 올바르지 않습니다."
+                    )
 
         return self
 
@@ -223,6 +269,39 @@ def extract_contract_inputs(raw_dict: dict[str, Any]) -> dict[str, Any]:
     if weighted_ret is None:
         weighted_ret = raw.get("general_aum_weighted_return_pct", 0.0)
 
+    # 캐리포워드 검사 데이터 수집
+    carried_fields: dict[str, str] = {}
+    unmarked_carry_fields: list[str] = []
+    forbidden_carry_fields: list[str] = []
+
+    # 1. 허용 필드 캐리포워드 상태 확인
+    for field_name in CARRY_FORWARD_ALLOWLIST:
+        as_of_key = f"{field_name}AsOf"
+        snake_as_of_key = f"{field_name}_as_of"
+        field_as_of = str(raw.get(as_of_key) or raw.get(snake_as_of_key) or "").strip()
+        field_val = raw.get(field_name) or []
+        is_carried = bool(raw.get(f"{field_name}IsCarried") or raw.get(f"_{field_name}_carried"))
+
+        if field_val and (isinstance(field_val, list) and len(field_val) > 0 or isinstance(field_val, dict) and len(field_val) > 0):
+            if field_as_of:
+                carried_fields[field_name] = field_as_of
+            elif is_carried:
+                unmarked_carry_fields.append(field_name)
+
+    # 2. 허용 목록 외 필드 캐리포워드 시도 탐지
+    for k, v in raw.items():
+        if k in ("asOfDate", "prevAsOfDate", "as_of_date", "prev_as_of_date"):
+            continue
+        if k.endswith("AsOf") and k[:-4] not in CARRY_FORWARD_ALLOWLIST:
+            forbidden_carry_fields.append(k[:-4])
+        elif k.endswith("IsCarried") and k[:-9] not in CARRY_FORWARD_ALLOWLIST:
+            forbidden_carry_fields.append(k[:-9])
+
+    if raw.get("_unmarked_carry_fields"):
+        unmarked_carry_fields.extend(raw["_unmarked_carry_fields"])
+    if raw.get("_forbidden_carry_fields"):
+        forbidden_carry_fields.extend(raw["_forbidden_carry_fields"])
+
     return {
         "as_of_date": as_of,
         "prev_as_of_date": prev_as_of,
@@ -232,6 +311,9 @@ def extract_contract_inputs(raw_dict: dict[str, Any]) -> dict[str, Any]:
         "market_indices": indices,
         "top_inflows": inflows,
         "top_outflows": outflows,
+        "carried_fields": carried_fields,
+        "unmarked_carry_fields": unmarked_carry_fields,
+        "forbidden_carry_fields": forbidden_carry_fields,
     }
 
 

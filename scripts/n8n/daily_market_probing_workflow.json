@@ -7,21 +7,13 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "50,55 7 * * 2-6"
-            },
-            {
-              "field": "cronExpression",
-              "expression": "*/5 8 * * 2-6"
-            },
-            {
-              "field": "cronExpression",
-              "expression": "0,5,10 9 * * 2-6"
+              "expression": "1,5,9,13,17,21 8 * * 2-6"
             }
           ]
         }
       },
       "id": "cron-trigger-5min-window",
-      "name": "Cron (07:50-09:10 KST 5-Min Intervals)",
+      "name": "Cron (08:01-08:21 KST 4-Min Polling Ladder)",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
@@ -73,7 +65,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const response = $input.first().json;\nconst runs = response.workflow_runs || [];\n\nconst now = new Date();\nconst kstFormatter = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Asia/Seoul',\n  year: 'numeric',\n  month: '2-digit',\n  day: '2-digit',\n});\nconst todayKst = kstFormatter.format(now);\n\nlet alreadySucceededToday = false;\nlet lastSuccessTimeKst = null;\n\nfor (const r of runs) {\n  if (r.status === 'completed' && r.conclusion === 'success') {\n    const runDateKst = kstFormatter.format(new Date(r.created_at));\n    if (runDateKst === todayKst) {\n      // Full market data refresh takes >60s. Early guard skips finish in <25s.\n      const durationMs = new Date(r.updated_at).getTime() - new Date(r.run_started_at || r.created_at).getTime();\n      if (durationMs > 45000) {\n        alreadySucceededToday = true;\n        lastSuccessTimeKst = r.created_at;\n        break;\n      }\n    }\n  }\n}\n\nconst isRunningNow = runs.some(r => r.status === 'in_progress' || r.status === 'queued');\n\nconst shouldTrigger = !alreadySucceededToday && !isRunningNow;\nconst reason = alreadySucceededToday \n  ? `Already succeeded today (${todayKst}) at ${lastSuccessTimeKst}`\n  : (isRunningNow ? 'Workflow is currently in progress / queued' : `Ready to trigger refresh for ${todayKst}`);\n\nreturn [{\n  json: {\n    todayKst,\n    alreadySucceededToday,\n    isRunningNow,\n    shouldTrigger,\n    reason\n  }\n}];"
+        "jsCode": "const response = $input.first().json;\nconst runs = response.workflow_runs || [];\n\nconst now = new Date();\nconst kstFormatter = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Asia/Seoul',\n  year: 'numeric',\n  month: '2-digit',\n  day: '2-digit',\n});\nconst todayKst = kstFormatter.format(now);\n\n// KRX 공식 휴장일 (trading_days.json 동기화)\nconst krxHolidays = new Set([\n  '2026-01-01', '2026-02-16', '2026-02-17', '2026-02-18', '2026-03-02',\n  '2026-05-01', '2026-05-05', '2026-05-25', '2026-06-03', '2026-08-17',\n  '2026-09-24', '2026-09-25', '2026-10-05', '2026-10-09', '2026-12-25',\n  '2026-12-31', '2027-01-01', '2027-02-05', '2027-02-08', '2027-02-09',\n  '2027-03-01', '2027-05-05', '2027-05-13', '2027-08-16', '2027-09-14',\n  '2027-09-15', '2027-09-16', '2027-10-04', '2027-12-25', '2027-12-31'\n]);\n\nconst dayOfWeek = now.getDay();\nconst isWeekend = dayOfWeek === 0 || dayOfWeek === 6;\nconst isHoliday = krxHolidays.has(todayKst) || isWeekend;\n\nif (isHoliday) {\n  return [{\n    json: {\n      todayKst,\n      alreadySucceededToday: true,\n      isRunningNow: false,\n      shouldTrigger: false,\n      reason: `Today (${todayKst}) is a designated KRX market holiday/weekend. Clean exit without trigger.`\n    }\n  }];\n}\n\nlet alreadySucceededToday = false;\nlet lastSuccessTimeKst = null;\n\nfor (const r of runs) {\n  if (r.status === 'completed' && r.conclusion === 'success') {\n    const runDateKst = kstFormatter.format(new Date(r.created_at));\n    if (runDateKst === todayKst) {\n      const durationMs = new Date(r.updated_at).getTime() - new Date(r.run_started_at || r.created_at).getTime();\n      if (durationMs > 45000) {\n        alreadySucceededToday = true;\n        lastSuccessTimeKst = r.created_at;\n        break;\n      }\n    }\n  }\n}\n\nconst isRunningNow = runs.some(r => r.status === 'in_progress' || r.status === 'queued');\nconst shouldTrigger = !alreadySucceededToday && !isRunningNow;\nconst reason = alreadySucceededToday \n  ? `Already succeeded today (${todayKst}) at ${lastSuccessTimeKst}`\n  : (isRunningNow ? 'Workflow is currently in progress / queued' : `Ready to trigger refresh for ${todayKst}`);\n\nreturn [{\n  json: {\n    todayKst,\n    alreadySucceededToday,\n    isRunningNow,\n    shouldTrigger,\n    reason\n  }\n}];"
       },
       "id": "evaluate-execution-status",
       "name": "Evaluate Execution Status",
@@ -173,7 +165,7 @@
     }
   ],
   "connections": {
-    "Cron (07:50-09:10 KST 5-Min Intervals)": {
+    "Cron (08:01-08:21 KST 4-Min Polling Ladder)": {
       "main": [
         [
           {

@@ -274,11 +274,13 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: python scripts/publish_market_source_snapshot.py --skip-trigger
 
-      - name: Trigger market briefing publication event
-        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
-        env:
-          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
-        run: python scripts/publish_market_source_snapshot.py --trigger-only
+      # [Worker D1 Retirement Step 1] Severed legacy market-briefing-publisher trigger.
+      # build_local_briefing_payload.py -> sync_osmu_kv.py is the sole SSOT for KV publication.
+      # - name: Trigger market briefing publication event (RETIRED)
+      #   if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+      #   env:
+      #     MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+      #   run: python scripts/publish_market_source_snapshot.py --trigger-only
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')

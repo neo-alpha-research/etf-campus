@@ -242,6 +242,9 @@ def main() -> int:
             res = post_worker("/api/publish/threads", target_date, token, extra_params=extra_param)
             post_id = res.get("publishedPostId") or "OK"
             err_msg = str(res.get("error", ""))
+            is_token_expired = bool(res.get("isTokenExpired")) or any(
+                term in err_msg.lower() for term in ("token expired", "oauthexception", "code 190", "subcode 463")
+            )
             if res.get("success"):
                 print(f"   ✅ Threads Publish Success! (ID: {post_id})")
                 results["threads"] = {"success": True, "id": post_id}
@@ -249,11 +252,18 @@ def main() -> int:
                 print(f"   ℹ️ Threads Already Published (ID: {post_id}). Duplicate publication skipped.")
                 results["threads"] = {"success": True, "id": post_id, "already_published": True}
             else:
-                print(f"   ❌ Threads Publish Failed: {err_msg}", file=sys.stderr)
-                results["threads"] = {"success": False, "error": err_msg}
+                if is_token_expired:
+                    print(f"   🚨 [CRITICAL] Meta Threads Access Token Expired (60-day limit reached): {err_msg}", file=sys.stderr)
+                    print(f"   👉 Action Required: Regenerate Long-lived Access Token in Meta Developer Portal and update THREADS_ACCESS_TOKEN secret.", file=sys.stderr)
+                    results["threads"] = {"success": False, "error": f"Threads Token Expired: {err_msg}", "token_expired": True}
+                else:
+                    print(f"   ❌ Threads Publish Failed: {err_msg}", file=sys.stderr)
+                    results["threads"] = {"success": False, "error": err_msg}
         except Exception as e:
-            print(f"   ❌ Threads Request Exception: {e}", file=sys.stderr)
-            results["threads"] = {"success": False, "error": str(e)}
+            err_str = str(e)
+            is_token_expired = any(term in err_str.lower() for term in ("token expired", "oauthexception", "code 190", "subcode 463"))
+            print(f"   ❌ Threads Request Exception: {err_str}", file=sys.stderr)
+            results["threads"] = {"success": False, "error": err_str, "token_expired": is_token_expired}
 
     # 3. Newsletter (Strict Deduplication Guard & Real Email Transmission)
     if publish_all or "newsletter" in channels:
@@ -326,6 +336,18 @@ def main() -> int:
         print("🎉 All requested channels published without errors!")
         return 0
     else:
+        error_file = Path("OSMU_Archive") / target_date / "osmu_publish_error.json"
+        try:
+            error_file.parent.mkdir(parents=True, exist_ok=True)
+            has_token_expired = any(v.get("token_expired") for v in results.values())
+            error_data = {
+                "target_date": target_date,
+                "has_token_expired": has_token_expired,
+                "results": results,
+            }
+            error_file.write_text(json.dumps(error_data, ensure_ascii=False, indent=2), encoding="utf-8")
+        except Exception:
+            pass
         print("⚠️ Some channels encountered issues. Check logs above.", file=sys.stderr)
         return 1
 

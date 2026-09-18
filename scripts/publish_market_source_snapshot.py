@@ -156,43 +156,47 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     return as_of_date, sorted(records, key=lambda row: row["ticker"])
 
 
-def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str, Any]:
+def signed_post(
+    endpoint: str,
+    secret: str,
+    payload: dict[str, Any],
+    retry_delays: tuple[float, ...] = (5.0, 10.0, 20.0, 30.0, 40.0),
+) -> dict[str, Any]:
     body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    timestamp = str(int(time.time()))
-    message = b"POST\n" + timestamp.encode("ascii") + b"\n" + body
-    signature = base64.b64encode(hmac.new(secret.encode("utf-8"), message, hashlib.sha256).digest()).decode("ascii")
-    request = urllib.request.Request(
-        endpoint,
-        data=body,
-        headers={
-            "Content-Type": "application/json",
-            "X-ETF-Ingest-Timestamp": timestamp,
-            "X-ETF-Ingest-Signature": signature,
-            "User-Agent": "etf-campus-market-source-publisher/1.0",
-        },
-        method="POST",
-    )
-    max_retries = 3
-    retry_delay = 5.0
+    max_attempts = len(retry_delays) + 1
 
-    for attempt in range(1, max_retries + 1):
+    for attempt in range(1, max_attempts + 1):
+        timestamp = str(int(time.time()))
+        message = b"POST\n" + timestamp.encode("ascii") + b"\n" + body
+        signature = base64.b64encode(hmac.new(secret.encode("utf-8"), message, hashlib.sha256).digest()).decode("ascii")
+        request = urllib.request.Request(
+            endpoint,
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "X-ETF-Ingest-Timestamp": timestamp,
+                "X-ETF-Ingest-Signature": signature,
+                "User-Agent": "etf-campus-market-source-publisher/1.0",
+            },
+            method="POST",
+        )
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
                 return json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as error:
             detail = error.read().decode("utf-8", errors="replace")[:500]
             # Retry only on server errors (5xx) where deployment or transient lag might recover
-            if error.code >= 500 and attempt < max_retries:
-                print(f"⚠️ Ingest returned HTTP {error.code} on attempt {attempt}/{max_retries}. Retrying in {retry_delay}s... ({detail})", file=sys.stderr)
-                time.sleep(retry_delay)
-                retry_delay *= 2
+            if error.code >= 500 and attempt < max_attempts:
+                delay = retry_delays[attempt - 1]
+                print(f"⚠️ Ingest returned HTTP {error.code} on attempt {attempt}/{max_attempts}. Retrying in {delay}s... ({detail})", file=sys.stderr)
+                time.sleep(delay)
                 continue
             raise RuntimeError(f"Market source ingest returned HTTP {error.code}: {detail}") from error
         except urllib.error.URLError as error:
-            if attempt < max_retries:
-                print(f"⚠️ Network error on attempt {attempt}/{max_retries}: {error}. Retrying in {retry_delay}s...", file=sys.stderr)
-                time.sleep(retry_delay)
-                retry_delay *= 2
+            if attempt < max_attempts:
+                delay = retry_delays[attempt - 1]
+                print(f"⚠️ Network error on attempt {attempt}/{max_attempts}: {error}. Retrying in {delay}s...", file=sys.stderr)
+                time.sleep(delay)
                 continue
             raise
 
@@ -207,7 +211,20 @@ def main() -> None:
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--endpoint", default=os.environ.get("MARKET_SOURCE_INGEST_ENDPOINT", DEFAULT_ENDPOINT))
     parser.add_argument("--git-commit-sha", default=os.environ.get("GITHUB_SHA", ""))
+    parser.add_argument("--skip-trigger", action="store_true", help="Skip triggering downstream briefing publisher worker")
+    parser.add_argument("--trigger-only", action="store_true", help="Only trigger downstream briefing publisher worker without re-ingesting snapshot")
     args = parser.parse_args()
+
+    if args.trigger_only:
+        as_of_date, _ = read_master(Path(args.data_dir) / "etf_master_draft.csv")
+        auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
+        publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
+        print(f"Triggering briefing publisher worker for {as_of_date}...")
+        req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            pub_res = json.loads(resp.read().decode("utf-8"))
+            print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
+        return
 
     hmac_secret = require_env("PRICE_INGEST_HMAC_SECRET")
     # krx_auth_key = require_env("KRX_OPEN_API_KEY")
@@ -303,15 +320,16 @@ def main() -> None:
     print(json.dumps({"status": "ready", "as_of_date": as_of_date, "source_version": source_version, "accepted": accepted, "event_id": final.get("eventId")}, ensure_ascii=False))
 
     # Trigger publisher worker to materialize snapshot and compute/publish briefing immediately
-    auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
-    publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
-    try:
-        req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            pub_res = json.loads(resp.read().decode("utf-8"))
-            print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
-    except Exception as pub_err:
-        print(f"Warning: Publisher worker trigger returned: {pub_err}", file=sys.stderr)
+    if not args.skip_trigger:
+        auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
+        publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
+        try:
+            req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                pub_res = json.loads(resp.read().decode("utf-8"))
+                print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
+        except Exception as pub_err:
+            print(f"Warning: Publisher worker trigger returned: {pub_err}", file=sys.stderr)
 
 
 if __name__ == "__main__":

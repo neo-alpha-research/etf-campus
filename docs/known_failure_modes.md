@@ -128,11 +128,11 @@
   ?? scripts/threads/generate_thread.py
   ?? scripts/threads/threads_bank.json
   ```
-- **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함.
+- **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함. 또한 CI 클린 체크아웃(`actions/checkout`) 환경에서는 untracked 파일이 원리적으로 존재하지 않으므로(`git status --porcelain`이 항상 빈 문자열), CI 단독 검사로는 검출이 불가능함.
 - **방어 대책**:
-  1. 린터(`scripts/lint_pipeline.py`)에 git status 기반 untracked 파이프라인 파일(`check_untracked_pipeline_files()`) 검출기 추가.
-  2. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 상태를 CI 및 로컬에서 기계적으로 차단.
-- **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()`
+  1. **실효 집행 지점 로컬 이전**: 저장소 버전 관리 대상인 `.githooks/pre-push`에 린터(`scripts/lint_pipeline.py`) 및 회귀 테스트를 필수 배치하고, `npm run prepare`(`git config core.hooksPath .githooks`)로 모든 개발 환경에 자동 동기화하여 푸시 전 untracked 파일 존재 시 `git push`를 원천 차단. (단, `git push --no-verify`로 로컬 훅이 우회될 수 있으므로 전 브랜치 대상 중앙 집중식 CI 워크플로 `pipeline-integrity.yml`을 상시 병행 집행).
+  2. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 방치 방지.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()` (로컬 pre-push 훅 집행)
 
 ---
 
@@ -149,8 +149,123 @@
   ```
 - **근본 원인**: 코드 배포와 DB 마이그레이션 순서가 역전되어, 약 2분간 지속되는 Pages 빌드 시간 동안 구버전 코드가 신규 파괴적 스키마(PK 변경)에 접근하여 충돌 발생.
 - **방어 대책**:
-  1. `d1-migrations.yml` 워크플로에서 마이그레이션 스텝 앞에 **Cloudflare Pages 배포 완료 확인 게이트(Wait for Pages deployment of current SHA)**를 필수 배치하여, 현재 커밋의 코드 배포가 완료된 후에만 D1 마이그레이션 및 재발행을 수행하도록 보장.
+  1. `d1-migrations.yml` 워크플로에서 마이그레이션 스텝 앞에 **Cloudflare Pages 배포 완료 확인 게이트(`scripts/check_pages_deployment.py`)**를 필수 배치하여, 현재 커밋의 코드 배포가 완료된 후에만 D1 마이그레이션 및 재발행을 수행하도록 보장.
   2. `publish_market_source_snapshot.py`에 HTTP 5xx 발생 시 지수 백오프 자동 재시도 로직 유지.
-- **자동 검사**: `.github/workflows/d1-migrations.yml` 내 `Wait for Pages deployment of current SHA` 게이트 및 단위 테스트.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_migration_workflow_deployment_gate()`
+
+---
+
+## [FM-010] Cron Workflow Inactive on Non-Default Branch
+- **관측 사례**: 2026-09-17 `threads-daily-post.yml` 등 `cron` 스케줄을 포함하는 워크플로가 원격 피처 브랜치(`feat/threads-automation`)에 추적된 상태로 존재하지만, GitHub Actions는 기본 브랜치(`main`)에 커밋된 워크플로만 cron 스케줄로 실행하므로 스케줄 트리거가 전혀 동작하지 않는 문제 (FM-008의 untracked 상태와 구분되는 별도 실패 유형).
+- **발생 위치**: `.github/workflows/threads-daily-post.yml`
+- **실제 발생 코드 조각**:
+  ```yaml
+  on:
+    schedule:
+      - cron: "0 22 * * *"
+  ```
+- **근본 원인**: GitHub Actions의 스케줄러 아키텍처 제약(기본 브랜치 전용)에 대한 인지 부족으로 인해 비기본 브랜치에 스케줄 워크플로를 격리한 채 배포 대기.
+- **방어 대책**:
+  1. 린터에 `check_cron_workflows_on_default_branch()`를 독립 검사로 등록하여 `cron:` 스케줄을 포함하는 워크플로가 `origin/main` 목록에 존재하는지 기계적으로 대조.
+  2. `git ls-tree` 실패나 `origin/main` 부재 시 조용히 통과(fail-open)하지 않고 즉시 오류를 반환(Fail-Closed)하여 CI 및 로컬에서 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_cron_workflows_on_default_branch()`
+
+---
+
+## [FM-011] Destructive Schema Migration Without Baseline Record
+- **관측 사례**: 
+  1. D1 마이그레이션 0024처럼 테이블을 DROP/재생성하거나 PK를 변경하는 파괴적 스키마 변경 시, 사전/사후 행 수 기준값이 SQL 내부에서 원자적으로 기록되지 않아 데이터 누락 여부를 사후 검증하기 어렵고 데이터 신뢰성을 훼손하는 문제.
+  2. D1 마이그레이션 `0023_purge_raw_ticker_index_codes.sql`처럼 DDL 변경 없이 `DELETE FROM`으로 대량의 행을 영구 삭제하는 데이터 파괴적 변경 시에도, 사전/사후 카운트가 기록되지 않으면 의도치 않은 전면 삭제나 불일치를 감지할 수 없음.
+- **발생 위치**: `migrations/0024_single_version_market_source_index_daily.sql`, `migrations/0023_purge_raw_ticker_index_codes.sql`
+- **근본 원인**: 스키마 파괴적 변경(DROP/ALTER) 및 대량 데이터 삭제(DELETE FROM) 시 사전 상태와 사후 상태의 카운트를 측정·기록하는 메커니즘 부재.
+- **방어 대책**:
+  1. `docs/migration_template.sql` 3단계 표준(사전 카운트 기록 -> DDL/DML 변경 -> 사후 카운트 업데이트) 수립.
+  2. 린터(`check_destructive_migrations_baseline()`)를 통해 `DROP TABLE`, `ALTER TABLE`, 또는 `DELETE FROM`을 포함하는 신규 마이그레이션(0027번 이후)이 `migration_baselines`에 `INSERT INTO`, `pre_count`, `post_count` 3대 요소를 온전히 기록하지 않으면 기계적으로 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_destructive_migrations_baseline()`
+
+---
+
+## [FM-012] Working Tree Plaintext Secret Detection
+- **관측 사례**: 2026-09-17 포렌식 스캔 작업 중 일회성 스크랩 파일(`scripts/_oneoff/gemini_forensic_scan.txt`)에 평문 시크릿(Google API Key `AIzaSyCvPN7n...`, Gemini CLI Token `AQ.Ab8RN6IhU...` 등 7건)이 미추적(untracked) 상태로 생성되었으나, 기존 `git grep` 기반 검사는 추적 파일만 검사하고 기존 파이프라인 린터(FM-008)는 `_oneoff/` 디렉터리를 스캔에서 제외하여 로컬 검사를 통과하고 pre-commit 훅에서 비로소 차단된 문제.
+- **발생 위치**: `scripts/_oneoff/gemini_forensic_scan.txt`, `scripts/lint_pipeline.py:check_working_tree_secrets()`
+- **실제 발생 코드 조각**:
+  ```
+  -  "AIzaSyCvPN7n..." // Primary
+  -  "AQ.Ab8RN6IhU..." // Backup CLI Token
+  ```
+- **근본 원인**: `git grep`의 추적 파일 한정 스캔 및 린터 내 `_oneoff/` 디렉터리 예외 처리로 인해 작업 트리에 존재하는 미추적/임시 파일의 시크릿 노출을 감지하지 못함.
+- **방어 대책**:
+  1. `.gitignore`에 `scripts/_oneoff/*forensic*`, `scripts/_oneoff/*secret*`, `scripts/_oneoff/*.key`, `scripts/_oneoff/*token*` 가드 등록.
+  2. 린터에 `check_working_tree_secrets()`를 등록하여 `.git`, `node_modules` 등 빌드/의존성 캐시를 제외한 작업 트리 전체 파일을 전수 스캔 (1MB 이하, 바이너리 제외).
+  3. `android/app/google-services.json`(Firebase 공개 모바일 클라이언트 식별자) 외 일체의 디렉터리(`_oneoff/` 포함) 예외 불허.
+  4. 위반 보고 시 키 전문 출력을 금지하고 앞 12자만 마스킹하여 2차 유출 원천 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_working_tree_secrets()`
+
+---
+
+## [FM-013] WIP Commit on Main Branch Prohibition
+- **관측 사례**: 2026-09-17 `feat/compare-timeseries-chart` 작업 중 `wip` 커밋(`da0bccda`, `444dce37`) 및 병합 커밋(`5881130e`, `e285332a`)이 기능 브랜치에서 `main` 브랜치로 역병합/푸시되어 프로덕션 `main` 브랜치 이력에 `wip` 체크포인트가 노출된 문제.
+- **발생 위치**: `git log origin/main --oneline`, `AGENTS.md` 규율 10
+- **실제 발생 코드 조각**:
+  ```
+  da0bccda wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart
+  444dce37 wip(compare): save compare timeseries chart components to feature branch
+  ```
+- **근본 원인**: 브랜치 격리 규율에서 머지 방향(`작업 브랜치 → main` 단방향)을 명시하지 않아, 작업 브랜치에서 `git merge main`을 수행한 뒤 해당 브랜치 헤드를 그대로 `main`에 푸시하는 역병합이 발생함.
+- **방어 대책**:
+  1. `AGENTS.md` 규율 10에 `작업 브랜치 → main` 단방향 머지 원칙 및 `wip`/`checkpoint`/`temp`/`test(ci)` 커밋의 main 유입 전면 금지 명문화.
+  2. 린터에 `check_wip_commits_on_main()`을 등록하여 `origin/main` 최근 30개 커밋에서 `^\S+\s+(wip|checkpoint|temp)[\(:]` 패턴 커밋을 기계적으로 검출·차단 (FM-013 제정 이전 과거 기준점 3건은 baseline으로 격리 관리).
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_wip_commits_on_main()`
+
+---
+
+## [FM-014] Exemption Disclosure SSOT Enforcement
+- **관측 사례**: 2026-09-17 FM-013 검사 구현 시 과거 이력(`da0bccda`, `80620aa4`, `444dce37`)을 화이트리스트 상수(`WIP_HISTORICAL_BASELINE_COMMITS`)로 면제 처리했으나, 보고서에 "FM-013 PASSED"만 기재되고 면제된 커밋 3건 및 사유가 투명하게 공개되지 않아 검사 통과의 전제 조건이 은폐된 문제.
+- **발생 위치**: `scripts/lint_pipeline.py:check_exemption_disclosure()`, `docs/known_failure_modes.md` 「검사 면제 목록 SSOT」
+- **실제 발생 코드 조각**:
+  ```python
+  WIP_HISTORICAL_BASELINE_COMMITS = {"da0bccda", "80620aa4", "444dce37"}
+  ```
+- **근본 원인**: 코드 내 면제 상수(`*_EXEMPT*`, `*_BASELINE_*`)가 문서화 및 보고서에 공개되지 않아도 검사가 통과되는 구조적 결함.
+- **방어 대책**:
+  1. `docs/known_failure_modes.md` 말미에 「검사 면제 목록 SSOT」 섹션을 공식 신설하여 모든 면제 대상과 사유를 단일 진실 공급원으로 공개.
+  2. 린터에 `check_exemption_disclosure()`를 등록하여 코드 내 모든 면제 상수 원소(`0001`~`0026`, `android/app/google-services.json`, `.dev.vars`, `.env`, `da0bccda`, `80620aa4`, `444dce37` 등)가 「검사 면제 목록 SSOT」 섹션 본문에 문자열로 100% 명시되어 있는지 자동 대조·검증 (미등재 시 fail-closed 차단).
+  3. `AGENTS.md` 규율 9에 면제 목록이 있는 검사 통과 시 면제 항목 및 사유 필수 명시 규율 추가.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_exemption_disclosure()`
+
+---
+
+## [FM-015] Missing Script Execution Entrypoint Prohibition (검사 스크립트 실행 지점 부재 차단)
+- **발생 양상**: 데이터 정합성이나 가격 무결성을 검증하는 게이트 스크립트(`verify_*.py`, `validate_*.py` 등)를 작성하고 로컬에서 테스트까지 완료했으나, 이를 정기 자동화 CI 워크플로(`.github/workflows/**`), Git 훅(`.githooks/**`), 또는 상시 테스트 스위트(`scripts/tests/**`) 어디에도 연결하지 않아 프로덕션 환경에서 검사가 영구히 실행되지 않는 결함.
+- **실제 관측 사례**: 2026-09-17 Step 84 차트 고도화 과정에서 `scripts/generate_series_v2.py` 및 `scripts/verify_split_adjustment.py`를 구현하고 무결성 게이트를 구축했으나, `daily-market.yml` 워크플로에 호출 스텝을 누락하여 1,172개 v2 시계열 파일이 수동 생성물로 방치되고 액면분할 감사가 CI에서 전혀 트리거되지 않았던 사건.
+- **근본 원인**: "검사 로직을 만들었다"는 행위와 "그 검사가 실제 정기 실행되는 파이프라인 자리를 확보했다"는 행위를 분리 검증하지 않아 발생.
+- **방어 대책**:
+  1. `scripts/` 내 게이트성 스크립트(`verify_*.py`, `validate_*.py`, `audit_*.py`, `check_*.py`, `lint_*.py`)가 `.github/workflows/**`, `.githooks/**`, 또는 `scripts/tests/**` 중 최소 한 곳 이상에서 호출되는지 정적 분석하여 미호출 시 빌드/푸시 즉시 차단(fail-closed).
+  2. 수동 전용 유틸리티나 연구 분석용 스크립트는 `SCRIPT_ENTRYPOINT_EXEMPT` 모듈 상수에 명시하고, FM-014에 의해 본 문서의 「검사 면제 목록 SSOT」 섹션에 사유와 함께 공개 의무화.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_script_entrypoint_presence()`
+
+---
+
+## [검사 면제 목록 SSOT]
+
+| 검사명 | 면제 대상 | 사유 | 등록 일시 |
+|---|---|---|:---:|
+| **FM-011: Destructive Schema Migration Baseline Enforcement** | `0001`, `0002`, `0003`, `0004`, `0005`, `0006`, `0007`, `0008`, `0009`, `0010`, `0011`, `0012`, `0013`, `0014`, `0015`, `0016`, `0017`, `0018`, `0019`, `0020`, `0021`, `0022`, `0023`, `0024`, `0025`, `0026` | 0001~0024는 baseline 감사 인프라 도입 이전 레거시 마이그레이션이며, 0025는 migration_baselines 테이블 자체를 생성한 DDL이고, 0026은 0024 사후 정정 마이그레이션임. 0027 이후 DDL부터 엄격 강제. | 2026-09-17 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `android/app/google-services.json` | Firebase 공개 모바일 클라이언트 식별자 파일로, 보안 비밀키가 아닌 번들 식별자이므로 스캔 예외 허용. | 2026-09-17 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `.env`, `.dev.vars`, `.env.*`, `.dev.vars.*` | Cloudflare Worker 로컬 개발(wrangler dev) 및 Node 런타임 전용 설정 파일이며, .gitignore 및 .githooks/pre-commit(diff --cached)에 의해 저장소 커밋이 원천 차단됨. | 2026-09-18 |
+| **FM-012: Working Tree Plaintext Secret Detection** | `SECRET_SCAN_DIR_EXEMPT`: `.git`, `node_modules`, `.next`, `out`, `.venv`, `__pycache__`, `coverage`, `.wrangler`, `dist` | 패키지 의존성/빌드 산출물/로컬 가상환경 캐시 디렉터리로, 정적 소스코드가 아니므로 작업 트리 평문 시크릿 탐지에서 제외. (_archive/ 및 OSMU_Archive/는 스캔 대상에 필수 포함). | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `da0bccda` | `wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart` (2026-09-17 21:08:44 +0900). 기능 브랜치 역병합으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `80620aa4` | `wip(compare): integrate EtfCompareTimeseriesChart into CompareClient` (2026-09-17 20:33:48 +0900). 동일 기능 브랜치 작업 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-013: WIP Commit on Main Branch Prohibition** | `444dce37` | `wip(compare): save compare timeseries chart components to feature branch` (2026-09-17 20:29:43 +0900). 기능 브랜치 최초 생성 시점의 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-015: Missing Script Execution Entrypoint** | `SCRIPT_ENTRYPOINT_EXEMPT`: `validate_components_clean.py`, `verify_all_comparisons.py`, `verify_broker_pension.py`, `verify_kind_issue_summaries.py`, `verify_kofia_pension.py`, `verify_return_circuit_breaker.py` | 수동 점검 도구, 레거시 감사 도구(FM-004로 대체된 컴포넌트 검사 등), 또는 연구 보고서 전용 검증 산출물로 상시 CI 실행 대상에서 제외. | 2026-09-18 |
+| **FM-014: Exemption Disclosure SSOT** | `CARRY_FORWARD_ALLOWLIST`: `weeklyFundFlows`, `monthlyFundFlows`, `marketScaleTimeSeries` | 후행 윈도 집계 데이터에 한해 전일 KV로부터의 캐리포워드를 허용하며, 당일 종가/지수/등락률은 제외. 이월 시 반드시 `<field>AsOf` 명시 의무화. | 2026-09-18 |
+
+---
+
+### [Stash 56건 아카이브 및 복원 SSOT]
+2026-09-18 기준 소실되었던 56건의 Stash는 `archive/stash-00-<sha8>` ~ `archive/stash-55-<sha8>` 56개 불활성 태그로 고정되어 영구 보존(gc 면역)되었습니다. `git stash show -p`로 추출된 패치 파일은 untracked 파일을 포함하지 않으므로, **태그가 단일 진실 공급원(SSOT)이자 정본**입니다. 필요 시 개별 복원 명령은 `git stash store -m "<원본 메시지>" <태그의 SHA>`를 사용하며, `git gc`, `git prune`, `git reflog expire`의 임의 실행은 엄격히 금지됩니다.
+
+
+
 
 

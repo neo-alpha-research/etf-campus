@@ -275,26 +275,51 @@ def main() -> int:
     print(f"📦 Cloudflare Account: {account_id}, KV Namespace: {namespace_id}")
 
     base_dir = Path("OSMU_Archive") / target_date
-    if not base_dir.exists():
-        print(f"❌ Error: OSMU directory '{base_dir}' does not exist!", file=sys.stderr)
-        return 1
+    has_osmu_dir = base_dir.exists()
+    if not has_osmu_dir:
+        print(f"⚠️ Notice: OSMU directory '{base_dir}' does not exist, skipping image uploads and proceeding to JSON payload sync.")
 
     success_count = 0
     total_count = 0
 
-    # 1. Instagram Carousel Slides (1 to 6)
-    for slide_no in range(1, 7):
-        slide_path = base_dir / "1_Instagram" / f"instagram_slide_{slide_no}.png"
-        key = f"image:instagram:{target_date}:{slide_no}"
-        if slide_path.exists():
+    if has_osmu_dir:
+        # 1. Instagram Carousel Slides (1 to 6)
+        for slide_no in range(1, 7):
+            slide_path = base_dir / "1_Instagram" / f"instagram_slide_{slide_no}.png"
+            key = f"image:instagram:{target_date}:{slide_no}"
+            if slide_path.exists():
+                total_count += 1
+                size_kb = slide_path.stat().st_size / 1024
+                print(f"📤 Uploading {key} ({size_kb:.1f} KB)...", end=" ")
+                ok = upload_to_kv_via_rest(
+                    account_id=account_id,
+                    namespace_id=namespace_id,
+                    key=key,
+                    file_path=slide_path,
+                    api_token=api_token,
+                    api_key=api_key,
+                    email=email,
+                )
+                if ok:
+                    print("✅ Done")
+                    success_count += 1
+                else:
+                    print("❌ Failed")
+            else:
+                print(f"⚠️ Warning: Slide file '{slide_path}' not found, skipping.")
+
+        # 2. Threads Infographic Image
+        threads_path = base_dir / "2_Threads" / "threads_image.png"
+        threads_key = f"image:threads:{target_date}"
+        if threads_path.exists():
             total_count += 1
-            size_kb = slide_path.stat().st_size / 1024
-            print(f"📤 Uploading {key} ({size_kb:.1f} KB)...", end=" ")
+            size_kb = threads_path.stat().st_size / 1024
+            print(f"📤 Uploading {threads_key} ({size_kb:.1f} KB)...", end=" ")
             ok = upload_to_kv_via_rest(
                 account_id=account_id,
                 namespace_id=namespace_id,
-                key=key,
-                file_path=slide_path,
+                key=threads_key,
+                file_path=threads_path,
                 api_token=api_token,
                 api_key=api_key,
                 email=email,
@@ -305,31 +330,7 @@ def main() -> int:
             else:
                 print("❌ Failed")
         else:
-            print(f"⚠️ Warning: Slide file '{slide_path}' not found, skipping.")
-
-    # 2. Threads Infographic Image
-    threads_path = base_dir / "2_Threads" / "threads_image.png"
-    threads_key = f"image:threads:{target_date}"
-    if threads_path.exists():
-        total_count += 1
-        size_kb = threads_path.stat().st_size / 1024
-        print(f"📤 Uploading {threads_key} ({size_kb:.1f} KB)...", end=" ")
-        ok = upload_to_kv_via_rest(
-            account_id=account_id,
-            namespace_id=namespace_id,
-            key=threads_key,
-            file_path=threads_path,
-            api_token=api_token,
-            api_key=api_key,
-            email=email,
-        )
-        if ok:
-            print("✅ Done")
-            success_count += 1
-        else:
-            print("❌ Failed")
-    else:
-        print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
+            print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
 
     # 3. Direct Market Briefing JSON Payload to KV (Zero-D1 Read Acceleration)
     date_payload_file = Path("data") / f"briefing_payload_{target_date}.json"
@@ -347,28 +348,7 @@ def main() -> int:
     if payload_file.exists():
         payload_key = f"market-briefing:v0:payload:{target_date}:v1"
         
-        # Zero-Hallucination & Fail-Closed Schema Contract Validation
-        REPO_ROOT = Path(__file__).resolve().parent.parent
-        if str(REPO_ROOT) not in sys.path:
-            sys.path.insert(0, str(REPO_ROOT))
-
-        try:
-            from scripts.schemas.briefing_contract import validate_briefing_payload
-            with open(payload_file, "r", encoding="utf-8") as pf:
-                candidate_data = json.load(pf)
-            is_valid, errs, contract = validate_briefing_payload(candidate_data)
-            if not is_valid:
-                print(f"❌ [Fail-Closed] {payload_file} failed BriefingContract validation. Aborting KV sync to prevent corrupt publication:", file=sys.stderr)
-                for err in errs:
-                    print(f"  * {err}", file=sys.stderr)
-                return 1
-            print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
-        except ImportError as e:
-            print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
-            print("   Schema validation is strictly mandatory before Cloudflare KV sync. Aborting.", file=sys.stderr)
-            return 1
-
-        # Backup existing KV payload to market-briefing:v0:payload:prev before overwrite
+        # Backup and Smart-Merge previous KV payload BEFORE schema contract validation
         prev_bytes = download_from_kv_via_rest(
             account_id=account_id,
             namespace_id=namespace_id,
@@ -392,9 +372,62 @@ def main() -> int:
                     email=email,
                 )
                 print("✅ Done" if ok_prev else "⚠️ Failed")
+
+                # Smart merge: Preserve verified rich multi-day flows and time series with explicit AsOf tagging
+                try:
+                    with open(payload_file, "r", encoding="utf-8") as pf:
+                        candidate_data = json.load(pf)
+                    prev_json = json.loads(prev_bytes.decode("utf-8"))
+                    prev_b = prev_json.get("briefing") or prev_json
+                    cand_b = candidate_data.get("briefing") or candidate_data
+                    prev_as_of = prev_b.get("asOfDate") or prev_b.get("as_of_date") or ""
+                    merged = False
+
+                    if (not cand_b.get("weeklyFundFlows") or len(cand_b.get("weeklyFundFlows") or []) == 0) and prev_b.get("weeklyFundFlows"):
+                        cand_b["weeklyFundFlows"] = prev_b["weeklyFundFlows"]
+                        cand_b["weeklyFundFlowsAsOf"] = prev_as_of
+                        cand_b["weeklyFundFlowsIsCarried"] = True
+                        merged = True
+                    if (not cand_b.get("monthlyFundFlows") or len(cand_b.get("monthlyFundFlows") or []) == 0) and prev_b.get("monthlyFundFlows"):
+                        cand_b["monthlyFundFlows"] = prev_b["monthlyFundFlows"]
+                        cand_b["monthlyFundFlowsAsOf"] = prev_as_of
+                        cand_b["monthlyFundFlowsIsCarried"] = True
+                        merged = True
+                    if not cand_b.get("marketScaleTimeSeries") and prev_b.get("marketScaleTimeSeries"):
+                        cand_b["marketScaleTimeSeries"] = prev_b["marketScaleTimeSeries"]
+                        cand_b["marketScaleTimeSeriesAsOf"] = prev_as_of
+                        cand_b["marketScaleTimeSeriesIsCarried"] = True
+                        merged = True
+                    if merged:
+                        with open(payload_file, "w", encoding="utf-8") as pf:
+                            json.dump(candidate_data, pf, ensure_ascii=False, indent=2)
+                        print(f"🔄 [Smart Merge] Merged multi-day flows & time-series with explicit as-of ({prev_as_of}) into local payload.")
+                except Exception as merge_err:
+                    print(f"⚠️ [Smart Merge Notice] KV merge bypassed: {merge_err}")
             finally:
                 if temp_prev_file.exists():
                     temp_prev_file.unlink()
+
+        # Zero-Hallucination & Fail-Closed Schema Contract Validation (Must run AFTER merge)
+        REPO_ROOT = Path(__file__).resolve().parent.parent
+        if str(REPO_ROOT) not in sys.path:
+            sys.path.insert(0, str(REPO_ROOT))
+
+        try:
+            from scripts.schemas.briefing_contract import validate_briefing_payload
+            with open(payload_file, "r", encoding="utf-8") as pf:
+                candidate_data = json.load(pf)
+            is_valid, errs, contract = validate_briefing_payload(candidate_data)
+            if not is_valid:
+                print(f"❌ [Fail-Closed] {payload_file} failed BriefingContract validation. Aborting KV sync to prevent corrupt publication:", file=sys.stderr)
+                for err in errs:
+                    print(f"  * {err}", file=sys.stderr)
+                return 1
+            print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
+        except ImportError as e:
+            print(f"❌ [FATAL] BriefingContract import failed: {e}", file=sys.stderr)
+            print("   Schema validation is strictly mandatory before Cloudflare KV sync. Aborting.", file=sys.stderr)
+            return 1
 
         total_count += 1
         print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")

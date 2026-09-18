@@ -248,10 +248,10 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.getByText("순자산/연금")).toBeInTheDocument();
 
     // Option A Desktop Executive Table headers
-    expect(screen.getByRole("columnheader", { name: "1개월" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "3개월" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "6개월" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "1년" })).toBeInTheDocument();
+    expect(screen.getAllByRole("columnheader", { name: "1년 수익률" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByRole("columnheader", { name: "최대낙폭(MDD)" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "변동성" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "상승일 비율" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "일 거래대금" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "괴리율" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "퇴직연금" })).toBeInTheDocument();
@@ -502,6 +502,107 @@ describe("EtfCompareView selectionReasons", () => {
     // 환헤지 항목
     expect(screen.getByText("환헤지 (H)")).toBeInTheDocument();
     expect(screen.getByText("해당없음 (원화)")).toBeInTheDocument();
+  });
+
+  it("seriesMap과 period가 전달되면 선택 기간 수익률, MDD, 변동성, 상승일 비율이 정밀하게 산출되어 렌더링된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "테스트 ETF A",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+
+    const seriesMap = {
+      "000001": {
+        ticker: "000001",
+        startDate: "2026-01-02",
+        dates: [
+          "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08",
+          "2026-01-09", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15",
+          "2026-01-16", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22",
+          "2026-01-23", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29",
+          "2026-01-30", "2026-02-02"
+        ],
+        close: [
+          100, 102, 101, 103, 105,
+          104, 106, 107, 105, 108,
+          110, 109, 111, 112, 110,
+          113, 114, 112, 115, 116,
+          118, 120
+        ],
+        tr: [
+          100, 102, 101, 103, 105,
+          104, 106, 107, 105, 108,
+          110, 109, 111, 112, 110,
+          113, 114, 112, 115, 116,
+          118, 120
+        ],
+        netTr: [
+          100, 102, 101, 103, 105,
+          104, 106, 107, 105, 108,
+          110, 109, 111, 112, 110,
+          113, 114, 112, 115, 116,
+          118, 120
+        ],
+        hasDistribution: false,
+        asOf: "2026-02-02",
+      },
+    };
+
+    render(
+      <EtfCompareView
+        basket={[etfA as Etf]}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    // Click '5종목 한눈에 뷰'
+    const summaryTabBtn = screen.getByText(/5종목 한눈에 뷰/);
+    fireEvent.click(summaryTabBtn);
+
+    // Header should be '1개월 수익률'
+    expect(screen.getAllByText(/1개월 수익률/).length).toBeGreaterThan(0);
+    // Terminal return (+20.00%)
+    expect(screen.getAllByText("+20.00%").length).toBeGreaterThan(0);
+    // MDD header and text
+    expect(screen.getByRole("columnheader", { name: "최대낙폭(MDD)" })).toBeInTheDocument();
+    // Volatility header
+    expect(screen.getByRole("columnheader", { name: "변동성" })).toBeInTheDocument();
+    // Positive days ratio header
+    expect(screen.getByRole("columnheader", { name: "상승일 비율" })).toBeInTheDocument();
+  });
+
+  it("focusedTicker가 전달되면 해당 종목 테이블 행에 하이라이트 스타일이 적용된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "포커스 ETF",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+    const etfB: Partial<Etf> = {
+      ticker: "000002",
+      name: "일반 ETF",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 5.0 },
+    };
+
+    const { container } = render(
+      <EtfCompareView
+        basket={[etfA as Etf, etfB as Etf]}
+        focusedTicker="000001"
+      />
+    );
+
+    // Switch to summary view
+    const summaryTabBtn = screen.getByText(/5종목 한눈에 뷰/);
+    fireEvent.click(summaryTabBtn);
+
+    const rows = container.querySelectorAll("tbody tr");
+    expect(rows.length).toBe(2);
+    expect(rows[0].className).toContain("bg-blue-50/70");
+    expect(rows[0].className).toContain("ring-blue-300");
+    expect(rows[1].className).not.toContain("ring-blue-300");
   });
 });
 

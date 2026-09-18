@@ -12,6 +12,7 @@ CI 및 로컬에서 기계적으로 원천 차단합니다.
 from __future__ import annotations
 
 import ast
+import os
 import re
 import subprocess
 import sys
@@ -24,6 +25,10 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.schemas.contract_constants import CARRY_FORWARD_ALLOWLIST
 
 
 def check_git_log_subprocesses_in_text(content: str, filename: str = "script.py") -> list[str]:
@@ -264,8 +269,11 @@ def check_migrations_sequence() -> list[str]:
     return check_migrations_sequence_for_filenames(files)
 
 
-def check_failure_modes_coverage(checks_count: int, doc_content: str | None = None) -> list[str]:
-    """검사 자체에 대한 메타 검사: CHECKS 개수 >= docs/known_failure_modes.md의 항목 수."""
+def check_failure_modes_coverage(
+    checks: list[tuple[str, Any, str]] | set[str] | int,
+    doc_content: str | None = None,
+) -> list[str]:
+    """메타 게이트: ALL_CHECKS의 FM ID 집합과 docs/known_failure_modes.md의 ID 집합이 완전히 일치해야 합니다."""
     errors = []
     if doc_content is None:
         doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
@@ -273,14 +281,33 @@ def check_failure_modes_coverage(checks_count: int, doc_content: str | None = No
             return ["docs/known_failure_modes.md not found. Cannot verify failure modes coverage."]
         doc_content = doc_path.read_text(encoding="utf-8")
 
-    fm_items = re.findall(r"^##\s*\[FM-\d+\]", doc_content, re.MULTILINE)
-    documented_count = len(fm_items)
+    # Extract FM IDs from checks
+    if isinstance(checks, set):
+        checks_fms = checks
+    elif isinstance(checks, int):
+        # Backward-compatible if called with int count (e.g. legacy test)
+        doc_fms = set(re.findall(r"^##\s*\[(FM-\d+)\]", doc_content, re.MULTILINE))
+        if checks < len(doc_fms):
+            return [f"Linter checks count ({checks}) is less than documented failure modes ({len(doc_fms)})."]
+        return []
+    else:
+        checks_fms = set()
+        for item in checks:
+            desc = item[2] if len(item) > 2 else item[0]
+            for m in re.findall(r"\b(FM-\d+)\b", str(desc)):
+                checks_fms.add(m)
 
-    if checks_count < documented_count:
-        errors.append(
-            f"Linter checks count ({checks_count}) is less than documented failure modes ({documented_count}). "
-            f"Every documented failure mode must have an automated linter check."
-        )
+    # Extract FM IDs from doc
+    doc_fms = set(re.findall(r"^##\s*\[(FM-\d+)\]", doc_content, re.MULTILINE))
+
+    missing_in_checks = sorted(doc_fms - checks_fms)
+    missing_in_doc = sorted(checks_fms - doc_fms)
+
+    if missing_in_checks:
+        errors.append(f"검사 누락: 문서에 정의되었으나 린터 검사가 구현되지 않은 실패 유형 {missing_in_checks}")
+    if missing_in_doc:
+        errors.append(f"문서 누락: 린터 검사에 등록되었으나 문서에 기술되지 않은 실패 유형 {missing_in_doc}")
+
     return errors
 
 
@@ -306,19 +333,47 @@ def check_versioned_pk_unversioned_query_in_text(content: str, filename: str = "
 
 
 def check_versioned_pk_unversioned_query() -> list[str]:
-    """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지."""
+    """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지.
+    0024 및 이후 모든 migrations/*.sql (번호 >= 0024), 그리고
+    functions/**/*.js 중 market_source_index_daily를 포함한 모든 파일을 동적으로 전수 스캔합니다.
+    (0022 등 확정된 과거 이력 마이그레이션은 명시적 예외로 제외)
+    """
     errors = []
-    ingest_path = REPO_ROOT / "functions" / "api" / "internal" / "ingest-market-source.js"
-    if ingest_path.exists():
-        content = ingest_path.read_text(encoding="utf-8")
-        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(ingest_path.relative_to(REPO_ROOT))))
 
-    mig_0024 = REPO_ROOT / "migrations" / "0024_single_version_market_source_index_daily.sql"
-    if mig_0024.exists():
-        content = mig_0024.read_text(encoding="utf-8")
-        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(mig_0024.relative_to(REPO_ROOT))))
-    else:
-        errors.append("Migration 0024_single_version_market_source_index_daily.sql does not exist (violates FM-007).")
+    # 1. functions/**/*.js 중 market_source_index_daily를 포함하는 모든 파일 스캔
+    functions_dir = REPO_ROOT / "functions"
+    if functions_dir.exists():
+        for js_file in sorted(functions_dir.rglob("*.js")):
+            try:
+                content = js_file.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            if "market_source_index_daily" in content:
+                errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(js_file.relative_to(REPO_ROOT))))
+
+    # 2. migrations/*.sql 중 번호 >= 0024인 모든 파일 동적 스캔 (0022 등 확정된 과거 이력은 명시적 제외)
+    # 반드시 0024는 존재해야 하며, 0024 이후의 어떤 마이그레이션에서도 versioned PK가 재도입되면 안 됨
+    mig_dir = REPO_ROOT / "migrations"
+    if mig_dir.exists():
+        has_0024 = False
+        for sql_file in sorted(mig_dir.glob("*.sql")):
+            m = re.match(r"^(\d{4})_", sql_file.name)
+            if not m:
+                continue
+            num = int(m.group(1))
+            if num < 24:
+                # 확정된 과거 레거시 마이그레이션 (0007, 0022 등) 명시적 제외
+                continue
+            if num == 24:
+                has_0024 = True
+            try:
+                content = sql_file.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(sql_file.relative_to(REPO_ROOT))))
+
+        if not has_0024:
+            errors.append("Migration 0024_single_version_market_source_index_daily.sql does not exist (violates FM-007).")
 
     return errors
 
@@ -336,8 +391,50 @@ def check_untracked_pipeline_files_in_status(status_lines: list[str]) -> list[st
     return errors
 
 
+def check_cron_workflows_on_default_branch(
+    origin_ref: str = "origin/main",
+    wf_dir: Path | None = None,
+    origin_wfs: set[str] | None = None,
+) -> list[str]:
+    """FM-010: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 존재하는지 검증 (Fail-Closed)."""
+    errors = []
+    target_dir = wf_dir if wf_dir is not None else (REPO_ROOT / ".github" / "workflows")
+    if not target_dir.exists():
+        return errors
+
+    if origin_wfs is None:
+        try:
+            res = subprocess.run(
+                ["git", "ls-tree", "--name-only", origin_ref, ".github/workflows/"],
+                capture_output=True,
+                text=True,
+                cwd=str(REPO_ROOT),
+            )
+            if res.returncode != 0:
+                return [
+                    f"FM-010 Fail-Closed: Cannot inspect workflows on {origin_ref} "
+                    f"(git ls-tree exited {res.returncode}: {res.stderr.strip()}). "
+                    f"Ref must be available to verify cron workflow scheduling."
+                ]
+            origin_wfs = {Path(p.strip()).name for p in res.stdout.splitlines() if p.strip()}
+        except Exception as e:
+            return [f"FM-010 Fail-Closed: Exception inspecting workflows on {origin_ref}: {e}"]
+
+    for wf_path in sorted(target_dir.glob("*.yml")):
+        try:
+            content = wf_path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if "cron:" in content and wf_path.name not in origin_wfs:
+            errors.append(
+                f"{wf_path.name} has cron schedule but is not present on {origin_ref}. "
+                f"GitHub Actions scheduled triggers will NOT run until committed to default branch (violates FM-010)."
+            )
+    return errors
+
+
 def check_untracked_pipeline_files() -> list[str]:
-    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다."""
+    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다 (로컬 pre-push 집행)."""
     try:
         res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=str(REPO_ROOT))
         if res.returncode != 0:
@@ -348,16 +445,22 @@ def check_untracked_pipeline_files() -> list[str]:
 
 
 def check_migration_workflow_deployment_gate_in_text(content: str, filename: str = "workflow") -> list[str]:
-    """FM-009: d1-migrations.yml에 Pages 배포 확인 게이트가 마이그레이션 스텝 앞에 존재하는지 검증."""
+    """FM-009: d1-migrations.yml에 check_pages_deployment.py 게이트 실행 명령이 마이그레이션 스텝 앞에 존재하는지 검증."""
     errors = []
-    if "wrangler d1 migrations apply" in content:
-        mig_idx = content.find("wrangler d1 migrations apply")
-        gate_kw = "Wait for Pages deployment"
-        gate_idx = content.find(gate_kw)
-        if gate_idx == -1:
-            errors.append(f"{filename}: Missing Pages deployment verification gate before D1 migrations (violates FM-009).")
-        elif gate_idx > mig_idx:
-            errors.append(f"{filename}: Pages deployment gate appears AFTER migration apply step (violates FM-009).")
+    mig_match = re.search(r"\bwrangler\s+d1\s+migrations\s+apply\b", content)
+    if mig_match:
+        mig_idx = mig_match.start()
+        # 단순히 스텝 제목(name:)에 스크립트명이 언급된 것이 아니라, 실제 python 실행 명령이 존재하는지 정규식 검사
+        gate_exec_match = re.search(r"\bpython3?\s+(?:scripts/)?check_pages_deployment\.py\b", content)
+        if not gate_exec_match:
+            errors.append(
+                f"{filename}: Missing actual execution command 'python scripts/check_pages_deployment.py' "
+                f"before D1 migrations (violates FM-009)."
+            )
+        elif gate_exec_match.start() > mig_idx:
+            errors.append(
+                f"{filename}: 'python scripts/check_pages_deployment.py' gate appears AFTER migration apply step (violates FM-009)."
+            )
     return errors
 
 
@@ -368,6 +471,338 @@ def check_migration_workflow_deployment_gate() -> list[str]:
         return [".github/workflows/d1-migrations.yml does not exist (violates FM-009)."]
     content = wf_path.read_text(encoding="utf-8")
     return check_migration_workflow_deployment_gate_in_text(content, str(wf_path.relative_to(REPO_ROOT)))
+
+
+def strip_sql_comments(sql: str) -> str:
+    """SQL 본문에서 문자열 리터럴('...' 및 "...")을 온전히 보존하면서
+    라인 주석(-- ...) 및 블록 주석(/* ... */)을 안전하게 제거합니다.
+    문자열 내부의 '--' 또는 '/* */'를 주석으로 오인하여 잘라내는 오탐을 방지합니다.
+    """
+    literals: list[str] = []
+
+    def repl_literal(match: re.Match) -> str:
+        literals.append(match.group(0))
+        return f"__SQL_LITERAL_{len(literals) - 1}__"
+
+    # 1. 작은따옴표 문자열 ('' 이스케이프 포함) 및 큰따옴표 문자열 치환
+    literal_pattern = re.compile(r"'(?:''|[^'])*'|\"(?:\"\"|[^\"])*\"")
+    masked_sql = literal_pattern.sub(repl_literal, sql)
+
+    # 2. 블록 주석 제거 (/* ... */)
+    masked_sql = re.sub(r"/\*.*?\*/", "", masked_sql, flags=re.DOTALL)
+
+    # 3. 라인 주석 제거 (-- ...)
+    masked_sql = re.sub(r"--[^\r\n]*", "", masked_sql)
+
+    # 4. 문자열 리터럴 복원
+    for idx, lit in enumerate(literals):
+        masked_sql = masked_sql.replace(f"__SQL_LITERAL_{idx}__", lit)
+
+    return masked_sql
+
+
+# 0001~0024: baseline 인프라 도입 이전 레거시 마이그레이션
+# 0025: migration_baselines 테이블 자체를 신설한 마이그레이션
+# 0026: 0024 사후 정정 마이그레이션 (baseline 인프라 확립 완료)
+BASELINE_EXEMPT_MIGRATIONS = {f"{i:04d}" for i in range(1, 27)}
+
+
+def check_destructive_migrations_baseline_in_text(content: str, filename: str = "migration.sql") -> list[str]:
+    """FM-011: 파괴적 스키마/데이터 변경(DROP TABLE, ALTER TABLE, DELETE FROM 등) 시 migration_baselines 기록 여부 검증 (순수 함수).
+    주석을 제거한 순수 실행 SQL 본문에서 DROP/ALTER TABLE 또는 DELETE FROM 탐지 시
+    INSERT INTO migration_baselines, pre_count, post_count 3개 요소가 모두 존재하는지 전수 검증합니다.
+    """
+    errors = []
+    clean_sql = strip_sql_comments(content)
+    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE|DELETE\s+FROM)\b", clean_sql, re.IGNORECASE))
+    if is_destructive:
+        missing_elements = []
+        if not re.search(r"\bINSERT\s+INTO\s+migration_baselines\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("INSERT INTO migration_baselines")
+        if not re.search(r"\bpre_count\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("pre_count")
+        if not re.search(r"\bpost_count\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("post_count")
+
+        if missing_elements:
+            errors.append(
+                f"{filename}: Destructive migration contains schema alteration/drop/delete without complete baseline recording. "
+                f"Missing required elements in executable SQL: {', '.join(missing_elements)} (violates FM-011). "
+                f"Follow docs/migration_template.sql."
+            )
+    return errors
+
+
+def check_destructive_migrations_baseline() -> list[str]:
+    """FM-011: 파괴적 D1 마이그레이션 적용 시 migration_baselines 사전/사후 행수 기록 강제."""
+    errors = []
+    mig_dir = REPO_ROOT / "migrations"
+    if not mig_dir.exists():
+        return errors
+
+    for sql_file in sorted(mig_dir.glob("*.sql")):
+        m = re.match(r"^(\d{4})_", sql_file.name)
+        if not m:
+            continue
+        prefix = m.group(1)
+        if prefix in BASELINE_EXEMPT_MIGRATIONS:
+            continue
+        try:
+            content = sql_file.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        errors.extend(check_destructive_migrations_baseline_in_text(content, sql_file.name))
+
+    return errors
+
+
+# FM-012: 작업 트리 전체 평문 시크릿 스캔 제외 디렉터리 SSOT
+# 빌드/패키지 캐시 디렉터리 한정 제외. _archive/ 및 OSMU_Archive/는 스캔에 반드시 포함되어야 합니다.
+SECRET_SCAN_DIR_EXEMPT = {
+    ".git", "node_modules", ".next", "out", ".venv", "__pycache__",
+    "coverage", ".wrangler", "dist",
+}
+
+# Firebase 공개 클라이언트 식별자는 보안 시크릿이 아닌 공개 모바일 앱 번들 식별자이므로 스캔 예외로 허용합니다.
+SECRET_SCAN_EXEMPT = {"android/app/google-services.json"}
+
+SECRET_PATTERNS = [
+    ("Google API Key", re.compile(r"AIzaSy[A-Za-z0-9_-]{33}")),
+    ("Gemini CLI Session Token", re.compile(r"AQ\.Ab8[A-Za-z0-9_-]{40,}")),
+    ("Telegram Bot Token", re.compile(r"[0-9]{9,11}:AA[A-Za-z0-9_-]{33}")),
+    ("Meta / Threads Access Token", re.compile(r"(?:THAAN|IGAAd)[A-Za-z0-9_-]{50,}")),
+]
+
+
+def check_working_tree_secrets_in_text(content: str, filename: str) -> list[str]:
+    """단일 파일 텍스트에서 시크릿 패턴 검출 (순수 함수).
+    보안을 위해 위반 메시지에 키 전문을 출력하지 않고 앞 12자만 마스킹하여 반환합니다.
+    """
+    norm_path = filename.replace("\\", "/")
+    if norm_path in SECRET_SCAN_EXEMPT or norm_path.endswith("android/app/google-services.json"):
+        return []
+
+    errors = []
+    for line_no, line in enumerate(content.splitlines(), start=1):
+        for pattern_name, regex in SECRET_PATTERNS:
+            m = regex.search(line)
+            if m:
+                matched_secret = m.group(0)
+                masked_preview = matched_secret[:12] + "..."
+                errors.append(
+                    f"{filename}:{line_no}: 시크릿 패턴 '{pattern_name}' 검출 "
+                    f"(앞 12자: {masked_preview}, violates FM-012)"
+                )
+    return errors
+
+
+def check_working_tree_secrets() -> list[str]:
+    """FM-012: 작업 트리 전체(추적·미추적 무관) 평문 시크릿 탐지."""
+    errors = []
+
+    for root, dirs, files in os.walk(REPO_ROOT):
+        # Prune excluded directories in-place using module-level SSOT constant
+        dirs[:] = [d for d in dirs if d not in SECRET_SCAN_DIR_EXEMPT]
+
+        for fname in sorted(files):
+            file_path = Path(root) / fname
+            rel_path = file_path.relative_to(REPO_ROOT).as_posix()
+
+            if rel_path in SECRET_SCAN_EXEMPT:
+                continue
+
+            # Cloudflare Wrangler(wrangler dev) 및 Node 로컬 개발 전용 환경설정 파일은
+            # .gitignore 및 .githooks/pre-commit에서 이미 원천 차단되므로 로컬 작업 트리 스캔에서 제외
+            # (접두 매칭으로 인한 오탐 제외 방지를 위해 정확 집합 + .env.* / .dev.vars.* 패턴으로 한정)
+            if fname in {".env", ".dev.vars"} or fname.startswith(".env.") or fname.startswith(".dev.vars."):
+                continue
+
+
+            try:
+                stat = file_path.stat()
+                # 1MB 초과 대용량 데이터 파일은 텍스트 파싱 부하 방지 및 정적 시크릿 저장 용도가 아니므로 제외
+                if stat.st_size > 1_048_576:
+                    continue
+
+                with open(file_path, "rb") as f:
+                    chunk = f.read(8192)
+                    # 첫 8KB에 NUL 바이트가 포함된 바이너리 파일은 skip
+                    if b"\x00" in chunk:
+                        continue
+                    rest = f.read()
+                    full_bytes = chunk + rest
+                    text = full_bytes.decode("utf-8", errors="replace")
+
+                file_errs = check_working_tree_secrets_in_text(text, rel_path)
+                errors.extend(file_errs)
+            except (OSError, UnicodeDecodeError):
+                continue
+
+    return errors
+
+
+# FM-013: main 브랜치 WIP/checkpoint 커밋 유입 방지
+WIP_COMMIT_PATTERN = re.compile(r"^(?:\S+\s+)?(wip|checkpoint|temp)[\(:]", re.IGNORECASE)
+
+# 과거 브랜치 역병합 사고로 인해 main에 기포함된 과거 기준점 커밋 (Section 0 관측 사례: da0bccda, 444dce37)
+# 0001~0026 마이그레이션 baseline 면제(FM-011)와 동일하게, FM-013 제정 이전 과거 이력은 기준선으로 보존합니다.
+WIP_HISTORICAL_BASELINE_COMMITS = {"da0bccda", "80620aa4", "444dce37"}
+
+
+def check_wip_commit_subjects(subjects: list[str]) -> list[str]:
+    """커밋 한 줄 목록(hash message)에서 wip/checkpoint/temp 패턴 검출 (단위 테스트 가능한 순수 함수)."""
+    errors = []
+    for line in subjects:
+        line_clean = line.strip()
+        if not line_clean:
+            continue
+        if WIP_COMMIT_PATTERN.search(line_clean):
+            errors.append(
+                f"WIP commit detected: '{line_clean}' (violates FM-013 / 규율 10). "
+                f"Squash or reword wip/checkpoint/temp commits before integrating into main."
+            )
+    return errors
+
+
+def check_wip_commits_on_main(origin_ref: str = "origin/main", count: int = 30) -> list[str]:
+    """FM-013: main 브랜치 최근 커밋에서 wip/checkpoint/temp 패턴 커밋 차단."""
+    try:
+        res = subprocess.run(
+            ["git", "log", origin_ref, "--oneline", f"-n{count}"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT),
+        )
+        if res.returncode != 0:
+            res = subprocess.run(
+                ["git", "log", "main", "--oneline", f"-n{count}"],
+                capture_output=True,
+                text=True,
+                cwd=str(REPO_ROOT),
+            )
+            if res.returncode != 0:
+                return [f"FM-013 Fail-Closed: Cannot inspect git log on {origin_ref}: {res.stderr.strip()}"]
+
+        lines = [line.strip() for line in res.stdout.splitlines() if line.strip()]
+        non_baseline_lines = [
+            line for line in lines
+            if not any(line.startswith(c) for c in WIP_HISTORICAL_BASELINE_COMMITS)
+        ]
+        return check_wip_commit_subjects(non_baseline_lines)
+    except Exception as e:
+        return [f"FM-013 Fail-Closed: Exception inspecting git log: {e}"]
+
+
+def check_exemption_disclosure_in_text(
+    doc_content: str,
+    required_exemptions: dict[str, set[str]] | None = None,
+) -> list[str]:
+    """FM-014: 코드 내 면제 대상 원소가 docs/known_failure_modes.md의 [검사 면제 목록 SSOT] 섹션에 공개되어 있는지 검증 (순수 함수)."""
+    marker = "## [검사 면제 목록 SSOT]"
+    if marker not in doc_content:
+        return [f"'{marker}' section missing from failure modes document (violates FM-014)."]
+
+    ssot_section = doc_content.split(marker, 1)[1]
+
+    if required_exemptions is None:
+        required_exemptions = {}
+        for name, value in list(globals().items()):
+            if re.search(r"(_EXEMPT|_BASELINE_|_EXCLUDE|_SKIP|_ALLOWLIST|_WHITELIST)", name) and isinstance(value, (set, frozenset)):
+                required_exemptions[name] = set(value)
+        if not required_exemptions:
+            return ["No exemption constants discovered — FM-014 검사 자체가 무력화됨 (fail-closed)."]
+        # FM-012는 상수 외에 .env / .dev.vars 를 코드에서 직접 스킵하므로 명시 추가
+        required_exemptions.setdefault("SECRET_SCAN_EXEMPT", set()).update({".env", ".dev.vars"})
+
+    errors = []
+    for category, items in sorted(required_exemptions.items()):
+        for item in sorted(items):
+            if item not in ssot_section:
+                errors.append(
+                    f"{category} exemption '{item}' is not disclosed in '{marker}' section (violates FM-014)."
+                )
+    return errors
+
+
+def check_exemption_disclosure() -> list[str]:
+    """FM-014: 코드 내 모든 면제 상수(마이그레이션, 시크릿 스캔, WIP 베이스라인)의 SSOT 문서 공개 여부 검증."""
+    doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
+    if not doc_path.exists():
+        return ["docs/known_failure_modes.md not found (violates FM-014)."]
+    try:
+        content = doc_path.read_text(encoding="utf-8")
+    except Exception as e:
+        return [f"Failed to read docs/known_failure_modes.md: {e}"]
+    return check_exemption_disclosure_in_text(content)
+
+
+# FM-015: scripts/ 내 게이트성 스크립트 실행 지점 부재 검사 면제 목록 SSOT
+# 수동 점검 도구, 레거시 감사 도구, 또는 연구 보고서 전용 검증 스크립트 한정
+SCRIPT_ENTRYPOINT_EXEMPT: set[str] = {
+    "validate_components_clean.py",
+    "verify_all_comparisons.py",
+    "verify_broker_pension.py",
+    "verify_kind_issue_summaries.py",
+    "verify_kofia_pension.py",
+    "verify_return_circuit_breaker.py",
+}
+
+
+def check_script_entrypoint_presence_in_corpus(
+    gate_script_names: list[str],
+    caller_corpus: str,
+    exempt_set: set[str] | None = None,
+) -> list[str]:
+    """FM-015: scripts/ 내 게이트성 스크립트가 워크플로, 깃훅, 테스트 중 어디에서도 호출되지 않으면 차단 (순수 함수)."""
+    if exempt_set is None:
+        exempt_set = SCRIPT_ENTRYPOINT_EXEMPT
+
+    errors = []
+    for script_name in sorted(gate_script_names):
+        if script_name in exempt_set:
+            continue
+        stem = Path(script_name).stem
+        pattern = re.compile(rf"\b{re.escape(stem)}(\.py)?\b")
+        if not pattern.search(caller_corpus):
+            errors.append(
+                f"Gate script '{script_name}' has no execution entrypoint in workflows, githooks, or tests (violates FM-015)."
+            )
+    return errors
+
+
+def check_script_entrypoint_presence() -> list[str]:
+    """FM-015: scripts/ 내 게이트성 스크립트의 실행 지점 부재 차단."""
+    scripts_dir = REPO_ROOT / "scripts"
+    if not scripts_dir.exists():
+        return []
+
+    gate_scripts: list[str] = []
+    for p in scripts_dir.rglob("*.py"):
+        if "_oneoff" in p.parts or "tests" in p.parts or "__pycache__" in p.parts:
+            continue
+        name = p.name
+        if any(name.startswith(prefix) for prefix in ["verify_", "validate_", "audit_", "check_", "lint_"]):
+            gate_scripts.append(name)
+
+    corpus_parts: list[str] = []
+    search_dirs = [
+        REPO_ROOT / ".github" / "workflows",
+        REPO_ROOT / ".githooks",
+        REPO_ROOT / "scripts" / "tests",
+    ]
+
+    for sdir in search_dirs:
+        if not sdir.exists():
+            continue
+        for item in sdir.rglob("*"):
+            if item.is_file() and "__pycache__" not in item.parts:
+                try:
+                    corpus_parts.append(item.read_text(encoding="utf-8", errors="ignore"))
+                except Exception:
+                    pass
+
+    combined_corpus = "\n".join(corpus_parts)
+    return check_script_entrypoint_presence_in_corpus(gate_scripts, combined_corpus)
 
 
 # 등록된 전수 검사 목록 (Ordered SSOT)
@@ -381,7 +816,14 @@ ALL_CHECKS = [
     ("check_versioned_pk_unversioned_query", check_versioned_pk_unversioned_query, "FM-007: Unversioned Query & Version-Keyed PK Prevention"),
     ("check_untracked_pipeline_files", check_untracked_pipeline_files, "FM-008: Untracked Pipeline & Workflow Files Prevention"),
     ("check_migration_workflow_deployment_gate", check_migration_workflow_deployment_gate, "FM-009: Pre-Migration Deployment Gate Enforcement"),
+    ("check_cron_workflows_on_default_branch", check_cron_workflows_on_default_branch, "FM-010: Cron Workflow Default Branch Presence"),
+    ("check_destructive_migrations_baseline", check_destructive_migrations_baseline, "FM-011: Destructive Schema Migration Baseline Enforcement"),
+    ("check_working_tree_secrets", check_working_tree_secrets, "FM-012: Working Tree Plaintext Secret Detection"),
+    ("check_wip_commits_on_main", check_wip_commits_on_main, "FM-013: WIP Commit on Main Branch Prohibition"),
+    ("check_exemption_disclosure", check_exemption_disclosure, "FM-014: Exemption Disclosure SSOT Enforcement"),
+    ("check_script_entrypoint_presence", check_script_entrypoint_presence, "FM-015: Missing Script Execution Entrypoint Prohibition"),
 ]
+
 
 
 
@@ -401,13 +843,13 @@ def main() -> int:
         else:
             print(f"✅ [{desc}] PASSED")
 
-    # Meta-check: Verify CHECKS count >= known failure modes count
-    meta_errors = check_failure_modes_coverage(len(ALL_CHECKS))
+    # Meta-check: Verify CHECKS ID set == known failure modes ID set
+    meta_errors = check_failure_modes_coverage(ALL_CHECKS)
     if meta_errors:
         all_errors.extend([f"[Failure Modes Coverage] {e}" for e in meta_errors])
         print(f"❌ [Failure Modes Coverage] FAILED")
     else:
-        print(f"✅ [Failure Modes Coverage] PASSED (Checks: {len(ALL_CHECKS)} >= Documented Modes)")
+        print(f"✅ [Failure Modes Coverage] PASSED (Checks: {len(ALL_CHECKS)} == Documented Modes)")
 
     print("=" * 65)
     if all_errors:

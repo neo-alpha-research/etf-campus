@@ -37,6 +37,7 @@ data/staging/
 *.sql
 !migrations/*.sql
 !scripts/*.sql
+!docs/*.sql
 temp_holdings_chunks/
 *.tmp
 .*-temp
@@ -71,5 +72,11 @@ data/regulatory/sources/kofia_dis_response_*.xml
 # Built worker artifacts
 dist/
 workers/**/dist/
+
+# One-off forensic and secret scratch files
+scripts/_oneoff/*forensic*
+scripts/_oneoff/*secret*
+scripts/_oneoff/*.key
+scripts/_oneoff/*token*
 
 

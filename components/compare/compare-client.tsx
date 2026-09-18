@@ -5,24 +5,115 @@ import { useCompareBasket } from "@/lib/hooks/use-compare-basket";
 import { CompareSearch } from "./compare-search";
 import { CompareThemes } from "./compare-themes";
 import { EtfCompareView } from "@/components/etf-detail/etf-compare-view";
-import { EtfCompareChart } from "./etf-compare-chart";
-import { useEffect, useCallback, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import {
+  EtfCompareTimeseriesChart,
+  type ComparePeriod,
+  type SeriesV2Data,
+} from "./etf-compare-timeseries-chart";
+import { useEffect, useCallback, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+
+export interface ManifestTickerEntry {
+  status?: "ok" | "quarantined";
+  reason?: string;
+  as_of?: string;
+  asOf?: string;
+  version?: string;
+}
+
+export interface SeriesManifest {
+  asOf: string;
+  tickers?: Record<string, string | ManifestTickerEntry>;
+}
+
+export function getSeriesUrl(
+  ticker: string,
+  isRecent: boolean,
+  manifest: SeriesManifest | null
+): string {
+  const fileSuffix = isRecent ? ".recent.json" : ".json";
+  const entry = manifest?.tickers?.[ticker];
+  let version = manifest?.asOf;
+  if (typeof entry === "string") {
+    version = entry;
+  } else if (entry && typeof entry === "object") {
+    version = entry.version || entry.asOf || entry.as_of || manifest?.asOf;
+  }
+  const query = version ? `?v=${version}` : "";
+  return `/data/series/v2/${ticker}${fileSuffix}${query}`;
+}
 
 export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const { basket, mounted, toastMessage, showToast, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket(etfs);
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [isTrMode, setIsTrMode] = useState(false);
+  const initialPeriod: ComparePeriod = (() => {
+    const p = searchParams.get("period");
+    if (p) {
+      const pUpper = p.toUpperCase() as ComparePeriod;
+      if (["1M", "3M", "6M", "1Y", "3Y"].includes(pUpper)) return pUpper;
+    }
+    return "3M";
+  })();
+
+  const initialTrMode = searchParams.get("basis")?.toLowerCase() === "tr";
+
+  const [period, setPeriod] = useState<ComparePeriod>(initialPeriod);
+  const [isTrMode, setIsTrMode] = useState<boolean>(initialTrMode);
   const [isConfirmingClear, setIsConfirmingClear] = useState(false);
+  const [hoveredTicker, setHoveredTicker] = useState<string | null>(null);
+  const [seriesMap, setSeriesMap] = useState<Record<string, SeriesV2Data | null>>({});
+  const [quarantinedMap, setQuarantinedMap] = useState<Record<string, { reason: string }>>({});
+  const [loadedKey, setLoadedKey] = useState<string>("");
+  const [manifest, setManifest] = useState<SeriesManifest | null>(null);
+  const seriesCacheRef = useRef<Map<string, SeriesV2Data>>(new Map());
+
+  // Dynamic manifest fetch on mount
+  useEffect(() => {
+    let isMounted = true;
+    fetch("/data/series/v2/manifest.json", { cache: "no-cache" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: SeriesManifest | null) => {
+        if (isMounted && data) {
+          setManifest(data);
+        }
+      })
+      .catch(() => {
+        // Fallback gracefully
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const currentKey = `${basket.map((e) => e.ticker).join(",")}_${period}`;
+  const isLoadingSeries = basket.length > 0 && loadedKey !== currentKey;
+
+  // URL query sync helper
+  const syncUrl = useCallback((tickersList: string[], curPeriod: ComparePeriod, curTrMode: boolean) => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (tickersList.length > 0) {
+      params.set("tickers", tickersList.join(","));
+      params.set("base", tickersList[0]);
+    } else {
+      params.delete("tickers");
+      params.delete("base");
+    }
+    params.set("period", curPeriod.toLowerCase());
+    params.set("basis", curTrMode ? "tr" : "pr");
+    const qs = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}?${qs}`);
+  }, []);
 
   const handleCopyLink = useCallback(() => {
     if (basket.length === 0) return;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const tickers = basket.map((e) => e.ticker).join(",");
-    const shareUrl = `${origin}/compare?tickers=${encodeURIComponent(tickers)}`;
+    const baseTicker = basket[0]?.ticker ?? "";
+    const basis = isTrMode ? "tr" : "pr";
+    const periodParam = period.toLowerCase();
+    const shareUrl = `${origin}/compare?tickers=${encodeURIComponent(tickers)}&base=${encodeURIComponent(baseTicker)}&period=${periodParam}&basis=${basis}`;
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(shareUrl).then(() => {
         showToast("비교 링크가 클립보드에 복사되었습니다.");
@@ -32,9 +123,9 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     } else {
       showToast("클립보드를 지원하지 않는 환경입니다.");
     }
-  }, [basket, showToast]);
+  }, [basket, isTrMode, period, showToast]);
 
-  // URL 파라미터(tickers, base 등) 처리 및 초기 바구니 설정
+  // URL 파라미터(tickers, base) 초기 파싱
   useEffect(() => {
     if (!mounted) return;
 
@@ -57,16 +148,75 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
           overwriteBasket(matchedEtfs);
         }
       }
-
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.delete("tickers");
-      newParams.delete("base");
-      newParams.delete("group");
-      newParams.delete("action");
-      const qs = newParams.toString();
-      router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
     }
-  }, [mounted, searchParams, etfs, overwriteBasket, pathname, router]);
+  }, [mounted, searchParams, etfs, overwriteBasket]);
+
+  // Keep URL in sync when basket, period, or isTrMode changes
+  useEffect(() => {
+    if (!mounted) return;
+    const tickerList = basket.map((e) => e.ticker);
+    syncUrl(tickerList, period, isTrMode);
+  }, [mounted, basket, period, isTrMode, syncUrl]);
+
+  // Parallel Data Fetching for v2 Series
+  useEffect(() => {
+    if (!mounted || basket.length === 0) return;
+
+    let isMounted = true;
+    const isRecent = period === "1M" || period === "3M" || period === "6M" || period === "1Y";
+    const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}_${manifest?.asOf || "default"}`;
+
+    const fetchPromises = basket.map(async (etf) => {
+      const entry = manifest?.tickers?.[etf.ticker];
+      if (entry && typeof entry === "object" && entry.status === "quarantined") {
+        return {
+          ticker: etf.ticker,
+          data: null,
+          quarantined: true,
+          reason: entry.reason || "데이터 정합성 검증 중",
+        };
+      }
+      const url = getSeriesUrl(etf.ticker, isRecent, manifest);
+      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${url}`;
+      if (seriesCacheRef.current.has(cacheKey)) {
+        return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)!, quarantined: false, reason: "" };
+      }
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
+        }
+        const data: SeriesV2Data = await res.json();
+        seriesCacheRef.current.set(cacheKey, data);
+        return { ticker: etf.ticker, data, quarantined: false, reason: "" };
+      } catch {
+        return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
+      }
+    });
+
+    Promise.allSettled(fetchPromises).then((results) => {
+      if (!isMounted) return;
+      const newMap: Record<string, SeriesV2Data | null> = {};
+      const newQuarantined: Record<string, { reason: string }> = {};
+      for (const r of results) {
+        if (r.status === "fulfilled") {
+          newMap[r.value.ticker] = r.value.data;
+          if (r.value.quarantined) {
+            newQuarantined[r.value.ticker] = { reason: r.value.reason || "데이터 정합성 검증 중" };
+          }
+        }
+      }
+      setSeriesMap(newMap);
+      setQuarantinedMap(newQuarantined);
+      setLoadedKey(requestKey);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [mounted, basket, period, manifest]);
+
+
 
   const handleAddEtf = useCallback((etf: Etf | EtfSlim) => {
     addEtf(etf);
@@ -148,7 +298,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
                 title="배당금(분배금)을 재투자했을 때의 총수익률(Total Return)로 차트와 표를 일괄 전환합니다."
               >
                 <span className={isTrMode ? "text-brand-700 font-extrabold" : "text-neutral-600"}>
-                  TR (배당 재투자) {isTrMode ? "ON" : "OFF"}
+                  TR (분배금 세전 재투자) {isTrMode ? "ON" : "OFF"}
                 </span>
                 <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
                   <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
@@ -210,12 +360,26 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
         
         {basket.length > 0 ? (
           <div className="animate-in fade-in duration-300">
-            <EtfCompareChart basket={basket as Etf[]} isTrMode={isTrMode} />
+            <EtfCompareTimeseriesChart
+              basket={basket as Etf[]}
+              isTrMode={isTrMode}
+              baseTicker={basket[0]?.ticker}
+              period={period}
+              onPeriodChange={setPeriod}
+              seriesMap={seriesMap}
+              quarantinedMap={quarantinedMap}
+              isLoading={isLoadingSeries}
+              onHoverTicker={setHoveredTicker}
+              focusedTicker={hoveredTicker}
+            />
             <EtfCompareView
               basket={basket as Etf[]}
               onRemove={handleRemoveEtf}
               isTrMode={isTrMode}
               onToggleTr={() => setIsTrMode((prev) => !prev)}
+              period={period}
+              seriesMap={seriesMap}
+              focusedTicker={hoveredTicker}
             />
           </div>
         ) : (

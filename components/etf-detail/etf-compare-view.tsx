@@ -5,6 +5,9 @@ import { ReturnCell, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import { isNewEtfForFeeMasking, getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
+import type { ComparePeriod, SeriesV2Data } from "@/components/compare/etf-compare-timeseries-chart";
+import { calculateStartDate } from "@/components/compare/etf-compare-timeseries-chart";
+import { normalizeMulti, type SeriesInput } from "@/lib/domain/normalize-series";
 
 type Props = {
   mainEtf?: Etf;
@@ -15,6 +18,9 @@ type Props = {
   comparisonProfiles?: Map<string, unknown>;
   isTrMode?: boolean;
   onToggleTr?: () => void;
+  period?: ComparePeriod;
+  seriesMap?: Record<string, SeriesV2Data | null>;
+  focusedTicker?: string | null;
 };
 
 const CAUTION_REASONS = new Set([
@@ -174,6 +180,9 @@ export function EtfCompareView({
   selectionReasons,
   isTrMode: controlledTrMode,
   onToggleTr,
+  period,
+  seriesMap,
+  focusedTicker,
 }: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
@@ -243,6 +252,122 @@ export function EtfCompareView({
     });
     return result;
   }, [compareList, isTrMode]);
+
+  // Derived series normalization when seriesMap and period are provided
+  const normalizedData = useMemo(() => {
+    if (!seriesMap || !period) return null;
+
+    let latestDate = "2023-01-02";
+    const inputs: SeriesInput[] = [];
+
+    for (const etf of compareList) {
+      const sData = seriesMap[etf.ticker];
+      if (sData && sData.dates.length > 0) {
+        if (sData.asOf > latestDate) {
+          latestDate = sData.asOf;
+        }
+        const values = isTrMode ? sData.tr : sData.close;
+        inputs.push({
+          ticker: etf.ticker,
+          dates: sData.dates,
+          values,
+          filled: sData.filled,
+        });
+      }
+    }
+
+    if (inputs.length === 0) return null;
+
+    const fromDate = calculateStartDate(latestDate, period);
+    const norm = normalizeMulti(inputs, fromDate, latestDate);
+
+    // Compute metrics per ticker
+    const metricsMap = new Map<
+      string,
+      {
+        terminalReturn: number | null;
+        maxDrawdown: number;
+        volatility: number | null;
+        positiveDaysRatio: number | null;
+      }
+    >();
+
+    for (const s of norm.series) {
+      if (s.coverage === "insufficient" || s.points.length === 0) {
+        metricsMap.set(s.ticker, {
+          terminalReturn: null,
+          maxDrawdown: 0,
+          volatility: null,
+          positiveDaysRatio: null,
+        });
+        continue;
+      }
+
+      // Filter valid points
+      const validPoints = s.points.filter((p) => p.value !== null);
+      let volatility: number | null = null;
+      let positiveDaysRatio: number | null = null;
+
+      if (validPoints.length >= 2) {
+        let posCount = 0;
+        let totalDailyChanges = 0;
+        const dailyReturns: number[] = [];
+
+        for (let i = 1; i < validPoints.length; i++) {
+          const prev = validPoints[i - 1].value!;
+          const curr = validPoints[i].value!;
+          const denom = 100 + prev;
+          if (denom !== 0) {
+            const r = (curr - prev) / denom;
+            dailyReturns.push(r);
+            if (curr > prev) {
+              posCount++;
+            }
+            totalDailyChanges++;
+          }
+        }
+
+        if (totalDailyChanges > 0) {
+          positiveDaysRatio = (posCount / totalDailyChanges) * 100;
+        }
+
+        if (dailyReturns.length >= 2) {
+          const mean = dailyReturns.reduce((acc, v) => acc + v, 0) / dailyReturns.length;
+          const variance =
+            dailyReturns.reduce((acc, v) => acc + (v - mean) ** 2, 0) /
+            (dailyReturns.length - 1);
+          const dailyStd = Math.sqrt(variance);
+          volatility = dailyStd * Math.sqrt(252) * 100;
+        }
+      }
+
+      metricsMap.set(s.ticker, {
+        terminalReturn: s.terminalReturn,
+        maxDrawdown: s.maxDrawdown,
+        volatility,
+        positiveDaysRatio,
+      });
+    }
+
+    return metricsMap;
+  }, [compareList, seriesMap, period, isTrMode]);
+
+  const maxSelectedReturn = useMemo(() => {
+    let max = -Infinity;
+    for (const etf of compareList) {
+      const v = normalizedData
+        ? normalizedData.get(etf.ticker)?.terminalReturn ?? null
+        : (isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns)?.[summaryPeriod] ?? null;
+      if (typeof v === "number" && Number.isFinite(v) && v > max) {
+        max = v;
+      }
+    }
+    return max === -Infinity ? null : max;
+  }, [compareList, normalizedData, isTrMode, summaryPeriod]);
+
+  const activePeriodLabel = period
+    ? (period === "1M" ? "1개월" : period === "3M" ? "3개월" : period === "6M" ? "6개월" : period === "1Y" ? "1년" : "3년")
+    : RETURN_PERIOD_LABELS[summaryPeriod];
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -336,31 +461,40 @@ export function EtfCompareView({
           {/* Period selector & dashboard toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 text-xs">
             {/* Mobile: single period selector */}
-            <div className="flex md:hidden items-center gap-1.5">
-              <span className="font-extrabold text-neutral-600 text-[11px]">수익률 기준:</span>
-              <div className="inline-flex rounded-lg bg-neutral-200/80 p-0.5">
-                {(["1m", "3m", "6m", "12m", "ytd"] as const).map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => setSummaryPeriod(p)}
-                    className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all ${
-                      summaryPeriod === p
-                        ? "bg-white text-brand-800 shadow-2xs font-black"
-                        : "text-neutral-600 hover:text-neutral-900"
-                    }`}
-                  >
-                    {RETURN_PERIOD_LABELS[p]}
-                  </button>
-                ))}
+            {period ? (
+              <div className="flex md:hidden items-center gap-1.5 py-1">
+                <span className="font-extrabold text-neutral-600 text-[11px]">선택 기간:</span>
+                <span className="px-2 py-0.5 rounded-md text-[11px] font-black bg-white text-brand-800 shadow-2xs border border-neutral-200">
+                  {activePeriodLabel}
+                </span>
               </div>
-            </div>
+            ) : (
+              <div className="flex md:hidden items-center gap-1.5 overflow-x-auto py-1">
+                <span className="font-extrabold text-neutral-600 text-[11px]">수익률 기준:</span>
+                <div className="inline-flex rounded-lg bg-neutral-200/80 p-0.5">
+                  {(["1m", "3m", "6m", "12m", "ytd"] as const).map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setSummaryPeriod(p)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all ${
+                        summaryPeriod === p
+                          ? "bg-white text-brand-800 shadow-2xs font-black"
+                          : "text-neutral-600 hover:text-neutral-900"
+                      }`}
+                    >
+                      {RETURN_PERIOD_LABELS[p]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Desktop: High-density Executive Dashboard Header */}
             <div className="hidden md:flex items-center gap-2">
               <span className="font-extrabold text-brand-900 text-xs">⚡ 5종목 핵심 지표 대시보드</span>
               <span className="text-[11px] text-neutral-400 font-normal">
-                (다기간 성과 · 실부담비용 · 순자산 · 유동성 · 괴리율 한눈에 비교)
+                (성과 · 위험 · 실부담비용 · 순자산 · 유동성 · 괴리율 한눈에 비교)
               </span>
             </div>
 
@@ -386,19 +520,33 @@ export function EtfCompareView({
             <table className="w-full text-left border-collapse table-fixed min-w-full md:min-w-[860px]">
               <thead className="bg-neutral-100 border-b border-neutral-200 text-[11px] font-black text-neutral-600">
                 <tr>
-                  {/* 1. ETF 종목: Mobile 35%, Desktop 24% */}
-                  <th className="py-2.5 px-2 sm:px-3 text-left w-[35%] md:w-[24%]">ETF 종목</th>
+                  {/* 1. ETF 종목: Mobile 35%, Desktop 22% */}
+                  <th className="py-2.5 px-2 sm:px-3 text-left w-[35%] md:w-[22%]">ETF 종목</th>
 
                   {/* 2. Mobile-only: Selected Period Return */}
                   <th className="py-2.5 px-1 sm:px-1.5 text-right whitespace-nowrap md:hidden w-[21%]">
-                    {RETURN_PERIOD_LABELS[summaryPeriod]} 수익률
+                    {activePeriodLabel} 수익률
                   </th>
 
-                  {/* 3~6. Desktop-only: Multi-period Returns */}
-                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">1개월</th>
-                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">3개월</th>
-                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">6개월</th>
-                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7.5%]">1년</th>
+                  {/* 3. Desktop-only: Selected Period Return */}
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[8.5%]">
+                    {activePeriodLabel} 수익률
+                  </th>
+
+                  {/* 4. Desktop-only: MDD */}
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7.5%]">
+                    최대낙폭(MDD)
+                  </th>
+
+                  {/* 5. Desktop-only: 변동성 */}
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">
+                    변동성
+                  </th>
+
+                  {/* 6. Desktop-only: 상승일 비율 */}
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">
+                    상승일 비율
+                  </th>
 
                   {/* 7. 실부담비용: Mobile 17%, Desktop 11.5% */}
                   <th className="py-2.5 px-1 sm:px-1.5 text-center whitespace-nowrap w-[17%] md:w-[11.5%]">실부담비용</th>
@@ -416,28 +564,26 @@ export function EtfCompareView({
                   <th className="py-2.5 px-1.5 text-center whitespace-nowrap hidden md:table-cell md:w-[8%]">괴리율</th>
 
                   {/* 12. Desktop-only: 퇴직연금 한도 */}
-                  <th className="py-2.5 px-2 text-center whitespace-nowrap hidden md:table-cell md:w-[8.5%]">퇴직연금</th>
+                  <th className="py-2.5 px-2 text-center whitespace-nowrap hidden md:table-cell md:w-[8%]">퇴직연금</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 text-xs">
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                  const returnVal = getActiveReturns(etf)?.[summaryPeriod] ?? null;
-                  const maxPeriodVal = maxReturnsByPeriod[summaryPeriod];
-                  const isTopReturn = typeof maxPeriodVal === "number" && returnVal === maxPeriodVal && compareList.length > 1;
+                  const returnVal = normalizedData
+                    ? normalizedData.get(etf.ticker)?.terminalReturn ?? null
+                    : getActiveReturns(etf)?.[summaryPeriod] ?? null;
+                  const isTopReturn = typeof maxSelectedReturn === "number" && returnVal === maxSelectedReturn && compareList.length > 1;
 
-                  // Desktop multi-period returns & top flags
-                  const ret1M = getActiveReturns(etf)?.["1m"] ?? null;
-                  const max1M = maxReturnsByPeriod["1m"];
-                  const isTop1M = typeof max1M === "number" && ret1M === max1M && compareList.length > 1;
-
-                  const ret3M = getActiveReturns(etf)?.["3m"] ?? null;
-                  const max3M = maxReturnsByPeriod["3m"];
-                  const isTop3M = typeof max3M === "number" && ret3M === max3M && compareList.length > 1;
-
-                  const ret6M = getActiveReturns(etf)?.["6m"] ?? null;
-                  const max6M = maxReturnsByPeriod["6m"];
-                  const isTop6M = typeof max6M === "number" && ret6M === max6M && compareList.length > 1;
+                  const mddVal = normalizedData?.get(etf.ticker)
+                    ? normalizedData.get(etf.ticker)!.maxDrawdown
+                    : null;
+                  const volVal = normalizedData?.get(etf.ticker)
+                    ? normalizedData.get(etf.ticker)!.volatility
+                    : null;
+                  const posDaysVal = normalizedData?.get(etf.ticker)
+                    ? normalizedData.get(etf.ticker)!.positiveDaysRatio
+                    : null;
 
                   const ret12M = getActiveReturns(etf)?.["12m"] ?? null;
                   const max12M = maxReturnsByPeriod["12m"];
@@ -474,8 +620,12 @@ export function EtfCompareView({
                   return (
                     <tr
                       key={etf.ticker}
-                      className={`hover:bg-neutral-50/80 transition-colors ${
-                        isBase ? "bg-brand-50/30 font-semibold" : ""
+                      className={`transition-colors ${
+                        focusedTicker === etf.ticker
+                          ? "bg-blue-50/70 ring-1 ring-inset ring-blue-300 font-semibold"
+                          : isBase
+                          ? "bg-brand-50/30 font-semibold"
+                          : "hover:bg-neutral-50/80"
                       }`}
                     >
                       {/* 1. ETF 종목 info */}
@@ -565,13 +715,13 @@ export function EtfCompareView({
                         </div>
                       </td>
 
-                      {/* 3. Desktop 1M Return */}
+                      {/* 3. Desktop Selected Period Return */}
                       <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
                         <div className="flex flex-col items-end gap-0.5">
-                          <span className={`text-[12px] font-black ${isTop1M ? "text-rose-600" : ""}`}>
-                            <ReturnCell value={ret1M} isTr={isTrMode} />
+                          <span className={`text-[12px] font-black ${isTopReturn ? "text-rose-600" : ""}`}>
+                            <ReturnCell value={returnVal} isTr={isTrMode} />
                           </span>
-                          {isTop1M && (
+                          {isTopReturn && (
                             <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
                               1위
                             </span>
@@ -579,46 +729,25 @@ export function EtfCompareView({
                         </div>
                       </td>
 
-                      {/* 4. Desktop 3M Return */}
+                      {/* 4. Desktop MDD (최대낙폭) */}
                       <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={`text-[12px] font-black ${isTop3M ? "text-rose-600" : ""}`}>
-                            <ReturnCell value={ret3M} isTr={isTrMode} />
-                          </span>
-                          {isTop3M && (
-                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
-                              1위
-                            </span>
-                          )}
-                        </div>
+                        <span className="text-[12px] font-bold text-neutral-700">
+                          {mddVal !== null ? `${mddVal.toFixed(2)}%` : "-"}
+                        </span>
                       </td>
 
-                      {/* 5. Desktop 6M Return */}
+                      {/* 5. Desktop Volatility (변동성) */}
                       <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={`text-[12px] font-black ${isTop6M ? "text-rose-600" : ""}`}>
-                            <ReturnCell value={ret6M} isTr={isTrMode} />
-                          </span>
-                          {isTop6M && (
-                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
-                              1위
-                            </span>
-                          )}
-                        </div>
+                        <span className="text-[12px] font-bold text-neutral-700">
+                          {volVal !== null ? `${volVal.toFixed(2)}%` : "-"}
+                        </span>
                       </td>
 
-                      {/* 6. Desktop 1Y Return */}
+                      {/* 6. Desktop Positive Days Ratio (상승일 비율) */}
                       <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={`text-[12px] font-black ${isTop12M ? "text-rose-600" : ""}`}>
-                            <ReturnCell value={ret12M} isTr={isTrMode} />
-                          </span>
-                          {isTop12M && (
-                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
-                              1위
-                            </span>
-                          )}
-                        </div>
+                        <span className="text-[12px] font-bold text-neutral-700">
+                          {posDaysVal !== null ? `${posDaysVal.toFixed(1)}%` : "-"}
+                        </span>
                       </td>
 
                       {/* 7. 실부담비용 (Shared) */}

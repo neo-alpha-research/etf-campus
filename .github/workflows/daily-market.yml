@@ -92,7 +92,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0"
+          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0" pytest
 
 
       - name: Refresh official ETF data
@@ -181,6 +181,14 @@ jobs:
           python scripts/calculate_total_returns.py
           python scripts/build_distribution_summaries.py
 
+      - name: Build v2 price series (quarantine gate, fail-closed)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: python scripts/generate_series_v2.py --fail-on-quarantine
+
+      - name: Audit v2 series price integrity (SSOT the chart consumes)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: python scripts/verify_split_adjustment.py --series-dir public/data/series/v2
+
       # Only the retry rung that actually receives a new official close runs
       # the distribution pipeline. This keeps it coupled to the 06:17 KST
       # attempt while allowing a later retry to recover from a delayed feed.
@@ -207,7 +215,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index public/data/series/v2 | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -224,6 +232,7 @@ jobs:
           python scripts/verify_zero_hallucination.py
           python scripts/rules/validate_pension_consistency.py
           python scripts/rules/validate_evidence_integrity.py
+          python scripts/rules/validate_covered_call_distribution.py
 
       - name: Record issuer coverage closure (tracking update)
         if: steps.guard.outputs.skip != 'true'
@@ -246,14 +255,15 @@ jobs:
           python scripts/validate_d1_status.py "$BAS_DT"
 
       - name: Apply unapplied D1 migrations
+        continue-on-error: true
         if: steps.guard.outputs.skip != 'true'
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: |
-          npx wrangler d1 migrations apply etf-prices --remote
+          npx --yes wrangler@4.124.0 d1 migrations apply etf-prices --remote
 
-      - name: Publish canonical market-source snapshot and event outbox
+      - name: Publish canonical market-source snapshot to D1
         # Run even when the repository snapshot did not change so a previously failed
         # source-hub ingest can recover without another external API collection.
         continue-on-error: true
@@ -262,14 +272,22 @@ jobs:
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
-        run: python scripts/publish_market_source_snapshot.py
+        run: python scripts/publish_market_source_snapshot.py --skip-trigger
+
+      # [Worker D1 Retirement Step 1] Severed legacy market-briefing-publisher trigger.
+      # build_local_briefing_payload.py -> sync_osmu_kv.py is the sole SSOT for KV publication.
+      # - name: Trigger market briefing publication event (RETIRED)
+      #   if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+      #   env:
+      #     MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+      #   run: python scripts/publish_market_source_snapshot.py --trigger-only
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

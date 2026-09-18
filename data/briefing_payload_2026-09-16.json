@@ -665,7 +665,7 @@
     "peerGroups": [
       {
         "peerGroup": "자산배분 & 채권혼합",
-        "assetClass": "채권",
+        "assetClass": "혼합자산",
         "etfCount": 79,
         "equalWeightReturnPct": 0.53,
         "cappedAumWeightedReturnPct": 0.81,
@@ -675,7 +675,7 @@
       },
       {
         "peerGroup": "인도 시장 & 밸류체인",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 11,
         "equalWeightReturnPct": -0.47,
         "cappedAumWeightedReturnPct": -0.04,
@@ -685,7 +685,7 @@
       },
       {
         "peerGroup": "기업집단",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 13,
         "equalWeightReturnPct": 0.14,
         "cappedAumWeightedReturnPct": 0.79,
@@ -705,7 +705,7 @@
       },
       {
         "peerGroup": "비만·신약 & 바이오시밀러",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 16,
         "equalWeightReturnPct": -1.03,
         "cappedAumWeightedReturnPct": -0.79,
@@ -715,7 +715,7 @@
       },
       {
         "peerGroup": "고배당 & 인컴 전략",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 33,
         "equalWeightReturnPct": -0.23,
         "cappedAumWeightedReturnPct": -0.31,
@@ -725,7 +725,7 @@
       },
       {
         "peerGroup": "해외 월배당 & 커버드콜",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 32,
         "equalWeightReturnPct": 0.72,
         "cappedAumWeightedReturnPct": 0.6,
@@ -735,7 +735,7 @@
       },
       {
         "peerGroup": "일본 테크 & 상사",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 11,
         "equalWeightReturnPct": 0.56,
         "cappedAumWeightedReturnPct": 1.06,
@@ -745,7 +745,7 @@
       },
       {
         "peerGroup": "2차전지 셀 & 소재",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 17,
         "equalWeightReturnPct": -0.92,
         "cappedAumWeightedReturnPct": -1.22,
@@ -755,7 +755,7 @@
       },
       {
         "peerGroup": "AI 반도체 & HBM",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 19,
         "equalWeightReturnPct": 2.11,
         "cappedAumWeightedReturnPct": 3.41,
@@ -765,7 +765,7 @@
       },
       {
         "peerGroup": "글로벌 원자력 & SMR",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 5,
         "equalWeightReturnPct": -0.25,
         "cappedAumWeightedReturnPct": -0.26,
@@ -775,7 +775,7 @@
       },
       {
         "peerGroup": "코스피 200 코어",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 24,
         "equalWeightReturnPct": 1.85,
         "cappedAumWeightedReturnPct": 1.92,
@@ -785,7 +785,7 @@
       },
       {
         "peerGroup": "K-푸드 & K-뷰티",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 8,
         "equalWeightReturnPct": -0.27,
         "cappedAumWeightedReturnPct": 0.79,
@@ -795,7 +795,7 @@
       },
       {
         "peerGroup": "금융·은행·증권·보험",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 8,
         "equalWeightReturnPct": 0.29,
         "cappedAumWeightedReturnPct": -0.42,
@@ -805,7 +805,7 @@
       },
       {
         "peerGroup": "스타일·팩터",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 26,
         "equalWeightReturnPct": 0.59,
         "cappedAumWeightedReturnPct": 0.93,
@@ -825,7 +825,7 @@
       },
       {
         "peerGroup": "국내 월배당 & 커버드콜",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 21,
         "equalWeightReturnPct": 1.2,
         "cappedAumWeightedReturnPct": 1.58,
@@ -835,7 +835,7 @@
       },
       {
         "peerGroup": "사이버보안 & 양자컴퓨팅",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 5,
         "equalWeightReturnPct": 0.75,
         "cappedAumWeightedReturnPct": 0.8,
@@ -855,7 +855,7 @@
       },
       {
         "peerGroup": "S&P 500 시장대표",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 36,
         "equalWeightReturnPct": 0.54,
         "cappedAumWeightedReturnPct": 0.64,
@@ -865,7 +865,7 @@
       },
       {
         "peerGroup": "글로벌 로보틱스 & 자동화",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 8,
         "equalWeightReturnPct": 0.84,
         "cappedAumWeightedReturnPct": 0.82,
@@ -875,7 +875,7 @@
       },
       {
         "peerGroup": "에너지 (원유·천연가스)",
-        "assetClass": "주식-해외",
+        "assetClass": "원자재",
         "etfCount": 5,
         "equalWeightReturnPct": 1.18,
         "cappedAumWeightedReturnPct": 1.04,
@@ -885,7 +885,7 @@
       },
       {
         "peerGroup": "인공지능",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 8,
         "equalWeightReturnPct": 1.55,
         "cappedAumWeightedReturnPct": 2.23,
@@ -895,7 +895,7 @@
       },
       {
         "peerGroup": "생성형 AI & 소프트웨어",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 23,
         "equalWeightReturnPct": 1.04,
         "cappedAumWeightedReturnPct": 1.15,
@@ -905,7 +905,7 @@
       },
       {
         "peerGroup": "단일종목",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 12,
         "equalWeightReturnPct": -0.2,
         "cappedAumWeightedReturnPct": -0.1,
@@ -915,7 +915,7 @@
       },
       {
         "peerGroup": "시가총액",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 7,
         "equalWeightReturnPct": 0.54,
         "cappedAumWeightedReturnPct": 0.67,
@@ -935,7 +935,7 @@
       },
       {
         "peerGroup": "차이나 테크 & 전기차",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 1,
         "equalWeightReturnPct": -0.82,
         "cappedAumWeightedReturnPct": -0.82,
@@ -945,7 +945,7 @@
       },
       {
         "peerGroup": "나스닥 100 코어",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 12,
         "equalWeightReturnPct": 0.38,
         "cappedAumWeightedReturnPct": 0.56,
@@ -955,7 +955,7 @@
       },
       {
         "peerGroup": "K-방위산업",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 6,
         "equalWeightReturnPct": -1.04,
         "cappedAumWeightedReturnPct": -1.57,
@@ -965,7 +965,7 @@
       },
       {
         "peerGroup": "글로벌 우주항공 & 방산",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 16,
         "equalWeightReturnPct": 0.84,
         "cappedAumWeightedReturnPct": 0.41,
@@ -975,7 +975,7 @@
       },
       {
         "peerGroup": "글로벌 헬스케어 & 메디컬",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 11,
         "equalWeightReturnPct": 0.59,
         "cappedAumWeightedReturnPct": 0.61,
@@ -1005,7 +1005,7 @@
       },
       {
         "peerGroup": "밸류업 & 금융지주·은행",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 25,
         "equalWeightReturnPct": 0.13,
         "cappedAumWeightedReturnPct": 0.18,
@@ -1015,7 +1015,7 @@
       },
       {
         "peerGroup": "원자력 & SMR",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 5,
         "equalWeightReturnPct": -2.4,
         "cappedAumWeightedReturnPct": -2.14,
@@ -1025,7 +1025,7 @@
       },
       {
         "peerGroup": "전력 인프라 & 변압기",
-        "assetClass": "리츠·인프라",
+        "assetClass": "주식",
         "etfCount": 16,
         "equalWeightReturnPct": 1.35,
         "cappedAumWeightedReturnPct": 1.82,
@@ -1035,7 +1035,7 @@
       },
       {
         "peerGroup": "K-엔터 & 미디어·게임",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 11,
         "equalWeightReturnPct": -1.59,
         "cappedAumWeightedReturnPct": -1.65,
@@ -1045,7 +1045,7 @@
       },
       {
         "peerGroup": "미국 배당다우존스",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 12,
         "equalWeightReturnPct": 0.69,
         "cappedAumWeightedReturnPct": 0.79,
@@ -1055,7 +1055,7 @@
       },
       {
         "peerGroup": "조선 & 해운",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 6,
         "equalWeightReturnPct": -1.23,
         "cappedAumWeightedReturnPct": -1.71,
@@ -1065,7 +1065,7 @@
       },
       {
         "peerGroup": "미국 빅테크 (M7)",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 11,
         "equalWeightReturnPct": 0.34,
         "cappedAumWeightedReturnPct": 0.35,
@@ -1075,7 +1075,7 @@
       },
       {
         "peerGroup": "K컬처",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 3,
         "equalWeightReturnPct": -1.33,
         "cappedAumWeightedReturnPct": -1.34,
@@ -1085,7 +1085,7 @@
       },
       {
         "peerGroup": "피지컬 AI & 지능형 로봇",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 5,
         "equalWeightReturnPct": -2.45,
         "cappedAumWeightedReturnPct": -2.27,
@@ -1095,7 +1095,7 @@
       },
       {
         "peerGroup": "글로벌 AI 반도체",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 24,
         "equalWeightReturnPct": 2.06,
         "cappedAumWeightedReturnPct": 1.8,
@@ -1105,7 +1105,7 @@
       },
       {
         "peerGroup": "전통 반도체 소부장",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 15,
         "equalWeightReturnPct": 3.41,
         "cappedAumWeightedReturnPct": 3.76,
@@ -1115,7 +1115,7 @@
       },
       {
         "peerGroup": "혼합자산",
-        "assetClass": "혼합·자산배분",
+        "assetClass": "혼합자산",
         "etfCount": 4,
         "equalWeightReturnPct": -0.31,
         "cappedAumWeightedReturnPct": 0.42,
@@ -1125,7 +1125,7 @@
       },
       {
         "peerGroup": "자동차 & 스마트모빌리티",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 8,
         "equalWeightReturnPct": -0.6,
         "cappedAumWeightedReturnPct": -0.85,
@@ -1135,7 +1135,7 @@
       },
       {
         "peerGroup": "산업·섹터",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 1,
         "equalWeightReturnPct": 0.19,
         "cappedAumWeightedReturnPct": 0.19,
@@ -1155,7 +1155,7 @@
       },
       {
         "peerGroup": "철강·화학",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 4,
         "equalWeightReturnPct": -1.1,
         "cappedAumWeightedReturnPct": -1.12,
@@ -1165,7 +1165,7 @@
       },
       {
         "peerGroup": "건설·인프라",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 3,
         "equalWeightReturnPct": -1.11,
         "cappedAumWeightedReturnPct": -1.96,
@@ -1185,7 +1185,7 @@
       },
       {
         "peerGroup": "금리·파킹",
-        "assetClass": "주식-해외",
+        "assetClass": "금리·파킹",
         "etfCount": 3,
         "equalWeightReturnPct": 0.56,
         "cappedAumWeightedReturnPct": 0.57,
@@ -1215,7 +1215,7 @@
       },
       {
         "peerGroup": "글로벌 럭셔리 & 소비재",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 7,
         "equalWeightReturnPct": -0.35,
         "cappedAumWeightedReturnPct": -0.51,
@@ -1235,7 +1235,7 @@
       },
       {
         "peerGroup": "베트남 & 이머징 성장주",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 1,
         "equalWeightReturnPct": 0.72,
         "cappedAumWeightedReturnPct": 0.72,
@@ -1245,7 +1245,7 @@
       },
       {
         "peerGroup": "IT·반도체",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 2,
         "equalWeightReturnPct": 1.38,
         "cappedAumWeightedReturnPct": 2.0,
@@ -1255,7 +1255,7 @@
       },
       {
         "peerGroup": "의료 AI & 디지털 헬스",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 3,
         "equalWeightReturnPct": -1.15,
         "cappedAumWeightedReturnPct": -1.1,
@@ -1265,7 +1265,7 @@
       },
       {
         "peerGroup": "국내 대형주",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 1,
         "equalWeightReturnPct": 1.06,
         "cappedAumWeightedReturnPct": 1.06,
@@ -1285,7 +1285,7 @@
       },
       {
         "peerGroup": "코스피200",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 2,
         "equalWeightReturnPct": -0.34,
         "cappedAumWeightedReturnPct": 0.58,
@@ -1295,7 +1295,7 @@
       },
       {
         "peerGroup": "친환경 & 신재생에너지",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 10,
         "equalWeightReturnPct": 0.43,
         "cappedAumWeightedReturnPct": 0.09,
@@ -1305,7 +1305,7 @@
       },
       {
         "peerGroup": "전기차 & 자율주행",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 4,
         "equalWeightReturnPct": 0.61,
         "cappedAumWeightedReturnPct": 0.74,
@@ -1315,7 +1315,7 @@
       },
       {
         "peerGroup": "글로벌 신재생에너지",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 6,
         "equalWeightReturnPct": 0.35,
         "cappedAumWeightedReturnPct": 0.25,
@@ -1325,7 +1325,7 @@
       },
       {
         "peerGroup": "기후테크",
-        "assetClass": "주식-국내",
+        "assetClass": "주식",
         "etfCount": 3,
         "equalWeightReturnPct": -0.02,
         "cappedAumWeightedReturnPct": -0.05,
@@ -1335,7 +1335,7 @@
       },
       {
         "peerGroup": "에너지·신재생에너지",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 1,
         "equalWeightReturnPct": 2.83,
         "cappedAumWeightedReturnPct": 2.83,
@@ -1345,7 +1345,7 @@
       },
       {
         "peerGroup": "비만치료제 & GLP-1",
-        "assetClass": "주식-해외",
+        "assetClass": "주식",
         "etfCount": 4,
         "equalWeightReturnPct": 0.12,
         "cappedAumWeightedReturnPct": -0.35,

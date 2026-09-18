@@ -238,6 +238,18 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         run: python scripts/build_local_briefing_payload.py
 
+      - name: Set up Node.js
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Node dependencies
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: npm ci
+
       - name: Regenerate public screener and search index
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         run: npx --yes tsx scripts/generate-screener-json.ts

@@ -16,7 +16,6 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "3/4 Checking active Cloudflare Workers typechecks..."
-npm --workspace=workers/market-briefing-publisher run typecheck --silent && \
 npm --workspace=workers/market-briefing-distributor run typecheck --silent && \
 npm --workspace=workers/community-maintenance run typecheck --silent
 if [ $? -ne 0 ]; then

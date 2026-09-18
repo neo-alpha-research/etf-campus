@@ -162,10 +162,6 @@ jobs:
             echo "Snapshot is still stale; the next hourly schedule will retry." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Refresh classification review draft
-        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
-        run: python scripts/build_classification_review.py
-
       - name: Classify new listings via regulatory engine & sync personal pension & onboard taxonomy
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: |

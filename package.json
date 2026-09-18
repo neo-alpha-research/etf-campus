@@ -24,6 +24,7 @@
     "verify:utf8": "node scripts/verify-utf8.mjs",
     "test": "npm run verify:utf8 && vitest run",
     "test:watch": "vitest",
+    "test:changed": "vitest run --changed",
     "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {

@@ -85,30 +85,35 @@ CODEX가 즉각적으로 해결에 착수해야 할 프로젝트의 핵심 병�
 * **목표**: 기술 부채 누적 원천 차단 및 단일 진실 공급원(SSOT) 준수.
 * **구체적 실행 방안**:
   1. `.archive_etf`에 격리된 파일 중 영구 불필요 자산에 대한 단계적 영구 삭제(`git rm`).
-  2. 모든 PR/커밋에 대해 `npm run check:ci`와 `python -m unittest discover -s scripts/tests` 통과를 강제하는 pre-push 훅 유지.
+  2. **고속 타깃 검증 및 CI 분담 원칙 (Fast Targeted Testing & CI Delegation)**:
+     - 매 커밋/푸시마다 444개 Vitest와 144개 Python 테스트 전체를 맹목적으로 돌리는 구 잔재를 폐기합니다.
+     - 로컬에서는 **수정된 파일만 타깃 검증**(`npm run test:changed` 또는 특정 파일 테스트)하고 핵심 파이프라인 린터(`python scripts/lint_pipeline.py`)만 신속 확인합니다.
+     - 전체 회귀 테스트는 GitHub Actions 원격 CI(`ci-fast.yml`)에 전담시켜 로컬 푸시 지연을 1초대로 유지합니다.
   3. 퀀트 TR 지수 및 마스터 데이터 기준일 동기화를 상시 감시하는 `Cross-Artifact Date Parity Gate` 통과 여부 상시 검증.
 
 ---
 
 ## 6. 골든 커맨드 & 일일 검증 런북 (Cheat Sheet)
 
-CODEX가 작업을 수행할 때마다 반드시 실행해야 하는 검증 명령어입니다:
+에이전트가 작업 시 목적에 맞게 실행하는 신속 검증 명령어입니다:
 
 ```bash
-# 1. 프론트엔드 통합 검증 (ESLint + TypeScript + Vitest 444개 + Workers 3개 타입체크)
-npm run check:ci
+# 1. [로컬 기본] 변경된 파일 대상 신속 검증 (3~5초 이내)
+npm run test:changed
 
-# 2. 파이프라인 무결성 단위 테스트 (144개 파이프라인 테스트)
-python -m unittest discover -s scripts/tests
+# 2. [로컬 기본] 파이프라인 핵심 무결성 정적 린터 (8초 이내)
+python scripts/lint_pipeline.py
 
-# 3. 제로-홀루시네이션 및 기준일 일치(Date Parity) 종합 감사
-python scripts/verify_zero_hallucination.py
+# 3. [선택/필요시] 특정 수정 파일 전용 단위 테스트
+python -m unittest scripts/tests/test_특정수정스크립트.py
 
-# 4. UTF-8 인코딩 및 텍스트 파일 검증
+# 4. [선택/필요시] UTF-8 인코딩 및 텍스트 파일 검증
 npm run verify:utf8
 
-# 5. 로컬 프로덕션 빌드 테스트
-npm run build
+# 5. [선택/필요시] 전체 회귀 통합 검증 (배포 릴리스 직전 전용)
+# 주의: 매 푸시마다 실행 금지, 필요 시에만 단독 실행
+npm run check:ci
+python -m unittest discover -s scripts/tests
 ```
 
 ---

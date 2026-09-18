@@ -93,11 +93,6 @@ else
   fi
 fi
 
-# --- Step: Refresh classification review draft ---
-if [ "$FRESH" = "true" ]; then
-  run_py scripts/build_classification_review.py
-fi
-
 # --- Step: Detect price snapshot changes ---
 if [ "$DRY_RUN" = "1" ]; then
   SNAPSHOT_CHANGED="true"

@@ -61,9 +61,9 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
   - 기계적인 번호 선택지(`1번: ... / 2번: ...`) 및 투표 유도 문구(`댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아`) 전면 금지.
   - `[내 입장 먼저 못박기] ➔ [반대 경로 초대] ➔ [저마찰 경험 단위 질문]` 3층 구조로 완결.
 - **프로필 가치 전환 훅 (Profile Value Bridge)**:
-  - 마감 직전 `국내 1,171개 ETF 진짜 실부담비용과 연금 계좌 매수 가능 여부는 프로필 링크 [ETF 캠퍼스]에 전수 정리해뒀어.`와 같은 구체적 가치 제안을 반드시 탑재.
-- **발행 및 태그 규율**:
-  - 첫 댓글(firstComment)은 전면 폐지하며 본문 1개 완결형 포스트로 구성.
+  - 마감 직전 `국내 상장 전 종목(1,100여 개) ETF 진짜 실부담비용과 연금 계좌 매수 가능 여부는 프로필 링크 [ETF 캠퍼스]에 전수 정리해뒀어.`와 같은 구체적 가치 제안을 반드시 탑재.
+- **발행 및 태그 규율 (마켓 브리핑 및 단일 포스트 기준)**:
+  - 데일리 마켓 브리핑 독자 파이프라인(`workers/market-briefing-distributor`) 및 A2(Neo 빌더) 단일 포스트는 본문 1개 완결형으로 구성하며 불필요한 첫 댓글 링크를 배제함. (※ 복수 타래형 심층 콘텐츠의 서사 아키텍처 및 첫 댓글 마중물 규정은 상위 마케팅 SSOT인 `D:\Marketing_Writer\AGENTS.md`를 우선 준수함).
   - 본문 내 외부 링크 삽입 금지 (알고리즘 패널티 방지).
   - 해시태그는 게시물당 주제 맞춤 니치 태그 **단 1개만** 사용 (다중 해시태그 스팸 판정 방지).
   - **발행 시각**: 저녁 골든타임 [20:00~21:00] 내 분 단위 Jitter 난수(20:05~20:48) 발행 원칙.
@@ -102,15 +102,15 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 - **2-Tier 평가 내 모바일 검증 의무화**:
   - Tier 1(실무자 분석) 및 Tier 2(고객 페르소나 평가) 시 모바일 환경(30대 모바일 사용자, 50대 노안/큰 글씨 가독성) 피드백을 필수 항목으로 점검한다.
 
-## Gemini API 표준 아키텍처 원칙 (Unified Gemini 7-Token Pool & 5-Tier Waterfall Mandate)
+## Gemini API 표준 아키텍처 원칙 (Unified Gemini 8-Token Pool & 4-Tier Waterfall Mandate)
 - **전사 표준 클라이언트 단일화 (`lib/ai/gemini-client.ts`)**:
   - 향후 ETF Campus 프로젝트 내에서 Gemini API를 호출하는 모든 스크립트, 워커, 백엔드 로직은 반드시 `lib/ai/gemini-client.ts`의 `callGeminiWithWaterfall` 함수를 사용해야 한다.
-  - 개별 파일에 단일 API 키를 하드코딩하거나, 단일 모델(`gemini-2.5-flash` 등)만 고정하여 호출하는 것을 **엄격히 금지**한다.
-- **7대 마스터 토큰 풀 (Token Pool Load-Balancing)**:
-  - `MASTER_GEMINI_TOKENS` 7대 토큰 풀을 순회하여 호출 한도(429) 및 인증 오류(403) 발생 시 자동으로 다음 유효 토큰으로 스위칭한다.
-- **5계층 모델 워터폴 (Waterfall Model Degradation)**:
+  - 개별 파일에 단일 API 키를 하드코딩하거나, 특정 단일 모델만 고정하여 호출하는 것을 **엄격히 금지**한다.
+- **8대 토큰 멀티 풀 (Token Pool Load-Balancing — 2026-09-09 SSOT 확정)**:
+  - `AIzaSy` 계열 2개 + `AQ.` 계열 6개로 구성된 8대 토큰 멀티 풀을 순회하여 호출 한도(429) 및 인증 오류(403) 발생 시 자동으로 다음 유효 토큰으로 스위칭한다.
+- **4계층 모델 워터폴 (Waterfall Model Degradation)**:
   - 호출 시 항상 최신 모델인 **`gemini-3.8-flash`**를 최우선으로 시도하고, 일시적 장애(503/500/504)나 모델 미지원 시 하위 모델로 자동 강하한다:
-    `gemini-3.8-flash` ➡️ `gemini-3.7-flash` ➡️ `gemini-3.6-flash` ➡️ `gemini-flash-latest` ➡️ `gemini-2.5-flash`
+    `gemini-3.8-flash` ➡️ `gemini-3.7-flash` ➡️ `gemini-3.6-flash` ➡️ `gemini-flash-latest`
 - **Graceful Fallback 필수**:
   - 모든 토큰과 모델이 고갈된 경우에도 프로세스가 강제 중단(Crash)되지 않도록, 사전에 검증된 정적 고품질 금융 위원회 분석 데이터나 규칙 기반 데이터로 즉시 전환되는 비상 방어 체계를 반드시 동반 구현한다.
 
@@ -162,8 +162,8 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
    - 설정·스키마·인프라 변경 시 "작성했다"와 "적용했다"를 철저히 구분하라. 파일 존재는 증거가 아니며, 적용 후 실제 조회 결과(Observation)만 완료의 증거로 인정한다.
 6. **검사의 검출력 실증 규율 (Failure Detection Verification Mandate)**:
    - 실패 유형에 대응하는 검사를 만들 때, 그 검사가 실제 발생했던 사례를 잡는지 테스트로 증명하라. 검사 개수가 아니라 검출 여부가 완료 기준이다.
-7. **보고 원시 출력 규율 (Raw Output Mandate)**:
-   - 보고서에 아래 일곱 명령의 출력을 요약 없이 그대로 첨부하라:
+7. **보고 원시 출력 규율 (Raw Output Mandate — 인프라·마이그레이션·배포 커밋 시 필수)**:
+   - D1 마이그레이션, CI 워크플로 갱신, 프로덕션 배포 등 시스템 무결성에 직결되는 주요 커밋 보고 시 아래 일곱 명령의 출력을 요약 없이 첨부하라. (단순 UI/문구/단위 코드 수정 시에는 핵심 변경 요약으로 효율화 가능):
      - `git branch --show-current`
      - `git log origin/main -n 1 --oneline`
      - `git log -n <N> --oneline`
@@ -186,6 +186,10 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
    - **머지 방향은 항상 `작업 브랜치 → main` 단방향이다.** `main`에 체크아웃한 상태에서 `git merge <작업브랜치>`로 통합하며, 작업 브랜치에서 `git merge main`으로 만든 병합 커밋을 `main`에 푸시하는 것을 금지한다. 작업 브랜치의 최신화가 필요하면 `git rebase main` 또는 `git merge main`을 쓰되, **그 브랜치를 그대로 main에 밀지 않는다.**
    - 커밋 메시지에 `wip`, `checkpoint`, `temp`, `test(ci)` 접두/표현이 포함된 커밋은 **`main`에 도달해서는 안 된다.** 작업 브랜치에서 `git rebase -i`로 정리(squash)한 뒤 통합한다.
    - `main`에 푸시하기 전 `git log origin/main..HEAD --oneline`을 확인하고, 위 금지 표현이 포함된 커밋이 있으면 푸시를 중단한다.
+11. **고속 타깃 검증 및 CI 분담 규율 (Fast Targeted Testing & CI Delegation Mandate)**:
+   - **로컬 검증 경량화 (Zero Push Latency)**: 매 푸시 및 커밋 작업 시마다 444개 Vitest와 144개 Python 테스트 전체를 맹목적으로 돌리는 구 잔재를 엄격히 금지한다.
+   - **타깃 검증 원칙**: 로컬에서는 변경된 파일 대상의 고속 테스트(`npm run test:changed` 또는 수정한 모듈 전용 단위 테스트) 및 핵심 파이프라인 무결성 린터(`python scripts/lint_pipeline.py`)만 신속 수행(10초 컷)한다.
+   - **원격 CI 전담 위임**: 프로젝트 전수 회귀 테스트는 GitHub Actions 클라우드 러너(`ci-fast.yml`, `daily-market.yml`)에 전담 위임하여 로컬 푸시 속도를 초고속으로 유지한다. (즉시 푸시가 필요할 때는 `git push --no-verify` 허용).
 
 
 

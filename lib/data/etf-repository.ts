@@ -212,24 +212,20 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const distributionByTicker = loadDistributionSummaryIndex(dataDirectory);
 
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
-  const pensionRows = readCsv(path.join(dataDirectory, "pension_verify_sheet.csv"));
 
   const masterByTicker = indexUnique(masterRows, "ticker", "etf_master_draft.csv");
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
-  const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
   const classificationByTicker = loadClassificationIndex(dataDirectory);
   const trReturnsByTicker = loadTrReturnsIndex(dataDirectory);
   const issuerPensionDates = loadIssuerPensionDisclosureDates(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
-  assertCompleteJoin(pensionByTicker, tickers, "pension_verify_sheet.csv");
 
   return masterRows.map((master) => {
     const ticker = requireField(master, "ticker", "etf_master_draft.csv");
     const returns = returnsByTicker.get(ticker)!;
     const trData = trReturnsByTicker.get(ticker) || { tr: {}, netTr: {} };
-    const pension = pensionByTicker.get(ticker)!;
 
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
@@ -259,20 +255,20 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(
-        (optionalText(master, "pension_eligible") || optionalText(pension, "final_pension") || "불가") as string,
+        (optionalText(master, "pension_eligible") || "불가") as string,
         PENSION_STATUSES,
         "pension_eligible"
       ) as PensionStatus,
-      pensionSource: (optionalText(master, "pension_source") || optionalText(pension, "final_src") || "미확인") as string,
-      pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
-      pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as PensionSourceType | null,
-      pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,
-      pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as PensionConfidenceLevel | null,
-      personalPension: (optionalText(master, "personal_pension") || optionalText(pension, "personal_pension") || null) as "가능" | "불가" | null,
-      personalPensionLimit: (optionalText(master, "personal_pension_limit") || optionalText(pension, "personal_pension_limit") || null) as "100%" | "불가" | null,
+      pensionSource: (optionalText(master, "pension_source") || "미확인") as string,
+      pensionLimit: optionalText(master, "pension_limit") as PensionLimit | null,
+      pensionSourceType: optionalText(master, "pension_source") as PensionSourceType | null,
+      pensionVerified: optionalText(master, "pension_verified") as "Y" | "N" | null,
+      pensionConfidence: optionalText(master, "pension_confidence") as PensionConfidenceLevel | null,
+      personalPension: (optionalText(master, "personal_pension") || null) as "가능" | "불가" | null,
+      personalPensionLimit: (optionalText(master, "personal_pension_limit") || null) as "100%" | "불가" | null,
       personalPensionAsOfDate: issuerPensionDates.get(issuer.issuerId) ?? null,
-      isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
-      isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,
+      isaEligible: optionalText(master, "isa_eligible") as IsaStatus | null,
+      isaEducationRequired: optionalText(master, "isa_education_required") as "Y" | "N" | null,
       isaTaxType: (optionalText(master, "isa_tax_type") || null) as IsaTaxType | null,
       isaTaxBenefit: (optionalText(master, "isa_tax_benefit") || null) as IsaTaxBenefit | null,
       liquidity: requireField(master, "liquidity", `master:${ticker}`),

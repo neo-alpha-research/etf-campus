@@ -9,7 +9,6 @@ Implements the official 3-status Personal Pension Architecture:
 
 Atomically updates:
 - data/regulatory/personal_pension_registry.json
-- data/pension_verify_sheet.csv
 - data/etf_master_draft.csv
 - public/data/screener.json
 - data/reports/pension_verification_summary.json
@@ -34,7 +33,6 @@ EVIDENCE_REF = "data/regulatory/sources/kofia_evidence_extract_20260905.xml"
 
 def run_sync(dry_run: bool = False) -> dict[str, int]:
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
-    verify_sheet_path = REPO_ROOT / "data/pension_verify_sheet.csv"
     registry_path = REPO_ROOT / "data/regulatory/personal_pension_registry.json"
     screener_path = REPO_ROOT / "public/data/screener.json"
     summary_path = REPO_ROOT / "data/reports/pension_verification_summary.json"
@@ -61,12 +59,7 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
     with registry_path.open("r", encoding="utf-8") as f:
         registry_data = json.load(f)
 
-    # 4. Load Verify Sheet
-    with verify_sheet_path.open("r", encoding="utf-8-sig", newline="") as f:
-        verify_rows = list(csv.DictReader(f))
-        verify_fieldnames = list(verify_rows[0].keys())
-
-    # 5. Load Screener
+    # 4. Load Screener
     with screener_path.open("r", encoding="utf-8") as f:
         screener_items = json.load(f)
 
@@ -145,13 +138,6 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
                 "verified_at": today_str,
             }
 
-    if "personal_pension" in verify_fieldnames:
-        for r in verify_rows:
-            tk = r.get("ticker", "").strip().upper()
-            if tk in updates:
-                r["personal_pension"] = updates[tk]["personal_pension"]
-                if "personal_pension_limit" in r:
-                    r["personal_pension_limit"] = updates[tk]["personal_pension_limit"]
 
     for r in master_rows:
         tk = r.get("ticker", "").strip().upper()
@@ -232,12 +218,6 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
     with registry_path.open("w", encoding="utf-8") as f:
         json.dump(registry_data, f, ensure_ascii=False, indent=2)
 
-    if "personal_pension" in verify_fieldnames:
-        with verify_sheet_path.open("w", encoding="utf-8-sig", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=verify_fieldnames)
-            w.writeheader()
-            w.writerows(verify_rows)
-
     with master_path.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=master_fieldnames)
         w.writeheader()
@@ -249,7 +229,7 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
     with summary_path.open("w", encoding="utf-8") as f:
         json.dump(summary_data, f, ensure_ascii=False, indent=2)
 
-    print("[OK] All 5 ledgers atomically synchronized!")
+    print("[OK] All 4 ledgers atomically synchronized!")
     return counts
 
 

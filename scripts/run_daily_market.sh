@@ -103,7 +103,7 @@ if [ "$DRY_RUN" = "1" ]; then
   SNAPSHOT_CHANGED="true"
   echo "[DRY_RUN] Evaluated SNAPSHOT_CHANGED=$SNAPSHOT_CHANGED"
 else
-  if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
+  if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/classification; then
     echo "No new price snapshot. Skipping distribution refresh."
     SNAPSHOT_CHANGED="false"
   else
@@ -120,7 +120,7 @@ if [ "$DRY_RUN" = "1" ]; then
   PUBLISHABLE_CHANGED="true"
   echo "[DRY_RUN] Evaluated PUBLISHABLE_CHANGED=$PUBLISHABLE_CHANGED"
 else
-  if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
+  if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/returns | grep -q .; then
     echo "Publishable data changes detected."
     PUBLISHABLE_CHANGED="true"
   else
@@ -152,7 +152,7 @@ fi
 if [ "$PUBLISHABLE_CHANGED" = "true" ]; then
   run_git config user.name "etf-campus-data-bot"
   run_git config user.email "etf-campus-data-bot@users.noreply.github.com"
-  run_git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
+  run_git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
   if [ "$DRY_RUN" = "1" ]; then
     echo "[DRY_RUN] git commit -m 'data: refresh ETF snapshot'"
     echo "[DRY_RUN] git pull --rebase --autostash origin $TARGET_BRANCH"

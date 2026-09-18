@@ -41,7 +41,6 @@ from scripts.rules.pension_regulatory_engine import (
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_BROKER_CSV = REPO_ROOT / "data" / "regulatory" / "broker_pension_universe.csv"
 DEFAULT_MASTER_CSV = REPO_ROOT / "data" / "etf_master_draft.csv"
-DEFAULT_VERIFY_SHEET = REPO_ROOT / "data" / "pension_verify_sheet.csv"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("verify_broker_pension")
@@ -154,7 +153,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Audit and sync broker pension universe.")
     parser.add_argument("--broker-csv", type=Path, default=DEFAULT_BROKER_CSV)
     parser.add_argument("--master-csv", type=Path, default=DEFAULT_MASTER_CSV)
-    parser.add_argument("--verify-sheet", type=Path, default=DEFAULT_VERIFY_SHEET)
+    parser.add_argument("--verify-sheet", type=Path, default=DEFAULT_MASTER_CSV)
     parser.add_argument("--dry-run", action="store_true", help="Simulate without writing files")
     args = parser.parse_args()
 

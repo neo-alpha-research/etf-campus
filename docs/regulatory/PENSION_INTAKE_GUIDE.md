@@ -60,8 +60,8 @@
 
 ## 4. 원장 관리 및 불변 규칙 (Immutable Rules)
 
-1. **5대 원장 원자적 동기화**:
-   - 개인연금 상태 변경은 반드시 `scripts/pipeline/sync_kofia_personal_pension.py`를 통해 5대 원장(`personal_pension_registry.json`, `pension_verify_sheet.csv`, `etf_master_draft.csv`, `public/data/screener.json`, `pension_verification_summary.json`)에 동시 반영되어야 합니다.
+1. **4대 원장 원자적 동기화**:
+   - 개인연금 상태 변경은 반드시 `scripts/pipeline/sync_kofia_personal_pension.py`를 통해 4대 원장(`personal_pension_registry.json`, `etf_master_draft.csv`, `public/data/screener.json`, `pension_verification_summary.json`)에 동시 반영되어야 합니다.
 2. **분류 데이터 파일 보존 규칙**:
    - `data/comparison/etf_comparison_classification.csv`는 행 단위 증분 수정만 허용하며, 임의 전면 재생성을 엄격히 금지합니다.
 3. **용어 표준화 준수**:

@@ -15,6 +15,7 @@ Threads 바이럴 포스트 자동 생성기 (v2.1)
 """
 
 import argparse
+import csv
 import hashlib
 import json
 import random
@@ -24,12 +25,14 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # ──────────────────────────────────────────────
-# 경로 설정
+# 경로 설정 (단일 진실 공급원 SSOT: data/etf_master_draft.csv + fees/)
 # ──────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent.parent
 TOPIC_BANK = ROOT / "scripts" / "community" / "topic_bank.json"
 THREADS_BANK = Path(__file__).parent / "threads_bank.json"
-SCREENER = ROOT / "public" / "data" / "screener.json"
+ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
+FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
+FEE_REGISTRY_FALLBACK = ROOT / "data" / "fees" / "etf_fee_registry_official_single_source.json"
 
 KST = timezone(timedelta(hours=9))
 
@@ -76,27 +79,62 @@ HASHTAG_POOL = {
 }
 
 # ──────────────────────────────────────────────
-# 실데이터 로더 및 포맷터 (screener.json 연동)
+# 실데이터 로더 및 포맷터 (단일 원천 SSOT: etf_master_draft.csv + fees/)
 # ──────────────────────────────────────────────
-_SCREENER_CACHE = None
+_MASTER_CACHE = None
 
-def load_screener_data() -> list[dict]:
-    global _SCREENER_CACHE
-    if _SCREENER_CACHE is None:
-        if SCREENER.exists():
+def load_master_data() -> list[dict]:
+    """공인 1차 원장(etf_master_draft.csv)과 공식 수수료 레지스트리를 직접 조인하여 단일 원천을 로드합니다."""
+    global _MASTER_CACHE
+    if _MASTER_CACHE is not None:
+        return _MASTER_CACHE
+
+    fee_map = {}
+    for p in [FEE_REGISTRY_FALLBACK, FEE_REGISTRY]:
+        if p.exists():
             try:
-                with open(SCREENER, encoding="utf-8") as f:
-                    _SCREENER_CACHE = json.load(f)
+                with open(p, encoding="utf-8") as f:
+                    data = json.load(f)
+                    records = data.get("records", []) if isinstance(data, dict) else data
+                    if isinstance(records, list):
+                        for item in records:
+                            tk = item.get("ticker")
+                            fee_pct = item.get("total_fee_pct")
+                            if tk and fee_pct is not None:
+                                fee_map[tk] = {"totalFeePct": fee_pct}
             except Exception:
-                _SCREENER_CACHE = []
-        else:
-            _SCREENER_CACHE = []
-    return _SCREENER_CACHE
+                pass
+
+    master_list = []
+    if ETF_MASTER_CSV.exists():
+        try:
+            with open(ETF_MASTER_CSV, encoding="utf-8-sig") as f:
+                for row in csv.DictReader(f):
+                    tk = row.get("ticker")
+                    aum_raw = row.get("aum")
+                    try:
+                        aum_val = float(aum_raw) if aum_raw else None
+                    except (ValueError, TypeError):
+                        aum_val = None
+
+                    master_list.append({
+                        "ticker": tk,
+                        "name": row.get("name", ""),
+                        "aum": aum_val,
+                        "fee": fee_map.get(tk),
+                        "pensionLimit": row.get("pension_limit"),
+                        "asOfDate": row.get("bas_dt"),
+                    })
+        except Exception:
+            master_list = []
+
+    _MASTER_CACHE = master_list
+    return _MASTER_CACHE
 
 
-def find_etf_in_screener(query: str, ticker_hint: str = None) -> dict | None:
-    """티커 또는 명칭 키워드로 screener.json에서 ETF를 검색합니다."""
-    data = load_screener_data()
+def find_etf_in_master(query: str, ticker_hint: str = None) -> dict | None:
+    """티커 또는 명칭 키워드로 1차 원장(etf_master_draft.csv)에서 ETF를 검색합니다."""
+    data = load_master_data()
     if not data:
         return None
 
@@ -283,8 +321,8 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     ticker_a = tickers[0] if len(tickers) > 0 else None
     ticker_b = tickers[1] if len(tickers) > 1 else None
 
-    item_a = find_etf_in_screener(etf_a_raw, ticker_a)
-    item_b = find_etf_in_screener(etf_b_raw, ticker_b)
+    item_a = find_etf_in_master(etf_a_raw, ticker_a)
+    item_b = find_etf_in_master(etf_b_raw, ticker_b)
 
     etf_a_name = item_a.get("name") if item_a else etf_a_raw
     etf_b_name = item_b.get("name") if item_b else etf_b_raw
@@ -332,9 +370,9 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     elif item_b and item_b.get("asOfDate"):
         raw_as_of = item_b.get("asOfDate")
     else:
-        all_screener = load_screener_data()
-        if all_screener and all_screener[0].get("asOfDate"):
-            raw_as_of = all_screener[0].get("asOfDate")
+        all_master = load_master_data()
+        if all_master and all_master[0].get("asOfDate"):
+            raw_as_of = all_master[0].get("asOfDate")
 
     as_of_date = format_as_of_date(raw_as_of, date_str or datetime.now(KST).strftime("%Y-%m-%d"))
     footer_provenance = (

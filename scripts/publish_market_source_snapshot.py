@@ -211,20 +211,8 @@ def main() -> None:
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--endpoint", default=os.environ.get("MARKET_SOURCE_INGEST_ENDPOINT", DEFAULT_ENDPOINT))
     parser.add_argument("--git-commit-sha", default=os.environ.get("GITHUB_SHA", ""))
-    parser.add_argument("--skip-trigger", action="store_true", help="Skip triggering downstream briefing publisher worker")
-    parser.add_argument("--trigger-only", action="store_true", help="Only trigger downstream briefing publisher worker without re-ingesting snapshot")
+    parser.add_argument("--skip-trigger", action="store_true", help="Deprecated: downstream publisher worker retired")
     args = parser.parse_args()
-
-    if args.trigger_only:
-        as_of_date, _ = read_master(Path(args.data_dir) / "etf_master_draft.csv")
-        auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
-        publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
-        print(f"Triggering briefing publisher worker for {as_of_date}...")
-        req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            pub_res = json.loads(resp.read().decode("utf-8"))
-            print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
-        return
 
     hmac_secret = require_env("PRICE_INGEST_HMAC_SECRET")
     # krx_auth_key = require_env("KRX_OPEN_API_KEY")
@@ -319,17 +307,6 @@ def main() -> None:
         raise RuntimeError(f"Unexpected finalization response: {final}")
     print(json.dumps({"status": "ready", "as_of_date": as_of_date, "source_version": source_version, "accepted": accepted, "event_id": final.get("eventId")}, ensure_ascii=False))
 
-    # Trigger publisher worker to materialize snapshot and compute/publish briefing immediately
-    if not args.skip_trigger:
-        auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
-        publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
-        try:
-            req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                pub_res = json.loads(resp.read().decode("utf-8"))
-                print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
-        except Exception as pub_err:
-            print(f"Warning: Publisher worker trigger returned: {pub_err}", file=sys.stderr)
 
 
 if __name__ == "__main__":

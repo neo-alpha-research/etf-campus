@@ -287,7 +287,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

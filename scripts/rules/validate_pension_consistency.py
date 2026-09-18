@@ -82,9 +82,9 @@ RULE_DESCRIPTIONS = {
     "R7": "이름에 레버리지/인버스 포함 -> pension_limit = 불가",
     "R8": "pension_source = 법령조건직접판정 -> 판정 조건 일치",
     "R9": "엔진 재실행 결과 vs 마스터 CSV 전 행 100% 일치",
-    "R10": "pension_verification_ledger.csv와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
-    "R11": "원장의 고유 ticker 수 == 마스터의 pension_verified=='Y' 수",
-    "R12": "summary.json의 verified_count == 검증 원장 행수 == 마스터 pension_verified='Y' 수 == total - 큐 행수",
+    "R10": "pension_audit_ledger.csv(검증 완료)와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
+    "R11": "감사 원장의 검증 ticker 수 == 마스터의 pension_verified=='Y' 수",
+    "R12": "summary.json의 verified_count == 감사 원장 검증 행수 == 마스터 pension_verified='Y' 수 == total - 큐 행수",
     "P1": "비레버리지 1,064종 전원 -> personal_pension = '가능', personal_pension_limit = '100%' (표준약관 제8조 당연 적격)",
     "P2": "riskType in ('leverage', 'inverse') 또는 레버리지/인버스 명칭 -> personal_pension = '불가', personal_pension_limit = '불가' (편입 원천 차단)",
     "P3": "개인연금 미설명/미확인 잔여 종목 0건 (100% 커버리지 무결성)",
@@ -110,14 +110,6 @@ def validate_pension_consistency(
 
     violations: dict[str, list[dict[str, Any]]] = {rule: [] for rule in RULE_DESCRIPTIONS}
 
-    unexplained_path = REPO_ROOT / "data" / "regulatory" / "unexplained_coverage.json"
-    unexplained_tickers: set[str] = set()
-    if unexplained_path.exists():
-        try:
-            with open(unexplained_path, "r", encoding="utf-8") as f:
-                unexplained_tickers = set(json.load(f).get("unexplained_items", {}).keys())
-        except Exception:
-            pass
 
     for r in master_rows:
         tk = str(r.get("ticker") or "").strip()
@@ -291,16 +283,20 @@ def validate_pension_consistency(
                 "reason": f"한화 공시 파싱 실패: {e}",
             })
 
-    # R10: pension_verification_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
+    # R10: pension_audit_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
     if ledger_path is None:
-        ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+        ledger_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     if queue_path is None:
         queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
 
     ledger_tickers: set[str] = set()
     if ledger_path.exists():
         with ledger_path.open("r", encoding="utf-8-sig") as f:
-            ledger_tickers = {row["ticker"].strip().upper() for row in csv.DictReader(f) if row.get("ticker")}
+            ledger_tickers = {
+                row["ticker"].strip().upper()
+                for row in csv.DictReader(f)
+                if row.get("ticker") and str(row.get("pension_verified") or "Y").strip() == "Y"
+            }
 
     queue_tickers: set[str] = set()
     if queue_path.exists():
@@ -516,19 +512,14 @@ def main() -> int:
         print(f"\n>>> Gate A (Internal Consistency): FAILED ({total_violations} violations detected).\n", file=sys.stderr)
 
     # Gate 1: Serial Chain to Evidence Integrity Validation
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
     audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
     evidence_violations_count = 0
 
-    if ledger_path.exists():
-        with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
-            ledger_rows = list(csv.DictReader(f))
-        audit_rows = None
-        if audit_path.exists():
-            with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
-                audit_rows = list(csv.DictReader(f))
+    if audit_path.exists():
+        with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+            audit_rows = list(csv.DictReader(f))
 
-        e_viols = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+        e_viols = validate_evidence_integrity(audit_rows=audit_rows)
         evidence_violations_count = sum(len(v) for v in e_viols.values())
 
         print("=" * 80)

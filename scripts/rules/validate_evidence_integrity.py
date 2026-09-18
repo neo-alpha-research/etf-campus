@@ -288,6 +288,9 @@ def validate_evidence_integrity(
             sub_refs = [p.strip() for p in ev_ref.split(";") if p.strip()] if ev_ref else []
 
             if p_ver == "Y":
+                if not ledger_rows:
+                    for p in sub_refs:
+                        evidence_counter[p] += 1
                 # Must satisfy E1
                 if not ev_ref:
                     violations["E1"].append({
@@ -866,8 +869,8 @@ def main() -> int:
     parser.add_argument(
         "--ledger",
         type=Path,
-        default=REPO_ROOT / "data/regulatory/pension_verification_ledger.csv",
-        help="Path to pension_verification_ledger.csv",
+        default=REPO_ROOT / "data/regulatory/pension_audit_ledger.csv",
+        help="Path to pension_audit_ledger.csv (or legacy verification ledger)",
     )
     parser.add_argument(
         "--audit-ledger",
@@ -894,24 +897,30 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if not args.ledger.exists():
-        print(f"[ERROR] Verification ledger CSV not found: {args.ledger}", file=sys.stderr)
-        return 1
-
-    with args.ledger.open("r", encoding="utf-8-sig", newline="") as f:
-        ledger_rows = list(csv.DictReader(f))
-
+    ledger_rows = None
     audit_rows = None
-    if args.audit_ledger.exists():
+
+    if args.ledger.resolve() == args.audit_ledger.resolve():
+        if not args.audit_ledger.exists():
+            print(f"[ERROR] Audit ledger CSV not found: {args.audit_ledger}", file=sys.stderr)
+            return 1
         with args.audit_ledger.open("r", encoding="utf-8-sig", newline="") as f:
             audit_rows = list(csv.DictReader(f))
+    else:
+        if args.ledger.exists():
+            with args.ledger.open("r", encoding="utf-8-sig", newline="") as f:
+                ledger_rows = list(csv.DictReader(f))
+        if args.audit_ledger.exists():
+            with args.audit_ledger.open("r", encoding="utf-8-sig", newline="") as f:
+                audit_rows = list(csv.DictReader(f))
 
     print("=" * 80)
     print("REGULATORY EVIDENCE INTEGRITY CHECKER (Gate 1)")
     print("=" * 80)
-    print(f"Verification Ledger : {args.ledger} ({len(ledger_rows):,} rows)")
     if audit_rows is not None:
         print(f"Audit Ledger        : {args.audit_ledger} ({len(audit_rows):,} rows)")
+    if ledger_rows is not None:
+        print(f"Legacy Ledger       : {args.ledger} ({len(ledger_rows):,} rows)")
     print(f"Statute Registry    : {args.statute_registry}")
     print(f"Whitelist           : {sorted(list(WHITELISTED_SHARED_EVIDENCE))}\n")
 

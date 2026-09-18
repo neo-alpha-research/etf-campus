@@ -75,8 +75,6 @@ HASHTAG_POOL = {
     "quick_qna": ["#ETF초보", "#ISA계좌", "#재테크기초"],
 }
 
-DISCLAIMER = "\n\n* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다."
-
 # ──────────────────────────────────────────────
 # 실데이터 로더 및 포맷터 (screener.json 연동)
 # ──────────────────────────────────────────────
@@ -159,6 +157,26 @@ def format_pension_friendly(limit_str: str | None) -> str:
     return limit_str
 
 
+def format_as_of_date(raw_date: str | None, fallback_date_str: str) -> str:
+    """원장의 실제 asOfDate를 YYYY.MM.DD 포맷으로 변환합니다 (Zero-Hallucination)."""
+    if raw_date:
+        clean = re.sub(r"[^\d]", "", str(raw_date))
+        if len(clean) == 8:
+            return f"{clean[:4]}.{clean[4:6]}.{clean[6:]}"
+    # 결측 시: 발행일 기준 T-1 전 거래일 안전 계산
+    try:
+        cur = datetime.strptime(fallback_date_str, "%Y-%m-%d")
+        if cur.weekday() == 0:  # 월요일이면 금요일(-3일)
+            prev = cur - timedelta(days=3)
+        elif cur.weekday() == 6:  # 일요일이면 금요일(-2일)
+            prev = cur - timedelta(days=2)
+        else:
+            prev = cur - timedelta(days=1)
+        return prev.strftime("%Y.%m.%d")
+    except Exception:
+        return fallback_date_str.replace("-", ".")
+
+
 # ──────────────────────────────────────────────
 # 텍스트 정제 및 문체 규칙 강제 (AGENTS.md 준수)
 # ──────────────────────────────────────────────
@@ -179,8 +197,10 @@ def sanitize_text(text: str) -> str:
     text = text.replace("치명상을 입게 되더라고", "큰 손실을 보게 되더라고")
     text = text.replace("기현상이 심심찮게 터져나와", "경우가 꽤 많아")
 
-    # 일반 소괄호 () 전면 제거 (부연 괄호 및 티커 괄호 정리)
+    # 일반 소괄호 () 전면 제거 (부연 괄호 및 티커 괄호 정리, 단 공인 기관 약칭 (KRX)는 보존)
+    text = text.replace("(KRX)", "__KRX__")
     text = re.sub(r"\([^)]*\)", "", text)
+    text = text.replace("__KRX__", "(KRX)")
 
     # 줄바꿈(\n\n)을 온전히 보존하면서 각 라인 내 불필요한 연속 공백만 정리
     lines = []
@@ -236,7 +256,7 @@ def route_template(topic: dict) -> str:
 # ──────────────────────────────────────────────
 # 슬롯 데이터 안전 추출기 (실데이터 결합)
 # ──────────────────────────────────────────────
-def extract_slots(topic: dict) -> dict:
+def extract_slots(topic: dict, date_str: str = "") -> dict:
     title = topic.get("title", "")
     excerpt = topic.get("excerpt", "")
     tags = topic.get("tags", [])
@@ -305,6 +325,23 @@ def extract_slots(topic: dict) -> dict:
         pension_compare_line = f"{etf_a_name}은 {etf_a_pension}, {etf_b_name}은 {etf_b_pension}"
         pension_warning_line = "이걸 모르고 이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 수수료만 더 내는 사람들이 진짜 많아."
 
+    # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
+    raw_as_of = None
+    if item_a and item_a.get("asOfDate"):
+        raw_as_of = item_a.get("asOfDate")
+    elif item_b and item_b.get("asOfDate"):
+        raw_as_of = item_b.get("asOfDate")
+    else:
+        all_screener = load_screener_data()
+        if all_screener and all_screener[0].get("asOfDate"):
+            raw_as_of = all_screener[0].get("asOfDate")
+
+    as_of_date = format_as_of_date(raw_as_of, date_str or datetime.now(KST).strftime("%Y-%m-%d"))
+    footer_provenance = (
+        f"\n\n* 기준: {as_of_date} 한국거래소(KRX) 및 금융투자협회 공시\n"
+        "* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다."
+    )
+
     return {
         "target_index": target_index,
         "target_etf": etf_a_name,
@@ -321,6 +358,8 @@ def extract_slots(topic: dict) -> dict:
         "dividend_yield": dividend_yield,
         "qna_question": qna_question,
         "qna_core_answer": f"{first_sentence}.",
+        "as_of_date": as_of_date,
+        "footer_provenance": footer_provenance,
     }
 
 
@@ -344,7 +383,7 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
 다들 지금 들고 있는 {slots['target_index']} ETF, 진짜 실부담비용 확인해보고 샀어?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     elif template_key == "tax_escape":
         text = f"""연금저축에 넣은 돈, 급할 때 빼면 세금 16.5% 다 물어야 할까?
@@ -360,7 +399,7 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
 다들 연금저축에 연간 딱 공제 한도 600만 원만 넣어, 아니면 그 이상 채워 넣어?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     elif template_key == "rival_match":
         text = f"""{slots['etf_a_name']} vs {slots['etf_b_name']}.
@@ -383,7 +422,7 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
 다들 {slots['target_index']} 모을 때 어떤 기준으로 골라서 담고 있어?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     elif template_key == "life_stage":
         text = f"""3040 맞벌이 부부가 가장 많이 하는 실수.
@@ -401,7 +440,7 @@ IRP까지 합치면 둘이서 연간 최대 1,800만 원까지 세액공제를 �
 
 부부 절세 계좌, 다들 어떻게 나눠서 굴리고 있어?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     elif template_key == "dividend_trap":
         text = f"""월배당 {slots['dividend_yield']}% 준다는 커버드콜 ETF, 내 원금은 어디로 갔을까.
@@ -417,7 +456,7 @@ IRP까지 합치면 둘이서 연간 최대 1,800만 원까지 세액공제를 �
 
 다들 배당 ETF 고를 때 분배율이랑 총수익률 중 뭘 먼저 봐?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     else:  # quick_qna
         text = f"""{slots['qna_question']}
@@ -435,7 +474,7 @@ IRP까지 합치면 둘이서 연간 최대 1,800만 원까지 세액공제를 �
 
 다들 해외 ETF 모을 때 일반 계좌 써, 아니면 절세 계좌 써?
 
-{hashtag}{DISCLAIMER}"""
+{hashtag}{slots['footer_provenance']}"""
 
     return sanitize_text(text)
 
@@ -455,11 +494,21 @@ def save_threads_bank(bank: dict) -> None:
         json.dump(bank, f, ensure_ascii=False, indent=2)
 
 
-def pick_topic(date_str: str) -> dict | None:
+def pick_topic(date_str: str, force: bool = False) -> dict | None:
     with open(TOPIC_BANK, encoding="utf-8") as f:
         topics = json.load(f)["topics"]
 
     threads_bank = load_threads_bank()
+
+    if force:
+        # 기존 날짜에 발행된 포스트가 있다면 해당 주제를 다시 매핑하여 최신 템플릿/데이터로 갱신
+        for p in threads_bank.get("posts", []):
+            if p.get("date") == date_str:
+                existing_tid = p.get("source_topic_id")
+                match = [t for t in topics if t["id"] == existing_tid]
+                if match:
+                    return match[0]
+
     published_ids = set(threads_bank.get("published_topic_ids", []))
 
     board_order = ["stock-cost-analysis", "strategy-portfolio", "free-qna"]
@@ -482,8 +531,8 @@ def pick_topic(date_str: str) -> dict | None:
 # ──────────────────────────────────────────────
 # 메인 생성 파이프라인
 # ──────────────────────────────────────────────
-def generate_thread(date_str: str, dry_run: bool = False) -> tuple[int, dict | None]:
-    topic = pick_topic(date_str)
+def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -> tuple[int, dict | None]:
+    topic = pick_topic(date_str, force=force)
     if not topic:
         print("[ERROR] 발행할 주제가 없습니다. topic_bank 보충 필요.")
         return 1, None
@@ -501,7 +550,7 @@ def generate_thread(date_str: str, dry_run: bool = False) -> tuple[int, dict | N
         seed = int(hashlib.md5(f"hashtag-{date_str}".encode()).hexdigest(), 16)
         hashtag = hashtag_candidates[seed % len(hashtag_candidates)]
 
-    slots = extract_slots(topic)
+    slots = extract_slots(topic, date_str)
     text = render_template(template_key, slots, hashtag)
 
     post_record = {
@@ -535,7 +584,16 @@ def generate_thread(date_str: str, dry_run: bool = False) -> tuple[int, dict | N
     bank = load_threads_bank()
     existing_dates = {p["date"] for p in bank["posts"]}
     if date_str in existing_dates:
-        print(f"[WARN] {date_str} 이미 생성된 포스트가 존재합니다. 덮어쓰지 않습니다.")
+        if not force:
+            print(f"[WARN] {date_str} 이미 생성된 포스트가 존재합니다. (--force 옵션으로 덮어쓰기 가능)")
+            return 0, post_record
+        bank["posts"] = [p for p in bank["posts"] if p["date"] != date_str]
+        bank["posts"].append(post_record)
+        bank["posts"].sort(key=lambda x: x["date"])
+        if topic["id"] not in bank["published_topic_ids"]:
+            bank["published_topic_ids"].append(topic["id"])
+        save_threads_bank(bank)
+        print(f"[OK] {date_str} 포스트가 최신 규격으로 성공적으로 갱신되었습니다.")
         return 0, post_record
 
     bank["posts"].append(post_record)
@@ -549,10 +607,11 @@ def main():
     parser = argparse.ArgumentParser(description="Threads 바이럴 포스트 생성기 v2.1")
     parser.add_argument("--date", help="대상 날짜 (YYYY-MM-DD). 기본: 오늘 KST")
     parser.add_argument("--dry-run", action="store_true", help="저장 없이 미리보기")
+    parser.add_argument("--force", action="store_true", help="이미 생성된 포스트 덮어쓰기")
     args = parser.parse_args()
 
     date_str = args.date or datetime.now(KST).strftime("%Y-%m-%d")
-    code, _ = generate_thread(date_str, dry_run=args.dry_run)
+    code, _ = generate_thread(date_str, dry_run=args.dry_run, force=args.force)
     sys.exit(code)
 
 

@@ -192,7 +192,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: snapshot_changes
         run: |
-          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
+          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/regulatory/pension_audit_ledger.csv data/classification; then
             echo "No new price snapshot. Skipping distribution refresh."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -272,15 +272,7 @@ jobs:
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
-        run: python scripts/publish_market_source_snapshot.py --skip-trigger
-
-      # [Worker D1 Retirement Step 1] Severed legacy market-briefing-publisher trigger.
-      # build_local_briefing_payload.py -> sync_osmu_kv.py is the sole SSOT for KV publication.
-      # - name: Trigger market briefing publication event (RETIRED)
-      #   if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
-      #   env:
-      #     MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
-      #   run: python scripts/publish_market_source_snapshot.py --trigger-only
+        run: python scripts/publish_market_source_snapshot.py
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')

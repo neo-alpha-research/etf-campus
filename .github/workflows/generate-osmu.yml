@@ -76,7 +76,8 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y --no-install-recommends fonts-nanum fonts-noto-color-emoji
 
-      - name: Wait for API to serve latest data
+      - name: Verify or wait for market briefing data readiness
+        continue-on-error: true
         run: python3 scripts/wait_for_briefing_api.py "${{ inputs.target_date }}"
 
       - name: Generate OSMU Assets

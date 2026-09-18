@@ -214,7 +214,7 @@ def validate_evidence_integrity(
         if not ev_ref:
             violations["E1"].append({
                 "ticker": tk,
-                "source_file": "pension_verification_ledger.csv",
+                "source_file": "pension_audit_ledger.csv",
                 "reason": "검증 원장 행에 evidence_ref가 비어 있음",
             })
         else:
@@ -223,7 +223,7 @@ def validate_evidence_integrity(
                 if not file_path.is_file():
                     violations["E1"].append({
                         "ticker": tk,
-                        "source_file": "pension_verification_ledger.csv",
+                        "source_file": "pension_audit_ledger.csv",
                         "evidence_ref": p,
                         "reason": f"evidence_ref 파일 실존하지 않음: '{p}'",
                     })
@@ -232,7 +232,7 @@ def validate_evidence_integrity(
         if not src_url:
             violations["E2"].append({
                 "ticker": tk,
-                "source_file": "pension_verification_ledger.csv",
+                "source_file": "pension_audit_ledger.csv",
                 "reason": "검증 원장 행에 source_url이 누락됨",
             })
         else:
@@ -240,7 +240,7 @@ def validate_evidence_integrity(
                 if not DART_RCP_PATTERN.search(src_url):
                     violations["E2"].append({
                         "ticker": tk,
-                        "source_file": "pension_verification_ledger.csv",
+                        "source_file": "pension_audit_ledger.csv",
                         "source_url": src_url,
                         "reason": f"DART URL에 14자리 rcpNo가 누락됨: '{src_url}'",
                     })
@@ -248,7 +248,7 @@ def validate_evidence_integrity(
                 if "serviceId" not in src_url:
                     violations["E2"].append({
                         "ticker": tk,
-                        "source_file": "pension_verification_ledger.csv",
+                        "source_file": "pension_audit_ledger.csv",
                         "source_url": src_url,
                         "reason": f"KOFIA URL에 serviceId 파라미터가 누락됨: '{src_url}'",
                     })
@@ -263,7 +263,7 @@ def validate_evidence_integrity(
                     if v_date < mtime_date:
                         violations["E4"].append({
                             "ticker": tk,
-                            "source_file": "pension_verification_ledger.csv",
+                            "source_file": "pension_audit_ledger.csv",
                             "verified_at": v_at,
                             "file_mtime": mtime_date.isoformat(),
                             "reason": f"verified_at ({v_date})이 증거 파일 수정일 ({mtime_date})보다 앞섬",
@@ -271,7 +271,7 @@ def validate_evidence_integrity(
                 except Exception as e:
                     violations["E4"].append({
                         "ticker": tk,
-                        "source_file": "pension_verification_ledger.csv",
+                        "source_file": "pension_audit_ledger.csv",
                         "verified_at": v_at,
                         "reason": f"날짜 파싱 오류: {e}",
                     })

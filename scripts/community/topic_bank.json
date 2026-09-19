@@ -27,7 +27,8 @@
         "비용비교",
         "연금"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-20"
     },
     {
       "id": "sca-002",
@@ -961,7 +962,8 @@
         "서민형",
         "계좌변경"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-20"
     },
     {
       "id": "qna-004",
@@ -1795,7 +1797,8 @@
         "세액공제",
         "절세전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-20"
     },
     {
       "id": "sp-033",

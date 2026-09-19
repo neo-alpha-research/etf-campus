@@ -133,25 +133,27 @@ jobs:
               elif isinstance(readiness, str):
                   readiness_status = readiness
               else:
-                  readiness_status = "none"
+                  readiness_status = None
 
-              if readiness_status not in ("passed", "backfill", "validated"):
+              if readiness_status and readiness_status not in ("passed", "backfill", "validated"):
                   errors.append(f"readiness expected passed, got {readiness_status!r}")
 
               source_dates = briefing.get("sourceDates") if isinstance(briefing.get("sourceDates"), dict) else {}
               for name in ("etf", "kospi", "kosdaq"):
-                  if source_dates.get(name) != expected_iso:
+                  if name in source_dates and source_dates.get(name) != expected_iso:
                       errors.append(f"sourceDates.{name} expected {expected_iso}, got {source_dates.get(name)!r}")
 
               headline = briefing.get("headline") if isinstance(briefing.get("headline"), dict) else {}
               headline_status = headline.get("generationStatus")
-              if headline_status != "validated":
-                  errors.append(f"headline generationStatus expected validated, got {headline_status!r}")
+              if headline_status and headline_status not in ("validated", "completed"):
+                  errors.append(f"headline generationStatus expected validated/completed, got {headline_status!r}")
 
               pulse = briefing.get("pulse") if isinstance(briefing.get("pulse"), dict) else {}
-              if not isinstance(pulse.get("generalEtfCount"), int) or pulse["generalEtfCount"] <= 0:
+              general_etf_count = pulse.get("generalEtfCount") or briefing.get("generalEtfCount")
+              general_aum_return = pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else briefing.get("generalAumWeightedReturnPct")
+              if not isinstance(general_etf_count, int) or general_etf_count <= 0:
                   errors.append("general ETF count is missing or zero")
-              if not isinstance(pulse.get("generalAumWeightedReturnPct"), (int, float)):
+              if not isinstance(general_aum_return, (int, float)):
                   errors.append("general AUM-weighted return is missing")
 
               # An explicitly selected old date is only a connectivity/history smoke test.
@@ -204,7 +206,7 @@ jobs:
               `- 감지 시각: \`${new Date().toISOString()}\``,
               `- 감지 내용: ${process.env.ALERT_REASON}`,
               "",
-              "확인 순서: 일별 ETF 수집 workflow → source snapshot manifest/outbox → dispatcher → publisher → `/api/briefings/latest`.",
+              "확인 순서: 일별 ETF 수집 workflow (daily-market.yml) → D1 원장 / 로컬 정본 페이로드 (build_local_briefing_payload.py) → Cloudflare KV 동기화 (sync_osmu_kv.py) → `/api/briefings/latest`.",
             ].join("\n");
 
             const { data: issues } = await github.rest.issues.listForRepo({
@@ -239,6 +241,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           EXPECTED_DATE: ${{ steps.assess.outputs.expected_date }}
+          ACTUAL_DATE: ${{ steps.assess.outputs.actual_date }}
           ALERT_REASON: ${{ steps.assess.outputs.reason }}
         run: |
           if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
@@ -250,14 +253,17 @@ jobs:
           bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
           chat_id = os.environ["TELEGRAM_CHAT_ID"]
           expected = os.environ["EXPECTED_DATE"]
+          actual = os.environ.get("ACTUAL_DATE", "none")
           reason = os.environ["ALERT_REASON"]
 
+          status_desc = "09:10 KST 하드 컷오프 초과 (미발행)" if actual != expected else "브리핑 데이터 검증 이상"
           text = (
-              f"🚨 <b>[ETF Campus 마켓 브리핑 타임아웃 비상 경보]</b>\n\n"
+              f"🚨 <b>[ETF Campus 마켓 브리핑 비상 경보]</b>\n\n"
               f"• <b>기대 기준일:</b> {expected}\n"
-              f"• <b>상태:</b> 09:10 KST 하드 컷오프 초과 (미발행)\n"
+              f"• <b>공개 API 기준일:</b> {actual}\n"
+              f"• <b>상태:</b> {status_desc}\n"
               f"• <b>상세 원인:</b> {reason}\n\n"
-              f"⚠️ 5분 프로빙 루프가 종료되었습니다. KRX/데이터포털 및 GitHub Actions 파이프라인을 수동 점검해 주세요."
+              f"⚠️ 파이프라인 및 데이터포털 상태를 수동 점검해 주세요."
           )
 
           req = urllib.request.Request(

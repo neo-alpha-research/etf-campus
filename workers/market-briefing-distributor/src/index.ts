@@ -2085,9 +2085,6 @@ const workerHandler = {
           return new Response("Empty image body", { status: 400 });
         }
         await env.BRIEFING_KV.put(key, bodyBuffer);
-        if (!key.startsWith("image:")) {
-          await env.BRIEFING_KV.put(`image:threads:${key}`, bodyBuffer);
-        }
         // Auto-purge dashboard cache for date extracted from key
         const keyDateMatch = key.match(/\d{4}-\d{2}-\d{2}/);
         if (keyDateMatch) {

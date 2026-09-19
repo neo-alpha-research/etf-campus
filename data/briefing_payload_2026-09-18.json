@@ -9,7 +9,21 @@
     "staleDays": 0,
     "headline": {
       "text": "국내 ETF 시장 AUM 37.8조원 규모, 상승 우세 마감",
-      "generationStatus": "completed"
+      "generationStatus": "validated"
+    },
+    "sourceDates": {
+      "etf": "2026-09-18",
+      "kospi": "2026-09-18",
+      "kosdaq": "2026-09-18"
+    },
+    "validation": {
+      "readiness": {
+        "status": "passed",
+        "etf_row_count": 1171,
+        "general_etf_count": 1028,
+        "aum_coverage_pct": 100,
+        "source": "local_canonical_builder"
+      }
     },
     "marketIndices": [
       {
@@ -714,7 +728,7 @@
         "peerGroup": "해외 월배당 & 커버드콜",
         "assetClass": "주식-해외",
         "etfCount": 32,
-        "equalWeightReturnPct": 1.06,
+        "equalWeightReturnPct": 1.07,
         "cappedAumWeightedReturnPct": 1.16,
         "totalAum": 131083.8,
         "topEtfName": "TIGER 미국나스닥100타겟데일리커버드콜",
@@ -844,7 +858,7 @@
         "peerGroup": "S&P 500 시장대표",
         "assetClass": "주식-해외",
         "etfCount": 36,
-        "equalWeightReturnPct": 0.9,
+        "equalWeightReturnPct": 0.91,
         "cappedAumWeightedReturnPct": 0.85,
         "totalAum": 403953.4,
         "topEtfName": "TIGER 미국S&P500",

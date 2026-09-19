@@ -125,6 +125,39 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
                 top_outflows=[FundFlowItem(**item) for item in sample_flows],
             )
 
+    def test_briefing_contract_readiness_and_source_dates(self):
+        """FM-016: 로컬 정본 페이로드는 모니터링 계약을 위한 sourceDates, validation, validated 상태를 반드시 포함해야 함."""
+        as_of = self.briefing.get("asOfDate")
+        self.assertTrue(bool(as_of))
+
+        # 1. sourceDates 검증
+        source_dates = self.briefing.get("sourceDates")
+        self.assertIsInstance(source_dates, dict, "sourceDates must be a dictionary")
+        for key in ("etf", "kospi", "kosdaq"):
+            self.assertIn(key, source_dates, f"sourceDates must contain {key}")
+            self.assertEqual(source_dates[key], as_of, f"sourceDates.{key} must match asOfDate {as_of}")
+
+        # 2. validation & readiness 검증
+        validation = self.briefing.get("validation")
+        self.assertIsInstance(validation, dict, "validation must be a dictionary")
+        readiness = validation.get("readiness")
+        self.assertIsInstance(readiness, dict, "readiness must be a dictionary")
+        self.assertEqual(readiness.get("status"), "passed", "readiness.status must be 'passed'")
+        self.assertGreater(readiness.get("etf_row_count", 0), 0)
+        self.assertGreater(readiness.get("general_etf_count", 0), 0)
+
+        # 3. headline generationStatus 검증
+        headline = self.briefing.get("headline")
+        self.assertIsInstance(headline, dict, "headline must be a dictionary")
+        self.assertEqual(headline.get("generationStatus"), "validated", "headline.generationStatus must be 'validated'")
+
+        # 4. pulse 기본 지표 검증
+        pulse = self.briefing.get("pulse")
+        self.assertIsInstance(pulse, dict, "pulse must be a dictionary")
+        self.assertGreater(pulse.get("generalEtfCount", 0), 0)
+        self.assertIsInstance(pulse.get("generalAumWeightedReturnPct"), (int, float))
+
 
 if __name__ == "__main__":
     unittest.main()
+

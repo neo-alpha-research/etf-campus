@@ -740,7 +740,7 @@ export function EtfCompareTimeseriesChart({
       {/* 3. Interactive Legend Bar (Always-visible: color swatch + name + ticker + terminal return + click/hover isolation) */}
       {validSeries.length > 0 && (
         <div
-          className="flex items-center gap-1.5 sm:gap-2 mb-2 flex-wrap select-none"
+          className="flex items-center gap-1 sm:gap-1.5 mb-2 select-none flex-nowrap overflow-x-auto no-scrollbar"
           data-testid="compare-chart-legend"
           role="toolbar"
           aria-label="차트 종목 범례 및 단독 강조"
@@ -767,9 +767,9 @@ export function EtfCompareTimeseriesChart({
                 onMouseEnter={() => handleLegendHover(s.ticker)}
                 onMouseLeave={() => handleLegendHover(null)}
                 title={`${etf?.name ?? s.ticker} (${s.ticker}) 클릭 시 해당 선 강조 / 재클릭 시 해제`}
-                className={`inline-flex items-center gap-1.5 min-h-[30px] sm:min-h-[32px] px-2.5 py-1 text-xs rounded-lg border transition-all cursor-pointer ${
+                className={`flex-1 min-w-[130px] sm:min-w-0 inline-flex items-center justify-between gap-1 sm:gap-1.5 min-h-[30px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-xs rounded-lg border transition-all cursor-pointer ${
                   isCurrentFocused
-                    ? "bg-white dark:bg-slate-800 border-2 shadow-xs ring-2 ring-offset-1 ring-slate-400 dark:ring-slate-500 opacity-100 font-bold scale-[1.02]"
+                    ? "bg-white dark:bg-slate-800 border-2 shadow-xs ring-2 ring-offset-1 ring-slate-400 dark:ring-slate-500 opacity-100 font-bold scale-[1.01]"
                     : hasAnyFocus
                     ? "opacity-35 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:opacity-80"
                     : "bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 dark:text-slate-200"
@@ -778,18 +778,20 @@ export function EtfCompareTimeseriesChart({
                 data-testid={`legend-chip-${s.ticker}`}
                 aria-pressed={isCurrentFocused}
               >
+                <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 truncate">
+                  <span
+                    className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full shrink-0 shadow-xs"
+                    style={{ backgroundColor: palette.stroke }}
+                  />
+                  <span className="font-semibold text-slate-800 dark:text-slate-100 truncate text-[11px] sm:text-xs">
+                    {etf?.name ?? s.ticker}
+                  </span>
+                  <span className="text-[9.5px] sm:text-[10px] text-slate-400 dark:text-slate-500 font-mono shrink-0 hidden lg:inline">
+                    {s.ticker}
+                  </span>
+                </div>
                 <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0 shadow-xs"
-                  style={{ backgroundColor: palette.stroke }}
-                />
-                <span className="font-semibold text-slate-800 dark:text-slate-100 truncate max-w-[120px] sm:max-w-[180px]">
-                  {etf?.name ?? s.ticker}
-                </span>
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono shrink-0">
-                  {s.ticker}
-                </span>
-                <span
-                  className={`font-black text-[11px] sm:text-xs tabular-nums ml-0.5 ${
+                  className={`font-black text-[11px] sm:text-xs tabular-nums shrink-0 ml-1 ${
                     isPositive
                       ? "text-rose-600 dark:text-rose-400"
                       : isNegative

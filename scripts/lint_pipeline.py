@@ -671,6 +671,8 @@ def check_wip_commits_on_main(origin_ref: str = "origin/main", count: int = 30) 
             ["git", "log", origin_ref, "--oneline", f"-n{count}"],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             cwd=str(REPO_ROOT),
         )
         if res.returncode != 0:
@@ -678,6 +680,8 @@ def check_wip_commits_on_main(origin_ref: str = "origin/main", count: int = 30) 
                 ["git", "log", "main", "--oneline", f"-n{count}"],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 cwd=str(REPO_ROOT),
             )
             if res.returncode != 0:

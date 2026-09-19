@@ -37,12 +37,12 @@ describe("ETF AMC Mapping Logic", () => {
     });
   });
 
-  it("verifies all 1,160 ETFs have a valid AMC mapping (0 unmapped)", () => {
+  it("verifies all registered ETFs have a valid AMC mapping (0 unmapped)", () => {
     // This runs against the actual data file
     const etfs = loadEtfs();
     
     // Quick check to ensure we loaded the data
-    expect(etfs.length).toBeGreaterThan(1100);
+    expect(etfs.length).toBeGreaterThanOrEqual(1171);
 
     const unmapped = etfs.filter(e => e.issuer.issuerStatus === "needs_review" || e.issuer.issuerId === "unknown");
     

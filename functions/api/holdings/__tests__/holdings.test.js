@@ -101,6 +101,7 @@ describe("GET /api/holdings/:ticker", () => {
   });
 
   it("returns 500 if database query throws", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const { context } = createContext({
       ticker: "069500",
       dbError: new Error("D1 connection lost"),
@@ -109,5 +110,6 @@ describe("GET /api/holdings/:ticker", () => {
     expect(response.status).toBe(500);
     const data = await response.json();
     expect(data.error).toContain("Failed to retrieve holdings data");
+    errorSpy.mockRestore();
   });
 });

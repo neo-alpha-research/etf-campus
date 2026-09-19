@@ -38,9 +38,9 @@ const items = [
 ];
 
 describe("Dashboard", () => {
-  beforeEach(() => window.history.replaceState(null, "", "/"));
+  beforeEach(() => window.history.replaceState(null, "", "/quick"));
 
-  it("일반 계좌 기본 화면은 일반형·1,000억원 이상 종목만 보여준다", () => {
+  it("빠른 탐색 기본 화면은 테이블 헤더 및 종목 정보를 제공한다", () => {
     render(<Dashboard etfs={items} />);
     expect(screen.getByText("순자산 1,000억 이상 · 1종목")).toBeInTheDocument();
     expect(screen.getByRole("combobox", { name: "순자산 기준" })).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("Dashboard", () => {
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
-  it("500억과 전체 범위를 전환하고 순자산 수치를 그대로 표시한다", () => {
+  it("순자산 기준 필터 범위를 전환하고 수치를 표시한다", () => {
     render(<Dashboard etfs={items} />);
     const select = screen.getByRole("combobox", { name: "순자산 기준" });
     fireEvent.change(select, { target: { value: "500plus" } });
@@ -66,7 +66,7 @@ describe("Dashboard", () => {
     expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
 
-  it("일반 계좌에 2주, 2년, 3년 수익률이 포함되며 전 구간 토글이 작동한다", () => {
+  it("테이블에서 수익률 구간을 펼치고 접을 수 있다", () => {
     const items = [
       etf({ ticker: "000001", aum: 1100 }),
     ];
@@ -172,7 +172,7 @@ describe("Dashboard", () => {
     expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
 
-  it("검색과 테이블 헤더를 제공한다", () => {
+  it("빠른 탐색 검색 입력창과 테이블 헤더를 제공한다", () => {
     render(<Dashboard etfs={items} />);
     const explorer = screen.getByRole("region", { name: "ETF 검색과 정렬" });
     const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });

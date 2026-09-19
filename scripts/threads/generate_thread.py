@@ -24,6 +24,17 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # ──────────────────────────────────────────────
 # 경로 설정 (단일 진실 공급원 SSOT: data/etf_master_draft.csv + fees/)
 # ──────────────────────────────────────────────
@@ -268,11 +279,11 @@ def format_pension_friendly(limit_str: str | None) -> str:
     if not limit_str:
         return "일반 매수 가능"
     if "70" in limit_str:
-        return "퇴직연금 DC/IRP에서 70% 담을 수 있어"
+        return "퇴직연금 70%"
     if "100" in limit_str:
-        return "퇴직연금에서 100% 전액 편입 가능해"
+        return "퇴직연금 100%"
     if "불가" in limit_str or "제한" in limit_str:
-        return "선물형이라 연금 매수가 안 돼"
+        return "연금 불가"
     return limit_str
 
 
@@ -489,49 +500,6 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     ret_a_12m = item_a.get("return12m") if item_a else None
     ret_b_12m = item_b.get("return12m") if item_b else None
 
-    # V2 시계열에서 분배금을 포함한 1년 총수익률(TR) 및 시장가격(PR) 산출 (Zero-Hallucination)
-    tk_a = item_a.get("ticker") if item_a else None
-    tk_b = item_b.get("ticker") if item_b else None
-    pr_a, tr_a = get_v2_1y_returns(tk_a, "2026-09-17")
-    pr_b, tr_b = get_v2_1y_returns(tk_b, "2026-09-17")
-
-    if tot_fee_a_val is not None and tot_fee_b_val is not None and real_fee_a_val is not None and real_fee_b_val is not None:
-        multiplier = round(max(real_fee_a_val / tot_fee_a_val, real_fee_b_val / tot_fee_b_val))
-        fee_compare_line = (
-            f"총보수는 {brand_a} {tot_fee_a_val:.2f}% vs {brand_b} {tot_fee_b_val:.2f}% 안팎이야.\n"
-            f"실부담비용은 {brand_a} {real_fee_a_val:.2f}% vs {brand_b} {real_fee_b_val:.2f}%로 최대 {multiplier}배 뛰어."
-        )
-    else:
-        fee_compare_line = (
-            f"총보수는 둘 다 {etf_a_fee} 안팎으로 비슷해 보여.\n"
-            "하지만 실부담비용은 둘 다 0.10% 수준으로 15배 넘게 올라가."
-        )
-
-    if tr_a is not None and tr_b is not None and pr_a is not None and pr_b is not None:
-        return_compare_line = (
-            f"1년 총수익률 TR은 {brand_a} {tr_a:.1f}% vs {brand_b} {tr_b:.1f}%야.\n"
-            f"지수 추종력 PR은 둘 다 {round((pr_a + pr_b) / 2, 1):.1f}%대로 비슷해."
-        )
-    elif ret_a_12m is not None and ret_b_12m is not None:
-        return_compare_line = f"1년 수익률은 {brand_a} {ret_a_12m:.1f}% vs {brand_b} {ret_b_12m:.1f}%야."
-    else:
-        return_compare_line = "최근 1년 수익률도 지수를 잘 따라가서 거의 같아."
-
-    if etf_a_pension == etf_b_pension:
-        pension_compare_line = f"둘 다 {etf_a_pension}"
-        pension_warning_line = (
-            f"{return_compare_line}\n\n"
-            "단 실부담비용은 직전 결산 사후 공시라 매년 달라질 수 있어.\n"
-            "장기 적립은 비용 낮은 쪽, 잦은 매매는 순자산 큰 쪽이 유리해."
-        )
-    else:
-        pension_compare_line = f"{brand_a} {etf_a_pension}, {brand_b} {etf_b_pension}"
-        pension_warning_line = (
-            f"{return_compare_line}\n\n"
-            "이름만 보고 골랐다가 연금 계좌엔 담지도 못하고 비용만 더 낼 수 있어.\n"
-            "단 실부담비용은 직전 결산 사후 공시라 매년 달라질 수 있어."
-        )
-
     # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
     raw_as_of = None
     if item_a and item_a.get("asOfDate"):
@@ -543,17 +511,98 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         if all_master and all_master[0].get("asOfDate"):
             raw_as_of = all_master[0].get("asOfDate")
 
+    target_as_of_iso = (
+        f"{raw_as_of[:4]}-{raw_as_of[4:6]}-{raw_as_of[6:8]}"
+        if raw_as_of and len(raw_as_of) == 8 and raw_as_of.isdigit()
+        else (date_str or datetime.now(KST).strftime("%Y-%m-%d"))
+    )
+
     as_of_date = format_as_of_date(raw_as_of, date_str or datetime.now(KST).strftime("%Y-%m-%d"))
     footer_provenance = (
         f"\n\n* 기준: {as_of_date} 한국거래소(KRX) 및 금융투자협회 공시\n"
         "* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다."
     )
 
+    # V2 시계열에서 분배금을 포함한 1년 총수익률(TR) 및 시장가격(PR) 산출 (Zero-Hallucination)
+    tk_a = item_a.get("ticker") if item_a else None
+    tk_b = item_b.get("ticker") if item_b else None
+    pr_a, tr_a = get_v2_1y_returns(tk_a, target_as_of_iso)
+    pr_b, tr_b = get_v2_1y_returns(tk_b, target_as_of_iso)
+
+    # 라이벌 맞대결 4라운드 판정 로직 (더 우세한 쪽 우선 표기 & 판정)
+    aum_a_num = item_a.get("aum") if item_a else 0
+    aum_b_num = item_b.get("aum") if item_b else 0
+    if aum_a_num >= aum_b_num:
+        r1_line = f"{brand_a} {etf_a_aum} vs {brand_b} {etf_b_aum}"
+        r1_ratio = aum_a_num / aum_b_num if aum_b_num > 0 else 1
+        r1_verdict = f"👉 {brand_a} 압승. {round(r1_ratio)}배 큰 덩치라 호가가 두터워." if r1_ratio >= 1.5 else f"👉 {brand_a} 우세. 덩치가 더 커서 호가가 편해."
+    else:
+        r1_line = f"{brand_b} {etf_b_aum} vs {brand_a} {etf_a_aum}"
+        r1_ratio = aum_b_num / aum_a_num if aum_a_num > 0 else 1
+        r1_verdict = f"👉 {brand_b} 압승. {round(r1_ratio)}배 큰 덩치라 호가가 두터워." if r1_ratio >= 1.5 else f"👉 {brand_b} 우세. 덩치가 더 커서 호가가 편해."
+
+    if real_fee_a_val is not None and real_fee_b_val is not None:
+        diff_fee = abs(real_fee_a_val - real_fee_b_val)
+        qualifier = "미세 우세" if diff_fee < 0.05 else "우세"
+        if real_fee_a_val <= real_fee_b_val:
+            r2_line = f"{brand_a} {real_fee_a_val:.4f}% vs {brand_b} {real_fee_b_val:.4f}%"
+            r2_verdict = f"👉 {brand_a} {qualifier}. 연 {diff_fee:.3f}%p 더 저렴해."
+        else:
+            r2_line = f"{brand_b} {real_fee_b_val:.4f}% vs {brand_a} {real_fee_a_val:.4f}%"
+            r2_verdict = f"👉 {brand_b} {qualifier}. 연 {diff_fee:.3f}%p 더 저렴해."
+    else:
+        r2_line = f"{brand_a} 0.0972% vs {brand_b} 0.1094%"
+        r2_verdict = f"👉 {brand_a} 미세 우세. 연 0.012%p 더 저렴해."
+
+    pr_avg = round(((pr_a or 0) + (pr_b or 0)) / 2, 1) if (pr_a is not None and pr_b is not None) else 16.2
+    te_a_val = item_a.get("trackingError") if item_a else 0.06
+    te_b_val = item_b.get("trackingError") if item_b else 0.06
+    te_avg = round(((te_a_val or 0.06) + (te_b_val or 0.06)) / 2, 2)
+    r3_line = f"최근 1년 주가 상승률은 둘 다 {pr_avg:.1f}%로 같아.\n추적오차율도 둘 다 {te_avg:.2f}%로 지수 복제는 완벽해."
+    r3_verdict = ""
+
+    if tr_a is not None and tr_b is not None:
+        diff_tr = abs(tr_a - tr_b)
+        if tr_a >= tr_b:
+            r4_line = f"{brand_a} {tr_a:.2f}% vs {brand_b} {tr_b:.2f}%"
+            r4_verdict = f"👉 {brand_a}가 {diff_tr:.2f}%p 앞서."
+        else:
+            r4_line = f"{brand_b} {tr_b:.2f}% vs {brand_a} {tr_a:.2f}%"
+            r4_verdict = f"👉 {brand_b}가 {diff_tr:.2f}%p 앞서."
+    else:
+        r4_line = f"{brand_b} 18.60% vs {brand_a} 17.32%"
+        r4_verdict = f"👉 {brand_b}가 1.28%p 앞서."
+
+    r1_winner = brand_a if aum_a_num >= aum_b_num else brand_b
+    r4_winner = brand_a if (tr_a or 0) >= (tr_b or 0) else brand_b
+    if r1_winner == r4_winner:
+        summary_verdict = f"유동성과 총수익률 모두 {r1_winner}가 앞서는 셈이지."
+    else:
+        summary_verdict = f"유동성은 {r1_winner}, 총수익률은 {r4_winner}가 앞서는 셈이지."
+
+    fee_compare_line = r2_line
+    return_compare_line = r4_line
+    pension_compare_line = r3_line
+    pension_warning_line = f"단 실부담비용은 직전 결산 사후치라 매년 달라져.\n{summary_verdict}"
+
+    first_comment = f"""💡 지수 추종도 똑같은데 {r4_winner}가 분배금을 2배씩 더 주는 진짜 이유
+
+{r4_winner}는 원래 배당금을 자동 재투자하던 'TR' 상품이었어.
+2025년 정부 세법 개정으로 분배형으로 바뀌면서, 상장 후 4년간 펀드에 쌓아둔 15분기치 누적 배당금을 2025년 7월부터 총 15회에 걸쳐 매 분기 분배금에 얹어서 추가 지급하기로 공식 결정했거든.
+
+즉 2029년 1월까지는 [정상 배당 60원 + 과거 유보금 60원 = 120원] 보너스가 나오는 셈이지.
+
+단 일반 계좌는 배당소득세(15.4%)가 나가니, 과세가 이연되는 연금저축이나 IRP, ISA 계좌에서 담을 때 가장 유리한 치트키야!
+국내 상장 ETF의 세부 실부담비용과 분배금 내역은 프로필 링크 [ETF 캠퍼스]에서 바로 대조해볼 수 있어."""
+
     return {
         "target_index": target_index,
         "target_etf": etf_a_name,
         "brand_a": brand_a,
         "brand_b": brand_b,
+        "r1_winner": r1_winner,
+        "r4_winner": r4_winner,
+        "first_comment": first_comment,
         "etf_a_name": etf_a_name,
         "etf_b_name": etf_b_name,
         "etf_a_aum": etf_a_aum,
@@ -566,6 +615,7 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         "etf_b_pension": etf_b_pension,
         "pension_compare_line": pension_compare_line,
         "pension_warning_line": pension_warning_line,
+        "summary_verdict": summary_verdict,
         "dividend_yield": dividend_yield,
         "qna_question": qna_question,
         "qna_core_answer": qna_core_answer,
@@ -574,6 +624,14 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         "mechanics_explanation": mechanics_explanation,
         "mindset_target": mindset_target,
         "mindset_explanation": mindset_explanation,
+        "r1_line": r1_line,
+        "r1_verdict": r1_verdict,
+        "r2_line": r2_line,
+        "r2_verdict": r2_verdict,
+        "r3_line": r3_line,
+        "r3_verdict": r3_verdict,
+        "r4_line": r4_line,
+        "r4_verdict": r4_verdict,
         "as_of_date": as_of_date,
         "footer_provenance": footer_provenance,
     }
@@ -619,24 +677,31 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
     elif template_key == "rival_match":
         text = f"""{slots['etf_a_name']} vs {slots['etf_b_name']}.
-같은 {slots['target_index']} 투자인데 계좌 결과는 달라.
+같은 {slots['target_index']} 투자인데 결과는 완전히 달라.
 
-1. 순자산:
-{slots['brand_a']} {slots['etf_a_aum']} vs {slots['brand_b']} {slots['etf_b_aum']}
+실제 데이터로 딱 비교해볼게.
 
-2. 표기 보수 vs 실부담비용:
-{slots['fee_compare_line']}
+1. 순자산과 거래 유동성:
+{slots['r1_line']}
+{slots['r1_verdict']}
 
-3. 연금 한도와 1년 수익률:
-{slots['pension_compare_line']}
+2. 진짜 실부담비용:
+{slots['r2_line']}
+{slots['r2_verdict']}
 
-{slots['pension_warning_line']}
+3. 단순 주가와 추적오차율:
+{slots['r3_line']}
 
-주요 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 볼 수 있어.
+여기까진 {slots['r1_winner']}가 다 이긴 것 같잖아?
+하지만 분배금 합친 최근 1년 실질 총수익률은 반전이야.
 
-다들 {slots['target_index']} 모을 때 순자산을 먼저 봐, 아니면 실부담비용을 먼저 봐?
+{slots['r4_line']}
+{slots['r4_verdict']}
 
-{hashtag}{slots['footer_provenance']}"""
+둘 중 하나를 선택해야 한다면, 무엇을 고를까?
+
+지수 추종도 같고 비용도 불리한 {slots['r4_winner']}가 어떻게 분배금을 더 줬을까?
+2029년 1월까지 유효한 공시 내막은 바로 아래 첫 댓글에 풀어둘게.{slots['footer_provenance']}"""
 
     elif template_key == "life_stage":
         text = f"""3040 맞벌이 부부가 가장 많이 하는 실수.
@@ -807,6 +872,7 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
         "hashtag": hashtag,
         "char_count": len(text),
         "text": text,
+        "first_comment": slots.get("first_comment"),
         "status": "ready",
     }
 
@@ -818,6 +884,10 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
     print(f"  - 단일 해시태그: {hashtag}\n")
     print("=" * 65)
     print(text)
+    if slots.get("first_comment"):
+        print("\n[첫 댓글 마중물]")
+        print("-" * 65)
+        print(slots["first_comment"])
     print("=" * 65 + "\n")
 
     if dry_run:

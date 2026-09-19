@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getSeriesUrl, type SeriesManifest } from "../compare-client";
+import { getSeriesUrl, getCompareRequestKey, type SeriesManifest } from "../compare-client";
 
 describe("CompareClient Dynamic Cache Versioning & URL Generation", () => {
   it("manifest가 제공되면 asOf 버전이 URL의 ?v= 파라미터로 동적 부착된다", () => {
@@ -45,5 +45,14 @@ describe("CompareClient Dynamic Cache Versioning & URL Generation", () => {
     expect(url1).not.toEqual(url2);
     expect(url1).toContain("?v=20260916");
     expect(url2).toContain("?v=20260917");
+  });
+
+  it("getCompareRequestKey가 basket 티커, period, manifest asOf를 단일 규칙으로 결합한다 (Gate Verification)", () => {
+    const basket = [{ ticker: "069500" }, { ticker: "379800" }];
+    const keyWithManifest = getCompareRequestKey(basket, "1Y", "20260918");
+    expect(keyWithManifest).toBe("069500,379800_1Y_20260918");
+
+    const keyWithoutManifest = getCompareRequestKey(basket, "1Y", undefined);
+    expect(keyWithoutManifest).toBe("069500,379800_1Y_default");
   });
 });

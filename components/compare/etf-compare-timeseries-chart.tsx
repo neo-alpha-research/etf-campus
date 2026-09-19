@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useCallback } from "react";
 import { type Etf } from "@/lib/domain/etf-types";
-import { normalizeMulti, NormalizedSeries, SeriesInput } from "@/lib/domain/normalize-series";
+import { normalizeMulti, type SeriesInput } from "@/lib/domain/normalize-series";
 import { Download, AlertCircle, Info } from "lucide-react";
 import { toPng } from "html-to-image";
 
@@ -64,6 +64,7 @@ export function calculateStartDate(toDateStr: string, period: ComparePeriod): st
 export interface EtfCompareTimeseriesChartProps {
   basket: readonly Etf[];
   isTrMode?: boolean;
+  onToggleTr?: () => void;
   baseTicker?: string;
   period?: ComparePeriod;
   onPeriodChange?: (period: ComparePeriod) => void;
@@ -77,8 +78,9 @@ export interface EtfCompareTimeseriesChartProps {
 export function EtfCompareTimeseriesChart({
   basket,
   isTrMode = false,
+  onToggleTr,
   baseTicker,
-  period = "3M",
+  period = "1Y",
   onPeriodChange,
   seriesMap = {},
   quarantinedMap = {},
@@ -372,6 +374,12 @@ export function EtfCompareTimeseriesChart({
         cacheBust: true,
         backgroundColor: "#ffffff",
         pixelRatio: 2,
+        filter: (node) => {
+          if (node instanceof HTMLElement && node.dataset.exportIgnore === "true") {
+            return false;
+          }
+          return true;
+        },
       })
         .then((dataUrl) => {
           const link = document.createElement("a");
@@ -382,6 +390,7 @@ export function EtfCompareTimeseriesChart({
         })
         .catch((err) => {
           console.error("Failed to export chart image", err);
+          alert("차트 이미지 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
         })
         .finally(() => {
           setIsExporting(false);
@@ -401,7 +410,7 @@ export function EtfCompareTimeseriesChart({
     return `비교 기간 ${period}, 기준 ${basis}, 종목별 누적수익률: ${parts.join(", ")}`;
   }, [validSeries, basket, isTrMode, period]);
 
-  // Excluded tickers with insufficient coverage (< 20 trading days)
+  // Excluded tickers with insufficient coverage (< 2 trading days)
   const insufficientTickers = useMemo(() => {
     return normalizedResult.series
       .filter((s) => s.coverage === "insufficient")
@@ -411,9 +420,21 @@ export function EtfCompareTimeseriesChart({
       });
   }, [normalizedResult, basket]);
 
-  const isPartial =
-    normalizedResult.truncated.some((t) => t.reason === "late_listing") ||
-    (normalizedResult.series as any).some((s: any) => s.coverage === "partial");
+  const lateListingTickers = useMemo(() => {
+    return normalizedResult.truncated
+      .filter((t) => t.reason === "late_listing")
+      .map((t) => {
+        const etf = basket.find((b) => b.ticker === t.ticker);
+        const series = normalizedResult.series.find((s) => s.ticker === t.ticker);
+        return {
+          ticker: t.ticker,
+          name: etf?.name ?? t.ticker,
+          anchorDate: series?.anchorDate ? series.anchorDate.replace(/-/g, ".") : "",
+        };
+      });
+  }, [normalizedResult, basket]);
+
+  const isPartial = lateListingTickers.length > 0;
 
   // Hovered Point Summary Data
   const hoveredSummary = useMemo(() => {
@@ -438,36 +459,70 @@ export function EtfCompareTimeseriesChart({
   return (
     <div
       ref={chartContainerRef}
-      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 sm:p-4 transition-colors"
-      style={{ touchAction: "pan-y" }}
+      className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl mb-4 font-sans select-none"
       data-testid="compare-timeseries-chart-container"
     >
-      {/* 1. Header Toolbar */}
-      <div className="flex items-center justify-between gap-2 mb-2">
-        {/* Period Selector Segmented Control */}
-        <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg overflow-x-auto no-scrollbar">
-          {PERIOD_LABELS.map(({ key, label }) => {
-            const isSelected = period === key;
-            return (
+      {/* 1. Header Toolbar (ETF CHECK Benchmark: Periods + PR/TR Toggle + PNG Export) */}
+      <div className="flex items-center justify-between gap-2 mb-2 flex-wrap sm:flex-nowrap">
+        {/* Period Selector & PR/TR Toggle Group */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+          {/* Period Selector Segmented Control */}
+          <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 sm:p-1 rounded-lg">
+            {PERIOD_LABELS.map(({ key }) => {
+              const isSelected = period === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => onPeriodChange?.(key)}
+                  className={`min-w-[38px] sm:min-w-[44px] min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                    isSelected
+                      ? "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                  }`}
+                  data-testid={`period-button-${key}`}
+                >
+                  {key}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* PR / TR Return Basis Segmented Control (ETF CHECK benchmark) */}
+          {onToggleTr && (
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 sm:p-1 rounded-lg">
               <button
-                key={key}
                 type="button"
-                onClick={() => onPeriodChange?.(key)}
-                className={`min-w-[44px] min-h-[32px] px-2.5 py-1 text-xs font-bold rounded-md transition-all ${
-                  isSelected
-                    ? "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                onClick={() => isTrMode && onToggleTr()}
+                className={`min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                  !isTrMode
+                    ? "bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 }`}
-                data-testid={`period-button-${key}`}
+                title="단순 시장 종가 기준 가격 수익률 (분배금 미포함)"
+                data-testid="chart-basis-pr"
               >
-                {key}
+                PR (가격)
               </button>
-            );
-          })}
+              <button
+                type="button"
+                onClick={() => !isTrMode && onToggleTr()}
+                className={`min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                  isTrMode
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                }`}
+                title="분배금 세전 재투자 복리 총수익률 (Total Return)"
+                data-testid="chart-basis-tr"
+              >
+                TR (총수익)
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Tools (PNG Export) */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {hasZeroDistEtfs && isTrMode && (
             <span className="hidden md:inline-flex items-center text-[11px] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
               분배 이력 없는 종목 포함 (시장가격과 동일)
@@ -477,11 +532,13 @@ export function EtfCompareTimeseriesChart({
             type="button"
             onClick={handleDownload}
             disabled={isExporting}
-            title="차트 이미지 저장"
-            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            data-export-ignore="true"
+            title="현재 비교 차트를 고해상도 이미지(PNG)로 저장합니다."
+            className="inline-flex items-center gap-1.5 min-h-[28px] sm:min-h-[32px] px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:text-slate-900 shadow-2xs transition-all active:scale-95"
             data-testid="chart-export-button"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+            <span>{isExporting ? "저장 중..." : "이미지 저장"}</span>
           </button>
         </div>
       </div>
@@ -506,11 +563,13 @@ export function EtfCompareTimeseriesChart({
 
       {isPartial && (
         <div
-          className="flex items-center gap-1.5 p-2 mb-2 text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-lg"
+          className="flex items-center gap-1.5 p-2 mb-2 text-xs font-medium text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/50 rounded-lg"
           data-testid="partial-coverage-banner"
         >
-          <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
-          <span>선택하신 종목 중 최근 상장된 종목으로 인해 비교 시작일이 자동 축소되었습니다.</span>
+          <Info className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400" />
+          <span>
+            최근 상장 종목({lateListingTickers.map((t) => `${t.name}${t.anchorDate ? ` [${t.anchorDate} 상장]` : ""}`).join(", ")})은 상장 시점부터 수익률 곡선이 시작됩니다.
+          </span>
         </div>
       )}
 
@@ -521,7 +580,7 @@ export function EtfCompareTimeseriesChart({
         >
           <Info className="w-4 h-4 shrink-0 text-slate-500" />
           <span>
-            {insufficientTickers.map((t) => t.name).join(", ")} 종목은 거래일수 부족(20일 미만)으로 시계열 비교에서 제외되었습니다.
+            {insufficientTickers.map((t) => t.name).join(", ")} 종목은 거래일수 부족으로 시계열 비교에서 제외되었습니다.
           </span>
         </div>
       )}
@@ -579,7 +638,7 @@ export function EtfCompareTimeseriesChart({
                         : "text-slate-600 dark:text-slate-400"
                     }`}
                   >
-                    {it.value !== null ? `${it.value > 0 ? "+" : ""}${it.value.toFixed(1)}%` : "N/A"}
+                    {it.value !== null ? `${it.value > 0 ? "+" : ""}${it.value.toFixed(1)}%` : "상장 전"}
                   </span>
                   {it.isFilled && (
                     <span className="text-[9px] text-slate-400 dark:text-slate-500">(직전종가)</span>
@@ -877,14 +936,34 @@ export function EtfCompareTimeseriesChart({
         </div>
       )}
 
-      {/* 5. Static Legal Disclaimers (자본시장법 제101조 및 금융 컴플라이언스 3종 상시 각주) */}
-      <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 font-normal">
+      {/* 5. Static Legal Disclaimers (자본시장법 제101조 및 금융 컴플라이언스 3종 상시 각주 - 웹 화면 전용, 이미지 저장 시 제외) */}
+      <div
+        data-testid="compare-chart-web-disclaimers"
+        data-export-ignore="true"
+        className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 font-normal"
+      >
         <p className="font-semibold text-slate-700 dark:text-slate-300">
-          * 본 자료는 투자 판단을 돕기 위한 단순 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.
+          * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.
         </p>
         <p>• 분배금은 분배락일 종가로 재투자했다고 가정한 이론 수치이며, 실제 지급일·재투자 시점·거래비용은 반영하지 않았습니다.</p>
         <p>• 세금은 반영하지 않은 세전 기준입니다. 계좌 유형에 따라 실제 세후 수익률은 달라집니다.</p>
         <p>• 과거 성과가 미래 수익을 보장하지 않습니다.</p>
+      </div>
+
+      {/* 6. 초슬림 1줄 공식 워터마크 풋터 (Option 1: 이미지 저장 시 자리를 차지하지 않는 1줄 인라인 워터마크) */}
+      <div
+        data-testid="compare-chart-official-footer"
+        className={`mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 ${
+          isExporting ? "flex" : "hidden"
+        } items-center justify-between gap-2 text-slate-400 dark:text-slate-500 px-0.5`}
+      >
+        <span className="text-[9px] font-normal tracking-tight">
+          * 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.
+        </span>
+        <div className="flex items-center gap-1 text-[10px] font-extrabold text-slate-600 dark:text-slate-400 shrink-0">
+          <span>📊</span>
+          <span>ETF 캠퍼스 etf-campus.pages.dev</span>
+        </div>
       </div>
     </div>
   );

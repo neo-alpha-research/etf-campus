@@ -43,6 +43,14 @@ export function getSeriesUrl(
   return `/data/series/v2/${ticker}${fileSuffix}${query}`;
 }
 
+export function getCompareRequestKey(
+  basket: readonly { ticker: string }[],
+  period: ComparePeriod,
+  manifestAsOf?: string
+): string {
+  return `${basket.map((e) => e.ticker).join(",")}_${period}_${manifestAsOf || "default"}`;
+}
+
 export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const { basket, mounted, toastMessage, showToast, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket(etfs);
   const searchParams = useSearchParams();
@@ -53,7 +61,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
       const pUpper = p.toUpperCase() as ComparePeriod;
       if (["1M", "3M", "6M", "1Y", "3Y"].includes(pUpper)) return pUpper;
     }
-    return "3M";
+    return "1Y";
   })();
 
   const initialTrMode = searchParams.get("basis")?.toLowerCase() === "tr";
@@ -86,7 +94,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
     };
   }, []);
 
-  const currentKey = `${basket.map((e) => e.ticker).join(",")}_${period}`;
+  const currentKey = getCompareRequestKey(basket, period, manifest?.asOf);
   const isLoadingSeries = basket.length > 0 && loadedKey !== currentKey;
 
   // URL query sync helper
@@ -164,7 +172,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
 
     let isMounted = true;
     const isRecent = period === "1M" || period === "3M" || period === "6M" || period === "1Y";
-    const requestKey = `${basket.map((e) => e.ticker).join(",")}_${period}_${manifest?.asOf || "default"}`;
+    const requestKey = getCompareRequestKey(basket, period, manifest?.asOf);
 
     const fetchPromises = basket.map(async (etf) => {
       const entry = manifest?.tickers?.[etf.ticker];
@@ -215,8 +223,6 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
       isMounted = false;
     };
   }, [mounted, basket, period, manifest]);
-
-
 
   const handleAddEtf = useCallback((etf: Etf | EtfSlim) => {
     addEtf(etf);
@@ -363,6 +369,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
             <EtfCompareTimeseriesChart
               basket={basket as Etf[]}
               isTrMode={isTrMode}
+              onToggleTr={() => setIsTrMode((prev) => !prev)}
               baseTicker={basket[0]?.ticker}
               period={period}
               onPeriodChange={setPeriod}

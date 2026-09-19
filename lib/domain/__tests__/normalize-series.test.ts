@@ -100,10 +100,10 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     expect(res.series.find((s) => s.ticker === "BBB")!.terminalReturn).toBe(bPoints[19].value);
   });
 
-  // ④ 신규상장 → 앵커 이동
-  it("④ 신규상장 → 앵커 이동: 후발 상장 종목 상장일로 앵커 이동 및 late_listing 기록", () => {
+  // ④ 신규상장 → 순차 합류(Staggered Inception) 및 앵커 보존
+  it("④ 신규상장 → 순차 합류: 후발 상장 종목이 있어도 전체 캘린더를 유지하며 상장일부터 0% 출발", () => {
     const dates = makeDates("2024-01-01", 50);
-    // BBB listed on dates[10], has 40 days >= 20
+    // BBB listed on dates[10], has 40 days
     const datesB = dates.slice(10);
     const valuesB = datesB.map((_, i) => 20000 + i * 100);
 
@@ -118,24 +118,41 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
       values: valuesB,
     };
 
+    // 1. Default Staggered Inception mode
     const res = normalizeMulti([inputA, inputB], dates[0], dates[49]);
-    expect(res.anchorDate).toBe(dates[10]);
+    expect(res.anchorDate).toBe(dates[0]); // 전체 요청 기간의 시작일 보존 (Zero-Truncation)
     expect(res.truncated).toEqual(
       expect.arrayContaining([{ ticker: "BBB", reason: "late_listing" }])
     );
-    // At anchor date, both series should have 0% normalized return
-    const aAnchorPt = res.series[0].points.find((p) => p.date === dates[10]);
-    const bAnchorPt = res.series[1].points.find((p) => p.date === dates[10]);
-    expect(aAnchorPt?.value).toBe(0);
+
+    const aSeries = res.series.find((s) => s.ticker === "AAA")!;
+    const bSeries = res.series.find((s) => s.ticker === "BBB")!;
+
+    // AAA starts at day 0 with 0%
+    expect(aSeries.points[0].value).toBe(0);
+
+    // BBB has null before day 10, and starts at day 10 with 0%
+    expect(bSeries.points[0].value).toBeNull();
+    expect(bSeries.points[9].value).toBeNull();
+    const bAnchorPt = bSeries.points.find((p) => p.date === dates[10]);
     expect(bAnchorPt?.value).toBe(0);
+    expect(bSeries.anchorDate).toBe(dates[10]);
+
+    // 2. Legacy common_anchor mode
+    const resLegacy = normalizeMulti([inputA, inputB], dates[0], dates[49], { mode: "common_anchor" });
+    expect(resLegacy.anchorDate).toBe(dates[10]);
   });
 
-  // ⑤ 20일 미만 → 제외
-  it("⑤ 20일 미만 → 제외: 거래일 20일 미만 종목은 insufficient로 제외되고 앵커에 영향 미치지 않음", () => {
+  // ⑤ 가용 기간 최대 활용: 2영업일 이상이면 포함하고 2일 미만만 insufficient 제외
+  it("⑤ 가용 기간 최대 활용: 10거래일 신규 종목도 정상 포함되고, 2영업일 미만만 insufficient 제외", () => {
     const dates = makeDates("2024-01-01", 40);
-    // CCC listed on dates[30], only 10 trading days (< 20)
+    // CCC listed on dates[30], has 10 trading days
     const datesC = dates.slice(30);
     const valuesC = datesC.map((_, i) => 10000 + i * 10);
+
+    // DDD only has 1 trading day (< 2)
+    const datesD = dates.slice(39);
+    const valuesD = [10000];
 
     const inputA: SeriesInput = {
       ticker: "AAA",
@@ -147,16 +164,28 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
       dates: datesC,
       values: valuesC,
     };
+    const inputD: SeriesInput = {
+      ticker: "DDD",
+      dates: datesD,
+      values: valuesD,
+    };
 
-    const res = normalizeMulti([inputA, inputC], dates[0], dates[39]);
+    // Staggered mode: CCC (10 days) should be OK and included from its listing date
+    const res = normalizeMulti([inputA, inputC, inputD], dates[0], dates[39]);
     const cSeries = res.series.find((s) => s.ticker === "CCC")!;
-    expect(cSeries.coverage).toBe("insufficient");
-    expect(cSeries.points).toHaveLength(0);
+    expect(cSeries.coverage).toBe("ok");
+    expect(cSeries.points.filter((p) => p.value !== null)).toHaveLength(10);
+    expect(cSeries.points.find((p) => p.date === dates[30])?.value).toBe(0);
 
-    // AAA should still anchor at dates[0]
-    expect(res.anchorDate).toBe(dates[0]);
-    const aSeries = res.series.find((s) => s.ticker === "AAA")!;
-    expect(aSeries.coverage).toBe("ok");
+    // DDD (1 day) is truly insufficient (< 2 days)
+    const dSeries = res.series.find((s) => s.ticker === "DDD")!;
+    expect(dSeries.coverage).toBe("insufficient");
+    expect(dSeries.points).toHaveLength(0);
+
+    // Legacy mode: CCC (< 20 days) is insufficient
+    const resLegacy = normalizeMulti([inputA, inputC], dates[0], dates[39], { mode: "common_anchor" });
+    const cLegacy = resLegacy.series.find((s) => s.ticker === "CCC")!;
+    expect(cLegacy.coverage).toBe("insufficient");
   });
 
   // ⑥ 2023-01-02 클램프
@@ -262,8 +291,8 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     expect(res.series[1].coverage).toBe("ok");
   });
 
-  // ⑪ [Step 84 회귀 2] 겹침 부족: 거래일 20일 미만일 때 coverage: "insufficient"
-  it("⑪ [Step 84 회귀 2] 겹침 부족: 거래일 20일 미만일 때 coverage: 'insufficient'", () => {
+  // ⑪ [Step 84 회귀 2] 겹침 부족: common_anchor 모드에서 20일 미만 insufficient 및 staggered 모드에서 정상 포함
+  it("⑪ [Step 84 회귀 2] 겹침 부족: common_anchor 모드에서 20일 미만 insufficient 및 staggered 모드에서 정상 포함", () => {
     const dates = makeDates("2024-03-01", 30);
     // BBB listed on day 15, only 15 trading days (< 20)
     const datesB = dates.slice(15);
@@ -278,10 +307,17 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
       values: datesB.map((_, i) => 20000 + i * 100),
     };
 
+    // Staggered mode (default): 15 days is >= 2, so BBB is ok and has 15 non-null points
     const res = normalizeMulti([inputA, inputB], dates[0], dates[29]);
     const bSeries = res.series.find((s) => s.ticker === "BBB")!;
-    expect(bSeries.coverage).toBe("insufficient");
-    expect(bSeries.points).toHaveLength(0);
+    expect(bSeries.coverage).toBe("ok");
+    expect(bSeries.points.filter((p) => p.value !== null)).toHaveLength(15);
+
+    // Common anchor mode: BBB (< 20 days) is insufficient
+    const resLegacy = normalizeMulti([inputA, inputB], dates[0], dates[29], { mode: "common_anchor" });
+    const bLegacy = resLegacy.series.find((s) => s.ticker === "BBB")!;
+    expect(bLegacy.coverage).toBe("insufficient");
+    expect(bLegacy.points).toHaveLength(0);
   });
 
   // ⑫ [Step 84 회귀 3] 겹침 내부 결측: 5거래일 초과 거래정지 결측 구간 존재 시 coverage: "gapped"
@@ -308,8 +344,8 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
     expect(bSeries.points.some((p) => p.isFilled)).toBe(true);
   });
 
-  // ⑬ [Step 84 회귀 4] 정규화 앵커가 공통 첫 거래일인지 검증
-  it("⑬ [Step 84 회귀 4] 정규화 앵커가 공통 첫 거래일인지 검증: 후발 상장일이 앵커가 되고 양쪽 0% 일치", () => {
+  // ⑬ [Step 84 회귀 4] 정규화 앵커 검증
+  it("⑬ [Step 84 회귀 4] 정규화 앵커 검증: common_anchor 모드에서는 후발 상장일이 공통 앵커가 되고, staggered 모드에서는 전체 시작일이 앵커가 됨", () => {
     const dates = makeDates("2024-03-01", 50);
     // AAA listed on day 0, BBB listed on day 20 (30 days >= 20)
     const datesB = dates.slice(20);
@@ -324,10 +360,19 @@ describe("normalizeMulti - Normalization and Alignment Engine", () => {
       values: datesB.map((_, i) => 20000 + i * 100),
     };
 
+    // Staggered mode (default)
     const res = normalizeMulti([inputA, inputB], dates[0], dates[49]);
-    expect(res.anchorDate).toBe(dates[20]); // First common trading day
-    const aAnchor = res.series.find((s) => s.ticker === "AAA")!.points.find((p) => p.date === dates[20]);
-    const bAnchor = res.series.find((s) => s.ticker === "BBB")!.points.find((p) => p.date === dates[20]);
+    expect(res.anchorDate).toBe(dates[0]);
+    const aAnchorStaggered = res.series.find((s) => s.ticker === "AAA")!.points.find((p) => p.date === dates[0]);
+    const bAnchorStaggered = res.series.find((s) => s.ticker === "BBB")!.points.find((p) => p.date === dates[20]);
+    expect(aAnchorStaggered?.value).toBe(0);
+    expect(bAnchorStaggered?.value).toBe(0);
+
+    // Common anchor mode
+    const resLegacy = normalizeMulti([inputA, inputB], dates[0], dates[49], { mode: "common_anchor" });
+    expect(resLegacy.anchorDate).toBe(dates[20]); // First common trading day
+    const aAnchor = resLegacy.series.find((s) => s.ticker === "AAA")!.points.find((p) => p.date === dates[20]);
+    const bAnchor = resLegacy.series.find((s) => s.ticker === "BBB")!.points.find((p) => p.date === dates[20]);
     expect(aAnchor?.value).toBe(0);
     expect(bAnchor?.value).toBe(0);
   });

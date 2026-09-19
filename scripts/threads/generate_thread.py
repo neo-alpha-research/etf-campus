@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Threads 바이럴 포스트 자동 생성기 (v2.1)
-전문가 5인 정밀 검토 반영: 인간 체온 톤 + 실데이터(screener.json) 연동 + ETF 캠퍼스 전환 훅
+Threads 바이럴 포스트 자동 생성기 (v2.3)
+전문가 5인 정밀 검토 반영: 인간 체온 톤 + 실데이터(screener.json/master) 연동 + 4-Step 황금 번들 + 이상치 자동 감지
 
-커뮤니티 게시판 topic_bank.json과 실제 screener.json 데이터를 결합하여
-6대 킬러 템플릿(비용폭로, 세금탈출, 라이벌대결, 생애주기, 배당착시, 사이다Q&A)에
-자동 라우팅하여 고품질의 실데이터 기반 스레드를 생성합니다.
+커뮤니티 게시판 topic_bank.json과 실제 master/fees 데이터를 결합하여
+8대 킬러 템플릿(비용폭로, 세금탈출, 라이벌대결, 생애주기, 배당착시, 구조해부, 멘탈관리, 사이다Q&A)에
+자동 라우팅하여 고품질의 실데이터 기반 스레드 및 첫 댓글 마중물을 원자적으로 생성합니다.
 
 사용법:
   python scripts/threads/generate_thread.py                 # 오늘 KST 기준
   python scripts/threads/generate_thread.py --date 2026-09-18
   python scripts/threads/generate_thread.py --dry-run
+  python scripts/threads/generate_thread.py --date 2026-09-21 --assign-slot 20260921_SLOT_05
 """
 
 import argparse
@@ -36,18 +37,25 @@ if sys.stderr and hasattr(sys.stderr, "reconfigure"):
         pass
 
 # ──────────────────────────────────────────────
-# 경로 설정 (단일 진실 공급원 SSOT: data/etf_master_draft.csv + fees/)
+# 단일 진실 공급원(SSOT) 및 마스터 경로 설정
 # ──────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent.parent
 TOPIC_BANK = ROOT / "scripts" / "community" / "topic_bank.json"
 THREADS_BANK = Path(__file__).parent / "threads_bank.json"
 ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
+RETURNS_CSV = ROOT / "data" / "etf_returns_draft.csv"
+SERIES_V2_DIR = ROOT / "public" / "data" / "series" / "v2"
 
 KST = timezone(timedelta(hours=9))
 
+# 마케팅 콕핏 원장 경로 (자동 예약 배정용)
+MARKETING_ROOT = ROOT.parent / "Marketing_Writer"
+COCKPIT_DB_PATH = MARKETING_ROOT / "dashboard" / "cockpit.db"
+CAMPAIGN_ROOT = MARKETING_ROOT / "02_진행중인_캠페인"
+
 # ──────────────────────────────────────────────
-# 8대 킬러 템플릿 아키텍처 (인간 체온 + 실데이터 + 컴플라이언스 준수)
+# 8대 킬러 템플릿 아키텍처
 # ──────────────────────────────────────────────
 TEMPLATES = {
     "cost_bust": {
@@ -99,19 +107,10 @@ HASHTAG_POOL = {
 }
 
 # ──────────────────────────────────────────────
-# 실데이터 로더 및 포맷터 (단일 원천 SSOT: etf_master_draft.csv + fees/)
-# ──────────────────────────────────────────────
-ETF_MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
-FEE_REGISTRY = ROOT / "data" / "fees" / "etf_fee_registry.json"
-RETURNS_CSV = ROOT / "data" / "etf_returns_draft.csv"
-SERIES_V2_DIR = ROOT / "public" / "data" / "series" / "v2"
-
-KST = timezone(timedelta(hours=9))
-
-# ──────────────────────────────────────────────
-# 8대 킬러 템플릿 아키텍처 (인간 체온 + 실데이터 + 컴플라이언스 준수)
+# 실데이터 로더 및 캐시 (SSOT)
 # ──────────────────────────────────────────────
 _MASTER_CACHE = None
+
 
 def load_master_data() -> list[dict]:
     """공인 1차 원장(etf_master_draft.csv)과 공식 수수료 레지스트리를 직접 조인하여 단일 원천을 로드합니다."""
@@ -293,7 +292,6 @@ def format_as_of_date(raw_date: str | None, fallback_date_str: str) -> str:
         clean = re.sub(r"[^\d]", "", str(raw_date))
         if len(clean) == 8:
             return f"{clean[:4]}.{clean[4:6]}.{clean[6:]}"
-    # 결측 시: 발행일 기준 T-1 전 거래일 안전 계산
     try:
         cur = datetime.strptime(fallback_date_str, "%Y-%m-%d")
         if cur.weekday() == 0:  # 월요일이면 금요일(-3일)
@@ -308,41 +306,66 @@ def format_as_of_date(raw_date: str | None, fallback_date_str: str) -> str:
 
 
 # ──────────────────────────────────────────────
-# 텍스트 정제 및 문체 규칙 강제 (AGENTS.md 준수)
+# 전사 문체 헌법 0턴 자율 교정 린터 (AGENTS.md 준수)
 # ──────────────────────────────────────────────
-def sanitize_text(text: str) -> str:
-    """친절한 반말 멘토체 정제: 비문 제거, 괄호 제거, 사족 어미 차단, AI 클리셰 필터링, 모바일 공백 줄바꿈 보존."""
-    # 비문 '다들은' -> '다들' 일괄 수정
+def enforce_thread_constitution(text: str, is_first_comment: bool = False) -> str:
+    """
+    친절한 반말 멘토체 정제: 비문 제거, 괄호 제거, 사족 어미 차단, AI 클리셰 필터링, 모바일 공백 줄바꿈 보존.
+    본문과 첫 댓글 모두에 동일하게 0턴으로 강제 적용됩니다.
+    """
+    # 1. 비문 '다들은' -> '다들' 일괄 수정
     text = text.replace("다들은", "다들")
 
-    # 자본시장법 제101조 컴플라이언스 강제 (추천/포트폴리오 추천 자동 중화)
+    # 2. 자본시장법 제101조 컴플라이언스 강제 (추천 자동 중화)
     text = text.replace("포트폴리오 추천", "포트폴리오 구성 기준")
+    text = text.replace("종목 추천", "종목 비교 분석")
     text = text.replace("추천", "선택 기준")
 
-    # 금지 어미 제거 (~거든, ~했거든 -> ~잖아, ~어, ~했어)
-    text = re.sub(r"했거든\b", "했어", text)
-    text = re.sub(r"있거든\b", "있어", text)
-    text = re.sub(r"거든\b", "잖아", text)
+    # 3. 금지 어미 제거 (과거형 종성 ㅆ + 거든 -> ~지, 있거든 -> 있어, 일반 거든 -> 잖아)
+    def _sub_geodeun(m):
+        prefix = m.group(1)
+        last_ch = prefix[-1]
+        if 0xAC00 <= ord(last_ch) <= 0xD7A3 and (ord(last_ch) - 0xAC00) % 28 == 20:
+            return prefix + "지"
+        if prefix.endswith("있"):
+            return prefix[:-1] + "있어"
+        return prefix + "잖아"
 
-    # AI 클리셰 어휘 정제 (진짜 사람의 구어체로 치환)
+    text = re.sub(r"([가-힣]+)거든\b", _sub_geodeun, text)
+
+    # 4. AI 클리셰 어휘 정제 (진짜 사람의 구어체로 치환)
     text = text.replace("세 가지에서 갈려", "세 가지에서 달라져")
     text = text.replace("갈려.", "달라져.")
     text = text.replace("끝나면 하수야", "끝나면 놓치기 쉬워")
     text = text.replace("치명상을 입게 되더라고", "큰 손실을 보게 되더라고")
     text = text.replace("기현상이 심심찮게 터져나와", "경우가 꽤 많아")
 
-    # 일반 소괄호 () 전면 제거 (부연 괄호 및 티커 괄호 정리, 단 공인 기관 약칭 (KRX)는 보존)
+    # 5. 일반 소괄호 () 전면 제거 (공인 약칭 (KRX) 및 기술 약어는 보존)
     text = text.replace("(KRX)", "__KRX__")
     text = re.sub(r"\([^)]*\)", "", text)
     text = text.replace("__KRX__", "(KRX)")
 
-    # 줄바꿈(\n\n)을 온전히 보존하면서 각 라인 내 불필요한 연속 공백만 정리
+    # 6. 줄바꿈(\n\n)을 온전히 보존하면서 각 라인 내 불필요한 연속 공백만 정리
     lines = []
     for line in text.split("\n"):
         clean_line = re.sub(r"[ \t]+", " ", line).strip()
         lines.append(clean_line)
 
-    return "\n".join(lines).strip()
+    # 7. 프로필 링크 CTA 라인 직전에 빈 줄(\n\n) 보장 (모바일 리듬 & 클릭 전환율)
+    final_lines = []
+    cta_marker = "프로필 링크 [ETF 캠퍼스]"
+    for line in lines:
+        if cta_marker in line:
+            if final_lines and final_lines[-1] != "":
+                final_lines.append("")
+        final_lines.append(line)
+
+    return "\n".join(final_lines).strip()
+
+
+def sanitize_text(text: str) -> str:
+    """하위 호환성을 위한 래퍼 함수."""
+    return enforce_thread_constitution(text)
 
 
 # ──────────────────────────────────────────────
@@ -464,7 +487,7 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     else:
         qna_core_answer = "세부 규정과 공시 기준을 정확히 확인해야 불필요한 손실을 막을 수 있어."
 
-    # Dynamic CTA for Q&A (Context-aware)
+    # Dynamic CTA for Q&A
     if any(k in title for k in ["건보", "피부양자", "건강보험"]):
         qna_dynamic_cta = "다들 금융소득 늘어날 때 건강보험료 기준 꼼꼼하게 따져보고 있어?"
     elif any(k in title for k in ["외화", "환전", "환헤지", "달러"]):
@@ -486,21 +509,17 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     mindset_target = title.split(":")[0].strip() if ":" in title else title
     mindset_explanation = ". ".join(sentences[:2]) + "." if sentences else "역사적 데이터를 살펴보면 단기 변동성보다 일관된 원칙 유지가 성과를 좌우해."
 
-    # 브랜드 단축명 (가독성 및 모바일 글자 수 최적화)
+    # 브랜드 단축명
     brand_a = etf_a_name.split()[0] if etf_a_name else "A"
     brand_b = etf_b_name.split()[0] if etf_b_name else "B"
 
-    # 실제 수치(표기보수, 실부담비용, 1년수익률) 정밀 연동 (Zero-Hallucination)
+    # 실제 수치 정밀 연동 (Zero-Hallucination)
     fee_a_obj = item_a.get("fee") if item_a else None
     fee_b_obj = item_b.get("fee") if item_b else None
-    tot_fee_a_val = fee_a_obj.get("totalFeePct") if fee_a_obj else None
-    tot_fee_b_val = fee_b_obj.get("totalFeePct") if fee_b_obj else None
     real_fee_a_val = fee_a_obj.get("realFeePct") if fee_a_obj else None
     real_fee_b_val = fee_b_obj.get("realFeePct") if fee_b_obj else None
-    ret_a_12m = item_a.get("return12m") if item_a else None
-    ret_b_12m = item_b.get("return12m") if item_b else None
 
-    # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱 (Zero-Hallucination)
+    # 실제 원장 집계일(As-Of Date) 및 공인 출처 파싱
     raw_as_of = None
     if item_a and item_a.get("asOfDate"):
         raw_as_of = item_a.get("asOfDate")
@@ -523,13 +542,13 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         "* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다."
     )
 
-    # V2 시계열에서 분배금을 포함한 1년 총수익률(TR) 및 시장가격(PR) 산출 (Zero-Hallucination)
-    tk_a = item_a.get("ticker") if item_a else None
-    tk_b = item_b.get("ticker") if item_b else None
+    # V2 시계열 수익률 산출
+    tk_a = (item_a.get("ticker") if item_a else None) or ticker_a
+    tk_b = (item_b.get("ticker") if item_b else None) or ticker_b
     pr_a, tr_a = get_v2_1y_returns(tk_a, target_as_of_iso)
     pr_b, tr_b = get_v2_1y_returns(tk_b, target_as_of_iso)
 
-    # 라이벌 맞대결 4라운드 판정 로직 (더 우세한 쪽 우선 표기 & 판정)
+    # 라이벌 맞대결 4라운드 판정 로직
     aum_a_num = item_a.get("aum") if item_a else 0
     aum_b_num = item_b.get("aum") if item_b else 0
     if aum_a_num >= aum_b_num:
@@ -551,8 +570,10 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
             r2_line = f"{brand_b} {real_fee_b_val:.4f}% vs {brand_a} {real_fee_a_val:.4f}%"
             r2_verdict = f"👉 {brand_b} {qualifier}. 연 {diff_fee:.3f}%p 더 저렴해."
     else:
-        r2_line = f"{brand_a} 0.0972% vs {brand_b} 0.1094%"
-        r2_verdict = f"👉 {brand_a} 미세 우세. 연 0.012%p 더 저렴해."
+        fee_a_str = f"{real_fee_a_val:.4f}%" if real_fee_a_val is not None else "0.1%대"
+        fee_b_str = f"{real_fee_b_val:.4f}%" if real_fee_b_val is not None else "0.1%대"
+        r2_line = f"{brand_a} {fee_a_str} vs {brand_b} {fee_b_str}"
+        r2_verdict = "👉 실부담비용은 공시 데이터 기준 미세한 차이를 보여."
 
     pr_avg = round(((pr_a or 0) + (pr_b or 0)) / 2, 1) if (pr_a is not None and pr_b is not None) else 16.2
     te_a_val = item_a.get("trackingError") if item_a else 0.06
@@ -570,8 +591,10 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
             r4_line = f"{brand_b} {tr_b:.2f}% vs {brand_a} {tr_a:.2f}%"
             r4_verdict = f"👉 {brand_b}가 {diff_tr:.2f}%p 앞서."
     else:
-        r4_line = f"{brand_b} 18.60% vs {brand_a} 17.32%"
-        r4_verdict = f"👉 {brand_b}가 1.28%p 앞서."
+        tr_a_str = f"{tr_a:.2f}%" if tr_a is not None else "데이터 집계 중"
+        tr_b_str = f"{tr_b:.2f}%" if tr_b is not None else "데이터 집계 중"
+        r4_line = f"{brand_a} {tr_a_str} vs {brand_b} {tr_b_str}"
+        r4_verdict = "👉 분배금 포함 실질 총수익률은 공시 데이터를 확인해봐."
 
     r1_winner = brand_a if aum_a_num >= aum_b_num else brand_b
     r4_winner = brand_a if (tr_a or 0) >= (tr_b or 0) else brand_b
@@ -580,21 +603,6 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
     else:
         summary_verdict = f"유동성은 {r1_winner}, 총수익률은 {r4_winner}가 앞서는 셈이지."
 
-    fee_compare_line = r2_line
-    return_compare_line = r4_line
-    pension_compare_line = r3_line
-    pension_warning_line = f"단 실부담비용은 직전 결산 사후치라 매년 달라져.\n{summary_verdict}"
-
-    first_comment = f"""💡 지수 추종도 똑같은데 {r4_winner}가 분배금을 2배씩 더 주는 진짜 이유
-
-{r4_winner}는 원래 배당금을 자동 재투자하던 'TR' 상품이었어.
-2025년 정부 세법 개정으로 분배형으로 바뀌면서, 상장 후 4년간 펀드에 쌓아둔 15분기치 누적 배당금을 2025년 7월부터 총 15회에 걸쳐 매 분기 분배금에 얹어서 추가 지급하기로 공식 결정했거든.
-
-즉 2029년 1월까지는 [정상 배당 60원 + 과거 유보금 60원 = 120원] 보너스가 나오는 셈이지.
-
-단 일반 계좌는 배당소득세(15.4%)가 나가니, 과세가 이연되는 연금저축이나 IRP, ISA 계좌에서 담을 때 가장 유리한 치트키야!
-국내 상장 ETF의 세부 실부담비용과 분배금 내역은 프로필 링크 [ETF 캠퍼스]에서 바로 대조해볼 수 있어."""
-
     return {
         "target_index": target_index,
         "target_etf": etf_a_name,
@@ -602,19 +610,19 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
         "brand_b": brand_b,
         "r1_winner": r1_winner,
         "r4_winner": r4_winner,
-        "first_comment": first_comment,
+        "topic_id": topic.get("id", ""),
         "etf_a_name": etf_a_name,
         "etf_b_name": etf_b_name,
         "etf_a_aum": etf_a_aum,
         "etf_b_aum": etf_b_aum,
         "etf_a_fee": etf_a_fee,
         "etf_b_fee": etf_b_fee,
-        "fee_compare_line": fee_compare_line,
-        "return_compare_line": return_compare_line,
+        "fee_compare_line": r2_line,
+        "return_compare_line": r4_line,
         "etf_a_pension": etf_a_pension,
         "etf_b_pension": etf_b_pension,
-        "pension_compare_line": pension_compare_line,
-        "pension_warning_line": pension_warning_line,
+        "pension_compare_line": r3_line,
+        "pension_warning_line": f"단 실부담비용은 직전 결산 사후치라 매년 달라져.\n{summary_verdict}",
         "summary_verdict": summary_verdict,
         "dividend_yield": dividend_yield,
         "qna_question": qna_question,
@@ -638,7 +646,84 @@ def extract_slots(topic: dict, date_str: str = "") -> dict:
 
 
 # ──────────────────────────────────────────────
-# 6대 킬러 템플릿 렌더러 (인간 체온 + 전환 훅 완비)
+# 4-Step 황금 번들 첫 댓글 렌더러
+# ──────────────────────────────────────────────
+def render_first_comment(template_key: str, slots: dict) -> str:
+    """템플릿 유형에 따라 최적화된 4-Step 첫 댓글 마중물을 렌더링합니다."""
+    if template_key == "rival_match":
+        r4_winner = slots.get("r4_winner", "KODEX")
+        target_index = slots.get("target_index", "S&P500")
+        target_r4_name = f"{r4_winner} 미국{target_index}" if "미국" not in r4_winner else r4_winner
+
+        # sca-001: KODEX vs TIGER S&P500 세법 개정 특수 공시 팩트 바인딩
+        if slots.get("topic_id") == "sca-001":
+            comment = f"""💡 같은 지수 추종하는데 {r4_winner}가 분배금을 거의 2배나 더 주는 진짜 이유
+
+{target_r4_name}은 원래 배당금을 자동 재투자하던 토탈리턴 TR 상품이었어.
+2025년 정부 세법 개정으로 분배형으로 바뀌면서, 상장 후 4년간 펀드에 쌓아둔 15분기치 누적 배당금을 2025년 7월부터 총 15회에 걸쳐 매 분기 분배금에 얹어서 추가 지급하기로 공식 결정했지.
+
+즉 2029년 1월까지는 정상 배당과 과거 유보금까지 합쳐서 분배금이 나오는 셈이지.
+
+일반 계좌에서 투자한다면 배당소득세 15.4%가 나가니, 과세가 이연되는 연금저축이나 IRP, ISA 계좌에서 담으면 더 유리하겠지?
+
+국내 상장 ETF의 세부 실부담비용과 분배금 내역은 프로필 링크 [ETF 캠퍼스]에서 바로 대조해볼 수 있어."""
+        else:
+            comment = f"""💡 같은 지수 추종 상품인데 장기 수익률과 분배금에서 차이가 나는 진짜 이유
+
+지수를 똑같이 복제해도 운용사마다 배당금 재투자 방식, 매매 타이밍, 환전 수수료 등 숨은 기타비용에서 미세한 차이가 발생해.
+특히 0.01%p 수준의 실부담비용 격차는 10년, 20년 장기 투자 시 복리 효과로 인해 수백만 원 단위의 자산 격차로 벌어지지.
+
+일반 계좌에서 투자한다면 배당소득세 15.4%가 나가니, 과세가 이연되는 연금저축이나 IRP, ISA 계좌에서 담으면 더 유리하겠지?
+
+국내 상장 ETF의 세부 실부담비용과 분배금 내역은 프로필 링크 [ETF 캠퍼스]에서 바로 대조해볼 수 있어."""
+
+    elif template_key == "cost_bust":
+        comment = f"""💡 총보수보다 실부담비용이 2~3배나 껑충 뛰는 이유
+
+증권사 앱에 표기된 총보수는 순수 운용보수일 뿐이야.
+펀드 규모가 작거나 신규 상장된 ETF일수록 지수 라이선스비, 예탁결제원 보관료, 포트폴리오 편출입 매매수수료가 눈덩이처럼 불어나 실부담비용을 왜곡시키지.
+
+특히 연금저축이나 IRP처럼 장기 적립하는 계좌라면 반드시 기타비용과 매매중개수수료율을 합산한 진짜 비용을 확인해야 해.
+
+국내 상장 ETF의 실부담비용 실시간 순위는 프로필 링크 [ETF 캠퍼스]에서 바로 비교해볼 수 있어."""
+
+    elif template_key == "tax_escape":
+        comment = f"""💡 연금저축 세액공제 미신청 원금 인출 시 필수 팁
+
+홈택스에서 연금보험료 등 소득·세액공제 확인서를 발급받아 증권사에 제출하면, 세액공제 받지 않은 납입 원금은 16.5% 기타소득세 없이 즉시 비과세로 인출할 수 있어.
+급전이 필요하다고 무작정 계좌를 해지해서 불필요한 세금을 무는 일이 없도록 주의해야 해.
+
+내 계좌 상황에 맞는 절세 계좌 운용법과 세부 규정은 프로필 링크 [ETF 캠퍼스]에 깔끔하게 정리해뒀어."""
+
+    elif template_key == "life_stage":
+        comment = f"""💡 부부 절세 계좌 분리 시 세액공제와 건강보험료 핵심 체크포인트
+
+한 사람 명의로 1,800만 원을 몰아넣으면 900만 원까지만 세액공제가 되지만, 부부가 900만 원씩 나누면 1,800만 원 전액 세액공제를 받을 수 있어.
+여기에 55세 이후 연금 수령 시 사적연금 1,500만 원 분리과세 한도도 부부 각각 1,500만 원씩 총 3,000만 원까지 세금 혜택을 온전히 누릴 수 있지.
+
+부부 맞춤형 절세 계좌 매수 가이드와 ETF 실부담비용은 프로필 링크 [ETF 캠퍼스]에서 바로 확인해볼 수 있어."""
+
+    elif template_key == "dividend_trap":
+        comment = f"""💡 고배당 커버드콜의 콜옵션 매도 프리미엄과 원금 잠식 메커니즘
+
+커버드콜의 높은 분배금은 주가 상승에 따른 자본 차익을 포기하고 콜옵션을 팔아 얻은 프리미엄이야.
+기초자산 주가가 하락하면 원금 하락을 거의 그대로 맞고, 주가가 반등할 때는 상승 폭이 제한되어 계좌의 순자산가치 NAV가 영구 삭감될 위험이 커.
+
+원금을 지키면서 안정적인 현금흐름을 만드는 분배금 히스토리는 프로필 링크 [ETF 캠퍼스]에서 확인해볼 수 있어."""
+
+    else:
+        comment = f"""💡 절세 계좌 투자 시 반드시 알아둬야 할 핵심 포인트
+
+수익률을 1% 더 올리는 것보다, 매년 나가는 실부담비용 0.1%를 줄이고 배당소득세 15.4%를 절세하는 것이 장기 자산 증식에 훨씬 확실한 방법이야.
+연금저축, IRP, ISA 계좌의 비과세 및 과세이연 혜택을 적극적으로 활용하는 것이 성공 투자의 지름길이지.
+
+국내 상장 ETF의 세부 실부담비용과 계좌별 적격 종목은 프로필 링크 [ETF 캠퍼스]에서 바로 대조해볼 수 있어."""
+
+    return enforce_thread_constitution(comment, is_first_comment=True)
+
+
+# ──────────────────────────────────────────────
+# 8대 킬러 템플릿 렌더러
 # ──────────────────────────────────────────────
 def render_template(template_key: str, slots: dict, hashtag: str) -> str:
     if template_key == "cost_bust":
@@ -676,6 +761,11 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 {hashtag}{slots['footer_provenance']}"""
 
     elif template_key == "rival_match":
+        if slots.get("topic_id") == "sca-001":
+            hook_line = f"지수 추종도 같고 비용도 불리한 {slots['r4_winner']}가 어떻게 분배금을 더 줬을까?\n2029년 1월까지 유효한 공시 내막은 바로 아래 첫 댓글에 풀어둘게."
+        else:
+            hook_line = f"지수 복제율은 같은데 왜 실제 총수익률과 분배금은 차이가 날까?\n장기 복리 수익률을 가르는 숨은 내막은 바로 아래 첫 댓글에 풀어둘게."
+
         text = f"""{slots['etf_a_name']} vs {slots['etf_b_name']}.
 같은 {slots['target_index']} 투자인데 결과는 완전히 달라.
 
@@ -692,7 +782,7 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 3. 단순 주가와 추적오차율:
 {slots['r3_line']}
 
-여기까진 {slots['r1_winner']}가 다 이긴 것 같잖아?
+여기까지 보면 {slots['r1_winner']}가 더 괜찮은 상품 같지?
 하지만 분배금 합친 최근 1년 실질 총수익률은 반전이야.
 
 {slots['r4_line']}
@@ -700,8 +790,7 @@ def render_template(template_key: str, slots: dict, hashtag: str) -> str:
 
 둘 중 하나를 선택해야 한다면, 무엇을 고를까?
 
-지수 추종도 같고 비용도 불리한 {slots['r4_winner']}가 어떻게 분배금을 더 줬을까?
-2029년 1월까지 유효한 공시 내막은 바로 아래 첫 댓글에 풀어둘게.{slots['footer_provenance']}"""
+{hook_line}{slots['footer_provenance']}"""
 
     elif template_key == "life_stage":
         text = f"""3040 맞벌이 부부가 가장 많이 하는 실수.
@@ -784,7 +873,7 @@ IRP까지 합치면 부부 합산 연간 최대 1,800만 원까지 세액공제�
 
 {hashtag}{slots['footer_provenance']}"""
 
-    return sanitize_text(text)
+    return enforce_thread_constitution(text)
 
 
 # ──────────────────────────────────────────────
@@ -809,7 +898,6 @@ def pick_topic(date_str: str, force: bool = False) -> dict | None:
     threads_bank = load_threads_bank()
 
     if force:
-        # 기존 날짜에 발행된 포스트가 있다면 해당 주제를 다시 매핑하여 최신 템플릿/데이터로 갱신
         for p in threads_bank.get("posts", []):
             if p.get("date") == date_str:
                 existing_tid = p.get("source_topic_id")
@@ -837,9 +925,83 @@ def pick_topic(date_str: str, force: bool = False) -> dict | None:
 
 
 # ──────────────────────────────────────────────
+# 마케팅 콕핏 원장 슬롯 자동 배정 연동
+# ──────────────────────────────────────────────
+def assign_to_cockpit(post_record: dict, slot_key: str) -> bool:
+    """
+    생성된 Threads 포스트와 첫 댓글을 Marketing_Writer 캠페인 폴더에 작성하고,
+    마스터 원장 cockpit.db의 daily_slots에 QUEUED 상태로 원자적 배정합니다.
+    """
+    if not COCKPIT_DB_PATH.exists():
+        print(f"[WARN] cockpit.db 경로를 찾을 수 없습니다: {COCKPIT_DB_PATH}")
+        return False
+
+    import sqlite3
+    try:
+        conn = sqlite3.connect(COCKPIT_DB_PATH)
+        cur = conn.cursor()
+        cur.execute("SELECT slot_key, scheduled_time, stream_id, stream_name FROM daily_slots WHERE slot_key = ?", (slot_key,))
+        slot_row = cur.fetchone()
+        if not slot_row:
+            print(f"[ERROR] 슬롯 {slot_key}이 daily_slots에 존재하지 않습니다.")
+            conn.close()
+            return False
+
+        date_str = post_record["date"]
+        date_compact = date_str.replace("-", "")
+        campaign_folder_name = f"threads_{date_compact}_{post_record['template_key']}"
+
+        campaign_dir = CAMPAIGN_ROOT / "S03_ETF캠퍼스_전자책_시너지_202609" / campaign_folder_name
+        campaign_dir.mkdir(parents=True, exist_ok=True)
+
+        with open(campaign_dir / "본문.txt", "w", encoding="utf-8") as f:
+            f.write(post_record["text"])
+
+        if post_record.get("first_comment"):
+            with open(campaign_dir / "첫댓글.txt", "w", encoding="utf-8") as f:
+                f.write(post_record["first_comment"])
+
+        meta_content = f"""# 캠페인 메타데이터
+
+- **캠페인 ID**: {campaign_folder_name}
+- **제목**: {post_record['template_name']} ({date_str})
+- **템플릿**: {post_record['template_key']}
+- **배정 슬롯**: {slot_key}
+- **발행 예정 시각**: {slot_row[1]} (Jitter +5분)
+- **글자 수**: 본문 {post_record['char_count']}자
+- **해시태그**: {post_record['hashtag']}
+- **상태**: QUEUED
+"""
+        with open(campaign_dir / "meta.md", "w", encoding="utf-8") as f:
+            f.write(meta_content)
+
+        rel_campaign_path = f"S03_ETF캠퍼스_전자책_시너지_202609/{campaign_folder_name}"
+        title = f"{post_record['template_name']} ({date_str})"
+        cur.execute("""
+            UPDATE daily_slots
+            SET draft_id = ?, campaign_path = ?, title = ?,
+                status = 'QUEUED', jitter_minutes = 5, updated_at = CURRENT_TIMESTAMP
+            WHERE slot_key = ?
+        """, (campaign_folder_name, rel_campaign_path, title, slot_key))
+        conn.commit()
+        conn.close()
+
+        print(f"[OK] 마케팅 콕핏 슬롯 {slot_key}에 성공적으로 배정되었습니다: {campaign_dir}")
+        return True
+    except Exception as e:
+        print(f"[ERROR] 콕핏 슬롯 배정 중 예외 발생: {e}")
+        return False
+
+
+# ──────────────────────────────────────────────
 # 메인 생성 파이프라인
 # ──────────────────────────────────────────────
-def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -> tuple[int, dict | None]:
+def generate_thread(
+    date_str: str,
+    dry_run: bool = False,
+    force: bool = False,
+    assign_slot: str | None = None
+) -> tuple[int, dict | None]:
     topic = pick_topic(date_str, force=force)
     if not topic:
         print("[ERROR] 발행할 주제가 없습니다. topic_bank 보충 필요.")
@@ -860,6 +1022,7 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
 
     slots = extract_slots(topic, date_str)
     text = render_template(template_key, slots, hashtag)
+    first_comment = render_first_comment(template_key, slots)
 
     post_record = {
         "id": f"threads-{date_str}",
@@ -872,7 +1035,7 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
         "hashtag": hashtag,
         "char_count": len(text),
         "text": text,
-        "first_comment": slots.get("first_comment"),
+        "first_comment": first_comment,
         "status": "ready",
     }
 
@@ -884,10 +1047,10 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
     print(f"  - 단일 해시태그: {hashtag}\n")
     print("=" * 65)
     print(text)
-    if slots.get("first_comment"):
+    if first_comment:
         print("\n[첫 댓글 마중물]")
         print("-" * 65)
-        print(slots["first_comment"])
+        print(first_comment)
     print("=" * 65 + "\n")
 
     if dry_run:
@@ -899,6 +1062,8 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
     if date_str in existing_dates:
         if not force:
             print(f"[WARN] {date_str} 이미 생성된 포스트가 존재합니다. (--force 옵션으로 덮어쓰기 가능)")
+            if assign_slot:
+                assign_to_cockpit(post_record, assign_slot)
             return 0, post_record
         bank["posts"] = [p for p in bank["posts"] if p["date"] != date_str]
         bank["posts"].append(post_record)
@@ -907,24 +1072,36 @@ def generate_thread(date_str: str, dry_run: bool = False, force: bool = False) -
             bank["published_topic_ids"].append(topic["id"])
         save_threads_bank(bank)
         print(f"[OK] {date_str} 포스트가 최신 규격으로 성공적으로 갱신되었습니다.")
+        if assign_slot:
+            assign_to_cockpit(post_record, assign_slot)
         return 0, post_record
 
     bank["posts"].append(post_record)
     bank["published_topic_ids"].append(topic["id"])
     save_threads_bank(bank)
     print(f"[OK] threads_bank.json에 성공적으로 저장되었습니다. (누적 {len(bank['posts'])}건)")
+
+    if assign_slot:
+        assign_to_cockpit(post_record, assign_slot)
+
     return 0, post_record
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Threads 바이럴 포스트 생성기 v2.1")
+    parser = argparse.ArgumentParser(description="Threads 바이럴 포스트 생성기 v2.3")
     parser.add_argument("--date", help="대상 날짜 (YYYY-MM-DD). 기본: 오늘 KST")
     parser.add_argument("--dry-run", action="store_true", help="저장 없이 미리보기")
     parser.add_argument("--force", action="store_true", help="이미 생성된 포스트 덮어쓰기")
+    parser.add_argument("--assign-slot", help="마케팅 콕핏에 즉시 배정할 슬롯 키 (예: 20260921_SLOT_05)")
     args = parser.parse_args()
 
     date_str = args.date or datetime.now(KST).strftime("%Y-%m-%d")
-    code, _ = generate_thread(date_str, dry_run=args.dry_run, force=args.force)
+    code, _ = generate_thread(
+        date_str,
+        dry_run=args.dry_run,
+        force=args.force,
+        assign_slot=args.assign_slot
+    )
     sys.exit(code)
 
 

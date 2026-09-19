@@ -5,8 +5,11 @@ import { ReturnCell, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import { isNewEtfForFeeMasking, getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
-import type { ComparePeriod, SeriesV2Data } from "@/components/compare/etf-compare-timeseries-chart";
-import { calculateStartDate } from "@/components/compare/etf-compare-timeseries-chart";
+import {
+  type ComparePeriod,
+  type SeriesV2Data,
+  calculateStartDate,
+} from "@/components/compare/etf-compare-timeseries-chart";
 import { normalizeMulti, type SeriesInput } from "@/lib/domain/normalize-series";
 
 type Props = {

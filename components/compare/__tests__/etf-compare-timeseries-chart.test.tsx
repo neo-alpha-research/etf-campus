@@ -107,16 +107,16 @@ describe("EtfCompareTimeseriesChart", () => {
   });
 
   // ③ insufficient 종목은 선을 그리지 않고 안내 문구 표시
-  it("③ insufficient 종목은 선을 그리지 않고 안내 문구 표시: 거래일수 20일 미만 종목은 라인 제외 및 배너 노출", () => {
+  it("③ insufficient 종목은 선을 그리지 않고 안내 문구 표시: 유효 거래일수(2일 미만) 부족 종목은 라인 제외 및 배너 노출", () => {
     const basket = [
       createMockEtf("GOOD", "정상 종목"),
       createMockEtf("NEW1", "신규 상장 종목"),
     ];
 
-    // GOOD has 60 dates, NEW1 only has 5 dates (< 20)
+    // GOOD has 60 dates, NEW1 only has 1 date (< 2)
     const seriesMap: Record<string, SeriesV2Data> = {
       GOOD: createMockSeries("GOOD", dates60, 10000, 50),
-      NEW1: createMockSeries("NEW1", dates60.slice(55), 10000, 10),
+      NEW1: createMockSeries("NEW1", dates60.slice(59), 10000, 10),
     };
 
     render(
@@ -130,24 +130,24 @@ describe("EtfCompareTimeseriesChart", () => {
     // GOOD should have series line
     expect(screen.getByTestId("series-group-GOOD")).toBeDefined();
 
-    // NEW1 should NOT have series line
+    // NEW1 should NOT have series line (only 1 data point)
     expect(screen.queryByTestId("series-group-NEW1")).toBeNull();
 
     // Insufficient banner must be visible
     const banner = screen.getByTestId("insufficient-coverage-banner");
     expect(banner.textContent).toContain("신규 상장 종목");
-    expect(banner.textContent).toContain("거래일수 부족(20일 미만)으로 시계열 비교에서 제외되었습니다");
+    expect(banner.textContent).toContain("거래일수 부족으로 시계열 비교에서 제외되었습니다");
   });
 
-  // ④ partial 일 때 기간 축소 배너 노출
-  it("④ partial 일 때 기간 축소 배너 노출: 후발 상장으로 요청 기간의 50% 이상 축소 시 경고 배너 노출", () => {
+  // ④ late listing 종목 상장 시점 합류 안내 배너 노출
+  it("④ late listing 종목 상장 시점 합류 안내 배너 노출: 후발 상장 종목 포함 시 상장 시점부터 수익률 시작 안내 배너 노출", () => {
     const basket = [
       createMockEtf("BASE", "기존 종목"),
       createMockEtf("LATE", "후발 종목"),
     ];
 
     // Requested period is 1M (60 days in test).
-    // LATE listed at day 40 (has 20 days >= 20, but truncates 40/60 = 66.7% > 50%)
+    // LATE listed at day 40 (has 20 days >= 2)
     const seriesMap: Record<string, SeriesV2Data> = {
       BASE: createMockSeries("BASE", dates60, 10000, 50),
       LATE: createMockSeries("LATE", dates60.slice(40), 10000, 20),
@@ -161,10 +161,10 @@ describe("EtfCompareTimeseriesChart", () => {
       />
     );
 
-    // Partial coverage banner must be visible
+    // Late listing coverage banner must be visible
     const banner = screen.getByTestId("partial-coverage-banner");
     expect(banner).toBeDefined();
-    expect(banner.textContent).toContain("비교 시작일이 자동 축소되었습니다");
+    expect(banner.textContent).toContain("상장 시점부터 수익률 곡선이 시작됩니다");
   });
 
   // ⑤ 법정 면책 문구 및 스크린 리더 테이블 렌더 검증
@@ -289,4 +289,37 @@ describe("EtfCompareTimeseriesChart", () => {
     expect(notice).toBeInTheDocument();
     expect(notice.textContent).toContain("거래정지/결측 구간");
   });
+
+  // ⑩ 이미지 저장 시 초슬림 1줄 워터마크 및 웹 화면 각주 분리 검증 (Option 1)
+  it("⑩ 초슬림 1줄 워터마크 및 이미지 저장: 웹 화면에는 법정 면책 각주가 노출되고, 워터마크는 1줄 규격으로 구성되며 캡처 시 액션 버튼은 제외된다", () => {
+    const basket = [createMockEtf("069500", "KODEX 200")];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      "069500": createMockSeries("069500", dates60, 10000, 50),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1Y"
+        seriesMap={seriesMap}
+      />
+    );
+
+    // 1. 웹 화면 전용 자본시장법 법정 면책 각주 확인 및 data-export-ignore="true" 지정 확인
+    const disclaimers = screen.getByTestId("compare-chart-web-disclaimers");
+    expect(disclaimers).toBeInTheDocument();
+    expect(disclaimers).toHaveAttribute("data-export-ignore", "true");
+    expect(disclaimers.textContent).toContain("본 자료는 투자 판단을 돕기 위한 정보 제공용이며");
+
+    // 2. 이미지 저장용 초슬림 1줄 워터마크 확인 (최소 면책 + 브랜드 URL)
+    const watermark = screen.getByTestId("compare-chart-official-footer");
+    expect(watermark).toBeInTheDocument();
+    expect(watermark.textContent).toContain("본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.");
+    expect(watermark.textContent).toContain("ETF 캠퍼스 etf-campus.pages.dev");
+
+    // 3. 이미지 저장 버튼에 data-export-ignore="true" 지정 확인 (캡처 시 액션 버튼 제외)
+    const exportBtn = screen.getByTestId("chart-export-button");
+    expect(exportBtn).toHaveAttribute("data-export-ignore", "true");
+  });
 });
+

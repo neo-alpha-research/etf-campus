@@ -42,15 +42,23 @@ export type TruncatedReason = {
 
 export const DATA_FLOOR = "2023-01-02";
 
+export type NormalizeOptions = {
+  mode?: "staggered" | "common_anchor";
+  minTradingDays?: number;
+};
+
 export function normalizeMulti(
   inputs: SeriesInput[],
   from: string,
-  to: string
+  to: string,
+  options?: NormalizeOptions
 ): {
   series: NormalizedSeries[];
   anchorDate: string;
   truncated: TruncatedReason[];
 } {
+  const mode = options?.mode ?? "staggered";
+  const minTradingDays = options?.minTradingDays ?? (mode === "staggered" ? 2 : 20);
   const truncated: TruncatedReason[] = [];
 
   // 1. Data floor clamp (Rule 6)
@@ -110,20 +118,16 @@ export function normalizeMulti(
     };
   });
 
-  // 3. Screen for candidate tickers with late listing and <20 trading days (Rule 5)
+  // 3. Screen for candidate tickers with late listing and trading days below threshold
   for (const item of parsedList) {
     if (item.isInsufficient) continue;
 
-    // Check late listing against requested start
-    if (item.earliestInRangeDate && item.earliestInRangeDate > clampedFrom) {
-      // Check if trading days remaining is < 20
-      if (item.allInRangeDates.length < 20) {
-        item.isInsufficient = true;
-      }
+    if (item.allInRangeDates.length < minTradingDays) {
+      item.isInsufficient = true;
     }
   }
 
-  // 4. Candidate tickers for common anchor calculation
+  // 4. Candidate tickers for union calendar
   const candidateTickers = parsedList.filter((p) => !p.isInsufficient);
 
   if (candidateTickers.length === 0) {
@@ -148,49 +152,54 @@ export function normalizeMulti(
   }
   const unionDates = Array.from(unionDateSet).sort();
 
-  // 6. Find Common Anchor Date (Rule 2)
-  // The first trading day in unionDates where ALL candidate tickers have an actual positive value
+  // 6. Anchor calculation
   let commonAnchorDate: string | null = null;
 
-  for (const d of unionDates) {
-    const allHaveActual = candidateTickers.every((item) => {
-      const entry = item.dateMap.get(d);
-      return entry !== undefined;
-    });
+  if (mode === "common_anchor") {
+    // Legacy common anchor: the first trading day in unionDates where ALL candidate tickers have an actual positive value
+    for (const d of unionDates) {
+      const allHaveActual = candidateTickers.every((item) => {
+        const entry = item.dateMap.get(d);
+        return entry !== undefined;
+      });
 
-    if (allHaveActual) {
-      commonAnchorDate = d;
-      break;
+      if (allHaveActual) {
+        commonAnchorDate = d;
+        break;
+      }
+    }
+
+    if (!commonAnchorDate) {
+      const series: NormalizedSeries[] = parsedList.map((p) => ({
+        ticker: p.ticker,
+        points: [],
+        terminalReturn: null,
+        anchorDate: "",
+        maxDrawdown: 0,
+        coverage: "insufficient",
+      }));
+      return { series, anchorDate: "", truncated };
+    }
+
+    for (const item of candidateTickers) {
+      if (item.earliestInRangeDate && item.earliestInRangeDate > clampedFrom) {
+        truncated.push({ ticker: item.ticker, reason: "late_listing" });
+      }
+    }
+  } else {
+    // Staggered Inception mode: The overall calendar starts at the earliest available union date
+    commonAnchorDate = unionDates[0] || clampedFrom;
+
+    for (const item of candidateTickers) {
+      if (item.earliestInRangeDate && item.earliestInRangeDate > clampedFrom) {
+        truncated.push({ ticker: item.ticker, reason: "late_listing" });
+      }
     }
   }
 
-  // If no common anchor could be found, mark candidate tickers insufficient
-  if (!commonAnchorDate) {
-    const series: NormalizedSeries[] = parsedList.map((p) => ({
-      ticker: p.ticker,
-      points: [],
-      terminalReturn: null,
-      anchorDate: "",
-      maxDrawdown: 0,
-      coverage: "insufficient",
-    }));
-    return { series, anchorDate: "", truncated };
-  }
-
-  // Record late_listing if anchorDate was pushed past clampedFrom
-  for (const item of candidateTickers) {
-    if (item.earliestInRangeDate && item.earliestInRangeDate > clampedFrom) {
-      truncated.push({ ticker: item.ticker, reason: "late_listing" });
-    }
-  }
-
-  // Check truncation width (> 50% truncation -> coverage: "partial")
-  const totalUnionDays = unionDates.length;
-  const activeUnionDates = unionDates.filter((d) => d >= commonAnchorDate);
-  const activeUnionDays = activeUnionDates.length;
-
-  const isPartialCoverage =
-    totalUnionDays > 0 && (totalUnionDays - activeUnionDays) / totalUnionDays > 0.5;
+  const activeUnionDates = mode === "common_anchor" 
+    ? unionDates.filter((d) => d >= commonAnchorDate!)
+    : unionDates;
 
   // 7. Generate Normalized Series for each ticker
   const series: NormalizedSeries[] = parsedList.map((item) => {
@@ -205,7 +214,8 @@ export function normalizeMulti(
       };
     }
 
-    const anchorEntry = item.dateMap.get(commonAnchorDate!);
+    const tickerAnchorDate = mode === "common_anchor" ? commonAnchorDate! : item.earliestInRangeDate!;
+    const anchorEntry = item.dateMap.get(tickerAnchorDate);
     if (!anchorEntry || anchorEntry.value <= 0) {
       // Anchor value <= 0 or missing (Rule 3)
       return {
@@ -233,7 +243,15 @@ export function normalizeMulti(
     let lastKnownVal = anchorValue;
 
     for (const d of activeUnionDates) {
-      if (d > tickerLastActualDate) {
+      if (d < tickerAnchorDate) {
+        // Before listing date -> value: null (staggered inception)
+        tempPoints.push({
+          date: d,
+          value: null,
+          isRawMissing: false,
+          rawFilled: false,
+        });
+      } else if (d > tickerLastActualDate) {
         // After last real date -> value: null (Rule 4.2)
         tempPoints.push({
           date: d,
@@ -343,7 +361,7 @@ export function normalizeMulti(
       ticker: item.ticker,
       points,
       terminalReturn,
-      anchorDate: commonAnchorDate!,
+      anchorDate: tickerAnchorDate,
       maxDrawdown: Math.round(maxDrawdown * 100) / 100,
       coverage,
     };

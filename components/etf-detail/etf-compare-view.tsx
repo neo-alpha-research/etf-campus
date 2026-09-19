@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { formatMoney, formatFeePct } from "@/lib/domain/etf-format";
 import { ReturnCell, AsOfDate, FeeStackedBar } from "@/components/etf";
@@ -9,6 +9,7 @@ import {
   type ComparePeriod,
   type SeriesV2Data,
   calculateStartDate,
+  computeSeriesPeriodReturn,
 } from "@/components/compare/etf-compare-timeseries-chart";
 import { normalizeMulti, type SeriesInput } from "@/lib/domain/normalize-series";
 
@@ -175,6 +176,9 @@ function getFxHedgeInfo(etf: Etf) {
   return { type: "unhedged" as const, label: "환노출 (UH)" };
 }
 
+const CORE_PERIODS: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
+const ALL_PERIODS: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"];
+
 export function EtfCompareView({
   mainEtf,
   basket,
@@ -217,13 +221,8 @@ export function EtfCompareView({
   const isTrMode = controlledTrMode !== undefined ? controlledTrMode : internalTrMode;
   const handleToggleTr = onToggleTr || (() => setInternalTrMode((prev) => !prev));
   
-  const getActiveReturns = (etf: Etf) => isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns;
+  const orderedPeriods = showAllPeriods ? ALL_PERIODS : CORE_PERIODS;
 
-  const corePeriods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
-  const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"];
-  const orderedPeriods = showAllPeriods ? allPeriods : corePeriods;
-
-  
   const { maxSyntheticFee, lowestSyntheticTicker } = useMemo(() => {
     if (compareList.length < 2) return { maxSyntheticFee: 0, lowestSyntheticTicker: "" };
     let max = 0;
@@ -241,22 +240,7 @@ export function EtfCompareView({
     return { maxSyntheticFee: max, lowestSyntheticTicker: lowestTicker };
   }, [compareList]);
 
-  const maxReturnsByPeriod = useMemo(() => {
-    const periods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
-    const result: Partial<Record<ReturnPeriod, number | null>> = {};
-    periods.forEach((p) => {
-      const vals = compareList
-        .map((e) => {
-          const ret = isTrMode ? (e.returnsTr || e.returnsNetTr) : e.returns;
-          return ret?.[p];
-        })
-        .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-      result[p] = vals.length > 0 ? Math.max(...vals) : null;
-    });
-    return result;
-  }, [compareList, isTrMode]);
-
-  // Derived series normalization when seriesMap and period are provided
+  // 1. Derived series normalization when seriesMap and period are provided
   const normalizedData = useMemo(() => {
     if (!seriesMap || !period) return null;
 
@@ -355,18 +339,99 @@ export function EtfCompareView({
     return metricsMap;
   }, [compareList, seriesMap, period, isTrMode]);
 
+  // 2. Pure Return Resolver with Zero-Hallucination & Mathematical TR/PR Equivalence
+  const getActiveReturn = useCallback(
+    (etf: Etf, periodKey: ReturnPeriod): number | null => {
+      // PR Mode: Pure market price return
+      if (!isTrMode) {
+        const pr = etf.returns?.[periodKey];
+        return typeof pr === "number" && Number.isFinite(pr) ? pr : null;
+      }
+
+      // TR Mode:
+      // A. Official precomputed TR from screener
+      const officialTr = etf.returnsTr?.[periodKey];
+      if (typeof officialTr === "number" && Number.isFinite(officialTr)) {
+        return officialTr;
+      }
+      const officialNetTr = etf.returnsNetTr?.[periodKey];
+      if (typeof officialNetTr === "number" && Number.isFinite(officialNetTr)) {
+        return officialNetTr;
+      }
+
+      // B. If current table period matches active chart period and normalizedData has terminalReturn, sync exactly
+      const periodMap: Partial<Record<ReturnPeriod, ComparePeriod>> = {
+        "1m": "1M",
+        "3m": "3M",
+        "6m": "6M",
+        "12m": "1Y",
+        "36m": "3Y",
+      };
+      if (period && periodMap[periodKey] === period && normalizedData) {
+        const norm = normalizedData.get(etf.ticker);
+        if (norm && norm.terminalReturn !== null && Number.isFinite(norm.terminalReturn)) {
+          return norm.terminalReturn;
+        }
+      }
+
+      // C. Calculate from seriesMap[etf.ticker] daily TR series if available
+      const sData = seriesMap?.[etf.ticker];
+      if (sData && sData.dates && sData.dates.length >= 2) {
+        const computed = computeSeriesPeriodReturn(sData, periodKey, true);
+        if (typeof computed === "number" && Number.isFinite(computed)) {
+          return computed;
+        }
+      }
+
+      // D. Zero-Distribution mathematical equivalence:
+      // Only when verified through series ledger that no distribution was ever paid, TR === PR mathematically
+      if (sData && sData.hasDistribution === false) {
+        const pr = etf.returns?.[periodKey];
+        if (typeof pr === "number" && Number.isFinite(pr)) {
+          return pr;
+        }
+      }
+
+      return null;
+    },
+    [isTrMode, period, normalizedData, seriesMap]
+  );
+
+  const getActiveReturns = useCallback(
+    (etf: Etf): Record<string, number | null> => {
+      const res: Record<string, number | null> = {};
+      for (const p of ALL_PERIODS) {
+        res[p] = getActiveReturn(etf, p);
+      }
+      return res;
+    },
+    [getActiveReturn]
+  );
+
+  const maxReturnsByPeriod = useMemo(() => {
+    const periods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
+    const result: Partial<Record<ReturnPeriod, number | null>> = {};
+    periods.forEach((p) => {
+      const vals = compareList
+        .map((e) => getActiveReturn(e, p))
+        .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+      result[p] = vals.length > 0 ? Math.max(...vals) : null;
+    });
+    return result;
+  }, [compareList, getActiveReturn]);
+
   const maxSelectedReturn = useMemo(() => {
     let max = -Infinity;
     for (const etf of compareList) {
       const v = normalizedData
         ? normalizedData.get(etf.ticker)?.terminalReturn ?? null
-        : (isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns)?.[summaryPeriod] ?? null;
+        : getActiveReturn(etf, summaryPeriod);
       if (typeof v === "number" && Number.isFinite(v) && v > max) {
         max = v;
       }
     }
     return max === -Infinity ? null : max;
-  }, [compareList, normalizedData, isTrMode, summaryPeriod]);
+  }, [compareList, normalizedData, getActiveReturn, summaryPeriod]);
 
   const activePeriodLabel = period
     ? (period === "1M" ? "1개월" : period === "3M" ? "3개월" : period === "6M" ? "6개월" : period === "1Y" ? "1년" : "3년")

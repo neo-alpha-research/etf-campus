@@ -604,6 +604,50 @@ describe("EtfCompareView selectionReasons", () => {
     expect(rows[0].className).toContain("ring-blue-300");
     expect(rows[1].className).not.toContain("ring-blue-300");
   });
+
+  it("TR 모드 전환 시 seriesMap의 TR 데이터로부터 기간별 TR 수익률을 정밀 계산하여 '-' 결측 없이 정상 표시한다", () => {
+    const dates: string[] = [];
+    const baseDate = new Date("2026-07-01");
+    for (let i = 0; i < 60; i++) {
+      const d = new Date(baseDate);
+      d.setDate(d.getDate() + i);
+      dates.push(d.toISOString().slice(0, 10));
+    }
+
+    const etfA: Partial<Etf> = {
+      ticker: "491820",
+      name: "HANARO 전력설비투자",
+      asOfDate: "2026-09-01",
+      returns: { "1m": 2.0 },
+      returnsTr: { "1m": null } as unknown as Etf["returnsTr"],
+    };
+
+    const seriesMap = {
+      "491820": {
+        ticker: "491820",
+        startDate: dates[0],
+        dates,
+        close: dates.map((_, i) => 10000 + i * 10),
+        tr: dates.map((_, i) => 10000 + i * 20),
+        netTr: dates.map((_, i) => 10000 + i * 20),
+        hasDistribution: true,
+        asOf: dates[dates.length - 1],
+      },
+    };
+
+    render(
+      <EtfCompareView
+        basket={[etfA as Etf]}
+        seriesMap={seriesMap}
+        isTrMode={true}
+      />
+    );
+
+    // 1m return should be computed from seriesMap and rendered with positive style
+    const cells = screen.getAllByRole("cell");
+    const cellTexts = cells.map((c) => c.textContent);
+    expect(cellTexts.some((t) => t && t.includes("+") && t.includes("%"))).toBe(true);
+  });
 });
 
 

@@ -61,6 +61,103 @@ export function calculateStartDate(toDateStr: string, period: ComparePeriod): st
   return iso < "2023-01-02" ? "2023-01-02" : iso;
 }
 
+export function computeSeriesPeriodReturn(
+  sData: SeriesV2Data,
+  periodKey: string,
+  isTr: boolean
+): number | null {
+  const dates = sData.dates;
+  const values = isTr ? sData.tr : sData.close;
+  if (!dates || !values || dates.length < 2 || values.length < 2) return null;
+
+  const lastDate = dates[dates.length - 1];
+  const lastVal = values[values.length - 1];
+  if (lastVal == null || isNaN(lastVal)) return null;
+
+  let targetStartDate: string | null = null;
+  const d = new Date(lastDate);
+  if (isNaN(d.getTime())) return null;
+
+  switch (periodKey) {
+    case "1d":
+      if (dates.length >= 2) {
+        const prevVal = values[values.length - 2];
+        if (prevVal && prevVal > 0) {
+          return Math.round(((lastVal - prevVal) / prevVal) * 10000) / 100;
+        }
+      }
+      return null;
+    case "1w":
+      d.setDate(d.getDate() - 7);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "2w":
+      d.setDate(d.getDate() - 14);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "1m":
+      d.setMonth(d.getMonth() - 1);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "2m":
+      d.setMonth(d.getMonth() - 2);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "3m":
+      d.setMonth(d.getMonth() - 3);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "6m":
+      d.setMonth(d.getMonth() - 6);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "12m":
+      d.setFullYear(d.getFullYear() - 1);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "24m":
+      d.setFullYear(d.getFullYear() - 2);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "36m":
+      d.setFullYear(d.getFullYear() - 3);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "ytd":
+      targetStartDate = `${d.getFullYear()}-01-01`;
+      break;
+    case "itd": {
+      const initVal = values[0];
+      if (initVal && initVal > 0) {
+        return Math.round(((lastVal - initVal) / initVal) * 10000) / 100;
+      }
+      return null;
+    }
+    default:
+      return null;
+  }
+
+  if (!targetStartDate) return null;
+
+  const startIdx = dates.findIndex((dt) => dt >= targetStartDate!);
+  if (startIdx < 0) return null;
+
+  // If first available observation date is significantly later than targetStartDate (> 15 days),
+  // then the ETF does not have enough history for this period.
+  const firstAvailableDate = dates[0];
+  if (firstAvailableDate > targetStartDate) {
+    const tStart = new Date(targetStartDate).getTime();
+    const fStart = new Date(firstAvailableDate).getTime();
+    const diffDays = (fStart - tStart) / (1000 * 60 * 60 * 24);
+    if (diffDays > 15) return null;
+  }
+
+  const startVal = values[startIdx];
+  if (!startVal || startVal <= 0) return null;
+
+  return Math.round(((lastVal - startVal) / startVal) * 10000) / 100;
+}
+
 export interface EtfCompareTimeseriesChartProps {
   basket: readonly Etf[];
   isTrMode?: boolean;
@@ -90,11 +187,27 @@ export function EtfCompareTimeseriesChart({
 }: EtfCompareTimeseriesChartProps) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [internalFocusedTicker, setInternalFocusedTicker] = useState<string | null>(null);
+  const [clickedTicker, setClickedTicker] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const activeFocus = focusedTicker ?? internalFocusedTicker;
+  const activeFocus = focusedTicker ?? clickedTicker ?? internalFocusedTicker;
+
+  const handleToggleFocus = useCallback((ticker: string) => {
+    setClickedTicker((prev) => {
+      const next = prev === ticker ? null : ticker;
+      onHoverTicker?.(next);
+      return next;
+    });
+  }, [onHoverTicker]);
+
+  const handleLegendHover = useCallback((ticker: string | null) => {
+    setInternalFocusedTicker(ticker);
+    if (!clickedTicker) {
+      onHoverTicker?.(ticker);
+    }
+  }, [clickedTicker, onHoverTicker]);
 
   // 1. Prepare Inputs for Normalization Engine
   const { normalizedResult, activeDates, hasZeroDistEtfs } = useMemo(() => {
@@ -309,6 +422,21 @@ export function EtfCompareTimeseriesChart({
 
     return items;
   }, [validSeries, basket, getY, getX, activeDates.length, plotTop, plotBottom]);
+
+  // SVG DOM Z-Order Sorting: render focused series last so it appears on top of all lines
+  const sortedSeries = useMemo(() => {
+    if (!activeFocus) return validSeries;
+    const nonFocused = validSeries.filter((s) => s.ticker !== activeFocus);
+    const focused = validSeries.filter((s) => s.ticker === activeFocus);
+    return [...nonFocused, ...focused];
+  }, [validSeries, activeFocus]);
+
+  const sortedBadges = useMemo(() => {
+    if (!activeFocus) return badgePositions;
+    const nonFocused = badgePositions.filter((b) => b.ticker !== activeFocus);
+    const focused = badgePositions.filter((b) => b.ticker === activeFocus);
+    return [...nonFocused, ...focused];
+  }, [badgePositions, activeFocus]);
 
   // 5. Y-Axis Grid Lines (max 4 lines)
   const yGridLines = useMemo(() => {
@@ -609,7 +737,75 @@ export function EtfCompareTimeseriesChart({
         </div>
       )}
 
-      {/* 3. Top Crosshair Fixed Summary Strip (no floating popover overlay) */}
+      {/* 3. Interactive Legend Bar (Always-visible: color swatch + name + ticker + terminal return + click/hover isolation) */}
+      {validSeries.length > 0 && (
+        <div
+          className="flex items-center gap-1.5 sm:gap-2 mb-2 flex-wrap select-none"
+          data-testid="compare-chart-legend"
+          role="toolbar"
+          aria-label="차트 종목 범례 및 단독 강조"
+        >
+          {validSeries.map((s) => {
+            const idx = basket.findIndex((b) => b.ticker === s.ticker);
+            const palette = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0];
+            const etf = basket.find((b) => b.ticker === s.ticker);
+            const isCurrentFocused = activeFocus === s.ticker;
+            const hasAnyFocus = activeFocus !== null;
+            const isPositive = s.terminalReturn !== null && s.terminalReturn > 0;
+            const isNegative = s.terminalReturn !== null && s.terminalReturn < 0;
+
+            const retText =
+              s.terminalReturn !== null
+                ? `${isPositive ? "+" : ""}${s.terminalReturn.toFixed(1)}%`
+                : "N/A";
+
+            return (
+              <button
+                key={`legend-${s.ticker}`}
+                type="button"
+                onClick={() => handleToggleFocus(s.ticker)}
+                onMouseEnter={() => handleLegendHover(s.ticker)}
+                onMouseLeave={() => handleLegendHover(null)}
+                title={`${etf?.name ?? s.ticker} (${s.ticker}) 클릭 시 해당 선 강조 / 재클릭 시 해제`}
+                className={`inline-flex items-center gap-1.5 min-h-[30px] sm:min-h-[32px] px-2.5 py-1 text-xs rounded-lg border transition-all cursor-pointer ${
+                  isCurrentFocused
+                    ? "bg-white dark:bg-slate-800 border-2 shadow-xs ring-2 ring-offset-1 ring-slate-400 dark:ring-slate-500 opacity-100 font-bold scale-[1.02]"
+                    : hasAnyFocus
+                    ? "opacity-35 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:opacity-80"
+                    : "bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 dark:text-slate-200"
+                }`}
+                style={isCurrentFocused ? { borderColor: palette.stroke } : undefined}
+                data-testid={`legend-chip-${s.ticker}`}
+                aria-pressed={isCurrentFocused}
+              >
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0 shadow-xs"
+                  style={{ backgroundColor: palette.stroke }}
+                />
+                <span className="font-semibold text-slate-800 dark:text-slate-100 truncate max-w-[120px] sm:max-w-[180px]">
+                  {etf?.name ?? s.ticker}
+                </span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono shrink-0">
+                  {s.ticker}
+                </span>
+                <span
+                  className={`font-black text-[11px] sm:text-xs tabular-nums ml-0.5 ${
+                    isPositive
+                      ? "text-rose-600 dark:text-rose-400"
+                      : isNegative
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-slate-600 dark:text-slate-400"
+                  }`}
+                >
+                  {retText}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 4. Top Crosshair Fixed Summary Strip (no floating popover overlay) */}
       <div
         className="h-7 px-2 mb-1.5 flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60 rounded-md overflow-x-auto no-scrollbar font-tabular-nums"
         data-testid="top-summary-strip"
@@ -752,8 +948,8 @@ export function EtfCompareTimeseriesChart({
               />
             )}
 
-            {/* ETF Series Line Paths */}
-            {validSeries.map((s) => {
+            {/* ETF Series Line Paths (Sorted so focused series renders on top in SVG DOM order) */}
+            {sortedSeries.map((s) => {
               const idx = basket.findIndex((b) => b.ticker === s.ticker);
               const palette = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0];
               const isBase = s.ticker === baseTicker;
@@ -761,8 +957,8 @@ export function EtfCompareTimeseriesChart({
               const hasAnyFocus = activeFocus !== null;
 
               const strokeColor = palette.stroke;
-              const strokeWidth = isCurrentFocused ? 2.5 : isBase ? 2.25 : 1.75;
-              const opacity = hasAnyFocus ? (isCurrentFocused ? 1.0 : 0.25) : 1.0;
+              const strokeWidth = isCurrentFocused ? 3.0 : isBase ? 2.25 : 1.75;
+              const opacity = hasAnyFocus ? (isCurrentFocused ? 1.0 : 0.15) : 1.0;
 
               // Build continuous multi-segment paths splitting by isFilled
               type Segment = { isFilled: boolean; points: { x: number; y: number }[] };
@@ -799,14 +995,10 @@ export function EtfCompareTimeseriesChart({
                   key={`series-${s.ticker}`}
                   opacity={opacity}
                   style={{ transition: "opacity 150ms ease" }}
-                  onMouseEnter={() => {
-                    setInternalFocusedTicker(s.ticker);
-                    onHoverTicker?.(s.ticker);
-                  }}
-                  onMouseLeave={() => {
-                    setInternalFocusedTicker(null);
-                    onHoverTicker?.(null);
-                  }}
+                  onClick={() => handleToggleFocus(s.ticker)}
+                  onMouseEnter={() => handleLegendHover(s.ticker)}
+                  onMouseLeave={() => handleLegendHover(null)}
+                  className="cursor-pointer"
                   data-testid={`series-group-${s.ticker}`}
                 >
                   {segments.map((seg, sIdx) => {
@@ -845,8 +1037,10 @@ export function EtfCompareTimeseriesChart({
             })}
 
             {/* Right Gutter Terminal Badges & Leader Lines */}
-            {badgePositions.map((b) => {
+            {sortedBadges.map((b) => {
               const isFocused = activeFocus === b.ticker;
+              const hasAnyFocus = activeFocus !== null;
+              const badgeOpacity = hasAnyFocus ? (isFocused ? 1.0 : 0.25) : 0.9;
               const displacement = Math.abs(b.actualY - b.idealY);
               const retText =
                 b.terminalReturn !== null
@@ -857,14 +1051,9 @@ export function EtfCompareTimeseriesChart({
                 <g
                   key={`badge-${b.ticker}`}
                   data-testid={`badge-${b.ticker}`}
-                  onMouseEnter={() => {
-                    setInternalFocusedTicker(b.ticker);
-                    onHoverTicker?.(b.ticker);
-                  }}
-                  onMouseLeave={() => {
-                    setInternalFocusedTicker(null);
-                    onHoverTicker?.(null);
-                  }}
+                  onClick={() => handleToggleFocus(b.ticker)}
+                  onMouseEnter={() => handleLegendHover(b.ticker)}
+                  onMouseLeave={() => handleLegendHover(null)}
                   className="cursor-pointer"
                 >
                   {/* Leader line if displaced > 4px */}
@@ -877,7 +1066,7 @@ export function EtfCompareTimeseriesChart({
                       stroke={b.color}
                       strokeWidth={1}
                       strokeDasharray="2 2"
-                      opacity={0.6}
+                      opacity={hasAnyFocus ? (isFocused ? 0.9 : 0.2) : 0.6}
                       data-testid={`leader-line-${b.ticker}`}
                     />
                   )}
@@ -890,7 +1079,7 @@ export function EtfCompareTimeseriesChart({
                     height={16}
                     rx={3}
                     fill={b.color}
-                    opacity={isFocused ? 1.0 : 0.9}
+                    opacity={badgeOpacity}
                   />
                   <text
                     x={plotRight + 30}
@@ -899,6 +1088,7 @@ export function EtfCompareTimeseriesChart({
                     fill="#ffffff"
                     fontSize={10}
                     fontWeight={700}
+                    opacity={hasAnyFocus ? (isFocused ? 1.0 : 0.5) : 1.0}
                     className="font-tabular-nums"
                   >
                     {retText}

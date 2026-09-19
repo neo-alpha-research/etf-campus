@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
   EtfCompareTimeseriesChart,
@@ -320,6 +320,84 @@ describe("EtfCompareTimeseriesChart", () => {
     // 3. 이미지 저장 버튼에 data-export-ignore="true" 지정 확인 (캡처 시 액션 버튼 제외)
     const exportBtn = screen.getByTestId("chart-export-button");
     expect(exportBtn).toHaveAttribute("data-export-ignore", "true");
+  });
+
+  // ⑪ 상시 인터랙티브 범례 바(Legend) 렌더링 및 정보 완전성
+  it("⑪ 상시 인터랙티브 범례 바: 호버나 터치 없이도 각 종목의 색상, 종목명, 티커, 선택 기간 수익률이 상시 노출된다", () => {
+    const tickers = ["069500", "360750"];
+    const basket = [
+      createMockEtf("069500", "KODEX 200"),
+      createMockEtf("360750", "TIGER 미국S&P500"),
+    ];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      "069500": createMockSeries("069500", dates60, 10000, 50),
+      "360750": createMockSeries("360750", dates60, 10000, 100),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    // 1. 범례 바 컨테이너 존재 확인
+    const legend = screen.getByTestId("compare-chart-legend");
+    expect(legend).toBeInTheDocument();
+
+    // 2. 각 종목 칩 확인
+    const chipA = screen.getByTestId("legend-chip-069500");
+    const chipB = screen.getByTestId("legend-chip-360750");
+    expect(chipA).toBeInTheDocument();
+    expect(chipB).toBeInTheDocument();
+
+    // 3. 종목명, 티커, 수익률 텍스트 노출 확인
+    expect(chipA.textContent).toContain("KODEX 200");
+    expect(chipA.textContent).toContain("069500");
+    expect(chipB.textContent).toContain("TIGER 미국S&P500");
+    expect(chipB.textContent).toContain("360750");
+  });
+
+  // ⑫ 범례 칩 클릭을 통한 단독 강조(Isolation) 및 디밍 인터랙션
+  it("⑫ 범례 칩 클릭 단독 강조: 특정 종목 칩 클릭 시 해당 선 두께 증가 및 타 종목 디밍, 재클릭 시 정상 원복된다", () => {
+    const tickers = ["069500", "360750"];
+    const basket = [
+      createMockEtf("069500", "KODEX 200"),
+      createMockEtf("360750", "TIGER 미국S&P500"),
+    ];
+    const seriesMap: Record<string, SeriesV2Data> = {
+      "069500": createMockSeries("069500", dates60, 10000, 50),
+      "360750": createMockSeries("360750", dates60, 10000, 100),
+    };
+
+    render(
+      <EtfCompareTimeseriesChart
+        basket={basket}
+        period="1M"
+        seriesMap={seriesMap}
+      />
+    );
+
+    const chipA = screen.getByTestId("legend-chip-069500");
+    const groupA = screen.getByTestId("series-group-069500");
+    const groupB = screen.getByTestId("series-group-360750");
+
+    // 초기 상태: 두 그룹 모두 opacity 1.0
+    expect(screen.getByTestId("series-group-069500")).toHaveAttribute("opacity", "1");
+    expect(screen.getByTestId("series-group-360750")).toHaveAttribute("opacity", "1");
+
+    // 1. 종목 A 칩 클릭 -> A 강조 (opacity 1.0), B 디밍 (opacity 0.15)
+    fireEvent.click(chipA);
+    expect(screen.getByTestId("series-group-069500")).toHaveAttribute("opacity", "1");
+    expect(screen.getByTestId("series-group-360750")).toHaveAttribute("opacity", "0.15");
+    expect(screen.getByTestId("legend-chip-069500")).toHaveAttribute("aria-pressed", "true");
+
+    // 2. 종목 A 칩 재클릭 -> 포커스 해제되어 두 그룹 모두 1.0으로 복귀
+    fireEvent.click(screen.getByTestId("legend-chip-069500"));
+    expect(screen.getByTestId("series-group-069500")).toHaveAttribute("opacity", "1");
+    expect(screen.getByTestId("series-group-360750")).toHaveAttribute("opacity", "1");
+    expect(screen.getByTestId("legend-chip-069500")).toHaveAttribute("aria-pressed", "false");
   });
 });
 

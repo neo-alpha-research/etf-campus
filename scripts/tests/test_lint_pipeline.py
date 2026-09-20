@@ -694,19 +694,19 @@ class TestPipelineLinterRegression(unittest.TestCase):
         self.assertEqual(len(errs), 0, "SSOT에 면제 등록된 스크립트는 미호출이어도 통과해야 합니다.")
 
     def test_fm016_detects_layout_and_typography_violations(self):
-        """FM-016 ①: 지표 28자 예산 초과, 다중 해시태그 스팸, 기계적 1 vs 2 투표 검출 실증."""
+        """FM-016 ①: 지표 28자 예산 결여, 인스타 큐레이션 태그 누락, 기계적 1 vs 2 투표 검출 실증."""
         faulty_threads = (
             "export function selectThreadsTopicTag() { return ''; }\n"
             "let mainPost = '1번: 코스피 상승 vs 2번: 코스피 하락. 댓글에 1 또는 2 남겨줘';\n"
         )
         faulty_instagram = (
-            "#ETFCampus #ETF투자 #ETF브리핑 #마켓브리핑 #재테크\n"
+            "caption text without required tags or golden zone\n"
         )
         errs = check_osmu_mobile_layout_budget_in_files(faulty_threads, faulty_instagram)
         self.assertGreaterEqual(len(errs), 3, "위반 사항들이 모두 검출되어야 합니다.")
         self.assertTrue(any("selectThreadsTopicTag" in e for e in errs))
         self.assertTrue(any("Mechanical 1 vs 2" in e for e in errs))
-        self.assertTrue(any("Legacy multi-hashtag" in e for e in errs))
+        self.assertTrue(any("Golden Zone" in e or "missing" in e for e in errs))
 
     def test_fm016_passes_on_compliant_templates(self):
         """FM-016 ②: 현재 프로덕션 템플릿 코드가 모바일 규격을 100% 준수하여 통과함을 실증."""

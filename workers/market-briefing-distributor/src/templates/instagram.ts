@@ -1080,5 +1080,5 @@ ${watchPoint}
 * 기준: ${dateStr} 한국거래소 KRX 공시 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석
 * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며 특정 종목의 매수·매도를 권유하지 않습니다.
 
-#ETFCampus`;
+#ETFCampus #ETF투자 #ETF브리핑 #마켓브리핑 #재테크`;
 }

@@ -55,12 +55,12 @@ describe("인스타그램 템플릿 모바일 뷰포트 및 캡션 레이아웃 
     }
   });
 
-  it("3. 구 잔재 다중 해시태그 스팸이 제거되고 #ETFCampus 단일 니치 태그만 유지되어야 한다", () => {
+  it("3. 인스타그램 탐색 및 SEO 유입을 위한 5대 큐레이션 해시태그가 유지되어야 한다", () => {
     expect(caption).toContain("#ETFCampus");
-    expect(caption).not.toContain("#ETF투자");
-    expect(caption).not.toContain("#ETF브리핑");
-    expect(caption).not.toContain("#마켓브리핑");
-    expect(caption).not.toContain("#재테크");
+    expect(caption).toContain("#ETF투자");
+    expect(caption).toContain("#ETF브리핑");
+    expect(caption).toContain("#마켓브리핑");
+    expect(caption).toContain("#재테크");
   });
 
   it("4. 캡션 본문 텍스트 내 괄호 및 유니코드 이모지가 없어야 한다", () => {

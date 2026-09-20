@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'scripts/**'
+      - '!scripts/community/topic_bank.json'
+      - '!scripts/threads/threads_bank.json'
       - '.github/workflows/**'
       - 'migrations/**'
       - 'package.json'
@@ -12,6 +14,8 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
+      - '!scripts/community/topic_bank.json'
+      - '!scripts/threads/threads_bank.json'
       - '.github/workflows/**'
       - 'migrations/**'
       - 'package.json'

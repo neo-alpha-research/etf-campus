@@ -82,16 +82,16 @@
     {
       "id": "sca-005",
       "board": "stock-cost-analysis",
-      "title": "KODEX 인도Nifty50 (453810) vs ACE 인도니프티50(인도루피) (510260): 환율 노출 차이 실전 분석",
-      "excerpt": "달러 노출형과 루피 직접 노출형 인도 ETF의 환율 리스크·비용·AUM 차이를 비교합니다.",
+      "title": "KODEX 인도Nifty50 (453810) vs TIGER 인도니프티50 (453870): 인도 대표 ETF 비용·추적오차 정밀 분석",
+      "excerpt": "국내 상장 인도 대표 Nifty50 ETF 2종의 실부담비용·기타비용·AUM 유동성을 비교합니다.",
       "verified_tickers": [
         "453810",
-        "510260"
+        "453870"
       ],
       "tags": [
         "인도ETF",
-        "환율",
-        "이머징"
+        "Nifty50",
+        "비용"
       ],
       "published": false
     },
@@ -127,11 +127,14 @@
     {
       "id": "sca-008",
       "board": "stock-cost-analysis",
-      "title": "TIGER 미국전체주식시장 (459720) 편입 가치: S&P500과 10년 수익률 비교",
-      "excerpt": "4,000종목 CRSP 지수 추종 전체시장 ETF가 S&P500 대비 분산 이점과 수익률 차이를 분석합니다.",
-      "verified_tickers": [],
+      "title": "KODEX 미국러셀2000(H) (280930) vs 미국S&P500: 미국 중소형주 분산 효과 정밀 분석",
+      "excerpt": "미국 대형주(S&P500) 중심 포트폴리오에 미국 중소형주 러셀2000 ETF 편입 시 분산 이점과 비용을 분석합니다.",
+      "verified_tickers": [
+        "280930",
+        "379800"
+      ],
       "tags": [
-        "전체시장",
+        "러셀2000",
         "S&P500",
         "분산"
       ],

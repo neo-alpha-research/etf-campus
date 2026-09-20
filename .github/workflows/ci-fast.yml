@@ -12,6 +12,7 @@ on:
       - 'OSMU_Archive/**'
       - '.githooks/**'
       - 'public/images/**'
+      - 'public/mock-community-posts.json'
   workflow_dispatch:
 
 permissions:

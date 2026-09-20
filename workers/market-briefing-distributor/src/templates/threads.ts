@@ -1,5 +1,5 @@
 import type { MarketBriefingPayload } from "../types";
-import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
+import type { MarketRegime } from "../services/market-regime";
 import type { PolishedNarrative } from "../services/gemini";
 import { fitAndClampText } from "./instagram";
 
@@ -31,10 +31,28 @@ export function generateThreadsThread(
   narrative?: PolishedNarrative | MarketRegime
 ): ThreadsPost[] {
   void baseUrl;
-  const regime = narrative || classifyMarketRegime(payload);
+  void narrative;
   const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 0;
   const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = formatDateWithDay(dateStr);
+
+  // 1. [지표 1행] 코스피 | 코스닥 (20자 내외, 최대 28자)
+  const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
+  const kospiSign = kospi > 0 ? "+" : "";
+  const kosdaqSign = kosdaq > 0 ? "+" : "";
+  const indexRow = `코스피 ${kospiSign}${kospi.toFixed(2)}% | 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}%`;
+
+  // 2. [지표 2행] 상위 테마 | 하위 테마 (28자 이내 1행 완결)
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
+    (a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0)
+  );
+  const topTheme = sortedPeerGroups[0];
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1];
+  const topThemeRet = topTheme?.cappedAumWeightedReturnPct ?? 0;
+  const botThemeRet = bottomTheme?.cappedAumWeightedReturnPct ?? 0;
+  const topSign = topThemeRet > 0 ? "+" : "";
+  const botSign = botThemeRet > 0 ? "+" : "";
 
   const cleanThemeName = (name: string): string => {
     return name
@@ -58,36 +76,6 @@ export function generateThreadsThread(
       .replace(/커버드콜/g, "")
       .trim();
   };
-
-  const cleanThreadsText = (text?: string): string => {
-    if (!text) return "";
-    return text
-      .replace(/어제\s*/g, "")
-      .replace(/\s*\([^)]*\)/g, "")
-      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
-      .replace(/(쏟아졌|빠졌|받았|있었|내렸|올랐|렸|갔|였)거든/g, "$1어")
-      .replace(/했거든/g, "했어")
-      .replace(/거든(\.|\s|$)/g, "어$1")
-      .trim();
-  };
-
-  // 1. [지표 1행] 코스피 | 코스닥 (20자 내외, 최대 28자)
-  const kospi = payload.kospiChangePct ?? 0;
-  const kosdaq = payload.kosdaqChangePct ?? 0;
-  const kospiSign = kospi > 0 ? "+" : "";
-  const kosdaqSign = kosdaq > 0 ? "+" : "";
-  const indexRow = `코스피 ${kospiSign}${kospi.toFixed(2)}% | 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}%`;
-
-  // 2. [지표 2행] 상위 테마 | 하위 테마 (28자 이내 1행 완결)
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
-    (a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0)
-  );
-  const topTheme = sortedPeerGroups[0];
-  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1];
-  const topThemeRet = topTheme?.cappedAumWeightedReturnPct ?? 0;
-  const botThemeRet = bottomTheme?.cappedAumWeightedReturnPct ?? 0;
-  const topSign = topThemeRet > 0 ? "+" : "";
-  const botSign = botThemeRet > 0 ? "+" : "";
 
   const shortTheme = (name?: string, maxLen = 6): string => {
     if (!name) return "테마";

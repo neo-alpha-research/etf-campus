@@ -959,69 +959,126 @@ export function generateInstagramCaption(
   const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
   const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
   const generalCount = (payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? (up + down + flat)) || 0;
-  const formattedDate = formatDateWithDay(payload.asOfDate);
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
+  const formattedDate = formatDateWithDay(dateStr);
   
-  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 3) || [];
   const cleanTheme = (str?: string) => (str || "").replace(/\s*\([^)]*\)/g, '').trim();
+  const cleanEtf = (str?: string) => (str || "")
+    .replace(/\s*\([^)]*\)/g, '')
+    .replace(/플러스/g, '')
+    .replace(/액티브/g, '')
+    .replace(/타겟위클리커버드콜/g, '위클리')
+    .replace(/커버드콜/g, '')
+    .trim();
 
-  const inflowText = topInflows.length > 0 
-    ? topInflows.map(i => {
-        const name = cleanTheme(i.name || i.etfName);
-        const val = i.inflow ?? (i.netInflowValue ? Math.round(i.netInflowValue / 100000000) : 0);
-        return `• ${name} +${(val || 0).toLocaleString()}억원`;
-      }).join('\n')
-    : "• 집계 중";
-
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
-  const strongThemes = sortedPeerGroups.slice(0, 3);
-  const weakThemes = [...sortedPeerGroups].reverse().slice(0, 3);
-
-  const strongText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ') 
-    : "집계 중";
-
-  const weakText = weakThemes.length > 0 
-    ? weakThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ') 
-    : "집계 중";
-
+  // 1. [골든 존 & 2열 대칭 지표 블록]
   const kospi = payload.kospiChangePct ?? 0;
-  const etfRet = payload.generalAumWeightedReturnPct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
   const kospiSign = kospi > 0 ? "+" : "";
+  const kosdaqSign = kosdaq > 0 ? "+" : "";
+  const indexRow = `코스피 ${kospiSign}${kospi.toFixed(2)}% | 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}%`;
+
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
+    (a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0)
+  );
+  const topTheme = sortedPeerGroups[0];
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1];
+  const topThemeRet = topTheme?.cappedAumWeightedReturnPct ?? 0;
+  const botThemeRet = bottomTheme?.cappedAumWeightedReturnPct ?? 0;
+  const topSign = topThemeRet > 0 ? "+" : "";
+  const botSign = botThemeRet > 0 ? "+" : "";
+
+  const shortTheme = (name?: string, maxLen = 6): string => {
+    if (!name) return "테마";
+    const cleaned = cleanTheme(name);
+    return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;
+  };
+  let themeRow = "상위 테마 안정 | 하위 테마 조정";
+  if (topTheme && bottomTheme && topTheme !== bottomTheme) {
+    const s1 = `${topSign}${topThemeRet.toFixed(1)}%`;
+    const s2 = `${botSign}${botThemeRet.toFixed(1)}%`;
+    const nameBudget = 23 - s1.length - s2.length;
+    const maxT1 = Math.max(3, Math.floor(nameBudget / 2));
+    const maxT2 = Math.max(3, nameBudget - maxT1);
+    const t1 = shortTheme(topTheme.peerGroup, maxT1);
+    const t2 = shortTheme(bottomTheme.peerGroup, maxT2);
+    themeRow = `${t1} ${s1} | ${t2} ${s2}`;
+    if (themeRow.length > 28) {
+      themeRow = `상위 테마: ${shortTheme(topTheme.peerGroup, 8)} ${s1}`;
+    }
+  }
+
+  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
+  const getFlowVal = (item: any): number => {
+    if (!item) return 0;
+    if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
+    if (typeof item.inflowAmount === "number" && !isNaN(item.inflowAmount)) return Math.round(item.inflowAmount);
+    if (typeof item.netInflowValue === "number" && !isNaN(item.netInflowValue)) return Math.round(item.netInflowValue / 100000000);
+    if (typeof item.net_flow === "number" && !isNaN(item.net_flow)) return Math.round(item.net_flow / 100000000);
+    return 0;
+  };
+
+  let flowRow = "스마트머니 집계 중";
+  if (topInflows.length >= 2) {
+    const v1 = getFlowVal(topInflows[0]);
+    const v2 = getFlowVal(topInflows[1]);
+    const s1 = `+${v1.toLocaleString()}억`;
+    const s2 = `+${v2.toLocaleString()}억`;
+    const nameBudget = 23 - s1.length - s2.length;
+    const maxN1 = Math.max(3, Math.floor(nameBudget / 2));
+    const maxN2 = Math.max(3, nameBudget - maxN1);
+    const n1 = cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, maxN1);
+    const n2 = cleanEtf(topInflows[1].name || (topInflows[1] as any).etfName).slice(0, maxN2);
+    flowRow = `${n1} ${s1} | ${n2} ${s2}`;
+    if (flowRow.length > 28) {
+      flowRow = `순유입 1위: ${cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, 8)} ${s1}`;
+    }
+  } else if (topInflows.length === 1) {
+    const v1 = getFlowVal(topInflows[0]);
+    const s1 = `+${v1.toLocaleString()}억`;
+    const n1 = cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, 10);
+    flowRow = `순유입 1위: ${n1} ${s1}`;
+  }
+
+  // 2. [핵심 진단 불릿]
+  const etfRet = payload.generalAumWeightedReturnPct ?? 0;
   const etfSign = etfRet > 0 ? "+" : "";
   const kospiVerb = kospi > 0 ? "상승" : kospi < 0 ? "하락" : "보합";
 
-  const topThemeRet = strongThemes[0]?.cappedAumWeightedReturnPct ?? 0;
   const topThemeTail = topThemeRet > 0 ? "중심 견조한 흐름" : "중심 상대적 방어";
-  const themeSummary = strongThemes[0]
-    ? `${cleanTheme(strongThemes[0].peerGroup)} ${topThemeRet > 0 ? '+' : ''}${topThemeRet.toFixed(2)}% ${topThemeTail}`
+  const themeSummary = topTheme
+    ? `${cleanTheme(topTheme.peerGroup)} ${topSign}${topThemeRet.toFixed(2)}% ${topThemeTail}`
     : "집계 중";
 
-  return `[${formattedDate}] 국내 ETF 마켓 데일리 브리핑
+  const flowSummary = topInflows[0]
+    ? `${cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName)} 등 상위 종목 집중 유입`
+    : "상위 종목 집중 유입";
 
-📌 오늘의 3줄 요약
-1. 시장 체온: 코스피 ${kospiSign}${kospi.toFixed(2)}% ${kospiVerb} 속 일반 ETF 가중수익률 ${etfSign}${etfRet.toFixed(2)}% 기록
-2. 주도 테마: ${themeSummary}
-3. 스마트머니: ${topInflows[0] ? cleanTheme(topInflows[0].name) + ' 등 상위 종목 집중 유입' : '상위 종목 집중 유입'}
+  // 3. [관전 포인트 정제]
+  const watchPoint = (regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다.")
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
+    .trim();
+
+  // 상단 75자 골든 존 보장: [날짜] 헤더 + 1행 지표
+  return `[${formattedDate}] ETF 마켓 브리핑
+${indexRow}
+${themeRow}
+${flowRow}
+
+오늘의 핵심 진단
+• 시장 체온: 코스피 ${kospiSign}${kospi.toFixed(2)}% ${kospiVerb} 속 일반 ETF 가중수익률 ${etfSign}${etfRet.toFixed(2)}% 기록
+• 주도 테마: ${themeSummary}
+• 자금 흐름: ${flowSummary}
+
+오늘의 시장 관전 포인트
+${watchPoint}
+
+오늘 장 이후 여러분이 가장 주목하고 계신 섹터나 지표는 무엇인가요?
 
 ───────────────────────
-
-🔎 세부 테마 & 수급 동향
-• 상위 주도 테마: ${strongText}
-• 하위 소외 테마: ${weakText}
-
-스마트머니 실질 순유입 Top 3:
-${inflowText}
-
-───────────────────────
-
-💡 오늘의 시장 관전 포인트
-${regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다."}
-
-오늘 개장 후 여러분이 가장 주목하고 계신 테마나 지표는 무엇인가요? 댓글로 자유롭게 의견을 나눠주세요.
-
-───────────────────────
-데이터 출처: 한국거래소 KRX 전 거래일 마감 공시 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석
+* 기준: ${dateStr} 한국거래소 KRX 공시 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석
 * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며 특정 종목의 매수·매도를 권유하지 않습니다.
 
-#ETFCampus #ETF투자 #ETF브리핑 #마켓브리핑 #재테크`;
+#ETFCampus`;
 }

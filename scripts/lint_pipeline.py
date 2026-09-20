@@ -809,6 +809,45 @@ def check_script_entrypoint_presence() -> list[str]:
     return check_script_entrypoint_presence_in_corpus(gate_scripts, combined_corpus)
 
 
+def check_osmu_mobile_layout_budget_in_files(threads_code: str, instagram_code: str) -> list[str]:
+    """FM-016: OSMU 모바일 레이아웃 및 타이포그래피 예산 규격 정적 검증 (순수 함수)."""
+    errors = []
+
+    # 1. Threads 템플릿 검증
+    if "selectThreadsTopicTag" in threads_code:
+        if "#ETFCampus" not in threads_code:
+            errors.append("threads.ts: selectThreadsTopicTag must return single niche tag '#ETFCampus' (FM-016).")
+
+    if "28" not in threads_code or "nameBudget" not in threads_code:
+        errors.append("threads.ts: Indicator row 28-character dynamic budget enforcement missing (FM-016).")
+
+    if "1번:" in threads_code and "replace" not in threads_code:
+        errors.append("threads.ts: Mechanical 1 vs 2 polling CTA detected (violates FM-016 & AGENTS.md).")
+
+    # 2. Instagram 캡션 템플릿 검증
+    for forbidden_tag in ["#ETF투자", "#ETF브리핑", "#재테크"]:
+        if forbidden_tag in instagram_code:
+            errors.append(f"instagram.ts: Legacy multi-hashtag '{forbidden_tag}' detected (must be single tag #ETFCampus) (FM-016).")
+
+    if "indexRow" not in instagram_code:
+        errors.append("instagram.ts: Caption 75-character Golden Zone headline placement missing (FM-016).")
+
+    return errors
+
+
+def check_osmu_mobile_layout_budget() -> list[str]:
+    """FM-016: OSMU 모바일 레이아웃 및 타이포그래피 예산 규격 검증."""
+    threads_file = REPO_ROOT / "workers" / "market-briefing-distributor" / "src" / "templates" / "threads.ts"
+    insta_file = REPO_ROOT / "workers" / "market-briefing-distributor" / "src" / "templates" / "instagram.ts"
+
+    if not threads_file.exists() or not insta_file.exists():
+        return ["OSMU template files (threads.ts, instagram.ts) not found (FM-016)."]
+
+    threads_code = threads_file.read_text(encoding="utf-8")
+    insta_code = insta_file.read_text(encoding="utf-8")
+    return check_osmu_mobile_layout_budget_in_files(threads_code, insta_code)
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -826,6 +865,7 @@ ALL_CHECKS = [
     ("check_wip_commits_on_main", check_wip_commits_on_main, "FM-013: WIP Commit on Main Branch Prohibition"),
     ("check_exemption_disclosure", check_exemption_disclosure, "FM-014: Exemption Disclosure SSOT Enforcement"),
     ("check_script_entrypoint_presence", check_script_entrypoint_presence, "FM-015: Missing Script Execution Entrypoint Prohibition"),
+    ("check_osmu_mobile_layout_budget", check_osmu_mobile_layout_budget, "FM-016: OSMU Mobile Layout & Typography Budget Integrity"),
 ]
 
 

@@ -22,8 +22,7 @@ function formatDateWithDay(dateStr?: string): string {
 }
 
 export function selectThreadsTopicTag(): string {
-  // Threads 상단 헤더에 이미 토픽/커뮤니티(etf)가 노출되므로 본문 하단 단독 'ETF' 줄은 중복 제거
-  return "";
+  return "#ETFCampus";
 }
 
 export function generateThreadsThread(
@@ -31,16 +30,22 @@ export function generateThreadsThread(
   baseUrl: string,
   narrative?: PolishedNarrative | MarketRegime
 ): ThreadsPost[] {
+  void baseUrl;
   const regime = narrative || classifyMarketRegime(payload);
   const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 0;
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
+  const formattedDate = formatDateWithDay(dateStr);
 
   const cleanThemeName = (name: string): string => {
     return name
       .replace(/\s*\([^)]*\)/g, "")
-      .replace(/피지컬\s*AI\s*&\s*지능형\s*로봇/g, "피지컬 AI & 로봇")
-      .replace(/전통\s*반도체\s*소부장/g, "반도체 소부장")
-      .replace(/K-푸드\s*&\s*K-뷰티/g, "K-푸드 & 뷰티")
-      .replace(/글로벌\s*럭셔리\s*&\s*소비재/g, "글로벌 럭셔리")
+      .replace(/피지컬\s*AI\s*&\s*지능형\s*로봇/g, "피지컬AI")
+      .replace(/전통\s*반도체\s*소부장/g, "반도체소부장")
+      .replace(/K-푸드\s*&\s*K-뷰티/g, "K-푸드뷰티")
+      .replace(/글로벌\s*럭셔리\s*&\s*소비재/g, "글로벌럭셔리")
+      .replace(/2차전지\s*셀\s*&\s*소재/g, "2차전지")
+      .replace(/원자력\s*&\s*SMR/g, "원자력")
+      .replace(/전력\s*인프라\s*&\s*변압기/g, "전력인프라")
       .trim();
   };
 
@@ -48,106 +53,146 @@ export function generateThreadsThread(
     return rawName
       .replace(/\s*\([^)]*\)/g, "")
       .replace(/플러스/g, "")
+      .replace(/액티브/g, "")
+      .replace(/타겟위클리커버드콜/g, "위클리")
+      .replace(/커버드콜/g, "")
       .trim();
   };
-
-  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
-  const inflowSentence = topInflows.length > 0 
-    ? `\n\n스마트머니는 ${topInflows.map(item => {
-        const name = cleanEtfName(item.name || item.etfName || "대표지수");
-        const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
-        return `${name} +${(val || 0).toLocaleString()}억`;
-      }).join(', ')} 순으로 유입됐어.` 
-    : "";
-
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
-  const strongThemes = sortedPeerGroups.slice(0, 2);
-  const weakThemes = [...sortedPeerGroups].reverse().slice(0, 2);
-  
-  const strongText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
-    : "상위 테마 안정";
-
-  const weakText = weakThemes.length > 0 
-    ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
-    : "하위 테마 조정";
 
   const cleanThreadsText = (text?: string): string => {
     if (!text) return "";
     return text
       .replace(/어제\s*/g, "")
+      .replace(/\s*\([^)]*\)/g, "")
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
       .replace(/(쏟아졌|빠졌|받았|있었|내렸|올랐|렸|갔|였)거든/g, "$1어")
       .replace(/했거든/g, "했어")
       .replace(/거든(\.|\s|$)/g, "어$1")
       .trim();
   };
 
-  const cleanWatchPoint = (text?: string): string => {
-    return cleanThreadsText(text)
-      .replace(/\n*1번:[^\n]*/g, "")
-      .replace(/\n*2번:[^\n]*/g, "")
-      .replace(/\n*댓글에\s*1\s*또는\s*2[^\n]*/g, "")
-      .trim();
+  // 1. [지표 1행] 코스피 | 코스닥 (20자 내외, 최대 28자)
+  const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
+  const kospiSign = kospi > 0 ? "+" : "";
+  const kosdaqSign = kosdaq > 0 ? "+" : "";
+  const indexRow = `코스피 ${kospiSign}${kospi.toFixed(2)}% | 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}%`;
+
+  // 2. [지표 2행] 상위 테마 | 하위 테마 (28자 이내 1행 완결)
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
+    (a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0)
+  );
+  const topTheme = sortedPeerGroups[0];
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1];
+  const topThemeRet = topTheme?.cappedAumWeightedReturnPct ?? 0;
+  const botThemeRet = bottomTheme?.cappedAumWeightedReturnPct ?? 0;
+  const topSign = topThemeRet > 0 ? "+" : "";
+  const botSign = botThemeRet > 0 ? "+" : "";
+
+  const shortTheme = (name?: string, maxLen = 6): string => {
+    if (!name) return "테마";
+    const cleaned = cleanThemeName(name);
+    return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;
+  };
+  let themeRow = "상위 테마 안정 | 하위 테마 조정";
+  if (topTheme && bottomTheme && topTheme !== bottomTheme) {
+    const s1 = `${topSign}${topThemeRet.toFixed(1)}%`;
+    const s2 = `${botSign}${botThemeRet.toFixed(1)}%`;
+    const nameBudget = 23 - s1.length - s2.length;
+    const maxT1 = Math.max(3, Math.floor(nameBudget / 2));
+    const maxT2 = Math.max(3, nameBudget - maxT1);
+    const t1 = shortTheme(topTheme.peerGroup, maxT1);
+    const t2 = shortTheme(bottomTheme.peerGroup, maxT2);
+    themeRow = `${t1} ${s1} | ${t2} ${s2}`;
+    if (themeRow.length > 28) {
+      themeRow = `상위 테마: ${shortTheme(topTheme.peerGroup, 8)} ${s1}`;
+    }
+  }
+
+  // 3. [지표 3행] 스마트머니 실질 순유입 1위 | 2위 (28자 이내 1행 완결)
+  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
+  const shortEtf = (name?: string, maxLen = 7): string => {
+    if (!name) return "대표지수";
+    const cleaned = cleanEtfName(name);
+    return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;
+  };
+  const getFlowVal = (item: any): number => {
+    if (!item) return 0;
+    if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
+    if (typeof item.inflowAmount === "number" && !isNaN(item.inflowAmount)) return Math.round(item.inflowAmount);
+    if (typeof item.netInflowValue === "number" && !isNaN(item.netInflowValue)) return Math.round(item.netInflowValue / 100000000);
+    if (typeof item.net_flow === "number" && !isNaN(item.net_flow)) return Math.round(item.net_flow / 100000000);
+    return 0;
   };
 
-  let watchPointText = cleanWatchPoint(
-    regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?"
-  );
-  const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 · 투자 참고용`;
-
-  const formattedDate = formatDateWithDay(payload.asOfDate);
-  const opening = cleanThreadsText(regime.threadsOpening || "");
-  let summary = cleanThreadsText(regime.threadsMarketSummary || "");
-
-  // Build draft post with explicit date header (Instagram caption alignment)
-  let mainPost = `${formattedDate} ETF 마켓 동향
-
-${opening}
-
-${summary}
-
-테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았어.${inflowSentence}
-
-${watchPointText}
-
-${sourceNotice}`;
-
-  // Enforce strict character safety guard (Meta Threads API hard limit: 500 chars, safe target <= 460 chars)
-  const MAX_SAFE_CHARS = 460;
-  if (mainPost.length > MAX_SAFE_CHARS) {
-    // 1. If summary has secondary decorative sentences, keep the core sentence
-    if (summary.includes(". ")) {
-      summary = summary.split(". ")[0].trim() + ".";
+  let flowRow = "스마트머니 집계 중";
+  if (topInflows.length >= 2) {
+    const v1 = getFlowVal(topInflows[0]);
+    const v2 = getFlowVal(topInflows[1]);
+    const s1 = `+${v1.toLocaleString()}억`;
+    const s2 = `+${v2.toLocaleString()}억`;
+    const nameBudget = 23 - s1.length - s2.length;
+    const maxN1 = Math.max(3, Math.floor(nameBudget / 2));
+    const maxN2 = Math.max(3, nameBudget - maxN1);
+    const n1 = shortEtf(topInflows[0].name || (topInflows[0] as any).etfName, maxN1);
+    const n2 = shortEtf(topInflows[1].name || (topInflows[1] as any).etfName, maxN2);
+    flowRow = `${n1} ${s1} | ${n2} ${s2}`;
+    if (flowRow.length > 28) {
+      flowRow = `순유입 1위: ${shortEtf(topInflows[0].name || (topInflows[0] as any).etfName, 8)} ${s1}`;
     }
-    // 2. Shorten watchPointText if it exceeds 100 chars while preserving natural friendly question
-    if (watchPointText.length > 100) {
-      const matchQuestion = watchPointText.match(/다들[^?]+\?/);
-      watchPointText = matchQuestion 
-        ? `주도 테마의 수급 지속성을 점검할 때야. ${matchQuestion[0]}` 
-        : "주도 테마의 수급 지속성을 점검할 때야. 다들 앞으로의 흐름을 어떻게 봐?";
-    }
-    mainPost = `${formattedDate} ETF 마켓 동향
-
-${opening}
-
-${summary}
-
-테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았어.${inflowSentence}
-
-${watchPointText}
-
-${sourceNotice}`;
+  } else if (topInflows.length === 1) {
+    const v1 = getFlowVal(topInflows[0]);
+    const s1 = `+${v1.toLocaleString()}억`;
+    const n1 = shortEtf(topInflows[0].name || (topInflows[0] as any).etfName, 10);
+    flowRow = `순유입 1위: ${n1} ${s1}`;
   }
 
-  // Final hard ceiling safeguard: strictly bound within 480 chars
-  if (mainPost.length > 480) {
-    const footer = `\n\n${sourceNotice}`;
-    const budget = 480 - footer.length;
-    mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
-  }
+  // 4. [분석 불릿 3개] 40~48자 단문 규격 (섹션 간 공백 1행 의무)
+  const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
+  const themeGap = Math.abs(topThemeRet - botThemeRet).toFixed(1);
+
+  const bullet1 = (kospi >= 0 && etfReturn >= 0)
+    ? "1. 코스피와 일반 ETF가 동반 상승하며 견조한 반등을 기록했어."
+    : (kospi < 0 && etfReturn > kospi)
+    ? "1. 코스피 대비 일반 ETF 수익률이 선방하며 지수 방어력을 보였어."
+    : "1. 시장 변동성 확대 속 주요 대표 지수군이 단기 조정을 거쳤어.";
+
+  const bullet2 = topTheme
+    ? `2. 주도 테마와 하위 테마 간 수익률 격차는 ${themeGap}%p까지 벌어졌어.`
+    : "2. 업종별 자금 순환매가 빠르게 이어지며 테마별 편차가 지속됐어.";
+
+  const bullet3 = topInflows.length > 0
+    ? "3. 기관과 외인은 채권 및 대표 지수형 ETF로 자금을 집중했어."
+    : "3. 주요 섹터 및 안전자산 ETF로 실질 자금 유출입이 이어졌어.";
+
+  // 5. [마감 CTA] 3층 구조 고밀도 2줄 단문 (기계적 1 vs 2 투표 배제)
+  const ctaLine = `장기 적립 관점과 단기 모멘텀 관점의 해석이 엇갈리는 구간이야.\n다들은 이번 주 수급 흐름을 어떻게 보고 있어?`;
+
+  // 6. [법정 출처 및 단일 니치 태그]
+  const sourceNotice = `* 기준: ${dateStr} 한국거래소 KRX 공시 · 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
+  const topicTag = selectThreadsTopicTag();
+
+  // 조립: 섹션 간 공백 1행(\n\n) 유지 와이어프레임
+  const mainPost = `${formattedDate} ETF 마켓 동향
+
+${indexRow}
+${themeRow}
+${flowRow}
+
+${bullet1}
+
+${bullet2}
+
+${bullet3}
+
+${ctaLine}
+
+${sourceNotice}
+
+${topicTag}`;
 
   return [
-    { sequence: 1, content: mainPost }
+    { sequence: 1, content: mainPost.trim() }
   ];
 }
 

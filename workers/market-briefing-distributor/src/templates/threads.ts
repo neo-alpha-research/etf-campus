@@ -200,8 +200,17 @@ export function generateThreadsImageSvg(
 
   // Inflows: Focus on Top 1
   const allInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
+  const getInflowVal = (item: any): number => {
+    if (!item) return 0;
+    if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
+    if (typeof item.inflowAmount === "number" && !isNaN(item.inflowAmount)) return Math.round(item.inflowAmount);
+    if (typeof item.netInflowValue === "number" && !isNaN(item.netInflowValue)) return Math.round(item.netInflowValue / 100000000);
+    if (typeof item.net_flow === "number" && !isNaN(item.net_flow)) return Math.round(item.net_flow / 100000000);
+    return 0;
+  };
   const topInflow1 = allInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0 };
-  const cleanTopInflow1Name = (topInflow1.name || "데이터 수집 중").replace(/\s*\([^)]*\)/g, '').trim();
+  const topInflow1Val = getInflowVal(topInflow1);
+  const cleanTopInflow1Name = (topInflow1.name || (topInflow1 as any).etfName || "데이터 수집 중").replace(/\s*\([^)]*\)/g, '').trim();
 
   return `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 모닝 브리핑 인포그래픽 - ${formattedDate}">
@@ -324,9 +333,9 @@ export function generateThreadsImageSvg(
           <text x="94" y="111" fill="#15803D" font-size="21" font-weight="900" text-anchor="middle" class="tabular">${escapeXml(topInflow1.ticker)}</text>
           
           <rect x="158" y="86" width="150" height="36" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-          <text x="233" y="111" fill="#475569" font-size="21" font-weight="900" text-anchor="middle">핵심ETF</text>
+          <text x="233" y="111" fill="#475569" font-size="21" font-weight="900" text-anchor="middle">${escapeXml(topInflow1.theme || "핵심ETF")}</text>
 
-          <text x="866" y="78" fill="#047857" font-size="58" font-weight="900" text-anchor="end" class="tabular">+${(topInflow1.inflow || 0).toLocaleString()}<tspan font-size="30" font-weight="900">억원</tspan></text>
+          <text x="866" y="78" fill="#047857" font-size="58" font-weight="900" text-anchor="end" class="tabular">+${topInflow1Val.toLocaleString()}<tspan font-size="30" font-weight="900">억원</tspan></text>
           <text x="866" y="112" fill="#15803D" font-size="22" font-weight="900" text-anchor="end">당일 기관·외인 최대 순유입</text>
         </g>
       </g>

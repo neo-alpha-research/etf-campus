@@ -187,9 +187,18 @@ export function generateInstagramCarousel(
 
   // Inflows
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
+  const getInflowVal = (item: any): number => {
+    if (!item) return 0;
+    if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
+    if (typeof item.inflowAmount === "number" && !isNaN(item.inflowAmount)) return Math.round(item.inflowAmount);
+    if (typeof item.netInflowValue === "number" && !isNaN(item.netInflowValue)) return Math.round(item.netInflowValue / 100000000);
+    if (typeof item.net_flow === "number" && !isNaN(item.net_flow)) return Math.round(item.net_flow / 100000000);
+    return 0;
+  };
   const topInflow = topInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0, theme: "미분류" };
-  const top5InflowSum = topInflows.slice(0, 5).reduce((sum, item) => sum + (item.inflow || 0), 0);
-  const cleanInflowBannerName = cleanEtfNameForBanner(topInflow.name, 14);
+  const topInflowVal = getInflowVal(topInflow);
+  const top5InflowSum = topInflows.slice(0, 5).reduce((sum, item) => sum + getInflowVal(item), 0);
+  const cleanInflowBannerName = cleanEtfNameForBanner(topInflow.name || (topInflow as any).etfName || "", 14);
 
   // Asset classes
   const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
@@ -369,7 +378,7 @@ export function generateInstagramCarousel(
           <rect x="190" y="110" width="175" height="46" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.4"/>
           <text x="277" y="142" fill="#475569" font-size="23" font-weight="900" text-anchor="middle">${escapeXml(topInflow.theme || "핵심ETF")}</text>
 
-          <text x="835" y="90" fill="#047857" font-size="62" font-weight="900" text-anchor="end" class="tabular">+${(topInflow.inflow || 0).toLocaleString()}<tspan font-size="32" font-weight="900">억원</tspan></text>
+          <text x="835" y="90" fill="#047857" font-size="62" font-weight="900" text-anchor="end" class="tabular">+${topInflowVal.toLocaleString()}<tspan font-size="32" font-weight="900">억원</tspan></text>
           <text x="835" y="136" fill="#15803D" font-size="24" font-weight="900" text-anchor="end">당일 기관·외인 최대 실질 순유입</text>
         </g>
       </g>
@@ -605,7 +614,7 @@ export function generateInstagramCarousel(
       <!-- TOP 5 Inflow Ranking Cards (y=212, step=194, h=180) -->
       <g transform="translate(70, 212)">
         ${topInflows.length > 0 ? topInflows.slice(0, 5).map((item, idx) => {
-          const inflowJo = (item.inflow ?? 0).toLocaleString();
+          const inflowJo = getInflowVal(item).toLocaleString();
           const isTop = idx === 0;
           const cleanName = (item.name || "").replace(/\s*\([^)]*\)/g, '').trim();
           // Reserved width: 450px so ETF name NEVER collides with amount on the right!

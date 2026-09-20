@@ -89,7 +89,15 @@ export function analyzeSmartMoneyCharacter(payload: MarketBriefingPayload): {
 } {
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const top5 = topInflows.slice(0, 5);
-  const top5InflowSum = top5.reduce((sum, item) => sum + (item.inflow || 0), 0);
+  const getInflowVal = (item: any): number => {
+    if (!item) return 0;
+    if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
+    if (typeof item.inflowAmount === "number" && !isNaN(item.inflowAmount)) return Math.round(item.inflowAmount);
+    if (typeof item.netInflowValue === "number" && !isNaN(item.netInflowValue)) return Math.round(item.netInflowValue / 100000000);
+    if (typeof item.net_flow === "number" && !isNaN(item.net_flow)) return Math.round(item.net_flow / 100000000);
+    return 0;
+  };
+  const top5InflowSum = top5.reduce((sum, item) => sum + getInflowVal(item), 0);
   const topItemName = top5[0]?.name || (top5[0] as any)?.etfName || "핵심 종목";
   const secondItemName = top5[1]?.name || (top5[1] as any)?.etfName || "";
 
@@ -100,7 +108,7 @@ export function analyzeSmartMoneyCharacter(payload: MarketBriefingPayload): {
 
   for (const item of top5) {
     const name = item.name || (item as any).etfName || "";
-    const inflow = item.inflow || 1;
+    const inflow = getInflowVal(item) || 1;
 
     if (/CD|KOFR|SOFR|단기채|머니마켓|MMF|파킹|초단기/i.test(name)) {
       parkingScore += inflow;

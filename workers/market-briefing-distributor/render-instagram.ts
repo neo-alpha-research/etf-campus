@@ -262,26 +262,30 @@ async function main() {
     focusEtfs: raw.focusEtfs || [],
     peerGroups: raw.peerGroups || [],
     disparityWarning: raw.disparityWarning || [],
-    periodicFlows: raw.periodicFlows || (raw.fundFlow?.general ? {
+    periodicFlows: {
       dailyFundFlows: {
-        topInflows: (raw.fundFlow.general.topInflows || []).map((f: any, idx: number) => ({
-          rank: idx + 1,
+        topInflows: (raw.fundFlow?.general?.topInflows || raw.periodicFlows?.dailyFundFlows?.topInflows || []).map((f: any, idx: number) => ({
+          rank: f.rank || (idx + 1),
           ticker: f.ticker,
-          name: f.etfName,
+          name: f.name || f.etfName,
           theme: f.theme || '핵심ETF',
-          inflow: Math.round(f.netInflowValue / 100000000),
-          changePct: 0
+          inflow: f.inflow ?? Math.round((f.netInflowValue || f.net_flow || 0) / 100000000),
+          netInflowValue: f.netInflowValue || f.net_flow,
+          net_flow: f.net_flow || f.netInflowValue,
+          changePct: f.changePct ?? 0
         })),
-        topOutflows: (raw.fundFlow.general.topOutflows || []).map((f: any, idx: number) => ({
-          rank: idx + 1,
+        topOutflows: (raw.fundFlow?.general?.topOutflows || raw.periodicFlows?.dailyFundFlows?.topOutflows || []).map((f: any, idx: number) => ({
+          rank: f.rank || (idx + 1),
           ticker: f.ticker,
-          name: f.etfName,
+          name: f.name || f.etfName,
           theme: f.theme || '핵심ETF',
-          inflow: Math.round(f.netInflowValue / 100000000),
-          changePct: 0
+          inflow: f.inflow ?? Math.round((f.netInflowValue || f.net_flow || 0) / 100000000),
+          netInflowValue: f.netInflowValue || f.net_flow,
+          net_flow: f.net_flow || f.netInflowValue,
+          changePct: f.changePct ?? 0
         }))
       }
-    } : undefined),
+    },
   };
 
   let narrative: any = undefined;

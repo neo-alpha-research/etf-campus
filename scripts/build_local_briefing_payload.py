@@ -58,12 +58,12 @@ def normalize_date(raw: str) -> str:
     return raw.strip()
 
 
-def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str) -> tuple[dict[str, Any], str]:
+def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str, peer_map: dict[str, str] | None = None) -> tuple[dict[str, Any], str]:
     cleaned_curr = target_date.replace("-", "").strip()
     prev_map: dict[str, dict[str, Any]] = {}
     detected_prev_date = ""
 
-    # 1. Sole SSOT: check data/snapshots/ directory
+    # 1. First priority: check data/snapshots/ directory
     snapshots_dir = Path("data/snapshots")
     if snapshots_dir.exists():
         candidates = []
@@ -75,15 +75,39 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
                     candidates.append((snap_date, p))
         if candidates:
             candidates.sort(key=lambda x: x[0], reverse=True)
-            best_snap_date, best_path = candidates[0]
-            try:
-                with best_path.open("r", encoding="utf-8-sig") as f:
-                    reader = csv.DictReader(f)
-                    prev_map = {r["ticker"].strip().upper(): r for r in reader}
-                    detected_prev_date = f"{best_snap_date[:4]}-{best_snap_date[4:6]}-{best_snap_date[6:]}"
-                    print(f"📦 [Fund Flow] Loaded previous snapshot from file: {best_path} ({detected_prev_date})")
-            except Exception as e:
-                print(f"⚠️ Error reading snapshot file {best_path}: {e}", file=sys.stderr)
+            for best_snap_date, best_path in candidates:
+                try:
+                    with best_path.open("r", encoding="utf-8-sig") as f:
+                        reader = list(csv.DictReader(f))
+                        if not reader:
+                            continue
+                        row_bas_dt = str(reader[0].get("bas_dt") or "").replace("-", "").strip()
+                        # Reject snapshot if internal bas_dt is >= target_date
+                        if row_bas_dt and row_bas_dt >= cleaned_curr:
+                            print(f"⚠️ [Fund Flow] Snapshot {best_path.name} internal bas_dt ({row_bas_dt}) >= target ({cleaned_curr}). Skipping corrupt snapshot.", file=sys.stderr)
+                            continue
+
+                        temp_prev_map = {r["ticker"].strip().upper(): r for r in reader}
+                        # Validate that share counts are not 100% identical
+                        diff_count = 0
+                        for cr in curr_rows:
+                            ctk = cr.get("ticker", "").strip().upper()
+                            if ctk in temp_prev_map:
+                                cs = to_float(cr.get("shares"))
+                                ps = to_float(temp_prev_map[ctk].get("shares"))
+                                if cs != ps:
+                                    diff_count += 1
+
+                        if diff_count == 0 and len(curr_rows) > 50:
+                            print(f"⚠️ [Fund Flow] Snapshot {best_path.name} has 0 share count differences with target date. Skipping identical snapshot.", file=sys.stderr)
+                            continue
+
+                        prev_map = temp_prev_map
+                        detected_prev_date = f"{best_snap_date[:4]}-{best_snap_date[4:6]}-{best_snap_date[6:]}"
+                        print(f"📦 [Fund Flow] Loaded previous snapshot from file: {best_path} ({detected_prev_date}, {diff_count} share changes)")
+                        break
+                except Exception as e:
+                    print(f"⚠️ Error reading snapshot file {best_path}: {e}", file=sys.stderr)
 
     if not prev_map:
         print(f"⚠️ [Fund Flow] No prior trading day snapshot found in data/snapshots/ for date < {cleaned_curr}.", file=sys.stderr)
@@ -114,10 +138,17 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
             elif nav0 > 0 and navp > 0 and aum0 > 0 and aump > 0:
                 net_inflow = (aum0 / nav0 - aump / navp) * nav0
 
+        inflow_eok = round(net_inflow / 100_000_000, 1)
+        theme_name = (peer_map or {}).get(tk) or "핵심ETF"
         item = {
+            "rank": 0,
             "ticker": tk,
             "etfName": name,
             "name": name,
+            "assetClass": ac,
+            "theme": theme_name,
+            "inflow": inflow_eok,
+            "inflowAmount": inflow_eok,
             "netInflowValue": round(net_inflow, 2),
             "net_flow": round(net_inflow, 2),
         }
@@ -130,12 +161,12 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
 
     flow_dict = {
         "general": {
-            "topInflows": general_flows[:5],
-            "topOutflows": general_flows[-5:][::-1],
+            "topInflows": [{**it, "rank": idx} for idx, it in enumerate(general_flows[:5], start=1)],
+            "topOutflows": [{**it, "rank": idx} for idx, it in enumerate(general_flows[-5:][::-1], start=1)],
         },
         "all": {
-            "topInflows": all_flows[:5],
-            "topOutflows": all_flows[-5:][::-1],
+            "topInflows": [{**it, "rank": idx} for idx, it in enumerate(all_flows[:5], start=1)],
+            "topOutflows": [{**it, "rank": idx} for idx, it in enumerate(all_flows[-5:][::-1], start=1)],
         },
     }
     return flow_dict, detected_prev_date
@@ -452,20 +483,25 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     try:
         snapshots_dir = data_dir / "snapshots"
         snapshots_dir.mkdir(parents=True, exist_ok=True)
-        current_snap_file = snapshots_dir / f"master_{as_of_date}.csv"
         
-        # Write slim snapshot (~30KB vs 500KB)
-        with current_snap_file.open("w", encoding="utf-8-sig", newline="") as sf:
-            writer = csv.DictWriter(sf, fieldnames=["ticker", "shares", "nav", "bas_dt"])
-            writer.writeheader()
-            for r in master_rows:
-                writer.writerow({
-                    "ticker": r.get("ticker", "").strip().upper(),
-                    "shares": str(r.get("shares", "0")).strip(),
-                    "nav": str(r.get("nav") or r.get("close") or "0").strip(),
-                    "bas_dt": str(r.get("bas_dt", as_of_date)).strip(),
-                })
-        print(f"💾 [Snapshot] Archived daily slim snapshot ({len(master_rows)} rows): {current_snap_file}")
+        # Guard: ONLY archive if master_rows bas_dt matches as_of_date!
+        master_bas_dt = normalize_date(first_bas_dt)
+        if master_bas_dt == as_of_date:
+            current_snap_file = snapshots_dir / f"master_{as_of_date}.csv"
+            # Write slim snapshot (~30KB vs 500KB)
+            with current_snap_file.open("w", encoding="utf-8-sig", newline="") as sf:
+                writer = csv.DictWriter(sf, fieldnames=["ticker", "shares", "nav", "bas_dt"])
+                writer.writeheader()
+                for r in master_rows:
+                    writer.writerow({
+                        "ticker": r.get("ticker", "").strip().upper(),
+                        "shares": str(r.get("shares", "0")).strip(),
+                        "nav": str(r.get("nav") or r.get("close") or "0").strip(),
+                        "bas_dt": str(r.get("bas_dt", as_of_date)).strip(),
+                    })
+            print(f"💾 [Snapshot] Archived daily slim snapshot ({len(master_rows)} rows): {current_snap_file}")
+        else:
+            print(f"ℹ️ [Snapshot Archive Skipped] master_rows bas_dt ({master_bas_dt}) does not match target date ({as_of_date}). Archiving aborted to prevent snapshot corruption.")
 
         # Retain only latest 7 snapshots, prune older files
         snap_files = sorted(snapshots_dir.glob("master_*.csv"))
@@ -481,13 +517,23 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
         sys.exit(1)
 
     # 9. Smart Money Fund Flow (Zero-D1 Local Calculation SSOT)
-    local_flows, detected_prev_date = calculate_local_fund_flows(master_rows, as_of_date)
-    has_valid_existing = bool(
-        existing_is_same_date
-        and len(existing_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])) >= 5
-    )
-    final_fund_flow = existing_data.get("fundFlow") if has_valid_existing else local_flows
-    final_prev_as_of = existing_data.get("prevAsOfDate") or detected_prev_date
+    local_flows, detected_prev_date = calculate_local_fund_flows(master_rows, as_of_date, peer_map)
+    local_inflows = local_flows.get("general", {}).get("topInflows", [])
+    has_valid_local = bool(len(local_inflows) >= 5 and any(abs(to_float(x.get("netInflowValue") or 0)) > 0 for x in local_inflows))
+
+    if has_valid_local:
+        final_fund_flow = local_flows
+        final_prev_as_of = detected_prev_date or existing_data.get("prevAsOfDate")
+    else:
+        existing_inflows = existing_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])
+        has_valid_existing = bool(
+            existing_is_same_date
+            and len(existing_inflows) >= 5
+            and any(abs(to_float(x.get("netInflowValue") or x.get("net_flow") or 0)) > 0 for x in existing_inflows)
+            and any(abs(to_float(x.get("inflow") or 0)) > 0 for x in existing_inflows)
+        )
+        final_fund_flow = existing_data.get("fundFlow") if has_valid_existing else local_flows
+        final_prev_as_of = existing_data.get("prevAsOfDate") or detected_prev_date
 
     # Market Scale 4-Category Snapshot (Local canonical calculation)
     all_total_aum = sum(e["aum"] for e in all_etfs)

@@ -157,7 +157,58 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
         self.assertGreater(pulse.get("generalEtfCount", 0), 0)
         self.assertIsInstance(pulse.get("generalAumWeightedReturnPct"), (int, float))
 
+    def test_fund_flows_non_zero_and_snapshot_integrity(self):
+        """FM-017: 스마트머니 순유입/순유출은 0원 불가(Non-Zero)이며 계약 위반 시 Fail-Closed 차단해야 함."""
+        from scripts.schemas.briefing_contract import BriefingContract, MacroIndexItem, FundFlowItem
+
+        # 1. 실제 산출된 브리핑 페이로드의 순유입 1위는 0원 초과여야 함
+        fund_flow = self.briefing.get("fundFlow") or {}
+        general_flows = fund_flow.get("general") or {}
+        top_inflows = general_flows.get("topInflows") or []
+        top_outflows = general_flows.get("topOutflows") or []
+
+        self.assertGreaterEqual(len(top_inflows), 5, "topInflows must have at least 5 items")
+        self.assertGreaterEqual(len(top_outflows), 5, "topOutflows must have at least 5 items")
+
+        # 상위 1위 순유입액은 양수여야 함
+        self.assertGreater(top_inflows[0].get("netInflowValue", 0), 0, "Top 1 inflow must be strictly positive (> 0)")
+        # 상위 1위 순유출액은 음수여야 함
+        self.assertLess(top_outflows[0].get("netInflowValue", 0), 0, "Top 1 outflow must be strictly negative (< 0)")
+
+        # 2. BriefingContract가 전 종목 0원(스냅샷 오류) 발생 시 Fail-Closed 차단하는지 검증
+        base_indices = [
+            {"code": "KOSPI", "label": "코스피", "value": 2600.0, "change_pct": 1.5, "as_of_date": "2026-09-17"},
+            {"code": "KOSDAQ", "label": "코스닥", "value": 850.0, "change_pct": 0.8, "as_of_date": "2026-09-17"},
+            {"code": "VKOSPI", "label": "VKOSPI", "value": 25.0, "change_pct": 10.0, "as_of_date": "2026-09-17"},
+            {"code": "SPX", "label": "S&P 500", "value": 5500.0, "change_pct": -0.5, "as_of_date": "2026-09-17"},
+            {"code": "NDX", "label": "나스닥", "value": 19000.0, "change_pct": -0.8, "as_of_date": "2026-09-17"},
+            {"code": "VIX", "label": "VIX", "value": 22.0, "change_pct": 12.0, "as_of_date": "2026-09-17"},
+            {"code": "USDKRW", "label": "원/달러", "value": 1340.0, "change_pct": 0.3, "as_of_date": "2026-09-17"},
+            {"code": "KR10Y", "label": "국채 10년", "value": 3.2, "change_pct": 0.05, "as_of_date": "2026-09-17"},
+            {"code": "DGS10", "label": "미 국채 10년물", "value": 4.1, "change_pct": -0.02, "as_of_date": "2026-09-17"},
+            {"code": "CLF", "label": "WTI 원유", "value": 75.0, "change_pct": 2.0, "as_of_date": "2026-09-17"},
+            {"code": "GC", "label": "금 선물", "value": 2500.0, "change_pct": 1.2, "as_of_date": "2026-09-17"},
+            {"code": "SI", "label": "은 선물", "value": 30.0, "change_pct": 2.1, "as_of_date": "2026-09-17"},
+        ]
+        zero_flows = [
+            {"ticker": f"0000{i}0", "name": f"ETF_{i}", "net_flow": 0.0}
+            for i in range(5)
+        ]
+
+        with self.assertRaises(ValueError) as ctx:
+            BriefingContract(
+                as_of_date="2026-09-17",
+                general_etf_count=1000,
+                general_total_aum=100000000000.0,
+                aum_weighted_return_pct=1.2,
+                market_indices=[MacroIndexItem(**item) for item in base_indices],
+                top_inflows=[FundFlowItem(**item) for item in zero_flows],
+                top_outflows=[FundFlowItem(**item) for item in zero_flows],
+            )
+        self.assertIn("스마트머니", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

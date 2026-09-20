@@ -212,6 +212,15 @@ class BriefingContract(BaseModel):
                         f"이월 필드 [{field_name}]의 기준일자({carried_as_of}) 형식이 올바르지 않습니다."
                     )
 
+        # 6. 스마트머니(펀드플로우) 정상 집계 검사 (거래일 전 종목 0원 오류 차단)
+        if self.top_inflows:
+            has_positive_inflow = any(item.net_flow > 0 for item in self.top_inflows)
+            if not has_positive_inflow:
+                raise ValueError(
+                    "스마트머니(펀드플로우) 상위 순유입 전 종목 0원 오류 감지: "
+                    "직전 거래일 스냅샷이 누락되었거나 동일 데이터로 오염되어 모든 종목의 순유입액이 0원으로 산출되었습니다."
+                )
+
         return self
 
 

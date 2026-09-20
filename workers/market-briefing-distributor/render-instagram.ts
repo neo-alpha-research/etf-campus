@@ -288,6 +288,12 @@ async function main() {
     },
   };
 
+  const topInflowsList = currentPayload.periodicFlows?.dailyFundFlows?.topInflows || [];
+  const hasPositiveInflow = topInflowsList.some(item => (item.inflow || (item.netInflowValue ? item.netInflowValue / 100000000 : 0)) > 0);
+  if (!hasPositiveInflow && topInflowsList.length > 0) {
+    throw new Error(`[OSMU Fail-Closed] All top inflows have 0 or negative fund flow for ${targetDate}. Rendering aborted to prevent zero-flow publication.`);
+  }
+
   let narrative: any = undefined;
   try {
     const distRes = await fetch(`https://market-briefing-distributor.neo-alpha-research.workers.dev/api/preview/instagram?fresh=1&date=${targetDate}`);

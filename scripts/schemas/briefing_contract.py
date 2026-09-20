@@ -220,6 +220,13 @@ class BriefingContract(BaseModel):
                     "스마트머니(펀드플로우) 상위 순유입 전 종목 0원 오류 감지: "
                     "직전 거래일 스냅샷이 누락되었거나 동일 데이터로 오염되어 모든 종목의 순유입액이 0원으로 산출되었습니다."
                 )
+        if self.top_outflows:
+            has_negative_outflow = any(item.net_flow < 0 for item in self.top_outflows)
+            if not has_negative_outflow:
+                raise ValueError(
+                    "스마트머니(펀드플로우) 상위 순유출 전 종목 0원 오류 감지: "
+                    "직전 거래일 스냅샷이 누락되었거나 동일 데이터로 오염되어 모든 종목의 순유출액이 0원으로 산출되었습니다."
+                )
 
         return self
 

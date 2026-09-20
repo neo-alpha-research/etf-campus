@@ -159,6 +159,15 @@ def calculate_local_fund_flows(curr_rows: list[dict[str, Any]], target_date: str
     general_flows.sort(key=lambda x: x["netInflowValue"], reverse=True)
     all_flows.sort(key=lambda x: x["netInflowValue"], reverse=True)
 
+    has_positive = any(x["netInflowValue"] > 0 for x in general_flows)
+    has_negative = any(x["netInflowValue"] < 0 for x in general_flows)
+    if (not has_positive or not has_negative) and len(curr_rows) > 50:
+        raise ValueError(
+            f"❌ [Fund Flow Fail-Closed] 상장주식수 변동(실질 순유입/순유출) 집계 결함 감지: "
+            f"양수 유입 존재={has_positive}, 음수 유출 존재={has_negative} (기준일자: {target_date}, 이전일자: {detected_prev_date}). "
+            f"전 종목 0원 데이터의 비정상 페이로드 생성을 차단합니다."
+        )
+
     flow_dict = {
         "general": {
             "topInflows": [{**it, "rank": idx} for idx, it in enumerate(general_flows[:5], start=1)],

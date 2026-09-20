@@ -745,8 +745,14 @@ export function MarketBriefing() {
   const topInflowItem = briefing.fundFlow?.general?.topInflows?.[0] || briefing.fundFlow?.all?.topInflows?.[0];
   const topOutflowItem = briefing.fundFlow?.general?.topOutflows?.[0] || briefing.fundFlow?.all?.topOutflows?.[0];
   let flowKeySentence = "주요 대표 지수 및 테마 ETF를 중심으로 일일 자금 유출입이 활발하게 일어났습니다.";
-  if (topInflowItem && topOutflowItem) {
-    flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formatInflowAmount(topInflowItem.netInflowValue)}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formatInflowAmount(topOutflowItem.netInflowValue)}억원)'에서는 차익실현 환매가 출회되었습니다.`;
+  const topInflowVal = topInflowItem?.netInflowValue ?? 0;
+  const topOutflowVal = topOutflowItem?.netInflowValue ?? 0;
+  if (topInflowItem && topOutflowItem && topInflowVal > 0 && topOutflowVal < 0) {
+    const formattedInflow = formatInflowAmount(topInflowVal);
+    const formattedOutflow = formatInflowAmount(topOutflowVal);
+    if (formattedInflow !== "0" && formattedOutflow !== "0") {
+      flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formattedInflow}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formattedOutflow}억원)'에서는 차익실현 환매가 출회되었습니다.`;
+    }
   }
 
   const isViewingPastDate = Boolean(selectedDate);
@@ -946,7 +952,7 @@ export function MarketBriefing() {
                     </div>
                   )}
                   {/* Highlight 2: Best Inflow */}
-                  {topInflowEtf ? (
+                  {topInflowEtf && (topInflowEtf.netInflowValue || 0) > 0 ? (
                     <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
                       <div className="min-w-0 pr-2">
                         <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">일간 순유입 1위 ETF</p>

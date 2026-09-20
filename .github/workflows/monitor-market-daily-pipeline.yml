@@ -161,6 +161,17 @@ jobs:
               if not is_historical_check and briefing.get("isStale") is True:
                   errors.append(f"latest briefing is stale by {briefing.get('staleDays')} day(s)")
 
+              # Fund flow smart money integrity check (Zero-flow prevention)
+              fund_flow = briefing.get("fundFlow") if isinstance(briefing.get("fundFlow"), dict) else {}
+              general_flow = fund_flow.get("general") if isinstance(fund_flow.get("general"), dict) else fund_flow
+              top_inflows = general_flow.get("topInflows") if isinstance(general_flow.get("topInflows"), list) else []
+              if not top_inflows or len(top_inflows) < 5:
+                  errors.append("fund flow topInflows is missing or has fewer than 5 items")
+              else:
+                  has_positive_inflow = any((item.get("netInflowValue") or item.get("net_flow") or item.get("inflow") or 0) > 0 for item in top_inflows)
+                  if not has_positive_inflow:
+                      errors.append("fund flow topInflows has all zero or negative inflows (smart money calculation failure)")
+
           ready = not errors
           reason = "ready" if ready else "; ".join(errors)
           output_path.write_text(

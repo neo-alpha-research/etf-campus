@@ -52,7 +52,31 @@ def resolve_target_date(target_arg: str | None = None) -> str:
     return time.strftime("%Y-%m-%d")
 
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+from scripts.schemas.briefing_contract import validate_briefing_payload
+
+
 def check_briefing_safety(date_str: str) -> tuple[bool, str]:
+    # 1. Primary check: Local payload contract validation
+    for pf in (Path(f"data/briefing_payload_{date_str}.json"), Path("data/briefing_payload_latest.json")):
+        if pf.exists():
+            try:
+                with open(pf, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                raw = data.get("briefing") or data
+                as_of = (raw.get("asOfDate") or raw.get("as_of_date") or "").replace("-", "").strip()
+                target_compact = date_str.replace("-", "").strip()
+                if as_of == target_compact or as_of == date_str:
+                    is_valid, errs, contract = validate_briefing_payload(raw)
+                    if not is_valid:
+                        return False, f"Local payload {pf.name} failed contract validation: {errs}"
+                    return True, f"Safe (Local verified SSOT: {contract.as_of_date})"
+            except Exception as e:
+                print(f"⚠️ [Publisher] Error reading local {pf}: {e}", file=sys.stderr)
+
+    # 2. Remote check: Distributor Worker API
     url = f"{DISTRIBUTOR_HOST}/api/briefings/latest?date={urllib.parse.quote(date_str, safe='')}&_t={time.time()}"
     req = urllib.request.Request(url, headers={"User-Agent": "ETF-Campus-OSMU-Publisher/1.0"})
     try:
@@ -60,10 +84,14 @@ def check_briefing_safety(date_str: str) -> tuple[bool, str]:
             if resp.status != 200:
                 return False, f"HTTP status {resp.status}"
             data = json.loads(resp.read().decode("utf-8"))
-            as_of = (data.get("briefing", {}).get("asOfDate") or data.get("asOfDate") or "").strip()
+            raw = data.get("briefing") or data
+            as_of = (raw.get("asOfDate") or raw.get("as_of_date") or "").strip()
             if as_of != date_str:
                 return False, f"Briefing asOfDate '{as_of}' does not match target date '{date_str}'"
-            return True, "Safe"
+            is_valid, errs, contract = validate_briefing_payload(raw)
+            if not is_valid:
+                return False, f"Remote briefing payload failed contract: {errs}"
+            return True, f"Safe (Remote verified: {contract.as_of_date})"
     except Exception as e:
         return False, f"Failed to query briefing API: {e}"
 

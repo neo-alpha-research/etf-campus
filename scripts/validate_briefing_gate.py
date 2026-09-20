@@ -67,17 +67,17 @@ def fetch_briefing_payload(bas_dt: str) -> tuple[dict[str, Any] | None, str]:
     3. Cloudflare D1 원격 데이터베이스
     """
     # 1. Primary: 로컬 정본 산출물 (Zero-D1 Read Dependency)
-    local_file = Path("data/briefing_payload_latest.json")
-    if local_file.exists():
-        try:
-            with local_file.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-                raw = data.get("briefing") or data
-                as_of = str(raw.get("asOfDate") or raw.get("as_of_date") or "").strip()
-                if as_of == bas_dt:
-                    return raw, "local_canonical_artifact"
-        except Exception as e:
-            print(f"[Gate] 로컬 정본 파일 읽기 오류 안내: {e}", file=sys.stderr)
+    for path in (Path(f"data/briefing_payload_{bas_dt}.json"), Path("data/briefing_payload_latest.json")):
+        if path.exists():
+            try:
+                with path.open("r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    raw = data.get("briefing") or data
+                    as_of = str(raw.get("asOfDate") or raw.get("as_of_date") or "").strip()
+                    if as_of == bas_dt:
+                        return raw, f"local_canonical_artifact ({path.name})"
+            except Exception as e:
+                print(f"[Gate] 로컬 정본 파일 읽기 오류 안내 ({path.name}): {e}", file=sys.stderr)
 
     # 2. Secondary: Cloudflare KV 원격 캐시
     kv_cmd = f'npx wrangler kv key get --namespace-id 278805f22a4948b3b9b6c66e8a6a1466 "market-briefing:v0:payload:{bas_dt}:v1" --remote'

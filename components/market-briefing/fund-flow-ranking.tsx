@@ -49,6 +49,18 @@ export function FundFlowRanking({
     return null;
   }
 
+  const hasNonZeroInflow = currentData.topInflows?.some((r) => Math.abs(r.netInflowValue || 0) > 0);
+  const hasNonZeroOutflow = currentData.topOutflows?.some((r) => Math.abs(r.netInflowValue || 0) > 0);
+
+  if (!hasNonZeroInflow && !hasNonZeroOutflow) {
+    return (
+      <div className="rounded-2xl border border-[#E8ECE1] bg-[#F8FAF6] p-8 text-center">
+        <p className="text-sm sm:text-base font-bold text-neutral-700">당일 실질 자금 유출입 변동을 집계하고 있습니다.</p>
+        <p className="mt-1.5 text-xs text-neutral-400">한국거래소(KRX) 상장주식수 원장 및 설정·환매 변동분이 확정되는 대로 실시간 반영됩니다.</p>
+      </div>
+    );
+  }
+
   const maxInflow = Math.max(...currentData.topInflows.map((r) => Math.abs(r.netInflowValue || 0)), 1);
   const maxOutflow = Math.max(...currentData.topOutflows.map((r) => Math.abs(r.netInflowValue || 0)), 1);
 

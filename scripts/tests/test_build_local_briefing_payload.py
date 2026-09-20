@@ -91,8 +91,12 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
             {"code": "GC", "label": "금 선물", "value": 2500.0, "change_pct": 1.2, "as_of_date": "2026-09-17"},
             {"code": "SI", "label": "은 선물", "value": 30.0, "change_pct": 2.1, "as_of_date": "2026-09-17"},
         ]
-        sample_flows = [
+        sample_inflows = [
             {"ticker": f"0000{i}0", "name": f"ETF_{i}", "net_flow": 100000000.0}
+            for i in range(5)
+        ]
+        sample_outflows = [
+            {"ticker": f"0000{i}0", "name": f"ETF_{i}", "net_flow": -100000000.0}
             for i in range(5)
         ]
 
@@ -103,8 +107,8 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
             general_total_aum=100000000000.0,
             aum_weighted_return_pct=1.2,
             market_indices=[MacroIndexItem(**item) for item in base_indices],
-            top_inflows=[FundFlowItem(**item) for item in sample_flows],
-            top_outflows=[FundFlowItem(**item) for item in sample_flows],
+            top_inflows=[FundFlowItem(**item) for item in sample_inflows],
+            top_outflows=[FundFlowItem(**item) for item in sample_outflows],
         )
         self.assertIsNotNone(contract)
 
@@ -121,8 +125,8 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
                 general_total_aum=100000000000.0,
                 aum_weighted_return_pct=1.2,
                 market_indices=[MacroIndexItem(**item) for item in invalid_indices],
-                top_inflows=[FundFlowItem(**item) for item in sample_flows],
-                top_outflows=[FundFlowItem(**item) for item in sample_flows],
+                top_inflows=[FundFlowItem(**item) for item in sample_inflows],
+                top_outflows=[FundFlowItem(**item) for item in sample_outflows],
             )
 
     def test_briefing_contract_readiness_and_source_dates(self):
@@ -206,6 +210,23 @@ class TestBuildLocalBriefingPayload(unittest.TestCase):
                 top_outflows=[FundFlowItem(**item) for item in zero_flows],
             )
         self.assertIn("스마트머니", str(ctx.exception))
+
+        # 3. BriefingContract가 유출액 전 종목 0원 시 Fail-Closed 차단하는지 검증
+        valid_inflows = [
+            {"ticker": f"0000{i}0", "name": f"ETF_{i}", "net_flow": 100000000.0}
+            for i in range(5)
+        ]
+        with self.assertRaises(ValueError) as ctx:
+            BriefingContract(
+                as_of_date="2026-09-17",
+                general_etf_count=1000,
+                general_total_aum=100000000000.0,
+                aum_weighted_return_pct=1.2,
+                market_indices=[MacroIndexItem(**item) for item in base_indices],
+                top_inflows=[FundFlowItem(**item) for item in valid_inflows],
+                top_outflows=[FundFlowItem(**item) for item in zero_flows],
+            )
+        self.assertIn("상위 순유출 전 종목 0원", str(ctx.exception))
 
 
 if __name__ == "__main__":

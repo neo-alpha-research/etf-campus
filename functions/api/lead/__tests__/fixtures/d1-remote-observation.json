@@ -1,0 +1,45 @@
+{
+  "provenance": {
+    "target": "Cloudflare D1 Remote Database (Production)",
+    "database_name": "ETF_PRICES",
+    "database_id": "11c4e874-fba2-4e34-91d0-808892284c86",
+    "region": "APAC",
+    "colo": "ICN",
+    "observed_at": "2026-09-21T21:21:00+09:00",
+    "wrangler_version": "4.127.1"
+  },
+  "read_only_schema_check": {
+    "command": "npx wrangler d1 execute ETF_PRICES --remote --command \"SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%lead%'\"",
+    "raw_response": [
+      {
+        "results": [],
+        "success": true,
+        "meta": {
+          "served_by": "v3-prod",
+          "served_by_region": "APAC",
+          "served_by_colo": "ICN",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.1946
+          },
+          "duration": 0.1946,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 184217600,
+          "rows_read": 111,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      }
+    ]
+  },
+  "unapplied_migrations_check": {
+    "command": "npx wrangler d1 migrations list ETF_PRICES --remote",
+    "applied_migrations_up_to": "0026_correct_migration_baselines_0024.sql",
+    "migrations_to_be_applied": [
+      "0027_lead_waitlist.sql",
+      "0028_lead_waitlist_hardening.sql"
+    ]
+  }
+}

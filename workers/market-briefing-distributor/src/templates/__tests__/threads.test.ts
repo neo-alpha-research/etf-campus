@@ -87,8 +87,8 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     expect(post).not.toMatch(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u);
   });
 
-  it("7. 단일 니치 해시태그 #ETFCampus가 포함되어야 한다", () => {
-    expect(selectThreadsTopicTag()).toBe("#ETFCampus");
-    expect(post).toContain("#ETFCampus");
+  it("7. 단일 니치 토픽 태그 #ETF투자가 포함되어야 한다", () => {
+    expect(selectThreadsTopicTag()).toBe("#ETF투자");
+    expect(post).toContain("#ETF투자");
   });
 });

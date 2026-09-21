@@ -815,8 +815,8 @@ def check_osmu_mobile_layout_budget_in_files(threads_code: str, instagram_code: 
 
     # 1. Threads 템플릿 검증
     if "selectThreadsTopicTag" in threads_code:
-        if "#ETFCampus" not in threads_code:
-            errors.append("threads.ts: selectThreadsTopicTag must return single niche tag '#ETFCampus' (FM-016).")
+        if "#ETF투자" not in threads_code:
+            errors.append("threads.ts: selectThreadsTopicTag must return single high-discovery topic tag '#ETF투자' (FM-016).")
 
     if "28" not in threads_code or "nameBudget" not in threads_code:
         errors.append("threads.ts: Indicator row 28-character dynamic budget enforcement missing (FM-016).")

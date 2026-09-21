@@ -22,7 +22,7 @@ function formatDateWithDay(dateStr?: string): string {
 }
 
 export function selectThreadsTopicTag(): string {
-  return "#ETFCampus";
+  return "#ETF투자";
 }
 
 export function generateThreadsThread(

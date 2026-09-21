@@ -95,7 +95,11 @@ const UNAUTHENTICATED_AUTH_PATHS = new Set([
   "/api/community/auth/oauth/naver/start",
 ]);
 
-export async function communityFetch<T = any>(path: string, init: RequestInit = {}): Promise<T> {
+export type CommunityFetchOptions = RequestInit & {
+  timeoutMs?: number;
+};
+
+export async function communityFetch<T = any>(path: string, init: CommunityFetchOptions = {}): Promise<T> {
   const method = (init.method ?? "GET").toUpperCase();
   const unsafe = ["POST", "PATCH", "PUT", "DELETE"].includes(method);
   
@@ -109,18 +113,58 @@ export async function communityFetch<T = any>(path: string, init: RequestInit = 
   if (init.body) headers.set("Content-Type", "application/json");
   if (unsafe && csrfToken) headers.set("X-Community-CSRF", csrfToken);
 
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  const timeoutMs = init.timeoutMs;
+
+  if (typeof timeoutMs === "number" && timeoutMs > 0) {
+    timer = setTimeout(() => {
+      const timeoutError = new Error(`요청 시간이 초과되었습니다 (${timeoutMs}ms).`);
+      timeoutError.name = "TimeoutError";
+      controller.abort(timeoutError);
+    }, timeoutMs);
+  }
+
+  if (init.signal) {
+    if (init.signal.aborted) {
+      controller.abort(init.signal.reason);
+    } else {
+      init.signal.addEventListener("abort", () => {
+        controller.abort(init.signal?.reason);
+      }, { once: true });
+    }
+  }
+
   let response: Response;
   let body: any = null;
 
   try {
-    response = await fetch(path, { ...init, method, headers, credentials: "same-origin" });
+    const { timeoutMs: _ignored, ...fetchInit } = init;
+    response = await fetch(path, { ...fetchInit, method, headers, credentials: "same-origin", signal: controller.signal });
     acceptCsrf(response);
     const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "";
     if (contentType.includes("application/json")) {
       body = await response.json().catch(() => null);
     }
-  } catch {
+  } catch (fetchErr: unknown) {
+    if (controller.signal.aborted) {
+      const reason = controller.signal.reason;
+      const isTimeout =
+        (reason instanceof Error && (reason.name === "TimeoutError" || reason.message.includes("초과"))) ||
+        (fetchErr instanceof Error && (fetchErr.name === "TimeoutError" || fetchErr.message.includes("timeout")));
+      const message = isTimeout
+        ? "요청 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."
+        : reason instanceof Error
+        ? reason.message
+        : "요청이 취소되었습니다.";
+      const timeoutErr = new Error(message) as Error & { status?: number; code?: string };
+      timeoutErr.status = 408;
+      timeoutErr.code = isTimeout ? "TIMEOUT" : "ABORTED";
+      throw timeoutErr;
+    }
     response = new Response(null, { status: 500 });
+  } finally {
+    if (timer) clearTimeout(timer);
   }
 
   // Local development mock fallback when backend Cloudflare Pages Functions are not bound in next dev

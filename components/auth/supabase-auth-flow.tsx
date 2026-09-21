@@ -51,6 +51,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     if (step !== "profile") return;
 
     let cancelled = false;
+    const abortController = new AbortController();
 
     async function loadProfile() {
       setProfileFetchLoading(true);
@@ -60,7 +61,10 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
           hasNickname?: boolean;
           hasTermsConsent?: boolean;
           profile?: { nickname?: string; marketingConsent?: boolean } | null;
-        }>("/api/community/auth/profile");
+        }>("/api/community/auth/profile", {
+          timeoutMs: 8000,
+          signal: abortController.signal,
+        });
         if (cancelled) return;
         if (data?.hasNickname && data.profile?.nickname) {
           setNickname(data.profile.nickname);
@@ -85,6 +89,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
     return () => {
       cancelled = true;
+      abortController.abort();
     };
   }, [step, profileFetchRetryKey]);
 

@@ -113,4 +113,56 @@ describe("browser-client communityFetch - Public Auth Whitelist & CSRF Protectio
 
     expect(mockFetch).toHaveBeenCalledWith("/api/community/auth/session", expect.anything());
   });
+
+  it("지정된 timeoutMs 내에 응답이 없으면 408 TIMEOUT 에러를 발생시키고 요청을 취소한다", async () => {
+    const mockFetch = vi.fn().mockImplementation((_url: string, options: RequestInit) => {
+      return new Promise((resolve, reject) => {
+        // options.signal에 abort 이벤트 리스너 등록
+        options.signal?.addEventListener("abort", () => {
+          const abortError = new Error("This operation was aborted");
+          abortError.name = "AbortError";
+          reject(abortError);
+        });
+      });
+    });
+    global.fetch = mockFetch;
+
+    await expect(
+      communityFetch("/api/community/auth/profile", {
+        method: "GET",
+        timeoutMs: 50,
+      })
+    ).rejects.toMatchObject({
+      status: 408,
+      code: "TIMEOUT",
+      message: expect.stringContaining("요청 시간이 초과되었습니다"),
+    });
+  });
+
+  it("외부 AbortSignal이 취소되면 즉시 요청을 중단하고 취소 에러를 발생시킨다", async () => {
+    const controller = new AbortController();
+    const mockFetch = vi.fn().mockImplementation((_url: string, options: RequestInit) => {
+      return new Promise((resolve, reject) => {
+        options.signal?.addEventListener("abort", () => {
+          const abortError = new Error("External aborted");
+          abortError.name = "AbortError";
+          reject(abortError);
+        });
+      });
+    });
+    global.fetch = mockFetch;
+
+    const fetchPromise = communityFetch("/api/community/auth/profile", {
+      method: "GET",
+      signal: controller.signal,
+    });
+
+    controller.abort(new Error("사용자가 작업을 취소했습니다."));
+
+    await expect(fetchPromise).rejects.toMatchObject({
+      status: 408,
+      code: "ABORTED",
+      message: "사용자가 작업을 취소했습니다.",
+    });
+  });
 });

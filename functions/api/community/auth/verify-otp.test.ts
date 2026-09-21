@@ -94,9 +94,10 @@ describe("커뮤니티 8자리 이메일 OTP 검증 및 회원 분기", () => {
       profileConfigured: false,
       hasNickname: false,
       hasTermsConsent: false,
+      needsTermsConsent: true,
       passwordSetupRequired: true,
       isNewUser: true,
-      user: { id: "test-uuid-1234", email: "member@example.com" },
+      user: { id: "test-uuid-1234", email: "member@example.com", nickname: null },
     });
 
     const setCookie = response.headers.get("Set-Cookie");
@@ -133,8 +134,9 @@ describe("커뮤니티 8자리 이메일 OTP 검증 및 회원 분기", () => {
       hasNickname: true,
       hasTermsConsent: true,
       passwordSetupRequired: false,
+      needsTermsConsent: false,
       isNewUser: false,
-      user: { id: neoUserId, email: "neo.alpharesearch@gmail.com" },
+      user: { id: neoUserId, email: "neo.alpharesearch@gmail.com", nickname: "Neo" },
     });
 
     // 정식 세션 쿠키(at, rt, csrf) 발급 확인
@@ -142,7 +144,7 @@ describe("커뮤니티 8자리 이메일 OTP 검증 및 회원 분기", () => {
     expect(setCookie).toContain("__Host-etf-campus-community-at=");
   });
 
-  it("닉네임은 있지만 필수 약관 동의가 누락된 회원은 hasNickname: true, hasTermsConsent: false로 분리 반환한다", async () => {
+  it("닉네임은 있지만 필수 약관 동의가 누락된 기존 회원은 비밀번호 설정 없이(passwordSetupRequired: false) 정식 세션 쿠키와 함께 약관 동의 화면으로 직행한다", async () => {
     mocks.getProfileStatus.mockResolvedValue({
       hasNickname: true,
       hasTermsConsent: false,
@@ -160,10 +162,15 @@ describe("커뮤니티 8자리 이메일 OTP 검증 및 회원 분기", () => {
       profileConfigured: false,
       hasNickname: true,
       hasTermsConsent: false,
-      passwordSetupRequired: true,
+      needsTermsConsent: true,
+      passwordSetupRequired: false,
       isNewUser: false, // 닉네임이 있으므로 신규 유저가 아님
-      user: { id: "test-uuid-1234", email: "member@example.com" },
+      user: { id: "test-uuid-1234", email: "member@example.com", nickname: "기존유저" },
     });
+
+    // 정식 세션 쿠키가 발급되어 약관 동의를 즉시 저장할 수 있음을 확인
+    const setCookie = response.headers.get("Set-Cookie");
+    expect(setCookie).toContain("__Host-etf-campus-community-at=");
   });
 
   it("기존 회원이라도 사용자가 명시적으로 비밀번호 재설정(purpose: 'reset_password')을 요청한 경우 password-setup으로 진입한다", async () => {

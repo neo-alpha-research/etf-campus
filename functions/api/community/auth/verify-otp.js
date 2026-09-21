@@ -51,7 +51,8 @@ export async function onRequestPost(context) {
     }
 
     // 2. 일반 이메일 인증 로그인 / 신규 회원가입 흐름 (Login / Signup Flow)
-    const { hasNickname, hasTermsConsent, profileConfigured } = await getProfileStatus(context.env, data.user.id);
+    const profileStatus = await getProfileStatus(context.env, data.user.id);
+    const { hasNickname, hasTermsConsent, profileConfigured, nickname } = profileStatus;
 
     // Case A: 기존 가입 완료 회원 (닉네임 및 필수 약관 동의 완료) -> 완전한 세션 쿠키 발급 및 즉시 복귀
     if (profileConfigured) {
@@ -64,15 +65,36 @@ export async function onRequestPost(context) {
           profileConfigured: true,
           hasNickname: true,
           hasTermsConsent: true,
+          needsTermsConsent: false,
           passwordSetupRequired: false,
           isNewUser: false,
-          user: { id: data.user.id, email: data.user.email },
+          user: { id: data.user.id, email: data.user.email, nickname },
         }),
         { status: 200, headers }
       );
     }
 
-    // Case B: 신규 회원 또는 닉네임/약관 미완료 회원 -> 비밀번호 설정 및 프로필 단계 진행
+    // Case B: 닉네임은 있지만 필수 약관 동의가 누락된 기존 회원 -> 정식 세션 쿠키 발급, 비밀번호 설정 생략하고 약관 동의(profile)로 직행
+    if (hasNickname && !hasTermsConsent) {
+      const headers = sessionHeaders(data.session, undefined, rememberMe);
+      headers.set("Content-Type", "application/json");
+
+      return new Response(
+        JSON.stringify({
+          authenticated: true,
+          profileConfigured: false,
+          hasNickname: true,
+          hasTermsConsent: false,
+          needsTermsConsent: true,
+          passwordSetupRequired: false,
+          isNewUser: false,
+          user: { id: data.user.id, email: data.user.email, nickname },
+        }),
+        { status: 200, headers }
+      );
+    }
+
+    // Case C: 닉네임이 없는 순수 신규 회원 -> 비밀번호 설정 및 신규 프로필 단계 진행
     const headers = passwordSetupHeaders(data.session, { rememberMe });
     headers.set("Content-Type", "application/json");
 
@@ -80,11 +102,12 @@ export async function onRequestPost(context) {
       JSON.stringify({
         authenticated: true,
         profileConfigured: false,
-        hasNickname,
-        hasTermsConsent,
+        hasNickname: false,
+        hasTermsConsent: false,
+        needsTermsConsent: true,
         passwordSetupRequired: true,
-        isNewUser: !hasNickname,
-        user: { id: data.user.id, email: data.user.email },
+        isNewUser: true,
+        user: { id: data.user.id, email: data.user.email, nickname: null },
       }),
       { status: 200, headers }
     );

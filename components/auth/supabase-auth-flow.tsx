@@ -213,8 +213,12 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       const res = await communityFetch<{
         authenticated?: boolean;
         profileConfigured?: boolean;
+        hasNickname?: boolean;
+        hasTermsConsent?: boolean;
+        needsTermsConsent?: boolean;
         passwordSetupRequired?: boolean;
         isPasswordReset?: boolean;
+        user?: { id?: string; email?: string; nickname?: string | null };
       }>("/api/community/auth/verify-otp", {
         method: "POST",
         body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken, purpose: otpPurpose }),
@@ -228,7 +232,18 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         return;
       }
 
-      // 2. 비밀번호 재설정 또는 신규 회원인 경우: password-setup 단계로 이동
+      // 2. 기존 회원이지만 필수 약관 동의가 필요한 경우: 비밀번호 설정 생략, 기존 닉네임 유지한 채 profile(동의) 화면으로 직행
+      if (res.hasNickname && !res.passwordSetupRequired && otpPurpose !== "reset_password") {
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        if (res.user?.nickname) {
+          setNickname(res.user.nickname);
+        }
+        setStep("profile");
+        return;
+      }
+
+      // 3. 비밀번호 재설정 또는 신규 회원인 경우: password-setup 단계로 이동
       setPasswordCaptchaToken(null);
       setStep("password-setup");
       setPassword("");

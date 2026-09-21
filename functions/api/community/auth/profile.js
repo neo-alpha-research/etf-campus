@@ -10,6 +10,8 @@ export async function onRequestGet(context) {
   const { data, error } = await auth.client.rpc("get_community_profile");
   if (error) return errorResponse(503, "UNAVAILABLE", "프로필 정보를 불러오지 못했습니다.");
 
+  const profile = Array.isArray(data) ? data[0] : data;
+
   const hasNickname = Boolean(
     profile?.public_nickname &&
     typeof profile.public_nickname === "string" &&

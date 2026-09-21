@@ -806,7 +806,8 @@
         "심리편향",
         "장기투자"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "sp-023",
@@ -1775,7 +1776,8 @@
         "적립식",
         "거치식"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "sp-031",
@@ -2652,7 +2654,8 @@
         "건강보험",
         "금융소득기준"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "qna-060",

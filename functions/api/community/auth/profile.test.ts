@@ -139,5 +139,21 @@ describe("GET & POST /api/community/auth/profile", () => {
         p_marketing_consent: false,
       }));
     });
+
+    it("서버 공인 버전과 일치하지 않는 약관 버전 요청 시 400 VALIDATION_ERROR를 반환한다", async () => {
+      mocks.parseJsonBody.mockResolvedValueOnce({
+        nickname: "새로운투자자",
+        termsVersion: "v2020-fake",
+        agreedToTerms: true,
+        agreedToPrivacy: true,
+        agreedToAge: true,
+        agreedToMarketing: false,
+      });
+
+      const res = await onRequestPost({ request: new Request("https://example.com/api/community/auth/profile", { method: "POST" }) } as any);
+      expect(res.status).toBe(400);
+      const body = await res.json();
+      expect(body.error?.message).toContain("유효한 약관 버전이 아닙니다.");
+    });
   });
 });

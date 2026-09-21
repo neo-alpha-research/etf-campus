@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
 import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
+import { CURRENT_TERMS_VERSION } from "@/lib/community/contracts";
 
 type Props = {
   initialStep?: Step;
@@ -37,30 +38,55 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [agreedToAge, setAgreedToAge] = useState(false);
   const [agreedToMarketing, setAgreedToMarketing] = useState(false);
+  const [marketingChanged, setMarketingChanged] = useState(false);
   const [isTermsConsentOnly, setIsTermsConsentOnly] = useState(false);
+  const [profileFetchLoading, setProfileFetchLoading] = useState(false);
+  const [profileFetchError, setProfileFetchError] = useState<string | null>(null);
+  const [profileFetchRetryKey, setProfileFetchRetryKey] = useState(0);
   
   const [ageBand, setAgeBand] = useState("");
   const [interestAccountType, setInterestAccountType] = useState("");
 
   useEffect(() => {
-    if (step === "profile") {
-      communityFetch<{
-        hasNickname?: boolean;
-        hasTermsConsent?: boolean;
-        profile?: { nickname?: string; marketingConsent?: boolean } | null;
-      }>("/api/community/auth/profile")
-        .then((data) => {
-          if (data?.hasNickname && data.profile?.nickname) {
-            setNickname(data.profile.nickname);
-            setIsTermsConsentOnly(true);
-            if (typeof data.profile.marketingConsent === "boolean") {
-              setAgreedToMarketing(data.profile.marketingConsent);
-            }
+    if (step !== "profile") return;
+
+    let cancelled = false;
+
+    async function loadProfile() {
+      setProfileFetchLoading(true);
+      setProfileFetchError(null);
+      try {
+        const data = await communityFetch<{
+          hasNickname?: boolean;
+          hasTermsConsent?: boolean;
+          profile?: { nickname?: string; marketingConsent?: boolean } | null;
+        }>("/api/community/auth/profile");
+        if (cancelled) return;
+        if (data?.hasNickname && data.profile?.nickname) {
+          setNickname(data.profile.nickname);
+          setIsTermsConsentOnly(true);
+          if (typeof data.profile.marketingConsent === "boolean") {
+            setAgreedToMarketing(data.profile.marketingConsent);
           }
-        })
-        .catch(() => {});
+        }
+      } catch (err) {
+        if (cancelled) return;
+        setProfileFetchError(
+          err instanceof Error ? err.message : "프로필 정보를 불러오지 못했습니다. 다시 시도해 주세요."
+        );
+      } finally {
+        if (!cancelled) {
+          setProfileFetchLoading(false);
+        }
+      }
     }
-  }, [step]);
+
+    void loadProfile();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [step, profileFetchRetryKey]);
 
   
   const [loading, setLoading] = useState(false);
@@ -315,24 +341,32 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
   async function saveProfile(event: React.FormEvent) {
     event.preventDefault();
+    if (profileFetchLoading || Boolean(profileFetchError)) {
+      return;
+    }
     setLoading(true);
     setMessage("");
     try {
-      const termsVersion = "v2026-08-24";
+      const termsVersion = CURRENT_TERMS_VERSION;
 
       if (isTermsConsentOnly) {
         // 기존 회원의 필수 약관 보완 처리:
         // 신규 가입 저장(bootstrap_community_profile)을 거치지 않고,
         // 기존 프로필 정보(가입 UTM, 닉네임, 맞춤 설정 등)를 100% 보존한 채 terms_version만 안전하게 갱신
+        const termsPayload: Record<string, unknown> = {
+          agreedToTerms,
+          agreedToPrivacy,
+          agreedToAge,
+          termsVersion,
+        };
+        // 사용자가 체크박스를 직접 조작한 경우에만 마케팅 동의를 전송하여 기존 DB 값을 보존
+        if (marketingChanged) {
+          termsPayload.agreedToMarketing = agreedToMarketing;
+        }
+
         await communityFetch("/api/community/auth/terms", {
           method: "POST",
-          body: JSON.stringify({
-            agreedToTerms,
-            agreedToPrivacy,
-            agreedToAge,
-            agreedToMarketing,
-            termsVersion,
-          }),
+          body: JSON.stringify(termsPayload),
         });
         markCommunitySession();
         void mutate("/api/community/auth/session");
@@ -602,6 +636,27 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 ? "서비스 이용을 위해 필수 약관에 동의해 주세요."
                 : "ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요."}
             </p>
+            {profileFetchLoading ? (
+              <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
+                <svg className="h-4 w-4 animate-spin text-brand-600" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>회원 정보를 확인하고 있습니다...</span>
+              </div>
+            ) : null}
+            {profileFetchError ? (
+              <div className="flex flex-col gap-2 rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700" role="alert">
+                <p>{profileFetchError}</p>
+                <button
+                  type="button"
+                  onClick={() => setProfileFetchRetryKey(k => k + 1)}
+                  className="self-start rounded-lg bg-red-100 px-3 py-1.5 text-xs font-semibold text-red-800 hover:bg-red-200 cursor-pointer"
+                >
+                  다시 시도
+                </button>
+              </div>
+            ) : null}
             <label className="block text-sm font-semibold text-slate-800">공개 닉네임
               {isTermsConsentOnly ? (
                 <div className="mt-2 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-100 px-3 py-3 text-base text-slate-700 font-medium">
@@ -609,31 +664,31 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                   <span className="text-xs bg-brand-50 text-brand-700 font-bold px-2 py-0.5 rounded-full border border-brand-200">기존 회원</span>
                 </div>
               ) : (
-                <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="예: 연금공부중" />
+                <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 disabled:bg-slate-100 disabled:cursor-not-allowed" placeholder="예: 연금공부중" />
               )}
             </label>
             <div className="flex flex-col gap-3 mt-4 p-4 border border-slate-200 rounded-xl bg-slate-50">
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToAge} onChange={e => setAgreedToAge(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToAge} onChange={e => setAgreedToAge(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 만 14세 이상입니다.</span>
               </label>
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 서비스 이용약관 동의</span>
               </label>
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToPrivacy} onChange={e => setAgreedToPrivacy(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToPrivacy} onChange={e => setAgreedToPrivacy(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 개인정보 수집 및 이용 동의</span>
               </label>
             </div>
             <div className="flex flex-col gap-3 mt-2 p-4 border border-slate-200 rounded-xl">
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToMarketing} onChange={e => setAgreedToMarketing(e.target.checked)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToMarketing} onChange={e => { setAgreedToMarketing(e.target.checked); setMarketingChanged(true); }} disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[선택] 마케팅 정보 수신 동의<br/><span className="text-xs text-slate-500">새로운 챌린지, 전자책 등의 소식을 이메일로 받습니다.</span></span>
               </label>
             </div>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">
-              {loading ? "저장 중..." : isTermsConsentOnly ? "동의하고 계속하기" : "동의하고 가입 완료"}
+            <button disabled={loading || profileFetchLoading || Boolean(profileFetchError)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">
+              {loading ? "저장 중..." : profileFetchLoading ? "회원 정보 확인 중..." : isTermsConsentOnly ? "동의하고 계속하기" : "동의하고 가입 완료"}
             </button>
           </form>
         ) : step === "onboarding" ? (

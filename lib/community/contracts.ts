@@ -8,6 +8,9 @@ export const COMMUNITY_CATEGORY_SLUGS = [
 export type CommunityCategorySlug = (typeof COMMUNITY_CATEGORY_SLUGS)[number];
 export type CommunityRole = "guest" | "member" | "moderator" | "admin";
 
+export const CURRENT_TERMS_VERSION = "v2026-08-24" as const;
+export const SUPPORTED_TERMS_VERSIONS = [CURRENT_TERMS_VERSION] as const;
+
 export class CommunityValidationError extends Error {
   constructor(message: string) {
     super(message);

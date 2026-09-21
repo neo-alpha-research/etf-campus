@@ -1,23 +1,24 @@
 import { adminSupabase, authenticatedSupabase } from "../_lib/supabase";
 import { parseJsonBody } from "../_lib/request-security";
 import { errorResponse, jsonResponse } from "../_lib/api-security";
+import { CURRENT_TERMS_VERSION } from "../_lib/contracts";
 
 export async function onRequestPost(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
 
   const payload = await parseJsonBody(context.request);
-  const agreedToTerms = Boolean(payload?.agreedToTerms);
-  const agreedToPrivacy = Boolean(payload?.agreedToPrivacy);
-  const agreedToAge = Boolean(payload?.agreedToAge);
+  const agreedToTerms = payload?.agreedToTerms === true;
+  const agreedToPrivacy = payload?.agreedToPrivacy === true;
+  const agreedToAge = payload?.agreedToAge === true;
   const termsVersion = typeof payload?.termsVersion === "string" ? payload.termsVersion.trim() : "";
 
   if (!agreedToTerms || !agreedToPrivacy || !agreedToAge) {
     return errorResponse(400, "VALIDATION_ERROR", "필수 약관에 모두 동의해 주세요.");
   }
 
-  if (!termsVersion || termsVersion.length > 50) {
-    return errorResponse(400, "VALIDATION_ERROR", "유효한 약관 버전이 필요합니다.");
+  if (termsVersion !== CURRENT_TERMS_VERSION) {
+    return errorResponse(400, "VALIDATION_ERROR", "유효한 약관 버전이 아닙니다.");
   }
 
   const admin = adminSupabase(context.env);

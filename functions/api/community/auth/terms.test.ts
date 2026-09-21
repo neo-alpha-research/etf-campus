@@ -162,6 +162,53 @@ describe("POST /api/community/auth/terms (기존 회원 필수 약관 보완)", 
     expect(updateArg).not.toHaveProperty("public_nickname");
   });
 
+  it("문자열 'false'나 1 등 엄격한 boolean true가 아닌 동의 값은 400 에러로 거부한다", async () => {
+    mocks.parseJsonBody.mockResolvedValueOnce({
+      agreedToAge: "false", // 문자열 false
+      agreedToTerms: true,
+      agreedToPrivacy: true,
+      termsVersion: "v2026-08-24",
+    });
+
+    const res = await onRequestPost({ request: new Request("https://example.com/api/community/auth/terms", { method: "POST" }) } as any);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error?.code).toBe("VALIDATION_ERROR");
+  });
+
+  it("서버가 관리하지 않는 유효하지 않은 약관 버전(예: 임의 문자열)은 400 에러로 거부한다", async () => {
+    mocks.parseJsonBody.mockResolvedValueOnce({
+      agreedToAge: true,
+      agreedToTerms: true,
+      agreedToPrivacy: true,
+      termsVersion: "v2020-01-01-fake",
+    });
+
+    const res = await onRequestPost({ request: new Request("https://example.com/api/community/auth/terms", { method: "POST" }) } as any);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error?.message).toContain("유효한 약관 버전이 아닙니다");
+  });
+
+  it("마케팅 동의가 미전송(undefined)된 경우 update 필드에 포함하지 않고 기존 DB 값을 보존한다", async () => {
+    mocks.parseJsonBody.mockResolvedValueOnce({
+      agreedToAge: true,
+      agreedToTerms: true,
+      agreedToPrivacy: true,
+      termsVersion: "v2026-08-24",
+      // agreedToMarketing 미전송 (사용자가 체크박스를 조작하지 않음)
+    });
+
+    const res = await onRequestPost({ request: new Request("https://example.com/api/community/auth/terms", { method: "POST" }) } as any);
+    expect(res.status).toBe(200);
+
+    // update 인자 검증: marketing_consent가 포함되지 않아야 기존 값 유지
+    const updateArg = mockUpdate.mock.calls[0][0];
+    expect(updateArg).toHaveProperty("terms_version", "v2026-08-24");
+    expect(updateArg).not.toHaveProperty("marketing_consent");
+    expect(updateArg).not.toHaveProperty("marketing_consent_at");
+  });
+
   it("DB 갱신 오류 발생 시 503 UNAVAILABLE을 반환한다", async () => {
     mocks.parseJsonBody.mockResolvedValueOnce({
       agreedToAge: true,

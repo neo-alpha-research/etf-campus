@@ -162,9 +162,10 @@ export async function onRequestPost(context: {
   try {
     const { request, env } = context;
 
-    // 0. 서버 측 접수 차단(Ingress Shutoff) 점검
-    // 점검 모드이거나 접수 차단 상태(WAITLIST_INGRESS_ENABLED === "false")인 경우 DB 접근 없이 즉시 503 반환
-    if (env?.WAITLIST_INGRESS_ENABLED === "false") {
+    // 0. 서버 측 접수 허용(Ingress Activation) 점검
+    // 접수는 WAITLIST_INGRESS_ENABLED === "true"일 때만 명시적으로 허용함 (Default Closed).
+    // 미설정(undefined), 공백, 오타, "false" 등 유효하지 않은 모든 상태에서 본문 처리 및 DB 접근 없이 즉시 503을 반환함.
+    if (env?.WAITLIST_INGRESS_ENABLED !== "true") {
       return errorResponse(
         503,
         "UNAVAILABLE",

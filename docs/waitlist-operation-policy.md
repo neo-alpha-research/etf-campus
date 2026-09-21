@@ -1,9 +1,9 @@
 # ETF Campus 리드 대기자(Waitlist) 운영 정책 및 배포·롤백 실행 매뉴얼
 
-**문서 버전**: 2.2.0  
+**문서 버전**: 2.3.0  
 **기준 일자**: 2026-09-22  
 **대상 서비스**: ETF 비용 및 계좌별 규칙 자가 점검 교육 가이드 대기자 알림 (`campaign: challenge_guide_2026`)  
-**원칙**: Zero-Hallucination, 개인정보 최소화(Privacy-by-Design), Fail-Closed, 지체 없는 즉시 파기, 운영자 확정 중심의 현실적 배포/롤백  
+**원칙**: Zero-Hallucination, 개인정보 최소화(Privacy-by-Design), Fail-Closed (기본 차단 / Default Closed), 지체 없는 즉시 파기, 실측 관측 기반 배포/롤백  
 
 ---
 
@@ -57,12 +57,12 @@
 1. **만료 레코드 정기 수동 정리 (주간 단위)**:
    - 윈도우가 만료된 레코드(`reset_at < now`)는 운영자가 주간 단위로 아래 명령을 통해 D1 원장에서 정리합니다:
      ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_rate_limits WHERE reset_at < strftime('%s', 'now')"
+     npx wrangler d1 execute etf-prices --remote --command "DELETE FROM lead_rate_limits WHERE reset_at < strftime('%s', 'now')"
      ```
 2. **서버 비밀키 로테이션 시 폐기 절차**:
    - 서버 비밀키(`LEAD_RATE_LIMIT_SECRET`)를 갱신/교체할 경우, 기존 해시 키와 신규 해시 키의 불일치로 인한 오작동을 방지하기 위해 반드시 기존 속도 제한 테이블 데이터를 일괄 초기화합니다:
      ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_rate_limits"
+     npx wrangler d1 execute etf-prices --remote --command "DELETE FROM lead_rate_limits"
      ```
 
 ---
@@ -90,68 +90,106 @@
 | **초기 파일럿 발송 수단** | `neo.alpharesearch@gmail.com`<br>(Gmail SMTP SSL 465 가동 중) | **기존 Gmail 계정을 초기 파일럿 우선안으로 채택** | **[운영자 승인 대기]** | Resend 및 신규 커스텀 발송 도메인은 이번 접수 배포 필수 조건에서 제외. 초기 소규모 발송은 기존 Gmail SMTP 파일럿 활용 권고 |
 | **발송 도메인 정책** | `etf-campus.pages.dev` 웹 호스팅 중 | **기존 검증된 `neo.alpharesearch@gmail.com` 사용** | **[운영자 승인 대기]** | `pages.dev`는 웹 호스팅 도메인으로 메일 발송용 SPF/DKIM 설정이 불가능하므로 발송 도메인 후보에서 완전 배제. 커스텀 도메인은 필요 시 후속 검토 |
 | **철회 및 CS 일원화** | `neo.alpharesearch@gmail.com` 운영 중 | `neo.alpharesearch@gmail.com` | **[코드 확인]** | 모달 화면, 약관 안내, API 오류/안내 응답에 단일 공식 창구로 100% 일원화 반영 완료 |
-| **신청 접수 차단 제어** | `WAITLIST_INGRESS_ENABLED` 서버 환경변수 | **환경변수 `false` 시 503 반환 및 DB 저장 0건** | **[코드 확인]** | 단위 및 통합 테스트 26건을 통해 차단 시 DB 쿼리 및 저장 일체 미발생 검증 완료 |
+| **신청 접수 기본 차단 통제** | `WAITLIST_INGRESS_ENABLED` 서버 환경변수 | **`WAITLIST_INGRESS_ENABLED === "true"`일 때만 명시적 허용 (Default Closed)** | **[코드 확인]** | 미설정, 공백, 오타, "false" 상태에서 본문 처리 및 DB 접근 없이 503 반환 100% 검증 완료 |
 | **속도 제한 비밀키 보안** | `LEAD_RATE_LIMIT_SECRET` 전용 키 | **전용 비밀키 필수, 미설정 시 503 Fail-Closed** | **[코드 확인]** | 공개 솔트 및 타 인증키 재사용 완전 제거, 비밀키 누락 시 503 반환 검증 완료 |
 | **발송 완료자 보호** | DB `status = 'sent'` 행 | **화면 앰버톤 전환 및 SQL 레벨 pending 덮어쓰기 방지** | **[코드 확인]** | `alreadySent: true` 응답 및 CASE WHEN 방어식 적용으로 발송 완료 상태 영구 보존 |
-| **지체 없는 즉시 파기** | 별도 장기 보존 근거 없음 | **동의 철회 시 및 목적 달성 후 지체 없이 영구 DELETE** | **[운영자 승인 대기]** | 분쟁 예방 명목 보관 폐지, 운영 절차 매뉴얼화 |
+| **지체 없는 즉시 파기** | 별도 장기 보존 근거 없음 | **동의 철회 시 및 목적 달성 후 지체 없이 영구 DELETE** | **[운영자 승인 대기]** | 분쟁 예방 명목 보관 폐지, 정확한 ID/이메일 대상 단일행 수동 삭제 매뉴얼화 |
 | **실제 메일 발송 및 수신** | 마켓 브리핑 일일 발송 실측 중 | **대기자 전용 가이드 발송 스크립트 별도 검증** | **[실제 발송 확인]** | 접수 배포 후 가이드 콘텐츠 제작 완료 시점에 실제 메일 인입 및 반송률 실측 검증 |
 
 ---
 
-## 6. 안전한 6단계 배포 실행 절차 (Safe 6-Step Deployment Phasing)
+## 6. 단계별 배포 실행 절차 및 관측 분리 매뉴얼 (Phased Deployment Manual)
 
-운영 D1 무결성과 안전한 접수 개시를 보장하기 위해 아래 6단계 순서를 엄격히 준수합니다:
+운영 D1 무결성과 안전한 접수 개시를 보장하기 위해 아래 6단계를 엄격히 순차적으로 집행합니다:
 
 ```mermaid
 flowchart TD
-    S1["1단계: Cloudflare 환경 변수 확인\n(LEAD_RATE_LIMIT_SECRET 주입)"] --> S2["2단계: 접수 차단 상태 선배포\n(WAITLIST_INGRESS_ENABLED = 'false')"]
-    S2 --> S3["3단계: 원격 D1 마이그레이션 적용\n(0027_lead_waitlist, 0028_lead_waitlist_hardening)"]
-    S3 --> S4["4단계: Cloudflare Pages API 프로덕션 배포\n(Functions API 배포 완료)"]
-    S4 --> S5["5단계: 통제된 환경 스모크 테스트 검증\n(차단 확인 -> 임시 해제 -> 201 저장 확인)"]
-    S5 --> S6["6단계: 접수 공식 활성화\n(WAITLIST_INGRESS_ENABLED = 'true')"]
+    S1["1단계: 변수 설정\n(LEAD_RATE_LIMIT_SECRET 주입 / 접수 기본 차단 확인)"] --> S2["2단계: 프로덕션 코드 배포\n(접수 API 포함 최신 코드 Pages 배포)"]
+    S2 --> S3["3단계: 기존 운영 API 접수 차단 실제 관측\n(프로덕션 503 응답 및 D1 접근 0건 실측)"]
+    S3 --> S4["4단계: 원격 D1 마이그레이션 적용\n(0027_lead_waitlist, 0028_lead_waitlist_hardening)"]
+    S4 --> S5["5단계: 미리보기(Preview) 환경 정상 접수 검증\n(미리보기에서 'true' 설정 -> 201 저장 및 멱등/레이트리밋 실측)"]
+    S5 --> S6["6단계: 운영 접수 공식 개시\n(프로덕션 환경변수 WAITLIST_INGRESS_ENABLED='true' 전환)"]
 ```
 
-### 단계별 상세 실행 절차:
+### 단계별 상세 실행 지침:
 
-1. **1단계: 비밀키 확인 (Secret Verification)**:
-   - Cloudflare Pages 대시보드 (Settings -> Environment variables)에서 `LEAD_RATE_LIMIT_SECRET`이 안전한 난수로 등록되어 있는지 확인합니다.
-2. **2단계: 접수 차단 상태 배포 (Ingress Shutoff Deployment)**:
-   - Pages 환경 변수에 `WAITLIST_INGRESS_ENABLED`를 `"false"`로 설정합니다.
-   - 이를 통해 스키마 마이그레이션 도중 또는 API 배포 직후에 불완전한 상태로 사용자 트래픽이 유입되어 에러가 발생하는 것을 원천 방지합니다.
-3. **3단계: 원격 D1 마이그레이션 적용 (D1 Remote Migrations)**:
-   - 원격 D1 `ETF_PRICES` 데이터베이스에 신규 마이그레이션을 순차 적용합니다:
+#### 1단계: 변수 설정 (Variable Configuration)
+- Cloudflare Pages 대시보드 (Settings -> Environment variables)에서 다음 환경 변수를 설정합니다:
+  - `LEAD_RATE_LIMIT_SECRET`: 32자 이상의 안전한 난수 문자열 등록 (※ 보안을 위해 로그나 화면에 값을 출력하지 않음).
+  - `WAITLIST_INGRESS_ENABLED`: `"false"`로 명시 설정하거나 등록하지 않음 (미설정 시에도 Default Closed로 503 반환).
+
+#### 2단계: 프로덕션 코드 배포 (Production Code Deployment)
+- `deploy/lead-waitlist-intake` 브랜치(인증·튜토리얼 제외, 대기자 접수 단독)를 main에 병합하고 Cloudflare Pages 프로덕션에 배포합니다.
+
+#### 3단계: 기존 운영 API 접수 차단 실제 관측 (Production Shutoff Observation)
+- 코드 배포 완료 직후, 아직 D1 마이그레이션을 적용하지 않은 상태에서 프로덕션 API를 실제 호출하여 안전하게 차단되는지 관측합니다:
+  ```bash
+  curl -i -X POST https://etfcampus.pages.dev/api/lead/waitlist \
+    -H "Content-Type: application/json" \
+    -d '{"email":"probe@example.com","agreeRequired":true,"campaign":"challenge_guide_2026","termsVersion":"v1.0"}'
+  ```
+- **기대 관측 결과 (Expected Observation)**:
+  - HTTP 응답 코드: `503 Service Unavailable`
+  - 응답 본문: `{"success":false,"error":{"code":"UNAVAILABLE","message":"대기자 알림 신청 접수가 일시 마감되었습니다. 다음 신청 기간에 다시 이용해 주세요."}}`
+  - D1 데이터베이스 쿼리가 일체 발생하지 않으므로 테이블 미적용 상태에서도 500 에러 없이 안전하게 방어됨을 확인.
+
+#### 4단계: 원격 D1 마이그레이션 적용 (D1 Remote Migrations)
+- 차단 관측이 정상 확인된 후, 원격 D1 `etf-prices` 데이터베이스에 신규 마이그레이션을 적용합니다:
+  ```bash
+  npx wrangler d1 migrations apply etf-prices --remote
+  ```
+- 적용 목록 확인:
+  ```bash
+  npx wrangler d1 execute etf-prices --remote --command "SELECT id, name, applied_at FROM d1_migrations ORDER BY id DESC LIMIT 2;"
+  ```
+  (`0027_lead_waitlist.sql`, `0028_lead_waitlist_hardening.sql` 적용 확인)
+
+#### 5단계: 미리보기(Preview) 환경 정상 접수 검증 (Preview Smoke Test)
+- **미리보기 환경 검증 원칙**:
+  - 접근 제한이 없는 운영 환경의 변수를 켜놓고 '운영자 전용 테스트'라고 표현하는 위험한 방식을 전면 금지합니다.
+  - 별도의 Cloudflare Pages 미리보기(Preview/Branch) 환경에 `WAITLIST_INGRESS_ENABLED="true"` 및 `LEAD_RATE_LIMIT_SECRET`을 설정하여 독립적으로 검증합니다.
+- **검증 절차**:
+  1. 전용 테스트 계정으로 접수 요청 전송:
      ```bash
-     npx wrangler d1 migrations apply ETF_PRICES --remote
+     curl -i -X POST https://<preview-url>/api/lead/waitlist \
+       -H "Content-Type: application/json" \
+       -d '{"email":"verify.ingress.2026@etfcampus.internal","interest":"fee","source":"preview_test","campaign":"challenge_guide_2026","termsVersion":"v1.0","agreeRequired":true}'
      ```
-   - 마이그레이션 적용 내역 확인:
-     ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "SELECT name FROM d1_migrations ORDER BY id DESC LIMIT 3;"
+  2. `201 Created` 응답 및 D1 저장 확인.
+  3. 테스트 데이터 정리 시 부분 문자열 와일드카드(`%test%`) 삭제를 일체 사용하지 않고, **이번 테스트에서 생성한 정확한 행 ID, 이메일, 캠페인**으로만 조회 및 삭제:
+     ```sql
+     -- 1. 정확한 대상 행 조회 및 ID 확인
+     SELECT id, email, campaign, status, created_at 
+     FROM lead_waitlist 
+     WHERE email = 'verify.ingress.2026@etfcampus.internal' 
+       AND campaign = 'challenge_guide_2026';
+
+     -- 2. 확인된 정확한 ID와 조건으로 단일 행 삭제
+     DELETE FROM lead_waitlist 
+     WHERE id = ? 
+       AND email = 'verify.ingress.2026@etfcampus.internal' 
+       AND campaign = 'challenge_guide_2026';
      ```
-     (`0027_lead_waitlist.sql`, `0028_lead_waitlist_hardening.sql` 적용 확인)
-4. **4단계: Pages API 프로덕션 배포 (Production Deployment)**:
-   - GitHub Actions CI 통과 후 Cloudflare Pages 배포를 완료합니다.
-5. **5단계: 통제된 검증 (Controlled Verification Smoke Test)**:
-   - 프로덕션 엔드포인트(`https://etfcampus.pages.dev/api/lead/waitlist`)로 테스트 요청 전송:
-     - 차단 상태(`WAITLIST_INGRESS_ENABLED="false"`)에서 `503 UNAVAILABLE` 응답 및 D1 무기록 확인.
-   - 일시적으로 `WAITLIST_INGRESS_ENABLED="true"` 설정 후 운영자 테스트 이메일로 정상 접수(`201 Created`), D1 행 생성, 멱등성 및 레이트 리밋 정상 작동 확인.
-   - 테스트 데이터 물리적 삭제 (`DELETE FROM lead_waitlist WHERE email LIKE '%test%';`).
-6. **6단계: 접수 공식 개시 (Ingress Activation)**:
-   - `WAITLIST_INGRESS_ENABLED="true"` 상태를 최종 확정하고 일반 사용자 대상 사전 알림 접수를 공식 개시합니다.
+
+#### 6단계: 운영 접수 공식 개시 (Production Ingress Activation)
+- 미리보기 검증이 성공적으로 완료되면, Cloudflare Pages 프로덕션 환경 변수에서 `WAITLIST_INGRESS_ENABLED`를 `"true"`로 전환하여 일반 사용자 대상 공식 접수를 개시합니다.
 
 ---
 
-## 7. 작업 브랜치 커밋 및 검토·배포 범위 격리 (Scope Segregation)
+## 7. 배포 직전 실제 원격 D1 실측 상태 (Live D1 Audit - 2026-09-22 실측)
 
-본 작업 브랜치(`fix/oauth-unauth-start-and-captcha-stabilization`)는 복수의 기능 커밋이 포함되어 있으므로, 검토 및 배포 단계를 명확히 분리합니다:
-
-1. **소셜 로그인 및 인증 안정화 커밋** (`a6eb0241`, `c538274c`):
-   - 소셜 로그인 비로그인 시작 허용 및 Turnstile 캡차 안정화 관련 커밋.
-   - 본 영역은 별도의 '캠퍼스 투어' 에이전트 인계 프롬프트가 완료되어 전용 검토 대기 상태이므로, 이번 대기자 접수 기능 배포와 혼용하지 않고 안전하게 격리합니다.
-2. **튜토리얼 진도율 보존 커밋** (`4e19a739`):
-   - 비로그인 로컬 진도율 보존 기능.
-3. **리드 대기자 접수 기능 커밋** (`19faf68c`, `4fc77287`, `3f1e1da8`, `f7eec53f`, 및 본 완결 커밋):
-   - 대기자 접수 모달, 서버 API, D1 마이그레이션(`0027`, `0028`), 전용 비밀키 레이트 리밋, 수신 동의 철회 일원화 및 서버 접수 차단 기능.
-   - **금번 검토·승인 및 배포의 유일한 대상 범위**입니다.
+- **대상 데이터베이스**: Cloudflare D1 `etf-prices` (`11c4e874-fba2-4e34-91d0-808892284c86`, APAC/ICN)
+- **현재 원격 적용 완료 상태 (실측 관측)**:
+  - `0001` ~ `0026_correct_migration_baselines_0024.sql` 완료 (최근 적용일: `2026-09-17 12:33:50`).
+- **원격 테이블 실측 결과**:
+  ```bash
+  npx wrangler d1 execute etf-prices --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%lead%';"
+  ```
+  ➔ `results: []` (대기자 관련 테이블 0건 실측 확인 완료).
+- **적용 대기 정확한 마이그레이션 목록**:
+  1. `migrations/0027_lead_waitlist.sql` (기초 대기자 테이블 생성)
+  2. `migrations/0028_lead_waitlist_hardening.sql` (캠페인 격리, 동의 버전/시각, 레이트 리밋 테이블, 멱등 복합 인덱스, FM-011 행수 감사)
+- **배포 실행 순서 준수**: **선 코드 배포 및 503 차단 관측 -> D1 마이그레이션 적용 -> 미리보기 검증 -> 접수 개시**
 
 ---
 

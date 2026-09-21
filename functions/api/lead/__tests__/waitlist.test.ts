@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { onRequestPost } from "../waitlist";
+import { onRequestPost, type WaitlistEnv } from "../waitlist";
 
 interface WaitlistResponse {
   success?: boolean;
@@ -8,6 +8,8 @@ interface WaitlistResponse {
   error?: { code?: string; message?: string };
   message?: string;
 }
+
+const DEFAULT_TEST_SECRET = "test_lead_rate_limit_secret_2026";
 
 // 민감정보가 제거된 실제 Cloudflare D1 관측 픽스처 (Anonymized D1 Observation Fixture)
 const REAL_D1_OBSERVATION_FIXTURE = {
@@ -27,6 +29,38 @@ const REAL_D1_OBSERVATION_FIXTURE = {
 };
 
 describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operational Hardening", () => {
+  it("[서버 측 접수 차단] WAITLIST_INGRESS_ENABLED === 'false'인 경우 DB 접근 없이 즉시 503 점검 응답을 반환한다", async () => {
+    const mockPrepare = vi.fn();
+    const request = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "user@example.com",
+        agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
+      }),
+    });
+
+    const response = await onRequestPost({
+      request,
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        WAITLIST_INGRESS_ENABLED: "false",
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
+    });
+
+    expect(response.status).toBe(503);
+    const body = (await response.json()) as WaitlistResponse;
+    expect(body.success).toBeFalsy();
+    expect(body.error?.code).toBe("UNAVAILABLE");
+    expect(body.error?.message).toContain("대기자 알림 신청 접수가 일시 마감되었습니다");
+
+    // DB 접근이 일체 발생하지 않았음을 검증
+    expect(mockPrepare).not.toHaveBeenCalled();
+  });
+
   it("비 JSON 본문 요청에 대해 400 VALIDATION_ERROR를 반환한다", async () => {
     const invalidRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
       method: "POST",
@@ -140,7 +174,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
         headers: { "Content-Type": "application/json" },
         body: body4096,
       }),
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
     expect(resExact.status).toBe(201);
   });
@@ -248,7 +285,7 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: {},
+      env: { LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET },
     });
 
     expect(response.status).toBe(503);
@@ -256,6 +293,55 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
     expect(body.success).toBeFalsy();
     expect(body.error?.code).toBe("UNAVAILABLE");
     expect(body.error?.message).toContain("저장소 연결이 준비되지 않았습니다");
+  });
+
+  it("[Fail-Closed] 전용 LEAD_RATE_LIMIT_SECRET 미설정 시 공개 고정 솔트나 타 인증키로 임의 폴백하지 않고 503 UNAVAILABLE을 반환한다", async () => {
+    const mockPrepare = vi.fn();
+    const validRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "investor@example.com",
+        agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
+      }),
+    });
+
+    // 1. LEAD_RATE_LIMIT_SECRET 아예 누락된 경우
+    const responseMissing = await onRequestPost({
+      request: validRequest,
+      env: { ETF_PRICES: { prepare: mockPrepare } },
+    });
+
+    expect(responseMissing.status).toBe(503);
+    const bodyMissing = (await responseMissing.json()) as WaitlistResponse;
+    expect(bodyMissing.error?.code).toBe("UNAVAILABLE");
+    expect(bodyMissing.error?.message).toContain("보안 확인 서비스를 일시적으로 사용할 수 없습니다");
+
+    // 2. 공백 문자열인 경우 (새 Request 객체 사용)
+    const validRequest2 = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "investor@example.com",
+        agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
+      }),
+    });
+
+    const responseEmpty = await onRequestPost({
+      request: validRequest2,
+      env: { ETF_PRICES: { prepare: mockPrepare }, LEAD_RATE_LIMIT_SECRET: "   " },
+    });
+
+    expect(responseEmpty.status).toBe(503);
+    const bodyEmpty = (await responseEmpty.json()) as WaitlistResponse;
+    expect(bodyEmpty.error?.code).toBe("UNAVAILABLE");
+
+    // DB 접근이 실행되지 않아야 함 (사전 차단)
+    expect(mockPrepare).not.toHaveBeenCalled();
   });
 
   it("[Fail-Closed] 레이트 리밋 저장소 장애 시 인메모리 임의 우회 대신 503 UNAVAILABLE을 반환한다", async () => {
@@ -276,7 +362,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(503);
@@ -311,7 +400,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(500);
@@ -342,7 +434,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(500);
@@ -373,7 +468,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(500);
@@ -404,7 +502,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(200);
@@ -438,7 +539,10 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     const response = await onRequestPost({
       request: validRequest,
-      env: { ETF_PRICES: { prepare: mockPrepare } },
+      env: {
+        ETF_PRICES: { prepare: mockPrepare },
+        LEAD_RATE_LIMIT_SECRET: DEFAULT_TEST_SECRET,
+      },
     });
 
     expect(response.status).toBe(201);

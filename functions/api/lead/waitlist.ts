@@ -38,7 +38,7 @@ interface D1DatabaseLike {
 export interface WaitlistEnv {
   ETF_PRICES?: D1DatabaseLike;
   LEAD_RATE_LIMIT_SECRET?: string;
-  AUTH_SECRET?: string;
+  WAITLIST_INGRESS_ENABLED?: string; // "true" or "false"
 }
 
 /**
@@ -94,8 +94,8 @@ async function readBodyStreamWithLimit(
 }
 
 /**
- * 속도 제한 키의 개인정보(IP, 이메일) 노출을 차단하기 위한 서버 비밀키 기반 HMAC-SHA-256 단방향 해시
- * 고정 공개 솔트 대신 서버 비밀키(LEAD_RATE_LIMIT_SECRET / AUTH_SECRET)를 사용하여 레인보우 테이블 공격을 방지함.
+ * 속도 제한 키의 개인정보(IP, 이메일) 노출을 차단하기 위한 전용 서버 비밀키 기반 HMAC-SHA-256 단방향 해시
+ * 공개 고정 솔트 및 타 목적 인증 비밀키 재사용을 금지하고 전용 비밀키(LEAD_RATE_LIMIT_SECRET)만 사용함.
  */
 async function hashRateLimitKey(
   secret: string,
@@ -162,6 +162,16 @@ export async function onRequestPost(context: {
   try {
     const { request, env } = context;
 
+    // 0. 서버 측 접수 차단(Ingress Shutoff) 점검
+    // 점검 모드이거나 접수 차단 상태(WAITLIST_INGRESS_ENABLED === "false")인 경우 DB 접근 없이 즉시 503 반환
+    if (env?.WAITLIST_INGRESS_ENABLED === "false") {
+      return errorResponse(
+        503,
+        "UNAVAILABLE",
+        "대기자 알림 신청 접수가 일시 마감되었습니다. 다음 신청 기간에 다시 이용해 주세요."
+      );
+    }
+
     // 1. Content-Length 헤더 사전 점검 (헤더가 있는 경우 빠른 거부)
     const contentLength = request.headers.get("content-length");
     if (contentLength && parseInt(contentLength, 10) > MAX_PAYLOAD_BYTES) {
@@ -222,6 +232,17 @@ export async function onRequestPost(context: {
       return errorResponse(503, "UNAVAILABLE", "저장소 연결이 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.");
     }
 
+    // 9. 전용 비밀키 기반 원자적 동시성 레이트 리밋 검증 (IP 60초 내 5회, Email 60초 내 3회)
+    // 공개 고정 문자열 폴백 및 타 목적 인증 비밀키 재사용을 전면 배제함 (Fail-Closed)
+    const rateLimitSecret = env?.LEAD_RATE_LIMIT_SECRET;
+    if (!rateLimitSecret || typeof rateLimitSecret !== "string" || !rateLimitSecret.trim()) {
+      return errorResponse(
+        503,
+        "UNAVAILABLE",
+        "보안 확인 서비스를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요."
+      );
+    }
+
     const trimmedEmail = email.trim().toLowerCase();
     const activeCampaign = campaign.trim();
     const currentTermsVersion = termsVersion.trim();
@@ -233,13 +254,6 @@ export async function onRequestPost(context: {
       typeof source === "string" && source.trim()
         ? source.trim().slice(0, 50)
         : "compare_bridge";
-
-    // 9. 원자적 동시성 레이트 리밋 검증 (IP 60초 내 5회, Email 60초 내 3회)
-    // 개인정보 보호를 위해 IP/이메일은 서버 비밀키 기반 HMAC-SHA-256 단방향 해시 키로 변환하여 보관
-    const rateLimitSecret =
-      env?.LEAD_RATE_LIMIT_SECRET ||
-      env?.AUTH_SECRET ||
-      "etf_campus_lead_rate_secret_v1";
 
     const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
     const ipKey = await hashRateLimitKey(rateLimitSecret, "rl_ip", clientIp);

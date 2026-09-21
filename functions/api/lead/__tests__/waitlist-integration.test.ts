@@ -358,4 +358,80 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
       expect(row.key).not.toContain("@");
     }
   });
+
+  it("[서버 측 접수 차단 통합 검증] WAITLIST_INGRESS_ENABLED: 'false'인 경우 503 반환 및 DB 저장이 일체 발생하지 않는다", async () => {
+    const shutoffEnv: WaitlistEnv = {
+      ...testEnv,
+      WAITLIST_INGRESS_ENABLED: "false",
+    };
+
+    const res = await onRequestPost({
+      request: new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "CF-Connecting-IP": "203.0.113.99",
+        },
+        body: JSON.stringify({
+          email: "shutoff_test@example.com",
+          interest: "all",
+          source: "shutoff_audit",
+          campaign: "challenge_guide_2026",
+          termsVersion: "v1.0",
+          agreeRequired: true,
+        }),
+      }),
+      env: shutoffEnv,
+    });
+
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as WaitlistApiResponse;
+    expect(body.error?.code).toBe("UNAVAILABLE");
+    expect(body.error?.message).toContain("대기자 알림 신청 접수가 일시 마감되었습니다");
+
+    // DB에 행이 일체 생성되지 않았음을 검증
+    const waitlistCount = sqliteDb.prepare("SELECT COUNT(*) as count FROM lead_waitlist").get() as { count: number };
+    expect(waitlistCount.count).toBe(0);
+
+    const rateLimitCount = sqliteDb.prepare("SELECT COUNT(*) as count FROM lead_rate_limits").get() as { count: number };
+    expect(rateLimitCount.count).toBe(0);
+  });
+
+  it("[Fail-Closed 통합 검증] 전용 LEAD_RATE_LIMIT_SECRET 누락 시 503 반환 및 DB 저장이 일체 발생하지 않는다", async () => {
+    const missingSecretEnv: WaitlistEnv = {
+      ETF_PRICES: d1Adapter,
+      // LEAD_RATE_LIMIT_SECRET 누락
+    };
+
+    const res = await onRequestPost({
+      request: new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "CF-Connecting-IP": "203.0.113.99",
+        },
+        body: JSON.stringify({
+          email: "secret_missing@example.com",
+          interest: "all",
+          source: "secret_audit",
+          campaign: "challenge_guide_2026",
+          termsVersion: "v1.0",
+          agreeRequired: true,
+        }),
+      }),
+      env: missingSecretEnv,
+    });
+
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as WaitlistApiResponse;
+    expect(body.error?.code).toBe("UNAVAILABLE");
+    expect(body.error?.message).toContain("보안 확인 서비스를 일시적으로 사용할 수 없습니다");
+
+    // DB에 행이 일체 생성되지 않았음을 검증
+    const waitlistCount = sqliteDb.prepare("SELECT COUNT(*) as count FROM lead_waitlist").get() as { count: number };
+    expect(waitlistCount.count).toBe(0);
+
+    const rateLimitCount = sqliteDb.prepare("SELECT COUNT(*) as count FROM lead_rate_limits").get() as { count: number };
+    expect(rateLimitCount.count).toBe(0);
+  });
 });

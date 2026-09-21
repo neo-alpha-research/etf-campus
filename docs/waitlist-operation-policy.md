@@ -1,7 +1,7 @@
 # ETF Campus 리드 대기자(Waitlist) 운영 정책 및 배포·롤백 실행 매뉴얼
 
-**문서 버전**: 2.1.0  
-**기준 일자**: 2026-09-21  
+**문서 버전**: 2.2.0  
+**기준 일자**: 2026-09-22  
 **대상 서비스**: ETF 비용 및 계좌별 규칙 자가 점검 교육 가이드 대기자 알림 (`campaign: challenge_guide_2026`)  
 **원칙**: Zero-Hallucination, 개인정보 최소화(Privacy-by-Design), Fail-Closed, 지체 없는 즉시 파기, 운영자 확정 중심의 현실적 배포/롤백  
 
@@ -28,8 +28,8 @@
 ### 2.1 수신 동의 철회 및 파기 창구 (Withdrawal Channel)
 - **공식 접수 창구**: `neo.alpharesearch@gmail.com`
 - **화면 표기**: 출시 알림 모달 입력 폼의 동의 박스 및 접수 완료/발송 완료 화면에 명시.
-- **운영자 처리 절차 (24시간 이내 내부 목표)**:
-  1. 철회 또는 삭제 요청 메일 접수 시 24시간 이내에 Cloudflare D1 `lead_waitlist`에서 지체 없이 즉시 물리적 삭제(`DELETE`) 집행:
+- **운영자 처리 절차 (수동 처리 원칙)**:
+  1. 철회 또는 삭제 요청 메일 접수 시 지체 없이 확인하여 Cloudflare D1 `lead_waitlist`에서 물리적 삭제(`DELETE`) 집행:
      ```sql
      DELETE FROM lead_waitlist 
      WHERE email = ? AND campaign = 'challenge_guide_2026';
@@ -45,15 +45,17 @@
 
 ---
 
-## 3. 서버 비밀키 기반 속도 제한 및 키 보유·삭제 절차 (Rate Limiting Security)
+## 3. 전용 서버 비밀키 기반 속도 제한 및 키 보유·삭제 절차 (Rate Limiting Security)
 
-### 3.1 서버 비밀키 기반 HMAC-SHA-256 해시
-- 고정된 공개 솔트를 배제하고, Cloudflare 환경 변수로 주입되는 서버 비밀키(`LEAD_RATE_LIMIT_SECRET` 또는 `AUTH_SECRET`)를 기반으로 HMAC-SHA-256 단방향 해시 키(`rl_ip_<hash>`, `rl_em_<hash>`)를 생성합니다.
+### 3.1 전용 서버 비밀키(`LEAD_RATE_LIMIT_SECRET`) 기반 Fail-Closed 해시
+- 공개 고정 솔트 문자열 폴백 및 타 목적 인증 비밀키(`AUTH_SECRET`)의 임의 재사용을 전면 배제합니다.
+- 오직 Cloudflare 환경 변수로 주입되는 리드 레이트 리밋 전용 비밀키(`LEAD_RATE_LIMIT_SECRET`)만을 사용하여 HMAC-SHA-256 단방향 해시 키(`rl_ip_<hash>`, `rl_em_<hash>`)를 생성합니다.
+- 비밀키가 미설정되었거나 공백인 경우, 시스템은 임의의 취약한 키로 폴백하지 않고 **즉시 `503 UNAVAILABLE`을 반환하는 Fail-Closed 원칙**을 엄격히 준수합니다.
 - `lead_rate_limits` 테이블에는 원문 IP나 이메일이 평문으로 절대 저장되지 않습니다.
 
 ### 3.2 만료 데이터 및 키 삭제 절차 (Key Retention & Disposal)
-1. **만료 레코드 정기 수동 정리 (최소 주 1회)**:
-   - 윈도우가 만료된 레코드(`reset_at < now`)는 운영자가 최소 주 1회 아래 명령으로 D1 원장에서 정리합니다:
+1. **만료 레코드 정기 수동 정리 (주간 단위)**:
+   - 윈도우가 만료된 레코드(`reset_at < now`)는 운영자가 주간 단위로 아래 명령을 통해 D1 원장에서 정리합니다:
      ```bash
      npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_rate_limits WHERE reset_at < strftime('%s', 'now')"
      ```
@@ -65,56 +67,95 @@
 
 ---
 
-## 4. 운영자 최종 확인표 (Operator Decision Matrix)
+## 4. 대기자 접수(Ingress)와 가이드 발송(Egress)의 엄격한 분리
 
-아래 항목은 운영자 결정 권고안을 바탕으로 현재 확인된 시스템 상태와 확정 대기 항목을 정리한 최종 확정표입니다:
+현재 배포 준비의 대상은 **"대기자 접수(Ingress)"** 기능에 한정되며, **"출시 가이드 발송(Egress)"**은 후속 단계로 명확히 분리하여 관리합니다:
 
-| 항목 | 현재 확인된 상태 (As-Is) | 운영자 결정 권고안 (To-Be) | 확정 상태 및 조치 사항 |
-| :--- | :--- | :--- | :--- |
-| **메일 발송 시스템** | `neo.alpharesearch@gmail.com`<br>(Gmail SMTP SSL 465, OSMU 가동 중) | **Resend 트랜잭셔널 API 우선**<br>(대량 발송 한도 회피, Webhook 추적) | ⏳ **[운영자 최종 확인 대기]**<br>초기 100건 이하 파일럿은 기존 Gmail SMTP 즉시 사용 가능, 정식 배포 전 Resend API 키 발급 여부 확인 |
-| **발송 도메인 소유** | `etf-campus.pages.dev` 운영 중<br>(커스텀 도메인 미확정) | `etfcampus.kr` 또는 `etfcampus.pages.dev`<br>(SPF / DKIM / DMARC 설정 필요) | ⏳ **[운영자 최종 확인 대기]**<br>공식 도메인 DNS 레코드 인증 완료 전까지는 기존 `neo.alpharesearch@gmail.com` 명의로 발송 |
-| **철회 및 CS 창구** | `neo.alpharesearch@gmail.com` 운영 중 | `neo.alpharesearch@gmail.com`<br>(일원화된 공식 창구) | ✅ **[확정 반영 완료]**<br>화면, 약관, API 응답 문구에 `neo.alpharesearch@gmail.com` 일원화 적용 |
-| **철회 처리 내부 목표** | 수동 접수 및 D1 명령 실행 | **접수 후 24시간 이내 D1 DELETE 집행** | ✅ **[운영 방침 수립]**<br>영업일 기준 24시간 이내 즉시 물리적 삭제 원칙 수립 |
-| **목적 달성 후 파기** | 별도 보존 근거 없음 | **가이드 발송 완료 후 지체 없이 영구 파기** | ✅ **[운영 방침 수립]**<br>분쟁 예방 명목 보관 폐지, 발송 직후 원장 일괄 삭제 |
-| **속도 제한 데이터 정리**| D1 수동 쿼리 실행 | **최소 주 1회 정기 수동 정리 집행** | ✅ **[운영 방침 수립]**<br>`reset_at < now` 조건으로 주간 단위 D1 삭제 집행 |
+1. **마켓 브리핑 SMTP 인프라와의 혼용 금지**:
+   - 일일 마켓 브리핑 발송 도구(`scripts/publish_osmu_channels.py`)는 거래일 기준 일자별 발송 영수증과 시장 분석 템플릿을 전제로 동작합니다.
+   - 마켓 브리핑용 발송 로직, 제목, 본문, 영수증 관리 방식을 대기자 교육 가이드 발송에 그대로 전용하지 않습니다.
+2. **접수 기능 배포 선행 완료**:
+   - 이번 작업은 대기자 접수 API, 화면 UI, D1 스키마, 개인정보 보호 및 차단 제어 체계를 완성하여 프로덕션 접수 준비를 끝내는 것을 목표로 합니다.
+3. **가이드 발송은 별도 통제 하에 진행**:
+   - 실제 가이드 출시 알림 발송은 교육 콘텐츠 완결 후, 대기자 전용 발송 템플릿과 수신 거부 링크, 발송 배치 간격 조절 스크립트를 갖추고 별도의 통제된 검증을 거친 후 독립적으로 집행합니다.
 
 ---
 
-## 5. 접수 차단 방법 및 가짜 성공 API 복귀 금지 (Ingress Shutoff & Fail-Closed)
+## 5. 운영자 최종 결정 매트릭스 (Operator Decision Matrix)
 
-### 5.1 접수 차단 방법 (Ingress Shutoff Mechanism)
-장애 발생, 대기자 모집 종료, 또는 보안 점검 시 접수를 즉각 차단하는 절차는 다음과 같습니다:
+상태를 **[코드 확인]**, **[실제 발송 확인]**, **[운영자 승인 대기]**로 명확히 구분하여 운영 리스크를 투명하게 관리합니다:
 
-1. **프론트엔드 레벨 즉각 차단**:
-   - `components/learning/challenge-bridge-banner.tsx`의 '출시 알림 신청하기' 버튼을 '사전 알림 마감'으로 텍스트 변경하고 `disabled` 처리하거나, 배너를 비활성화합니다.
-2. **API 레벨 즉각 차단 (Cloudflare Pages Functions)**:
-   - `functions/api/lead/waitlist.ts` 최상단에 차단 플래그(`MAINTENANCE_MODE = true`)를 적용하여 호출 시 즉시 503을 반환합니다:
-     ```ts
-     return errorResponse(503, "UNAVAILABLE", "대기자 알림 신청 접수가 일시 마감되었습니다.");
+| 항목 | 현재 확인된 상태 (As-Is) | 운영 방침 및 결정안 (To-Be) | 상태 구분 | 조치 및 운영 근거 |
+| :--- | :--- | :--- | :--- | :--- |
+| **초기 파일럿 발송 수단** | `neo.alpharesearch@gmail.com`<br>(Gmail SMTP SSL 465 가동 중) | **기존 Gmail 계정을 초기 파일럿 우선안으로 채택** | **[운영자 승인 대기]** | Resend 및 신규 커스텀 발송 도메인은 이번 접수 배포 필수 조건에서 제외. 초기 소규모 발송은 기존 Gmail SMTP 파일럿 활용 권고 |
+| **발송 도메인 정책** | `etf-campus.pages.dev` 웹 호스팅 중 | **기존 검증된 `neo.alpharesearch@gmail.com` 사용** | **[운영자 승인 대기]** | `pages.dev`는 웹 호스팅 도메인으로 메일 발송용 SPF/DKIM 설정이 불가능하므로 발송 도메인 후보에서 완전 배제. 커스텀 도메인은 필요 시 후속 검토 |
+| **철회 및 CS 일원화** | `neo.alpharesearch@gmail.com` 운영 중 | `neo.alpharesearch@gmail.com` | **[코드 확인]** | 모달 화면, 약관 안내, API 오류/안내 응답에 단일 공식 창구로 100% 일원화 반영 완료 |
+| **신청 접수 차단 제어** | `WAITLIST_INGRESS_ENABLED` 서버 환경변수 | **환경변수 `false` 시 503 반환 및 DB 저장 0건** | **[코드 확인]** | 단위 및 통합 테스트 26건을 통해 차단 시 DB 쿼리 및 저장 일체 미발생 검증 완료 |
+| **속도 제한 비밀키 보안** | `LEAD_RATE_LIMIT_SECRET` 전용 키 | **전용 비밀키 필수, 미설정 시 503 Fail-Closed** | **[코드 확인]** | 공개 솔트 및 타 인증키 재사용 완전 제거, 비밀키 누락 시 503 반환 검증 완료 |
+| **발송 완료자 보호** | DB `status = 'sent'` 행 | **화면 앰버톤 전환 및 SQL 레벨 pending 덮어쓰기 방지** | **[코드 확인]** | `alreadySent: true` 응답 및 CASE WHEN 방어식 적용으로 발송 완료 상태 영구 보존 |
+| **지체 없는 즉시 파기** | 별도 장기 보존 근거 없음 | **동의 철회 시 및 목적 달성 후 지체 없이 영구 DELETE** | **[운영자 승인 대기]** | 분쟁 예방 명목 보관 폐지, 운영 절차 매뉴얼화 |
+| **실제 메일 발송 및 수신** | 마켓 브리핑 일일 발송 실측 중 | **대기자 전용 가이드 발송 스크립트 별도 검증** | **[실제 발송 확인]** | 접수 배포 후 가이드 콘텐츠 제작 완료 시점에 실제 메일 인입 및 반송률 실측 검증 |
+
+---
+
+## 6. 안전한 6단계 배포 실행 절차 (Safe 6-Step Deployment Phasing)
+
+운영 D1 무결성과 안전한 접수 개시를 보장하기 위해 아래 6단계 순서를 엄격히 준수합니다:
+
+```mermaid
+flowchart TD
+    S1["1단계: Cloudflare 환경 변수 확인\n(LEAD_RATE_LIMIT_SECRET 주입)"] --> S2["2단계: 접수 차단 상태 선배포\n(WAITLIST_INGRESS_ENABLED = 'false')"]
+    S2 --> S3["3단계: 원격 D1 마이그레이션 적용\n(0027_lead_waitlist, 0028_lead_waitlist_hardening)"]
+    S3 --> S4["4단계: Cloudflare Pages API 프로덕션 배포\n(Functions API 배포 완료)"]
+    S4 --> S5["5단계: 통제된 환경 스모크 테스트 검증\n(차단 확인 -> 임시 해제 -> 201 저장 확인)"]
+    S5 --> S6["6단계: 접수 공식 활성화\n(WAITLIST_INGRESS_ENABLED = 'true')"]
+```
+
+### 단계별 상세 실행 절차:
+
+1. **1단계: 비밀키 확인 (Secret Verification)**:
+   - Cloudflare Pages 대시보드 (Settings -> Environment variables)에서 `LEAD_RATE_LIMIT_SECRET`이 안전한 난수로 등록되어 있는지 확인합니다.
+2. **2단계: 접수 차단 상태 배포 (Ingress Shutoff Deployment)**:
+   - Pages 환경 변수에 `WAITLIST_INGRESS_ENABLED`를 `"false"`로 설정합니다.
+   - 이를 통해 스키마 마이그레이션 도중 또는 API 배포 직후에 불완전한 상태로 사용자 트래픽이 유입되어 에러가 발생하는 것을 원천 방지합니다.
+3. **3단계: 원격 D1 마이그레이션 적용 (D1 Remote Migrations)**:
+   - 원격 D1 `ETF_PRICES` 데이터베이스에 신규 마이그레이션을 순차 적용합니다:
+     ```bash
+     npx wrangler d1 migrations apply ETF_PRICES --remote
      ```
-
-### 5.2 가짜 성공 API 복귀 금지 (Strict Fail-Closed Recovery Path)
-- **과거 결함 영구 배제**: "DB 연결 누락/테이블 미적용/저장 실패 시에도 사용자에게 접수 완료(200) 화면을 띄워주는 가짜 성공" 구현을 영구 금지합니다.
-- **엄격한 정상 복구 경로**:
-  - 오직 D1 원장에 `result.success === true`로 확정 기록된 경우에만 `201 Created`를 반환합니다.
-  - DB 또는 레이트 리밋 저장소 장애 시에는 반드시 `503 UNAVAILABLE` 또는 `500 UNAVAILABLE`로 실패를 정직하게 알리고, 사용자 입력값(이메일, 관심사)을 보존하여 복구 후 즉시 재시도할 수 있도록 지원합니다.
-
----
-
-## 6. 배포 직전 원격 D1 상태 확인 (D1 Pre-Deployment Audit)
-
-- **출처 문서**: `functions/api/lead/__tests__/fixtures/d1-remote-observation.json`
-- **대상 데이터베이스**: Cloudflare D1 `ETF_PRICES` (`11c4e874-fba2-4e34-91d0-808892284c86`, APAC/ICN)
-- **현재 원격 적용 상태**: `0001` ~ `0026_correct_migration_baselines_0024.sql` 완료.
-- **적용 대기 마이그레이션**:
-  1. `migrations/0027_lead_waitlist.sql` (기초 대기자 테이블 생성)
-  2. `migrations/0028_lead_waitlist_hardening.sql` (캠페인 격리, 동의 버전/시각, 레이트 리밋 테이블, 멱등 복합 인덱스, FM-011 행수 감사)
-- **실측 테이블 조회 결과**: `SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%lead%'` -> `[]` (대기자 관련 테이블 0건 실측 확인 완료).
-- **배포 실행 순서**: **선 D1 마이그레이션 적용 -> 후 Pages 애플리케이션 배포** 원칙 엄수.
+   - 마이그레이션 적용 내역 확인:
+     ```bash
+     npx wrangler d1 execute ETF_PRICES --remote --command "SELECT name FROM d1_migrations ORDER BY id DESC LIMIT 3;"
+     ```
+     (`0027_lead_waitlist.sql`, `0028_lead_waitlist_hardening.sql` 적용 확인)
+4. **4단계: Pages API 프로덕션 배포 (Production Deployment)**:
+   - GitHub Actions CI 통과 후 Cloudflare Pages 배포를 완료합니다.
+5. **5단계: 통제된 검증 (Controlled Verification Smoke Test)**:
+   - 프로덕션 엔드포인트(`https://etfcampus.pages.dev/api/lead/waitlist`)로 테스트 요청 전송:
+     - 차단 상태(`WAITLIST_INGRESS_ENABLED="false"`)에서 `503 UNAVAILABLE` 응답 및 D1 무기록 확인.
+   - 일시적으로 `WAITLIST_INGRESS_ENABLED="true"` 설정 후 운영자 테스트 이메일로 정상 접수(`201 Created`), D1 행 생성, 멱등성 및 레이트 리밋 정상 작동 확인.
+   - 테스트 데이터 물리적 삭제 (`DELETE FROM lead_waitlist WHERE email LIKE '%test%';`).
+6. **6단계: 접수 공식 개시 (Ingress Activation)**:
+   - `WAITLIST_INGRESS_ENABLED="true"` 상태를 최종 확정하고 일반 사용자 대상 사전 알림 접수를 공식 개시합니다.
 
 ---
 
-## 7. 실제 모바일 화면 검증 내역 (Mobile A11y & Viewport Audit)
+## 7. 작업 브랜치 커밋 및 검토·배포 범위 격리 (Scope Segregation)
+
+본 작업 브랜치(`fix/oauth-unauth-start-and-captcha-stabilization`)는 복수의 기능 커밋이 포함되어 있으므로, 검토 및 배포 단계를 명확히 분리합니다:
+
+1. **소셜 로그인 및 인증 안정화 커밋** (`a6eb0241`, `c538274c`):
+   - 소셜 로그인 비로그인 시작 허용 및 Turnstile 캡차 안정화 관련 커밋.
+   - 본 영역은 별도의 '캠퍼스 투어' 에이전트 인계 프롬프트가 완료되어 전용 검토 대기 상태이므로, 이번 대기자 접수 기능 배포와 혼용하지 않고 안전하게 격리합니다.
+2. **튜토리얼 진도율 보존 커밋** (`4e19a739`):
+   - 비로그인 로컬 진도율 보존 기능.
+3. **리드 대기자 접수 기능 커밋** (`19faf68c`, `4fc77287`, `3f1e1da8`, `f7eec53f`, 및 본 완결 커밋):
+   - 대기자 접수 모달, 서버 API, D1 마이그레이션(`0027`, `0028`), 전용 비밀키 레이트 리밋, 수신 동의 철회 일원화 및 서버 접수 차단 기능.
+   - **금번 검토·승인 및 배포의 유일한 대상 범위**입니다.
+
+---
+
+## 8. 모바일 화면 및 접근성 검증 내역 (Mobile A11y & Viewport Audit)
 
 | 점검 항목 | 기준 규격 | 모달 적용 현황 | 검증 결과 |
 | :--- | :--- | :--- | :--- |

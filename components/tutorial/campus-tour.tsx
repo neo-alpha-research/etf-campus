@@ -84,7 +84,7 @@ const campusFacilities = [
     ],
     actionType: "link",
     actionLabel: "ETF 비교 분석하러 가기",
-    href: "/compare",
+    href: "/compare/",
     theme: "from-amber-500/10 to-orange-500/5 border-amber-200/90 text-amber-950",
     buttonTheme: "bg-amber-700 hover:bg-amber-800 text-white shadow-amber-700/20",
   },

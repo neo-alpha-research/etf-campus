@@ -466,7 +466,7 @@ export function GlobalQuickSearch({
             </span>
           </div>
           <Link
-            href="/explore"
+            href="/explore/"
             onClick={onClose}
             className="text-brand-700 font-bold hover:underline flex items-center gap-0.5"
           >

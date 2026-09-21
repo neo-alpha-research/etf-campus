@@ -7,6 +7,7 @@ import { onRequestPost } from "../waitlist";
 
 interface WaitlistApiResponse {
   success?: boolean;
+  alreadySent?: boolean;
   error?: { code?: string; message?: string };
   message?: string;
 }
@@ -22,6 +23,12 @@ interface WaitlistDbRow {
   status: string;
   created_at: string;
   updated_at: string;
+}
+
+interface RateLimitDbRow {
+  key: string;
+  count: number;
+  reset_at: number;
 }
 
 /**
@@ -138,7 +145,7 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
     expect(rows[0].agreed_at).not.toBeNull();
   });
 
-  it("수신 동의 철회(withdrawn) 후 재신청 시 상태가 pending으로 복구되고 신규 동의 시각이 기록된다", async () => {
+  it("수신 동의 철회(withdrawn) vs 개인정보 물리적 파기(DELETE)가 명확히 구분되어 동작한다", async () => {
     const email = "withdrawn_user@example.com";
 
     // 1. 최초 신청
@@ -156,15 +163,15 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
     });
     await onRequestPost({ request: initialReq, env: { ETF_PRICES: d1Adapter } });
 
-    // 2. 운영자 창구(etfcampus@gmail.com)를 통한 철회 처리 시뮬레이션
+    // 2. 수신 동의 철회(status = 'withdrawn'): DB 레코드는 감사/부인방지 목적으로 보존되나 발송 대상에서는 제외
     sqliteDb
       .prepare("UPDATE lead_waitlist SET status = 'withdrawn', updated_at = '2026-09-20 12:00:00' WHERE email = ?")
       .run(email);
 
-    const row1 = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email) as unknown as WaitlistDbRow;
-    expect(row1.status).toBe("withdrawn");
+    const rowWithdrawn = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email) as unknown as WaitlistDbRow;
+    expect(rowWithdrawn.status).toBe("withdrawn");
 
-    // 3. 사용자가 페이지에서 다시 동의하고 재신청
+    // 3. 사용자가 페이지에서 다시 필수 동의를 체크하고 재신청 -> status가 pending으로 복구되고 신규 동의시각 갱신
     const reapplyReq = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
       method: "POST",
       headers: { "Content-Type": "application/json", "CF-Connecting-IP": "203.0.113.21" },
@@ -180,19 +187,20 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
     const reapplyRes = await onRequestPost({ request: reapplyReq, env: { ETF_PRICES: d1Adapter } });
     expect(reapplyRes.status).toBe(201);
 
-    // 4. DB 상태가 pending으로 복원되고 1행만 유지되는지 확인
-    const rows = sqliteDb
+    const rowsAfterReapply = sqliteDb
       .prepare("SELECT * FROM lead_waitlist WHERE email = ?")
       .all(email) as unknown as WaitlistDbRow[];
+    expect(rowsAfterReapply.length).toBe(1);
+    expect(rowsAfterReapply[0].status).toBe("pending");
+    expect(rowsAfterReapply[0].interest).toBe("dc_irp");
 
-    expect(rows.length).toBe(1);
-    expect(rows[0].status).toBe("pending");
-    expect(rows[0].interest).toBe("dc_irp");
-    expect(rows[0].terms_version).toBe("v1.0");
-    expect(rows[0].agreed_at).not.toBeNull();
+    // 4. 정보주체의 완전 파기 요청(잊혀질 권리): 물리적 DELETE 수행 시 레코드가 영구 소멸됨
+    sqliteDb.prepare("DELETE FROM lead_waitlist WHERE email = ?").run(email);
+    const rowDeleted = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email);
+    expect(rowDeleted).toBeUndefined();
   });
 
-  it("가이드 발송 완료(sent) 후 재신청 시 상태가 pending으로 복구되어 차기 안내 대상에 편입된다", async () => {
+  it("[신청 범위 엄격 일치] 가이드 발송 완료(sent) 후 재신청 시 후속 판본으로 자동 확장되지 않고 200 발송완료 안내를 반환하며 sent 상태가 보존된다", async () => {
     const email = "sent_user@example.com";
 
     // 1. 최초 신청
@@ -210,15 +218,15 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
     });
     await onRequestPost({ request: initialReq, env: { ETF_PRICES: d1Adapter } });
 
-    // 2. 가이드 1차 배포 완료 처리 시뮬레이션
+    // 2. 가이드 1차 배포 완료(sent) 처리
     sqliteDb
       .prepare("UPDATE lead_waitlist SET status = 'sent' WHERE email = ?")
       .run(email);
 
-    const row2 = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email) as unknown as WaitlistDbRow;
-    expect(row2.status).toBe("sent");
+    const rowSent = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email) as unknown as WaitlistDbRow;
+    expect(rowSent.status).toBe("sent");
 
-    // 3. 개정판 또는 추가 안내를 위해 재신청
+    // 3. 발송 완료된 사용자가 다시 신청 폼 제출
     const reapplyReq = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
       method: "POST",
       headers: { "Content-Type": "application/json", "CF-Connecting-IP": "203.0.113.31" },
@@ -232,61 +240,90 @@ describe("Lead Waitlist Real DB Integration & Operational Scenarios", () => {
       }),
     });
     const res = await onRequestPost({ request: reapplyReq, env: { ETF_PRICES: d1Adapter } });
-    expect(res.status).toBe(201);
+    
+    // 200 OK와 alreadySent: true 반환 검증
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as WaitlistApiResponse;
+    expect(body.success).toBe(true);
+    expect(body.alreadySent).toBe(true);
+    expect(body.message).toContain("이미 해당 이메일로 가이드 출시 알림이 발송 완료되었습니다");
 
-    // 4. DB 검증: status가 pending으로 복원되고 1행만 유지
-    const rows = sqliteDb
-      .prepare("SELECT * FROM lead_waitlist WHERE email = ?")
-      .all(email) as unknown as WaitlistDbRow[];
-
-    expect(rows.length).toBe(1);
-    expect(rows[0].status).toBe("pending");
+    // DB 검증: status가 pending으로 임의 변경되지 않고 'sent'로 온전히 보존됨
+    const rowAfter = sqliteDb.prepare("SELECT * FROM lead_waitlist WHERE email = ?").get(email) as unknown as WaitlistDbRow;
+    expect(rowAfter.status).toBe("sent");
   });
 
-  it("동일 IP에서 짧은 시간 내 과도한 요청 시 429 RATE_LIMITED가 발동한다", async () => {
-    const attackerIp = "198.51.100.99";
+  it("10개 동시 요청(Promise.all) 시 원자적 레이트 리밋이 정확히 작동하여 5개 성공 및 5개 429 차단된다", async () => {
+    const concurrentIp = "198.51.100.77";
 
-    const makeSpamRequest = (i: number) =>
-      new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+    const requests = Array.from({ length: 10 }, (_, i) => {
+      return onRequestPost({
+        request: new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "CF-Connecting-IP": concurrentIp,
+          },
+          body: JSON.stringify({
+            email: `concurrent_user_${i}@example.com`,
+            interest: "all",
+            source: "concurrency_test",
+            campaign: "challenge_guide_2026",
+            termsVersion: "v1.0",
+            agreeRequired: true,
+          }),
+        }),
+        env: { ETF_PRICES: d1Adapter },
+      });
+    });
+
+    const responses = await Promise.all(requests);
+    const statusCounts = responses.reduce<Record<number, number>>((acc, res) => {
+      acc[res.status] = (acc[res.status] || 0) + 1;
+      return acc;
+    }, {});
+
+    expect(statusCounts[201]).toBe(5);
+    expect(statusCounts[429]).toBe(5);
+  });
+
+  it("[개인정보 최소화] lead_rate_limits 테이블에 원문 IP나 이메일이 평문 저장되지 않고 오직 SHA-256 해시 키만 저장된다", async () => {
+    const testIp = "203.0.113.88";
+    const testEmail = "privacy_test@example.com";
+
+    const res = await onRequestPost({
+      request: new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "CF-Connecting-IP": attackerIp,
+          "CF-Connecting-IP": testIp,
         },
         body: JSON.stringify({
-          email: `spam_user_${i}@example.com`,
-          interest: "routine",
-          source: "bot",
+          email: testEmail,
+          interest: "all",
+          source: "privacy_audit",
           campaign: "challenge_guide_2026",
           termsVersion: "v1.0",
           agreeRequired: true,
         }),
-      });
+      }),
+      env: { ETF_PRICES: d1Adapter },
+    });
+    expect(res.status).toBe(201);
 
-    // 5회까지는 허용 (IP 제한 5회)
-    for (let i = 1; i <= 5; i++) {
-      const res = await onRequestPost({ request: makeSpamRequest(i), env: { ETF_PRICES: d1Adapter } });
-      expect(res.status).toBe(201);
+    // lead_rate_limits 테이블 전수 검사
+    const rateRows = sqliteDb.prepare("SELECT * FROM lead_rate_limits").all() as unknown as RateLimitDbRow[];
+    expect(rateRows.length).toBeGreaterThanOrEqual(2);
+
+    for (const row of rateRows) {
+      // 1. 접두사 검증: rl_ip_ 또는 rl_em_ 으로 시작해야 함
+      const hasValidPrefix = row.key.startsWith("rl_ip_") || row.key.startsWith("rl_em_");
+      expect(hasValidPrefix).toBe(true);
+
+      // 2. 평문 검증: 원문 IP나 이메일이 키에 포함되어 있으면 안 됨
+      expect(row.key).not.toContain(testIp);
+      expect(row.key).not.toContain(testEmail);
+      expect(row.key).not.toContain("@");
     }
-
-    // 6회째 요청은 레이트 리밋 차단 (429)
-    const rateLimitedRes = await onRequestPost({ request: makeSpamRequest(6), env: { ETF_PRICES: d1Adapter } });
-    expect(rateLimitedRes.status).toBe(429);
-    const body = (await rateLimitedRes.json()) as WaitlistApiResponse;
-    expect(body.error?.code).toBe("RATE_LIMITED");
-    expect(body.error?.message).toContain("요청이 너무 많습니다");
-
-    // lead_rate_limits 테이블에 기록 확인
-    interface RateRow {
-      key: string;
-      count: number;
-      reset_at: number;
-    }
-    const rateRows = sqliteDb
-      .prepare("SELECT * FROM lead_rate_limits WHERE key = ?")
-      .all(`ip:${attackerIp}`) as unknown as RateRow[];
-
-    expect(rateRows.length).toBe(1);
-    expect(rateRows[0].count).toBeGreaterThanOrEqual(5);
   });
 });

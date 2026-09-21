@@ -295,7 +295,7 @@ export function ChallengeWaitlistModal({
                   placeholder="name@example.com"
                   required
                   disabled={isSubmitting}
-                  className="w-full min-h-[44px] px-3.5 rounded-xl border border-line bg-surface text-sm text-strong focus:outline-hidden focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
+                  className="w-full min-h-[44px] px-3.5 rounded-xl border border-line bg-surface text-base sm:text-sm text-strong focus:outline-hidden focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
                 />
               </div>
 

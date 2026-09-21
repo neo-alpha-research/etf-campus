@@ -14,26 +14,29 @@
       {
         "code": "CLF",
         "label": "WTI 원유",
-        "close": 85.76,
-        "change_points": 2.36,
-        "change_pct": 2.83,
-        "as_of_date": "2026-09-01"
+        "close": 90.22,
+        "change_points": 4.46,
+        "change_pct": 5.2,
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 4.8,
+        "close": 4.796,
         "change_points": 0.038,
         "change_pct": 0.038,
-        "as_of_date": "2026-09-01"
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4431.1,
-        "change_points": -47,
-        "change_pct": -1.05,
-        "as_of_date": "2026-09-01"
+        "close": 4396.4,
+        "change_points": -85.1,
+        "change_pct": -1.9,
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "KOSDAQ",
@@ -57,7 +60,8 @@
         "close": 4.371,
         "change_points": 0.058,
         "change_pct": 0.058,
-        "as_of_date": "2026-09-01"
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "NDX",
@@ -70,10 +74,11 @@
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 66.22,
-        "change_points": -0.77,
-        "change_pct": -1.16,
-        "as_of_date": "2026-09-01"
+        "close": 65.37,
+        "change_points": -1.62,
+        "change_pct": -2.42,
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "SPX",
@@ -86,10 +91,11 @@
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1366.62,
-        "change_points": -10.49,
-        "change_pct": -0.76,
-        "as_of_date": "2026-09-01"
+        "close": 1375.5,
+        "change_points": 6.0,
+        "change_pct": 0.44,
+        "as_of_date": "2026-09-01",
+        "is_closed": false
       },
       {
         "code": "VIX",

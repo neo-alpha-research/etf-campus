@@ -17,23 +17,26 @@
         "close": 91.01,
         "change_points": 0.79,
         "change_pct": 0.88,
-        "as_of_date": "2026-09-02"
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 4.8,
-        "change_points": 0,
-        "change_pct": 0,
-        "as_of_date": "2026-09-02"
+        "close": 4.794,
+        "change_points": -0.002,
+        "change_pct": -0.002,
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4366.3,
-        "change_points": 18.3,
-        "change_pct": 0.42,
-        "as_of_date": "2026-09-02"
+        "close": 4414.6,
+        "change_points": 18.2,
+        "change_pct": 0.41,
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "KOSDAQ",
@@ -54,10 +57,11 @@
       {
         "code": "KR10Y",
         "label": "국채 10년",
-        "close": 4.418,
-        "change_points": 0.047,
-        "change_pct": 0.047,
-        "as_of_date": "2026-09-02"
+        "close": 4.404,
+        "change_points": 0.033,
+        "change_pct": 0.033,
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "NDX",
@@ -70,10 +74,11 @@
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 64.72,
-        "change_points": 0.11,
-        "change_pct": 0.16,
-        "as_of_date": "2026-09-02"
+        "close": 65.46,
+        "change_points": 0.09,
+        "change_pct": 0.14,
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "SPX",
@@ -86,10 +91,11 @@
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1358.39,
-        "change_points": -14.47,
-        "change_pct": -1.05,
-        "as_of_date": "2026-09-02"
+        "close": 1360.3,
+        "change_points": -15.2,
+        "change_pct": -1.11,
+        "as_of_date": "2026-09-02",
+        "is_closed": false
       },
       {
         "code": "VIX",

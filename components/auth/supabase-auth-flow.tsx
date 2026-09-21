@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
 import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
@@ -37,9 +37,30 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [agreedToAge, setAgreedToAge] = useState(false);
   const [agreedToMarketing, setAgreedToMarketing] = useState(false);
+  const [isTermsConsentOnly, setIsTermsConsentOnly] = useState(false);
   
   const [ageBand, setAgeBand] = useState("");
   const [interestAccountType, setInterestAccountType] = useState("");
+
+  useEffect(() => {
+    if (step === "profile") {
+      communityFetch<{
+        hasNickname?: boolean;
+        hasTermsConsent?: boolean;
+        profile?: { nickname?: string; marketingConsent?: boolean } | null;
+      }>("/api/community/auth/profile")
+        .then((data) => {
+          if (data?.hasNickname && data.profile?.nickname) {
+            setNickname(data.profile.nickname);
+            setIsTermsConsentOnly(true);
+            if (typeof data.profile.marketingConsent === "boolean") {
+              setAgreedToMarketing(data.profile.marketingConsent);
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  }, [step]);
 
   
   const [loading, setLoading] = useState(false);
@@ -239,6 +260,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         if (res.user?.nickname) {
           setNickname(res.user.nickname);
         }
+        setIsTermsConsentOnly(true);
         setStep("profile");
         return;
       }
@@ -297,6 +319,29 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setMessage("");
     try {
       const termsVersion = "v2026-08-24";
+
+      if (isTermsConsentOnly) {
+        // 기존 회원의 필수 약관 보완 처리:
+        // 신규 가입 저장(bootstrap_community_profile)을 거치지 않고,
+        // 기존 프로필 정보(가입 UTM, 닉네임, 맞춤 설정 등)를 100% 보존한 채 terms_version만 안전하게 갱신
+        await communityFetch("/api/community/auth/terms", {
+          method: "POST",
+          body: JSON.stringify({
+            agreedToTerms,
+            agreedToPrivacy,
+            agreedToAge,
+            agreedToMarketing,
+            termsVersion,
+          }),
+        });
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        // 온보딩 단계를 건너뛰고 원래 페이지(returnTo)로 즉시 복귀
+        onAuthenticated();
+        return;
+      }
+
+      // 신규 회원 가입 처리
       const utmSource = sessionStorage.getItem("utm_source") || "direct";
       const utmMedium = sessionStorage.getItem("utm_medium") || null;
       const utmCampaign = sessionStorage.getItem("utm_campaign") || null;
@@ -354,10 +399,10 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1.5 mb-2">
           <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-br from-brand-600 to-indigo-900 uppercase">
-            {subtitle}
+            {step === "profile" && isTermsConsentOnly ? "TERMS CONSENT" : subtitle}
           </h1>
           <h2 id="community-auth-title" className="text-lg font-bold text-slate-600">
-            {step === "profile" ? "회원가입 완료" : step === "onboarding" ? "맞춤 정보 설정" : step === "password-setup" ? "비밀번호 설정" : title}
+            {step === "profile" ? (isTermsConsentOnly ? "이용약관 동의" : "회원가입 완료") : step === "onboarding" ? "맞춤 정보 설정" : step === "password-setup" ? "비밀번호 설정" : title}
           </h2>
         </div>
       </div>
@@ -552,9 +597,20 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
         {step === "profile" ? (
           <form className="mt-6 space-y-4" onSubmit={saveProfile}>
-            <p className="text-sm leading-6 text-slate-600">ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {isTermsConsentOnly
+                ? "서비스 이용을 위해 필수 약관에 동의해 주세요."
+                : "ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요."}
+            </p>
             <label className="block text-sm font-semibold text-slate-800">공개 닉네임
-              <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="예: 연금공부중" />
+              {isTermsConsentOnly ? (
+                <div className="mt-2 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-100 px-3 py-3 text-base text-slate-700 font-medium">
+                  <span>{nickname}</span>
+                  <span className="text-xs bg-brand-50 text-brand-700 font-bold px-2 py-0.5 rounded-full border border-brand-200">기존 회원</span>
+                </div>
+              ) : (
+                <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="예: 연금공부중" />
+              )}
             </label>
             <div className="flex flex-col gap-3 mt-4 p-4 border border-slate-200 rounded-xl bg-slate-50">
               <label className="flex items-start gap-2 cursor-pointer">
@@ -576,7 +632,9 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 <span className="text-sm text-slate-700">[선택] 마케팅 정보 수신 동의<br/><span className="text-xs text-slate-500">새로운 챌린지, 전자책 등의 소식을 이메일로 받습니다.</span></span>
               </label>
             </div>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중..." : "동의하고 가입 완료"}</button>
+            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">
+              {loading ? "저장 중..." : isTermsConsentOnly ? "동의하고 계속하기" : "동의하고 가입 완료"}
+            </button>
           </form>
         ) : step === "onboarding" ? (
           <form className="mt-6 space-y-4" onSubmit={saveOnboarding}>

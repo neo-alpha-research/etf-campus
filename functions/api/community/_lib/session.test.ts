@@ -4,6 +4,7 @@ import {
   readPasswordSetup,
   clearPasswordSetupHeaders,
   COMMUNITY_SESSION_COOKIE_NAMES,
+  getProfileStatus,
   checkProfileConfigured,
 } from "./session";
 
@@ -153,8 +154,35 @@ describe("session", () => {
     });
   });
 
-  describe("checkProfileConfigured", () => {
-    it("기존 회원의 public_nickname이 존재하면 terms_version이 없어도 true를 반환한다", async () => {
+  describe("getProfileStatus & checkProfileConfigured", () => {
+    it("닉네임과 필수 약관 동의(terms_version)가 모두 존재하면 profileConfigured: true를 반환한다", async () => {
+      mocks.adminSupabase.mockReturnValue({
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: async () => ({
+                data: { public_nickname: "Neo", terms_version: "v2026-08-24" },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const status = await getProfileStatus({} as any, "6fa34caa-f8c8-49a4-8d7d-e3561e5e9c5c");
+      expect(status).toEqual({
+        hasNickname: true,
+        hasTermsConsent: true,
+        profileConfigured: true,
+        nickname: "Neo",
+        termsVersion: "v2026-08-24",
+      });
+
+      const configured = await checkProfileConfigured({} as any, "6fa34caa-f8c8-49a4-8d7d-e3561e5e9c5c");
+      expect(configured).toBe(true);
+    });
+
+    it("닉네임은 있지만 필수 약관 동의가 누락된 경우 hasNickname: true, hasTermsConsent: false, profileConfigured: false를 분리 반환한다", async () => {
       mocks.adminSupabase.mockReturnValue({
         from: () => ({
           select: () => ({
@@ -168,11 +196,13 @@ describe("session", () => {
         }),
       });
 
-      const configured = await checkProfileConfigured({} as any, "user-uuid-123");
-      expect(configured).toBe(true);
+      const status = await getProfileStatus({} as any, "user-uuid-no-terms");
+      expect(status.hasNickname).toBe(true);
+      expect(status.hasTermsConsent).toBe(false);
+      expect(status.profileConfigured).toBe(false);
     });
 
-    it("신규 회원이거나 닉네임이 없으면 false를 반환한다", async () => {
+    it("신규 회원이거나 닉네임이 없으면 hasNickname: false, profileConfigured: false를 반환한다", async () => {
       mocks.adminSupabase.mockReturnValue({
         from: () => ({
           select: () => ({
@@ -185,6 +215,11 @@ describe("session", () => {
           }),
         }),
       });
+
+      const status = await getProfileStatus({} as any, "user-new-uuid");
+      expect(status.hasNickname).toBe(false);
+      expect(status.hasTermsConsent).toBe(false);
+      expect(status.profileConfigured).toBe(false);
 
       const configured = await checkProfileConfigured({} as any, "user-new-uuid");
       expect(configured).toBe(false);
@@ -204,7 +239,7 @@ describe("session", () => {
         }),
       });
 
-      await expect(checkProfileConfigured({} as any, "user-uuid-error")).rejects.toThrow(
+      await expect(getProfileStatus({} as any, "user-uuid-error")).rejects.toThrow(
         "Failed to query user profile"
       );
     });

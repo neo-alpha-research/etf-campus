@@ -211,7 +211,7 @@ export async function authenticatedSession(context) {
   }
 }
 
-export async function checkProfileConfigured(env, userId) {
+export async function getProfileStatus(env, userId) {
   const admin = adminSupabase(env);
   const { data, error } = await admin
     .from("user_profiles")
@@ -220,11 +220,35 @@ export async function checkProfileConfigured(env, userId) {
     .maybeSingle();
 
   if (error) {
-    console.error("checkProfileConfigured query error:", error);
+    console.error("getProfileStatus query error:", error);
     throw new Error("Failed to query user profile");
   }
 
-  return Boolean(data?.public_nickname && typeof data.public_nickname === "string" && data.public_nickname.trim().length > 0);
+  const hasNickname = Boolean(
+    data?.public_nickname &&
+    typeof data.public_nickname === "string" &&
+    data.public_nickname.trim().length >= 2 &&
+    data.public_nickname.trim().length <= 24
+  );
+
+  const hasTermsConsent = Boolean(
+    data?.terms_version &&
+    typeof data.terms_version === "string" &&
+    data.terms_version.trim().length > 0
+  );
+
+  return {
+    hasNickname,
+    hasTermsConsent,
+    profileConfigured: hasNickname && hasTermsConsent,
+    nickname: data?.public_nickname ?? null,
+    termsVersion: data?.terms_version ?? null,
+  };
+}
+
+export async function checkProfileConfigured(env, userId) {
+  const status = await getProfileStatus(env, userId);
+  return status.profileConfigured;
 }
 
 export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE, PWSETUP_COOKIE };

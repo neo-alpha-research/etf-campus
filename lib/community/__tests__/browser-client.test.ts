@@ -165,4 +165,54 @@ describe("browser-client communityFetch - Public Auth Whitelist & CSRF Protectio
       message: "사용자가 작업을 취소했습니다.",
     });
   });
+
+  it("HTTP 200 헤더 수신 후 본문(response.json) 스트리밍 중 타임아웃 발생 시 null을 반환하지 않고 408 TIMEOUT 에러를 발생시킨다", async () => {
+    const mockFetch = vi.fn().mockImplementation((_url: string, options: RequestInit) => {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "Content-Type": "application/json" }),
+        json: () =>
+          new Promise((_resolve, reject) => {
+            options.signal?.addEventListener("abort", () => {
+              const abortError = new Error("Body streaming timed out");
+              abortError.name = "AbortError";
+              reject(abortError);
+            });
+          }),
+      });
+    });
+    global.fetch = mockFetch;
+
+    await expect(
+      communityFetch("/api/community/auth/profile", {
+        method: "GET",
+        timeoutMs: 50,
+      })
+    ).rejects.toMatchObject({
+      status: 408,
+      code: "TIMEOUT",
+      message: expect.stringContaining("요청 시간이 초과되었습니다"),
+    });
+  });
+
+  it("HTTP 200 응답에서 본문 파싱(JSON) 오류 발생 시 null 성공으로 간주하지 않고 502 에러를 발생시킨다", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "application/json" }),
+      json: () => Promise.reject(new SyntaxError("Unexpected token in JSON")),
+    });
+    global.fetch = mockFetch;
+
+    await expect(
+      communityFetch("/api/community/auth/profile", {
+        method: "GET",
+      })
+    ).rejects.toMatchObject({
+      status: 502,
+      code: "INVALID_JSON",
+      message: "응답 본문(JSON)을 파싱하지 못했습니다.",
+    });
+  });
 });

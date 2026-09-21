@@ -404,4 +404,69 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
       expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeEnabled();
     });
   });
+
+  it("HTTP 200 헤더 수신 후 본문 읽기 중 타임아웃(408) 발생 시에도 저장을 차단하고 [다시 시도] 버튼을 노출한다", async () => {
+    const onAuthenticated = vi.fn();
+    const bodyTimeoutError = new Error("요청 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.") as Error & { status: number; code: string };
+    bodyTimeoutError.status = 408;
+    bodyTimeoutError.code = "TIMEOUT";
+
+    mocks.communityFetch
+      .mockResolvedValueOnce({ message: "인증 코드를 보냈습니다." })
+      .mockResolvedValueOnce({
+        authenticated: true,
+        profileConfigured: false,
+        hasNickname: true,
+        hasTermsConsent: false,
+        needsTermsConsent: true,
+        passwordSetupRequired: false,
+        isNewUser: false,
+        user: { id: "uuid-123", email: "existing@example.com", nickname: "기존연구원" },
+      })
+      // 1st GET /profile throws 408 TIMEOUT while streaming body
+      .mockRejectedValueOnce(bodyTimeoutError)
+      // 2nd GET /profile (after clicking retry) succeeds
+      .mockResolvedValueOnce({
+        hasNickname: true,
+        hasTermsConsent: false,
+        profile: { nickname: "기존연구원" },
+      })
+      // POST /terms succeeds
+      .mockResolvedValueOnce({
+        success: true,
+        profileConfigured: true,
+      });
+
+    render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={onAuthenticated} />);
+    fireEvent.click(screen.getByRole("button", { name: "이메일 간편 로그인 / 회원가입" }));
+
+    // OTP request step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_request")?.("token1"));
+    fireEvent.change(screen.getByLabelText("이메일"), { target: { value: "existing@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: "8자리 인증 코드 받기" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "인증 완료" })).toBeInTheDocument());
+
+    // OTP verify step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_verify")?.("token2"));
+    fireEvent.change(screen.getByLabelText("인증 코드"), { target: { value: "87654321" } });
+    fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
+
+    // 본문 수신 중 타임아웃 발생 시에도 에러 메시지 노출 및 저장 버튼 비활성화 확인
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+      expect(screen.getByText("요청 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "다시 시도" })).toBeInTheDocument();
+      expect(screen.queryByText("회원 정보를 확인하고 있습니다...")).not.toBeInTheDocument();
+    });
+
+    expect(screen.getByRole("button", { name: /동의하고/ })).toBeDisabled();
+
+    // [다시 시도] 클릭하여 정상 복구 검증
+    fireEvent.click(screen.getByRole("button", { name: "다시 시도" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeEnabled();
+    });
+  });
 });

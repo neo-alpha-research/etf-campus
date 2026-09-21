@@ -144,7 +144,21 @@ export async function communityFetch<T = any>(path: string, init: CommunityFetch
     acceptCsrf(response);
     const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "";
     if (contentType.includes("application/json")) {
-      body = await response.json().catch(() => null);
+      try {
+        body = await response.json();
+      } catch (jsonErr: unknown) {
+        if (controller.signal.aborted) {
+          throw jsonErr;
+        }
+        if (!response.ok) {
+          body = null;
+        } else {
+          const parseError = new Error("응답 본문(JSON)을 파싱하지 못했습니다.") as Error & { status?: number; code?: string };
+          parseError.status = 502;
+          parseError.code = "INVALID_JSON";
+          throw parseError;
+        }
+      }
     }
   } catch (fetchErr: unknown) {
     if (controller.signal.aborted) {
@@ -161,6 +175,9 @@ export async function communityFetch<T = any>(path: string, init: CommunityFetch
       timeoutErr.status = 408;
       timeoutErr.code = isTimeout ? "TIMEOUT" : "ABORTED";
       throw timeoutErr;
+    }
+    if ((fetchErr as any)?.code === "INVALID_JSON") {
+      throw fetchErr;
     }
     response = new Response(null, { status: 500 });
   } finally {

@@ -23,6 +23,7 @@ export function ChallengeWaitlistModal({
   const [isSuccess, setIsSuccess] = useState(false);
 
   const dialogRef = useRef<HTMLDivElement>(null);
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
   const previousFocusedElementRef = useRef<HTMLElement | null>(null);
 
   const handleClose = () => {
@@ -42,9 +43,8 @@ export function ChallengeWaitlistModal({
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        setIsSuccess(false);
-        setErrorMessage(null);
-        onClose();
+        e.stopPropagation();
+        handleClose();
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
@@ -72,28 +72,35 @@ export function ChallengeWaitlistModal({
     };
   }, [isOpen, onClose]);
 
-  // 포커스 트랩(Tab) 키보드 이벤트 핸들러
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Escape") {
-      e.preventDefault();
-      handleClose();
-      return;
-    }
+  // 성공 화면 전환 시 스크린 리더 및 키보드 사용자를 위한 헤딩 포커스 이동
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => {
+      successHeadingRef.current?.focus();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
+  // 포커스 트랩(Tab / Shift+Tab) 키보드 이벤트 핸들러
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Tab" && dialogRef.current) {
-      const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-        'input:not([disabled]), button:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+      const focusables = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'input:not([disabled]), button:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+        )
       );
       if (focusables.length > 0) {
         const firstEl = focusables[0];
         const lastEl = focusables[focusables.length - 1];
+        const currentActive = document.activeElement as HTMLElement | null;
+
         if (e.shiftKey) {
-          if (document.activeElement === firstEl) {
+          if (!currentActive || currentActive === firstEl || !focusables.includes(currentActive)) {
             e.preventDefault();
             lastEl.focus();
           }
         } else {
-          if (document.activeElement === lastEl) {
+          if (!currentActive || currentActive === lastEl || !focusables.includes(currentActive)) {
             e.preventDefault();
             firstEl.focus();
           }
@@ -161,6 +168,10 @@ export function ChallengeWaitlistModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="waitlist-modal-title"
+      style={{ overscrollBehavior: "contain" }}
+      onTouchMove={(e) => {
+        if (e.target === e.currentTarget) e.preventDefault();
+      }}
       onKeyDown={handleKeyDown}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
@@ -194,7 +205,9 @@ export function ChallengeWaitlistModal({
 
             <h3
               id="waitlist-modal-title"
-              className="mt-2.5 text-xl sm:text-2xl font-extrabold tracking-tight text-strong"
+              ref={successHeadingRef}
+              tabIndex={-1}
+              className="mt-2.5 text-xl sm:text-2xl font-extrabold tracking-tight text-strong focus:outline-hidden"
             >
               출시 알림 신청이 완료되었습니다
             </h3>

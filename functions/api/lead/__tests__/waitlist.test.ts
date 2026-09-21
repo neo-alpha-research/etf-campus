@@ -13,6 +13,8 @@ const REAL_D1_OBSERVATION_FIXTURE = {
   success: true,
   meta: {
     served_by: "v3-prod",
+    served_by_region: "APAC",
+    served_by_colo: "ICN",
     duration: 1.82,
     changes: 1,
     last_row_id: 1,
@@ -37,7 +39,7 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
     expect(body.error?.code).toBe("VALIDATION_ERROR");
   });
 
-  it("허용 크기(4KB) 초과 요청에 대해 400 VALIDATION_ERROR를 반환한다", async () => {
+  it("Content-Length 헤더가 명시된 4KB 초과 요청에 대해 400 VALIDATION_ERROR를 반환한다", async () => {
     const largeRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
       method: "POST",
       headers: {
@@ -48,7 +50,33 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
         email: "user@example.com",
         interest: "a".repeat(4500),
         agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
+    });
+
+    const response = await onRequestPost({ request: largeRequest });
+    expect(response.status).toBe(400);
+    const body = (await response.json()) as WaitlistResponse;
+    expect(body.error?.code).toBe("VALIDATION_ERROR");
+    expect(body.error?.message).toContain("4KB");
+  });
+
+  it("Content-Length 헤더가 누락되었더라도 실제 본문이 4KB를 초과하면 400 VALIDATION_ERROR를 반환한다", async () => {
+    const largeBodyWithoutLength = JSON.stringify({
+      email: "user@example.com",
+      interest: "b".repeat(4500),
+      agreeRequired: true,
+      campaign: "challenge_guide_2026",
+      termsVersion: "v1.0",
+    });
+
+    const largeRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: largeBodyWithoutLength,
     });
 
     const response = await onRequestPost({ request: largeRequest });
@@ -78,6 +106,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
       body: JSON.stringify({
         email: "user@example.com",
         agreeRequired: false,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
     });
 
@@ -95,6 +125,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
       body: JSON.stringify({
         email: "invalid-email-no-at",
         agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
     });
 
@@ -105,6 +137,44 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
     expect(body.error?.message).toContain("유효한 이메일");
   });
 
+  it("화이트리스트에 없는 캠페인 식별자 요청에 대해 400 VALIDATION_ERROR를 반환한다", async () => {
+    const spoofedCampaignRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "user@example.com",
+        agreeRequired: true,
+        campaign: "unauthorized_promo_campaign",
+        termsVersion: "v1.0",
+      }),
+    });
+
+    const response = await onRequestPost({ request: spoofedCampaignRequest });
+    expect(response.status).toBe(400);
+    const body = (await response.json()) as WaitlistResponse;
+    expect(body.error?.code).toBe("VALIDATION_ERROR");
+    expect(body.error?.message).toContain("허용되지 않거나 위변조된 캠페인");
+  });
+
+  it("서버 기준과 다른 약관 버전(termsVersion) 요청에 대해 400 VALIDATION_ERROR를 반환한다", async () => {
+    const mismatchedTermsRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "user@example.com",
+        agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v99.9_tampered",
+      }),
+    });
+
+    const response = await onRequestPost({ request: mismatchedTermsRequest });
+    expect(response.status).toBe(400);
+    const body = (await response.json()) as WaitlistResponse;
+    expect(body.error?.code).toBe("VALIDATION_ERROR");
+    expect(body.error?.message).toContain("약관 버전이 일치하지 않습니다");
+  });
+
   it("[Fail-Closed] D1 바인딩(ETF_PRICES) 누락 시 성공 응답을 금지하고 503 UNAVAILABLE을 반환한다", async () => {
     const validRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
       method: "POST",
@@ -112,6 +182,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
       body: JSON.stringify({
         email: "investor@example.com",
         agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
     });
 
@@ -138,6 +210,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
       body: JSON.stringify({
         email: "investor@example.com",
         agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
     });
 
@@ -155,7 +229,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
   it("[Fail-Closed] D1 run() 결과가 실패({ success: false })인 경우 500 UNAVAILABLE을 반환한다", async () => {
     const mockRun = vi.fn().mockResolvedValue({ success: false });
-    const mockBind = vi.fn().mockReturnValue({ run: mockRun });
+    const mockFirst = vi.fn().mockResolvedValue(null);
+    const mockBind = vi.fn().mockReturnValue({ run: mockRun, first: mockFirst });
     const mockPrepare = vi.fn().mockReturnValue({ bind: mockBind });
 
     const validRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {
@@ -164,6 +239,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
       body: JSON.stringify({
         email: "investor@example.com",
         agreeRequired: true,
+        campaign: "challenge_guide_2026",
+        termsVersion: "v1.0",
       }),
     });
 
@@ -181,7 +258,8 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
   it("[실제 D1 관측 픽스처] 정상 요청 및 저장 성공 시 ON CONFLICT 멱등 쿼리를 실행하고 201을 반환한다", async () => {
     const mockRun = vi.fn().mockResolvedValue(REAL_D1_OBSERVATION_FIXTURE);
-    const mockBind = vi.fn().mockReturnValue({ run: mockRun });
+    const mockFirst = vi.fn().mockResolvedValue(null);
+    const mockBind = vi.fn().mockReturnValue({ run: mockRun, first: mockFirst });
     const mockPrepare = vi.fn().mockReturnValue({ bind: mockBind });
 
     const validRequest = new Request("https://etfcampus.pages.dev/api/lead/waitlist", {

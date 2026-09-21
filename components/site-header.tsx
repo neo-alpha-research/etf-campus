@@ -180,7 +180,7 @@ export function SiteHeader() {
             type="button"
             onClick={() => setIsSearchOpen(true)}
             aria-label={`ETF 종목명 또는 종목코드 빠른 검색 (${shortcutKey})`}
-            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl border border-neutral-200 bg-neutral-100/90 hover:bg-white hover:border-brand-400 hover:shadow-2xs active:scale-98 transition-all text-xs font-bold text-neutral-700 group cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 min-h-[40px] xl:min-h-[44px] h-10 xl:h-11 px-3 rounded-xl border border-neutral-200 bg-neutral-100/90 hover:bg-white hover:border-brand-400 hover:shadow-2xs active:scale-98 transition-all text-xs font-bold text-neutral-700 group cursor-pointer shrink-0"
           >
             <svg className="size-3.5 text-neutral-500 group-hover:text-brand-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -219,7 +219,7 @@ export function SiteHeader() {
             type="button"
             onClick={() => setIsSearchOpen(true)}
             aria-label="ETF 종목명 또는 코드 빠른 검색"
-            className="inline-flex items-center gap-1 h-9 px-2.5 sm:px-3 rounded-xl border border-neutral-200 bg-neutral-100/90 hover:bg-white hover:border-brand-400 text-xs font-bold text-neutral-700 transition-all active:scale-98 cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1 min-h-[44px] h-11 px-2.5 sm:px-3 rounded-xl border border-neutral-200 bg-neutral-100/90 hover:bg-white hover:border-brand-400 text-xs font-bold text-neutral-700 transition-all active:scale-98 cursor-pointer shrink-0"
           >
             <svg className="size-3.5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -258,7 +258,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-[40px] sm:min-h-[44px] shrink-0 items-center rounded-lg px-3 py-1.5 text-xs sm:text-sm transition-all ${
+                className={`inline-flex min-h-[44px] shrink-0 items-center rounded-lg px-3 py-2 text-xs sm:text-sm transition-all ${
                   active
                     ? "bg-white text-brand-800 font-black shadow-xs ring-1 ring-brand-300"
                     : "text-neutral-500 font-medium hover:bg-white/60 hover:text-neutral-900"
@@ -293,7 +293,7 @@ export function SiteHeader() {
                 </span>
                 {accountNavigation.map((item) => {
                   const active = item.href === activeFinderHref;
-                  const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
+                  const className = `inline-flex min-h-[44px] shrink-0 items-center rounded-full border px-3.5 py-2 font-bold transition-all ${
                     active
                       ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
                       : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
@@ -329,7 +329,7 @@ export function SiteHeader() {
                 </span>
                 {strategyNavigation.map((item) => {
                   const active = item.href === activeFinderHref;
-                  const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
+                  const className = `inline-flex min-h-[44px] shrink-0 items-center rounded-full border px-3.5 py-2 font-bold transition-all ${
                     active
                       ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
                       : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"

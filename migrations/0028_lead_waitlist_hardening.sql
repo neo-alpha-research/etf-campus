@@ -27,3 +27,14 @@ ON lead_waitlist(email, campaign);
 
 CREATE INDEX IF NOT EXISTS idx_lead_waitlist_campaign 
 ON lead_waitlist(campaign);
+
+-- 4. 무차별 신청 방지를 위한 리드 수집 레이트 리밋 테이블
+CREATE TABLE IF NOT EXISTS lead_rate_limits (
+  key TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 1,
+  reset_at INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_lead_rate_limits_reset_at 
+ON lead_rate_limits(reset_at);
+

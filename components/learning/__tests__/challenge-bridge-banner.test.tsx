@@ -159,4 +159,79 @@ describe("ChallengeWaitlistModal - Operational Requirements & A11y", () => {
     // 입력값 보존 검증
     expect(emailInput.value).toBe("keep-me@example.com");
   });
+
+  it("ESC 연타 시에도 중복 오류 없이 안전하게 onClose가 호출된다", () => {
+    const handleClose = vi.fn();
+    render(<ChallengeWaitlistModal isOpen={true} onClose={handleClose} />);
+
+    // 연속 3회 Esc 입력
+    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(handleClose).toHaveBeenCalledTimes(3);
+  });
+
+  it("모달 오픈 시 body의 overflow가 hidden으로 잠기고, 닫힐 때 원래 상태로 복원된다", () => {
+    const originalOverflow = document.body.style.overflow;
+
+    const { unmount } = render(
+      <ChallengeWaitlistModal isOpen={true} onClose={() => {}} />
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+
+    unmount();
+    expect(document.body.style.overflow).toBe(originalOverflow);
+  });
+
+  it("성공 화면으로 전환되면 스크린 리더를 위해 성공 제목(waitlist-modal-title)으로 포커스가 이동한다", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, message: "신청 완료" }),
+    });
+    global.fetch = mockFetch;
+
+    render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
+
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/);
+    fireEvent.change(emailInput, { target: { value: "focus_test@example.com" } });
+
+    const checkbox = screen.getByLabelText(/위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다/);
+    fireEvent.click(checkbox);
+
+    const submitBtn = screen.getByRole("button", { name: /출시 알림 신청하기/ });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /출시 알림 신청이 완료되었습니다/ })).toBeInTheDocument();
+    });
+
+    const successHeading = screen.getByRole("heading", { name: /출시 알림 신청이 완료되었습니다/ });
+    await waitFor(() => {
+      expect(document.activeElement).toBe(successHeading);
+    });
+  });
+
+  it("모달 내부에서 Tab 및 Shift+Tab 시 포커스가 모달 내부에서만 순환한다(Focus Trapping)", () => {
+    render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
+
+    const dialog = screen.getByRole("dialog");
+    const closeBtn = screen.getByRole("button", { name: "닫기" });
+    const submitBtn = screen.getByRole("button", { name: /출시 알림 신청하기/ });
+
+    // 닫기 버튼에서 Shift+Tab -> 마지막 포커서블(submitBtn)로 래핑
+    closeBtn.focus();
+    expect(document.activeElement).toBe(closeBtn);
+
+    fireEvent.keyDown(dialog, { key: "Tab", shiftKey: true });
+    expect(document.activeElement).toBe(submitBtn);
+
+    // 마지막 버튼(submitBtn)에서 Tab -> 첫 번째 포커서블(closeBtn)로 래핑
+    submitBtn.focus();
+    expect(document.activeElement).toBe(submitBtn);
+
+    fireEvent.keyDown(dialog, { key: "Tab", shiftKey: false });
+    expect(document.activeElement).toBe(closeBtn);
+  });
 });
+

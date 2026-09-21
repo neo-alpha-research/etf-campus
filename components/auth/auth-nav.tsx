@@ -104,7 +104,7 @@ export function AuthNav() {
     return (
       <div
         aria-hidden="true"
-        className="h-9 w-20 sm:w-24 animate-pulse rounded-xl bg-neutral-100 border border-neutral-200/80 shrink-0"
+        className="min-h-[44px] h-11 w-20 sm:w-24 animate-pulse rounded-xl bg-neutral-100 border border-neutral-200/80 shrink-0"
         aria-label="계정 상태 확인 중"
       />
     );
@@ -114,15 +114,15 @@ export function AuthNav() {
   if (!authenticated || !user) {
     return (
       <div ref={menuRef} className="relative flex items-center shrink-0">
-        {/* 데스크톱(1280px 이상): 직관적인 로그인 단일 버튼 */}
+        {/* 데스크톱(1280px 이상): 직관적인 로그인 단일 버튼 (최소 44px 터치 영역) */}
         <Link
           href={withReturnTo("/login/", currentPath)}
-          className="hidden xl:inline-flex h-9 items-center justify-center rounded-xl border border-neutral-200 bg-white px-3 text-xs xl:text-sm font-bold text-neutral-800 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900 transition-all shadow-2xs whitespace-nowrap shrink-0"
+          className="hidden xl:inline-flex min-h-[40px] xl:min-h-[44px] h-10 xl:h-11 items-center justify-center rounded-xl border border-neutral-200 bg-white px-3.5 text-xs xl:text-sm font-bold text-neutral-800 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900 transition-all shadow-2xs whitespace-nowrap shrink-0"
         >
           로그인
         </Link>
 
-        {/* 1280px 미만: 로그인 및 적성 진단을 품은 컴팩트 계정 메뉴 드롭다운 */}
+        {/* 1280px 미만: 로그인 및 적성 진단을 품은 컴팩트 계정 메뉴 드롭다운 (최소 44px 터치 영역) */}
         <div className="xl:hidden">
           <button
             ref={triggerRef}
@@ -143,7 +143,7 @@ export function AuthNav() {
             aria-expanded={isOpen}
             aria-haspopup="menu"
             aria-label="계정 및 로그인 메뉴"
-            className="inline-flex h-9 items-center gap-1 sm:gap-1.5 rounded-xl border border-neutral-200 bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-bold text-neutral-800 hover:bg-neutral-50 active:scale-98 transition-all shadow-2xs cursor-pointer shrink-0"
+            className="inline-flex min-h-[44px] h-11 items-center gap-1 sm:gap-1.5 rounded-xl border border-neutral-200 bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-bold text-neutral-800 hover:bg-neutral-50 active:scale-98 transition-all shadow-2xs cursor-pointer shrink-0"
           >
             <svg className="size-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -175,7 +175,7 @@ export function AuthNav() {
                 role="menuitem"
                 href={withReturnTo("/login/", currentPath)}
                 onClick={() => closeMenu(false)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-neutral-800 hover:bg-brand-50 hover:text-brand-900 font-bold transition-colors"
+                className="flex min-h-[44px] items-center gap-2 px-3 py-2.5 rounded-xl text-neutral-800 hover:bg-brand-50 hover:text-brand-900 font-bold transition-colors"
               >
                 <span>🔑</span>
                 <span>로그인</span>
@@ -185,7 +185,7 @@ export function AuthNav() {
                 role="menuitem"
                 href={withReturnTo("/register/", currentPath)}
                 onClick={() => closeMenu(false)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
+                className="flex min-h-[44px] items-center gap-2 px-3 py-2.5 rounded-xl text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
               >
                 <span>✨</span>
                 <span>무료 회원가입</span>
@@ -200,7 +200,7 @@ export function AuthNav() {
                   closeMenu(false);
                   openStyleDiagnosis();
                 }}
-                className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-xl text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 font-bold transition-colors cursor-pointer"
+                className="flex min-h-[44px] items-center gap-2 w-full text-left px-3 py-2.5 rounded-xl text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 font-bold transition-colors cursor-pointer"
               >
                 <span>{profile ? "🐿️" : "🧭"}</span>
                 <span>{hasCompleted ? "적성 리포트 보기" : "전공 적성 진단 (3분)"}</span>
@@ -236,7 +236,7 @@ export function AuthNav() {
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label={`내 계정 메뉴 (${displayName})`}
-        className={`inline-flex h-9 items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-bold text-neutral-800 hover:border-brand-300 hover:bg-neutral-50 active:scale-98 transition-all shadow-2xs cursor-pointer shrink-0 ${
+        className={`inline-flex min-h-[44px] h-11 items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-bold text-neutral-800 hover:border-brand-300 hover:bg-neutral-50 active:scale-98 transition-all shadow-2xs cursor-pointer shrink-0 ${
           isOpen ? "border-brand-500 ring-2 ring-brand-200 bg-brand-50/40" : ""
         }`}
       >
@@ -278,7 +278,7 @@ export function AuthNav() {
                 closeMenu(false);
                 openStyleDiagnosis();
               }}
-              className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-xl text-brand-900 bg-brand-50/60 hover:bg-brand-100/70 font-bold transition-colors cursor-pointer text-xs"
+              className="flex min-h-[44px] items-center gap-2 w-full text-left px-3 py-2.5 rounded-xl text-brand-900 bg-brand-50/60 hover:bg-brand-100/70 font-bold transition-colors cursor-pointer text-xs"
             >
               <span>{profile ? "🐿️" : "🧭"}</span>
               <span className="truncate">
@@ -294,7 +294,7 @@ export function AuthNav() {
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-bold transition-colors cursor-pointer text-xs sm:text-sm disabled:opacity-50"
+            className="flex min-h-[44px] items-center gap-2 w-full text-left px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-bold transition-colors cursor-pointer text-xs sm:text-sm disabled:opacity-50"
           >
             <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

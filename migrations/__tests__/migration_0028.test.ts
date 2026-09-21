@@ -52,6 +52,14 @@ describe("D1 Database Migrations - 0027 Base and 0028 Incremental Hardening", ()
     expect(uniqueIndex).toBeDefined();
     expect(uniqueIndex?.unique).toBe(1);
 
+    // lead_rate_limits 테이블 및 인덱스 검증
+    const rateLimitCols = db.prepare("PRAGMA table_info(lead_rate_limits)").all() as unknown as ColumnInfo[];
+    const rateColNames = rateLimitCols.map((c) => c.name);
+    expect(rateColNames).toEqual(["key", "count", "reset_at"]);
+    const rateIndices = db.prepare("PRAGMA index_list(lead_rate_limits)").all() as unknown as IndexInfo[];
+    expect(rateIndices.some((idx) => idx.name === "idx_lead_rate_limits_reset_at")).toBe(true);
+
+
     // UPSERT 쿼리 실행 및 멱등성 검증
     const upsertStmt = db.prepare(`
       INSERT INTO lead_waitlist (

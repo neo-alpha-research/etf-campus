@@ -93,7 +93,9 @@ export async function communityFetch<T = any>(path: string, init: RequestInit = 
   const isAuthStart = path.startsWith("/api/community/auth/request-otp") || 
                       path.startsWith("/api/community/auth/verify-otp") || 
                       path.startsWith("/api/community/auth/set-password") || 
-                      path.startsWith("/api/community/auth/login-password");
+                      path.startsWith("/api/community/auth/login-password") ||
+                      path.startsWith("/api/community/auth/oauth/kakao/start") ||
+                      path.startsWith("/api/community/auth/oauth/naver/start");
                       
   if (unsafe && !isAuthStart) await ensureCsrf();
 
@@ -138,6 +140,13 @@ export async function communityFetch<T = any>(path: string, init: RequestInit = 
           nickname: local?.nickname || "테스트투자자",
           email: local?.email || "user@etfcampus.com",
         }
+      } as unknown as T;
+    }
+
+    if (path.startsWith("/api/community/auth/oauth/") && method === "POST") {
+      const provider = path.includes("naver") ? "naver" : "kakao";
+      return {
+        authorizationUrl: `https://mock-oauth.${provider}.com/oauth/authorize?state=mock-local-state`,
       } as unknown as T;
     }
 

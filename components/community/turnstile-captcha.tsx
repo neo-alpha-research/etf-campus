@@ -58,6 +58,25 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const [message, setMessage] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
+
+  const onTokenRef = useRef(onToken);
+  useEffect(() => {
+    onTokenRef.current = onToken;
+  }, [onToken]);
+
+  const handleRetry = () => {
+    setMessage("");
+    if (widgetId.current && window.turnstile) {
+      try {
+        window.turnstile.reset(widgetId.current);
+      } catch {
+        setRetryCount((c) => c + 1);
+      }
+    } else {
+      setRetryCount((c) => c + 1);
+    }
+  };
 
   useEffect(() => {
     let disposed = false;
@@ -71,7 +90,7 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
 
         if (disposed) return;
         if (!config.required) {
-          onToken("local-operator-bypass");
+          onTokenRef.current("local-operator-bypass");
           return;
         }
         if (!container.current || !window.turnstile) return;
@@ -81,19 +100,19 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
           action,
           callback: (token: string) => {
             if (!disposed) {
-              onToken(token);
+              onTokenRef.current(token);
               setMessage("");
             }
           },
           "expired-callback": () => {
             if (!disposed) {
-              onToken(null);
+              onTokenRef.current(null);
               setMessage("보안 확인이 만료되었습니다. 다시 확인해 주세요.");
             }
           },
           "error-callback": () => {
             if (!disposed) {
-              onToken(null);
+              onTokenRef.current(null);
               setMessage("보안 확인을 완료하지 못했습니다. 다시 시도해 주세요.");
             }
           },
@@ -113,12 +132,23 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
         window.turnstile.remove(widgetId.current);
       }
     };
-  }, [action, onToken]);
+  }, [action, retryCount]);
 
   return (
     <div className="space-y-2">
       <div ref={container} />
-      {message ? <p aria-live="polite" className="text-xs text-rose-700">{message}</p> : null}
+      {message ? (
+        <div className="flex items-center gap-2">
+          <p aria-live="polite" className="text-xs text-rose-700">{message}</p>
+          <button
+            type="button"
+            onClick={handleRetry}
+            className="text-xs font-bold text-brand-700 underline hover:text-brand-900 cursor-pointer"
+          >
+            보안 확인 다시 시도
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

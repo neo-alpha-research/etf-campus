@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { mutate } from "swr";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
 import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
@@ -58,15 +58,28 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [captchaKey, setCaptchaKey] = useState(0);
 
   const [oauthLoading, setOauthLoading] = useState<"kakao" | "naver" | null>(null);
+  const [isWaitingCaptcha, setIsWaitingCaptcha] = useState(false);
   const pendingLoginTokenRef = useRef<((tok: string) => void) | null>(null);
 
-  function handleLoginToken(token: string | null) {
+  const handleLoginToken = useCallback((token: string | null) => {
     setLoginCaptchaToken(token);
     if (token && pendingLoginTokenRef.current) {
       pendingLoginTokenRef.current(token);
       pendingLoginTokenRef.current = null;
     }
-  }
+  }, []);
+
+  const handleRequestToken = useCallback((token: string | null) => {
+    setRequestCaptchaToken(token);
+  }, []);
+
+  const handleVerifyToken = useCallback((token: string | null) => {
+    setVerifyCaptchaToken(token);
+  }, []);
+
+  const handlePasswordToken = useCallback((token: string | null) => {
+    setPasswordCaptchaToken(token);
+  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -125,17 +138,22 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
       let activeToken = loginCaptchaToken;
       if (!activeToken) {
-        activeToken = await new Promise<string>((resolve, reject) => {
-          const timer = setTimeout(() => {
-            pendingLoginTokenRef.current = null;
-            reject(new Error("보안 확인 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."));
-          }, 4000);
+        setIsWaitingCaptcha(true);
+        try {
+          activeToken = await new Promise<string>((resolve, reject) => {
+            const timer = setTimeout(() => {
+              pendingLoginTokenRef.current = null;
+              reject(new Error("보안 확인 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."));
+            }, 4000);
 
-          pendingLoginTokenRef.current = (tok: string) => {
-            clearTimeout(timer);
-            resolve(tok);
-          };
-        });
+            pendingLoginTokenRef.current = (tok: string) => {
+              clearTimeout(timer);
+              resolve(tok);
+            };
+          });
+        } finally {
+          setIsWaitingCaptcha(false);
+        }
       }
 
       const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/login-password", {
@@ -155,6 +173,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setCaptchaKey(k => k + 1);
     } finally {
       pendingLoginTokenRef.current = null;
+      setIsWaitingCaptcha(false);
       setLoading(false);
     }
   }
@@ -398,7 +417,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    <span>보안 확인 및 로그인 중...</span>
+                    <span>{isWaitingCaptcha ? "보안 확인 준비 중..." : "로그인 중..."}</span>
                   </>
                 ) : (
                   "이메일 로그인"
@@ -417,7 +436,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
-            <TurnstileCaptcha key={`community_otp_request_${captchaKey}`} action="community_otp_request" onToken={setRequestCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_request_${captchaKey}`} action="community_otp_request" onToken={handleRequestToken} />
             <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
             <div className="mt-4 text-center">
               <button type="button" onClick={() => { setStep("login"); setMessage(""); }} className="text-sm font-medium text-slate-500 hover:underline">비밀번호로 로그인하기</button>
@@ -435,7 +454,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
               <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
               <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
             </label>
-            <TurnstileCaptcha key={`community_otp_verify_${captchaKey}`} action="community_otp_verify" onToken={setVerifyCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_verify_${captchaKey}`} action="community_otp_verify" onToken={handleVerifyToken} />
             <div className="flex gap-3">
               <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("otp-request"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
               <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
@@ -470,7 +489,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 </button>
               </div>
             </label>
-            <TurnstileCaptcha key={`community_password_set_${captchaKey}`} action="community_password_set" onToken={setPasswordCaptchaToken} />
+            <TurnstileCaptcha key={`community_password_set_${captchaKey}`} action="community_password_set" onToken={handlePasswordToken} />
             <button disabled={loading || passwordCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
           </form>
         ) : null}

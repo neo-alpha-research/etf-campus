@@ -9,11 +9,20 @@ type Props = {
   onAuthenticated: () => void;
   title?: string;
   subtitle?: string;
+  returnTo?: string;
+  initialError?: string;
 };
 
 export type Step = "login" | "otp-request" | "otp-verify" | "password-setup" | "profile" | "onboarding";
 
-export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title = "로그인", subtitle = "ETF CAMPUS" }: Props) {
+function getInitialErrorMessage(error?: string): string {
+  if (error === "oauth_cancelled") return "소셜 로그인이 취소되었습니다.";
+  if (error === "invalid_state" || error === "state_expired") return "로그인 세션이 만료되었습니다. 다시 시도해 주세요.";
+  if (error) return "소셜 로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.";
+  return "";
+}
+
+export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title = "로그인", subtitle = "ETF CAMPUS", returnTo = "/", initialError }: Props) {
   const [step, setStep] = useState<Step>(initialStep);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,8 +41,8 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
   
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-    const [rememberMe, setRememberMe] = useState(true);
+  const [message, setMessage] = useState(() => getInitialErrorMessage(initialError));
+  const [rememberMe, setRememberMe] = useState(true);
   
   const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
@@ -44,9 +53,36 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-  useEffect(() => {
-    // Reset state on unmount if needed
-  }, []);
+  async function startOAuth(provider: "kakao" | "naver") {
+    setLoading(true);
+    setMessage("");
+    try {
+      if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+        const userEmail = `${provider}_user@oauth.etfcampus.kr`;
+        const localNickname = `${provider === "kakao" ? "카카오" : "네이버"}투자자`;
+        try {
+          localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname: localNickname, authenticated: true }));
+        } catch {}
+        markCommunitySession();
+        onAuthenticated();
+        return;
+      }
+
+      const result = await communityFetch<{ authorizationUrl: string }>(`/api/community/auth/oauth/${provider}/start`, {
+        method: "POST",
+        body: JSON.stringify({ returnTo, rememberMe }),
+      });
+
+      if (result?.authorizationUrl) {
+        window.location.assign(result.authorizationUrl);
+      } else {
+        throw new Error("소셜 로그인 URL을 불러오지 못했습니다.");
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "소셜 로그인을 시작할 수 없습니다.");
+      setLoading(false);
+    }
+  }
 
   async function loginPassword(event: React.FormEvent) {
     event.preventDefault();
@@ -233,32 +269,66 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       </div>
 
         {step === "login" ? (
-          <form className="mt-6 space-y-4" onSubmit={loginPassword}>
-            <label className="block text-sm font-semibold text-slate-800">이메일
-              <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
-            </label>
-            <label className="block text-sm font-semibold text-slate-800">비밀번호
-              <div className="relative mt-2">
-                <input type={showPassword ? "text" : "password"} required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
-                <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-                  )}
-                </button>
-              </div>
-            </label>
-            <label className="flex items-center gap-2 mt-2">
-              <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
-              <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
-            </label>
-            <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
-            <button disabled={loading || (typeof window !== "undefined" && window.location.hostname === "localhost" ? false : loginCaptchaToken === null)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer">{loading ? "로그인 중" : "이메일 로그인"}</button>
-            <div className="mt-4 text-center">
-              <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
+          <div className="mt-6 space-y-5">
+            {/* Social 1-Click Login */}
+            <div className="space-y-2.5">
+              <button
+                type="button"
+                onClick={() => startOAuth("kakao")}
+                disabled={loading}
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#FEE500] px-4 text-[15px] font-bold text-[#191919] shadow-sm transition hover:bg-[#FDD800] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+              >
+                <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3C6.477 3 2 6.477 2 10.771c0 2.766 1.859 5.187 4.673 6.556l-1.189 4.354a.428.428 0 0 0 .61.478l5.228-3.468c.224.02.45.03.678.03 5.523 0 10-3.478 10-7.771C22 6.477 17.523 3 12 3z" />
+                </svg>
+                <span>카카오로 3초 만에 시작하기</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => startOAuth("naver")}
+                disabled={loading}
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#03C75A] px-4 text-[15px] font-bold text-white shadow-sm transition hover:bg-[#02b350] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+              >
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
+                </svg>
+                <span>네이버로 시작하기</span>
+              </button>
             </div>
-          </form>
+
+            <div className="relative my-4 flex items-center justify-center">
+              <div className="w-full border-t border-slate-200" />
+              <span className="absolute bg-white px-3 text-xs font-semibold text-slate-400">또는 이메일로 로그인</span>
+            </div>
+
+            <form className="space-y-4" onSubmit={loginPassword}>
+              <label className="block text-sm font-semibold text-slate-800">이메일
+                <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
+              </label>
+              <label className="block text-sm font-semibold text-slate-800">비밀번호
+                <div className="relative mt-2">
+                  <input type={showPassword ? "text" : "password"} required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
+                  <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                    )}
+                  </button>
+                </div>
+              </label>
+              <label className="flex items-center gap-2 mt-2">
+                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
+              </label>
+              <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
+              <button disabled={loading || (typeof window !== "undefined" && window.location.hostname === "localhost" ? false : loginCaptchaToken === null)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer">{loading ? "로그인 중" : "이메일 로그인"}</button>
+              <div className="mt-4 text-center">
+                <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
+              </div>
+            </form>
+          </div>
         ) : null}
 
         {step === "otp-request" ? (

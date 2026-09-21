@@ -104,6 +104,31 @@ function supabaseClient(env, accessToken, serviceRole = false) {
           const data = await response.json().catch(() => null);
           return response.ok ? { data, error: null } : { data: null, error: data ?? { message: "Account deletion failed" } };
         },
+        async createUser(attributes) {
+          const response = await fetch(new URL("/auth/v1/admin/users", url), {
+            method: "POST",
+            headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+            body: JSON.stringify(attributes),
+          });
+          const data = await response.json().catch(() => null);
+          return response.ok ? { data: { user: data }, error: null } : { data: null, error: data ?? { message: "User creation failed" } };
+        },
+        async generateLink(params) {
+          const response = await fetch(new URL("/auth/v1/admin/generate_link", url), {
+            method: "POST",
+            headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+            body: JSON.stringify(params),
+          });
+          const data = await response.json().catch(() => null);
+          return response.ok ? { data, error: null } : { data: null, error: data ?? { message: "Generate link failed" } };
+        },
+        async getUserById(userId) {
+          const response = await fetch(new URL(`/auth/v1/admin/users/${userId}`, url), {
+            headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}` },
+          });
+          const data = await response.json().catch(() => null);
+          return response.ok ? { data: { user: data }, error: null } : { data: null, error: data ?? { message: "User fetch failed" } };
+        },
       },
     },
   };

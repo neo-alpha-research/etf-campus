@@ -5,12 +5,17 @@ export async function onRequestGet(context) {
   const session = await authenticatedSession(context);
   if (session.error) return session.error;
   
+  const isInternalOAuthEmail = typeof session.user?.email === "string" && 
+    (session.user.email.includes("@oauth.") || session.user?.app_metadata?.auth_bridge === "oauth-v1");
+  const exposedEmail = isInternalOAuthEmail ? null : session.user?.email;
+
   return mergeSessionHeaders(
     jsonResponse({ 
       authenticated: true,
       user: {
         id: session.user.id,
-        email: session.user.email
+        email: exposedEmail,
+        isOAuth: Boolean(isInternalOAuthEmail),
       }
     }), 
     session

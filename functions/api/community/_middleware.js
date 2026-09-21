@@ -6,15 +6,25 @@ const PUBLIC_AUTH_PATHS = new Set([
   "/api/community/auth/request-otp", 
   "/api/community/auth/verify-otp",
   "/api/community/auth/set-password",
-  "/api/community/auth/login-password"
+  "/api/community/auth/login-password",
+  "/api/community/auth/oauth/kakao/start",
+  "/api/community/auth/oauth/kakao/callback",
+  "/api/community/auth/oauth/naver/start",
+  "/api/community/auth/oauth/naver/callback"
 ]);
 
 const CSRF_EXEMPT_PATHS = new Set([
   "/api/community/auth/request-otp", 
   "/api/community/auth/verify-otp",
   "/api/community/auth/set-password",
-  "/api/community/auth/login-password"
+  "/api/community/auth/login-password",
+  "/api/community/auth/oauth/kakao/start",
+  "/api/community/auth/oauth/naver/start"
 ]);
+
+function isOAuthPath(pathname) {
+  return /^\/api\/community\/auth\/oauth\/(kakao|naver)\/(start|callback)$/.test(pathname);
+}
 
 function isSameOrigin(request) {
   const requestOrigin = new URL(request.url).origin;
@@ -28,7 +38,7 @@ function isSameOrigin(request) {
 function needsAuthentication(normalizedPath, method) {
   if (normalizedPath === "/api/community/auth/session" && method === "GET") return false;
   if (normalizedPath === "/api/community/auth/config" && method === "GET") return false;
-  if (PUBLIC_AUTH_PATHS.has(normalizedPath)) return false;
+  if (PUBLIC_AUTH_PATHS.has(normalizedPath) || isOAuthPath(normalizedPath)) return false;
   if (normalizedPath === "/api/community/posts" && method === "GET") return false;
   if (method === "GET" && /^\/api\/community\/posts\/[0-9a-f-]+(?:\/comments)?$/i.test(normalizedPath)) return false;
   return true;
@@ -39,6 +49,15 @@ export async function onRequest(context) {
   const rawPathname = new URL(context.request.url).pathname;
   const pathname = rawPathname.endsWith("/") ? rawPathname.slice(0, -1) : rawPathname;
   const unsafe = UNSAFE_METHODS.has(method);
+
+  // Isolate OAuth start and callback from session overhead
+  if (isOAuthPath(pathname)) {
+    if (unsafe) {
+      if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "허용되지 않은 요청 출처입니다.");
+      if (!context.request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return errorResponse(415, "VALIDATION_ERROR", "JSON 요청만 허용됩니다.");
+    }
+    return context.next();
+  }
 
   if (unsafe) {
     if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "허용되지 않은 요청 출처입니다.");

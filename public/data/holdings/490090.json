@@ -1,71 +1,71 @@
 {
   "ticker": "490090",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 19.34,
+      "weight_pct": 19.81,
       "shares": 520,
       "item_code": "NVDA.O"
     },
     {
       "name": "애플",
-      "weight_pct": 18.25,
+      "weight_pct": 18.7,
       "shares": 328,
       "item_code": "AAPL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 14.62,
+      "weight_pct": 14.58,
       "shares": 166,
       "item_code": "MSFT.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 13.6,
+      "weight_pct": 13.16,
       "shares": 224,
       "item_code": "GOOGL.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 10.11,
+      "weight_pct": 9.77,
       "shares": 219,
       "item_code": "AMZN.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 6.63,
+      "weight_pct": 6.81,
       "shares": 105,
       "item_code": "AVGO.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 6.22,
+      "weight_pct": 6.09,
       "shares": 84,
       "item_code": "TSM"
     },
     {
       "name": "메타",
-      "weight_pct": 4.34,
+      "weight_pct": 4.3,
       "shares": 42,
       "item_code": "META.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 3.86,
+      "weight_pct": 3.93,
       "shares": 63,
       "item_code": "TSLA.O"
     },
     {
       "name": "ASML 홀딩 ADR",
-      "weight_pct": 2.66,
+      "weight_pct": 2.5,
       "shares": 8,
       "item_code": "ASML.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 2509573,
+      "weight_pct": 0.31,
+      "shares": 2440903,
       "item_code": null
     }
   ]

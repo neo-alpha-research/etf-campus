@@ -1,41 +1,41 @@
 {
   "ticker": "261250",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "2026-09 달러선물",
-      "weight_pct": 161.74,
+      "weight_pct": 161.76,
       "shares": 18,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 61.76,
-      "shares": 98307198,
+      "weight_pct": 61.79,
+      "shares": 96492625,
       "item_code": null
     },
     {
       "name": "KODEX 미국달러선물",
-      "weight_pct": 16.9,
-      "shares": 1887,
+      "weight_pct": 16.89,
+      "shares": 1867,
       "item_code": "261240"
     },
     {
       "name": "KODEX 미국달러SOFR금리액티브(합성)",
-      "weight_pct": 14.1,
-      "shares": 1895,
+      "weight_pct": 14.07,
+      "shares": 1875,
       "item_code": "455030"
     },
     {
       "name": "키움 미국달러선물 ETN B",
-      "weight_pct": 6.69,
-      "shares": 1052,
+      "weight_pct": 6.7,
+      "shares": 1041,
       "item_code": "760018"
     },
     {
       "name": "KIWOOM 미국달러선물",
       "weight_pct": 0.53,
-      "shares": 53,
+      "shares": 52,
       "item_code": "138230"
     }
   ]

@@ -1,263 +1,263 @@
 {
   "ticker": "385550",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "키움증권8-2",
-      "weight_pct": 5.85,
+      "weight_pct": 5.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드 20260813-92-33(단)",
-      "weight_pct": 5.74,
+      "weight_pct": 5.38,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈116-4",
-      "weight_pct": 2.93,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "키움증권10-2",
-      "weight_pct": 2.92,
+      "weight_pct": 2.74,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈117-3",
-      "weight_pct": 2.92,
+      "weight_pct": 2.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드237-4",
-      "weight_pct": 2.92,
+      "weight_pct": 2.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠증권2409-1",
-      "weight_pct": 2.91,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데쇼핑98-2",
-      "weight_pct": 2.91,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사228",
-      "weight_pct": 2.9,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈118",
-      "weight_pct": 2.9,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대커머셜570-1",
-      "weight_pct": 2.9,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "iM금융지주25-3",
-      "weight_pct": 2.9,
+      "name": "롯데쇼핑98-2",
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이브로드밴드55-1",
-      "weight_pct": 2.9,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "메리츠증권2411-1",
-      "weight_pct": 2.9,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "SK에너지49-2",
-      "weight_pct": 2.89,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리금융캐피탈540-2",
-      "weight_pct": 2.89,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한캐피탈528-1",
-      "weight_pct": 2.89,
+      "name": "iM금융지주25-3",
+      "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한화솔루션279-2",
-      "weight_pct": 2.89,
+      "weight_pct": 2.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권2411-1",
+      "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "BNK캐피탈370-3",
-      "weight_pct": 2.89,
+      "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "우리금융캐피탈539-2",
-      "weight_pct": 2.88,
+      "name": "SK에너지49-2",
+      "weight_pct": 2.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈540-2",
+      "weight_pct": 2.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈528-1",
+      "weight_pct": 2.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이위탁관리부동산투자회사6-1",
-      "weight_pct": 2.88,
+      "weight_pct": 2.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권10-2",
+      "weight_pct": 2.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠캐피탈284-2",
-      "weight_pct": 2.88,
+      "weight_pct": 2.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국중부발전37-1",
-      "weight_pct": 2.88,
+      "weight_pct": 2.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠증권2506-1",
-      "weight_pct": 2.88,
+      "weight_pct": 2.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈539-2",
+      "weight_pct": 2.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치농협캐피탈242-1",
-      "weight_pct": 2.87,
+      "weight_pct": 2.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리금융캐피탈532-2",
-      "weight_pct": 2.87,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국남부발전41-2",
-      "weight_pct": 2.87,
+      "weight_pct": 2.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국중부발전38-2",
-      "weight_pct": 2.86,
+      "weight_pct": 2.68,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "아이엠증권 20260527-145-56",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠증권 20260527-145-57",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠증권 20260527-145-58",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠증권 20260514-160-47",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠증권 20260514-160-46",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "삼양사 20260423-182-16",
-      "weight_pct": 1.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "삼양사 20260423-182-15",
-      "weight_pct": 1.44,
+      "name": "한국남부발전41-2",
+      "weight_pct": 2.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나증권 20250905-364-16",
-      "weight_pct": 1.44,
+      "weight_pct": 1.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나증권 20250915-364-90",
-      "weight_pct": 1.44,
+      "weight_pct": 1.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠증권 20260527-145-56",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠증권 20260527-145-57",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠증권 20260527-145-58",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠증권 20260514-160-47",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠증권 20260514-160-46",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사 20260423-182-16",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사 20260423-182-15",
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "수협은행 여의도종합금융본부 20251015-365",
-      "weight_pct": 1.44,
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "니드원제구차 20251021-364-40",
-      "weight_pct": 1.44,
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하이퍼이머전제이차 20260212-364-4",
-      "weight_pct": 1.42,
+      "weight_pct": 1.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "성담 솔트베이 20260422-364-2",
-      "weight_pct": 1.41,
+      "weight_pct": 1.32,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "성담 솔트베이 20260422-364-1",
-      "weight_pct": 1.41,
+      "weight_pct": 1.32,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -7.05,
-      "shares": -8052015,
+      "weight_pct": -0.21,
+      "shares": -244422,
       "item_code": null
     }
   ]

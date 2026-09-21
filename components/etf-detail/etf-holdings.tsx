@@ -13,13 +13,46 @@ export type EtfHolding = {
 export type EtfHoldingsData = {
   ticker: string;
   as_of_date: string;
+  holding_count?: number;
+  top1_weight?: number;
   holdings: EtfHolding[];
 };
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Not found");
-  return res.json();
+const normalizeHolding = (h: unknown): EtfHolding => {
+  if (Array.isArray(h)) {
+    return {
+      name: String(h[0] ?? ""),
+      weight_pct: Number(h[1]) || 0,
+      shares: h[2] != null ? Number(h[2]) : null,
+      item_code: h[3] ? String(h[3]) : null,
+    };
+  }
+  return h as EtfHolding;
+};
+
+const fetchHoldings = async (ticker: string): Promise<EtfHoldingsData> => {
+  let raw: (EtfHoldingsData & { holdings: unknown[] }) | null = null;
+  try {
+    const res = await fetch(`/api/holdings/${ticker}`);
+    if (res.ok) {
+      raw = await res.json();
+    }
+  } catch {
+    // API endpoint unreachable (e.g. offline dev), fallback to static JSON
+  }
+  if (!raw) {
+    const fallback = await fetch(`/data/holdings/${ticker}.json`);
+    if (!fallback.ok) throw new Error("Holdings not found");
+    raw = await fallback.json();
+  }
+
+  return {
+    ticker: raw!.ticker,
+    as_of_date: raw!.as_of_date,
+    holding_count: raw!.holding_count ?? (Array.isArray(raw!.holdings) ? raw!.holdings.length : 0),
+    top1_weight: raw!.top1_weight,
+    holdings: Array.isArray(raw!.holdings) ? raw!.holdings.map(normalizeHolding) : [],
+  };
 };
 
 // Distinct, cohesive financial palette matching ETF Campus brand
@@ -62,8 +95,8 @@ function isCashEquivalent(name: string): boolean {
 
 export function EtfHoldings({ ticker }: { ticker: string }) {
   const { data, error, isLoading } = useSWR<EtfHoldingsData>(
-    `/data/holdings/${ticker}.json`,
-    fetcher,
+    ticker ? `holdings:${ticker}` : null,
+    () => fetchHoldings(ticker),
     {
       revalidateOnFocus: false,
       revalidateIfStale: false,
@@ -86,7 +119,12 @@ export function EtfHoldings({ ticker }: { ticker: string }) {
           </h2>
           {data?.holdings && (
             <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-bold text-brand-700 border border-brand-200">
-              총 {data.holdings.length}종목
+              총 {(data.holding_count ?? data.holdings.length).toLocaleString()}종목
+              {(data.holding_count ?? 0) > data.holdings.length && (
+                <span className="ml-1 text-brand-600 font-medium">
+                  (상위 {data.holdings.length.toLocaleString()}개 표시)
+                </span>
+              )}
             </span>
           )}
         </div>
@@ -347,7 +385,13 @@ function HoldingsDetailView({
               onClick={onToggleExpand}
               className="w-full py-2.5 rounded-xl bg-surface hover:bg-surface-hover text-strong font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 border border-line shadow-2xs cursor-pointer"
             >
-              <span>{expanded ? "간략히 접기" : `전체 구성종목 (${holdings.length}개) 모두 보기`}</span>
+              <span>
+                {expanded
+                  ? "간략히 접기"
+                  : (data.holding_count ?? 0) > holdings.length
+                  ? `구성종목 상위 ${holdings.length.toLocaleString()}개 보기`
+                  : `전체 구성종목 (${(data.holding_count ?? holdings.length).toLocaleString()}개) 모두 보기`}
+              </span>
               <svg
                 className={`w-4 h-4 text-muted transition-transform duration-200 ${
                   expanded ? "rotate-180" : ""

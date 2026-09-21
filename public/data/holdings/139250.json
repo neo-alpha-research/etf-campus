@@ -1,88 +1,88 @@
 {
   "ticker": "139250",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK",
-      "weight_pct": 22.04,
+      "weight_pct": 21.69,
       "shares": 139,
       "item_code": "034730"
     },
     {
       "name": "LG화학",
-      "weight_pct": 14.09,
+      "weight_pct": 13.86,
       "shares": 180,
       "item_code": "051910"
     },
     {
-      "name": "HD현대",
-      "weight_pct": 10.84,
-      "shares": 176,
-      "item_code": "267250"
-    },
-    {
       "name": "SK이노베이션",
-      "weight_pct": 9.29,
+      "weight_pct": 10.95,
       "shares": 291,
       "item_code": "096770"
     },
     {
+      "name": "HD현대",
+      "weight_pct": 10.55,
+      "shares": 176,
+      "item_code": "267250"
+    },
+    {
       "name": "S-Oil",
-      "weight_pct": 6.35,
+      "weight_pct": 7.04,
       "shares": 163,
       "item_code": "010950"
     },
     {
       "name": "GS",
-      "weight_pct": 6.15,
+      "weight_pct": 6.01,
       "shares": 175,
       "item_code": "078930"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 5.28,
+      "weight_pct": 4.81,
       "shares": 555,
       "item_code": "009830"
     },
     {
-      "name": "OCI홀딩스",
-      "weight_pct": 4.09,
-      "shares": 52,
-      "item_code": "010060"
-    },
-    {
       "name": "한화",
-      "weight_pct": 3.78,
+      "weight_pct": 3.69,
       "shares": 102,
       "item_code": "000880"
     },
     {
+      "name": "OCI홀딩스",
+      "weight_pct": 3.58,
+      "shares": 52,
+      "item_code": "010060"
+    },
+    {
       "name": "SKC",
-      "weight_pct": 2.59,
+      "weight_pct": 2.41,
       "shares": 101,
       "item_code": "011790"
     },
     {
-      "name": "한솔케미칼",
-      "weight_pct": 2.17,
-      "shares": 37,
-      "item_code": "014680"
-    },
-    {
       "name": "금호석유화학",
-      "weight_pct": 2.0,
+      "weight_pct": 2.07,
       "shares": 57,
       "item_code": "011780"
     },
     {
+      "name": "한솔케미칼",
+      "weight_pct": 2.05,
+      "shares": 37,
+      "item_code": "014680"
+    },
+    {
       "name": "이수스페셜티케미컬",
-      "weight_pct": 1.5,
+      "weight_pct": 1.45,
       "shares": 79,
       "item_code": "457190"
     },
     {
       "name": "코오롱인더",
-      "weight_pct": 1.16,
+      "weight_pct": 1.24,
       "shares": 77,
       "item_code": "120110"
     },
@@ -94,43 +94,43 @@
     },
     {
       "name": "효성티앤씨",
-      "weight_pct": 0.94,
+      "weight_pct": 0.98,
       "shares": 10,
       "item_code": "298020"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.88,
-      "shares": 3119453,
+      "weight_pct": 0.89,
+      "shares": 3132197,
       "item_code": null
     },
     {
       "name": "한국카본",
-      "weight_pct": 0.84,
+      "weight_pct": 0.79,
       "shares": 125,
       "item_code": "017960"
     },
     {
       "name": "후성",
-      "weight_pct": 0.79,
+      "weight_pct": 0.76,
       "shares": 214,
       "item_code": "093370"
     },
     {
       "name": "롯데정밀화학",
-      "weight_pct": 0.76,
+      "weight_pct": 0.74,
       "shares": 57,
       "item_code": "004000"
     },
     {
       "name": "SK케미칼",
-      "weight_pct": 0.54,
+      "weight_pct": 0.56,
       "shares": 38,
       "item_code": "285130"
     },
     {
       "name": "OCI",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 19,
       "item_code": "456040"
     },
@@ -148,31 +148,31 @@
     },
     {
       "name": "대한유화",
-      "weight_pct": 0.33,
+      "weight_pct": 0.34,
       "shares": 13,
       "item_code": "006650"
     },
     {
       "name": "코스모화학",
-      "weight_pct": 0.31,
+      "weight_pct": 0.29,
       "shares": 99,
       "item_code": "005420"
     },
     {
-      "name": "한화머시너리앤서비스홀딩스",
-      "weight_pct": 0.26,
-      "shares": 122,
-      "item_code": "0220W0"
-    },
-    {
       "name": "태광산업",
-      "weight_pct": 0.25,
+      "weight_pct": 0.26,
       "shares": 1,
       "item_code": "003240"
     },
     {
+      "name": "한화머시너리앤서비스홀딩스",
+      "weight_pct": 0.24,
+      "shares": 122,
+      "item_code": "0220W0"
+    },
+    {
       "name": "미원상사",
-      "weight_pct": 0.15,
+      "weight_pct": 0.14,
       "shares": 4,
       "item_code": "002840"
     },

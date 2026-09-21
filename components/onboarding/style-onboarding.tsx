@@ -1,8 +1,8 @@
 "use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw, Check } from "lucide-react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw } from "lucide-react";
 
 import { Tickery } from "@/components/brand/tickery";
 import {
@@ -16,6 +16,7 @@ import {
   prescribeBooks,
   PRESCRIPTION_BOOK_METADATA,
   PRESCRIPTION_QUESTIONS,
+  SCALE_OPTIONS,
   STYLE_CHANGE_EVENT,
   STYLE_PROFILES,
   STYLE_STORAGE_KEY,
@@ -29,8 +30,7 @@ import {
   type StoredDiagnosis,
   type StyleId,
 } from "@/lib/onboarding/style-diagnosis";
-
-const SCALE_TICKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+import { StyleShareBar } from "./style-share-bar";
 
 function getPositionLabel(value: ScaleAnswer): string {
   if (value <= 2) return "A에 매우 가까움";
@@ -293,13 +293,13 @@ export function StyleOnboarding() {
         {screen === "welcome" ? (
           <div className="pb-2 pt-1 text-center">
             <Tickery className="mx-auto h-20 w-20" pose="welcome" priority sizes="80px" />
-            <p className="mt-2 text-sm font-extrabold text-brand-700">약 3분 · 13문항 (10문항 + 처방 3문항) · 정답 없음</p>
+            <p className="mt-2 text-sm font-extrabold text-brand-700">약 3분 · 13문항 (10문항 + 마무리 3문항) · 정답 없음</p>
             <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나의 ETF 전공 적성 검사</h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-muted sm:text-base">
-              ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 10가지 동물 유형과 함께, 내 계좌의 결손을 채워줄 3편 시리즈 시작점을 처방해 드립니다.
+              ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 10가지 동물 유형과 함께, 내 계좌의 공백을 채워줄 3편 시리즈 시작점을 안내해 드립니다.
             </p>
             <div className="mx-auto mt-4 grid max-w-lg grid-cols-3 gap-2" aria-label="투자 스타일 점검 영역">
-              {["위험 대응", "정보 탐색", "도서 처방"].map((label) => (
+              {["위험 대응", "정보 탐색", "도서 안내"].map((label) => (
                 <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-2 py-2.5 text-xs font-extrabold text-neutral-700" key={label}>
                   {label}
                 </div>
@@ -364,18 +364,48 @@ export function StyleOnboarding() {
               ))}
             </div>
 
-            <div className="mt-5 rounded-2xl bg-neutral-50 px-4 py-4 sm:px-5">
-              <div className="flex items-center justify-between gap-3 text-xs font-extrabold">
-                <span className="text-brand-800">A 쪽 · 1</span>
-                <span className={`rounded-full px-3 py-1.5 ${selected === undefined ? "bg-neutral-200 text-muted" : "bg-brand-700 text-white"}`}>
-                  {selected === undefined ? "위치를 선택해 주세요" : `${selected} · ${getPositionLabel(selected)}`}
-                </span>
-                <span className="text-brand-800">10 · B 쪽</span>
+            {/* 4-Choice Touch Segment */}
+            <div className="mt-5 rounded-2xl bg-neutral-50 p-4 border border-line">
+              <div className="flex items-center justify-between text-xs font-extrabold text-neutral-700">
+                <span>어느 쪽에 더 가깝나요? (1개 선택)</span>
+                {selected !== undefined && (
+                  <span className="rounded-full bg-brand-700 px-2.5 py-0.5 text-[11px] font-bold text-white">
+                    {getPositionLabel(selected)}
+                  </span>
+                )}
               </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label="A와 B 사이의 위치 선택">
+                {SCALE_OPTIONS.map((opt) => {
+                  const isSelected = selected === opt.value;
+                  return (
+                    <button
+                      aria-checked={isSelected}
+                      aria-label={`${opt.label} (${opt.desc})`}
+                      className={`flex flex-col items-center justify-center rounded-xl p-3 text-center transition-all min-h-[58px] ${
+                        isSelected
+                          ? "border-2 border-brand-600 bg-brand-50 text-brand-900 shadow-xs ring-1 ring-brand-300"
+                          : "border border-neutral-200 bg-white hover:border-brand-300 hover:bg-neutral-50/80"
+                      }`}
+                      key={opt.value}
+                      onClick={() => setAnswers((current) => ({ ...current, [question.id]: opt.value }))}
+                      role="radio"
+                      type="button"
+                    >
+                      <span className={`text-xs font-black ${isSelected ? "text-brand-900" : "text-strong"}`}>
+                        {opt.label}
+                      </span>
+                      <span className="mt-0.5 text-[11px] text-muted">{opt.desc}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Hidden slider for screen-reader accessibility and test compatibility */}
               <input
                 aria-label="A와 B 사이의 위치"
                 aria-valuetext={selected === undefined ? "아직 선택하지 않음" : `${selected}, ${getPositionLabel(selected)}`}
-                className="etf-style-slider mt-3"
+                className="sr-only"
                 max="10"
                 min="1"
                 onChange={(event) => setAnswers((current) => ({
@@ -383,26 +413,12 @@ export function StyleOnboarding() {
                   [question.id]: Math.round(Number(event.target.value)) as ScaleAnswer,
                 }))}
                 step="0.5"
-                style={{ "--slider-position": `${(((selected ?? 5.5) - 1) / 9) * 100}%` } as CSSProperties}
                 type="range"
                 value={selected ?? 5.5}
               />
-              <div className="grid grid-cols-10" aria-label="1부터 10까지 위치 눈금">
-                {SCALE_TICKS.map((value) => (
-                  <button
-                    aria-label={`${value} 위치 선택`}
-                    className={`min-h-9 text-xs font-bold transition-colors ${
-                      selected === value ? "text-brand-800" : "text-neutral-500 hover:text-brand-700"
-                    }`}
-                    key={value}
-                    onClick={() => setAnswers((current) => ({ ...current, [question.id]: value }))}
-                    type="button"
-                  >
-                    {value}
-                  </button>
-                ))}
-              </div>
-              <p className="mt-1 text-center text-[11px] font-semibold text-muted">숫자는 우열이나 투자 점수가 아니라 두 문장 사이의 위치입니다.</p>
+              <p className="mt-2.5 text-center text-[11px] font-semibold text-muted">
+                선택지는 점수나 우열이 아니라 두 가지 탐색 성향 사이의 방향입니다.
+              </p>
             </div>
 
             <div className="mt-6 flex gap-2">
@@ -430,7 +446,7 @@ export function StyleOnboarding() {
         {screen === "prescription" && pQuestion ? (
           <div className="pb-3 pt-4">
             <div className="flex items-center justify-between text-xs font-bold text-muted">
-              <span>처방 문항 {pStep + 1} / {PRESCRIPTION_QUESTIONS.length}</span>
+              <span>마무리 문항 {pStep + 1} / {PRESCRIPTION_QUESTIONS.length}</span>
               <button className="min-h-9 underline-offset-4 hover:underline" onClick={() => setScreen("result")} type="button">나중에 하기</button>
             </div>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-100">
@@ -488,7 +504,7 @@ export function StyleOnboarding() {
                 onClick={nextPrescription}
                 type="button"
               >
-                {pStep === PRESCRIPTION_QUESTIONS.length - 1 ? "처방 도서 확인" : "다음 처방 질문"}
+                {pStep === PRESCRIPTION_QUESTIONS.length - 1 ? "도서 결과 확인" : "다음 질문"}
               </button>
             </div>
           </div>
@@ -499,9 +515,22 @@ export function StyleOnboarding() {
           <div className="pb-3 pt-4">
             {/* Top Animal Identity Card */}
             <div className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-surface to-neutral-50 p-5 text-center sm:p-7">
-              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-white bg-white shadow-md overflow-hidden" aria-hidden="true">
-                  <img src={profile.imagePath} alt={profile.name} className="size-full object-cover" />
-                </div>
+              <div className="relative mx-auto size-28 overflow-hidden rounded-3xl border-4 border-white bg-white shadow-md sm:size-32">
+                <Image
+                  alt={profile.name}
+                  className="h-full w-full object-cover"
+                  height={128}
+                  priority
+                  src={profile.imagePath}
+                  width={128}
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-1 right-1 grid size-8 place-items-center rounded-full border-2 border-white bg-white text-lg shadow-xs"
+                >
+                  {profile.emoji}
+                </span>
+              </div>
 
               {/* Rarity Badge */}
               <div className="mt-4 flex justify-center">
@@ -535,6 +564,15 @@ export function StyleOnboarding() {
               </div>
             </div>
 
+            {/* Share Bar */}
+            <StyleShareBar
+              axisScores={completed.axisScores}
+              profile={profile}
+              rarityShare={rarityShare}
+              styleId={completed.style}
+              totalStatsCount={totalStatsCount}
+            />
+
             <p className="mt-5 leading-7 text-muted">{profile.summary}</p>
 
             {/* 5 Axes */}
@@ -565,20 +603,29 @@ export function StyleOnboarding() {
             {oppositeProfile ? (
               <div className="mt-4 rounded-2xl border border-line bg-surface p-4 sm:p-5">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-extrabold text-brand-700">나와 가장 다르게 보는 유형</p>
-                  <span className="text-[11px] font-bold text-muted">탐색 벡터 최대 거리</span>
+                  <p className="text-xs font-extrabold text-brand-700">⚡ 나와 가장 다르게 보는 유형</p>
+                  <span className="text-[11px] font-bold text-muted">탐색 축 최대 대비</span>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-neutral-100 overflow-hidden" aria-hidden="true">
-                      <img src={oppositeProfile.imagePath} alt={oppositeProfile.name} className="size-full object-cover" />
+                  <div className="relative size-12 shrink-0 overflow-hidden rounded-2xl border border-line bg-neutral-100">
+                    <Image
+                      alt={oppositeProfile.name}
+                      className="h-full w-full object-cover"
+                      height={48}
+                      src={oppositeProfile.imagePath}
+                      width={48}
+                    />
+                    <span className="absolute bottom-0 right-0 grid size-4 place-items-center rounded-full bg-white text-[10px] shadow-xs">
+                      {oppositeProfile.emoji}
                     </span>
+                  </div>
                   <div>
                     <h3 className="text-base font-extrabold text-strong">{oppositeProfile.name}</h3>
                     <p className="text-xs text-muted">&ldquo;{oppositeProfile.punchline}&rdquo;</p>
                   </div>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-neutral-600">
-                  정보를 정반대 축에서 탐색하므로, 동료나 파트너와 함께 의논할 때 사각지대를 보완해 줍니다.
+                <p className="mt-2.5 text-xs leading-5 text-neutral-600 border-t border-line/60 pt-2.5">
+                  5개 탐색 축 중 반대 방향에서 시장을 살피는 유형입니다. 내가 익숙한 기준을 지킬 때 상대는 새로운 가능성을 먼저 열어보므로, 팀이나 스터디에서 서로의 사각지대를 가장 확실하게 채워주는 최적의 파트너입니다.
                 </p>
               </div>
             ) : null}
@@ -588,13 +635,13 @@ export function StyleOnboarding() {
               {!completed.prescription ? (
                 <div className="rounded-3xl border-2 border-brand-300 bg-brand-50/70 p-5 text-center sm:p-6">
                   <span className="inline-flex items-center gap-1 rounded-full bg-brand-100 px-3 py-1 text-xs font-extrabold text-brand-800">
-                    <Sparkles className="h-3.5 w-3.5" /> 마무리 3문항 처방
+                    <Sparkles className="h-3.5 w-3.5" /> 마무리 3문항 점검
                   </span>
                   <h3 className="mt-2 text-xl font-extrabold text-brand-950 sm:text-2xl">
                     내 계좌에 비어 있는 도서 1권 찾기
                   </h3>
                   <p className="mx-auto mt-2 max-w-md text-xs sm:text-sm leading-relaxed text-brand-900/80">
-                    동물 유형으로 정보 습관을 확인했다면, 이제 내 퇴직연금 계좌에서 어떤 도서(신호·지도·현금흐름)가 시작점이 될지 3문항으로 처방해 드립니다.
+                    동물 유형으로 정보 습관을 확인했다면, 이제 내 퇴직연금 계좌에서 어떤 도서(신호·지도·현금흐름)가 시작점이 될지 3문항으로 안내해 드립니다.
                   </p>
                   <button
                     className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-700 px-6 py-2.5 text-sm font-extrabold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-brand-800"
@@ -605,7 +652,7 @@ export function StyleOnboarding() {
                     }}
                     type="button"
                   >
-                    <span>처방 3문항 시작하기 (약 1분)</span>
+                    <span>마무리 3문항 시작하기 (약 1분)</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -614,7 +661,7 @@ export function StyleOnboarding() {
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
                     <div className="flex items-center gap-2">
                       <span className="rounded-full bg-brand-700 px-2.5 py-0.5 text-xs font-extrabold text-white">
-                        처방 결과
+                        진단 결과
                       </span>
                       <span className="text-xs font-extrabold text-strong">
                         나의 퇴직연금 ETF 시작 도서
@@ -629,7 +676,7 @@ export function StyleOnboarding() {
                       }}
                       type="button"
                     >
-                      <RotateCcw className="h-3 w-3" /> 처방 다시 받기
+                      <RotateCcw className="h-3 w-3" /> 다시 진단하기
                     </button>
                   </div>
 

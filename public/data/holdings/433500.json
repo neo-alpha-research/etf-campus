@@ -1,71 +1,71 @@
 {
   "ticker": "433500",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "두산에너빌리티",
-      "weight_pct": 24.87,
+      "weight_pct": 25.08,
       "shares": 17211,
       "item_code": "034020"
     },
     {
       "name": "현대건설",
-      "weight_pct": 22.14,
+      "weight_pct": 21.8,
       "shares": 10179,
       "item_code": "000720"
     },
     {
       "name": "대우건설",
-      "weight_pct": 10.84,
+      "weight_pct": 9.98,
       "shares": 32224,
       "item_code": "047040"
     },
     {
       "name": "두산",
-      "weight_pct": 9.51,
+      "weight_pct": 9.93,
       "shares": 466,
       "item_code": "000150"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 8.69,
+      "weight_pct": 9.16,
       "shares": 8080,
       "item_code": "083650"
     },
     {
       "name": "한전기술",
-      "weight_pct": 8.55,
+      "weight_pct": 8.1,
       "shares": 4027,
       "item_code": "052690"
     },
     {
       "name": "우리기술",
-      "weight_pct": 6.7,
+      "weight_pct": 6.57,
       "shares": 32540,
       "item_code": "032820"
     },
     {
       "name": "한전KPS",
-      "weight_pct": 4.02,
+      "weight_pct": 4.3,
       "shares": 5102,
       "item_code": "051600"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 2.0,
+      "weight_pct": 2.24,
       "shares": 317,
       "item_code": "028260"
     },
     {
       "name": "한국전력",
-      "weight_pct": 1.9,
+      "weight_pct": 1.98,
       "shares": 3340,
       "item_code": "015760"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.73,
-      "shares": 43513464,
+      "weight_pct": 0.81,
+      "shares": 42853310,
       "item_code": null
     }
   ]

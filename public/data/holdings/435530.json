@@ -1,28 +1,28 @@
 {
   "ticker": "435530",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
-      "weight_pct": 20.99,
+      "weight_pct": 20.91,
       "shares": 2582,
       "item_code": "BBAG.K"
     },
     {
       "name": "Vanguard Short-Term Treasury Index Fund",
-      "weight_pct": 15.79,
+      "weight_pct": 15.81,
       "shares": 1513,
       "item_code": "VGSH.O"
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 13.67,
+      "weight_pct": 13.68,
       "shares": 1528,
       "item_code": "IAGG.K"
     },
     {
       "name": "KIWOOM 종합채권(AA-이상)액티브",
-      "weight_pct": 9.01,
+      "weight_pct": 9.11,
       "shares": 695,
       "item_code": "454780"
     },
@@ -34,19 +34,19 @@
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 6.67,
+      "weight_pct": 6.59,
       "shares": 506,
       "item_code": "VEA"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 4.98,
+      "weight_pct": 4.88,
       "shares": 93,
       "item_code": "IWM"
     },
     {
       "name": "iShares Core MSCI Emerging Markets ETF",
-      "weight_pct": 3.55,
+      "weight_pct": 3.56,
       "shares": 242,
       "item_code": "IEMG.K"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "State Street SPDR Portfolio S&P 500 Value ETF",
-      "weight_pct": 2.98,
+      "weight_pct": 2.97,
       "shares": 261,
       "item_code": "SPYV.K"
     },
@@ -69,32 +69,32 @@
       "item_code": "SPY"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.57,
+      "shares": 19529897,
+      "item_code": null
+    },
+    {
       "name": "Vanguard Total World Stock Index Fund",
       "weight_pct": 2.56,
       "shares": 89,
       "item_code": "VT"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.44,
-      "shares": 18828293,
-      "item_code": null
-    },
-    {
       "name": "JPMorgan BetaBuilders Europe ETF",
-      "weight_pct": 2.0,
+      "weight_pct": 1.97,
       "shares": 138,
       "item_code": "BBEU.K"
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 1.68,
+      "weight_pct": 1.69,
       "shares": 9363,
       "item_code": null
     },
     {
       "name": "KIWOOM 국고채3년",
-      "weight_pct": 0.95,
+      "weight_pct": 0.96,
       "shares": 68,
       "item_code": "114470"
     }

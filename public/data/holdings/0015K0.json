@@ -1,52 +1,52 @@
 {
   "ticker": "0015K0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "애플",
-      "weight_pct": 5.5,
+      "weight_pct": 5.88,
       "shares": 9,
       "item_code": "AAPL.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 5.43,
+      "weight_pct": 5.48,
       "shares": 10,
       "item_code": "AMZN.O"
     },
     {
       "name": "코스트코 홀세일",
-      "weight_pct": 5.13,
+      "weight_pct": 5.2,
       "shares": 2,
       "item_code": "COST.O"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 5.05,
+      "weight_pct": 5.08,
       "shares": 2,
       "item_code": "LLY"
     },
     {
       "name": "힐튼 월드와이드 홀딩스",
-      "weight_pct": 4.62,
+      "weight_pct": 4.47,
       "shares": 7,
       "item_code": "HLT"
     },
     {
       "name": "블록",
-      "weight_pct": 4.27,
+      "weight_pct": 4.12,
       "shares": 26,
       "item_code": "XYZ"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 4.04,
+      "weight_pct": 4.07,
       "shares": 6,
       "item_code": "GOOGL.O"
     },
     {
       "name": "로빈후드",
-      "weight_pct": 3.81,
+      "weight_pct": 3.74,
       "shares": 18,
       "item_code": "HOOD.O"
     },
@@ -58,37 +58,37 @@
     },
     {
       "name": "에스티 로더",
-      "weight_pct": 3.65,
+      "weight_pct": 3.58,
       "shares": 18,
       "item_code": "EL"
     },
     {
+      "name": "파이브 빌로우",
+      "weight_pct": 3.47,
+      "shares": 7,
+      "item_code": "FIVE.O"
+    },
+    {
       "name": "쇼피파이",
-      "weight_pct": 3.55,
+      "weight_pct": 3.4,
       "shares": 12,
       "item_code": "SHOP.O"
     },
     {
       "name": "샤크닌자",
-      "weight_pct": 3.55,
+      "weight_pct": 3.39,
       "shares": 9,
       "item_code": "SN"
     },
     {
-      "name": "파이브 빌로우",
-      "weight_pct": 3.54,
-      "shares": 7,
-      "item_code": "FIVE.O"
-    },
-    {
       "name": "넷플릭스",
-      "weight_pct": 3.22,
+      "weight_pct": 3.29,
       "shares": 20,
       "item_code": "NFLX.O"
     },
     {
       "name": "메타",
-      "weight_pct": 2.92,
+      "weight_pct": 3.02,
       "shares": 2,
       "item_code": "META.O"
     },
@@ -99,32 +99,38 @@
       "item_code": "LYV"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 2.65,
+      "shares": 3,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "스타벅스",
-      "weight_pct": 2.62,
+      "weight_pct": 2.64,
       "shares": 12,
       "item_code": "SBUX.O"
     },
     {
       "name": "스포티파이 테크놀러지",
-      "weight_pct": 2.57,
+      "weight_pct": 2.62,
       "shares": 2,
       "item_code": "SPOT.K"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 2.49,
-      "shares": 3,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "타겟",
-      "weight_pct": 2.24,
+      "weight_pct": 2.3,
       "shares": 7,
       "item_code": "TGT"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.27,
+      "shares": 1580823,
+      "item_code": null
+    },
+    {
       "name": "도어대시",
-      "weight_pct": 2.23,
+      "weight_pct": 2.18,
       "shares": 4,
       "item_code": "DASH.O"
     },
@@ -135,22 +141,16 @@
       "item_code": "V"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.12,
-      "shares": 1534800,
-      "item_code": null
-    },
-    {
-      "name": "익스피디아그룹",
-      "weight_pct": 2.09,
-      "shares": 3,
-      "item_code": "EXPE.O"
-    },
-    {
       "name": "TJX 컴퍼니스",
-      "weight_pct": 2.07,
+      "weight_pct": 2.08,
       "shares": 7,
       "item_code": "TJX"
+    },
+    {
+      "name": "달러 트리",
+      "weight_pct": 2.06,
+      "shares": 7,
+      "item_code": "DLTR.O"
     },
     {
       "name": "에어비앤비",
@@ -160,43 +160,43 @@
     },
     {
       "name": "코카콜라",
-      "weight_pct": 2.02,
+      "weight_pct": 2.03,
       "shares": 11,
       "item_code": "KO"
     },
     {
-      "name": "페이팔 홀딩스",
-      "weight_pct": 2.02,
-      "shares": 17,
-      "item_code": "PYPL.O"
-    },
-    {
-      "name": "달러 트리",
-      "weight_pct": 2.0,
-      "shares": 7,
-      "item_code": "DLTR.O"
+      "name": "익스피디아그룹",
+      "weight_pct": 1.97,
+      "shares": 3,
+      "item_code": "EXPE.O"
     },
     {
       "name": "테이크-투 인터랙티브 소프트웨어",
-      "weight_pct": 1.98,
+      "weight_pct": 1.89,
       "shares": 4,
       "item_code": "TTWO.O"
     },
     {
       "name": "알리바바 그룹 홀딩 ADR",
-      "weight_pct": 1.85,
+      "weight_pct": 1.79,
       "shares": 8,
       "item_code": "BABA.K"
     },
     {
+      "name": "페이팔 홀딩스",
+      "weight_pct": 1.77,
+      "shares": 17,
+      "item_code": "PYPL.O"
+    },
+    {
       "name": "샌디스크",
-      "weight_pct": 1.36,
+      "weight_pct": 1.44,
       "shares": 0,
       "item_code": "SNDK.O"
     },
     {
       "name": "오토존",
-      "weight_pct": 1.36,
+      "weight_pct": 1.39,
       "shares": 0,
       "item_code": "AZO"
     }

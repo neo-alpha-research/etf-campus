@@ -1,76 +1,76 @@
 {
   "ticker": "466930",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "현대모비스",
-      "weight_pct": 26.09,
-      "shares": 734,
-      "item_code": "012330"
-    },
-    {
       "name": "기아",
-      "weight_pct": 26.01,
+      "weight_pct": 26.67,
       "shares": 2620,
       "item_code": "000270"
     },
     {
+      "name": "현대모비스",
+      "weight_pct": 24.96,
+      "shares": 734,
+      "item_code": "012330"
+    },
+    {
       "name": "현대차",
-      "weight_pct": 21.78,
+      "weight_pct": 21.5,
       "shares": 695,
       "item_code": "005380"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 10.14,
+      "weight_pct": 10.65,
       "shares": 93,
       "item_code": "009150"
     },
     {
-      "name": "삼성전자",
-      "weight_pct": 5.8,
-      "shares": 277,
-      "item_code": "005930"
-    },
-    {
       "name": "LG전자",
-      "weight_pct": 5.55,
+      "weight_pct": 5.84,
       "shares": 356,
       "item_code": "066570"
     },
     {
+      "name": "삼성전자",
+      "weight_pct": 5.68,
+      "shares": 277,
+      "item_code": "005930"
+    },
+    {
       "name": "LG이노텍",
-      "weight_pct": 2.16,
+      "weight_pct": 2.13,
       "shares": 46,
       "item_code": "011070"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 0.65,
+      "weight_pct": 0.63,
       "shares": 20,
       "item_code": "307950"
     },
     {
       "name": "한온시스템",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 1633,
       "item_code": "018880"
     },
     {
       "name": "HL만도",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 106,
       "item_code": "204320"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.34,
-      "shares": 4338692,
+      "shares": 4217464,
       "item_code": null
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 0.26,
+      "weight_pct": 0.24,
       "shares": 36,
       "item_code": "078600"
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "에스엘",
-      "weight_pct": 0.21,
+      "weight_pct": 0.2,
       "shares": 51,
       "item_code": "005850"
     }

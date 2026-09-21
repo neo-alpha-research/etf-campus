@@ -1,101 +1,101 @@
 {
   "ticker": "0101N0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "지엔씨에너지",
-      "weight_pct": 9.14,
+      "weight_pct": 8.52,
       "shares": 1881,
       "item_code": "119850"
     },
     {
       "name": "가온전선",
-      "weight_pct": 7.76,
+      "weight_pct": 8.27,
       "shares": 380,
       "item_code": "000500"
     },
     {
       "name": "일진전기",
-      "weight_pct": 7.12,
+      "weight_pct": 7.17,
       "shares": 981,
       "item_code": "103590"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 7.06,
+      "weight_pct": 7.05,
       "shares": 333,
       "item_code": "010120"
     },
     {
       "name": "대한전선",
-      "weight_pct": 6.59,
+      "weight_pct": 6.83,
       "shares": 2290,
       "item_code": "001440"
     },
     {
+      "name": "LG에너지솔루션",
+      "weight_pct": 6.77,
+      "shares": 180,
+      "item_code": "373220"
+    },
+    {
       "name": "대원전선",
-      "weight_pct": 6.51,
+      "weight_pct": 6.56,
       "shares": 4764,
       "item_code": "006340"
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 6.5,
+      "weight_pct": 6.31,
       "shares": 82,
       "item_code": "267260"
     },
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 6.44,
-      "shares": 180,
-      "item_code": "373220"
-    },
-    {
-      "name": "서진시스템",
-      "weight_pct": 6.24,
-      "shares": 1562,
-      "item_code": "178320"
+      "name": "LS에코에너지",
+      "weight_pct": 6.14,
+      "shares": 1281,
+      "item_code": "229640"
     },
     {
       "name": "제룡전기",
-      "weight_pct": 6.13,
+      "weight_pct": 6.06,
       "shares": 1266,
       "item_code": "033100"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 6.06,
+      "weight_pct": 6.05,
       "shares": 730,
       "item_code": "034020"
     },
     {
-      "name": "LS에코에너지",
-      "weight_pct": 5.99,
-      "shares": 1281,
-      "item_code": "229640"
-    },
-    {
       "name": "산일전기",
-      "weight_pct": 5.74,
+      "weight_pct": 5.87,
       "shares": 295,
       "item_code": "062040"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 5.65,
+      "weight_pct": 5.69,
       "shares": 19,
       "item_code": "298040"
     },
     {
+      "name": "서진시스템",
+      "weight_pct": 5.65,
+      "shares": 1562,
+      "item_code": "178320"
+    },
+    {
       "name": "두산퓨얼셀",
-      "weight_pct": 5.33,
+      "weight_pct": 5.12,
       "shares": 1222,
       "item_code": "336260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.66,
-      "shares": 17235301,
+      "weight_pct": 1.85,
+      "shares": 17136948,
       "item_code": null
     }
   ]

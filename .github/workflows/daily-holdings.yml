@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  actions: read
+  deployments: write
 
 concurrency:
   group: daily-holdings
@@ -16,6 +18,7 @@ jobs:
   update-holdings:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    environment: production
     steps:
       - uses: actions/checkout@v4
 
@@ -24,7 +27,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if python scripts/check_workflow_success_today.py --workflow daily-holdings.yml; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run requested. Bypassing already-succeeded guard."
+            echo "already_run=false" >> "$GITHUB_OUTPUT"
+          elif python scripts/check_workflow_success_today.py --workflow daily-holdings.yml; then
             echo "already_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "already_run=false" >> "$GITHUB_OUTPUT"
@@ -36,27 +42,34 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Set up Node.js
+        if: steps.guard.outputs.already_run != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
       - name: Install dependencies
         if: steps.guard.outputs.already_run != 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install beautifulsoup4 lxml requests pandas pykrx
+          pip install requests pandas
 
-      - name: Run holdings scraper
-        if: steps.guard.outputs.already_run != 'true'
-        run: python scripts/refresh_holdings.py
-
-      - name: Commit and push changes
+      - name: Scrape ETF holdings and generate D1 SQL batches
         if: steps.guard.outputs.already_run != 'true'
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data/holdings/*.json
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update daily ETF holdings [skip ci]"
-            for i in 1 2 3 4 5; do
-              git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
-            done
-          else
-            echo "No holdings changes detected."
-          fi
+          python scripts/refresh_holdings.py --no-json --sql-dir=temp_holdings_chunks --chunk-size=100
+
+      - name: Ingest holdings to Cloudflare D1
+        if: steps.guard.outputs.already_run != 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
+        run: |
+          echo "Executing SQL chunk batches to Cloudflare D1..."
+          for chunk in temp_holdings_chunks/*.sql; do
+            echo "-> Ingesting $(basename "$chunk")..."
+            npx --yes wrangler@4.124.0 d1 execute etf-prices --remote --file="$chunk"
+          done
+
+          echo "Verifying ingested holdings count..."
+          npx --yes wrangler@4.124.0 d1 execute etf-prices --remote --command="SELECT COUNT(*) AS total_holdings, MAX(as_of_date) AS latest_date FROM etf_holdings;"

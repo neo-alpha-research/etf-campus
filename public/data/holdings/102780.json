@@ -1,64 +1,64 @@
 {
   "ticker": "102780",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 25.7,
+      "weight_pct": 25.08,
       "shares": 2581,
       "item_code": "005930"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 19.96,
+      "weight_pct": 20.91,
       "shares": 385,
       "item_code": "009150"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 10.98,
+      "weight_pct": 11.3,
       "shares": 781,
       "item_code": "028260"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 10.22,
+      "weight_pct": 10.01,
       "shares": 480,
       "item_code": "006400"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 7.87,
+      "weight_pct": 7.81,
       "shares": 685,
       "item_code": "032830"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 6.12,
+      "weight_pct": 6.11,
       "shares": 240,
       "item_code": "000810"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 5.61,
+      "weight_pct": 5.47,
       "shares": 94,
       "item_code": "207940"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 4.17,
+      "weight_pct": 4.11,
       "shares": 5313,
       "item_code": "010140"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 2.7,
+      "weight_pct": 2.79,
       "shares": 309,
       "item_code": "018260"
     },
     {
       "name": "삼성E&A",
-      "weight_pct": 2.3,
+      "weight_pct": 2.08,
       "shares": 1231,
       "item_code": "028050"
     },
@@ -70,38 +70,38 @@
     },
     {
       "name": "삼성에피스홀딩스",
-      "weight_pct": 0.76,
+      "weight_pct": 0.74,
       "shares": 53,
       "item_code": "0126Z0"
     },
     {
       "name": "에스원",
-      "weight_pct": 0.62,
+      "weight_pct": 0.6,
       "shares": 195,
       "item_code": "012750"
     },
     {
       "name": "제일기획",
-      "weight_pct": 0.39,
+      "weight_pct": 0.4,
       "shares": 554,
       "item_code": "030000"
     },
     {
       "name": "호텔신라",
-      "weight_pct": 0.39,
+      "weight_pct": 0.4,
       "shares": 247,
       "item_code": "008770"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 189,
       "item_code": "029780"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.17,
-      "shares": 4797420,
+      "weight_pct": 0.15,
+      "shares": 3872930,
       "item_code": null
     }
   ]

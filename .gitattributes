@@ -1,2 +1,5 @@
 * text=auto
 data/distributions/raw/** -text
+data/regulatory/sources/** -text
+public/data/*.json text eol=lf
+

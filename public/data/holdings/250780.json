@@ -1,17 +1,17 @@
 {
   "ticker": "250780",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 99.99,
-      "shares": 117907346,
+      "shares": 125885798,
       "item_code": null
     },
     {
       "name": "코스닥150선물2026년09월물",
-      "weight_pct": -99.88,
-      "shares": -8,
+      "weight_pct": -99.66,
+      "shares": -9,
       "item_code": null
     }
   ]

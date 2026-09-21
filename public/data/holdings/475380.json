@@ -1,71 +1,71 @@
 {
   "ticker": "475380",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "리얼티 인컴",
-      "weight_pct": 17.33,
+      "weight_pct": 17.3,
       "shares": 1058,
       "item_code": "O"
     },
     {
       "name": "맥쿼리인프라",
-      "weight_pct": 15.43,
+      "weight_pct": 15.79,
       "shares": 8226,
       "item_code": "088980"
     },
     {
-      "name": "이퀴닉스",
-      "weight_pct": 8.8,
-      "shares": 31,
-      "item_code": "EQIX.O"
-    },
-    {
       "name": "프로로지스",
-      "weight_pct": 8.7,
+      "weight_pct": 8.63,
       "shares": 232,
       "item_code": "PLD"
     },
     {
-      "name": "디지털 리얼티 트러스트",
-      "weight_pct": 8.7,
-      "shares": 171,
-      "item_code": "DLR"
-    },
-    {
-      "name": "에퀴티 라이프스타일 프로퍼티스",
-      "weight_pct": 8.52,
-      "shares": 501,
-      "item_code": "ELS"
-    },
-    {
       "name": "스태그 인더스트리얼",
-      "weight_pct": 8.28,
+      "weight_pct": 8.5,
       "shares": 847,
       "item_code": "STAG.K"
     },
     {
+      "name": "이퀴닉스",
+      "weight_pct": 8.49,
+      "shares": 31,
+      "item_code": "EQIX.O"
+    },
+    {
+      "name": "에퀴티 라이프스타일 프로퍼티스",
+      "weight_pct": 8.43,
+      "shares": 501,
+      "item_code": "ELS"
+    },
+    {
       "name": "아메리칸 타워",
-      "weight_pct": 8.23,
+      "weight_pct": 8.35,
       "shares": 178,
       "item_code": "AMT"
     },
     {
+      "name": "디지털 리얼티 트러스트",
+      "weight_pct": 8.35,
+      "shares": 171,
+      "item_code": "DLR"
+    },
+    {
       "name": "선 커뮤니티즈",
-      "weight_pct": 8.2,
+      "weight_pct": 8.06,
       "shares": 249,
       "item_code": "SUI"
     },
     {
       "name": "SBA 커뮤니케이션스",
-      "weight_pct": 7.19,
+      "weight_pct": 7.39,
       "shares": 147,
       "item_code": "SBAC.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 3040030,
+      "weight_pct": 0.65,
+      "shares": 3348537,
       "item_code": null
     }
   ]

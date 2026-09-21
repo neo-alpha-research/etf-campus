@@ -1,107 +1,107 @@
 {
   "ticker": "0118Z0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 12.25,
-      "shares": 216,
+      "weight_pct": 12.59,
+      "shares": 217,
       "item_code": "PLTR.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 8.91,
-      "shares": 133,
+      "weight_pct": 9.39,
+      "shares": 134,
       "item_code": "NVDA.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 8.68,
-      "shares": 65,
+      "weight_pct": 8.81,
+      "shares": 66,
       "item_code": "TSM"
     },
     {
       "name": "메타",
-      "weight_pct": 8.1,
-      "shares": 44,
+      "weight_pct": 8.39,
+      "shares": 45,
       "item_code": "META.O"
     },
     {
-      "name": "버티브 홀딩스",
-      "weight_pct": 8.09,
-      "shares": 96,
-      "item_code": "VRT"
-    },
-    {
       "name": "테슬라",
-      "weight_pct": 7.96,
-      "shares": 72,
+      "weight_pct": 8.38,
+      "shares": 73,
       "item_code": "TSLA.O"
     },
     {
-      "name": "오클로",
-      "weight_pct": 7.2,
-      "shares": 542,
-      "item_code": "OKLO.K"
+      "name": "버티브 홀딩스",
+      "weight_pct": 8.0,
+      "shares": 97,
+      "item_code": "VRT"
     },
     {
       "name": "에어로바이런먼트",
-      "weight_pct": 6.99,
-      "shares": 149,
+      "weight_pct": 6.97,
+      "shares": 150,
       "item_code": "AVAV.O"
     },
     {
-      "name": "카메코",
-      "weight_pct": 5.93,
-      "shares": 173,
-      "item_code": "CCJ"
+      "name": "오클로",
+      "weight_pct": 6.79,
+      "shares": 547,
+      "item_code": "OKLO.K"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 5.23,
-      "shares": 46,
+      "weight_pct": 5.6,
+      "shares": 47,
       "item_code": "AVGO.O"
     },
     {
-      "name": "인튜이티브 서지컬",
-      "weight_pct": 4.61,
-      "shares": 39,
-      "item_code": "ISRG.O"
+      "name": "카메코",
+      "weight_pct": 5.43,
+      "shares": 175,
+      "item_code": "CCJ"
     },
     {
       "name": "유아이패스",
-      "weight_pct": 4.58,
-      "shares": 856,
+      "weight_pct": 5.04,
+      "shares": 863,
       "item_code": "PATH.K"
     },
     {
+      "name": "인튜이티브 서지컬",
+      "weight_pct": 4.76,
+      "shares": 40,
+      "item_code": "ISRG.O"
+    },
+    {
       "name": "코어위브",
-      "weight_pct": 3.46,
-      "shares": 123,
+      "weight_pct": 3.27,
+      "shares": 124,
       "item_code": "CRWV.O"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 3.15,
+      "weight_pct": 3.21,
       "shares": 32,
       "item_code": "APP.O"
     },
     {
       "name": "심보틱",
-      "weight_pct": 3.05,
-      "shares": 235,
+      "weight_pct": 2.92,
+      "shares": 237,
       "item_code": "SYM.O"
     },
     {
       "name": "GE 버노바",
-      "weight_pct": 2.74,
+      "weight_pct": 2.6,
       "shares": 9,
       "item_code": "GEV"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.01,
-      "shares": -4363609,
+      "weight_pct": -2.22,
+      "shares": -9427688,
       "item_code": null
     }
   ]

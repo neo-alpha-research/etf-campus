@@ -1,71 +1,71 @@
 {
   "ticker": "0047A0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 13.58,
+      "weight_pct": 13.34,
       "shares": 17707,
       "item_code": "1810.HK"
     },
     {
       "name": "BYD",
-      "weight_pct": 13.57,
+      "weight_pct": 13.12,
       "shares": 5438,
       "item_code": "1211.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 12.91,
+      "weight_pct": 12.4,
       "shares": 4107,
       "item_code": "9988.HK"
     },
     {
+      "name": "한무기",
+      "weight_pct": 11.56,
+      "shares": 327,
+      "item_code": "688256.SS"
+    },
+    {
       "name": "닝더스다이",
-      "weight_pct": 12.04,
+      "weight_pct": 11.53,
       "shares": 1010,
       "item_code": "300750.SZ"
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 11.43,
+      "weight_pct": 11.45,
       "shares": 6084,
       "item_code": "0981.HK"
     },
     {
-      "name": "한무기",
-      "weight_pct": 10.49,
-      "shares": 327,
-      "item_code": "688256.SS"
-    },
-    {
       "name": "중제욱창",
-      "weight_pct": 9.87,
+      "weight_pct": 10.11,
       "shares": 369,
       "item_code": "300308.SZ"
     },
     {
       "name": "레노버",
-      "weight_pct": 8.14,
+      "weight_pct": 8.26,
       "shares": 9887,
       "item_code": "0992.HK"
     },
     {
       "name": "장비광섬유케이블",
-      "weight_pct": 5.91,
+      "weight_pct": 6.03,
       "shares": 1345,
       "item_code": "6869.HK"
     },
     {
       "name": "중과서광",
-      "weight_pct": 3.08,
+      "weight_pct": 3.22,
       "shares": 1165,
       "item_code": "603019.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.07,
-      "shares": -7017960,
+      "weight_pct": -1.06,
+      "shares": -6820752,
       "item_code": null
     }
   ]

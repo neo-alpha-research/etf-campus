@@ -1,16 +1,16 @@
 {
   "ticker": "400580",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 100.0,
-      "shares": 1171441439,
+      "weight_pct": 99.99,
+      "shares": 1179864514,
       "item_code": null
     },
     {
       "name": "ECX EMISSION Dec26",
-      "weight_pct": 82.57,
+      "weight_pct": 81.37,
       "shares": 7,
       "item_code": null
     }

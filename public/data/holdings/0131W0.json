@@ -1,16 +1,16 @@
 {
   "ticker": "0131W0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "토지주택채권(용지)23-09",
-      "weight_pct": 7.89,
-      "shares": 0,
+      "name": "원화현금",
+      "weight_pct": 8.44,
+      "shares": 8620222,
       "item_code": null
     },
     {
-      "name": "산금22신이0400-1201-4",
-      "weight_pct": 7.37,
+      "name": "토지주택채권(용지)23-09",
+      "weight_pct": 7.89,
       "shares": 0,
       "item_code": null
     },
@@ -39,14 +39,14 @@
       "item_code": null
     },
     {
-      "name": "한국수출입금융2603라-이표-1",
+      "name": "산금22신이0400-1201-4",
       "weight_pct": 7.29,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "주택금융공사246(변)(사)",
-      "weight_pct": 7.28,
+      "name": "한국수출입금융2603라-이표-1",
+      "weight_pct": 7.29,
       "shares": 0,
       "item_code": null
     },
@@ -84,12 +84,6 @@
       "name": "CD(우리 여의도중앙기업영업지원팀 2025112",
       "weight_pct": 3.61,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.07,
-      "shares": 1092939,
       "item_code": null
     }
   ]

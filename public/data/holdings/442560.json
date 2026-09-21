@@ -1,83 +1,83 @@
 {
   "ticker": "442560",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "RISE 미국S&P500",
       "weight_pct": 20.42,
-      "shares": 7251,
+      "shares": 7252,
       "item_code": "379780"
     },
     {
       "name": "RISE 미국나스닥100",
-      "weight_pct": 16.57,
-      "shares": 4527,
+      "weight_pct": 16.51,
+      "shares": 4529,
       "item_code": "368590"
     },
     {
       "name": "RISE 종합채권(A-이상)액티브",
-      "weight_pct": 14.44,
+      "weight_pct": 14.62,
       "shares": 1143,
       "item_code": "385540"
     },
     {
       "name": "RISE 단기채권알파액티브",
-      "weight_pct": 11.21,
+      "weight_pct": 11.43,
       "shares": 804,
       "item_code": "385550"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 7.02,
+      "weight_pct": 6.78,
       "shares": 522,
       "item_code": "148020"
     },
     {
       "name": "Vanguard European Stock Index Fund",
-      "weight_pct": 6.54,
-      "shares": 418,
+      "weight_pct": 6.63,
+      "shares": 429,
       "item_code": "VGK"
     },
     {
       "name": "JPMorgan BetaBuilders Japan ETF",
-      "weight_pct": 5.11,
-      "shares": 393,
+      "weight_pct": 5.07,
+      "shares": 387,
       "item_code": "BBJP.K"
     },
     {
       "name": "Vanguard Emerging Markets Stock Index Fund",
-      "weight_pct": 5.02,
-      "shares": 491,
+      "weight_pct": 5.0,
+      "shares": 484,
       "item_code": "VWO"
     },
     {
       "name": "RISE 국고채10년액티브",
-      "weight_pct": 4.21,
-      "shares": 348,
+      "weight_pct": 4.27,
+      "shares": 352,
       "item_code": "481430"
     },
     {
       "name": "RISE 미국반도체NYSE",
-      "weight_pct": 3.73,
-      "shares": 878,
+      "weight_pct": 3.55,
+      "shares": 877,
       "item_code": "469060"
     },
     {
       "name": "RISE KIS국고채30년Enhanced",
-      "weight_pct": 2.96,
-      "shares": 462,
+      "weight_pct": 2.94,
+      "shares": 464,
       "item_code": "385560"
     },
     {
       "name": "RISE 국채선물10년",
-      "weight_pct": 2.05,
-      "shares": 325,
+      "weight_pct": 2.03,
+      "shares": 320,
       "item_code": "295000"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.66,
-      "shares": 5406652,
+      "weight_pct": 0.67,
+      "shares": 5414223,
       "item_code": null
     }
   ]

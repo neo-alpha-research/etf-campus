@@ -1,0 +1,86 @@
+#!/bin/sh
+# Smart Pre-Push Hook for ETFCampus
+# Selectively executes verification based on changed files to eliminate friction on documentation/asset updates.
+
+echo "🛡️ [Pre-Push Hook] Inspecting push payload..."
+
+# 0. FM-008: Untracked pipeline files check (instant, < 0.05s)
+UNTRACKED_PIPELINE=$(git status --porcelain | grep -E '^\?\? (scripts|\.github)' | grep -v '_oneoff/' || true)
+if [ -n "$UNTRACKED_PIPELINE" ]; then
+  echo "❌ [Pre-Push Hook] Untracked pipeline/workflow files detected (violates FM-008):" >&2
+  echo "$UNTRACKED_PIPELINE" >&2
+  exit 1
+fi
+
+# 1. Determine changed files being pushed
+z40="0000000000000000000000000000000000000000"
+PUSHED_FILES=""
+
+# Git passes remote name ($1) and url ($2) when invoking pre-push with piped input
+if [ -n "$1" ]; then
+  while read -r local_ref local_sha remote_ref remote_sha; do
+    if [ "$local_sha" = "$z40" ]; then
+      continue # branch deletion
+    fi
+    if [ "$remote_sha" = "$z40" ] || [ -z "$remote_sha" ]; then
+      DIFF_FILES=$(git diff --name-only origin/main...$local_sha 2>/dev/null || git diff --name-only HEAD~1 $local_sha 2>/dev/null || git diff --name-only HEAD 2>/dev/null)
+    else
+      DIFF_FILES=$(git diff --name-only $remote_sha $local_sha 2>/dev/null)
+    fi
+    PUSHED_FILES="$PUSHED_FILES
+$DIFF_FILES"
+  done
+fi
+
+# Fallback if stdin was empty or manual invocation
+if [ -z "$(echo "$PUSHED_FILES" | tr -d '[:space:]')" ]; then
+  PUSHED_FILES=$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null || git status --porcelain | awk '{print $2}')
+fi
+
+# 2. Categorize changed files
+HAS_FRONTEND_CHANGES=$(echo "$PUSHED_FILES" | grep -E '\.(ts|tsx|js|jsx)$|package\.json|package-lock\.json|workers/|tsconfig' || true)
+HAS_PIPELINE_CHANGES=$(echo "$PUSHED_FILES" | grep -E '^(scripts/|\.github/|migrations/)|requirements\.txt' || true)
+
+# 3. Execute Frontend Verification (if applicable)
+if [ -n "$HAS_FRONTEND_CHANGES" ]; then
+  echo "1/3 Checking code style & JSX syntax (ESLint)..."
+  npm run lint --silent
+  if [ $? -ne 0 ]; then
+    echo "❌ [Pre-Push Hook] ESLint failed! Fix lint errors before pushing." >&2
+    exit 1
+  fi
+
+  echo "2/3 Checking TypeScript types (tsconfig.ci.json)..."
+  npx tsc --noEmit -p tsconfig.ci.json
+  if [ $? -ne 0 ]; then
+    echo "❌ [Pre-Push Hook] TypeScript typecheck failed! Push blocked to prevent breaking CI." >&2
+    exit 1
+  fi
+
+  echo "3/3 Checking active Cloudflare Workers typechecks..."
+  npm --workspace=workers/market-briefing-distributor run typecheck --silent && \
+  npm --workspace=workers/community-maintenance run typecheck --silent
+  if [ $? -ne 0 ]; then
+    echo "❌ [Pre-Push Hook] Workers typecheck failed! Push blocked to prevent breaking CI." >&2
+    exit 1
+  fi
+else
+  echo "⏩ [Pre-Push Hook] No TS/JS/Worker files changed. Skipping frontend lint & typechecks."
+fi
+
+# 4. Execute Pipeline Integrity Verification (if applicable)
+if [ -n "$HAS_PIPELINE_CHANGES" ]; then
+  echo "🔍 [Pre-Push Hook] Checking Pipeline Integrity & Failure Modes Linter (FM-001 ~ FM-015) & Unit Tests..."
+  python scripts/lint_pipeline.py && \
+  python -m unittest scripts/tests/test_lint_pipeline.py && \
+  python -m unittest scripts/tests/test_check_pages_deployment.py
+  if [ $? -ne 0 ]; then
+    echo "❌ [Pre-Push Hook] Pipeline Linter / Gate tests failed! Push blocked." >&2
+    exit 1
+  fi
+else
+  echo "⏩ [Pre-Push Hook] No Python/pipeline/workflow files changed. Skipping pipeline linter."
+fi
+
+echo "✅ [Pre-Push Hook] All pre-push checks passed successfully."
+exit 0

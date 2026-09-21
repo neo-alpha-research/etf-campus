@@ -1,52 +1,52 @@
 {
   "ticker": "267490",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 65.81,
-      "shares": 167531288,
+      "weight_pct": 67.01,
+      "shares": 167052213,
       "item_code": null
     },
     {
       "name": "RISE 머니마켓액티브",
-      "weight_pct": 18.67,
+      "weight_pct": 19.07,
       "shares": 857,
       "item_code": "455890"
     },
     {
-      "name": "US LONG BOND(CBOT) SEPT 2026",
-      "weight_pct": 17.05,
+      "name": "US LONG BOND(CBOT) DEC 2026",
+      "weight_pct": 16.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "RISE 단기국공채액티브",
-      "weight_pct": 9.67,
+      "weight_pct": 9.87,
       "shares": 214,
       "item_code": "272560"
     },
     {
       "name": "RISE 단기통안채",
-      "weight_pct": 6.56,
+      "weight_pct": 6.7,
       "shares": 142,
       "item_code": "196230"
     },
     {
       "name": "RISE 미국장기국채선물(H)",
-      "weight_pct": 3.15,
+      "weight_pct": 3.2,
       "shares": 1000,
       "item_code": "267440"
     },
     {
       "name": "스왑(미래에셋증권)_4457_20260604",
-      "weight_pct": -3.86,
-      "shares": -9835179,
+      "weight_pct": -5.86,
+      "shares": -14625531,
       "item_code": null
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -24.78,
+      "weight_pct": -25.06,
       "shares": -4,
       "item_code": null
     }

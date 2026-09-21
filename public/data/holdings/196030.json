@@ -1,46 +1,46 @@
 {
   "ticker": "196030",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "TOPIX INDX FUTR Sep26",
-      "weight_pct": 90.42,
-      "shares": 23,
+      "weight_pct": 93.32,
+      "shares": 24,
       "item_code": null
     },
     {
       "name": "Simplex TOPIX Bull 2x ETF",
-      "weight_pct": 24.94,
+      "weight_pct": 24.79,
       "shares": 259496,
       "item_code": "1568.T"
     },
     {
       "name": "Daiwa iFreeETF TOPIX (Annual Settlement)",
-      "weight_pct": 18.73,
+      "weight_pct": 18.25,
       "shares": 45300,
       "item_code": "1305.T"
     },
     {
       "name": "Nomura NF TOPIX ETF",
-      "weight_pct": 15.77,
+      "weight_pct": 15.39,
       "shares": 386000,
       "item_code": "1306.T"
     },
     {
       "name": "원화현금",
-      "weight_pct": 12.37,
-      "shares": 1124218466,
+      "weight_pct": 14.07,
+      "shares": 1318665200,
       "item_code": null
     },
     {
       "name": "YEN현금",
-      "weight_pct": 11.17,
-      "shares": 117129554,
+      "weight_pct": 10.72,
+      "shares": 117128434,
       "item_code": null
     },
     {
       "name": "Amova Listed IDX Fund TOPIX",
-      "weight_pct": 10.18,
+      "weight_pct": 9.94,
       "shares": 25200,
       "item_code": "1308.T"
     },
@@ -52,8 +52,8 @@
     },
     {
       "name": "외국환포워드JPY",
-      "weight_pct": -93.03,
-      "shares": -8449083636,
+      "weight_pct": -92.9,
+      "shares": -8705596501,
       "item_code": null
     }
   ]

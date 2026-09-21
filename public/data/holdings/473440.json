@@ -1,11 +1,11 @@
 {
   "ticker": "473440",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 43.64,
-      "shares": 47337735,
+      "shares": 47355179,
       "item_code": null
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "name": "BNK캐피탈363-5",
-      "weight_pct": 8.51,
+      "weight_pct": 8.52,
       "shares": 0,
       "item_code": null
     },

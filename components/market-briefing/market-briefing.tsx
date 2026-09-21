@@ -23,128 +23,20 @@ import { generateMarketNarrative } from "@/lib/domain/market-briefing-narrative"
 
 
 
-type AssetClass = {
-
-  asset_class: string;
-
-  etf_count: number;
-
-  up_count: number;
-
-  flat_count: number;
-
-  down_count: number;
-
-  breadth_ratio_pct: number | null;
-
-  aum_weighted_return_pct: number | null;
-
-  total_aum: number;
-
-  aum_share_pct: number;
-
-  total_trade_value: number;
-
-  trade_share_pct: number;
-
-};
-
-
-
-type AumWeightedReturn = {
-  scope: "all" | "top_50" | "top_100" | "top_200";
-  label: string;
-  constituent_count: number;
-  total_aum: number;
-  aum_coverage_pct: number;
-  weighted_return_pct: number;
-  up_count?: number;
-  flat_count?: number;
-  down_count?: number;
-};
-
-
-
-type FocusEtf = {
-
-  rank_no: number;
-
-  ticker: string;
-
-  etf_name: string;
-
-  asset_class: string | null;
-
-  close_value: number;
-
-  change_pct: number;
-
-  trade_value: number;
-
-  trade_share_pct: number;
-
-};
-
-
-
-type Briefing = {
-
-  asOfDate: string;
-
-  isStale: boolean;
-
-  staleDays: number;
-
-  headline: { text: string | null; generationStatus: string };
-
-  marketIndices: MarketIndex[];
-
-  pulse: {
-    totalEtfCount?: number;
-    generalEtfCount: number;
-    upCount: number;
-    flatCount: number;
-    downCount: number;
-    breadthRatioPct: number;
-    marketTemperature: string;
-    generalAumWeightedReturnPct: number;
-    top50AumWeightedReturnPct: number;
-    top100AumWeightedReturnPct: number;
-    top200AumWeightedReturnPct: number;
-    aumWeightedReturns: AumWeightedReturn[];
-    generalTotalAum: number;
-    generalTotalTradeValue: number;
-    top10TradeSharePct: number;
-    allTop10TradeSharePct?: number;
-  };
-  assetClasses: AssetClass[];
-  focusEtfs: FocusEtf[];
-  peerGroups?: any;
-  fundFlow?: any;
-  disparityWarning?: any;
-  marketScale?: any;
-  weeklyFundFlows?: any[];
-  monthlyFundFlows?: any[];
-};
-
 
 
 const number = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
 
 const decimal = new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-const formatWon = (value: number) => {
-  if (value >= 1e12) return decimal.format(value / 1e12) + "조원";
-  if (value >= 1e8) return number.format(value / 1e8) + "억원";
-  return number.format(value) + "원";
-};
+const yieldDecimal = new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 
 
 
 function normalizeToEok(value?: number | null) {
   if (!value) return 0;
-  // If value is in KRW 원 (e.g. >= 10^10), convert to 억원 (divide by 10^8)
-  if (Math.abs(value) >= 100_000_000_000) {
+  // If value is in KRW 원 (e.g. >= 10^7 = 1천만원), convert to 억원 (divide by 10^8)
+  // Note: in 억원, Korea's total ETF AUM is ~3.7 million (370조원). Any number >= 10_000_000 is unambiguously in 원 (KRW).
+  if (Math.abs(value) >= 10_000_000) {
     return value / 100_000_000;
   }
   return value;
@@ -187,39 +79,23 @@ function formatKoreanTradeAmount(eokValue: number) {
   return `${number.format(jo)}조 ${number.format(remainderEok)}억원`;
 }
 
-function signedInt(value: number) {
-  return `${value >= 0 ? "+" : ""}${number.format(value)}`;
-}
-
 function signed(value: number, unit = "%") {
-
-  return `${value >= 0 ? "+" : ""}${decimal.format(value)}${unit}`;
-
-}
-
-
-
-function money(value: number) {
-
-  if (value >= 1_000_000_000_000) return `${decimal.format(value / 1_000_000_000_000)}조원`;
-
-  if (value >= 100_000_000) return `${decimal.format(value / 100_000_000)}억원`;
-
-  return `${number.format(value)}원`;
-
+  const formatted = decimal.format(value);
+  if (formatted === "0.00" || formatted === "-0.00") return `0.00${unit}`;
+  return `${value > 0 ? "+" : ""}${formatted}${unit}`;
 }
 
 
 
 function dateLabel(value?: string) {
-
   if (!value) return "-";
-
-  const [year, month, day] = value.split("-");
-
-  return `${year}.${month}.${day}`;
-
+  const match = value.match(/(\d{4})[-.](\d{2})[-.](\d{2})/);
+  if (match) {
+    return `${match[1]}.${match[2]}.${match[3]}`;
+  }
+  return value.replace(/-/g, ".");
 }
+
 
 
 
@@ -290,7 +166,7 @@ function InfoTooltip({
         <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
       </button>
       <div
-        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-60 sm:w-64 rounded-xl bg-neutral-900/95 p-3 text-[11.5px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left`}
+        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-60 sm:w-64 max-w-[calc(100vw-32px)] rounded-xl bg-slate-900/98 p-3 text-[11.5px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-md transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left whitespace-normal break-keep`}
       >
         {text}
         <div className={`absolute ${arrowClasses}`} />
@@ -321,77 +197,40 @@ function Skeleton() {
 
 
 
-function ErrorState({ message }: { message: string }) {
-
+function ErrorState({ message, onReset }: { message: string; onReset?: () => void }) {
   return (
-
-    <section className="rounded-[22px] border border-amber-200 bg-amber-50 px-6 py-8 text-center">
-
+    <section className="rounded-[22px] border border-amber-200 bg-amber-50 px-6 py-8 text-center my-8">
       <p className="text-sm font-bold text-amber-950">마켓 브리핑을 준비하고 있습니다</p>
-
       <p className="mt-2 text-sm leading-6 text-amber-800">{message}</p>
-
-      <p className="mt-4 text-xs text-amber-700">기준일에 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
-
+      {onReset ? (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={onReset}
+            className="rounded-xl bg-[#2E6819] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#235013] shadow-sm"
+          >
+            최신 마켓 브리핑으로 돌아가기
+          </button>
+        </div>
+      ) : (
+        <p className="mt-4 text-xs text-amber-700">기준일에 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
+      )}
     </section>
-
   );
-
 }
 
-
-
-function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
-
-  const total = pulse.generalEtfCount || 1;
-
-  const up = (pulse.upCount / total) * 100;
-
-  const flat = (pulse.flatCount / total) * 100;
-
-  const down = (pulse.downCount / total) * 100;
-
-
-
-  return (
-
-    <div className="mt-3">
-
-      <div className="flex h-2.5 overflow-hidden rounded-full bg-black/5" aria-label={`상승 ${pulse.upCount}개 보합 ${pulse.flatCount}개 하락 ${pulse.downCount}개`}>
-
-        <span className="bg-[#E5484D]" style={{ width: `${up}%` }} />
-
-        <span className="bg-neutral-300" style={{ width: `${flat}%` }} />
-
-        <span className="bg-[#2879BB]" style={{ width: `${down}%` }} />
-
-      </div>
-
-      <div className="mt-2.5 flex flex-wrap gap-x-2 gap-y-1 text-[11px] font-medium">
-
-        <span className="text-[#D92D20]">상승 {number.format(pulse.upCount)}</span>
-
-        <span className="text-neutral-500">보합 {number.format(pulse.flatCount)}</span>
-
-        <span className="text-[#175CD3]">하락 {number.format(pulse.downCount)}</span>
-
-      </div>
-
-    </div>
-
-  );
-
-}
 
 
 
 function formatChange(code: string, changePct: number) {
   const isBondYield = code === "KR10Y" || code === "DGS10";
   if (isBondYield) {
-    const sign = changePct > 0 ? "+" : changePct < 0 ? "-" : "";
-    return `${sign}${Math.abs(changePct).toFixed(2)}%p`;
+    if (changePct === 0) return "0.000%p";
+    const sign = changePct > 0 ? "+" : "-";
+    return `${sign}${Math.abs(changePct).toFixed(3)}%p`;
   }
-  const sign = changePct > 0 ? "+" : changePct < 0 ? "-" : "";
+  if (changePct === 0) return "0.00%";
+  const sign = changePct > 0 ? "+" : "-";
   return `${sign}${Math.abs(changePct).toFixed(2)}%`;
 }
 
@@ -403,7 +242,40 @@ function formatInflowAmount(value: number) {
   return Math.round(abs).toLocaleString("ko-KR");
 }
 
-function IndexRow({ index }: { index: MarketIndex }) {
+const US_MARKET_HOLIDAYS = new Set([
+  "2026-01-01", // New Year's Day
+  "2026-01-19", // Martin Luther King Jr. Day
+  "2026-02-16", // Washington's Birthday (Presidents' Day)
+  "2026-04-03", // Good Friday
+  "2026-05-25", // Memorial Day
+  "2026-06-19", // Juneteenth
+  "2026-07-03", // Independence Day (observed)
+  "2026-09-07", // Labor Day
+  "2026-11-26", // Thanksgiving Day
+  "2026-12-25", // Christmas Day
+]);
+
+const US_MARKET_CODES = new Set(["SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"]);
+
+export function checkIsMarketClosed(code: string, baseDate?: string, indexDate?: string, isClosedFlag?: boolean): boolean {
+  if (isClosedFlag !== undefined) return Boolean(isClosedFlag);
+  if (!baseDate) return false;
+
+  if (US_MARKET_CODES.has(code)) {
+    // 1) 당일이 미국 공식 공휴일(휴장일)인 경우 (예: 2026-09-07 Labor Day)
+    if (US_MARKET_HOLIDAYS.has(baseDate)) return true;
+
+    // 2) 브리핑 기준일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
+    if (indexDate && indexDate < baseDate) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function IndexRow({ index, baseDate }: { index: MarketIndex; baseDate?: string }) {
+  const isClosed = checkIsMarketClosed(index.code, baseDate, index.as_of_date, index.is_closed);
   const change = index.change_pct ?? 0;
   const isUp = change > 0;
   const isDown = change < 0;
@@ -467,25 +339,57 @@ function IndexRow({ index }: { index: MarketIndex }) {
         ) : (
           <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">{index.label}</span>
         )}
+        {isClosed && (
+          <span 
+            className="text-[9.5px] font-extrabold px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 border border-neutral-200/90 shrink-0 select-none"
+            title="현지 시장 휴장일로 직전 거래일 종가가 유지되었습니다."
+          >
+            휴장
+          </span>
+        )}
       </div>
       
-      {/* 2열 + 3열: 종가 수치 (68px) + 등락 배지 (66px) */}
+      {/* 2열 + 3열: 종가 수치 (70px) + 등락 배지 (72px) */}
       <div className="flex items-center gap-2 shrink-0">
-        <div className="w-[68px] text-center flex items-baseline justify-center gap-0.5">
-          <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
+        <div className="w-[70px] text-center flex items-baseline justify-center gap-0.5">
+          <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">
+            {index.close !== undefined && index.close !== null
+              ? (isBondYield ? yieldDecimal.format(index.close) : decimal.format(index.close))
+              : "-"}
+          </span>
           {unit && <span className="text-[10px] font-semibold text-neutral-400">{unit}</span>}
         </div>
 
-        <div className="w-[66px] flex justify-center">
-          <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
-            {trendIcon}
-            <span>{formatChange(index.code, change)}</span>
-          </span>
+        <div className="w-[72px] flex justify-center">
+          {isClosed ? (
+            <span 
+              className="inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[10.5px] font-bold tabular-nums bg-neutral-100 text-neutral-500 ring-1 ring-inset ring-neutral-200/80 cursor-help select-none"
+              title={`현지 시장 휴장 (직전 거래일 ${index.as_of_date ? index.as_of_date + ' ' : ''}종가 유지)`}
+            >
+              <Minus className="w-2.5 h-2.5 stroke-[2.5]" />
+              <span>휴장</span>
+            </span>
+          ) : (
+            <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[10.5px] font-bold tabular-nums whitespace-nowrap ring-1 ring-inset ${surfaceClass}`}>
+              {trendIcon}
+              <span>{formatChange(index.code, change)}</span>
+            </span>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+const BRIEFING_STICKY_STEPS = [
+  { id: "step-macro", label: "거시 지표", step: "STEP 1" },
+  { id: "step-pulse", label: "시장 온도", step: "STEP 2" },
+  { id: "step-micro", label: "세부 동향", step: "STEP 3" },
+  { id: "step-money", label: "자금 동향", step: "STEP 4" },
+  { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
+  { id: "step-scale", label: "시장 구조 스냅샷", step: "STEP 6" },
+  { id: "step-growth", label: "성장·유동성 추이", step: "STEP 7" },
+] as const;
 
 function MarketBriefingStickyBar({
   asOfDate,
@@ -499,25 +403,15 @@ function MarketBriefingStickyBar({
   const [activeStep, setActiveStep] = useState<string>("step-macro");
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  const steps = [
-    { id: "step-macro", label: "거시 지표", step: "STEP 1" },
-    { id: "step-pulse", label: "시장 온도", step: "STEP 2" },
-    { id: "step-micro", label: "세부 동향", step: "STEP 3" },
-    { id: "step-money", label: "자금 동향", step: "STEP 4" },
-    { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
-    { id: "step-scale", label: "시장 구조 스냅샷", step: "STEP 6" },
-    { id: "step-growth", label: "성장·유동성 추이", step: "STEP 7" },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 220);
 
       const scrollPos = window.scrollY + 140;
-      for (let i = steps.length - 1; i >= 0; i--) {
-        const el = document.getElementById(steps[i].id);
+      for (let i = BRIEFING_STICKY_STEPS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(BRIEFING_STICKY_STEPS[i].id);
         if (el && el.offsetTop <= scrollPos) {
-          setActiveStep(steps[i].id);
+          setActiveStep(BRIEFING_STICKY_STEPS[i].id);
           break;
         }
       }
@@ -540,10 +434,10 @@ function MarketBriefingStickyBar({
 
   return (
     <div
-      className={`sticky top-0 z-30 w-full transition-all duration-300 ${
+      className={`fixed top-[var(--site-header-height,64px)] left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.06)] border-b border-[#E2E8D8] py-2"
-          : "bg-transparent py-0 pointer-events-none"
+          : "bg-transparent py-0 pointer-events-none opacity-0 invisible"
       }`}
     >
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-opacity duration-300 ${isScrolled ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
@@ -562,7 +456,7 @@ function MarketBriefingStickyBar({
 
           {/* Center: STEP 1~6 퀵 점프 탭 */}
           <nav className="hidden md:flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
-            {steps.map((s) => {
+            {BRIEFING_STICKY_STEPS.map((s) => {
               const isActive = activeStep === s.id;
               return (
                 <button
@@ -631,7 +525,7 @@ export function MarketBriefing() {
     setIsLocalhost(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   }, []);
 
-  const { briefing, isLoading, isRefreshing, error, refresh } = useMarketBriefing({
+  const { briefing, isLoading, error } = useMarketBriefing({
     asOfDate: selectedDate,
     revalidateOnFocus: !selectedDate,
     revalidateIntervalMs: selectedDate ? 0 : 10 * 60 * 1000,
@@ -642,58 +536,76 @@ export function MarketBriefing() {
   const orderedIndices = useMemo(() => {
     if (!briefing) return [];
 
-    const mergedIndices = [...briefing.marketIndices];
-
-    const addGlobalIndex = (label: string, code: string) => {
-      const found = globalIndicesData.indices.find(
-        (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
-      );
-      if (found && !mergedIndices.some((m) => m.code === code)) {
-        mergedIndices.push({
-          code: code,
-          label: label,
-          close: found.value,
-          change_pct: found.change,
-          as_of_date: found.as_of_date || briefing.asOfDate,
-        });
-      }
+    const CANONICAL_CODE_MAP: Record<string, string> = {
+      "^GSPC": "SPX",
+      "SPX": "SPX",
+      "^IXIC": "NDX",
+      "NDX": "NDX",
+      "^VIX": "VIX",
+      "VIX": "VIX",
+      "VIXCLS": "VIX",
+      "^TNX": "DGS10",
+      "DGS10": "DGS10",
+      "KRW=X": "USDKRW",
+      "USDKRW": "USDKRW",
+      "CL=F": "CLF",
+      "CLF": "CLF",
+      "GC=F": "GC",
+      "GC": "GC",
+      "SI=F": "SI",
+      "SI": "SI",
+      "KOSPI": "KOSPI",
+      "KOSDAQ": "KOSDAQ",
+      "VKOSPI": "VKOSPI",
+      "KR10Y": "KR10Y",
     };
 
-    addGlobalIndex("코스피 변동성지수", "VKOSPI");
-    addGlobalIndex("S&P 500", "SPX");
-    addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("VIX", "VIX");
-    addGlobalIndex("원/달러", "USDKRW");
+    // Normalize any existing codes from briefing
+    const mergedIndices: MarketIndex[] = (briefing.marketIndices || []).map((idx) => {
+      const normalizedCode = CANONICAL_CODE_MAP[idx.code] || idx.code;
+      return {
+        ...idx,
+        code: normalizedCode,
+      };
+    });
     
-    if (!mergedIndices.some((m) => m.code === "KR10Y")) {
-      const foundKr = globalIndicesData.indices.find(
-        (i) => i.code === "KR10Y" || i.label === "국채 10년" || i.label === "국고채 10년"
-      );
-      mergedIndices.push({
-        code: "KR10Y",
-        label: "국채 10년",
-        close: foundKr ? foundKr.value : 3.15,
-        change_pct: foundKr ? foundKr.change : 0.02,
-        as_of_date: foundKr?.as_of_date || briefing.asOfDate,
-      });
-    }
+    const typedGlobalData = globalIndicesData as unknown as {
+      as_of_date?: string;
+      base_date?: string;
+      indices: Array<{ code: string; label: string; value?: number; change?: number; as_of_date?: string; is_closed?: boolean }>;
+    };
 
-    if (!mergedIndices.some((m) => m.code === "DGS10")) {
-      const foundUs = globalIndicesData.indices.find(
-        (i) => i.code === "DGS10" || i.code === "^TNX" || i.label?.includes("미 국채") || i.label?.includes("미국 국채")
-      );
-      mergedIndices.push({
-        code: "DGS10",
-        label: "국채 10년",
-        close: foundUs ? foundUs.value : 4.64,
-        change_pct: foundUs ? foundUs.change : -0.07,
-        as_of_date: foundUs?.as_of_date || briefing.asOfDate,
-      });
-    }
+    const globalDate = typedGlobalData.as_of_date || (typedGlobalData.base_date && typedGlobalData.base_date.length === 8 ? `${typedGlobalData.base_date.slice(0, 4)}-${typedGlobalData.base_date.slice(4, 6)}-${typedGlobalData.base_date.slice(6, 8)}` : undefined);
+    const isViewingPastDate = Boolean(selectedDate) || Boolean(briefing.asOfDate && globalDate && briefing.asOfDate !== globalDate);
 
-    addGlobalIndex("WTI 원유", "CLF");
-    addGlobalIndex("금 선물", "GC");
-    addGlobalIndex("은 선물", "SI");
+    if (!isViewingPastDate && mergedIndices.length <= 2 && typedGlobalData?.indices) {
+      const addGlobalIndex = (label: string, targetCode: string, searchKeys: string[]) => {
+        const found = typedGlobalData.indices.find((i) =>
+          searchKeys.includes(i.code) || searchKeys.includes(i.label) || searchKeys.includes(i.label.replace(" ", ""))
+        );
+        if (!mergedIndices.some((m) => m.code === targetCode)) {
+          mergedIndices.push({
+            code: targetCode,
+            label: label,
+            close: found?.value,
+            change_pct: found?.change,
+            as_of_date: found?.as_of_date || briefing.asOfDate,
+            is_closed: found?.is_closed,
+          });
+        }
+      };
+
+      addGlobalIndex("코스피 변동성지수", "VKOSPI", ["VKOSPI", "코스피 변동성", "코스피 변동성지수"]);
+      addGlobalIndex("S&P 500", "SPX", ["^GSPC", "SPX", "S&P 500", "S&P500"]);
+      addGlobalIndex("나스닥", "NDX", ["^IXIC", "NDX", "나스닥"]);
+      addGlobalIndex("VIX", "VIX", ["^VIX", "VIX", "VIXCLS"]);
+      addGlobalIndex("원/달러", "USDKRW", ["KRW=X", "USDKRW", "원/달러"]);
+      addGlobalIndex("국채 10년", "KR10Y", ["KR10Y", "국채 10년", "국채10년"]);
+      addGlobalIndex("미 국채 10년물", "DGS10", ["^TNX", "DGS10", "미 국채 10년물", "미국채 10년물"]);
+      addGlobalIndex("WTI 원유", "CLF", ["CL=F", "CLF", "WTI 원유"]);
+      addGlobalIndex("금 선물", "GC", ["GC=F", "GC", "금 선물"]);
+      addGlobalIndex("은 선물", "SI", ["SI=F", "SI", "은 선물"]);
+    }
 
     const order = [
       "KOSPI", "KOSDAQ", "VKOSPI",
@@ -710,13 +622,22 @@ export function MarketBriefing() {
       if (idxB === -1) return -1;
       return idxA - idxB;
     });
-  }, [briefing]);
+  }, [briefing, selectedDate]);
 
 
 
   const sortedAssetClasses = useMemo(() => {
     if (!briefing || !briefing.assetClasses) return [];
+    const EXCLUDED_CLASSES = new Set([
+      "주식", "미분류", "기타",
+      "일반 실물 ETF", "파킹·단기자금", "레버리지", "인버스",
+      "general", "parking", "leveraged", "inverse"
+    ]);
     return [...briefing.assetClasses]
+      .filter((row: any) => {
+        const ac = (row.asset_class || row.assetClass || "").trim();
+        return ac && !EXCLUDED_CLASSES.has(ac);
+      })
       .map((row: any) => {
         const aum = row.total_aum ?? row.totalAum ?? 0;
         const aumShare = row.aum_share_pct ?? row.aumSharePct ?? 0;
@@ -737,30 +658,12 @@ export function MarketBriefing() {
 
   if (isLoading && !briefing) return <Skeleton />;
 
-  if (!briefing) return <ErrorState message={error ?? "검증된 브리핑이 아직 없습니다."} />;
+  if (!briefing) return <ErrorState message={error ?? "검증된 브리핑이 아직 없습니다."} onReset={() => setSelectedDate(undefined)} />;
 
 
 
   const { pulse } = briefing;
-
-  const scopeReturns = new Map(pulse.aumWeightedReturns.map((item) => [item.scope, item]));
-
-  const scaleRows = [
-    { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format(pulse.generalEtfCount)}개` },
-    { scope: "top_50" as const, label: "순자산 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "순자산 상위 50개 ETF" },
-    { scope: "top_100" as const, label: "순자산 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "순자산 상위 100개 ETF" },
-    { scope: "top_200" as const, label: "순자산 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "순자산 상위 200개 ETF" },
-  ];
-
-  const maxScale = Math.max(...scaleRows.map((row) => Math.abs(row.value)), 0.01);
-
-  const maxContribution = Math.max(...sortedAssetClasses.map((row) => Math.abs(row.contribution_pct)), 0.01);
-
-    const isPositive = pulse.generalAumWeightedReturnPct >= 0;
-  
-  const validClasses = briefing.assetClasses ? briefing.assetClasses.filter(c => c.etf_count >= 10) : [];
-  const bestClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]) : null;
-  const worstClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]) : null;
+  if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
 
   const bestTheme = (briefing.peerGroups && briefing.peerGroups.length > 0) ? briefing.peerGroups.reduce((prev: any, curr: any) => 
     ((curr.cappedAumWeightedReturnPct || 0) > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
@@ -770,26 +673,34 @@ export function MarketBriefing() {
   const rawWeekly = briefing.weeklyFundFlows as any;
   const topInflowTheme = (Array.isArray(rawWeekly) ? rawWeekly.find((x: any) => (x.netInflow || 0) > 0) : rawWeekly?.topInflows?.[0]) || null;
 
-  
-    let themeSentence = "";
+  let themeSentence = "";
   if (briefing.peerGroups && briefing.peerGroups.length >= 6) {
     const sorted = [...briefing.peerGroups].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
     const top3 = sorted.slice(0, 3);
     const bottom3 = sorted.slice(-3).reverse();
     
-    const topStr = top3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
-    const bottomStr = bottom3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
+    // 테마명 부연설명 괄호(예: 에너지 (원유·천연가스) -> 에너지)를 제거하고, 괄호 없는 '테마명 +2.95%' 형식으로 깔끔하게 결합
+    const formatTheme = (t: any) => {
+      const cleanName = (t.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      return `${cleanName} ${signed(t.cappedAumWeightedReturnPct)}`;
+    };
+
+    const topStr = top3.map(formatTheme).join(", ");
+    const bottomStr = bottom3.map(formatTheme).join(", ");
     
-    themeSentence = `오늘 시장을 이끈 주도 테마는 ${topStr}이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
+    const topIsPositive = (top3[0]?.cappedAumWeightedReturnPct ?? 0) > 0;
+    const leadVerb = topIsPositive ? "오늘 시장을 이끈 주도 테마는" : "상대적으로 선방한 상위 테마는";
+
+    themeSentence = `${leadVerb} ${topStr} 순이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
   }
   
   let concentrationSentence = "";
   if (pulse.top10TradeSharePct > 40) {
-    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${pulse.top10TradeSharePct.toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
+    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${(pulse?.top10TradeSharePct || 0).toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
   const narrative = generateMarketNarrative({
-    generalEtfCount: pulse.generalEtfCount,
+    generalEtfCount: (pulse?.generalEtfCount || 0),
     upCount: pulse.upCount,
     flatCount: pulse.flatCount ?? 0,
     downCount: pulse.downCount,
@@ -801,20 +712,22 @@ export function MarketBriefing() {
     concentrationSentence,
   });
 
-  const { dynamicTitle, headline, breadthSentence } = narrative;
+  const { dynamicTitle, headline } = narrative;
 
   const kospi = orderedIndices.find(i => i.code === "KOSPI");
   const spx = orderedIndices.find(i => i.code === "SPX");
 
+  const isSpxClosed = checkIsMarketClosed("SPX", briefing.asOfDate, spx?.as_of_date, spx?.is_closed);
+
   let macroSentence = "국내외 증시와 주요 환율·금리 지표가 전반적으로 안정적인 균형 흐름을 나타냈습니다.";
-  if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
-    macroSentence = `미국 증시 강세(${signed(spx?.change_pct ?? 0)})와 원/달러 환율 안정 속에, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
-  } else if ((spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
-    macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락 압력을 받았습니다.`;
+  if (!isSpxClosed && (spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
+    macroSentence = `미국 증시가 ${signed(spx?.change_pct ?? 0)} 상승하고 원/달러 환율이 안정세를 보이며, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
+  } else if (!isSpxClosed && (spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
+    macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락세를 보였습니다.`;
   } else if ((kospi?.change_pct ?? 0) > 0) {
-    macroSentence = `글로벌 변동성 속에서도 국내 증시(${signed(kospi?.change_pct ?? 0)})가 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;
+    macroSentence = `글로벌 변동성 속에서도 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;
   } else if ((kospi?.change_pct ?? 0) < 0) {
-    macroSentence = `대외 거시 환경의 경계감 속에 국내 증시(${signed(kospi?.change_pct ?? 0)})가 숨고르기 양상을 나타냈습니다.`;
+    macroSentence = `대외 거시 환경의 경계감 속에 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 숨고르기 양상을 나타냈습니다.`;
   }
 
   let themeKeySentence = "세부 테마별 롱숏 수익률 차별화 장세가 뚜렷하게 전개되었습니다.";
@@ -823,32 +736,49 @@ export function MarketBriefing() {
     const top1 = sortedGroups[0];
     const bot1 = sortedGroups[sortedGroups.length - 1];
     if (top1 && bot1) {
-      themeKeySentence = `오늘 시장은 '${top1.peerGroup}(${signed(top1.cappedAumWeightedReturnPct)})' 테마가 가장 강력한 상승을 견인한 반면, '${bot1.peerGroup}(${signed(bot1.cappedAumWeightedReturnPct)})' 테마는 조정을 받았습니다.`;
+      const cleanTop = (top1.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cleanBot = (bot1.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      themeKeySentence = `오늘 시장은 ${cleanTop} 테마가 ${signed(top1.cappedAumWeightedReturnPct)}로 가장 강력한 성과를 견인한 반면, ${cleanBot} 테마는 ${signed(bot1.cappedAumWeightedReturnPct)}로 조정을 받았습니다.`;
     }
   }
 
   const topInflowItem = briefing.fundFlow?.general?.topInflows?.[0] || briefing.fundFlow?.all?.topInflows?.[0];
   const topOutflowItem = briefing.fundFlow?.general?.topOutflows?.[0] || briefing.fundFlow?.all?.topOutflows?.[0];
   let flowKeySentence = "주요 대표 지수 및 테마 ETF를 중심으로 일일 자금 유출입이 활발하게 일어났습니다.";
-  if (topInflowItem && topOutflowItem) {
-    flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formatInflowAmount(topInflowItem.netInflowValue)}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formatInflowAmount(topOutflowItem.netInflowValue)}억원)'에서는 차익실현 환매가 출회되었습니다.`;
+  const topInflowVal = topInflowItem?.netInflowValue ?? 0;
+  const topOutflowVal = topOutflowItem?.netInflowValue ?? 0;
+  if (topInflowItem && topOutflowItem && topInflowVal > 0 && topOutflowVal < 0) {
+    const formattedInflow = formatInflowAmount(topInflowVal);
+    const formattedOutflow = formatInflowAmount(topOutflowVal);
+    if (formattedInflow !== "0" && formattedOutflow !== "0") {
+      flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formattedInflow}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formattedOutflow}억원)'에서는 차익실현 환매가 출회되었습니다.`;
+    }
   }
 
   const isViewingPastDate = Boolean(selectedDate);
   const isPastLocked = isViewingPastDate && !authenticated && !bypassAuth;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
-      {/* Master Hero Header */}
-      <header className="pt-2">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EBF5DC] px-2.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
+    <>
+      <MarketBriefingStickyBar
+        asOfDate={briefing.asOfDate}
+        generalReturnPct={pulse.generalAumWeightedReturnPct}
+        onOpenHistory={() => {
+          const el = document.getElementById("briefing-history-section");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
+      <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12 w-full max-w-full min-w-0">
+        {/* Master Hero Header */}
+        <header className="pt-0 w-full max-w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80 w-full max-w-full">
+          <div className="w-full max-w-full min-w-0">
+            <div className="w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-2 mb-2 pb-0.5">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#EBF5DC] px-2.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#65A30D] animate-pulse" />
                 DAILY MARKET PULSE
               </span>
-              <span className="text-xs font-semibold text-neutral-400">KRX 상장 일반 ETF {briefing.pulse?.generalEtfCount?.toLocaleString() ?? 1022}개 전수 분석</span>
+              <span className="shrink-0 text-xs font-semibold text-neutral-400">KRX 상장 일반 ETF {briefing.pulse?.generalEtfCount?.toLocaleString() ?? 1022}개 전수 분석</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900">
               ETF 데일리 마켓 브리핑
@@ -859,26 +789,23 @@ export function MarketBriefing() {
           </div>
 
           {/* 통합 마스터 기준일 뱃지 클러스터 */}
-          <div className="flex items-center gap-2 self-start md:self-auto">
-            <div className="rounded-2xl border border-[#D7EABB] bg-[#FAFDF4] px-4 py-2.5 text-right shadow-2xs">
+          <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+            <div className="rounded-2xl border border-[#D7EABB] bg-[#FAFDF4] px-3.5 py-2 sm:px-4 sm:py-2.5 text-right shadow-2xs">
               <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A7050]">Analysis Date</p>
-              <p className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
-                {dateLabel(briefing.asOfDate)} 장마감 기준
-              </p>
+              <div className="mt-0.5 flex items-center justify-end gap-1.5 whitespace-nowrap">
+                <span className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
+                  {dateLabel(briefing.asOfDate)}
+                </span>
+                <span className="inline-flex shrink-0 items-center rounded-md bg-[#EBF5DC] px-1.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
+                  장마감 기준
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Sticky Floating As-of-Date & Quick Step Navigation Bar */}
-      <MarketBriefingStickyBar
-        asOfDate={briefing.asOfDate}
-        generalReturnPct={pulse.generalAumWeightedReturnPct}
-        onOpenHistory={() => {
-          const el = document.getElementById("briefing-history-section");
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }}
-      />
+
 
 
       {selectedDate && !isPastLocked && (
@@ -936,26 +863,26 @@ export function MarketBriefing() {
       ) : (
         <>
       {/* Tickery's 3-Point Mini Dashboard */}
-      <section className="relative rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
+      <section className="relative rounded-[22px] sm:rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-4.5 sm:p-8 shadow-[0_8px_24px_rgba(43,61,39,0.04)]">
         {/* Background decorative glow (isolated with overflow-hidden) */}
-        <div className="absolute inset-0 overflow-hidden rounded-[26px] pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden rounded-[22px] sm:rounded-[26px] pointer-events-none">
           <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl" />
         </div>
 
         <div className="relative z-10">
 
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0">
 
-              <p className="flex items-center gap-2 text-base sm:text-lg font-black tracking-tight text-[#2B4C28]">
-                <span className="text-xl">💡</span> 오늘의 마켓 브리핑 핵심 요약
+              <p className="flex items-center gap-1.5 text-[15px] sm:text-lg font-black tracking-tight text-[#2B4C28]">
+                <span className="text-lg sm:text-xl">💡</span> 오늘의 마켓 브리핑 핵심 요약
               </p>
 
-              <span className="text-xs font-semibold text-neutral-400 border-l border-[#D7EABB] pl-3 tabular-nums">{dateLabel(briefing.asOfDate)} 기준</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-neutral-400 border-l border-[#D7EABB] pl-2.5 sm:pl-3 tabular-nums">{dateLabel(briefing.asOfDate)} 기준</span>
 
               {briefing.isStale && briefing.staleDays >= 3 && (
-                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
                   갱신 지연
                 </span>
               )}
@@ -964,23 +891,36 @@ export function MarketBriefing() {
 
             <button
               type="button"
-              onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer"
+              onClick={() => setIsGuideOpen(!isGuideOpen)}
+              className={`flex items-center gap-1.5 rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-bold transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer w-fit ${
+                isGuideOpen
+                  ? "bg-[#2E6819] text-white shadow-xs border border-[#2E6819]"
+                  : "bg-white text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC]"
+              }`}
             >
-              <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
+              <BookOpen className={`h-3.5 w-3.5 ${isGuideOpen ? "text-white" : "text-[#5A7050]"}`} />
               <span>이 화면 읽는 법</span>
-              <span className="text-[10px] font-extrabold text-[#2E6819] bg-[#FAFDF4] px-1.5 py-0.5 rounded-full border border-[#D7EABB]">
-                가이드
+              <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full border ${
+                isGuideOpen 
+                  ? "bg-white/20 text-white border-white/30" 
+                  : "text-[#2E6819] bg-[#FAFDF4] border-[#D7EABB]"
+              }`}>
+                {isGuideOpen ? "접기 ▲" : "가이드 ▾"}
               </span>
             </button>
 
           </div>
 
-          
+          {/* 마켓 브리핑 활용 가이드 인라인 아코디언 */}
+          <MarketBriefingGuideModal
+            isOpen={isGuideOpen}
+            onClose={() => setIsGuideOpen(false)}
+            onNavigateToStep={scrollToStep}
+          />
 
-          <div className="mt-5 mb-6">
+          <div className="mt-4 sm:mt-5 mb-5 sm:mb-6">
 
-            <h2 className="text-2xl font-extrabold tracking-tight text-neutral-900 sm:text-3xl">
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-neutral-900 break-keep leading-snug">
 
               {dynamicTitle}
 
@@ -1012,7 +952,7 @@ export function MarketBriefing() {
                     </div>
                   )}
                   {/* Highlight 2: Best Inflow */}
-                  {topInflowEtf ? (
+                  {topInflowEtf && (topInflowEtf.netInflowValue || 0) > 0 ? (
                     <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
                       <div className="min-w-0 pr-2">
                         <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">일간 순유입 1위 ETF</p>
@@ -1047,7 +987,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {headline.split('. ').map((sentence, i) => {
+                  {(headline || "").split('. ').map((sentence, i) => {
                     if (!sentence) return null;
                     return (
                       <div key={i} className="flex items-start gap-2">
@@ -1065,19 +1005,10 @@ export function MarketBriefing() {
         </div>
       </section>
 
-      {/* 마켓 브리핑 활용 가이드 모달 다이얼로그 */}
-      <MarketBriefingGuideModal
-        isOpen={isGuideOpen}
-        onClose={() => setIsGuideOpen(false)}
-        onNavigateToStep={scrollToStep}
-      />
-
-
-
       {/* STEP 1: Macro */}
 
 
-      {briefing.marketIndices.length > 0 && (
+      {(briefing.marketIndices?.length ?? 0) > 0 && (
         <section id="step-macro" aria-labelledby="market-index-title" className="mb-14 scroll-mt-20">
           <div className="mb-4 border-l-4 border-[#9ACD68] pl-3.5">
             <div className="flex items-center gap-2">
@@ -1110,12 +1041,12 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">국내 증시</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
-                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                    <span className="w-[70px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
+                    <span className="w-[72px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1129,12 +1060,12 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">미국 증시</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
-                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                    <span className="w-[70px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
+                    <span className="w-[72px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1148,12 +1079,12 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">환율 · 금리</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
-                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                    <span className="w-[70px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
+                    <span className="w-[72px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1167,12 +1098,12 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">원자재</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
-                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                    <span className="w-[70px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
+                    <span className="w-[72px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1197,7 +1128,7 @@ export function MarketBriefing() {
         </div>
 
         {(() => {
-          const totalCount = pulse.generalEtfCount || (pulse.upCount + pulse.flatCount + pulse.downCount) || 1;
+          const totalCount = (pulse?.generalEtfCount || 0) || ((pulse?.upCount || 0) + (pulse?.flatCount || 0) + (pulse?.downCount || 0)) || 1;
           const upRatio = ((pulse.upCount / totalCount) * 100).toFixed(1);
           const flatRatio = ((pulse.flatCount / totalCount) * 100).toFixed(1);
           const downRatio = ((pulse.downCount / totalCount) * 100).toFixed(1);
@@ -1220,7 +1151,7 @@ export function MarketBriefing() {
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
-                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {pulse.top10TradeSharePct.toFixed(1)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
+                일반 ETF {number.format((pulse?.generalEtfCount || 0))}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {(pulse?.top10TradeSharePct || 0).toFixed(1)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
               </p>
             </div>
 
@@ -1240,12 +1171,12 @@ export function MarketBriefing() {
                     <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-neutral-50 border border-neutral-200/70 text-[11px] font-medium text-neutral-500">
                       <span className="hidden sm:inline text-neutral-400">일반</span>
                       <strong className="font-extrabold text-neutral-800 tabular-nums">
-                        {number.format(pulse.generalEtfCount)}
+                        {number.format((pulse?.generalEtfCount || 0))}
                       </strong>
                       <span className="text-neutral-300">/</span>
                       <span className="text-[10.5px] text-neutral-400 tabular-nums">
                         <span className="hidden sm:inline">전체 </span>
-                        {number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
+                        {(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개` : '—'}
                       </span>
                       <InfoTooltip 
                         text="시장 왜곡을 방지하기 위해 초단기 파킹형(CD/KOFR) 및 레버리지·인버스 상품을 제외한 실물 일반 ETF만을 정제 집계한 분석 모수입니다."
@@ -1330,7 +1261,7 @@ export function MarketBriefing() {
                   <div className="my-4 grid grid-cols-2 gap-2 bg-[#F9FBFC] p-3.5 rounded-2xl border border-neutral-100">
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="text-[11px] font-bold text-neutral-700">일반 ETF ({number.format(pulse.generalEtfCount)}개)</span>
+                        <span className="text-[11px] font-bold text-neutral-700">일반 ETF ({number.format((pulse?.generalEtfCount || 0))}개)</span>
                         <InfoTooltip 
                           text="레버리지, 인버스, 파킹형(CD/KOFR) 상품을 제외한 순수 실물 주식·채권·섹터 ETF의 상위 10개 거래대금 쏠림도입니다. 왜곡 없는 산업/테마 시장의 실제 수급 건강도를 나타냅니다." 
                           side="bottom"
@@ -1339,7 +1270,7 @@ export function MarketBriefing() {
                       </div>
                       <div className="mt-1 flex items-baseline gap-1">
                         <span className="text-3xl font-black tabular-nums tracking-tight text-neutral-900">
-                          {pulse.top10TradeSharePct.toFixed(1)}
+                          {(pulse?.top10TradeSharePct || 0).toFixed(1)}
                         </span>
                         <span className="text-base font-extrabold text-neutral-400">%</span>
                       </div>
@@ -1348,7 +1279,7 @@ export function MarketBriefing() {
                     {pulse.allTop10TradeSharePct ? (
                       <div className="border-l border-neutral-200 pl-3.5">
                         <div className="flex items-center gap-1">
-                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개)</span>
+                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개` : '—'})</span>
                         </div>
                         <div className="mt-1 flex items-baseline gap-1">
                           <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">
@@ -1389,7 +1320,7 @@ export function MarketBriefing() {
                     <div className="flex items-center justify-between text-[11px] text-neutral-400 pt-0.5">
                       <span>수급 집중도 게이지</span>
                       <span>
-                        현재 위치: <strong className="text-neutral-800 font-extrabold">{pulse.top10TradeSharePct.toFixed(1)}%</strong> ({isOverheated ? '과열 위험 구간' : isCaution ? '주의 구간' : '양호 분산 구간'})
+                        현재 위치: <strong className="text-neutral-800 font-extrabold">{(pulse?.top10TradeSharePct || 0).toFixed(1)}%</strong> ({isOverheated ? '과열 위험 구간' : isCaution ? '주의 구간' : '양호 분산 구간'})
                       </span>
                     </div>
                   </div>
@@ -1476,15 +1407,20 @@ export function MarketBriefing() {
                         {returnPct === null || returnPct === undefined ? "—" : signed(returnPct)}
                       </td>
                       <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black text-[12.5px] sm:text-[13px]">
-                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
-                          row.contribution_pct > 0 
-                            ? "bg-[#FEF3F2] text-[#D92D20]" 
-                            : row.contribution_pct < 0 
-                            ? "bg-[#EFF8FF] text-[#175CD3]" 
-                            : "text-neutral-500"
-                        }`}>
-                          {signed(row.contribution_pct, "%p")}
-                        </span>
+                        {(() => {
+                          const isZero = Math.abs(row.contribution_pct) < 0.005;
+                          return (
+                            <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
+                              !isZero && row.contribution_pct > 0 
+                                ? "bg-[#FEF3F2] text-[#D92D20]" 
+                                : !isZero && row.contribution_pct < 0 
+                                ? "bg-[#EFF8FF] text-[#175CD3]" 
+                                : "text-neutral-500 font-medium"
+                            }`}>
+                              {signed(row.contribution_pct, "%p")}
+                            </span>
+                          );
+                        })()}
                       </td>
                     </tr>
                   );
@@ -1502,13 +1438,21 @@ export function MarketBriefing() {
                     {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}
                   </td>
                   <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black">
-                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
-                      sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0) >= 0 
-                        ? "bg-[#FEF3F2] text-[#D92D20]" 
-                        : "bg-[#EFF8FF] text-[#175CD3]"
-                    }`}>
-                      {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
-                    </span>
+                    {(() => {
+                      const totalContrib = sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0);
+                      const isZero = Math.abs(totalContrib) < 0.005;
+                      return (
+                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
+                          !isZero && totalContrib > 0 
+                            ? "bg-[#FEF3F2] text-[#D92D20]" 
+                            : !isZero && totalContrib < 0 
+                            ? "bg-[#EFF8FF] text-[#175CD3]" 
+                            : "text-neutral-500 font-medium"
+                        }`}>
+                          {signed(totalContrib, "%p")}
+                        </span>
+                      );
+                    })()}
                   </td>
                 </tr>
               </tfoot>
@@ -1560,7 +1504,7 @@ export function MarketBriefing() {
                       {/* 상위 테마 영역 */}
                       <div className="space-y-1">
                         <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#D92D20]">
-                          <span>▲ {isRich ? "상승 Top 3" : "주요 테마 성과"}</span>
+                          <span>▲ {isRich ? "상위 Top 3" : "주요 테마 성과"}</span>
                         </div>
                         {top.map((t, idx) => (
                           <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#FEF3F2]/50 transition-colors">
@@ -1584,7 +1528,7 @@ export function MarketBriefing() {
                       {isRich && bottom.length > 0 && (
                         <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
                           <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#175CD3]">
-                            <span>▼ 하락 Worst 3</span>
+                            <span>▼ 하위 Worst 3</span>
                           </div>
                           <div className="space-y-1">
                             {bottom.map((b, idx) => {
@@ -1621,9 +1565,9 @@ export function MarketBriefing() {
       {/* STEP 4: Smart Money & Risk */}
       <section id="step-money" className="scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY FLOW</p>
-          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 동향)</h2>
-          <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. FUND FLOW DYNAMICS</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 펀드 플로우)</h2>
+          <p className="mt-1 text-sm text-neutral-500">발행좌수 증감 기반의 실질 자금 순유입·순유출(Creation &amp; Redemption)을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
@@ -1643,9 +1587,9 @@ export function MarketBriefing() {
       {/* STEP 5: Macro Trends (Weekly / Monthly Fund Flow) */}
       <section id="step-trend" className="mb-16 scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND & FLOW</p>
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND &amp; FLOW</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">큰 돈의 흐름은 어디로? (주/월간 트렌드)</h2>
-          <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
+          <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 1차 시장(설정·환매)을 통해 대형/기관 자금이 구조적으로 유입되는 주도 테마를 점검합니다.</p>
         </div>
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (주간/월간 탭 실시간 동적 연동 & 유입·유출 페어링) */}
@@ -1663,13 +1607,16 @@ export function MarketBriefing() {
 
           let sentence = `${periodLabel} 동안 특정 우량 테마로의 중기 자금 흐름이 지속되고 있습니다.`;
           if (topInflow && topOutflow) {
+            const cleanInflowName = (topInflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+            const cleanOutflowName = (topOutflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
             if (step5Tab === 'weekly') {
-              sentence = `최근 5거래일(주간) 스마트머니는 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 집중 유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})'에서는 단기 차익실현 환매가 두드러졌습니다.`;
+              sentence = `최근 5거래일(주간) 실질 순유입(Fund Flow)은 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 가장 집중 유입된 반면, '${cleanOutflowName} ${formatKoreanFlowAmount(topOutflow.netInflow)}'에서는 단기 차익실현 환매가 두드러졌습니다.`;
             } else {
-              sentence = `최근 20거래일(월간) 묵직한 중장기 자금은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 꾸준히 순유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
+              sentence = `최근 20거래일(월간) 기관/대형 중장기 자금은 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 꾸준히 순유입된 반면, '${cleanOutflowName} ${formatKoreanFlowAmount(topOutflow.netInflow)}' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
             }
           } else if (topInflow) {
-            sentence = `${periodLabel} 기준 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;
+            const cleanInflowName = (topInflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+            sentence = `${periodLabel} 기준 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;
           }
 
           return (
@@ -1848,22 +1795,25 @@ export function MarketBriefing() {
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
         {(() => {
           const snapshot = briefing.marketScaleSnapshot;
-          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
-          const totalAumJo = (totalAumEok / 10000).toFixed(1);
-          const totalTradeJo = (totalTradeEok / 10000).toFixed(1);
-          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 0);
+          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 0);
+          const totalAumJo = totalAumEok > 0 ? (totalAumEok / 10000).toFixed(1) : '—';
+          const totalTradeJo = totalTradeEok > 0 ? (totalTradeEok / 10000).toFixed(1) : '—';
+          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : undefined);
           const levCat = snapshot?.categories?.find((c: any) => c.category === 'leveraged');
-          const levAumPct = levCat?.aumSharePct ?? 3.8;
-          const levTradePct = levCat?.tradeSharePct ?? 35.2;
-          const levTurnover = levCat?.turnoverPct ?? 25.65;
+          const levAumPct = levCat?.aumSharePct;
+          const levTradePct = levCat?.tradeSharePct;
+          const levTurnover = levCat?.turnoverPct;
 
           return (
             <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[스냅샷 총평]</strong>
-                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo}조원</strong>이며, 오늘 하루 <strong>{totalTradeJo}조원</strong>의 자금이 회전하여 시장 회전율은 <strong>{Number(turnover).toFixed(1)}%</strong>를 기록했습니다. 특히 레버리지 ETF는 AUM 비중이 <strong>{Number(levAumPct).toFixed(1)}%</strong>에 불과하지만 전체 거래대금의 <strong>{Number(levTradePct).toFixed(1)}%</strong>를 차지해 압도적인 단기 회전율(<strong>{Number(levTurnover).toFixed(1)}%</strong>)을 나타냈습니다.
+                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo !== '—' ? `${totalAumJo}조원` : '—'}</strong>이며, 오늘 하루 <strong>{totalTradeJo !== '—' ? `${totalTradeJo}조원` : '—'}</strong>의 자금이 회전하여 시장 회전율은 <strong>{turnover !== undefined ? `${Number(turnover).toFixed(1)}%` : '—'}</strong>를 기록했습니다.
+                {levCat && levAumPct !== undefined && levTradePct !== undefined && (
+                  <> 특히 레버리지 ETF는 AUM 비중이 <strong>{Number(levAumPct).toFixed(1)}%</strong>에 불과하지만 전체 거래대금의 <strong>{Number(levTradePct).toFixed(1)}%</strong>를 차지해 압도적인 단기 회전율(<strong>{Number(levTurnover ?? 0).toFixed(1)}%</strong>)을 나타냈습니다.</>
+                )}
               </p>
             </div>
           );
@@ -1873,70 +1823,76 @@ export function MarketBriefing() {
           {/* 상단 3대 핵심 지표 헤더 */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 0);
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 0);
+            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 0);
 
             return (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
                 {/* 1. 당일 총 운용자산 */}
-                <div className="bg-[#FAFDF4] rounded-2xl p-4 border border-[#E2EBD6]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>🏦</span> 당일 총 운용자산
+                <div className="bg-[#FAFDF4] rounded-2xl p-4 sm:p-5 border border-[#E2EBD6] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>🏦</span> 당일 총 운용자산</span>
                     <InfoTooltip 
                       text="국내 상장된 모든 ETF의 순자산가치(NAV) 합계로, 시장에 안착해 있는 총 자본의 크기입니다."
                       side="bottom"
                       align="left"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
-                      {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000)}
-                    </span>
-                    <span className="text-sm font-bold text-neutral-500">조원</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-neutral-400 tabular-nums">
-                      {number.format(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개 종목
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
+                        {totalAumEok > 0 ? new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000) : '—'}
+                      </span>
+                      <span className="text-sm font-bold text-neutral-500">조원</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-neutral-400 tabular-nums whitespace-nowrap">
+                      {(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format((snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)!)}개 종목` : '—'}
                     </span>
                   </div>
                 </div>
 
                 {/* 2. 당일 총 거래대금 */}
-                <div className="bg-[#F8FBFE] rounded-2xl p-4 border border-[#D5E6F5]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>⚡</span> 당일 총 거래대금
+                <div className="bg-[#F8FBFE] rounded-2xl p-4 sm:p-5 border border-[#D5E6F5] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>⚡</span> 당일 총 거래대금</span>
                     <InfoTooltip 
                       text="오늘 하루 시장에서 매수·매도 거래된 총 금액으로, 시장의 유동성과 활성도를 나타냅니다."
                       side="bottom"
                       align="left"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-blue-900 tabular-nums">
-                      {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalTradeEok / 10000)}
-                    </span>
-                    <span className="text-sm font-bold text-blue-600">조원</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-[#0284C7] bg-[#F0F9FF] px-2 py-0.5 rounded-full border border-[#BAE6FD] tabular-nums">
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-blue-900 tabular-nums">
+                        {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalTradeEok / 10000)}
+                      </span>
+                      <span className="text-sm font-bold text-blue-600">조원</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-[#0284C7] bg-[#F0F9FF] px-2 py-0.5 rounded-full border border-[#BAE6FD] tabular-nums whitespace-nowrap">
                       {formatKoreanTradeAmount(totalTradeEok)}
                     </span>
                   </div>
                 </div>
 
                 {/* 3. 당일 시장 회전율 */}
-                <div className="bg-[#FFFBF5] rounded-2xl p-4 border border-[#FED7AA]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>🔄</span> 일일 시장 회전율
+                <div className="bg-[#FFFBF5] rounded-2xl p-4 sm:p-5 border border-[#FED7AA] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>🔄</span> 일일 시장 회전율</span>
                     <InfoTooltip 
                       text="(당일 총 거래대금 ÷ 당일 총 AUM) × 100. 자산 대비 오늘 하루 손바뀜이 일어난 유동성 회전 속도입니다."
                       side="bottom"
                       align="right"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
-                      {Number(turnover).toFixed(1)}
-                    </span>
-                    <span className="text-sm font-bold text-orange-600">%</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200">
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
+                        {Number(turnover).toFixed(1)}
+                      </span>
+                      <span className="text-sm font-bold text-orange-600">%</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200 whitespace-nowrap">
                       정상 활성도
                     </span>
                   </div>
@@ -1948,28 +1904,36 @@ export function MarketBriefing() {
           {/* 듀얼 누적 게이지 바 대조 (AUM 비중 vs 거래대금 비중) */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const genAumEok = normalizeToEok(briefing.pulse?.generalTotalAum || 3851607);
-            const genTradeEok = normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147);
-            const fallbackTotalAumEok = genAumEok / 0.765;
-            const fallbackTotalTradeEok = genTradeEok / 0.421;
+            const genAumEok = normalizeToEok(briefing.pulse?.generalTotalAum || 0);
+            const genTradeEok = normalizeToEok(briefing.pulse?.generalTotalTradeValue || 0);
 
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || fallbackTotalAumEok);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || fallbackTotalTradeEok);
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || genAumEok);
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || genTradeEok);
             const totalAumJo = (totalAumEok / 10000).toFixed(1);
             const totalTradeJo = (totalTradeEok / 10000).toFixed(1);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.67);
+            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 0);
 
-            const categories = snapshot?.categories || [
-              { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 76.5, tradeValue: genTradeEok, tradeSharePct: 42.1, turnoverPct: 2.57, etfCount: briefing.pulse?.generalEtfCount || 1022 },
-              { category: "parking", label: "파킹·단기자금", aum: totalAumEok * 0.186, aumSharePct: 18.6, tradeValue: totalTradeEok * 0.153, tradeSharePct: 15.3, turnoverPct: 3.85, etfCount: 42 },
-              { category: "leveraged", label: "레버리지", aum: totalAumEok * 0.038, aumSharePct: 3.8, tradeValue: totalTradeEok * 0.352, tradeSharePct: 35.2, turnoverPct: 43.45, etfCount: 68 },
-              { category: "inverse", label: "인버스", aum: totalAumEok * 0.011, aumSharePct: 1.1, tradeValue: totalTradeEok * 0.074, tradeSharePct: 7.4, turnoverPct: 30.91, etfCount: 36 },
+            // categories: 신규 스키마 우선 → composition 하위호환 → 최소 fallback (3중 방어)
+            const rawCategories = snapshot?.categories ?? snapshot?.composition ?? [];
+            const normalizedCategories = rawCategories.map((c: any) => ({
+              category: c.category || c.type || 'general',
+              label: c.label,
+              aum: c.aum,
+              aumSharePct: c.aumSharePct ?? c.pct ?? 0,
+              tradeValue: c.tradeValue ?? 0,
+              tradeSharePct: c.tradeSharePct ?? 0,
+              turnoverPct: c.turnoverPct ?? 0,
+              etfCount: c.etfCount ?? c.count ?? 0,
+            }));
+            const categories = normalizedCategories.length > 0 ? normalizedCategories : [
+              { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 100, tradeValue: genTradeEok, tradeSharePct: 100, turnoverPct: turnover, etfCount: briefing.pulse?.generalEtfCount || 1022 }
             ];
 
-            const genCat = categories.find((c: any) => c.category === 'general') || categories[0];
-            const parkCat = categories.find((c: any) => c.category === 'parking') || categories[1];
-            const levCat = categories.find((c: any) => c.category === 'leveraged') || categories[2];
-            const invCat = categories.find((c: any) => c.category === 'inverse') || categories[3];
+
+            const genCat = categories.find((c: any) => c.category === 'general');
+            const parkCat = categories.find((c: any) => c.category === 'parking');
+            const levCat = categories.find((c: any) => c.category === 'leveraged');
+            const invCat = categories.find((c: any) => c.category === 'inverse');
 
             return (
               <>
@@ -1984,10 +1948,10 @@ export function MarketBriefing() {
                       <span className="text-xs font-semibold text-neutral-400">총 {totalAumJo}조원 기준</span>
                     </div>
                     <div className="h-4.5 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
-                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.aumSharePct ?? 76.5}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.aumSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.aumSharePct ?? 18.6}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat?.aumSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.aumSharePct ?? 3.8}%` }} title={`레버리지: ${((normalizeToEok(levCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(levCat?.aumSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.aumSharePct ?? 1.1}%` }} title={`인버스: ${((normalizeToEok(invCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(invCat?.aumSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.aumSharePct ?? 100}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.aumSharePct || 100).toFixed(1)}%)`} />
+                      {parkCat && <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat.aumSharePct}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat.aum) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat.aumSharePct).toFixed(1)}%)`} />}
+                      {levCat && <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat.aumSharePct}%` }} title={`레버리지: ${((normalizeToEok(levCat.aum) || 0) / 10000).toFixed(1)}조원 (${Number(levCat.aumSharePct).toFixed(1)}%)`} />}
+                      {invCat && <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat.aumSharePct}%` }} title={`인버스: ${((normalizeToEok(invCat.aum) || 0) / 10000).toFixed(1)}조원 (${Number(invCat.aumSharePct).toFixed(1)}%)`} />}
                     </div>
                   </div>
 
@@ -2001,43 +1965,43 @@ export function MarketBriefing() {
                       <span className="text-xs font-semibold text-neutral-400">총 {totalTradeJo}조원 기준</span>
                     </div>
                     <div className="h-4.5 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
-                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.tradeSharePct ?? 42.1}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.tradeSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.tradeSharePct ?? 15.3}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat?.tradeSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.tradeSharePct ?? 35.2}%` }} title={`레버리지: ${((normalizeToEok(levCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(levCat?.tradeSharePct).toFixed(1)}%)`} />
-                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.tradeSharePct ?? 7.4}%` }} title={`인버스: ${((normalizeToEok(invCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(invCat?.tradeSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.tradeSharePct ?? 100}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.tradeSharePct || 100).toFixed(1)}%)`} />
+                      {parkCat && <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat.tradeSharePct}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat.tradeSharePct).toFixed(1)}%)`} />}
+                      {levCat && <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat.tradeSharePct}%` }} title={`레버리지: ${((normalizeToEok(levCat.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(levCat.tradeSharePct).toFixed(1)}%)`} />}
+                      {invCat && <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat.tradeSharePct}%` }} title={`인버스: ${((normalizeToEok(invCat.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(invCat.tradeSharePct).toFixed(1)}%)`} />}
                     </div>
                   </div>
 
-                  {/* 레전드 뱃지 (4열 균등 그리드) */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-[12px] font-bold">
-                    <div className="flex items-center justify-between gap-1.5 bg-[#F4F7EC] px-3 py-1.5 rounded-lg border border-[#D7EABB]">
+                  {/* 레전드 뱃지 (4열 가변 그리드) */}
+                  <div className="flex flex-wrap gap-2 pt-2 text-[12px] font-bold">
+                    {genCat && <div className="flex items-center justify-between gap-1.5 bg-[#F4F7EC] px-3 py-1.5 rounded-lg border border-[#D7EABB]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
                         일반 ETF
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(genCat?.aumSharePct).toFixed(1)}% · 거래 {Number(genCat?.tradeSharePct).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#F0F9FF] px-3 py-1.5 rounded-lg border border-[#BAE6FD]">
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(genCat.aumSharePct).toFixed(1)}% · 거래 {Number(genCat.tradeSharePct).toFixed(1)}%</span>
+                    </div>}
+                    {parkCat && <div className="flex items-center justify-between gap-1.5 bg-[#F0F9FF] px-3 py-1.5 rounded-lg border border-[#BAE6FD]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
                         파킹·단기
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(parkCat?.aumSharePct).toFixed(1)}% · 거래 {Number(parkCat?.tradeSharePct).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-lg border border-[#FFEDD5]">
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(parkCat.aumSharePct).toFixed(1)}% · 거래 {Number(parkCat.tradeSharePct).toFixed(1)}%</span>
+                    </div>}
+                    {levCat && <div className="flex items-center justify-between gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-lg border border-[#FFEDD5]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
                         레버리지
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(levCat?.aumSharePct).toFixed(1)}% · 거래 {Number(levCat?.tradeSharePct).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#FAF5FF] px-3 py-1.5 rounded-lg border border-[#F3E8FF]">
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(levCat.aumSharePct).toFixed(1)}% · 거래 {Number(levCat.tradeSharePct).toFixed(1)}%</span>
+                    </div>}
+                    {invCat && <div className="flex items-center justify-between gap-1.5 bg-[#FAF5FF] px-3 py-1.5 rounded-lg border border-[#F3E8FF]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
                         인버스
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(invCat?.aumSharePct).toFixed(1)}% · 거래 {Number(invCat?.tradeSharePct).toFixed(1)}%</span>
-                    </div>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(invCat.aumSharePct).toFixed(1)}% · 거래 {Number(invCat.tradeSharePct).toFixed(1)}%</span>
+                    </div>}
                   </div>
                 </div>
 
@@ -2090,7 +2054,7 @@ export function MarketBriefing() {
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{Number(turnover).toFixed(1)}%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums pr-2">
-                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
+                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'}
                         </td>
                       </tr>
                     </tfoot>
@@ -2114,84 +2078,43 @@ export function MarketBriefing() {
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (금융 표준 동적 애널리스트 엔진 연동) */}
         {(() => {
-          const snapshot = briefing.marketScaleSnapshot;
-          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
-          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
-          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
-
-          const defaultTimeSeries = {
-            daily: [
-              { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
-              { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
-              { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
-              { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
-              { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
-            ],
-            weekly: [
-              { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
-              { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
-              { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
-              { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
-              { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
-            ],
-            monthly: [
-              { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
-              { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
-              { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
-              { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
-              { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
-            ],
-            yearly: [
-              { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
-              { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
-              { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
-              { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
-              { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
-            ],
-          };
-
-          const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
+          const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
           const points = rawPoints.map((pt: any, idx: number) => {
-            const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
-            const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+            const prevAdtv = idx > 0 ? rawPoints[idx - 1]?.adtv : undefined;
+            const adtvDiff = pt.adtvChange !== undefined ? pt.adtvChange : (prevAdtv !== undefined ? (pt.adtv - prevAdtv) : 0);
+            const adtvChangePct = pt.adtvChangePct !== undefined ? pt.adtvChangePct : ((prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined);
 
-            if (idx === rawPoints.length - 1) {
-              const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
-              const aumDiff = totalAumEok - prevAum;
-              return {
-                ...pt,
-                aum: totalAumEok,
-                adtv: totalTradeEok,
-                turnoverPct: turnover,
-                aumChange: aumDiff,
-                aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
-                adtvChange: adtvDiff,
-                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
-              };
-            }
+            const prevAum = idx > 0 ? rawPoints[idx - 1]?.aum : undefined;
+            const aumDiff = pt.aumChange !== undefined ? pt.aumChange : (prevAum !== undefined ? (pt.aum - prevAum) : 0);
+            const aumChangePct = pt.aumChangePct !== undefined ? pt.aumChangePct : ((prevAum && prevAum > 0) ? Number(((aumDiff / prevAum) * 100).toFixed(2)) : undefined);
+
             return {
               ...pt,
+              aumChange: aumDiff,
+              aumChangePct,
               adtvChange: adtvDiff,
-              adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+              adtvChangePct,
             };
           });
 
           // 펀드 애널리스트 4대 시나리오 & 브릿지 동적 코멘트 생성
           const len = points.length;
-          const currPt = len > 0 ? points[len - 1] : { aum: 5034781, adtv: 235504, turnoverPct: 4.68 };
-          const prevPt = len > 1 ? points[len - 2] : { aum: 5005000, adtv: 242000, turnoverPct: 4.84 };
+          if (len === 0) return null;
 
-          const currAum = currPt.aum;
-          const prevAum = prevPt.aum;
-          const aumDiff = currPt.aumChange !== undefined ? currPt.aumChange : (currAum - prevAum);
-          const aumDiffPct = prevAum > 0 ? ((currAum - prevAum) / prevAum) * 100 : (currPt.aumChangePct ?? 0);
+          const currPt = points[len - 1];
+          const prevPt = len > 1 ? points[len - 2] : null;
 
-          const currAdtv = currPt.adtv;
-          const prevAdtv = prevPt.adtv;
-          const adtvDiff = currAdtv - prevAdtv;
-          const adtvDiffPct = prevAdtv > 0 ? ((currAdtv - prevAdtv) / prevAdtv) * 100 : 0;
+          const currAum = currPt.aum || 0;
+          const prevAum = prevPt?.aum || 0;
+          const aumDiff = currPt.aumChange !== undefined ? currPt.aumChange : (prevAum > 0 ? (currAum - prevAum) : 0);
+          const aumDiffPct = currPt.aumChangePct !== undefined ? currPt.aumChangePct : (prevAum > 0 ? ((currAum - prevAum) / prevAum) * 100 : 0);
 
-          const priceEffect = currPt.priceEffect ?? Math.round(aumDiff * 0.45);
+          const currAdtv = currPt.adtv || 0;
+          const prevAdtv = prevPt?.adtv || 0;
+          const adtvDiff = currPt.adtvChange !== undefined ? currPt.adtvChange : (prevAdtv > 0 ? (currAdtv - prevAdtv) : 0);
+          const adtvDiffPct = currPt.adtvChangePct !== undefined ? currPt.adtvChangePct : (prevAdtv > 0 ? ((currAdtv - prevAdtv) / prevAdtv) * 100 : 0);
+
+          const priceEffect = currPt.priceEffect ?? 0;
           const netInflow = currPt.netInflow ?? (aumDiff - priceEffect);
 
           const currAumJo = (currAum / 10000).toFixed(1);
@@ -2292,11 +2215,35 @@ export function MarketBriefing() {
         })()}
 
         <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
-          {/* 4대 기간 탭 버튼 */}
+          {/* 4대 기간 탭 버튼 및 핵심 변동 요약 배지 */}
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="text-sm font-extrabold text-neutral-900">시계열 자산 궤적 및 거래 유동성</h3>
-              <p className="text-xs text-neutral-400">상단: 총 운용자산(AUM, 조원) | 하단: 일평균 거래대금(조원) 및 회전율</p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <div>
+                <h3 className="text-sm font-extrabold text-neutral-900">시계열 자산 궤적 및 거래 유동성</h3>
+                <p className="text-xs text-neutral-400">상단: 총 운용자산(AUM, 조원) | 하단: 일평균 거래대금(조원) 및 회전율</p>
+              </div>
+              {(() => {
+                const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
+                if (rawPoints.length < 2) return null;
+                const curr = rawPoints[rawPoints.length - 1];
+                const prev = rawPoints[rawPoints.length - 2];
+                const diff = curr.aumChange !== undefined ? curr.aumChange : (curr.aum - prev.aum);
+                const diffPct = prev.aum > 0 ? ((curr.aum - prev.aum) / prev.aum) * 100 : (curr.aumChangePct || 0);
+                const isUp = diff >= 0;
+                const tabLabels = { daily: "전일 대비", weekly: "전주 대비", monthly: "전월 대비", yearly: "연초(YTD) 대비" };
+                const diffJo = (diff > 0 ? `+${(diff / 10000).toFixed(1)}` : `${(diff / 10000).toFixed(1)}`) + "조원";
+                const diffPctStr = (diffPct > 0 ? `+${diffPct.toFixed(2)}` : `${diffPct.toFixed(2)}`) + "%";
+
+                return (
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-tight ${
+                    isUp ? "bg-red-50 text-red-600 border border-red-200" : "bg-blue-50 text-blue-600 border border-blue-200"
+                  }`}>
+                    {isUp ? <ArrowUp className="w-3.5 h-3.5 text-red-500" /> : <TrendingDown className="w-3.5 h-3.5 text-blue-500" />}
+                    <span>{tabLabels[step7Tab]} {diffJo} ({diffPctStr})</span>
+                  </div>
+                );
+              })()}
             </div>
             <div className="flex bg-neutral-100 p-1 rounded-lg">
               {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((tab) => {
@@ -2323,72 +2270,31 @@ export function MarketBriefing() {
             </div>
           </div>
 
+
           {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {
-            const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
-            const defaultTimeSeries = {
-              daily: [
-                { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
-                { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
-                { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
-                { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
-                { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
-              ],
-              weekly: [
-                { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
-                { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
-                { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
-                { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
-                { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
-              ],
-              monthly: [
-                { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
-                { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
-                { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
-                { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
-                { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
-              ],
-              yearly: [
-                { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
-                { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
-                { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
-                { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
-                { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
-              ],
-            };
-
-            const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
+            const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
             const points = rawPoints.map((pt: any, idx: number) => {
-              const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
-              const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+              const prevAdtv = idx > 0 ? rawPoints[idx - 1]?.adtv : undefined;
+              const adtvDiff = pt.adtvChange !== undefined ? pt.adtvChange : (prevAdtv !== undefined ? (pt.adtv - prevAdtv) : 0);
+              const adtvChangePct = pt.adtvChangePct !== undefined ? pt.adtvChangePct : ((prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined);
 
-              if (idx === rawPoints.length - 1) {
-                const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
-                const aumDiff = totalAumEok - prevAum;
-                return {
-                  ...pt,
-                  aum: totalAumEok,
-                  adtv: totalTradeEok,
-                  turnoverPct: turnover,
-                  aumChange: aumDiff,
-                  aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
-                  adtvChange: adtvDiff,
-                  adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
-                };
-              }
+              const prevAum = idx > 0 ? rawPoints[idx - 1]?.aum : undefined;
+              const aumDiff = pt.aumChange !== undefined ? pt.aumChange : (prevAum !== undefined ? (pt.aum - prevAum) : 0);
+              const aumChangePct = pt.aumChangePct !== undefined ? pt.aumChangePct : ((prevAum && prevAum > 0) ? Number(((aumDiff / prevAum) * 100).toFixed(2)) : undefined);
+
               return {
                 ...pt,
+                aumChange: aumDiff,
+                aumChangePct,
                 adtvChange: adtvDiff,
-                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+                adtvChangePct,
               };
             });
-            const maxAum = Math.max(...points.map((p: any) => p.aum), 1000);
-            const minAum = Math.min(...points.map((p: any) => p.aum), 0);
-            const maxAdtv = Math.max(...points.map((p: any) => p.adtv), 1000);
-            const minAdtv = Math.min(...points.map((p: any) => p.adtv), 0);
+            const maxAum = Math.max(...points.map((p: any) => p.aum || 0), 1000);
+            const minAum = Math.min(...points.map((p: any) => p.aum || 0), 0);
+            const maxAdtv = Math.max(...points.map((p: any) => p.adtv || 0), 1000);
+            const minAdtv = Math.min(...points.map((p: any) => p.adtv || 0), 0);
 
             return (
               <div className="space-y-6">
@@ -2404,23 +2310,21 @@ export function MarketBriefing() {
                       <span className="text-[11px] font-semibold text-neutral-400">Stock 규모 성장</span>
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E8EFE0]">
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-40 sm:h-44 items-end pt-6 pb-2 bg-white/70 rounded-xl px-3 border border-[#E8EFE0]">
                       {points.map((pt: any, idx: number) => {
                         const aumJo = (pt.aum / 10000).toFixed(1);
                         const aumRatio = maxAum > minAum ? (pt.aum - minAum) / (maxAum - minAum) : 0.5;
-                        const barHeightPct = Math.max(aumRatio * 45 + 35, 20); // 35% ~ 80%
+                        const barHeightPct = Math.max(aumRatio * 38 + 25, 20); // 25% ~ 63%
                         const changeAmount = pt.aumChange ?? 0;
-                        const changeJo = (changeAmount / 10000).toFixed(1);
+                        const changeJo = (Math.abs(changeAmount) / 10000).toFixed(1);
                         const isLatest = idx === points.length - 1;
 
                         return (
-                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group">
                             {isLatest && (
-                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
-                                <span className="text-[9.5px] sm:text-[10.5px] font-black text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full shadow-xs border border-emerald-300 tabular-nums whitespace-nowrap">
-                                  {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ ${changeJo}조`}
-                                </span>
-                              </div>
+                              <span className="text-[9px] sm:text-[10px] font-black text-emerald-900 bg-emerald-100 px-1.5 py-0.5 rounded-full shadow-2xs border border-emerald-300 tabular-nums whitespace-nowrap mb-1">
+                                {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ -${changeJo}조`}
+                              </span>
                             )}
                             <span className="text-[11px] sm:text-xs font-black text-[#1F4E12] tabular-nums mb-1 tracking-tight">
                               {aumJo}조
@@ -2450,27 +2354,25 @@ export function MarketBriefing() {
                       <span className="text-[11px] font-semibold text-neutral-400">Flow 유동성 활성도</span>
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-40 sm:h-44 items-end pt-6 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
                       {points.map((pt: any, idx: number) => {
                         const adtvJo = (pt.adtv / 10000).toFixed(1);
                         const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
-                        const barHeightPct = Math.max(adtvRatio * 45 + 35, 20); // 35% ~ 80%
+                        const barHeightPct = Math.max(adtvRatio * 38 + 25, 20); // 25% ~ 63%
                         const adtvChangeAmount = pt.adtvChange ?? (idx > 0 ? pt.adtv - points[idx - 1].adtv : 0);
                         const adtvChangeJo = (Math.abs(adtvChangeAmount) / 10000).toFixed(1);
                         const isLatest = idx === points.length - 1;
 
                         return (
-                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group">
                             {isLatest && (
-                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
-                                <span className={`text-[9.5px] sm:text-[10.5px] font-black px-2 py-0.5 rounded-full shadow-xs border tabular-nums whitespace-nowrap ${
-                                  adtvChangeAmount >= 0 
-                                    ? "text-sky-900 bg-sky-100 border-sky-300" 
-                                    : "text-blue-900 bg-blue-100 border-blue-300"
-                                }`}>
-                                  {adtvChangeAmount >= 0 ? `▲ +${adtvChangeJo}조` : `▼ -${adtvChangeJo}조`}
-                                </span>
-                              </div>
+                              <span className={`text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-2xs border tabular-nums whitespace-nowrap mb-1 ${
+                                adtvChangeAmount >= 0 
+                                  ? "text-sky-900 bg-sky-100 border-sky-300" 
+                                  : "text-blue-900 bg-blue-100 border-blue-300"
+                              }`}>
+                                {adtvChangeAmount >= 0 ? `▲ +${adtvChangeJo}조` : `▼ -${adtvChangeJo}조`}
+                              </span>
                             )}
                             <span className="text-[10.5px] sm:text-[11.5px] font-black text-[#0369A1] tabular-nums mb-1 tracking-tight">
                               {adtvJo}조
@@ -2500,7 +2402,7 @@ export function MarketBriefing() {
                       return (
                         <div key={pt.key || idx} className="text-center">
                           <p className={`text-[11px] sm:text-xs font-black tracking-tight ${isLatest ? "text-[#2E6819]" : "text-neutral-700"}`}>
-                            {pt.label}
+                            {dateLabel(pt.date || pt.label)}
                           </p>
                         </div>
                       );
@@ -2513,7 +2415,7 @@ export function MarketBriefing() {
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
-                        <th className="py-2.5 pl-2">기준 시점</th>
+                        <th className="py-2.5 text-center px-3">기준 일자</th>
                         <th className="py-2.5 text-right">총 운용자산 (AUM)</th>
                         <th className="py-2.5 text-right font-black text-neutral-800">AUM 총 증감</th>
                         <th className="py-2.5 text-right text-neutral-600 font-bold">
@@ -2540,7 +2442,7 @@ export function MarketBriefing() {
                         const adtvJo = (pt.adtv / 10000).toFixed(1);
                         const changeAmount = pt.aumChange ?? 0;
                         const changePct = pt.aumChangePct ?? 0;
-                        const priceEffect = pt.priceEffect ?? Math.round(changeAmount * 0.4);
+                        const priceEffect = pt.priceEffect ?? 0;
                         const netInflow = pt.netInflow ?? (changeAmount - priceEffect);
 
                         const changeJo = (changeAmount / 10000).toFixed(1);
@@ -2549,12 +2451,13 @@ export function MarketBriefing() {
 
                         return (
                           <tr key={pt.key || idx} className="hover:bg-neutral-50/80 transition-colors">
-                            <td className="py-3 pl-2 font-black text-neutral-900 tabular-nums">
-                              {pt.label}
+                            <td className="py-3 text-center px-3 font-black text-neutral-900 tabular-nums">
+                              {dateLabel(pt.date || pt.label)}
                             </td>
                             <td className="py-3 text-right font-black text-neutral-900 tabular-nums">
                               {aumJo}조원
                             </td>
+
                             <td className={`py-3 text-right font-black tabular-nums ${
                               changeAmount > 0 ? "text-[#D92D20]" : changeAmount < 0 ? "text-[#175CD3]" : "text-neutral-500"
                             }`}>
@@ -2600,6 +2503,10 @@ export function MarketBriefing() {
         <MarketBriefingHistory
           activeDate={briefing.asOfDate}
           onSelectDate={(date) => {
+            if (date < "2026-08-31") {
+              alert("마켓 브리핑은 2026년 8월 31일부터 정식 제공됩니다.");
+              return;
+            }
             setSelectedDate(date);
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
@@ -2619,48 +2526,51 @@ export function MarketBriefing() {
 
         <div className="mt-4 pt-4 border-t border-[#EDF2DE]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 카드 1: 유니버스 & 시장 체온 */}
+            {/* 카드 1: 거시 지표 & 시장 체온 (STEP 1 & 2) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 & 2. 유니버스 및 시장 체온
+                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 &amp; 2. 거시 지표 &amp; 시장 체온
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,000+개) 대상.</li>
-                <li>• <b>시장 체온</b>: 시가총액 왜곡을 방지한 일반 ETF 전체의 가중 평균 수익률.</li>
-                <li>• <b>수급 건전성</b>: 전체 거래대금 중 상위 10개 종목이 차지하는 비중 (45% 이하 양호, 60% 초과 시 수급 과열).</li>
+                <li>• <b>12대 거시 지표 (STEP 1)</b>: 국내외 증시(코스피/코스닥/S&amp;P500/나스닥), 환율·금리(원달러/한미 10년물), 변동성(VIX/VKOSPI), 원자재(유가/금/은) 등 시장 배경 점검.</li>
+                <li>• <b>순수 일반 ETF 유니버스</b>: 시장 왜곡 방지를 위해 파킹형(CD/KOFR/MMF) 및 레버리지·인버스를 제외한 실물 일반 ETF(1,000+개) 전수 대상.</li>
+                <li>• <b>시장 체온계 (STEP 2)</b>: 일반 ETF 전체의 AUM 가중수익률과 상승·보합·하락 종목 비율(Breadth) 게이지로 시장 분위기 진단.</li>
+                <li>• <b>수급 건전성 (3-Zone)</b>: 거래대금 상위 10개 종목 쏠림도 (45% 이하 정상 🟢, 45~60% 주의 🟡, 60% 초과 과열 🔴).</li>
               </ul>
             </div>
 
-            {/* 카드 2: 테마 성과 & 기여도 */}
+            {/* 카드 2: 자산 배분 & 주도 테마 (STEP 3) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 테마 성과 및 기여도
+                <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 자산 배분 &amp; 주도 테마
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 시장 가중수익률과 일치).</li>
-                <li>• <b>세부 테마(피어그룹)</b>: 최소 3개 이상 종목으로 구성된 유의미한 테마군별 가중 성과 집계.</li>
+                <li>• <b>7대 자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 일반 시장 전체 가중수익률과 일치).</li>
+                <li>• <b>세부 테마 롱숏(Long/Short)</b>: 60여 개 피어그룹(Peer Group) 중 자산군별 상위 Top 3 vs 하위 Worst 3 테마 랭킹 집계.</li>
               </ul>
             </div>
 
-            {/* 카드 3: 자금 흐름 */}
+            {/* 카드 3: 실질 펀드 플로우 (STEP 4 & 5) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 & 5. 자금 흐름 (순유입 / 순유출)
+                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 &amp; 5. 실질 펀드 플로우 (일일 / 주·월간)
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>실질 자금 순유입</b>: 단순 AUM 변화가 아닌, 가격 변동분을 배제한 <code>역산 좌수 증감(ΔShares) × 기준일 NAV</code> 기준의 순수 자금 설정/환매액 집계.</li>
-                <li>• 주간(최근 5거래일) 및 월간(최근 20거래일) 단위 테마별 자금 유입/유출 추적.</li>
+                <li>• <b>실질 순유입(Net Inflow) 산출</b>: 주가 변동분(가격 효과)을 배제한 <code>역산 좌수 증감(ΔShares = AUM / NAV) × 현재 NAV</code> 기준 1차 시장(설정·환매) 진성 자금 집계.</li>
+                <li>• <b>일일 종목 플로우 (STEP 4)</b>: 당일 실질 자금 순유입 TOP 5 및 순유출 TOP 5 종목 랭킹.</li>
+                <li>• <b>중기 테마 플로우 (STEP 5)</b>: 최근 5거래일(주간) 및 20거래일(월간) 누적 자금 순유입·순유출 TOP 5 테마 추적.</li>
               </ul>
             </div>
 
-            {/* 카드 4: 시장 구조 & 시계열 성장 추이 */}
+            {/* 카드 4: 시장 구조 & 5-Point 성장 궤적 (STEP 6 & 7) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 & 7. 시장 구조 스냅샷 & 5-Point 시계열
+                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 &amp; 7. 시장 구조 &amp; 5-Point 성장 궤적
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>시장 구조 스냅샷 (자산 vs 거래대금)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
-                <li>• <b>5-Point 시계열 추이</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 단위의 AUM 성장 및 일평균 거래대금(ADTV) 유동성 궤적 추적.</li>
+                <li>• <b>시장 구조 스냅샷 (STEP 6)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중 vs 거래대금 비중을 대조하여 투기적 회전율 분리 점검.</li>
+                <li>• <b>5-Point 시계열 추이 (STEP 7)</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 AUM 성장 및 일평균 거래대금(ADTV) 추적.</li>
+                <li>• <b>AUM 성장 브릿지 분해</b>: 총자산 증감을 <b>주가 변동분(가격효과)</b>과 <b>실질 자금 순유입(수급효과)</b>으로 수학적 분해.</li>
               </ul>
             </div>
           </div>
@@ -2684,7 +2594,7 @@ export function MarketBriefing() {
             "@context": "https://schema.org",
             "@type": "FinancialNews",
             "headline": `ETF 마켓 브리핑 (${briefing.asOfDate}) - 대한민국 ETF 시장의 오늘과 자금 흐름`,
-            "description": briefing.headline?.text || `일반 ETF ${briefing.pulse?.generalEtfCount || 1018}개 중 ${briefing.pulse?.upCount || 764}개 상승. 총 운용자산 ${((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1)}조원.`,
+            "description": briefing.headline?.text || (briefing.pulse?.generalEtfCount ? `일반 ETF ${briefing.pulse.generalEtfCount}개 중 ${briefing.pulse.upCount ?? 0}개 상승.` : "대한민국 ETF 시장 마켓 브리핑"),
             "datePublished": `${briefing.asOfDate}T09:00:00+09:00`,
             "dateModified": `${briefing.asOfDate}T16:00:00+09:00`,
             "author": {
@@ -2709,6 +2619,7 @@ export function MarketBriefing() {
       />
 
     </div>
+    </>
 
   );
 

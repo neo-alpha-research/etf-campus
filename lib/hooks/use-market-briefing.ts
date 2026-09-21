@@ -6,10 +6,11 @@ import useSWR from "swr";
 export type MarketIndex = {
   code: string;
   label: string;
-  close: number;
+  close?: number | null;
   change_points?: number | null;
   change_pct?: number;
   as_of_date: string;
+  is_closed?: boolean;
 };
 
 
@@ -35,7 +36,7 @@ export type DisparityWarning = {
   disparityPct: number;
 };
 
-export type AssetClass = {
+export type MarketBriefingAssetClass = {
   asset_class: string;
   etf_count: number;
   up_count: number;
@@ -93,7 +94,7 @@ export type MarketBriefing = {
     top10TradeSharePct: number;
     allTop10TradeSharePct: number;
   };
-  assetClasses: AssetClass[];
+  assetClasses: MarketBriefingAssetClass[];
   peerGroupVersion?: string | null;
   peerGroups: PeerGroup[];
   fundFlow?: {
@@ -102,7 +103,7 @@ export type MarketBriefing = {
   };
   weeklyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
   monthlyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
-  marketScale?: any;
+  marketScale?: MarketScaleSnapshot;
   marketScaleSnapshot?: MarketScaleSnapshot;
   marketScaleTimeSeries?: MarketScaleTimeSeries;
   disparityWarning: DisparityWarning[];
@@ -126,7 +127,19 @@ export type MarketScaleSnapshot = {
   marketTurnoverPct: number; // %
   totalEtfCount: number;
   categories: MarketScaleCategory[];
+  /** @deprecated 구버전 DB 하위호환용. categories로 마이그레이션 완료 후 제거 예정 */
+  composition?: Array<{
+    type: string;
+    label: string;
+    aum: number;
+    pct: number;
+    count: number;
+    tradeValue?: number;
+    tradeSharePct?: number;
+    turnoverPct?: number;
+  }>;
 };
+
 
 export type TimeSeriesPoint = {
   key: string;
@@ -159,8 +172,6 @@ type BriefingApiResponse = {
   message?: string;
 };
 
-type LoadMode = "initial" | "background" | "manual";
-
 export type UseMarketBriefingOptions = {
   /** 지정하면 해당 날짜의 ready 브리핑을 조회합니다. 없으면 최신 ready 브리핑을 조회합니다. */
   asOfDate?: string;
@@ -186,20 +197,38 @@ const fetcher = async (url: string) => {
       headers: { Accept: "application/json" },
     });
     const contentType = res.headers.get("content-type") || "";
-    if (res.ok && contentType.includes("application/json")) {
+    if (contentType.includes("application/json")) {
       const payload = await res.json();
       return payload as BriefingApiResponse;
     }
-    // Local dev or non-JSON fallback (e.g. Next.js 404 HTML during local development)
-    const fallbackRes = await fetch("/mock-briefing.json");
-    if (fallbackRes.ok) {
-      return (await fallbackRes.json()) as BriefingApiResponse;
+    if (res.ok) {
+      throw new Error("올바른 JSON 응답이 아닙니다.");
     }
-    throw new Error("브리핑 데이터를 불러오지 못했습니다.");
+    // 로컬 개발 환경(localhost)에서 Cloudflare D1 API가 없을 경우 라이브 서버 브리핑 자동 연동
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      const liveRes = await fetch(`https://etf-campus.pages.dev${url}`, {
+        headers: { Accept: "application/json" },
+      }).catch(() => null);
+      if (liveRes && liveRes.ok) {
+        return (await liveRes.json()) as BriefingApiResponse;
+      }
+    }
+    return {
+      briefing: null,
+      message: res.status === 404 ? "해당 날짜의 마켓 브리핑을 찾을 수 없습니다." : "브리핑 서버와 통신할 수 없습니다.",
+    };
   } catch (err) {
-    const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
-    if (fallbackRes && fallbackRes.ok) {
-      return (await fallbackRes.json()) as BriefingApiResponse;
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      const liveRes = await fetch(`https://etf-campus.pages.dev${url}`, {
+        headers: { Accept: "application/json" },
+      }).catch(() => null);
+      if (liveRes && liveRes.ok) {
+        return (await liveRes.json()) as BriefingApiResponse;
+      }
+      const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
+      if (fallbackRes && fallbackRes.ok) {
+        return (await fallbackRes.json()) as BriefingApiResponse;
+      }
     }
     throw err instanceof Error ? err : new Error("브리핑 데이터를 불러오지 못했습니다.");
   }

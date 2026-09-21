@@ -1,162 +1,150 @@
 {
   "ticker": "287180",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "도어대시",
-      "weight_pct": 3.33,
+      "weight_pct": 3.22,
       "shares": 278,
       "item_code": "DASH.O"
     },
     {
       "name": "워크데이",
-      "weight_pct": 2.92,
+      "weight_pct": 3.08,
       "shares": 303,
       "item_code": "WDAY.O"
     },
     {
       "name": "로퍼 테크놀로지스",
-      "weight_pct": 2.84,
+      "weight_pct": 2.92,
       "shares": 136,
       "item_code": "ROP.O"
     },
     {
-      "name": "쇼피파이",
-      "weight_pct": 2.82,
-      "shares": 372,
-      "item_code": "SHOP.O"
-    },
-    {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 2.69,
+      "weight_pct": 2.92,
       "shares": 157,
       "item_code": "PANW.O"
     },
     {
-      "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 2.68,
-      "shares": 216,
-      "item_code": "MRVL.O"
-    },
-    {
       "name": "톰슨 로이터",
-      "weight_pct": 2.64,
+      "weight_pct": 2.78,
       "shares": 510,
       "item_code": "TRI.O"
     },
     {
+      "name": "쇼피파이",
+      "weight_pct": 2.67,
+      "shares": 372,
+      "item_code": "SHOP.O"
+    },
+    {
       "name": "포티넷",
-      "weight_pct": 2.55,
+      "weight_pct": 2.67,
       "shares": 321,
       "item_code": "FTNT.O"
     },
     {
+      "name": "크라우드 스트라이크 홀딩스",
+      "weight_pct": 2.66,
+      "shares": 241,
+      "item_code": "CRWD.O"
+    },
+    {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 2.54,
+      "weight_pct": 2.61,
       "shares": 283,
       "item_code": "PLTR.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 2.47,
+      "weight_pct": 2.53,
       "shares": 98,
       "item_code": "MSFT.O"
     },
     {
-      "name": "오토데스크",
-      "weight_pct": 2.46,
-      "shares": 191,
-      "item_code": "ADSK.O"
-    },
-    {
-      "name": "ASML 홀딩 ADR",
-      "weight_pct": 2.42,
-      "shares": 27,
-      "item_code": "ASML.O"
-    },
-    {
-      "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 2.38,
-      "shares": 98,
-      "item_code": "AMAT.O"
-    },
-    {
       "name": "어도비",
-      "weight_pct": 2.36,
+      "weight_pct": 2.51,
       "shares": 171,
       "item_code": "ADBE.O"
     },
     {
-      "name": "인튜이트",
-      "weight_pct": 2.33,
-      "shares": 133,
-      "item_code": "INTU.O"
-    },
-    {
-      "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 2.31,
-      "shares": 241,
-      "item_code": "CRWD.O"
-    },
-    {
-      "name": "핀둬둬 ADR",
-      "weight_pct": 2.29,
-      "shares": 523,
-      "item_code": "PDD.O"
+      "name": "오토데스크",
+      "weight_pct": 2.43,
+      "shares": 191,
+      "item_code": "ADSK.O"
     },
     {
       "name": "애플",
-      "weight_pct": 2.24,
+      "weight_pct": 2.36,
       "shares": 141,
       "item_code": "AAPL.O"
     },
     {
+      "name": "인튜이트",
+      "weight_pct": 2.36,
+      "shares": 133,
+      "item_code": "INTU.O"
+    },
+    {
+      "name": "ASML 홀딩 ADR",
+      "weight_pct": 2.34,
+      "shares": 27,
+      "item_code": "ASML.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 2.33,
+      "shares": 216,
+      "item_code": "MRVL.O"
+    },
+    {
       "name": "엔비디아",
-      "weight_pct": 2.21,
+      "weight_pct": 2.33,
       "shares": 209,
       "item_code": "NVDA.O"
     },
     {
-      "name": "램 리서치",
-      "weight_pct": 2.2,
-      "shares": 139,
-      "item_code": "LRCX.O"
+      "name": "어플라이드 머티어리얼즈",
+      "weight_pct": 2.23,
+      "shares": 98,
+      "item_code": "AMAT.O"
     },
     {
-      "name": "테라다인",
-      "weight_pct": 2.17,
-      "shares": 118,
-      "item_code": "TER.O"
+      "name": "핀둬둬 ADR",
+      "weight_pct": 2.23,
+      "shares": 523,
+      "item_code": "PDD.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 2.16,
+      "weight_pct": 2.18,
       "shares": 45,
       "item_code": "MU.O"
     },
     {
       "name": "씨게이트",
-      "weight_pct": 2.15,
+      "weight_pct": 2.11,
       "shares": 50,
       "item_code": "STX.O"
     },
     {
-      "name": "KLA",
-      "weight_pct": 2.14,
-      "shares": 231,
-      "item_code": "KLAC.O"
-    },
-    {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 2.08,
-      "shares": 86,
-      "item_code": "AMD.O"
-    },
-    {
-      "name": "네비우스 그룹",
+      "name": "메타",
       "weight_pct": 2.07,
-      "shares": 192,
-      "item_code": "NBIS.O"
+      "shares": 69,
+      "item_code": "META.O"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 2.07,
+      "shares": 139,
+      "item_code": "LRCX.O"
+    },
+    {
+      "name": "샌디스크",
+      "weight_pct": 2.06,
+      "shares": 26,
+      "item_code": "SNDK.O"
     },
     {
       "name": "데이터도그",
@@ -165,110 +153,122 @@
       "item_code": "DDOG.O"
     },
     {
-      "name": "메타",
+      "name": "테라다인",
       "weight_pct": 2.03,
-      "shares": 69,
-      "item_code": "META.O"
-    },
-    {
-      "name": "애널로그 디바이시스",
-      "weight_pct": 2.0,
-      "shares": 106,
-      "item_code": "ADI.O"
-    },
-    {
-      "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 2.0,
       "shares": 118,
-      "item_code": "CDNS.O"
+      "item_code": "TER.O"
     },
     {
-      "name": "샌디스크",
-      "weight_pct": 1.98,
-      "shares": 26,
-      "item_code": "SNDK.O"
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 2.02,
+      "shares": 86,
+      "item_code": "AMD.O"
     },
     {
-      "name": "웨스턴 디지털",
-      "weight_pct": 1.97,
-      "shares": 83,
-      "item_code": "WDC.O"
-    },
-    {
-      "name": "텍사스 인스트루먼트",
-      "weight_pct": 1.92,
-      "shares": 145,
-      "item_code": "TXN.O"
+      "name": "KLA",
+      "weight_pct": 2.02,
+      "shares": 231,
+      "item_code": "KLAC.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 1.92,
+      "weight_pct": 1.97,
       "shares": 92,
       "item_code": "SNPS.O"
     },
     {
-      "name": "아스테라 랩스",
-      "weight_pct": 1.89,
-      "shares": 129,
-      "item_code": "ALAB.O"
+      "name": "네비우스 그룹",
+      "weight_pct": 1.96,
+      "shares": 192,
+      "item_code": "NBIS.O"
     },
     {
-      "name": "모놀리식 파워 시스템즈",
-      "weight_pct": 1.85,
-      "shares": 28,
-      "item_code": "MPWR.O"
+      "name": "애널로그 디바이시스",
+      "weight_pct": 1.94,
+      "shares": 106,
+      "item_code": "ADI.O"
     },
     {
-      "name": "코어위브",
-      "weight_pct": 1.79,
-      "shares": 403,
-      "item_code": "CRWV.O"
+      "name": "웨스턴 디지털",
+      "weight_pct": 1.93,
+      "shares": 83,
+      "item_code": "WDC.O"
+    },
+    {
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 1.9,
+      "shares": 118,
+      "item_code": "CDNS.O"
+    },
+    {
+      "name": "텍사스 인스트루먼트",
+      "weight_pct": 1.88,
+      "shares": 145,
+      "item_code": "TXN.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 1.77,
+      "weight_pct": 1.87,
       "shares": 98,
       "item_code": "AVGO.O"
     },
     {
-      "name": "마이크로칩 테크놀러지",
-      "weight_pct": 1.74,
-      "shares": 467,
-      "item_code": "MCHP.O"
+      "name": "아스테라 랩스",
+      "weight_pct": 1.85,
+      "shares": 129,
+      "item_code": "ALAB.O"
     },
     {
       "name": "스트래티지",
-      "weight_pct": 1.73,
+      "weight_pct": 1.78,
       "shares": 279,
       "item_code": "MSTR.O"
     },
     {
+      "name": "모놀리식 파워 시스템즈",
+      "weight_pct": 1.77,
+      "shares": 28,
+      "item_code": "MPWR.O"
+    },
+    {
       "name": "인텔",
-      "weight_pct": 1.72,
+      "weight_pct": 1.76,
       "shares": 387,
       "item_code": "INTC.O"
     },
     {
-      "name": "암 홀딩스 ADR",
-      "weight_pct": 1.58,
-      "shares": 125,
-      "item_code": "ARM.O"
+      "name": "마이크로칩 테크놀러지",
+      "weight_pct": 1.71,
+      "shares": 467,
+      "item_code": "MCHP.O"
+    },
+    {
+      "name": "코어위브",
+      "weight_pct": 1.69,
+      "shares": 403,
+      "item_code": "CRWV.O"
     },
     {
       "name": "NXP 세미콘덕터",
-      "weight_pct": 1.54,
+      "weight_pct": 1.56,
       "shares": 137,
       "item_code": "NXPI.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 1.46,
+      "weight_pct": 1.51,
       "shares": 176,
       "item_code": "QCOM.O"
     },
     {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 1.5,
+      "shares": 125,
+      "item_code": "ARM.O"
+    },
+    {
       "name": "앱러빈",
-      "weight_pct": 1.12,
+      "weight_pct": 1.15,
       "shares": 72,
       "item_code": "APP.O"
     },
@@ -287,7 +287,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.22,
-      "shares": 6250481,
+      "shares": 6080572,
       "item_code": null
     }
   ]

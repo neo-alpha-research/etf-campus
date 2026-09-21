@@ -1,32 +1,26 @@
 name: Daily ETF market data refresh
 
+# Note: Automated scheduled execution is driven with 0-second precision by the NHN Cloud n8n instance
+# (scripts/n8n/daily_market_probing_workflow.json, 5-min intervals between 07:50 and 09:10 KST Tue-Sat)
+# to completely eliminate GitHub Actions 15-45min cron queuing delays.
 on:
-  schedule:
-    # Retry ladder on the morning AFTER each trading day (KST), so the prior
-    # close lands as early as the official feed publishes it. The first run
-    # that finds new data commits; later runs that day exit early as no-ops.
-    #
-    #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 22:53   Tue-Sat 07:53        1st attempt (previous trading day close)
-    #   Mon-Fri 23:53   Tue-Sat 08:53        2nd attempt
-    #   Tue-Sat 00:53   Tue-Sat 09:53        3rd final retry
-    - cron: "53 22 * * 1-5"
-    - cron: "53 23 * * 1-5"
-    - cron: "53 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
         description: "Target date in YYYYMMDD (blank uses yesterday)"
         required: false
         type: string
-
-env:
-  # [주의] 이 값을 바꿀 때 위의 schedule 크론의 최종 단계(00:53)와
-  # guard 스텝의 최종 단계 판정 로직이 함께 일치해야 합니다.
-  FINAL_RETRY_UTC_HOUR: "00"
+      force:
+        description: "Force rerun even if already succeeded today"
+        required: false
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [market_data_ready]
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: daily-market
@@ -57,44 +51,49 @@ jobs:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Manual run detected. Bypassing pre-flight readiness checks."
+          # If manual run with explicit TARGET_DATE, bypass pre-flight check
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.target }}" ]; then
+            echo "Manual run with explicit target date (${{ inputs.target }}) detected. Bypassing pre-flight checks."
             exit 0
           fi
           
-          # 1. Check if already succeeded today
-          if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"
-            echo "✅**Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          
-          # 2. Check data source readiness
-          
-          UTC_HOUR=$(date -u +%H)
-          if python scripts/check_source_ready.py; then
-            echo "Data is ready."
-            echo "??**Proceeding**: Source data is available." >> "$GITHUB_STEP_SUMMARY"
-          else
-            if [ "$UTC_HOUR" = "$FINAL_RETRY_UTC_HOUR" ]; then
-              echo "::error::Data is still not available at final attempt."
-              echo "??**Failed**: Source data did not arrive before the final scheduled run." >> "$GITHUB_STEP_SUMMARY"
-              exit 1
-            else
-              echo "Data not available yet. Skipping subsequent steps."
+          # 1. Check if already succeeded today (skip for automated/scheduled runs without force)
+          if [ "${{ inputs.force }}" != "true" ] && { [ "${{ github.event_name }}" != "workflow_dispatch" ] || [ -z "${{ inputs.target }}" ]; }; then
+            if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
-              echo "??**Skipping**: Source data is not yet available. Waiting for next schedule." >> "$GITHUB_STEP_SUMMARY"
+              echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"
+              echo "✅**Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
+          fi
+          
+          # 2. Check data source readiness and trading day status
+          set +e
+          python scripts/check_source_ready.py
+          source_exit=$?
+          set -e
+          if [ "$source_exit" -eq 0 ]; then
+            echo "Data is ready."
+            echo "- **Proceeding**: Source data is available." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$source_exit" -eq 3 ] || [ "$source_exit" -eq 4 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=market_closed" >> "$GITHUB_OUTPUT"
+            echo "- **Skipping**: Yesterday was a weekend or Korean market holiday. No newly closed market session to collect." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          else
+            echo "Data not available yet on KRX Open API. Skipping to release runner lock."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
+            echo "- **Skipping**: Source data is not yet available. Exiting early to await next polling probe." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
 
       - name: Install Python dependencies
         if: steps.guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd
+          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0" pytest
+
 
       - name: Refresh official ETF data
         if: steps.guard.outputs.skip != 'true'
@@ -129,6 +128,10 @@ jobs:
             --retry-unverified \
             --apply --apply-returns --apply-listing-cache --purge-nonrecent \
             --throttle-seconds 1.5
+
+      - name: Sync newly listed ETF nominal fees
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/collector/sync_new_listing_fee.py
       - name: Check snapshot freshness
         if: steps.guard.outputs.skip != 'true'
         id: freshness
@@ -159,9 +162,28 @@ jobs:
             echo "Snapshot is still stale; the next hourly schedule will retry." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Refresh classification review draft
+      - name: Classify new listings via regulatory engine & sync personal pension & onboard taxonomy
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
-        run: python scripts/build_classification_review.py
+        run: |
+          python scripts/rules/pension_regulatory_engine.py
+          python scripts/pipeline/sync_kofia_personal_pension.py
+          python scripts/pipeline/onboard_new_etfs.py
+
+      - name: Calculate Total Returns (TR Index)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: |
+          python scripts/append_daily_prices.py
+          python scripts/calculate_daily_tr_index.py
+          python scripts/calculate_total_returns.py
+          python scripts/build_distribution_summaries.py
+
+      - name: Build v2 price series (quarantine gate, fail-closed)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: python scripts/generate_series_v2.py --fail-on-quarantine
+
+      - name: Audit v2 series price integrity (SSOT the chart consumes)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: python scripts/verify_split_adjustment.py --series-dir public/data/series/v2
 
       # Only the retry rung that actually receives a new official close runs
       # the distribution pipeline. This keeps it coupled to the 06:17 KST
@@ -170,7 +192,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: snapshot_changes
         run: |
-          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
+          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/regulatory/pension_audit_ledger.csv data/classification; then
             echo "No new price snapshot. Skipping distribution refresh."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -182,13 +204,14 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: python scripts/fetch_market_indices.py
 
       - name: Detect publishable data changes
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index public/data/series/v2 | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -198,39 +221,69 @@ jobs:
           latest_bas_dt=$(python -c 'import csv; print(next(csv.DictReader(open("data/etf_master_draft.csv", encoding="utf-8-sig")))["bas_dt"])')
           echo "Latest bas_dt: ${latest_bas_dt}"
 
-      - name: Set up Node.js
+      - name: Validate refreshed data integrity
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: npm
-
-      - name: Install dependencies
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        run: npm ci
-
-      - name: Validate refreshed data
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        env:
-          NEXT_PUBLIC_SITE_URL: https://etf-campus.pages.dev
         run: |
           python -m unittest discover -s scripts/tests
-          npm test
-          npm run build
+          python scripts/verify_zero_hallucination.py
+          python scripts/rules/validate_pension_consistency.py
+          python scripts/rules/validate_evidence_integrity.py
+          python scripts/rules/validate_covered_call_distribution.py
 
-      - name: Backfill ETF prices to D1
+      - name: Record issuer coverage closure (tracking update)
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/rules/validate_issuer_coverage.py --record-only
+
+      - name: Build local briefing payload snapshot (Canonical SSOT)
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: python scripts/build_local_briefing_payload.py
+
+      - name: Set up Node.js
+        if: steps.guard.outputs.skip != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Cache node_modules
+        id: node-modules-cache
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Node dependencies
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Regenerate public screener and search index
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: npx --yes tsx scripts/generate-screener-json.ts
+
+      - name: Ingest daily ETF prices to D1 (Downstream Consumer)
+        continue-on-error: true
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')
         env:
           PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           BAS_DT=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
-          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT"
+          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source krx
           python scripts/validate_d1_status.py "$BAS_DT"
 
-      - name: Publish canonical market-source snapshot and event outbox
+      - name: Apply unapplied D1 migrations
+        continue-on-error: true
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
+        run: |
+          npx --yes wrangler@4.124.0 d1 migrations apply etf-prices --remote
+
+      - name: Publish canonical market-source snapshot to D1
         # Run even when the repository snapshot did not change so a previously failed
         # source-hub ingest can recover without another external API collection.
         continue-on-error: true
@@ -241,20 +294,52 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: python scripts/publish_market_source_snapshot.py
 
+      - name: Validate issuer coverage closure (pre-deploy gate)
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/rules/validate_issuer_coverage.py --check-only
 
+      - name: Pre-deploy briefing quality gate
+        id: quality_gate
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
+        run: python scripts/validate_briefing_gate.py
 
       - name: Commit refreshed market data
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && (steps.quality_gate.outcome == 'success')
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
-                    if ! git diff --cached --quiet; then
+          for file in data/snapshots data/briefing_payload_*.json data/briefing_payload_latest.json data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/classification data/comparison data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json public/data/screener.json public/data/returns/tr_index public/data/series/v2 data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+            if [ -e "$file" ]; then git add "$file"; fi
+          done
+          if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot"
+            PUSHED=false
             for i in 1 2 3 4 5; do
-              git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
+              if git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }}; then
+                PUSHED=true
+                break
+              fi
+              sleep 5
             done
+            if [ "$PUSHED" != "true" ]; then
+              echo "::error::Failed to push refreshed market data to origin/${{ github.ref_name }}"
+              exit 1
+            fi
           fi
+
+      - name: Trigger fast OSMU generation
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && (steps.quality_gate.outcome == 'success')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bas_dt=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
+          formatted_bas_dt="${bas_dt:0:4}-${bas_dt:4:2}-${bas_dt:6:2}"
+          echo "Triggering fast OSMU generation workflow for target date: ${formatted_bas_dt}..."
+          gh workflow run generate-osmu.yml --ref "${{ github.ref_name }}" -f target_date="${formatted_bas_dt}"
+          echo "Triggered OSMU workflow for branch ${{ github.ref_name }}."
 
       - name: Write refresh summary
         if: always() && steps.guard.outputs.skip != 'true'
@@ -284,6 +369,11 @@ jobs:
           echo "Official ETF close is still unavailable. A later hourly schedule will retry." >&2
           exit 1
 
-
-
-
+      - name: Send Telegram Alert on Pipeline Failure
+        if: failure() && steps.guard.outputs.skip != 'true'
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+        run: python3 scripts/notify_telegram_osmu.py --failure --reason="데이터 적재 또는 브리핑 품질 게이트 차단"

@@ -1,47 +1,47 @@
 {
   "ticker": "0132K0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 29.82,
-      "shares": 248,
+      "weight_pct": 30.16,
+      "shares": 247,
       "item_code": "TSLA.O"
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 18.88,
+      "weight_pct": 18.95,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 18.78,
+      "weight_pct": 18.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 18.7,
+      "weight_pct": 18.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "PLUS 국채선물3년",
-      "weight_pct": 6.47,
-      "shares": 454,
+      "weight_pct": 5.97,
+      "shares": 423,
       "item_code": "298340"
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.02,
-      "shares": 23964206,
+      "weight_pct": 5.8,
+      "shares": 23176274,
       "item_code": null
     },
     {
       "name": "RISE 국고채3년",
-      "weight_pct": 0.5,
-      "shares": 18,
+      "weight_pct": 0.51,
+      "shares": 19,
       "item_code": "114100"
     },
     {
@@ -52,7 +52,7 @@
     },
     {
       "name": "ACE 국고채3년",
-      "weight_pct": 0.28,
+      "weight_pct": 0.29,
       "shares": 11,
       "item_code": "114460"
     },
@@ -63,8 +63,8 @@
       "item_code": "438560"
     },
     {
-      "name": "TSLA US 08/28/26 C347.5 EQUITY",
-      "weight_pct": -0.18,
+      "name": "TSLA US 09/04/26 C355 EQUITY",
+      "weight_pct": -0.31,
       "shares": -1,
       "item_code": null
     }

@@ -1,53 +1,53 @@
 {
   "ticker": "236350",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 121.21,
-      "shares": 675289077,
+      "weight_pct": 124.33,
+      "shares": 675867940,
       "item_code": null
     },
     {
       "name": "MIRAE ASSET NIFTY 50 ETF",
-      "weight_pct": 24.92,
+      "weight_pct": 25.13,
       "shares": 36364,
       "item_code": null
     },
     {
       "name": "TIGER 인도니프티50",
-      "weight_pct": 6.21,
+      "weight_pct": 6.25,
       "shares": 3000,
       "item_code": "453870"
     },
     {
       "name": "NIFTY Price Return Index TRS 251211-01",
-      "weight_pct": -3.5,
-      "shares": -19533548,
+      "weight_pct": -3.86,
+      "shares": -21006969,
       "item_code": null
     },
     {
       "name": "NIFTY Price Return Index TRS 251205-01",
-      "weight_pct": -3.81,
-      "shares": -21253710,
+      "weight_pct": -4.05,
+      "shares": -22016490,
       "item_code": null
     },
     {
       "name": "NIFTY Price Return Index TRS 251126-02",
-      "weight_pct": -7.85,
-      "shares": -43787182,
+      "weight_pct": -8.33,
+      "shares": -45281460,
       "item_code": null
     },
     {
       "name": "NIFTY Price Return Index TRS 260213-01",
-      "weight_pct": -18.43,
-      "shares": -102693411,
+      "weight_pct": -19.57,
+      "shares": -106419809,
       "item_code": null
     },
     {
       "name": "NIFTY Price Return Index TRS 251205-02",
-      "weight_pct": -18.74,
-      "shares": -104404192,
+      "weight_pct": -19.89,
+      "shares": -108151179,
       "item_code": null
     }
   ]

@@ -12,6 +12,7 @@ type DistributionEventRecord = {
   recordDate?: unknown;
   payDate?: unknown;
   distributionType?: unknown;
+  dividendYieldPct?: unknown;
   displayStatus?: unknown;
   displayLabel?: unknown;
   updatedAt?: unknown;
@@ -24,6 +25,10 @@ type DistributionSummaryRecord = {
   latest?: unknown;
   records?: unknown;
   eventCount?: unknown;
+  paymentCycle?: unknown;
+  ttmAmountKrw?: unknown;
+  ttmDividendYieldPct?: unknown;
+  isTr?: unknown;
   updatedAt?: unknown;
 };
 
@@ -36,7 +41,21 @@ function text(value: unknown): string | null {
 }
 
 function asAmount(value: unknown): number | null {
-  return typeof value === "number" && Number.isInteger(value) && value > 0 ? value : null;
+  if (typeof value === "number" && !Number.isNaN(value) && value > 0) {
+    return Math.round(value);
+  }
+  return null;
+}
+
+function asNumber(value: unknown): number | null {
+  if (typeof value === "number" && !Number.isNaN(value)) {
+    return value;
+  }
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value);
+    return Number.isNaN(parsed) ? null : parsed;
+  }
+  return null;
 }
 
 function toEvent(value: unknown): EtfDistributionEvent | null {
@@ -57,7 +76,8 @@ function toEvent(value: unknown): EtfDistributionEvent | null {
     recordDate,
     payDate: text(record.payDate),
     distributionType: text(record.distributionType) ?? "ordinary_cash",
-    displayStatus: record.displayStatus === "krx_official_partial" ? "krx_official_partial" : "issuer_notice",
+    dividendYieldPct: asNumber(record.dividendYieldPct),
+    displayStatus: typeof record.displayStatus === "string" ? record.displayStatus : "official_seibro_krx",
     displayLabel,
     updatedAt: text(record.updatedAt),
   };
@@ -67,26 +87,32 @@ function toSummary(value: unknown): EtfDistributionSummary | null {
   if (!value || typeof value !== "object") return null;
   const record = value as DistributionSummaryRecord;
   const ticker = text(record.ticker);
-  const sourceLabel = text(record.sourceLabel);
-  const latest = toEvent(record.latest);
+  const sourceLabel = text(record.sourceLabel) ?? "예탁원(SEIBro) 공시 기반";
   const records = Array.isArray(record.records)
     ? record.records.map(toEvent).filter((item): item is EtfDistributionEvent => item !== null)
     : [];
+  const latest = toEvent(record.latest) ?? (records.length > 0 ? records[0] : null);
   const eventCount = typeof record.eventCount === "number" && Number.isInteger(record.eventCount)
     ? record.eventCount
     : records.length;
   const updatedAt = text(record.updatedAt) ?? "";
+  const paymentCycle = text(record.paymentCycle);
+  const ttmAmountKrw = asNumber(record.ttmAmountKrw);
+  const ttmDividendYieldPct = asNumber(record.ttmDividendYieldPct);
+  const isTr = typeof record.isTr === "boolean" ? record.isTr : undefined;
 
-  if (!ticker || !sourceLabel || !latest || records.length === 0) return null;
+  if (!ticker) return null;
   return {
     ticker,
-    sourceStatus: record.sourceStatus === "krx_official_partial" || record.sourceStatus === "mixed_official_sources"
-      ? record.sourceStatus
-      : "issuer_notice",
+    sourceStatus: typeof record.sourceStatus === "string" ? record.sourceStatus : "official_seibro_krx",
     sourceLabel,
     latest,
     records,
     eventCount,
+    paymentCycle,
+    ttmAmountKrw,
+    ttmDividendYieldPct,
+    isTr,
     updatedAt,
   };
 }

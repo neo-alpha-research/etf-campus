@@ -33,6 +33,10 @@ binding = "ETF_PRICES"
 database_name = "etf-prices"
 database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
 
+[[env.production.kv_namespaces]]
+binding = "BRIEFING_KV"
+id = "278805f22a4948b3b9b6c66e8a6a1466"
+
 [[env.production.queues.producers]]
 binding = "MARKET_BRIEFING_EVENTS"
 queue = "etf-campus-market-data-ready"

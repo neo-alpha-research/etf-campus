@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461669752353",
+    "project_id": "etf-campus",
+    "storage_bucket": "etf-campus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461669752353:android:e9378f3aeef63ced43cd60",
+        "android_client_info": {
+          "package_name": "com.neoalpharesearch.etfcampus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYYP5RBF14hSQSe8DBV5u2YEF_2Of3JEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

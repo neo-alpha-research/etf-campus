@@ -1,66 +1,72 @@
 {
   "ticker": "464920",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "어드반테스트",
-      "weight_pct": 25.11,
+      "weight_pct": 24.02,
       "shares": 989,
       "item_code": "6857.T"
     },
     {
       "name": "도쿄일렉트론",
-      "weight_pct": 22.94,
+      "weight_pct": 23.25,
       "shares": 581,
       "item_code": "8035.T"
     },
     {
       "name": "신에츠화학",
-      "weight_pct": 13.85,
+      "weight_pct": 14.17,
       "shares": 3265,
       "item_code": "4063.T"
     },
     {
       "name": "호야",
-      "weight_pct": 11.46,
+      "weight_pct": 11.69,
       "shares": 645,
       "item_code": "7741.T"
     },
     {
       "name": "디스코",
-      "weight_pct": 7.49,
+      "weight_pct": 7.16,
       "shares": 174,
       "item_code": "6146.T"
     },
     {
       "name": "레조낙 홀딩스",
-      "weight_pct": 3.92,
+      "weight_pct": 4.01,
       "shares": 344,
       "item_code": "4004.T"
     },
     {
       "name": "스크린 홀딩스",
-      "weight_pct": 2.99,
+      "weight_pct": 3.12,
       "shares": 319,
       "item_code": "7735.T"
     },
     {
       "name": "코쿠사이 엘렉트릭",
-      "weight_pct": 2.3,
+      "weight_pct": 2.38,
       "shares": 383,
       "item_code": "6525.T"
     },
     {
       "name": "섬코",
-      "weight_pct": 1.6,
+      "weight_pct": 1.59,
       "shares": 662,
       "item_code": "3436.T"
     },
     {
       "name": "다이요닛폰산소",
-      "weight_pct": 1.44,
+      "weight_pct": 1.5,
       "shares": 363,
       "item_code": "4091.T"
+    },
+    {
+      "name": "스미토모화학",
+      "weight_pct": 1.25,
+      "shares": 2777,
+      "item_code": "4005.T"
     },
     {
       "name": "도쿄오카공업",
@@ -69,44 +75,38 @@
       "item_code": "4186.T"
     },
     {
-      "name": "스미토모화학",
-      "weight_pct": 1.09,
-      "shares": 2777,
-      "item_code": "4005.T"
-    },
-    {
       "name": "동경정밀",
-      "weight_pct": 0.92,
+      "weight_pct": 0.9,
       "shares": 71,
       "item_code": "7729.T"
     },
     {
       "name": "덱세리알즈",
-      "weight_pct": 0.62,
+      "weight_pct": 0.64,
       "shares": 292,
       "item_code": "4980.T"
     },
     {
       "name": "이와타니산업",
-      "weight_pct": 0.57,
+      "weight_pct": 0.61,
       "shares": 371,
       "item_code": "8088.T"
     },
     {
       "name": "아데카",
-      "weight_pct": 0.55,
+      "weight_pct": 0.58,
       "shares": 168,
       "item_code": "4401.T"
     },
     {
       "name": "로체",
-      "weight_pct": 0.52,
+      "weight_pct": 0.51,
       "shares": 180,
       "item_code": "6323.T"
     },
     {
       "name": "니혼 마이크로닉스",
-      "weight_pct": 0.5,
+      "weight_pct": 0.47,
       "shares": 52,
       "item_code": "6871.T"
     },
@@ -118,14 +118,14 @@
     },
     {
       "name": "시바우라메카트로닉",
-      "weight_pct": 0.24,
+      "weight_pct": 0.25,
       "shares": 88,
       "item_code": "6590.T"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.14,
-      "shares": 1822412,
+      "shares": 1693467,
       "item_code": null
     }
   ]

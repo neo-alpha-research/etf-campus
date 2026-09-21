@@ -1,10 +1,10 @@
 {
   "ticker": "0083S0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "템퍼스 AI",
-      "weight_pct": 27.51,
+      "weight_pct": 26.22,
       "shares": 3211,
       "item_code": "TEM.O"
     },
@@ -16,67 +16,67 @@
     },
     {
       "name": "나테라",
-      "weight_pct": 7.45,
+      "weight_pct": 7.4,
       "shares": 176,
       "item_code": "NTRA.O"
     },
     {
-      "name": "카리스 라이프 사이언시스",
-      "weight_pct": 7.0,
-      "shares": 2088,
-      "item_code": "CAI.O"
-    },
-    {
       "name": "일라이 릴리",
-      "weight_pct": 6.84,
+      "weight_pct": 6.99,
       "shares": 46,
       "item_code": "LLY"
     },
     {
-      "name": "애브비",
-      "weight_pct": 6.48,
-      "shares": 197,
-      "item_code": "ABBV.K"
+      "name": "카리스 라이프 사이언시스",
+      "weight_pct": 6.78,
+      "shares": 2088,
+      "item_code": "CAI.O"
     },
     {
       "name": "인튜이티브 서지컬",
-      "weight_pct": 6.44,
+      "weight_pct": 6.73,
       "shares": 139,
       "item_code": "ISRG.O"
     },
     {
+      "name": "애브비",
+      "weight_pct": 6.71,
+      "shares": 197,
+      "item_code": "ABBV.K"
+    },
+    {
       "name": "엔비디아",
-      "weight_pct": 5.79,
+      "weight_pct": 6.3,
       "shares": 221,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 4.87,
+      "weight_pct": 5.0,
       "shares": 114,
       "item_code": "GOOGL.O"
     },
     {
       "name": "아스트라제네카",
-      "weight_pct": 4.59,
+      "weight_pct": 4.7,
       "shares": 221,
       "item_code": "AZN"
     },
     {
       "name": "바이오엔테크 ADR",
-      "weight_pct": 2.59,
+      "weight_pct": 2.45,
       "shares": 184,
       "item_code": "BNTX.O"
     },
     {
       "name": "슈뢰딩거",
-      "weight_pct": 1.88,
+      "weight_pct": 2.11,
       "shares": 775,
       "item_code": "SDGR.O"
     },
     {
       "name": "제너레이트 바이오메디슨스",
-      "weight_pct": 1.69,
+      "weight_pct": 1.73,
       "shares": 838,
       "item_code": "GENB.O"
     },
@@ -88,14 +88,14 @@
     },
     {
       "name": "앱사이",
-      "weight_pct": 1.51,
+      "weight_pct": 1.52,
       "shares": 1312,
       "item_code": "ABSI.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 3724023,
+      "weight_pct": 0.35,
+      "shares": 3668177,
       "item_code": null
     }
   ]

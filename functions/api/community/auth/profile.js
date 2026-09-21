@@ -93,7 +93,7 @@ export async function onRequestPatch(context) {
     }
 
     return jsonResponse({ success: true });
-  } catch (err) {
+  } catch {
     return errorResponse(500, "INTERNAL_ERROR", "서버 오류가 발생했습니다.");
   }
 }

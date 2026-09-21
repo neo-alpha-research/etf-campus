@@ -1,71 +1,71 @@
 {
   "ticker": "465330",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 17.93,
-      "shares": 140,
-      "item_code": "373220"
-    },
-    {
-      "name": "삼성SDI",
-      "weight_pct": 16.72,
-      "shares": 85,
-      "item_code": "006400"
-    },
-    {
-      "name": "POSCO홀딩스",
-      "weight_pct": 14.91,
-      "shares": 127,
-      "item_code": "005490"
-    },
-    {
-      "name": "에코프로",
-      "weight_pct": 11.67,
-      "shares": 367,
-      "item_code": "086520"
-    },
-    {
       "name": "SK이노베이션",
-      "weight_pct": 11.27,
-      "shares": 291,
+      "weight_pct": 15.0,
+      "shares": 319,
       "item_code": "096770"
     },
     {
+      "name": "POSCO홀딩스",
+      "weight_pct": 14.86,
+      "shares": 126,
+      "item_code": "005490"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 14.42,
+      "shares": 75,
+      "item_code": "006400"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 14.41,
+      "shares": 116,
+      "item_code": "373220"
+    },
+    {
+      "name": "에코프로",
+      "weight_pct": 12.11,
+      "shares": 413,
+      "item_code": "086520"
+    },
+    {
       "name": "포스코퓨처엠",
-      "weight_pct": 8.46,
-      "shares": 133,
+      "weight_pct": 9.18,
+      "shares": 146,
       "item_code": "003670"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 8.03,
-      "shares": 197,
+      "weight_pct": 9.16,
+      "shares": 241,
       "item_code": "247540"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 4.8,
-      "shares": 107,
+      "weight_pct": 5.3,
+      "shares": 119,
       "item_code": "066970"
     },
     {
       "name": "SKC",
-      "weight_pct": 2.89,
-      "shares": 93,
+      "weight_pct": 3.04,
+      "shares": 102,
       "item_code": "011790"
     },
     {
       "name": "에코프로머티",
-      "weight_pct": 1.91,
-      "shares": 143,
+      "weight_pct": 1.97,
+      "shares": 157,
       "item_code": "450080"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.35,
-      "shares": 3911387,
+      "weight_pct": 0.5,
+      "shares": 1398608,
       "item_code": null
     }
   ]

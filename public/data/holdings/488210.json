@@ -1,82 +1,82 @@
 {
   "ticker": "488210",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 30.86,
+      "weight_pct": 29.78,
       "shares": 204,
       "item_code": "000660"
     },
     {
       "name": "ISC",
-      "weight_pct": 15.82,
+      "weight_pct": 16.31,
       "shares": 1057,
       "item_code": "095340"
     },
     {
-      "name": "피에스케이홀딩스",
-      "weight_pct": 12.95,
-      "shares": 1166,
-      "item_code": "031980"
-    },
-    {
       "name": "티씨케이",
-      "weight_pct": 12.83,
+      "weight_pct": 13.52,
       "shares": 605,
       "item_code": "064760"
     },
     {
+      "name": "피에스케이홀딩스",
+      "weight_pct": 12.87,
+      "shares": 1166,
+      "item_code": "031980"
+    },
+    {
       "name": "후성",
-      "weight_pct": 6.58,
+      "weight_pct": 6.53,
       "shares": 5763,
       "item_code": "093370"
     },
     {
       "name": "GST",
-      "weight_pct": 3.9,
+      "weight_pct": 3.98,
       "shares": 990,
       "item_code": "083450"
     },
     {
       "name": "원익QnC",
-      "weight_pct": 3.29,
+      "weight_pct": 3.24,
       "shares": 1412,
       "item_code": "074600"
     },
     {
       "name": "미코",
-      "weight_pct": 3.03,
+      "weight_pct": 2.95,
       "shares": 1795,
       "item_code": "059090"
     },
     {
       "name": "코나아이",
-      "weight_pct": 2.69,
+      "weight_pct": 2.66,
       "shares": 782,
       "item_code": "052400"
     },
     {
       "name": "네오셈",
-      "weight_pct": 2.27,
+      "weight_pct": 2.46,
       "shares": 2357,
       "item_code": "253590"
     },
     {
       "name": "한솔아이원스",
-      "weight_pct": 1.78,
+      "weight_pct": 1.82,
       "shares": 1536,
       "item_code": "114810"
     },
     {
       "name": "티로보틱스",
-      "weight_pct": 1.38,
+      "weight_pct": 1.37,
       "shares": 1192,
       "item_code": "117730"
     },
     {
       "name": "펨트론",
-      "weight_pct": 1.36,
+      "weight_pct": 1.33,
       "shares": 1144,
       "item_code": "168360"
     },
@@ -88,14 +88,14 @@
     },
     {
       "name": "자람테크놀로지",
-      "weight_pct": 0.67,
+      "weight_pct": 0.64,
       "shares": 333,
       "item_code": "389020"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.53,
-      "shares": -6156404,
+      "weight_pct": -0.59,
+      "shares": -6535373,
       "item_code": null
     }
   ]

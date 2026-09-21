@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
-import type { ScreenerEtf } from "@/lib/domain/etf-screener";
+import { type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import type { ScreenerEtf, AccountMode } from "@/lib/domain/etf-screener";
 import { formatReturn } from "@/lib/domain/etf-format";
 
 import { GENERAL_RETURN_PERIODS } from "@/lib/domain/etf-explorer";
@@ -13,6 +13,7 @@ const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS];
 
 export function ReturnRankingChart({ 
   etfs, 
+  accountMode = "pension",
   selectedPeriod, 
   onPeriodChange,
   activeFilterLabels = [],
@@ -22,6 +23,7 @@ export function ReturnRankingChart({
   customReturnsData = null,
 }: { 
   etfs: readonly ScreenerEtf[]; 
+  accountMode?: AccountMode;
   selectedPeriod: ReturnPeriod | "custom";
   onPeriodChange: (period: ReturnPeriod | "custom") => void;
   activeFilterLabels?: string[];
@@ -81,9 +83,9 @@ export function ReturnRankingChart({
   };
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
-      <div className="flex items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3">
-        <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
+    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm w-full max-w-full min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3 gap-2">
+        <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-none w-full sm:w-auto pb-1 sm:pb-0 overscroll-x-contain touch-pan-x">
           {RANKING_PERIODS.map((period) => {
             const isActive = selectedPeriod === period;
             return (
@@ -142,7 +144,7 @@ export function ReturnRankingChart({
             </>
           )}
         </div>
-        <div className="flex items-center gap-2 ml-3">
+        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto sm:ml-3">
           <div className="flex shrink-0 items-center rounded-lg bg-neutral-100 p-1" role="group" aria-label="순위 방향 선택">
             <button
               onClick={() => setIsTop(true)}
@@ -205,7 +207,6 @@ export function ReturnRankingChart({
               if (ret === null) return null;
               const barWidth = Math.max(Math.abs(ret) / maxAbsReturn * 100, 1);
               const isPositive = ret > 0;
-              const isNegative = ret < 0;
               const isZero = ret === 0;
               
               return (
@@ -213,7 +214,7 @@ export function ReturnRankingChart({
                   key={etf.ticker} 
                   className="group flex items-center gap-1.5 rounded-lg bg-neutral-50 py-1.5 px-2 sm:gap-2"
                 >
-                  <div className="flex items-center gap-1.5 sm:w-[150px] sm:shrink-0">
+                  <div className="flex items-center gap-1.5 w-[130px] sm:w-[150px] shrink-0 min-w-0">
                     <div className="flex size-4 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-extrabold text-neutral-400 shadow-sm">
                       {index + 1}
                     </div>
@@ -225,8 +226,18 @@ export function ReturnRankingChart({
                         <span className="tabular-nums font-semibold">{etf.ticker}</span>
                         <span className="text-neutral-300">|</span>
                         <span className="truncate max-w-[80px]">{etf.classification?.marketScope || etf.assetClass}</span>
-                        {etf.pension === "불가" && (
-                          <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                        {accountMode === "all" ? null : accountMode === "isa" ? null : accountMode === "personal_pension" ? (
+                          etf.personalPension === "불가" ? (
+                            <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                          ) : etf.pensionLimit === "불가" ? (
+                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">개인연금전용</span>
+                          ) : null
+                        ) : (
+                          etf.pensionLimit === "100% (안전자산)" ? (
+                            <span className="shrink-0 rounded-[3px] bg-emerald-50 border border-emerald-200 px-1 py-0.5 font-bold text-emerald-800">안전자산100%</span>
+                          ) : etf.pension === "불가" ? (
+                            <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                          ) : null
                         )}
                       </div>
                     </div>

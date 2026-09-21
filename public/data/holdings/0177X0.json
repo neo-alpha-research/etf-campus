@@ -1,46 +1,46 @@
 {
   "ticker": "0177X0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "로보티즈",
-      "weight_pct": 20.99,
+      "weight_pct": 21.8,
       "shares": 390,
       "item_code": "108490"
     },
     {
       "name": "에스피지",
-      "weight_pct": 18.17,
+      "weight_pct": 17.64,
       "shares": 914,
       "item_code": "058610"
     },
     {
       "name": "현대차",
-      "weight_pct": 17.22,
+      "weight_pct": 17.53,
       "shares": 205,
       "item_code": "005380"
     },
     {
       "name": "레인보우로보틱스",
-      "weight_pct": 12.82,
+      "weight_pct": 12.74,
       "shares": 129,
       "item_code": "277810"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 5.81,
+      "weight_pct": 5.73,
       "shares": 61,
       "item_code": "012330"
     },
     {
       "name": "삼현",
-      "weight_pct": 5.04,
+      "weight_pct": 4.84,
       "shares": 724,
       "item_code": "437730"
     },
     {
       "name": "HL만도",
-      "weight_pct": 4.69,
+      "weight_pct": 4.72,
       "shares": 441,
       "item_code": "204320"
     },
@@ -51,38 +51,38 @@
       "item_code": "307950"
     },
     {
-      "name": "뉴로메카",
-      "weight_pct": 2.87,
-      "shares": 706,
-      "item_code": "348340"
-    },
-    {
       "name": "유일로보틱스",
-      "weight_pct": 2.85,
+      "weight_pct": 2.83,
       "shares": 198,
       "item_code": "388720"
     },
     {
+      "name": "뉴로메카",
+      "weight_pct": 2.58,
+      "shares": 706,
+      "item_code": "348340"
+    },
+    {
       "name": "두산로보틱스",
-      "weight_pct": 1.83,
+      "weight_pct": 1.77,
       "shares": 119,
       "item_code": "454910"
     },
     {
       "name": "에스엘",
-      "weight_pct": 1.32,
+      "weight_pct": 1.34,
       "shares": 119,
       "item_code": "005850"
     },
     {
       "name": "클로봇",
-      "weight_pct": 0.96,
+      "weight_pct": 0.91,
       "shares": 171,
       "item_code": "466100"
     },
     {
       "name": "한국피아이엠",
-      "weight_pct": 0.88,
+      "weight_pct": 0.9,
       "shares": 87,
       "item_code": "448900"
     },
@@ -94,8 +94,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.14,
-      "shares": 704649,
+      "weight_pct": 0.16,
+      "shares": 719964,
       "item_code": null
     }
   ]

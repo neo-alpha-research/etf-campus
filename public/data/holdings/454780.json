@@ -1,82 +1,118 @@
 {
   "ticker": "454780",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고채권03500-5603(26-2)",
-      "weight_pct": 13.17,
+      "weight_pct": 7.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리은행28-09-이표05-갑-19",
-      "weight_pct": 6.72,
+      "weight_pct": 6.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KIWOOM 단기채권ESG액티브",
-      "weight_pct": 6.27,
+      "weight_pct": 6.32,
       "shares": 58,
       "item_code": "419890"
     },
     {
+      "name": "국고채권04500-5609(26-8)",
+      "weight_pct": 6.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "NH농협은행 본점영업부 20260605-91-1",
-      "weight_pct": 5.14,
+      "weight_pct": 5.18,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02875-4409(24-10)",
-      "weight_pct": 4.2,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권04125-3312(23-11)",
-      "weight_pct": 3.45,
+      "weight_pct": 4.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "IBK 중기종합채권(AA-이상)액티브",
-      "weight_pct": 3.44,
+      "weight_pct": 3.46,
       "shares": 34,
       "item_code": "0135Y0"
     },
     {
       "name": "롯데카드529-4",
-      "weight_pct": 3.43,
+      "weight_pct": 3.46,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB국민 자금부 20250903-365-1",
-      "weight_pct": 3.42,
+      "weight_pct": 3.45,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "포스코퓨처엠22-1(녹)",
-      "weight_pct": 3.42,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신세계142-2",
-      "weight_pct": 3.42,
+      "weight_pct": 3.45,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리 여의도중앙기업영업지원팀 20251029-3",
-      "weight_pct": 3.41,
+      "weight_pct": 3.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "연합자산관리37-1",
+      "weight_pct": 3.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신세계142-2",
+      "weight_pct": 3.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권04125-3312(23-11)",
+      "weight_pct": 3.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CJ ENM27-1",
+      "weight_pct": 3.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "LG에너지솔루션4-2",
       "weight_pct": 3.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈555-4",
+      "weight_pct": 3.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK금융지주48",
+      "weight_pct": 3.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈471-3",
+      "weight_pct": 3.4,
       "shares": 0,
       "item_code": null
     },
@@ -87,61 +123,43 @@
       "item_code": null
     },
     {
-      "name": "CJ ENM27-1",
-      "weight_pct": 3.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나캐피탈471-3",
-      "weight_pct": 3.39,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비캐피탈555-4",
-      "weight_pct": 3.39,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "BNK금융지주48",
-      "weight_pct": 3.39,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "LG에너지솔루션4-2",
-      "weight_pct": 3.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국전력공사채권1432",
-      "weight_pct": 3.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나캐피탈472-5",
-      "weight_pct": 3.37,
+      "weight_pct": 3.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB 우리캐피탈547-1",
-      "weight_pct": 3.37,
+      "weight_pct": 3.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사채권1432",
+      "weight_pct": 3.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대지에프홀딩스1-2",
-      "weight_pct": 3.36,
+      "weight_pct": 3.38,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나은행47-09이5갑-12",
+      "weight_pct": 3.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스일렉트릭189-1",
+      "weight_pct": 3.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈252-7",
       "weight_pct": 3.36,
       "shares": 0,
       "item_code": null
@@ -153,38 +171,26 @@
       "item_code": null
     },
     {
-      "name": "엘에스일렉트릭189-1",
-      "weight_pct": 3.34,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "엔에이치농협캐피탈252-7",
-      "weight_pct": 3.34,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "BNK캐피탈379-5",
-      "weight_pct": 3.33,
+      "weight_pct": 3.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드437-2",
-      "weight_pct": 3.32,
+      "weight_pct": 3.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력공사채권1467",
-      "weight_pct": 3.3,
+      "weight_pct": 3.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03875-4309(23-9)",
-      "weight_pct": 3.25,
+      "weight_pct": 3.22,
       "shares": 0,
       "item_code": null
     },
@@ -196,31 +202,31 @@
     },
     {
       "name": "KIWOOM 국고채10년레버리지",
-      "weight_pct": 2.88,
+      "weight_pct": 2.83,
       "shares": 30,
       "item_code": "167860"
     },
     {
       "name": "WON 전단채플러스액티브",
-      "weight_pct": 1.79,
+      "weight_pct": 1.81,
       "shares": 34,
       "item_code": "496020"
     },
     {
       "name": "우리 여의도중앙기업영업지원팀 20260713-9",
-      "weight_pct": 1.7,
+      "weight_pct": 1.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데카드569-1(녹)",
-      "weight_pct": 1.69,
+      "weight_pct": 1.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드265-2(사)",
-      "weight_pct": 1.68,
+      "weight_pct": 1.69,
       "shares": 0,
       "item_code": null
     },
@@ -231,14 +237,8 @@
       "item_code": null
     },
     {
-      "name": "국고채권02750-4509(25-9)",
-      "weight_pct": 1.36,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "부산항만공사52",
-      "weight_pct": 1.25,
+      "weight_pct": 1.24,
       "shares": 0,
       "item_code": null
     },
@@ -250,13 +250,13 @@
     },
     {
       "name": "현대카드910-1(녹)",
-      "weight_pct": 0.68,
+      "weight_pct": 0.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대제철140-1",
-      "weight_pct": 0.67,
+      "weight_pct": 0.68,
       "shares": 0,
       "item_code": null
     },
@@ -273,8 +273,14 @@
       "item_code": null
     },
     {
+      "name": "국고채권02750-4509(25-9)",
+      "weight_pct": 0.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고채권03250-4209(22-11)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.47,
       "shares": 0,
       "item_code": null
     },
@@ -298,20 +304,20 @@
     },
     {
       "name": "10년국채 F 202609",
-      "weight_pct": -4.18,
+      "weight_pct": -4.15,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": -11.71,
+      "weight_pct": -10.67,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -45.94,
-      "shares": -45949754,
+      "weight_pct": -46.25,
+      "shares": -45900704,
       "item_code": null
     }
   ]

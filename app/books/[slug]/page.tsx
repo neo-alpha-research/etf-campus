@@ -163,7 +163,7 @@ export default async function BookPage({ params }: Props) {
               </a>
             </div>
             <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
-              * 본 링크는 크티(CTEE) 공식 상품 페이지로 연결되는 제휴 링크입니다. 결제 및 파일 다운로드는 크티 플랫폼에서 안전하게 처리됩니다.
+              * 본 링크는 저자가 직접 집필한 전자책의 크티(CTEE) 판매 페이지입니다. 결제 및 파일 다운로드는 크티 플랫폼에서 안전하게 처리됩니다.
             </p>
           </div>
         )}

@@ -19,7 +19,6 @@ DATA = ROOT / "data"
 OUT = DATA / "comparison"
 MASTER = DATA / "etf_master_draft.csv"
 REVIEW = DATA / "classification" / "etf_classification_review_draft.csv"
-PENSION = DATA / "pension_verify_sheet.csv"
 OFFICIAL = DATA / "classification" / "official_source_registry.csv"
 
 CLASSIFICATION_COLUMNS = [

@@ -1,107 +1,107 @@
 {
   "ticker": "455660",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares Broad USD High Yield Corporate Bond ETF",
-      "weight_pct": 23.47,
-      "shares": 4341,
+      "weight_pct": 23.13,
+      "shares": 4342,
       "item_code": "USHY.K"
     },
     {
       "name": "Xtrackers USD High Yld Corporate Bd ETF",
-      "weight_pct": 23.09,
+      "weight_pct": 22.77,
       "shares": 4333,
       "item_code": "HYLB.K"
     },
     {
       "name": "State Street SPDR Portfolio High Yield Bond ETF",
-      "weight_pct": 23.01,
+      "weight_pct": 22.69,
       "shares": 6734,
       "item_code": "SPHY.K"
     },
     {
       "name": "Schwab High Yield Bond ETF",
-      "weight_pct": 13.12,
-      "shares": 3439,
+      "weight_pct": 13.51,
+      "shares": 3590,
       "item_code": "SCYB.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.63,
-      "shares": 43781003,
+      "weight_pct": 5.55,
+      "shares": 52253822,
       "item_code": null
     },
     {
       "name": "State Street SPDR Bloomberg Shrt Trm Hg Yld Bd ETF",
-      "weight_pct": 3.84,
-      "shares": 1053,
+      "weight_pct": 3.81,
+      "shares": 1060,
       "item_code": "SJNK.K"
     },
     {
       "name": "State Street SPDR Bloomberg High Yield Bond ETF",
-      "weight_pct": 2.98,
+      "weight_pct": 2.94,
       "shares": 212,
       "item_code": "JNK"
     },
     {
       "name": "Xtrackers Low Beta High Yield Bond ETF",
-      "weight_pct": 2.95,
+      "weight_pct": 2.92,
       "shares": 431,
       "item_code": "HYDW.K"
     },
     {
       "name": "iShares iBoxx $ High Yield Corporate Bond ETF",
-      "weight_pct": 0.86,
+      "weight_pct": 0.85,
       "shares": 74,
       "item_code": "HYG"
     },
     {
       "name": "VanEck Fallen Angel High Yield Bond ETF",
-      "weight_pct": 0.79,
+      "weight_pct": 0.78,
       "shares": 187,
       "item_code": "ANGL.O"
     },
     {
       "name": "iShares 0-5 Year High Yield Corporate Bond ETF",
-      "weight_pct": 0.75,
+      "weight_pct": 0.74,
       "shares": 121,
       "item_code": "SHYG.K"
     },
     {
-      "name": "[USD] 예금",
-      "weight_pct": 0.28,
-      "shares": 1926,
-      "item_code": null
-    },
-    {
       "name": "iShares Fallen Angels USD Bond ETF",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 40,
       "item_code": "FALN.O"
     },
     {
-      "name": "FX스왑 USD 260820-38",
-      "weight_pct": -7.1,
-      "shares": -67078263,
+      "name": "[USD] 예금",
+      "weight_pct": 0.1,
+      "shares": 707,
       "item_code": null
     },
     {
-      "name": "FX스왑 USD 260825-64",
-      "weight_pct": -11.28,
-      "shares": -106538527,
+      "name": "FX스왑 USD 260901-03",
+      "weight_pct": -10.49,
+      "shares": -98629351,
+      "item_code": null
+    },
+    {
+      "name": "FX스왑 USD 260902-28",
+      "weight_pct": -10.92,
+      "shares": -102652500,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260819-11",
-      "weight_pct": -21.61,
-      "shares": -204101204,
+      "weight_pct": -18.37,
+      "shares": -172746530,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260827-18",
-      "weight_pct": -55.25,
-      "shares": -521708204,
+      "weight_pct": -55.01,
+      "shares": -517099007,
       "item_code": null
     }
   ]

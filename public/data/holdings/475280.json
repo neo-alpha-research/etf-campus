@@ -1,11 +1,11 @@
 {
   "ticker": "475280",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.57,
-      "shares": 22082113,
+      "weight_pct": 11.31,
+      "shares": 12152781,
       "item_code": null
     },
     {
@@ -15,26 +15,8 @@
       "item_code": null
     },
     {
-      "name": "하나은행46-08이3갑-28",
-      "weight_pct": 9.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데카드520-1",
-      "weight_pct": 9.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나캐피탈435-6",
-      "weight_pct": 9.97,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "주택금융공사236(변)(사)",
-      "weight_pct": 9.91,
+      "name": "농협은행채권(은행)2026-08이Y-D",
+      "weight_pct": 9.88,
       "shares": 0,
       "item_code": null
     },
@@ -47,6 +29,30 @@
     {
       "name": "한국전력1411",
       "weight_pct": 9.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SBS14-2",
+      "weight_pct": 9.84,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력1415",
+      "weight_pct": 9.84,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈451-4",
+      "weight_pct": 9.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈771-1",
+      "weight_pct": 9.78,
       "shares": 0,
       "item_code": null
     },

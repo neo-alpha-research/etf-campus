@@ -1,29 +1,29 @@
 {
   "ticker": "430500",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "물가연동국고채권01625-3206(22-6)",
-      "weight_pct": 34.58,
+      "weight_pct": 34.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "물가연동국고채권00750-3406(24-6)",
-      "weight_pct": 29.6,
+      "weight_pct": 29.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "물가연동국고채권01125-3606(26-4)",
-      "weight_pct": 28.38,
+      "weight_pct": 28.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.42,
-      "shares": 84094779,
+      "weight_pct": 7.4,
+      "shares": 82979613,
       "item_code": null
     }
   ]

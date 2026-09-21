@@ -1,0 +1,225 @@
+{
+  "name": "ETF Campus - OSMU Scheduled Publishing (Monday 07:30 KST)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 7 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "cron-trigger-monday-0730",
+      "name": "Cron (Monday 07:30 KST)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/neo-alpha-research/etf-campus/actions/workflows/generate-osmu.yml/runs?per_page=5",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            },
+            {
+              "name": "User-Agent",
+              "value": "n8n-NHNCloud-OSMUPublisher"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "github-check-runs",
+      "name": "Check OSMU Workflow Runs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "github-pat-header",
+          "name": "GitHub PAT Authorization (Bearer YOUR_TOKEN)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst runs = response.workflow_runs || [];\n\nconst now = new Date();\nconst kstFormatter = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Asia/Seoul',\n  year: 'numeric',\n  month: '2-digit',\n  day: '2-digit',\n});\nconst todayKst = kstFormatter.format(now);\n\nlet alreadySucceededToday = false;\nlet lastSuccessTimeKst = null;\n\nfor (const r of runs) {\n  if (r.status === 'completed' && r.conclusion === 'success') {\n    const runDateKst = kstFormatter.format(new Date(r.created_at));\n    if (runDateKst === todayKst) {\n      alreadySucceededToday = true;\n      lastSuccessTimeKst = r.created_at;\n      break;\n    }\n  }\n}\n\nconst isRunningNow = runs.some(r => r.status === 'in_progress' || r.status === 'queued');\n\nconst shouldTrigger = !alreadySucceededToday && !isRunningNow;\nconst reason = alreadySucceededToday \n  ? `Already published today (${todayKst}) at ${lastSuccessTimeKst}`\n  : (isRunningNow ? 'OSMU workflow is currently in progress / queued' : `Ready to publish OSMU for ${todayKst}`);\n\nreturn [{\n  json: {\n    todayKst,\n    alreadySucceededToday,\n    isRunningNow,\n    shouldTrigger,\n    reason\n  }\n}];"
+      },
+      "id": "evaluate-execution-status",
+      "name": "Evaluate Execution Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-should-trigger",
+              "leftValue": "={{ $json.shouldTrigger }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-should-trigger",
+      "name": "Should Trigger OSMU Publish?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        920,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.github.com/repos/neo-alpha-research/etf-campus/actions/workflows/generate-osmu.yml/dispatches",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            },
+            {
+              "name": "User-Agent",
+              "value": "n8n-NHNCloud-OSMUPublisher"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"ref\": \"main\",\n  \"inputs\": {\n    \"auto_publish\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "id": "github-dispatch-request",
+      "name": "Trigger GitHub Actions (generate-osmu.yml)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        220
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "github-pat-header",
+          "name": "GitHub PAT Authorization (Bearer YOUR_TOKEN)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "skip-no-op",
+      "name": "Skip (Already Published / Running)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Cron (Monday 07:30 KST)": {
+      "main": [
+        [
+          {
+            "node": "Check OSMU Workflow Runs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check OSMU Workflow Runs": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Execution Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Execution Status": {
+      "main": [
+        [
+          {
+            "node": "Should Trigger OSMU Publish?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should Trigger OSMU Publish?": {
+      "main": [
+        [
+          {
+            "node": "Trigger GitHub Actions (generate-osmu.yml)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip (Already Published / Running)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  }
+}

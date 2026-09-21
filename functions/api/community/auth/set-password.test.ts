@@ -112,7 +112,7 @@ describe("커뮤니티 비밀번호 설정", () => {
   });
 
   it("비밀번호 설정 토큰을 1회용으로 강제한다 (429 반환)", async () => {
-    mocks.enforceDatabaseRateLimit.mockImplementation(async (ctx, limitName, key) => {
+    mocks.enforceDatabaseRateLimit.mockImplementation(async (_ctx, limitName, _key) => {
       if (limitName === "password-set-token") return Response.json({ error: "rate limited" }, { status: 429 });
       return null;
     });
@@ -121,7 +121,7 @@ describe("커뮤니티 비밀번호 설정", () => {
   });
 
   it("속도 제한 503 오류 발생 시 503을 유지한다 (429로 덮어쓰지 않음)", async () => {
-    mocks.enforceDatabaseRateLimit.mockImplementation(async (ctx, limitName, key) => {
+    mocks.enforceDatabaseRateLimit.mockImplementation(async (_ctx, limitName, _key) => {
       if (limitName === "password-set-token") return Response.json({ error: { code: "CONFIGURATION_ERROR" } }, { status: 503 });
       return null;
     });
@@ -132,7 +132,7 @@ describe("커뮤니티 비밀번호 설정", () => {
   });
 
   it("IP 속도 제한 발생 시 원본 429를 반환한다", async () => {
-    mocks.enforceDatabaseRateLimit.mockImplementation(async (ctx, limitName, key) => {
+    mocks.enforceDatabaseRateLimit.mockImplementation(async (_ctx, limitName, _key) => {
       if (limitName === "password-set-ip") return Response.json({ error: { code: "RATE_LIMITED" } }, { status: 429 });
       return null;
     });

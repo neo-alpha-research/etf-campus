@@ -1,22 +1,22 @@
 {
   "ticker": "291630",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "코스닥150선물2026년09월물",
-      "weight_pct": 180.44,
+      "weight_pct": 178.96,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 80.31,
-      "shares": 30270132,
+      "weight_pct": 78.82,
+      "shares": 25976847,
       "item_code": null
     },
     {
       "name": "KIWOOM 코스닥150",
-      "weight_pct": 19.68,
+      "weight_pct": 21.17,
       "shares": 1023,
       "item_code": "316670"
     }

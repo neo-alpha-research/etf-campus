@@ -1,17 +1,17 @@
 {
   "ticker": "453820",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 112.02,
-      "shares": 649411313,
+      "weight_pct": 114.25,
+      "shares": 649669642,
       "item_code": null
     },
     {
       "name": "스왑(하나금융투자)",
-      "weight_pct": -12.02,
-      "shares": -69720829,
+      "weight_pct": -14.25,
+      "shares": -81031567,
       "item_code": null
     }
   ]

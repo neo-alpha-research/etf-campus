@@ -1,179 +1,179 @@
 {
   "ticker": "453810",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "HDFC Bank Ltd",
-      "weight_pct": 10.05,
-      "shares": 5639,
+      "weight_pct": 9.9,
+      "shares": 5637,
       "item_code": null
     },
     {
       "name": "ICICI Bank Ltd",
-      "weight_pct": 9.24,
-      "shares": 2638,
+      "weight_pct": 9.35,
+      "shares": 2637,
       "item_code": null
     },
     {
       "name": "Reliance Industries Ltd",
-      "weight_pct": 7.91,
-      "shares": 2487,
+      "weight_pct": 8.03,
+      "shares": 2486,
       "item_code": null
     },
     {
       "name": "Bharti Airtel Ltd",
-      "weight_pct": 5.22,
+      "weight_pct": 5.18,
       "shares": 1119,
       "item_code": null
     },
     {
       "name": "Larsen & Toubro Ltd",
-      "weight_pct": 4.26,
-      "shares": 431,
+      "weight_pct": 4.23,
+      "shares": 430,
       "item_code": null
     },
     {
       "name": "State Bank of India",
-      "weight_pct": 3.92,
-      "shares": 1522,
+      "weight_pct": 3.88,
+      "shares": 1521,
       "item_code": null
     },
     {
       "name": "Infosys Ltd",
-      "weight_pct": 3.54,
+      "weight_pct": 3.68,
       "shares": 1291,
       "item_code": null
     },
     {
       "name": "Axis Bank Ltd",
-      "weight_pct": 3.25,
+      "weight_pct": 3.28,
       "shares": 1057,
       "item_code": null
     },
     {
       "name": "Kotak Mahindra Bank Ltd",
-      "weight_pct": 2.76,
-      "shares": 2711,
+      "weight_pct": 2.84,
+      "shares": 2710,
       "item_code": null
     },
     {
       "name": "Mahindra & Mahindra Ltd",
-      "weight_pct": 2.73,
+      "weight_pct": 2.64,
       "shares": 328,
       "item_code": null
     },
     {
       "name": "Bajaj Finance Ltd",
-      "weight_pct": 2.62,
+      "weight_pct": 2.56,
       "shares": 986,
       "item_code": null
     },
     {
       "name": "ITC Ltd",
-      "weight_pct": 2.35,
-      "shares": 3549,
-      "item_code": null
-    },
-    {
-      "name": "ETERNAL LTD",
-      "weight_pct": 2.13,
-      "shares": 2662,
+      "weight_pct": 2.33,
+      "shares": 3548,
       "item_code": null
     },
     {
       "name": "Tata Consultancy Services Ltd",
-      "weight_pct": 2.09,
+      "weight_pct": 2.19,
       "shares": 375,
       "item_code": null
     },
     {
+      "name": "ETERNAL LTD",
+      "weight_pct": 2.15,
+      "shares": 2661,
+      "item_code": null
+    },
+    {
       "name": "Titan Co Ltd",
-      "weight_pct": 1.9,
-      "shares": 152,
+      "weight_pct": 1.89,
+      "shares": 151,
       "item_code": null
     },
     {
       "name": "Sun Pharmaceutical Industries",
-      "weight_pct": 1.81,
+      "weight_pct": 1.85,
       "shares": 389,
       "item_code": null
     },
     {
       "name": "Hindustan Unilever Ltd",
-      "weight_pct": 1.61,
+      "weight_pct": 1.6,
       "shares": 326,
       "item_code": null
     },
     {
       "name": "Maruti Suzuki India Ltd",
-      "weight_pct": 1.59,
+      "weight_pct": 1.53,
       "shares": 48,
       "item_code": null
     },
     {
       "name": "NTPC Ltd",
-      "weight_pct": 1.43,
+      "weight_pct": 1.41,
       "shares": 1745,
       "item_code": null
     },
     {
+      "name": "Tata Steel Ltd",
+      "weight_pct": 1.38,
+      "shares": 3042,
+      "item_code": null
+    },
+    {
       "name": "SHRIRAM FINANCE LTD",
-      "weight_pct": 1.41,
+      "weight_pct": 1.34,
       "shares": 515,
       "item_code": null
     },
     {
-      "name": "Tata Steel Ltd",
-      "weight_pct": 1.4,
-      "shares": 3043,
-      "item_code": null
-    },
-    {
       "name": "Hindalco Industries Ltd",
-      "weight_pct": 1.37,
-      "shares": 533,
+      "weight_pct": 1.33,
+      "shares": 532,
       "item_code": null
     },
     {
       "name": "Bharat Electronics Ltd",
-      "weight_pct": 1.31,
+      "weight_pct": 1.33,
       "shares": 1318,
       "item_code": null
     },
     {
-      "name": "UltraTech Cement Ltd",
-      "weight_pct": 1.25,
-      "shares": 43,
-      "item_code": null
-    },
-    {
       "name": "HCL Technologies Ltd",
-      "weight_pct": 1.23,
+      "weight_pct": 1.29,
       "shares": 388,
       "item_code": null
     },
     {
       "name": "Bajaj Auto Ltd",
-      "weight_pct": 1.17,
+      "weight_pct": 1.24,
       "shares": 40,
       "item_code": null
     },
     {
-      "name": "JSW Steel Ltd",
+      "name": "UltraTech Cement Ltd",
+      "weight_pct": 1.22,
+      "shares": 43,
+      "item_code": null
+    },
+    {
+      "name": "Grasim Industries Ltd",
       "weight_pct": 1.13,
+      "shares": 138,
+      "item_code": null
+    },
+    {
+      "name": "JSW Steel Ltd",
+      "weight_pct": 1.11,
       "shares": 345,
       "item_code": null
     },
     {
       "name": "Adani Ports & Special Economic Zone",
-      "weight_pct": 1.12,
+      "weight_pct": 1.1,
       "shares": 271,
-      "item_code": null
-    },
-    {
-      "name": "Grasim Industries Ltd",
-      "weight_pct": 1.12,
-      "shares": 138,
       "item_code": null
     },
     {
@@ -183,20 +183,20 @@
       "item_code": null
     },
     {
-      "name": "InterGlobe Aviation Ltd",
-      "weight_pct": 1.07,
-      "shares": 83,
-      "item_code": null
-    },
-    {
       "name": "Asian Paints Ltd",
-      "weight_pct": 1.07,
+      "weight_pct": 1.05,
       "shares": 166,
       "item_code": null
     },
     {
+      "name": "InterGlobe Aviation Ltd",
+      "weight_pct": 1.03,
+      "shares": 83,
+      "item_code": null
+    },
+    {
       "name": "Bajaj Finserv Ltd",
-      "weight_pct": 1.05,
+      "weight_pct": 1.03,
       "shares": 213,
       "item_code": null
     },
@@ -207,33 +207,33 @@
       "item_code": null
     },
     {
-      "name": "Nestle India Ltd",
-      "weight_pct": 0.93,
-      "shares": 264,
+      "name": "Tech Mahindra Ltd",
+      "weight_pct": 0.94,
+      "shares": 233,
       "item_code": null
     },
     {
-      "name": "Tech Mahindra Ltd",
-      "weight_pct": 0.9,
-      "shares": 233,
+      "name": "Nestle India Ltd",
+      "weight_pct": 0.93,
+      "shares": 263,
       "item_code": null
     },
     {
       "name": "Coal India Ltd",
       "weight_pct": 0.87,
-      "shares": 882,
+      "shares": 881,
       "item_code": null
     },
     {
       "name": "Trent Ltd",
-      "weight_pct": 0.87,
+      "weight_pct": 0.86,
       "shares": 122,
       "item_code": null
     },
     {
-      "name": "Adani Enterprises Ltd",
-      "weight_pct": 0.81,
-      "shares": 106,
+      "name": "Oil & Natural Gas Corp Ltd",
+      "weight_pct": 0.83,
+      "shares": 1429,
       "item_code": null
     },
     {
@@ -243,69 +243,69 @@
       "item_code": null
     },
     {
-      "name": "Oil & Natural Gas Corp Ltd",
-      "weight_pct": 0.81,
-      "shares": 1430,
-      "item_code": null
-    },
-    {
-      "name": "Jio Financial Services Ltd.",
-      "weight_pct": 0.71,
-      "shares": 1208,
+      "name": "Adani Enterprises Ltd",
+      "weight_pct": 0.75,
+      "shares": 106,
       "item_code": null
     },
     {
       "name": "Cipla Ltd/India",
-      "weight_pct": 0.71,
+      "weight_pct": 0.72,
       "shares": 207,
       "item_code": null
     },
     {
+      "name": "Jio Financial Services Ltd.",
+      "weight_pct": 0.7,
+      "shares": 1207,
+      "item_code": null
+    },
+    {
       "name": "SBI Life Insurance Co Ltd",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 165,
       "item_code": null
     },
     {
       "name": "Max Healthcare Institute Ltd",
       "weight_pct": 0.67,
-      "shares": 274,
+      "shares": 273,
       "item_code": null
     },
     {
       "name": "Dr Reddy's Laboratories Ltd",
-      "weight_pct": 0.65,
+      "weight_pct": 0.64,
       "shares": 224,
       "item_code": null
     },
     {
       "name": "Tata Consumer Products Ltd",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 239,
       "item_code": null
     },
     {
       "name": "Tata Motors Passenger Vehicles",
-      "weight_pct": 0.59,
+      "weight_pct": 0.58,
       "shares": 769,
       "item_code": null
     },
     {
       "name": "HDFC Life Insurance Co Ltd",
-      "weight_pct": 0.53,
+      "weight_pct": 0.52,
       "shares": 396,
       "item_code": null
     },
     {
       "name": "Wipro Ltd",
-      "weight_pct": 0.43,
-      "shares": 997,
+      "weight_pct": 0.44,
+      "shares": 996,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 0.0,
-      "shares": 2385,
+      "shares": -5809,
       "item_code": null
     }
   ]

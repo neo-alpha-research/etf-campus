@@ -1,94 +1,88 @@
 {
   "ticker": "215620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "롯데렌탈",
-      "weight_pct": 3.45,
+      "weight_pct": 3.67,
       "shares": 358,
       "item_code": "089860"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 3.21,
+      "weight_pct": 3.15,
       "shares": 2976,
       "item_code": "451800"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 3.03,
+      "weight_pct": 2.97,
       "shares": 2726,
       "item_code": "293940"
     },
     {
       "name": "하이트진로",
-      "weight_pct": 2.89,
+      "weight_pct": 2.94,
       "shares": 934,
       "item_code": "000080"
     },
     {
-      "name": "이노션",
-      "weight_pct": 2.81,
-      "shares": 738,
-      "item_code": "214320"
-    },
-    {
       "name": "아시아나항공",
-      "weight_pct": 2.8,
+      "weight_pct": 2.84,
       "shares": 1819,
       "item_code": "020560"
     },
     {
+      "name": "이노션",
+      "weight_pct": 2.82,
+      "shares": 738,
+      "item_code": "214320"
+    },
+    {
       "name": "오뚜기",
-      "weight_pct": 2.66,
+      "weight_pct": 2.73,
       "shares": 40,
       "item_code": "007310"
     },
     {
       "name": "롯데웰푸드",
-      "weight_pct": 2.5,
+      "weight_pct": 2.71,
       "shares": 90,
       "item_code": "280360"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 2.46,
+      "weight_pct": 2.42,
       "shares": 2184,
       "item_code": "395400"
     },
     {
       "name": "KCC글라스",
-      "weight_pct": 2.4,
+      "weight_pct": 2.37,
       "shares": 469,
       "item_code": "344820"
     },
     {
       "name": "제일기획",
-      "weight_pct": 2.37,
+      "weight_pct": 2.34,
       "shares": 612,
       "item_code": "030000"
     },
     {
       "name": "LG생활건강",
-      "weight_pct": 2.31,
+      "weight_pct": 2.29,
       "shares": 38,
       "item_code": "051900"
     },
     {
-      "name": "롯데리츠",
-      "weight_pct": 2.26,
-      "shares": 2824,
-      "item_code": "330590"
-    },
-    {
       "name": "코리안리",
-      "weight_pct": 2.25,
+      "weight_pct": 2.29,
       "shares": 759,
       "item_code": "003690"
     },
     {
       "name": "KT&G",
-      "weight_pct": 2.24,
+      "weight_pct": 2.23,
       "shares": 63,
       "item_code": "033780"
     },
@@ -100,13 +94,19 @@
     },
     {
       "name": "빙그레",
-      "weight_pct": 2.18,
+      "weight_pct": 2.22,
       "shares": 118,
       "item_code": "005180"
     },
     {
+      "name": "롯데리츠",
+      "weight_pct": 2.21,
+      "shares": 2824,
+      "item_code": "330590"
+    },
+    {
       "name": "한국자산신탁",
-      "weight_pct": 2.15,
+      "weight_pct": 2.17,
       "shares": 4110,
       "item_code": "123890"
     },
@@ -118,87 +118,87 @@
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 2.02,
+      "weight_pct": 2.05,
       "shares": 3236,
       "item_code": "365550"
     },
     {
       "name": "오리온",
-      "weight_pct": 2.01,
+      "weight_pct": 2.02,
       "shares": 78,
       "item_code": "271560"
     },
     {
       "name": "동아쏘시오홀딩스",
-      "weight_pct": 1.96,
+      "weight_pct": 1.95,
       "shares": 104,
       "item_code": "000640"
     },
     {
+      "name": "대상",
+      "weight_pct": 1.88,
+      "shares": 500,
+      "item_code": "001680"
+    },
+    {
       "name": "KG스틸",
-      "weight_pct": 1.93,
+      "weight_pct": 1.86,
       "shares": 1686,
       "item_code": "016380"
     },
     {
-      "name": "에스원",
-      "weight_pct": 1.92,
-      "shares": 110,
-      "item_code": "012750"
-    },
-    {
       "name": "한국쉘석유",
-      "weight_pct": 1.83,
+      "weight_pct": 1.82,
       "shares": 18,
       "item_code": "002960"
     },
     {
       "name": "TKG휴켐스",
-      "weight_pct": 1.83,
+      "weight_pct": 1.81,
       "shares": 554,
       "item_code": "069260"
     },
     {
-      "name": "삼성카드",
-      "weight_pct": 1.8,
-      "shares": 191,
-      "item_code": "029780"
-    },
-    {
-      "name": "대상",
-      "weight_pct": 1.78,
-      "shares": 500,
-      "item_code": "001680"
-    },
-    {
       "name": "LG유플러스",
-      "weight_pct": 1.78,
+      "weight_pct": 1.79,
       "shares": 592,
       "item_code": "032640"
     },
     {
+      "name": "에스원",
+      "weight_pct": 1.79,
+      "shares": 110,
+      "item_code": "012750"
+    },
+    {
       "name": "기업은행",
-      "weight_pct": 1.76,
+      "weight_pct": 1.78,
       "shares": 421,
       "item_code": "024110"
     },
     {
-      "name": "CJ제일제당",
-      "weight_pct": 1.71,
-      "shares": 45,
-      "item_code": "097950"
+      "name": "삼성카드",
+      "weight_pct": 1.76,
+      "shares": 191,
+      "item_code": "029780"
+    },
+    {
+      "name": "LF",
+      "weight_pct": 1.7,
+      "shares": 363,
+      "item_code": "093050"
     },
     {
       "name": "동서",
-      "weight_pct": 1.7,
+      "weight_pct": 1.67,
       "shares": 323,
       "item_code": "026960"
     },
     {
-      "name": "LF",
-      "weight_pct": 1.69,
-      "shares": 363,
-      "item_code": "093050"
+      "name": "CJ제일제당",
+      "weight_pct": 1.66,
+      "shares": 45,
+      "item_code": "097950"
     },
     {
       "name": "한일시멘트",
@@ -207,70 +207,76 @@
       "item_code": "300720"
     },
     {
-      "name": "동아에스티",
-      "weight_pct": 1.61,
-      "shares": 210,
-      "item_code": "170900"
-    },
-    {
       "name": "한진",
-      "weight_pct": 1.61,
+      "weight_pct": 1.59,
       "shares": 533,
       "item_code": "002320"
     },
     {
-      "name": "GS글로벌",
-      "weight_pct": 1.6,
-      "shares": 2922,
-      "item_code": "001250"
-    },
-    {
-      "name": "진에어",
-      "weight_pct": 1.59,
-      "shares": 1323,
-      "item_code": "272450"
+      "name": "동아에스티",
+      "weight_pct": 1.58,
+      "shares": 210,
+      "item_code": "170900"
     },
     {
       "name": "보령",
-      "weight_pct": 1.59,
+      "weight_pct": 1.57,
       "shares": 877,
       "item_code": "003850"
     },
     {
       "name": "하나투어",
-      "weight_pct": 1.54,
+      "weight_pct": 1.55,
       "shares": 235,
       "item_code": "039130"
     },
     {
+      "name": "진에어",
+      "weight_pct": 1.54,
+      "shares": 1323,
+      "item_code": "272450"
+    },
+    {
+      "name": "GS글로벌",
+      "weight_pct": 1.54,
+      "shares": 2922,
+      "item_code": "001250"
+    },
+    {
       "name": "BGF",
-      "weight_pct": 1.51,
+      "weight_pct": 1.48,
       "shares": 1895,
       "item_code": "027410"
     },
     {
-      "name": "세방",
-      "weight_pct": 1.49,
-      "shares": 543,
-      "item_code": "004360"
-    },
-    {
       "name": "아세아",
-      "weight_pct": 1.48,
+      "weight_pct": 1.47,
       "shares": 35,
       "item_code": "002030"
     },
     {
+      "name": "세방",
+      "weight_pct": 1.46,
+      "shares": 543,
+      "item_code": "004360"
+    },
+    {
+      "name": "LX인터내셔널",
+      "weight_pct": 1.44,
+      "shares": 180,
+      "item_code": "001120"
+    },
+    {
       "name": "롯데칠성",
-      "weight_pct": 1.45,
+      "weight_pct": 1.44,
       "shares": 73,
       "item_code": "005300"
     },
     {
-      "name": "LX인터내셔널",
-      "weight_pct": 1.4,
-      "shares": 180,
-      "item_code": "001120"
+      "name": "종근당",
+      "weight_pct": 1.36,
+      "shares": 97,
+      "item_code": "185750"
     },
     {
       "name": "케이카",
@@ -279,33 +285,27 @@
       "item_code": "381970"
     },
     {
-      "name": "종근당",
-      "weight_pct": 1.33,
-      "shares": 97,
-      "item_code": "185750"
-    },
-    {
       "name": "영진약품",
-      "weight_pct": 1.28,
+      "weight_pct": 1.27,
       "shares": 5575,
       "item_code": "003520"
     },
     {
       "name": "녹십자홀딩스",
-      "weight_pct": 1.28,
+      "weight_pct": 1.25,
       "shares": 627,
       "item_code": "005250"
     },
     {
       "name": "제이알글로벌리츠",
-      "weight_pct": 1.17,
+      "weight_pct": 1.16,
       "shares": 4866,
       "item_code": "348950"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.84,
-      "shares": 4113617,
+      "weight_pct": 0.82,
+      "shares": 4059279,
       "item_code": null
     }
   ]

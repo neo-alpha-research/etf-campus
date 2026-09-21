@@ -32,8 +32,8 @@ export function AuthNav() {
 
   if (!authenticated || !user) {
     return (
-      <div className="flex items-center gap-2 shrink-0">
-        <Link href={withReturnTo("/login/", currentPath)} className="inline-flex h-9 items-center justify-center rounded-lg border border-line bg-white px-3 text-sm font-semibold text-ink hover:bg-brand-50 sm:hidden whitespace-nowrap shrink-0">
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <Link href={withReturnTo("/login/", currentPath)} className="inline-flex h-8 sm:h-9 items-center justify-center rounded-lg border border-line bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-semibold text-ink hover:bg-brand-50 sm:hidden whitespace-nowrap shrink-0">
           로그인
         </Link>
         <div className="hidden items-center gap-2 sm:flex shrink-0">
@@ -49,8 +49,8 @@ export function AuthNav() {
   }
 
   return (
-    <div className="flex items-center gap-3 shrink-0">
-      <button type="button" onClick={handleLogout} disabled={loggingOut} className="inline-flex h-9 items-center justify-center rounded-lg border border-line bg-white px-3 text-sm font-semibold text-ink hover:bg-brand-50 disabled:cursor-not-allowed disabled:text-muted sm:hidden whitespace-nowrap shrink-0">
+    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button type="button" onClick={handleLogout} disabled={loggingOut} className="inline-flex h-8 sm:h-9 items-center justify-center rounded-lg border border-line bg-white px-2.5 sm:px-3 text-xs sm:text-sm font-semibold text-ink hover:bg-brand-50 disabled:cursor-not-allowed disabled:text-muted sm:hidden whitespace-nowrap shrink-0">
         {loggingOut ? "…" : "로그아웃"}
       </button>
       <div className="hidden items-center gap-3 sm:flex shrink-0">

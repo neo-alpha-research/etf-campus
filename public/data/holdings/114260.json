@@ -1,29 +1,29 @@
 {
   "ticker": "114260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 33.5,
+      "weight_pct": 33.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02750-2812(25-10)",
-      "weight_pct": 33.32,
+      "weight_pct": 33.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02250-2806(25-4)",
-      "weight_pct": 33.18,
+      "weight_pct": 33.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 0.0,
-      "shares": -8181,
+      "shares": 1472,
       "item_code": null
     }
   ]

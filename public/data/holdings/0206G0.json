@@ -1,41 +1,41 @@
 {
   "ticker": "0206G0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고03875-2612(23-10)",
-      "weight_pct": 26.87,
+      "weight_pct": 27.27,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대차",
-      "weight_pct": 25.07,
-      "shares": 257,
+      "weight_pct": 25.1,
+      "shares": 267,
       "item_code": "005380"
     },
     {
       "name": "기아",
-      "weight_pct": 25.04,
-      "shares": 810,
+      "weight_pct": 25.09,
+      "shares": 811,
       "item_code": "000270"
     },
     {
       "name": "국고02875-2609(24-9)",
-      "weight_pct": 14.73,
+      "weight_pct": 14.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01500-2612(16-8)",
+      "weight_pct": 4.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.24,
-      "shares": 17331465,
-      "item_code": null
-    },
-    {
-      "name": "국고01500-2612(16-8)",
-      "weight_pct": 4.15,
-      "shares": 0,
+      "weight_pct": 3.36,
+      "shares": 13539806,
       "item_code": null
     }
   ]

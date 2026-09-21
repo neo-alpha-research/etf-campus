@@ -12,12 +12,12 @@ GitHub secret이 비어 있으면 `${{ secrets.NAME }}`는 빈 문자열로 평�
 
 | GitHub Secret | 필수 여부 | 참조 workflow | 실제 용도 | 동일 값의 별도 등록 필요 여부 |
 | --- | --- | --- | --- | --- |
-| `CLOUDFLARE_ACCOUNT_ID` | 필수 | `market-briefing-production.yml`, `rollback-market-briefing-production.yml` | Cloudflare account 대상 식별 | 없음 |
-| `CLOUDFLARE_API_TOKEN` | 필수 | `market-briefing-production.yml`, `rollback-market-briefing-production.yml` | D1 migration, 두 Worker, Pages production 배포·rollback 인증 | 없음 |
-| `DATA_GO_KR_SERVICE_KEY` | 필수 | `daily-data.yml`, `backfill-d1.yml` | 공공데이터포털 ETF·가격 수집 | **collector Worker secret에도 별도 등록** |
-| `KRX_OPEN_API_KEY` | 필수 | `daily-data.yml`, `backfill-d1.yml` | 기존 KRX 데이터 갱신·backfill | GitHub workflow 전용 |
-| `PRICE_INGEST_ENDPOINT` | 필수 | `daily-data.yml` | GitHub data workflow가 signed price ingest를 호출하는 URL | GitHub workflow 전용 |
-| `PRICE_INGEST_HMAC_SECRET` | 필수 | `daily-data.yml`, `backfill-d1.yml` | GitHub data workflow의 signed price ingest 요청 검증 | **Cloudflare Pages production secret에도 같은 값 등록** |
+| `CLOUDFLARE_ACCOUNT_ID` | 필수 | `market-briefing-production.yml`, `rollback-market-briefing-production.yml`, `daily-holdings.yml` | Cloudflare account 대상 식별 | 없음 |
+| `CLOUDFLARE_API_TOKEN` | 필수 | `market-briefing-production.yml`, `rollback-market-briefing-production.yml`, `daily-holdings.yml` | D1 migration, D1 적재, Worker 및 Pages 배포 인증 | 없음 |
+| `DATA_GO_KR_SERVICE_KEY` | 필수 | `daily-market.yml` | 공공데이터포털 ETF·가격 수집 | GitHub workflow 전용 |
+| `KRX_OPEN_API_KEY` | 필수 | `daily-market.yml` | KRX 데이터 갱신 및 지수 수집 | GitHub workflow 전용 |
+| `PRICE_INGEST_ENDPOINT` | 필수 | `daily-market.yml` | GitHub data workflow가 signed price ingest를 호출하는 URL | GitHub workflow 전용 |
+| `PRICE_INGEST_HMAC_SECRET` | 필수 | `daily-market.yml` | GitHub data workflow의 signed price ingest 요청 검증 | **Cloudflare Pages production secret에도 같은 값 등록** |
 
 > `CLOUDFLARE_ACCOUNT_ID`는 비밀값은 아니지만, 현재 workflow가 `secrets.CLOUDFLARE_ACCOUNT_ID`로 참조하므로 코드 변경 없이 적용하려면 Repository Secret으로 등록해야 합니다. 이 값을 GitHub Variable로 옮기려면 workflow의 참조를 `vars.CLOUDFLARE_ACCOUNT_ID`로 바꾸어야 합니다.
 
@@ -27,11 +27,10 @@ GitHub secret이 비어 있으면 `${{ secrets.NAME }}`는 빈 문자열로 평�
 
 | 배치 대상 | 필수 값 | 선택·기능 활성화 시 값 | 등록 방식 |
 | --- | --- | --- | --- |
-| `market-data-collector` Worker | `DATA_GO_KR_SERVICE_KEY` | `OPS_ALERT_WEBHOOK_URL`, `OPS_ALERT_WEBHOOK_TOKEN`, `MANUAL_RUN_TOKEN` | `npx wrangler secret put <NAME>` |
 | `market-briefing-publisher` Worker | 없음 | `MANUAL_RUN_TOKEN` | `npx wrangler secret put MANUAL_RUN_TOKEN` |
-| Cloudflare Pages Functions | `PRICE_INGEST_HMAC_SECRET` (signed ingest 사용 시) | `AUTH_PASSWORD_PEPPER`, `COMMUNITY_RATE_LIMIT_SALT`, `N8N_WEBHOOK_SECRET`, `PASSWORD_RESET_WEBHOOK_SECRET`, `TURNSTILE_SECRET_KEY`, `SUPABASE_ANON_KEY` | Pages의 Variables and Secrets에서 secret으로 등록 |
+| Cloudflare Pages Functions | `PRICE_INGEST_HMAC_SECRET` (signed ingest 사용 시) | `AUTH_PASSWORD_PEPPER`, `COMMUNITY_RATE_LIMIT_SALT`, `TURNSTILE_SECRET_KEY`, `SUPABASE_ANON_KEY` | Pages의 Variables and Secrets에서 secret으로 등록 |
 
-`SUPABASE_URL`, `TURNSTILE_REQUIRED`, `TURNSTILE_SITE_KEY`, `TURNSTILE_EXPECTED_HOSTNAME`, `COMMUNITY_ENVIRONMENT`, `PUBLIC_APP_ORIGIN`, `N8N_AUTH_WEBHOOK_URL`, `N8N_WEBHOOK_REQUIRED`, `PASSWORD_RESET_DELIVERY_REQUIRED`, `PASSWORD_RESET_WEBHOOK_URL` 등은 값의 성격에 따라 Cloudflare runtime **일반 variable**로 관리합니다. API key, webhook token, HMAC secret, pepper처럼 외부에 노출되면 안 되는 값은 반드시 secret으로 관리합니다.
+`SUPABASE_URL`, `TURNSTILE_REQUIRED`, `TURNSTILE_SITE_KEY`, `TURNSTILE_EXPECTED_HOSTNAME`, `COMMUNITY_ENVIRONMENT`, `PUBLIC_APP_ORIGIN` 등은 값의 성격에 따라 Cloudflare runtime **일반 variable**로 관리합니다. API key, webhook token, HMAC secret, pepper처럼 외부에 노출되면 안 되는 값은 반드시 secret으로 관리합니다.
 
 ## 3. GitHub 자동 제공 값과 workflow 내부 상수
 
@@ -39,7 +38,7 @@ GitHub secret이 비어 있으면 `${{ secrets.NAME }}`는 빈 문자열로 평�
 
 | 항목 | 이유 |
 | --- | --- |
-| `GITHUB_TOKEN` | GitHub Actions가 workflow run마다 자동 제공합니다. 기존 `daily-data.yml`은 `permissions: contents: write`로 이 token의 commit·push 권한을 설정합니다. |
+| `GITHUB_TOKEN` | GitHub Actions가 workflow run마다 자동 제공합니다. 기존 `daily-market.yml`은 `permissions: contents: write`로 이 token의 commit·push 권한을 설정합니다. |
 | `PAGES_PROJECT_NAME` | 새 production·rollback workflow의 `env`에 `etf-campus`으로 고정되어 있습니다. |
 | `WRANGLER_VERSION` | 새 production·rollback workflow의 `env`에 `4.124.0`으로 고정되어 있습니다. |
 | `TARGET_DATE`, `inputs.*` | 수동 workflow 입력 또는 schedule 실행 중에 생성되는 실행 값입니다. |

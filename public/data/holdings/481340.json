@@ -1,58 +1,58 @@
 {
   "ticker": "481340",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 29.58,
-      "shares": 128527627,
+      "weight_pct": 30.22,
+      "shares": 127918986,
       "item_code": null
     },
     {
       "name": "Direxion Daily 20 Year Treasury Bull 3X ETF",
-      "weight_pct": 16.94,
+      "weight_pct": 16.54,
       "shares": 1674,
       "item_code": "TMF"
     },
     {
       "name": "T 4 5/8 02/15/55",
-      "weight_pct": 16.21,
+      "weight_pct": 16.2,
       "shares": 55636,
       "item_code": null
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 11.07,
+      "weight_pct": 11.06,
       "shares": 418,
       "item_code": "TLT.O"
     },
     {
       "name": "ProShares Ultra 20+ Year Treasury",
-      "weight_pct": 10.61,
+      "weight_pct": 10.5,
       "shares": 2193,
       "item_code": "UBT"
     },
     {
       "name": "T 4 5/8 05/15/54",
-      "weight_pct": 5.44,
+      "weight_pct": 5.43,
       "shares": 18654,
       "item_code": null
     },
     {
       "name": "T 4 1/4 08/15/54",
-      "weight_pct": 5.4,
+      "weight_pct": 5.39,
       "shares": 19727,
       "item_code": null
     },
     {
       "name": "메리츠 3X 레버리지 미국채30년 ETN",
-      "weight_pct": 2.43,
+      "weight_pct": 2.36,
       "shares": 276,
       "item_code": "610078"
     },
     {
       "name": "T 4 3/4 08/15/55",
-      "weight_pct": 2.27,
+      "weight_pct": 2.26,
       "shares": 7636,
       "item_code": null
     }

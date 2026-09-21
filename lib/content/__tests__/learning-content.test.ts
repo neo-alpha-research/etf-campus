@@ -94,5 +94,6 @@ describe("learning content", () => {
     expect(resolveBookCoverUrl("practical-etf.png")).toBe("/images/books/practical-etf.png");
     expect(resolveBookCoverUrl("/images/custom/book.png")).toBe("/images/custom/book.png");
     expect(resolveBookCoverUrl("https://r2.etfcampus.com/book.png")).toBe("https://r2.etfcampus.com/book.png");
+    expect(resolveBookCoverUrl("https://image.aladin.co.kr/product/123/45/coversum/book.jpg")).toBe("https://image.aladin.co.kr/product/123/45/cover500/book.jpg");
   });
 });

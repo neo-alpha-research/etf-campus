@@ -3,23 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "osmu:download": "gh run download -n OSMU_Archive --dir OSMU_Archive",
+    "osmu:preview": "node scripts/serve-osmu-preview.mjs",
+    "osmu:sync": "python scripts/sync_osmu_kv.py",
+    "briefing:render": "npm --prefix workers/market-briefing-distributor run briefing:render --",
+    "briefing:sync": "python scripts/sync_osmu_kv.py",
+    "briefing:pipeline": "npm --prefix workers/market-briefing-distributor run briefing:pipeline --",
+    "briefing:distribute": "python scripts/publish_osmu_channels.py",
+    "worker:deploy": "npm --prefix workers/market-briefing-distributor run deploy",
     "dev": "next dev",
-    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\"",
+    "preview:local": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=http://localhost:3000/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",
+    "preview:app": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=https://etf-campus.pages.dev/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",
+    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\" && npx tsx scripts/generate-screener-json.ts && node scripts/generate-style-og-images.mjs",
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",
+    "check:ci": "npm run lint && npx tsc --noEmit -p tsconfig.ci.json && npm test && npm --workspace=workers/market-briefing-distributor run typecheck && npm --workspace=workers/community-maintenance run typecheck",
     "newsletter:snapshot": "node scripts/newsletter/create-weekly-snapshot.mjs",
     "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
     "verify:utf8": "node scripts/verify-utf8.mjs",
-    "books:sync-covers": "node scripts/fetch-book-covers.mjs",
     "test": "npm run verify:utf8 && vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:changed": "vitest run --changed",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",
+    "@capacitor/app": "^8.1.1",
     "@capacitor/core": "^8.5.0",
     "@capacitor/ios": "^8.5.0",
     "@capacitor/push-notifications": "^8.1.2",
+    "@capacitor/status-bar": "^8.0.3",
     "@next/third-parties": "^16.3.2",
     "@tanstack/react-virtual": "^3.14.9",
     "csv-parse": "^7.0.1",
@@ -45,9 +59,14 @@
     "eslint-config-next": "16.2.10",
     "gray-matter": "^4.0.3",
     "jsdom": "28.1.0",
-    "sharp": "^0.35.4",
     "tailwindcss": "4.3.3",
+    "tsx": "^4.19.3",
     "typescript": "5.9.3",
-    "vitest": "4.1.10"
-  }
+    "vitest": "4.1.10",
+    "wrangler": "^4.31.0"
+  },
+  "workspaces": [
+    "workers/market-briefing-distributor",
+    "workers/community-maintenance"
+  ]
 }

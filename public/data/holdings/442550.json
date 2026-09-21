@@ -1,70 +1,70 @@
 {
   "ticker": "442550",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "RISE 단기채권알파액티브",
-      "weight_pct": 16.65,
+      "weight_pct": 16.92,
       "shares": 1071,
       "item_code": "385550"
     },
     {
       "name": "RISE 종합채권(A-이상)액티브",
-      "weight_pct": 15.27,
+      "weight_pct": 15.42,
       "shares": 1085,
       "item_code": "385540"
     },
     {
       "name": "RISE 미국S&P500",
-      "weight_pct": 14.22,
+      "weight_pct": 14.17,
       "shares": 4531,
       "item_code": "379780"
     },
     {
       "name": "RISE 미국나스닥100",
-      "weight_pct": 11.66,
+      "weight_pct": 11.58,
       "shares": 2860,
       "item_code": "368590"
     },
     {
       "name": "KODEX 종합채권(AA-이상)액티브",
-      "weight_pct": 6.77,
+      "weight_pct": 6.83,
       "shares": 450,
       "item_code": "273130"
     },
     {
       "name": "RISE 국고채10년액티브",
-      "weight_pct": 5.55,
+      "weight_pct": 5.57,
       "shares": 412,
       "item_code": "481430"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 5.02,
+      "weight_pct": 4.84,
       "shares": 335,
       "item_code": "148020"
     },
     {
       "name": "RISE KIS국고채30년Enhanced",
-      "weight_pct": 4.57,
+      "weight_pct": 4.51,
       "shares": 640,
       "item_code": "385560"
     },
     {
       "name": "Vanguard European Stock Index Fund",
-      "weight_pct": 4.25,
+      "weight_pct": 4.19,
       "shares": 244,
       "item_code": "VGK"
     },
     {
       "name": "JPMorgan BetaBuilders Japan ETF",
-      "weight_pct": 4.01,
+      "weight_pct": 4.04,
       "shares": 277,
       "item_code": "BBJP.K"
     },
     {
       "name": "Vanguard Emerging Markets Stock Index Fund",
-      "weight_pct": 3.97,
+      "weight_pct": 4.0,
       "shares": 348,
       "item_code": "VWO"
     },
@@ -76,14 +76,14 @@
     },
     {
       "name": "RISE 미국반도체NYSE",
-      "weight_pct": 3.03,
+      "weight_pct": 2.88,
       "shares": 641,
       "item_code": "469060"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.15,
-      "shares": 8449217,
+      "weight_pct": 1.16,
+      "shares": 8439839,
       "item_code": null
     }
   ]

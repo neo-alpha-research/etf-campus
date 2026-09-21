@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Clock, Sparkles } from "lucide-react";
@@ -10,6 +11,7 @@ import {
   STYLE_PROFILES,
   type StyleId,
 } from "@/lib/onboarding/style-diagnosis";
+import { StyleShareBar } from "@/components/onboarding/style-share-bar";
 
 type Props = {
   params: Promise<{ animal: string }>;
@@ -101,12 +103,23 @@ export default async function StyleAnimalPage({ params }: Props) {
 
         {/* Hero Card */}
         <div className="mt-4 rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-surface to-neutral-50 p-6 text-center shadow-xs sm:p-8">
-          <div
-            aria-hidden="true"
-            className="mx-auto grid size-28 place-items-center rounded-full border-4 border-surface bg-brand-100 text-7xl shadow-sm"
-          >
-            {profile.emoji}
+          <div className="relative mx-auto size-32 overflow-hidden rounded-3xl border-4 border-white bg-white shadow-md sm:size-36">
+            <Image
+              alt={profile.name}
+              className="h-full w-full object-cover"
+              height={144}
+              priority
+              src={profile.imagePath}
+              width={144}
+            />
+            <span
+              aria-hidden="true"
+              className="absolute bottom-1 right-1 grid size-8 place-items-center rounded-full border-2 border-white bg-white text-lg shadow-xs"
+            >
+              {profile.emoji}
+            </span>
           </div>
+
           <p className="mt-4 text-xs font-extrabold tracking-[0.08em] text-brand-700">ETF 투자 스타일 프로필</p>
           <h1 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl">
             {profile.name}
@@ -131,6 +144,9 @@ export default async function StyleAnimalPage({ params }: Props) {
             ))}
           </div>
         </div>
+
+        {/* Share Action Bar */}
+        <StyleShareBar profile={profile} styleId={animal as StyleId} />
 
         {/* Summary Description */}
         <div className="mt-6 rounded-2xl border border-line bg-surface p-5 sm:p-7 shadow-xs">
@@ -171,20 +187,29 @@ export default async function StyleAnimalPage({ params }: Props) {
         {oppositeProfile ? (
           <div className="mt-6 rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-xs">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-extrabold text-brand-700">나와 가장 다르게 보는 유형</p>
-              <span className="text-[11px] font-bold text-muted">탐색 벡터 최대 거리</span>
+              <p className="text-xs font-extrabold text-brand-700">⚡ 나와 가장 다르게 보는 유형</p>
+              <span className="text-[11px] font-bold text-muted">탐색 축 최대 대비</span>
             </div>
             <div className="mt-3 flex items-center gap-4">
-              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-neutral-100 text-3xl" aria-hidden="true">
-                {oppositeProfile.emoji}
-              </span>
+              <div className="relative size-14 shrink-0 overflow-hidden rounded-2xl border border-line bg-neutral-100">
+                <Image
+                  alt={oppositeProfile.name}
+                  className="h-full w-full object-cover"
+                  height={56}
+                  src={oppositeProfile.imagePath}
+                  width={56}
+                />
+                <span className="absolute bottom-0 right-0 grid size-5 place-items-center rounded-full bg-white text-xs shadow-xs">
+                  {oppositeProfile.emoji}
+                </span>
+              </div>
               <div>
                 <h3 className="text-base font-extrabold text-strong">{oppositeProfile.name}</h3>
                 <p className="text-xs sm:text-sm text-muted">&ldquo;{oppositeProfile.punchline}&rdquo;</p>
               </div>
             </div>
             <p className="mt-3 text-xs leading-5 text-neutral-600 border-t border-line/60 pt-3">
-              정보를 정반대 축에서 탐색하므로, 동료나 파트너와 함께 의논할 때 사각지대를 보완해 줍니다.
+              5개 탐색 축 중 반대 방향에서 시장을 살피는 유형입니다. 내가 익숙한 기준을 지킬 때 상대는 새로운 가능성을 먼저 열어보므로, 팀이나 스터디에서 서로의 사각지대를 가장 확실하게 채워주는 최적의 파트너입니다.
             </p>
           </div>
         ) : null}

@@ -1,101 +1,101 @@
 {
   "ticker": "407300",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "카카오",
-      "weight_pct": 11.66,
+      "weight_pct": 11.67,
       "shares": 1708,
       "item_code": "035720"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 11.36,
+      "weight_pct": 10.39,
       "shares": 697,
       "item_code": "034020"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 10.04,
+      "weight_pct": 10.24,
       "shares": 141,
       "item_code": "028260"
     },
     {
-      "name": "강원랜드",
-      "weight_pct": 8.98,
-      "shares": 3255,
-      "item_code": "035250"
-    },
-    {
       "name": "금호석유화학",
-      "weight_pct": 8.82,
+      "weight_pct": 9.31,
       "shares": 376,
       "item_code": "011780"
     },
     {
+      "name": "강원랜드",
+      "weight_pct": 9.25,
+      "shares": 3255,
+      "item_code": "035250"
+    },
+    {
       "name": "카카오페이",
-      "weight_pct": 8.52,
+      "weight_pct": 8.35,
       "shares": 958,
       "item_code": "377300"
     },
     {
-      "name": "신세계",
-      "weight_pct": 7.98,
-      "shares": 99,
-      "item_code": "004170"
-    },
-    {
       "name": "DB하이텍",
-      "weight_pct": 7.82,
+      "weight_pct": 7.5,
       "shares": 432,
       "item_code": "000990"
     },
     {
+      "name": "신세계",
+      "weight_pct": 7.45,
+      "shares": 99,
+      "item_code": "004170"
+    },
+    {
       "name": "미스토홀딩스",
-      "weight_pct": 6.14,
+      "weight_pct": 6.39,
       "shares": 794,
       "item_code": "081660"
     },
     {
       "name": "코오롱인더",
-      "weight_pct": 5.37,
+      "weight_pct": 5.85,
       "shares": 534,
       "item_code": "120110"
     },
     {
       "name": "F&F",
-      "weight_pct": 4.33,
+      "weight_pct": 4.77,
       "shares": 362,
       "item_code": "383220"
     },
     {
       "name": "한화머시너리앤서비스홀딩스",
-      "weight_pct": 4.11,
+      "weight_pct": 3.81,
       "shares": 2846,
       "item_code": "0220W0"
     },
     {
       "name": "하나투어",
-      "weight_pct": 1.68,
+      "weight_pct": 1.75,
       "shares": 276,
       "item_code": "039130"
     },
     {
       "name": "SOOP",
-      "weight_pct": 1.53,
+      "weight_pct": 1.55,
       "shares": 211,
       "item_code": "067160"
     },
     {
       "name": "감성코퍼레이션",
-      "weight_pct": 1.14,
+      "weight_pct": 1.16,
       "shares": 1590,
       "item_code": "036620"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.47,
-      "shares": 2489131,
+      "shares": 2454427,
       "item_code": null
     }
   ]

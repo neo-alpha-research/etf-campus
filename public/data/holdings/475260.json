@@ -1,16 +1,16 @@
 {
   "ticker": "475260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 42.77,
-      "shares": 45952524,
+      "shares": 45982029,
       "item_code": null
     },
     {
       "name": "농금채(중앙회)2024-2이3Y-B",
-      "weight_pct": 19.78,
+      "weight_pct": 19.77,
       "shares": 0,
       "item_code": null
     },

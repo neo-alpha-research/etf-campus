@@ -196,13 +196,26 @@ function candidateReasons(target: ComparisonProfile, candidate: ComparisonProfil
 }
 
 export function sortPeerCandidates(candidates: readonly PeerCandidate[]): PeerCandidate[] {
-  return [...candidates].sort(
-    (left, right) =>
-      right.similarityScore - left.similarityScore ||
+  return [...candidates].sort((left, right) => {
+    // 1. 유사도 스코어
+    if (right.similarityScore !== left.similarityScore) {
+      return right.similarityScore - left.similarityScore;
+    }
+    
+    // 2. TR 1년 수익률 (TR이 없으면 -Infinity 처리: PR 혼입 원천 차단)
+    const rightTr12m = right.etf.returnsTr?.["12m"] ?? -Infinity;
+    const leftTr12m = left.etf.returnsTr?.["12m"] ?? -Infinity;
+    if (rightTr12m !== leftTr12m) {
+      return rightTr12m - leftTr12m;
+    }
+
+    // 3. AUM, 4. 거래대금, 5. 티커순
+    return (
       right.etf.aum - left.etf.aum ||
       right.etf.tradeValue - left.etf.tradeValue ||
-      left.etf.ticker.localeCompare(right.etf.ticker),
-  );
+      left.etf.ticker.localeCompare(right.etf.ticker)
+    );
+  });
 }
 
 function meetsRequiredStructure(profile: ComparisonProfile, group: GroupRegistry): boolean {
@@ -307,15 +320,6 @@ function sharesTopic(left: ComparisonProfile, right: ComparisonProfile): boolean
   const leftTokens = normalizedTokens(`${left.comparisonTopic} ${isUnconfirmed(left.comparisonSubtopic) ? "" : left.comparisonSubtopic}`);
   const rightTokens = normalizedTokens(`${right.comparisonTopic} ${isUnconfirmed(right.comparisonSubtopic) ? "" : right.comparisonSubtopic}`);
   return [...leftTokens].some((token) => rightTokens.has(token));
-}
-
-function hasCompatibleStructure(left: ComparisonProfile, right: ComparisonProfile): boolean {
-  return left.assetFamily === right.assetFamily
-    && left.regionPrimary === right.regionPrimary
-    && left.strategyStyle === right.strategyStyle
-    && left.payoffStructure === right.payoffStructure
-    && left.direction === right.direction
-    && left.leverageMultiple === right.leverageMultiple;
 }
 
 function structureReferenceTier(
@@ -620,14 +624,3 @@ export function getPeerComparison(target: Etf, universe: readonly Etf[]): PeerCo
   };
 }
 
-export function getComparableEtfs(target: Etf, universe: readonly Etf[], limit = MAX_PEERS): {
-  peers: Etf[];
-  peerGroup: PeerGroupOption | null;
-} {
-  const comparison = getPeerComparison(target, universe);
-  const primary = comparison.groups.find((group) => group.isPrimary) ?? null;
-  return {
-    peers: (primary?.candidates ?? []).slice(0, limit).map((candidate) => candidate.etf),
-    peerGroup: primary,
-  };
-}

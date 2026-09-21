@@ -98,6 +98,9 @@ class ReadBasDtTest(TestCase):
 
 class MainTest(TestCase):
     def run_main(self, bas_dt: str, today: str, holidays: str = "") -> int:
+        import io
+        from contextlib import redirect_stderr, redirect_stdout
+
         with TemporaryDirectory() as tmp:
             directory = Path(tmp)
             master = write_master(directory, bas_dt)
@@ -111,8 +114,11 @@ class MainTest(TestCase):
                 "--holidays", str(holiday_file),
                 "--today", today,
             ]
+            f_out = io.StringIO()
+            f_err = io.StringIO()
             try:
-                return main()
+                with redirect_stdout(f_out), redirect_stderr(f_err):
+                    return main()
             finally:
                 sys.argv = argv
 

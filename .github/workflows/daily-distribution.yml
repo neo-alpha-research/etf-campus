@@ -26,7 +26,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if python scripts/check_workflow_success_today.py --workflow daily-distribution.yml; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run requested. Bypassing already-succeeded guard."
+            echo "already_run=false" >> "$GITHUB_OUTPUT"
+          elif python scripts/check_workflow_success_today.py --workflow daily-distribution.yml; then
             echo "already_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "already_run=false" >> "$GITHUB_OUTPUT"
@@ -42,7 +45,7 @@ jobs:
         if: steps.guard.outputs.already_run != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd lxml
+          python -m pip install beautifulsoup4 certifi requests xlrd lxml curl_cffi
 
       - name: Refresh distribution sources and return status
         if: steps.guard.outputs.already_run != 'true'
@@ -58,29 +61,32 @@ jobs:
           import os
           from pathlib import Path
 
-          report_path = Path("data/distributions/reports/official_source_collection_latest.json")
+          seibro_report = Path("data/distributions/reports/seibro_collection_latest.json")
+          daily_report = Path("data/distributions/reports/daily_distribution_update_latest.json")
           summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
 
-          if not report_path.exists():
-              summary_path.write_text("No diagnostics found.\n")
-              raise SystemExit(0)
+          lines = ["### ETF Distribution Collection Status (SEIBro Official)\n\n"]
+          if seibro_report.exists():
+              with seibro_report.open(encoding="utf-8") as f:
+                  sdata = json.load(f)
+              lines.append(f"- Data Source: **한국예탁결제원 (SEIBro)**\n")
+              lines.append(f"- Collection Status: **{sdata.get('status', 'unknown')}**\n")
+              lines.append(f"- Fetched Events: **{sdata.get('fetched_events', 0)}**\n")
+              lines.append(f"- Total Events in Ledger: **{sdata.get('total_events_in_ledger', 0)}**\n")
+              lines.append(f"- Duration: **{sdata.get('duration_seconds', 0):.2f}s**\n\n")
 
-          with report_path.open(encoding="utf-8") as f:
-              report = json.load(f)
+          if daily_report.exists():
+              with daily_report.open(encoding="utf-8") as f:
+                  ddata = json.load(f)
+              lines.append(f"### Pipeline Update Summary\n\n")
+              lines.append(f"- Overall Status: **{ddata.get('status', 'unknown')}**\n")
+              lines.append(f"- Total Pipeline Steps: **{len(ddata.get('steps', []))}**\n\n")
+              lines.append("| Step | Duration | Exit Code |\n|---|---|---|\n")
+              for step in ddata.get("steps", []):
+                  lines.append(f"| {step.get('name')} | {step.get('duration_seconds', 0):.2f}s | {step.get('exit_code')} |\n")
 
           with summary_path.open("a", encoding="utf-8") as out:
-              out.write("### Distribution Collection Status\n\n")
-              out.write(f"- Duration: {report.get('duration_seconds', 0):.2f}s\n")
-              out.write(f"- Passed: **{report.get('passed', 0)}**\n")
-              out.write(f"- Issues: **{len(report.get('issues', []))}**\n\n")
-
-              if report.get("issues"):
-                  out.write("#### Issues encountered:\n`\n")
-                  for issue in report.get("issues", []):
-                      out.write(f"{issue.get('source_id', 'unknown')} | date={issue.get('request_date_utc', 'unknown')} | ")
-                      out.write(f"status={issue.get('http_status', 'network')} | attempts={issue.get('attempts', 0)} | ")
-                      out.write(f"category={issue.get('failure_category', 'unknown')} | reason={issue.get('final_failure_reason', 'unknown')}\n")
-                  out.write("`\n")
+              out.writelines(lines)
           PY
 
       - name: Upload distribution collection diagnostics
@@ -89,7 +95,7 @@ jobs:
         with:
           name: distribution-collection-diagnostics-${{ github.run_id }}
           path: |
-            data/distributions/reports/official_source_collection_latest.json
+            data/distributions/reports/seibro_collection_latest.json
             data/distributions/reports/daily_distribution_update_latest.json
           if-no-files-found: warn
           retention-days: 14

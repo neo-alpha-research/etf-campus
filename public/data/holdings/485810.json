@@ -1,185 +1,185 @@
 {
   "ticker": "485810",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "일라이 릴리",
-      "weight_pct": 12.04,
+      "weight_pct": 11.97,
       "shares": 43,
       "item_code": "LLY"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 6.48,
+      "weight_pct": 6.64,
       "shares": 102,
       "item_code": "JNJ"
     },
     {
       "name": "모더나",
-      "weight_pct": 6.13,
+      "weight_pct": 6.44,
       "shares": 174,
       "item_code": "MRNA.O"
     },
     {
       "name": "머크 앤 코",
-      "weight_pct": 6.02,
+      "weight_pct": 6.0,
       "shares": 167,
       "item_code": "MRK"
     },
     {
       "name": "써모 피셔 사이언티픽",
-      "weight_pct": 5.37,
+      "weight_pct": 5.19,
       "shares": 36,
       "item_code": "TMO"
     },
     {
       "name": "바이오젠",
-      "weight_pct": 4.27,
+      "weight_pct": 4.25,
       "shares": 82,
       "item_code": "BIIB.O"
     },
     {
       "name": "노바티스 ADR",
-      "weight_pct": 4.0,
+      "weight_pct": 4.18,
       "shares": 108,
       "item_code": "NVS"
     },
     {
-      "name": "애보트 래보라토리",
-      "weight_pct": 3.57,
-      "shares": 133,
-      "item_code": "ABT"
-    },
-    {
       "name": "길리어드 사이언시스",
-      "weight_pct": 3.45,
+      "weight_pct": 3.56,
       "shares": 99,
       "item_code": "GILD.O"
     },
     {
-      "name": "나테라",
-      "weight_pct": 3.42,
-      "shares": 43,
-      "item_code": "NTRA.O"
+      "name": "애보트 래보라토리",
+      "weight_pct": 3.47,
+      "shares": 133,
+      "item_code": "ABT"
     },
     {
       "name": "레비티",
-      "weight_pct": 3.36,
+      "weight_pct": 3.43,
       "shares": 113,
       "item_code": "RVTY.K"
     },
     {
-      "name": "테바 파마슈티컬 인더스트리 ADR",
-      "weight_pct": 3.1,
-      "shares": 348,
-      "item_code": "TEVA.K"
+      "name": "나테라",
+      "weight_pct": 3.31,
+      "shares": 43,
+      "item_code": "NTRA.O"
     },
     {
       "name": "리제네론 파마슈티컬스",
-      "weight_pct": 3.07,
+      "weight_pct": 3.16,
       "shares": 16,
       "item_code": "REGN.O"
     },
     {
       "name": "암젠",
-      "weight_pct": 3.0,
+      "weight_pct": 3.05,
       "shares": 29,
       "item_code": "AMGN.O"
     },
     {
-      "name": "메드페이스 홀딩스",
-      "weight_pct": 2.91,
-      "shares": 20,
-      "item_code": "MEDP.O"
+      "name": "테바 파마슈티컬 인더스트리 ADR",
+      "weight_pct": 3.02,
+      "shares": 348,
+      "item_code": "TEVA.K"
     },
     {
       "name": "엑셀리시스",
-      "weight_pct": 2.76,
+      "weight_pct": 2.85,
       "shares": 209,
       "item_code": "EXEL.O"
     },
     {
+      "name": "메드페이스 홀딩스",
+      "weight_pct": 2.8,
+      "shares": 20,
+      "item_code": "MEDP.O"
+    },
+    {
       "name": "애브비",
-      "weight_pct": 2.53,
+      "weight_pct": 2.55,
       "shares": 41,
       "item_code": "ABBV.K"
     },
     {
       "name": "아스트라제네카",
-      "weight_pct": 2.27,
+      "weight_pct": 2.26,
       "shares": 58,
       "item_code": "AZN"
     },
     {
       "name": "박스터 인터내셔널",
-      "weight_pct": 2.27,
+      "weight_pct": 2.23,
       "shares": 365,
       "item_code": "BAX"
     },
     {
       "name": "스트럭처 테라퓨틱스 ADR",
-      "weight_pct": 2.27,
+      "weight_pct": 2.21,
       "shares": 196,
       "item_code": "GPCR.O"
     },
     {
       "name": "일루미나",
-      "weight_pct": 2.17,
+      "weight_pct": 2.03,
       "shares": 41,
       "item_code": "ILMN.O"
     },
     {
-      "name": "아이오니스 파마슈티컬스",
-      "weight_pct": 2.07,
-      "shares": 139,
-      "item_code": "IONS.O"
-    },
-    {
       "name": "아이콘",
-      "weight_pct": 2.06,
+      "weight_pct": 2.01,
       "shares": 52,
       "item_code": "ICLR.O"
     },
     {
+      "name": "아이오니스 파마슈티컬스",
+      "weight_pct": 1.99,
+      "shares": 139,
+      "item_code": "IONS.O"
+    },
+    {
       "name": "로이반트 사이언시스",
-      "weight_pct": 2.04,
+      "weight_pct": 1.95,
       "shares": 236,
       "item_code": "ROIV.O"
     },
     {
       "name": "브리스톨-마이어스 스큅",
-      "weight_pct": 1.91,
+      "weight_pct": 1.92,
       "shares": 120,
       "item_code": "BMY"
     },
     {
       "name": "앨나일램 파마슈티컬스",
-      "weight_pct": 1.74,
+      "weight_pct": 1.83,
       "shares": 31,
       "item_code": "ALNY.O"
     },
     {
       "name": "사노피 ADR",
-      "weight_pct": 1.7,
+      "weight_pct": 1.69,
       "shares": 159,
       "item_code": "SNY.O"
     },
     {
       "name": "비아트리스",
-      "weight_pct": 1.44,
+      "weight_pct": 1.45,
       "shares": 365,
       "item_code": "VTRS.O"
     },
     {
       "name": "GSK",
-      "weight_pct": 1.35,
+      "weight_pct": 1.36,
       "shares": 112,
       "item_code": "GSK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.79,
-      "shares": 4631031,
+      "weight_pct": 0.8,
+      "shares": 4561562,
       "item_code": null
     },
     {

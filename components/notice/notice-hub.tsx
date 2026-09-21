@@ -55,7 +55,7 @@ export function NoticeHub() {
   }, []);
 
   return (
-    <main className="page-shell py-8 sm:py-12">
+    <main className="page-shell pt-4 pb-8 sm:pt-6 sm:pb-12">
       <div className="mb-6 flex flex-wrap gap-2 border-b border-line pb-4">
         <button
           type="button"

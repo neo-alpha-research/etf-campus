@@ -1,112 +1,112 @@
 {
   "ticker": "453630",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "월마트",
-      "weight_pct": 8.35,
-      "shares": 364,
+      "weight_pct": 8.56,
+      "shares": 363,
       "item_code": "WMT.O"
     },
     {
       "name": "코스트코 홀세일",
-      "weight_pct": 7.74,
+      "weight_pct": 7.68,
       "shares": 36,
       "item_code": "COST.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.58,
-      "shares": 47685207,
+      "weight_pct": 7.55,
+      "shares": 46559141,
       "item_code": null
     },
     {
       "name": "코카콜라",
-      "weight_pct": 6.36,
-      "shares": 322,
+      "weight_pct": 6.28,
+      "shares": 321,
       "item_code": "KO"
     },
     {
       "name": "P&G(프록터 & 갬블)",
-      "weight_pct": 6.16,
+      "weight_pct": 6.27,
       "shares": 193,
       "item_code": "PG"
     },
     {
       "name": "State Street Consumer Staples Sel Sect SPDR ETF",
-      "weight_pct": 5.89,
-      "shares": 311,
+      "weight_pct": 6.13,
+      "shares": 324,
       "item_code": "XLP"
     },
     {
       "name": "필립 모리스 인터내셔널",
-      "weight_pct": 5.52,
+      "weight_pct": 5.37,
       "shares": 129,
       "item_code": "PM"
     },
     {
       "name": "타겟",
-      "weight_pct": 4.05,
+      "weight_pct": 4.08,
       "shares": 112,
       "item_code": "TGT"
     },
     {
       "name": "콜게이트-팜올리브",
-      "weight_pct": 3.95,
+      "weight_pct": 3.89,
       "shares": 195,
       "item_code": "CL"
     },
     {
       "name": "펩시코",
-      "weight_pct": 3.81,
-      "shares": 122,
+      "weight_pct": 3.78,
+      "shares": 121,
       "item_code": "PEP.O"
     },
     {
       "name": "몬덜리즈 인터내셔널",
-      "weight_pct": 3.79,
-      "shares": 274,
+      "weight_pct": 3.74,
+      "shares": 273,
       "item_code": "MDLZ.O"
     },
     {
-      "name": "몬스터 베버리지",
-      "weight_pct": 3.71,
-      "shares": 354,
-      "item_code": "MNST.O"
-    },
-    {
       "name": "알트리아그룹",
-      "weight_pct": 3.65,
+      "weight_pct": 3.71,
       "shares": 240,
       "item_code": "MO"
     },
     {
+      "name": "몬스터 베버리지",
+      "weight_pct": 3.53,
+      "shares": 353,
+      "item_code": "MNST.O"
+    },
+    {
       "name": "큐리그 닥터 페퍼",
       "weight_pct": 2.38,
-      "shares": 337,
+      "shares": 336,
       "item_code": "KDP.O"
     },
     {
-      "name": "시스코",
-      "weight_pct": 2.16,
-      "shares": 118,
-      "item_code": "SYY"
-    },
-    {
       "name": "아처 대니얼스 미들랜드",
-      "weight_pct": 2.1,
+      "weight_pct": 2.24,
       "shares": 119,
       "item_code": "ADM"
     },
     {
+      "name": "시스코",
+      "weight_pct": 2.15,
+      "shares": 118,
+      "item_code": "SYY"
+    },
+    {
       "name": "켄뷰",
-      "weight_pct": 2.01,
-      "shares": 476,
+      "weight_pct": 1.97,
+      "shares": 475,
       "item_code": "KVUE.K"
     },
     {
       "name": "킴벌리클라크",
-      "weight_pct": 1.99,
+      "weight_pct": 1.95,
       "shares": 82,
       "item_code": "KMB.O"
     },
@@ -117,104 +117,104 @@
       "item_code": "KR"
     },
     {
+      "name": "달러 제너럴",
+      "weight_pct": 1.58,
+      "shares": 54,
+      "item_code": "DG"
+    },
+    {
       "name": "케이시스 제너럴 스토어스",
-      "weight_pct": 1.62,
+      "weight_pct": 1.56,
       "shares": 9,
       "item_code": "CASY.O"
     },
     {
       "name": "허쉬",
-      "weight_pct": 1.49,
+      "weight_pct": 1.43,
       "shares": 36,
       "item_code": "HSY"
     },
     {
-      "name": "달러 제너럴",
-      "weight_pct": 1.47,
-      "shares": 54,
-      "item_code": "DG"
-    },
-    {
       "name": "에스티 로더",
-      "weight_pct": 1.41,
+      "weight_pct": 1.36,
       "shares": 61,
       "item_code": "EL"
     },
     {
-      "name": "처치 & 드와이트",
-      "weight_pct": 1.32,
-      "shares": 58,
-      "item_code": "CHD"
-    },
-    {
       "name": "달러 트리",
-      "weight_pct": 1.3,
+      "weight_pct": 1.31,
       "shares": 44,
       "item_code": "DLTR.O"
     },
     {
-      "name": "제너럴 밀즈",
-      "weight_pct": 1.16,
-      "shares": 132,
-      "item_code": "GIS"
+      "name": "처치 & 드와이트",
+      "weight_pct": 1.29,
+      "shares": 58,
+      "item_code": "CHD"
     },
     {
       "name": "크래프트 하인즈 컴퍼니",
-      "weight_pct": 1.15,
+      "weight_pct": 1.21,
       "shares": 211,
       "item_code": "KHC.O"
     },
     {
+      "name": "제너럴 밀즈",
+      "weight_pct": 1.2,
+      "shares": 132,
+      "item_code": "GIS"
+    },
+    {
       "name": "컨스텔레이션 브랜즈",
-      "weight_pct": 1.02,
+      "weight_pct": 1.0,
       "shares": 34,
       "item_code": "STZ"
     },
     {
-      "name": "타이슨 푸드",
-      "weight_pct": 0.86,
-      "shares": 70,
-      "item_code": "TSN"
-    },
-    {
       "name": "번지 글로벌",
-      "weight_pct": 0.83,
+      "weight_pct": 0.9,
       "shares": 33,
       "item_code": "BG"
     },
     {
+      "name": "타이슨 푸드",
+      "weight_pct": 0.85,
+      "shares": 69,
+      "item_code": "TSN"
+    },
+    {
       "name": "J. M. 스머커",
-      "weight_pct": 0.76,
+      "weight_pct": 0.77,
       "shares": 26,
       "item_code": "SJM"
     },
     {
       "name": "맥코믹 앤 컴퍼니 무의결권주",
-      "weight_pct": 0.76,
-      "shares": 63,
+      "weight_pct": 0.75,
+      "shares": 62,
       "item_code": "MKC"
     },
     {
       "name": "크로락스",
-      "weight_pct": 0.68,
-      "shares": 30,
+      "weight_pct": 0.63,
+      "shares": 29,
       "item_code": "CLX"
     },
     {
-      "name": "호멜 푸즈",
-      "weight_pct": 0.37,
-      "shares": 72,
-      "item_code": "HRL"
-    },
-    {
       "name": "몰슨 쿠어스 베버리지 Class B",
-      "weight_pct": 0.36,
+      "weight_pct": 0.35,
       "shares": 39,
       "item_code": "TAP"
     },
     {
+      "name": "호멜 푸즈",
+      "weight_pct": 0.35,
+      "shares": 72,
+      "item_code": "HRL"
+    },
+    {
       "name": "브라운-포맨 Class B",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 41,
       "item_code": "BFb"
     }

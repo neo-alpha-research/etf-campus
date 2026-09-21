@@ -86,7 +86,7 @@ export function clearCommunityDraft() {
   browserStorage()?.removeItem(DRAFT_KEY);
 }
 
-export async function communityFetch(path: string, init: RequestInit = {}) {
+export async function communityFetch<T = any>(path: string, init: RequestInit = {}): Promise<T> {
   const method = (init.method ?? "GET").toUpperCase();
   const unsafe = ["POST", "PATCH", "PUT", "DELETE"].includes(method);
   
@@ -119,14 +119,14 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
   // Local development mock fallback when backend Cloudflare Pages Functions are not bound in next dev
   if ((!response.ok || !body) && typeof window !== "undefined" && window.location.hostname === "localhost") {
     if (path === "/api/community/auth/login-password" && method === "POST") {
-      let parsedBody: any = {};
-      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : init.body; } catch {}
-      const userEmail = parsedBody?.email || "user@etfcampus.com";
+      let parsedBody: Record<string, unknown> = {};
+      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : ((init.body as unknown) as Record<string, unknown>) || {}; } catch {}
+      const userEmail = typeof parsedBody?.email === "string" ? parsedBody.email : "user@etfcampus.com";
       const nickname = userEmail.split("@")[0] || "테스트투자자";
       browserStorage()?.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname, authenticated: true }));
       authenticated = true;
       csrfToken = "local-dev-csrf-token";
-      return { success: true };
+      return { success: true } as unknown as T;
     }
 
     if (path === "/api/community/auth/profile" && method === "GET") {
@@ -138,7 +138,7 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
           nickname: local?.nickname || "테스트투자자",
           email: local?.email || "user@etfcampus.com",
         }
-      };
+      } as unknown as T;
     }
 
     if (path === "/api/community/auth/session" && method === "GET") {
@@ -146,41 +146,42 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
       if (localStr) {
         authenticated = true;
         csrfToken = "local-dev-csrf-token";
-        return { authenticated: true };
+        return { authenticated: true } as unknown as T;
       }
     }
 
     if (path.startsWith("/api/community/posts") && method === "POST") {
-      return { success: true, slug: "local-new-post-" + Date.now() };
+      return { success: true, slug: "local-new-post-" + Date.now() } as unknown as T;
     }
 
     if (path.includes("/upvote") && method === "POST") {
-      return { success: true, upvoteCount: 43, isUpvoted: true };
+      return { success: true, upvoteCount: 43, isUpvoted: true } as unknown as T;
     }
 
     if (path.includes("/comments") && method === "POST") {
-      let parsedBody: any = {};
-      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : init.body; } catch {}
+      let parsedBody: Record<string, unknown> = {};
+      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : ((init.body as unknown) as Record<string, unknown>) || {}; } catch {}
       return {
         success: true,
         comment: {
           publicId: "c-" + Date.now(),
-          bodyText: parsedBody?.bodyText || "",
+          bodyText: typeof parsedBody?.bodyText === "string" ? parsedBody.bodyText : "",
           authorNickname: "내닉네임",
           createdAt: new Date().toISOString(),
-        }
-      };
+        },
+      } as unknown as T;
     }
   }
 
   if (!response.ok) {
-    const error = new Error(body?.error?.message ?? "요청을 처리하지 못했습니다.") as Error & { status?: number; code?: string; body?: unknown };
+    const errBody = body as { error?: { message?: string; code?: string } } | null;
+    const error = new Error(errBody?.error?.message ?? "요청을 처리하지 못했습니다.") as Error & { status?: number; code?: string; body?: unknown };
     error.status = response.status;
-    error.code = body?.error?.code;
+    error.code = errBody?.error?.code;
     error.body = body;
     throw error;
   }
-  return body;
+  return body as T;
 }
 
 export async function signOutCommunity() {

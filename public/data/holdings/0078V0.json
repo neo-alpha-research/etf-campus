@@ -1,88 +1,88 @@
 {
   "ticker": "0078V0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "우버",
-      "weight_pct": 13.86,
+      "weight_pct": 13.53,
       "shares": 609,
       "item_code": "UBER.K"
     },
     {
       "name": "포니 AI ADR",
-      "weight_pct": 13.27,
+      "weight_pct": 13.03,
       "shares": 6289,
       "item_code": "PONY.O"
     },
     {
       "name": "위라이드 ADR",
-      "weight_pct": 12.86,
+      "weight_pct": 12.54,
       "shares": 7510,
       "item_code": "WRD.O"
     },
     {
-      "name": "리프트",
-      "weight_pct": 10.69,
-      "shares": 2122,
-      "item_code": "LYFT.O"
-    },
-    {
       "name": "테슬라",
-      "weight_pct": 10.41,
+      "weight_pct": 10.92,
       "shares": 103,
       "item_code": "TSLA.O"
     },
     {
       "name": "바이두 ADR",
-      "weight_pct": 10.34,
+      "weight_pct": 10.71,
       "shares": 382,
       "item_code": "BIDU.O"
     },
     {
+      "name": "리프트",
+      "weight_pct": 10.5,
+      "shares": 2122,
+      "item_code": "LYFT.O"
+    },
+    {
       "name": "알파벳 Class A",
-      "weight_pct": 7.87,
+      "weight_pct": 7.85,
       "shares": 79,
       "item_code": "GOOGL.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 6.95,
+      "weight_pct": 7.34,
       "shares": 114,
       "item_code": "NVDA.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 4.48,
+      "weight_pct": 4.47,
       "shares": 59,
       "item_code": "AMZN.O"
     },
     {
       "name": "모빌아이 글로벌",
-      "weight_pct": 3.52,
+      "weight_pct": 3.5,
       "shares": 1422,
       "item_code": "MBLY.O"
     },
     {
       "name": "그랩 홀딩스",
-      "weight_pct": 3.48,
+      "weight_pct": 3.36,
       "shares": 3298,
       "item_code": "GRAB.O"
     },
     {
       "name": "앱티브",
-      "weight_pct": 1.21,
+      "weight_pct": 1.19,
       "shares": 90,
       "item_code": "APTV.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 2760249,
+      "weight_pct": 0.58,
+      "shares": 2695854,
       "item_code": null
     },
     {
       "name": "아에바 테크놀로지스",
-      "weight_pct": 0.43,
+      "weight_pct": 0.41,
       "shares": 95,
       "item_code": "AEVA.O"
     }

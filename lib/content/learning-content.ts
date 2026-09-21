@@ -58,9 +58,17 @@ export type ExternalBook = LearningExampleMetadata & {
   category: ExternalBookCategory;
   tags: string[];
   rating: number;
+  aladinRating?: number;
+  yes24Rating?: number;
+  kyoboRating?: number;
   reviewCount: number;
   ratingSource: string;
+  shortTargetTag?: string;
+  targetPersona?: string;
+  targetRationale?: string;
   irpEligible: boolean;
+  originalPrice?: number;
+  discountPrice?: number;
   oneLineReview: string;
   summary: string;
   pros: string[];
@@ -243,7 +251,7 @@ export function loadExternalBooks(): ExternalBook[] {
     }
 
     return {
-      kind: "external-book",
+      kind: "external-book" as const,
       slug,
       title: requiredWithAliases(metadata, ["title"], filename),
       author: requiredWithAliases(metadata, ["author"], filename),
@@ -251,9 +259,17 @@ export function loadExternalBooks(): ExternalBook[] {
       category,
       tags,
       rating,
+      aladinRating: findMetadataValue(metadata, ["aladinRating", "aladin_rating"]) ? Number(findMetadataValue(metadata, ["aladinRating", "aladin_rating"])) : undefined,
+      yes24Rating: findMetadataValue(metadata, ["yes24Rating", "yes24_rating"]) ? Number(findMetadataValue(metadata, ["yes24Rating", "yes24_rating"])) : undefined,
+      kyoboRating: findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"]) ? Number(findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"])) : undefined,
       reviewCount,
       ratingSource: requiredWithAliases(metadata, ["ratingSource", "rating_source"], filename),
+      shortTargetTag: findMetadataValue(metadata, ["shortTargetTag", "short_target_tag"]),
+      targetPersona: findMetadataValue(metadata, ["targetPersona", "target_persona"]),
+      targetRationale: findMetadataValue(metadata, ["targetRationale", "target_rationale"]),
       irpEligible,
+      originalPrice: findMetadataValue(metadata, ["originalPrice", "original_price"]) ? Number(findMetadataValue(metadata, ["originalPrice", "original_price"])) : undefined,
+      discountPrice: findMetadataValue(metadata, ["discountPrice", "discount_price"]) ? Number(findMetadataValue(metadata, ["discountPrice", "discount_price"])) : undefined,
       oneLineReview: requiredWithAliases(metadata, ["oneLineReview", "one_line_review"], filename),
       summary: requiredWithAliases(metadata, ["summary"], filename),
       pros,
@@ -265,12 +281,23 @@ export function loadExternalBooks(): ExternalBook[] {
       content,
       ...learningExampleMetadata(metadata, filename),
     };
+  }).sort((a, b) => {
+    const catA = EXTERNAL_BOOK_CATEGORIES.indexOf(a.category);
+    const catB = EXTERNAL_BOOK_CATEGORIES.indexOf(b.category);
+    if (catA !== catB) return catA - catB;
+
+    const rankA = parseInt(a.slug.match(/top-(\d+)/)?.[1] || "99", 10);
+    const rankB = parseInt(b.slug.match(/top-(\d+)/)?.[1] || "99", 10);
+    return rankA - rankB;
   });
 }
 
 export function resolveBookCoverUrl(coverImage?: string): string | null {
   if (!coverImage || coverImage.trim() === "") return null;
-  const trimmed = coverImage.trim();
+  let trimmed = coverImage.trim();
+  if (trimmed.includes("image.aladin.co.kr")) {
+    trimmed = trimmed.replace("/coversum/", "/cover500/").replace("/cover200/", "/cover500/");
+  }
   if (trimmed.startsWith("/") || trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
   }

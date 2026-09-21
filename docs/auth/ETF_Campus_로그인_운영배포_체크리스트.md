@@ -7,11 +7,11 @@
 | 이메일 회원가입·로그인 | 구현·테스트 완료 | D1 서버 세션과 HttpOnly 쿠키 사용 |
 | 세션 조회·회원 API 보호 | 구현·테스트 완료 | `/api/member/*` 미들웨어 적용 |
 | 현재 기기·전체 기기 로그아웃 | 구현·테스트 완료 | 세션 삭제와 세션 버전 무효화 |
-| 비밀번호 재설정 | 구현·테스트 완료 | n8n 메일 Webhook 설정 후 공개 |
+| 비밀번호 재설정·OTP 인증 | 구현·테스트 완료 | Supabase Auth (`signInWithOtp`) 직발송 |
 | 로그인·회원가입·재설정 화면 | 구현·정적 빌드 완료 | `/login`, `/register`, `/forgot-password`, `/reset-password` |
 | 헤더 로그인 상태 | 구현·정적 빌드 완료 | 데스크톱·모바일 로그인/로그아웃 |
 | ETF 비교·상세 게이트 | 구현·정적 빌드 완료 | 로그인 후 원래 URL로 복귀 |
-| n8n 메일 자동화 | 템플릿·연동 코드 완료 | 실제 n8n URL·SMTP credential 설정 필요 |
+| 이메일 인증 발송 | Supabase 연동 완료 | Cloudflare Turnstile CAPTCHA 및 Rate Limit 보호 |
 
 ## 2. 배포 전 순서
 
@@ -34,21 +34,14 @@ npx wrangler d1 execute etf-prices --remote --file migrations/0002_password_rese
 |---|---|---|
 | `AUTH_PASSWORD_PEPPER` | Secret | 32자 이상 무작위 난수 |
 | `PUBLIC_APP_ORIGIN` | 일반 환경 변수 | 예: `https://www.etfcampus.kr` |
-| `N8N_AUTH_WEBHOOK_URL` | Secret | n8n 활성 Production Webhook URL |
-| `N8N_WEBHOOK_SECRET` | Secret | n8n Header Auth의 Bearer 값과 동일한 32자 이상 난수 |
-| `N8N_WEBHOOK_REQUIRED` | 일반 환경 변수 | `true` |
-| `PASSWORD_RESET_DELIVERY_REQUIRED` | 일반 환경 변수 | `true` |
+| `SUPABASE_URL` | 일반 환경 변수 | Supabase 프로젝트 URL |
+| `SUPABASE_ANON_KEY` | Secret | Supabase anon key |
+| `TURNSTILE_SITE_KEY` | 일반 환경 변수 | Cloudflare Turnstile 사이트 키 |
+| `TURNSTILE_SECRET_KEY` | Secret | Cloudflare Turnstile 시크릿 키 |
 
-`AUTH_PASSWORD_PEPPER`, `N8N_WEBHOOK_SECRET`, `TEST_SENDER_SECRET`은 서로 다른 Secret을 사용합니다. `.env`, Git, n8n 실행 이력, 오류 로그에 원문을 넣지 않습니다.
+### 2.3 이메일 인증 발송 연동 (Supabase Auth)
 
-### 2.3 n8n 활성화
-
-1. `ETF_Campus_인증_이메일_자동화_워크플로우.json`을 import합니다.
-2. Webhook 노드의 Authentication을 Header Auth로 설정합니다.
-3. Send Email 노드에 SMTP credential·검증된 발신 도메인을 연결합니다.
-4. 운영자 알림 노드는 필요한 경우에만 활성화하고, 고정 운영자 수신 주소를 입력합니다.
-5. 워크플로우를 활성화하고 **Production URL**을 `N8N_AUTH_WEBHOOK_URL`에 설정합니다.
-6. n8n 실행 이력의 성공 데이터 보관을 최소화하고, 원문 재설정 링크가 장기간 남지 않도록 보관 정책을 설정합니다.
+이메일 OTP 인증(`request-otp.js`)은 Supabase Auth의 내장 이메일 발송 기능을 통해 직접 안전하게 처리되며, 외부 n8n/SMTP 오케스트레이션 종속성을 제거하여 단일 장애점(SPOF) 없이 무중단 운영됩니다.
 
 ### 2.4 Pages 배포
 
@@ -58,14 +51,14 @@ npx wrangler d1 execute etf-prices --remote --file migrations/0002_password_rese
 
 | 시나리오 | 기대 결과 |
 |---|---|
-| 신규 회원가입 | `201`, HttpOnly 세션 쿠키 발급, n8n 환영 메일 실행 |
+| 신규 회원가입 | `201`, HttpOnly 세션 쿠키 발급, Supabase 환영/인증 메일 발송 |
 | 잘못된 로그인 | `401 invalid_credentials`, 계정 존재 여부를 구분하지 않음 |
 | 정상 로그인 | `200`, 세션 쿠키 발급, 헤더 사용자 상태 표시 |
 | ETF 비교 클릭 | 비로그인 사용자는 가입 게이트 노출, 로그인·가입 후 `/compare/` 복귀 |
 | ETF 상세 클릭 | 비로그인 사용자는 게이트 노출, 로그인·가입 후 원래 `/etf/<ticker>/` 복귀 |
 | 로그아웃 | 헤더 상태 해제, 현재 세션만 제거 |
 | 전체 기기 로그아웃 | 모든 세션 무효화 |
-| 비밀번호 찾기 | 등록·미등록 이메일 모두 `202`, 등록 이메일에는 n8n 재설정 메일 |
+| 비밀번호 찾기 | 등록·미등록 이메일 모두 `202`, 등록 이메일에는 Supabase Auth OTP/재설정 메일 발송 |
 | 비밀번호 재설정 | 토큰 1회만 사용, 새 비밀번호 저장 후 전 기기 세션 제거 |
 | 재설정 링크 만료 | `400 invalid_or_expired_token` |
 
@@ -82,4 +75,4 @@ Cloudflare WAF Rate Limiting을 `/api/auth/register`, `/api/auth/login`, `/api/a
 [1]: https://developers.cloudflare.com/d1/ "Cloudflare D1"
 [2]: https://developers.cloudflare.com/pages/functions/ "Cloudflare Pages Functions"
 [3]: https://developers.cloudflare.com/workers/configuration/secrets/ "Cloudflare Secrets"
-[4]: https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/ "n8n Webhook"
+[4]: https://supabase.com/docs/guides/auth "Supabase Auth"

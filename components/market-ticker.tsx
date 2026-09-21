@@ -60,8 +60,8 @@ export function MarketTicker() {
     : "";
 
   return (
-    <div className="border-b border-line bg-neutral-50 flex justify-center">
-      <div className="page-shell scrollbar-none flex justify-center items-center gap-x-3 overflow-x-auto py-1.5 sm:gap-x-4">
+    <div className="border-b border-line bg-neutral-50 flex justify-center w-full max-w-full overflow-hidden">
+      <div className="page-shell scrollbar-none flex justify-start sm:justify-center items-center gap-x-2.5 sm:gap-x-4 overflow-x-auto whitespace-nowrap scrollbar-hide py-1.5">
         {formattedDate && (
           <span className="flex items-center gap-1.5 shrink-0 text-[10px] leading-none tracking-tight sm:text-[11px]">
             <span className="tabular-nums font-bold text-strong">{formattedDate}</span>

@@ -99,16 +99,6 @@ export function getEtfCautions(etf: Etf): string[] {
   return [...new Set(cautions)];
 }
 
-export function isClassificationReviewed(etf: Etf): boolean {
-  return etf.classification?.reviewStatus === "수기확정";
-}
-
-export function getClassificationStatusLabel(etf: Etf): string {
-  if (isClassificationReviewed(etf)) return "공식 자료 검수 완료";
-  if (etf.classification?.reviewStatus === "자동확정") return "분류 규칙 자동확정";
-  return "자동 검수 대기";
-}
-
 export function getEtfMarketScope(etf: Etf): MarketScope | null {
   if (!etf.classification?.published || !etf.classification.marketScope) return null;
   const compact = compactMarketScope(etf.classification.marketScope);

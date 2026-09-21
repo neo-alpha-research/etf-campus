@@ -1,77 +1,77 @@
 {
   "ticker": "314250",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 12.67,
-      "shares": 319,
+      "weight_pct": 12.79,
+      "shares": 323,
       "item_code": "PLTR.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 12.22,
-      "shares": 109,
+      "weight_pct": 12.28,
+      "shares": 111,
       "item_code": "MSFT.O"
     },
     {
-      "name": "아마존닷컴",
-      "weight_pct": 10.22,
-      "shares": 175,
-      "item_code": "AMZN.O"
-    },
-    {
       "name": "애플",
-      "weight_pct": 9.88,
-      "shares": 140,
+      "weight_pct": 10.2,
+      "shares": 142,
       "item_code": "AAPL.O"
     },
     {
-      "name": "넷플릭스",
-      "weight_pct": 9.87,
-      "shares": 541,
-      "item_code": "NFLX.O"
+      "name": "아마존닷컴",
+      "weight_pct": 9.97,
+      "shares": 177,
+      "item_code": "AMZN.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.55,
-      "shares": 203,
+      "weight_pct": 9.87,
+      "shares": 206,
       "item_code": "NVDA.O"
     },
     {
+      "name": "넷플릭스",
+      "weight_pct": 9.75,
+      "shares": 548,
+      "item_code": "NFLX.O"
+    },
+    {
       "name": "메타",
-      "weight_pct": 9.47,
-      "shares": 73,
+      "weight_pct": 9.46,
+      "shares": 74,
       "item_code": "META.O"
     },
     {
-      "name": "알파벳 Class A",
-      "weight_pct": 8.77,
-      "shares": 114,
-      "item_code": "GOOGL.O"
-    },
-    {
       "name": "브로드컴",
-      "weight_pct": 8.44,
-      "shares": 106,
+      "weight_pct": 8.74,
+      "shares": 107,
       "item_code": "AVGO.O"
     },
     {
+      "name": "알파벳 Class A",
+      "weight_pct": 8.55,
+      "shares": 116,
+      "item_code": "GOOGL.O"
+    },
+    {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 8.39,
-      "shares": 39,
+      "weight_pct": 8.31,
+      "shares": 40,
       "item_code": "MU.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.46,
-      "shares": 2892856,
+      "weight_pct": 0.04,
+      "shares": 262210,
       "item_code": null
     },
     {
       "name": "외국환포워드USD",
-      "weight_pct": -87.61,
-      "shares": -540403258,
+      "weight_pct": -90.09,
+      "shares": -560298114,
       "item_code": null
     }
   ]

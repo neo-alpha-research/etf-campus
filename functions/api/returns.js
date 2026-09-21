@@ -110,7 +110,7 @@ function json(body, status = 200) {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Cache-Control": "public, max-age=300",
+      "Cache-Control": status === 200 ? "public, max-age=3600, s-maxage=86400" : "no-store",
     },
   });
 }

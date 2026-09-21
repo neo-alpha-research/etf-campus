@@ -1,0 +1,1162 @@
+"use client";
+
+import { useState, useMemo, useRef, useCallback } from "react";
+import { type Etf } from "@/lib/domain/etf-types";
+import { normalizeMulti, type SeriesInput } from "@/lib/domain/normalize-series";
+import { Download, AlertCircle, Info } from "lucide-react";
+import { toPng } from "html-to-image";
+
+export type ComparePeriod = "1M" | "3M" | "6M" | "1Y" | "3Y";
+
+export interface SeriesV2Data {
+  ticker: string;
+  startDate: string;
+  dates: string[];
+  close: number[];
+  tr: number[];
+  netTr: number[];
+  hasDistribution: boolean;
+  filled?: number[];
+  asOf: string;
+}
+
+// 5 Distinct high-contrast colors (Light / Dark mode tokens)
+export const CHART_PALETTE = [
+  { stroke: "#2563eb", darkStroke: "#60a5fa", bg: "bg-blue-600", text: "text-blue-600" },      // Primary / Base
+  { stroke: "#059669", darkStroke: "#34d399", bg: "bg-emerald-600", text: "text-emerald-600" }, // Deep Emerald
+  { stroke: "#d97706", darkStroke: "#fbbf24", bg: "bg-amber-600", text: "text-amber-600" },     // Deep Amber
+  { stroke: "#7c3aed", darkStroke: "#a78bfa", bg: "bg-purple-600", text: "text-purple-600" },   // Deep Violet
+  { stroke: "#e11d48", darkStroke: "#fb7185", bg: "bg-rose-600", text: "text-rose-600" },       // Deep Rose
+];
+
+export const PERIOD_LABELS: { key: ComparePeriod; label: string }[] = [
+  { key: "1M", label: "1개월" },
+  { key: "3M", label: "3개월" },
+  { key: "6M", label: "6개월" },
+  { key: "1Y", label: "1년" },
+  { key: "3Y", label: "3년" },
+];
+
+export function calculateStartDate(toDateStr: string, period: ComparePeriod): string {
+  const d = new Date(toDateStr);
+  if (isNaN(d.getTime())) return "2023-01-02";
+  switch (period) {
+    case "1M":
+      d.setMonth(d.getMonth() - 1);
+      break;
+    case "3M":
+      d.setMonth(d.getMonth() - 3);
+      break;
+    case "6M":
+      d.setMonth(d.getMonth() - 6);
+      break;
+    case "1Y":
+      d.setFullYear(d.getFullYear() - 1);
+      break;
+    case "3Y":
+      d.setFullYear(d.getFullYear() - 3);
+      break;
+  }
+  const iso = d.toISOString().slice(0, 10);
+  return iso < "2023-01-02" ? "2023-01-02" : iso;
+}
+
+export function computeSeriesPeriodReturn(
+  sData: SeriesV2Data,
+  periodKey: string,
+  isTr: boolean
+): number | null {
+  const dates = sData.dates;
+  const values = isTr ? sData.tr : sData.close;
+  if (!dates || !values || dates.length < 2 || values.length < 2) return null;
+
+  const lastDate = dates[dates.length - 1];
+  const lastVal = values[values.length - 1];
+  if (lastVal == null || isNaN(lastVal)) return null;
+
+  let targetStartDate: string | null = null;
+  const d = new Date(lastDate);
+  if (isNaN(d.getTime())) return null;
+
+  switch (periodKey) {
+    case "1d":
+      if (dates.length >= 2) {
+        const prevVal = values[values.length - 2];
+        if (prevVal && prevVal > 0) {
+          return Math.round(((lastVal - prevVal) / prevVal) * 10000) / 100;
+        }
+      }
+      return null;
+    case "1w":
+      d.setDate(d.getDate() - 7);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "2w":
+      d.setDate(d.getDate() - 14);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "1m":
+      d.setMonth(d.getMonth() - 1);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "2m":
+      d.setMonth(d.getMonth() - 2);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "3m":
+      d.setMonth(d.getMonth() - 3);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "6m":
+      d.setMonth(d.getMonth() - 6);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "12m":
+      d.setFullYear(d.getFullYear() - 1);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "24m":
+      d.setFullYear(d.getFullYear() - 2);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "36m":
+      d.setFullYear(d.getFullYear() - 3);
+      targetStartDate = d.toISOString().slice(0, 10);
+      break;
+    case "ytd":
+      targetStartDate = `${d.getFullYear()}-01-01`;
+      break;
+    case "itd": {
+      const initVal = values[0];
+      if (initVal && initVal > 0) {
+        return Math.round(((lastVal - initVal) / initVal) * 10000) / 100;
+      }
+      return null;
+    }
+    default:
+      return null;
+  }
+
+  if (!targetStartDate) return null;
+
+  const startIdx = dates.findIndex((dt) => dt >= targetStartDate!);
+  if (startIdx < 0) return null;
+
+  // If first available observation date is significantly later than targetStartDate (> 15 days),
+  // then the ETF does not have enough history for this period.
+  const firstAvailableDate = dates[0];
+  if (firstAvailableDate > targetStartDate) {
+    const tStart = new Date(targetStartDate).getTime();
+    const fStart = new Date(firstAvailableDate).getTime();
+    const diffDays = (fStart - tStart) / (1000 * 60 * 60 * 24);
+    if (diffDays > 15) return null;
+  }
+
+  const startVal = values[startIdx];
+  if (!startVal || startVal <= 0) return null;
+
+  return Math.round(((lastVal - startVal) / startVal) * 10000) / 100;
+}
+
+export interface EtfCompareTimeseriesChartProps {
+  basket: readonly Etf[];
+  isTrMode?: boolean;
+  onToggleTr?: () => void;
+  baseTicker?: string;
+  period?: ComparePeriod;
+  onPeriodChange?: (period: ComparePeriod) => void;
+  seriesMap?: Record<string, SeriesV2Data | null>;
+  quarantinedMap?: Record<string, { reason: string }>;
+  isLoading?: boolean;
+  onHoverTicker?: (ticker: string | null) => void;
+  focusedTicker?: string | null;
+}
+
+export function EtfCompareTimeseriesChart({
+  basket,
+  isTrMode = false,
+  onToggleTr,
+  baseTicker,
+  period = "1Y",
+  onPeriodChange,
+  seriesMap = {},
+  quarantinedMap = {},
+  isLoading = false,
+  onHoverTicker,
+  focusedTicker,
+}: EtfCompareTimeseriesChartProps) {
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [internalFocusedTicker, setInternalFocusedTicker] = useState<string | null>(null);
+  const [clickedTicker, setClickedTicker] = useState<string | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  const activeFocus = focusedTicker ?? clickedTicker ?? internalFocusedTicker;
+
+  const handleToggleFocus = useCallback((ticker: string) => {
+    setClickedTicker((prev) => {
+      const next = prev === ticker ? null : ticker;
+      onHoverTicker?.(next);
+      return next;
+    });
+  }, [onHoverTicker]);
+
+  const handleLegendHover = useCallback((ticker: string | null) => {
+    setInternalFocusedTicker(ticker);
+    if (!clickedTicker) {
+      onHoverTicker?.(ticker);
+    }
+  }, [clickedTicker, onHoverTicker]);
+
+  // 1. Prepare Inputs for Normalization Engine
+  const { normalizedResult, activeDates, hasZeroDistEtfs } = useMemo(() => {
+    // Find latest available asOf date among loaded series
+    let latestDate = "2023-01-02";
+    let zeroDist = false;
+
+    const inputs: SeriesInput[] = [];
+
+    for (const etf of basket) {
+      const sData = seriesMap[etf.ticker];
+      if (sData && sData.dates.length > 0) {
+        if (sData.asOf > latestDate) {
+          latestDate = sData.asOf;
+        }
+        if (sData.hasDistribution === false) {
+          zeroDist = true;
+        }
+        const values = isTrMode ? sData.tr : sData.close;
+        inputs.push({
+          ticker: etf.ticker,
+          dates: sData.dates,
+          values,
+          filled: sData.filled,
+        });
+      }
+    }
+
+    const fromDate = calculateStartDate(latestDate, period);
+    const norm = normalizeMulti(inputs, fromDate, latestDate);
+
+    // Common active dates across normalized points
+    const dates =
+      norm.series.find((s) => s.coverage !== "insufficient" && s.points.length > 0)?.points.map(
+        (p) => p.date
+      ) ?? [];
+
+    return {
+      normalizedResult: norm,
+      activeDates: dates,
+      hasZeroDistEtfs: zeroDist,
+    };
+  }, [basket, seriesMap, isTrMode, period]);
+
+  const quarantinedList = useMemo(() => {
+    return basket
+      .filter((e) => quarantinedMap[e.ticker])
+      .map((e) => ({
+        ticker: e.ticker,
+        name: e.name || e.ticker,
+        reason: quarantinedMap[e.ticker]?.reason || "데이터 정합성 검증 중",
+      }));
+  }, [basket, quarantinedMap]);
+
+  const hasLeveragedOrInverse = useMemo(() => {
+    return basket.some((e) => {
+      const name = e.name || "";
+      return (
+        name.includes("레버리지") ||
+        name.includes("2X") ||
+        name.includes("2x") ||
+        name.includes("인버스")
+      );
+    });
+  }, [basket]);
+
+  const hasGappedSeries = useMemo(() => {
+    return normalizedResult?.series.some((s) => s.coverage === "gapped") ?? false;
+  }, [normalizedResult]);
+
+  // 2. SVG Geometry Specifications
+  // Width: 1000px viewBox
+  // Height: 244px (plot: 176px + xAxis: 24px + margins: 44px)
+  // Horizontal: Left 8px, Plot 932px, Right gutter 60px
+  const width = 1000;
+  const height = 244;
+  const plotLeft = 8;
+  const plotRight = 940; // plot width: 932px
+  const plotWidth = plotRight - plotLeft;
+  const plotTop = 20;
+  const plotBottom = 196; // plot height: 176px
+  const plotHeight = plotBottom - plotTop;
+
+  // 3. Min/Max Calculation and Y-Scale
+  const { minVal, maxVal, validSeries } = useMemo(() => {
+    const valid = normalizedResult.series.filter(
+      (s) => s.coverage !== "insufficient" && s.points.length > 0
+    );
+
+    let min = 0;
+    let max = 0;
+
+    for (const s of valid) {
+      for (const p of s.points) {
+        if (p.value !== null) {
+          if (p.value < min) min = p.value;
+          if (p.value > max) max = p.value;
+        }
+      }
+    }
+
+    // Include 0% baseline and add 12% padding for breathing room
+    const span = Math.max(max - min, 2);
+    const paddedMin = min - span * 0.12;
+    const paddedMax = max + span * 0.12;
+
+    return {
+      minVal: paddedMin,
+      maxVal: paddedMax,
+      validSeries: valid,
+    };
+  }, [normalizedResult]);
+
+  const getY = useCallback(
+    (val: number) => {
+      const ratio = (val - minVal) / (maxVal - minVal);
+      return plotBottom - ratio * plotHeight;
+    },
+    [minVal, maxVal, plotBottom, plotHeight]
+  );
+
+  const getX = useCallback(
+    (index: number, total: number) => {
+      if (total <= 1) return plotLeft;
+      return plotLeft + (index / (total - 1)) * plotWidth;
+    },
+    [plotLeft, plotWidth]
+  );
+
+  const zeroBaselineY = useMemo(() => getY(0), [getY]);
+
+  // 4. Deterministic 1D Badge Collision Avoidance Algorithm
+  const badgePositions = useMemo(() => {
+    const minGap = 18;
+    const badgeTopLimit = plotTop + 8;
+    const badgeBottomLimit = plotBottom - 6;
+
+    interface RawBadge {
+      ticker: string;
+      color: string;
+      idealY: number;
+      actualY: number;
+      finalX: number;
+      terminalReturn: number | null;
+    }
+
+    const items: RawBadge[] = [];
+
+    validSeries.forEach((s) => {
+      const idx = basket.findIndex((b) => b.ticker === s.ticker);
+      const color = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0].stroke;
+
+      // Find last non-null point
+      let lastPtIndex = -1;
+      for (let i = s.points.length - 1; i >= 0; i--) {
+        if (s.points[i].value !== null) {
+          lastPtIndex = i;
+          break;
+        }
+      }
+
+      if (lastPtIndex >= 0 && s.terminalReturn !== null) {
+        const idealY = getY(s.terminalReturn);
+        const finalX = getX(lastPtIndex, activeDates.length);
+        items.push({
+          ticker: s.ticker,
+          color,
+          idealY,
+          actualY: idealY,
+          finalX,
+          terminalReturn: s.terminalReturn,
+        });
+      }
+    });
+
+    // 1. Sort by idealY ascending
+    items.sort((a, b) => a.idealY - b.idealY);
+
+    // 2. Pass 1: Top-to-bottom push
+    for (let i = 1; i < items.length; i++) {
+      if (items[i].actualY < items[i - 1].actualY + minGap) {
+        items[i].actualY = items[i - 1].actualY + minGap;
+      }
+    }
+
+    // 3. Pass 2: Bottom-to-top push if exceeding bottom limit
+    if (items.length > 0) {
+      const lastIdx = items.length - 1;
+      if (items[lastIdx].actualY > badgeBottomLimit) {
+        items[lastIdx].actualY = badgeBottomLimit;
+        for (let i = lastIdx - 1; i >= 0; i--) {
+          if (items[i].actualY > items[i + 1].actualY - minGap) {
+            items[i].actualY = items[i + 1].actualY - minGap;
+          }
+        }
+      }
+    }
+
+    // 4. Pass 3: Clamp to top limit
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].actualY < badgeTopLimit) {
+        items[i].actualY = badgeTopLimit;
+      }
+    }
+
+    // 5. Final downward pass to maintain minGap after top clamp
+    for (let i = 1; i < items.length; i++) {
+      if (items[i].actualY < items[i - 1].actualY + minGap) {
+        items[i].actualY = items[i - 1].actualY + minGap;
+      }
+    }
+
+    return items;
+  }, [validSeries, basket, getY, getX, activeDates.length, plotTop, plotBottom]);
+
+  // SVG DOM Z-Order Sorting: render focused series last so it appears on top of all lines
+  const sortedSeries = useMemo(() => {
+    if (!activeFocus) return validSeries;
+    const nonFocused = validSeries.filter((s) => s.ticker !== activeFocus);
+    const focused = validSeries.filter((s) => s.ticker === activeFocus);
+    return [...nonFocused, ...focused];
+  }, [validSeries, activeFocus]);
+
+  const sortedBadges = useMemo(() => {
+    if (!activeFocus) return badgePositions;
+    const nonFocused = badgePositions.filter((b) => b.ticker !== activeFocus);
+    const focused = badgePositions.filter((b) => b.ticker === activeFocus);
+    return [...nonFocused, ...focused];
+  }, [badgePositions, activeFocus]);
+
+  // 5. Y-Axis Grid Lines (max 4 lines)
+  const yGridLines = useMemo(() => {
+    const lines: number[] = [];
+    const step = (maxVal - minVal) / 4;
+    for (let i = 1; i <= 3; i++) {
+      const val = minVal + i * step;
+      // Skip lines too close to 0% baseline
+      if (Math.abs(val) > (maxVal - minVal) * 0.08) {
+        lines.push(val);
+      }
+    }
+    return lines;
+  }, [minVal, maxVal]);
+
+  // 6. X-Axis Tick Labels (Anchor, Mid, End)
+  const xTicks = useMemo(() => {
+    if (activeDates.length === 0) return [];
+    const first = activeDates[0];
+    const last = activeDates[activeDates.length - 1];
+    const midIdx = Math.floor(activeDates.length / 2);
+    const mid = activeDates[midIdx];
+
+    const fmt = (d: string) => d.slice(2).replace(/-/g, ".");
+
+    return [
+      { label: fmt(first), x: plotLeft, anchor: "start" as const },
+      { label: fmt(mid), x: getX(midIdx, activeDates.length), anchor: "middle" as const },
+      { label: fmt(last), x: plotRight, anchor: "end" as const },
+    ];
+  }, [activeDates, plotLeft, plotRight, getX]);
+
+  // 7. Interactive Pointer Movement
+  const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!svgRef.current || activeDates.length === 0) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const clientX = e.clientX - rect.left;
+    const svgX = (clientX / rect.width) * width;
+
+    if (svgX < plotLeft || svgX > plotRight) {
+      setHoverIndex(null);
+      return;
+    }
+
+    const ratio = (svgX - plotLeft) / plotWidth;
+    const idx = Math.round(ratio * (activeDates.length - 1));
+    const clampedIdx = Math.max(0, Math.min(activeDates.length - 1, idx));
+    setHoverIndex(clampedIdx);
+  };
+
+  const handlePointerLeave = () => {
+    setHoverIndex(null);
+  };
+
+  const handleDownload = useCallback(() => {
+    setIsExporting(true);
+    setTimeout(() => {
+      if (chartContainerRef.current === null) {
+        setIsExporting(false);
+        return;
+      }
+      toPng(chartContainerRef.current, {
+        cacheBust: true,
+        backgroundColor: "#ffffff",
+        pixelRatio: 2,
+        filter: (node) => {
+          if (node instanceof HTMLElement && node.dataset.exportIgnore === "true") {
+            return false;
+          }
+          return true;
+        },
+      })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          const trSuffix = isTrMode ? "-tr" : "-pr";
+          link.download = `etf-compare-timeseries-${period.toLowerCase()}${trSuffix}.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.error("Failed to export chart image", err);
+          alert("차트 이미지 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        })
+        .finally(() => {
+          setIsExporting(false);
+        });
+    }, 150);
+  }, [period, isTrMode]);
+
+  // Accessibility Summary Text
+  const accessibleSummary = useMemo(() => {
+    const basis = isTrMode ? "TR(세전)" : "시장가격(PR)";
+    const parts = validSeries.map((s) => {
+      const etf = basket.find((b) => b.ticker === s.ticker);
+      const name = etf?.name ?? s.ticker;
+      const ret = s.terminalReturn !== null ? `${s.terminalReturn > 0 ? "+" : ""}${s.terminalReturn.toFixed(1)}%` : "N/A";
+      return `${name} ${ret}`;
+    });
+    return `비교 기간 ${period}, 기준 ${basis}, 종목별 누적수익률: ${parts.join(", ")}`;
+  }, [validSeries, basket, isTrMode, period]);
+
+  // Excluded tickers with insufficient coverage (< 2 trading days)
+  const insufficientTickers = useMemo(() => {
+    return normalizedResult.series
+      .filter((s) => s.coverage === "insufficient")
+      .map((s) => {
+        const etf = basket.find((b) => b.ticker === s.ticker);
+        return { ticker: s.ticker, name: etf?.name ?? s.ticker };
+      });
+  }, [normalizedResult, basket]);
+
+  const lateListingTickers = useMemo(() => {
+    return normalizedResult.truncated
+      .filter((t) => t.reason === "late_listing")
+      .map((t) => {
+        const etf = basket.find((b) => b.ticker === t.ticker);
+        const series = normalizedResult.series.find((s) => s.ticker === t.ticker);
+        return {
+          ticker: t.ticker,
+          name: etf?.name ?? t.ticker,
+          anchorDate: series?.anchorDate ? series.anchorDate.replace(/-/g, ".") : "",
+        };
+      });
+  }, [normalizedResult, basket]);
+
+  const isPartial = lateListingTickers.length > 0;
+
+  // Hovered Point Summary Data
+  const hoveredSummary = useMemo(() => {
+    if (hoverIndex === null || hoverIndex >= activeDates.length) return null;
+    const date = activeDates[hoverIndex];
+    const items = validSeries.map((s) => {
+      const etf = basket.find((b) => b.ticker === s.ticker);
+      const pt = s.points[hoverIndex];
+      const idx = basket.findIndex((b) => b.ticker === s.ticker);
+      const color = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0];
+      return {
+        ticker: s.ticker,
+        name: etf?.name ?? s.ticker,
+        value: pt?.value ?? null,
+        isFilled: pt?.isFilled ?? false,
+        color,
+      };
+    });
+    return { date, items };
+  }, [hoverIndex, activeDates, validSeries, basket]);
+
+  return (
+    <div
+      ref={chartContainerRef}
+      className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl mb-4 font-sans select-none"
+      data-testid="compare-timeseries-chart-container"
+    >
+      {/* 1. Header Toolbar (ETF CHECK Benchmark: Periods + PR/TR Toggle + PNG Export) */}
+      <div className="flex items-center justify-between gap-2 mb-2 flex-wrap sm:flex-nowrap">
+        {/* Period Selector & PR/TR Toggle Group */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+          {/* Period Selector Segmented Control */}
+          <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 sm:p-1 rounded-lg">
+            {PERIOD_LABELS.map(({ key }) => {
+              const isSelected = period === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => onPeriodChange?.(key)}
+                  className={`min-w-[38px] sm:min-w-[44px] min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                    isSelected
+                      ? "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                  }`}
+                  data-testid={`period-button-${key}`}
+                >
+                  {key}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* PR / TR Return Basis Segmented Control (ETF CHECK benchmark) */}
+          {onToggleTr && (
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 sm:p-1 rounded-lg">
+              <button
+                type="button"
+                onClick={() => isTrMode && onToggleTr()}
+                className={`min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                  !isTrMode
+                    ? "bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                }`}
+                title="단순 시장 종가 기준 가격 수익률 (분배금 미포함)"
+                data-testid="chart-basis-pr"
+              >
+                PR (가격)
+              </button>
+              <button
+                type="button"
+                onClick={() => !isTrMode && onToggleTr()}
+                className={`min-h-[28px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-md transition-all ${
+                  isTrMode
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                }`}
+                title="분배금 세전 재투자 복리 총수익률 (Total Return)"
+                data-testid="chart-basis-tr"
+              >
+                TR (총수익)
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Right Tools (PNG Export) */}
+        <div className="flex items-center gap-2 shrink-0">
+          {hasZeroDistEtfs && isTrMode && (
+            <span className="hidden md:inline-flex items-center text-[11px] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+              분배 이력 없는 종목 포함 (시장가격과 동일)
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={isExporting}
+            data-export-ignore="true"
+            title="현재 비교 차트를 고해상도 이미지(PNG)로 저장합니다."
+            className="inline-flex items-center gap-1.5 min-h-[28px] sm:min-h-[32px] px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:text-slate-900 shadow-2xs transition-all active:scale-95"
+            data-testid="chart-export-button"
+          >
+            <Download className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+            <span>{isExporting ? "저장 중..." : "이미지 저장"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Warning Banners */}
+      {quarantinedList.length > 0 && (
+        <div
+          className="flex items-start gap-2 p-2.5 mb-2 text-xs text-amber-800 dark:text-amber-200 bg-amber-500/10 border border-amber-500/30 rounded-lg"
+          data-testid="quarantined-ticker-banner"
+        >
+          <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+          <div className="space-y-0.5">
+            <span className="font-semibold block">가격 데이터 정합성 검증 종목 안내:</span>
+            {quarantinedList.map((q) => (
+              <p key={q.ticker}>
+                • {q.name} ({q.ticker}): 액면분할/합병 등 기업행위 원장 검증 중으로 비교 차트에서 일시 격리되었습니다. ({q.reason})
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {isPartial && (
+        <div
+          className="flex items-center gap-1.5 p-2 mb-2 text-xs font-medium text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/50 rounded-lg"
+          data-testid="partial-coverage-banner"
+        >
+          <Info className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400" />
+          <span>
+            최근 상장 종목({lateListingTickers.map((t) => `${t.name}${t.anchorDate ? ` [${t.anchorDate} 상장]` : ""}`).join(", ")})은 상장 시점부터 수익률 곡선이 시작됩니다.
+          </span>
+        </div>
+      )}
+
+      {insufficientTickers.length > 0 && (
+        <div
+          className="flex items-center gap-1.5 p-2 mb-2 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg"
+          data-testid="insufficient-coverage-banner"
+        >
+          <Info className="w-4 h-4 shrink-0 text-slate-500" />
+          <span>
+            {insufficientTickers.map((t) => t.name).join(", ")} 종목은 거래일수 부족으로 시계열 비교에서 제외되었습니다.
+          </span>
+        </div>
+      )}
+
+      {hasLeveragedOrInverse && (
+        <div
+          className="flex items-start gap-1.5 p-2 mb-2 text-[11px] text-amber-800 dark:text-amber-300 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 rounded-lg"
+          data-testid="leverage-inverse-warning"
+        >
+          <span className="shrink-0">⚠️</span>
+          <span>
+            레버리지/인버스 종목 포함: 일일 수익률의 N배를 추종하므로, 횡보장에서는 복리 음의 효과(음의 복리)로 인해 누적 수익률이 기초지수 배수와 크게 차이날 수 있습니다.
+          </span>
+        </div>
+      )}
+
+      {hasGappedSeries && (
+        <div
+          className="flex items-start gap-1.5 p-2 mb-2 text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-lg"
+          data-testid="gapped-series-notice"
+        >
+          <span className="shrink-0">ℹ️</span>
+          <span>
+            거래정지/결측 구간: 해당 종목의 거래 정지일은 직전 거래일 종가(LOCF)로 보정되어 차트에 점선으로 표시됩니다.
+          </span>
+        </div>
+      )}
+
+      {/* 3. Interactive Legend Bar (Always-visible: color swatch + name + ticker + terminal return + click/hover isolation) */}
+      {validSeries.length > 0 && (
+        <div
+          className="flex items-center gap-1 sm:gap-1.5 mb-2 select-none flex-nowrap overflow-x-auto no-scrollbar"
+          data-testid="compare-chart-legend"
+          role="toolbar"
+          aria-label="차트 종목 범례 및 단독 강조"
+        >
+          {validSeries.map((s) => {
+            const idx = basket.findIndex((b) => b.ticker === s.ticker);
+            const palette = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0];
+            const etf = basket.find((b) => b.ticker === s.ticker);
+            const isCurrentFocused = activeFocus === s.ticker;
+            const hasAnyFocus = activeFocus !== null;
+            const isPositive = s.terminalReturn !== null && s.terminalReturn > 0;
+            const isNegative = s.terminalReturn !== null && s.terminalReturn < 0;
+
+            const retText =
+              s.terminalReturn !== null
+                ? `${isPositive ? "+" : ""}${s.terminalReturn.toFixed(1)}%`
+                : "N/A";
+
+            return (
+              <button
+                key={`legend-${s.ticker}`}
+                type="button"
+                onClick={() => handleToggleFocus(s.ticker)}
+                onMouseEnter={() => handleLegendHover(s.ticker)}
+                onMouseLeave={() => handleLegendHover(null)}
+                title={`${etf?.name ?? s.ticker} (${s.ticker}) 클릭 시 해당 선 강조 / 재클릭 시 해제`}
+                className={`flex-1 min-w-[130px] sm:min-w-0 inline-flex items-center justify-between gap-1 sm:gap-1.5 min-h-[30px] sm:min-h-[32px] px-2 sm:px-2.5 py-1 text-xs rounded-lg border transition-all cursor-pointer ${
+                  isCurrentFocused
+                    ? "bg-white dark:bg-slate-800 border-2 shadow-xs ring-2 ring-offset-1 ring-slate-400 dark:ring-slate-500 opacity-100 font-bold scale-[1.01]"
+                    : hasAnyFocus
+                    ? "opacity-35 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:opacity-80"
+                    : "bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 dark:text-slate-200"
+                }`}
+                style={isCurrentFocused ? { borderColor: palette.stroke } : undefined}
+                data-testid={`legend-chip-${s.ticker}`}
+                aria-pressed={isCurrentFocused}
+              >
+                <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 truncate">
+                  <span
+                    className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full shrink-0 shadow-xs"
+                    style={{ backgroundColor: palette.stroke }}
+                  />
+                  <span className="font-semibold text-slate-800 dark:text-slate-100 truncate text-[11px] sm:text-xs">
+                    {etf?.name ?? s.ticker}
+                  </span>
+                  <span className="text-[9.5px] sm:text-[10px] text-slate-400 dark:text-slate-500 font-mono shrink-0 hidden lg:inline">
+                    {s.ticker}
+                  </span>
+                </div>
+                <span
+                  className={`font-black text-[11px] sm:text-xs tabular-nums shrink-0 ml-1 ${
+                    isPositive
+                      ? "text-rose-600 dark:text-rose-400"
+                      : isNegative
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-slate-600 dark:text-slate-400"
+                  }`}
+                >
+                  {retText}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 4. Top Crosshair Fixed Summary Strip (no floating popover overlay) */}
+      <div
+        className="h-7 px-2 mb-1.5 flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/60 rounded-md overflow-x-auto no-scrollbar font-tabular-nums"
+        data-testid="top-summary-strip"
+      >
+        {hoveredSummary ? (
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="font-semibold text-slate-700 dark:text-slate-200">
+              {hoveredSummary.date}
+            </span>
+            <div className="flex items-center gap-2.5">
+              {hoveredSummary.items.map((it) => (
+                <div key={it.ticker} className="flex items-center gap-1">
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: it.color.stroke }}
+                  />
+                  <span className="text-[11px] text-slate-600 dark:text-slate-400 max-w-[80px] truncate">
+                    {it.name}
+                  </span>
+                  <span
+                    className={`font-bold text-[11px] ${
+                      it.value !== null && it.value > 0
+                        ? "text-red-600 dark:text-red-400"
+                        : it.value !== null && it.value < 0
+                        ? "text-blue-600 dark:text-blue-400"
+                        : "text-slate-600 dark:text-slate-400"
+                    }`}
+                  >
+                    {it.value !== null ? `${it.value > 0 ? "+" : ""}${it.value.toFixed(1)}%` : "상장 전"}
+                  </span>
+                  {it.isFilled && (
+                    <span className="text-[9px] text-slate-400 dark:text-slate-500">(직전종가)</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-[11px]">
+            <span className="font-bold text-slate-700 dark:text-slate-200">
+              {isTrMode
+                ? "[TR] 분배금 재투자 수정기준가 기준 (세전 복리 총수익률)"
+                : "[PR] 정규 시장 종가 기준 (분배금 제외 단순 가격수익률)"}
+            </span>
+            <span>·</span>
+            <span>선택 기간: {period}</span>
+          </div>
+        )}
+      </div>
+
+      {/* 4. Main SVG Timeseries Canvas */}
+      {isLoading ? (
+        <div
+          className="w-full h-[244px] flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-lg animate-pulse"
+          data-testid="chart-skeleton"
+        >
+          <div className="text-xs text-slate-400">데이터 로딩 중...</div>
+        </div>
+      ) : validSeries.length === 0 ? (
+        <div
+          className="w-full h-[244px] flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-lg"
+          data-testid="chart-empty"
+        >
+          <div className="text-xs text-slate-400">비교 가능한 시계열 데이터가 없습니다.</div>
+        </div>
+      ) : (
+        <div className="relative w-full" style={{ touchAction: "pan-y" }}>
+          <svg
+            ref={svgRef}
+            viewBox={`0 0 ${width} ${height}`}
+            style={{ touchAction: "pan-y" }}
+            className="w-full h-auto select-none overflow-visible"
+            role="img"
+            aria-label={accessibleSummary}
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            data-testid="compare-timeseries-svg"
+          >
+            {/* Background grids */}
+            {yGridLines.map((yVal, idx) => (
+              <line
+                key={`grid-${idx}`}
+                x1={plotLeft}
+                y1={getY(yVal)}
+                x2={plotRight}
+                y2={getY(yVal)}
+                stroke="#e2e8f0"
+                strokeDasharray="3 3"
+                className="dark:stroke-slate-800"
+              />
+            ))}
+
+            {/* 0% Baseline */}
+            <line
+              x1={plotLeft}
+              y1={zeroBaselineY}
+              x2={plotRight}
+              y2={zeroBaselineY}
+              stroke="#94a3b8"
+              strokeWidth={1}
+              className="dark:stroke-slate-600"
+            />
+            <text
+              x={plotLeft + 4}
+              y={zeroBaselineY - 4}
+              fontSize={10}
+              fontWeight={600}
+              fill="#94a3b8"
+              className="dark:fill-slate-500"
+            >
+              0.0%
+            </text>
+
+            {/* X-Axis Ticks */}
+            {xTicks.map((tick, idx) => (
+              <text
+                key={`xtick-${idx}`}
+                x={tick.x}
+                y={plotBottom + 18}
+                textAnchor={tick.anchor}
+                fontSize={11}
+                fill="#64748b"
+                className="dark:fill-slate-400 font-medium"
+              >
+                {tick.label}
+              </text>
+            ))}
+
+            {/* Crosshair vertical cursor line */}
+            {hoverIndex !== null && hoverIndex < activeDates.length && (
+              <line
+                x1={getX(hoverIndex, activeDates.length)}
+                y1={plotTop}
+                x2={getX(hoverIndex, activeDates.length)}
+                y2={plotBottom}
+                stroke="#64748b"
+                strokeWidth={1}
+                strokeDasharray="2 2"
+                className="dark:stroke-slate-400"
+              />
+            )}
+
+            {/* ETF Series Line Paths (Sorted so focused series renders on top in SVG DOM order) */}
+            {sortedSeries.map((s) => {
+              const idx = basket.findIndex((b) => b.ticker === s.ticker);
+              const palette = CHART_PALETTE[idx >= 0 ? idx % CHART_PALETTE.length : 0];
+              const isBase = s.ticker === baseTicker;
+              const isCurrentFocused = activeFocus === s.ticker;
+              const hasAnyFocus = activeFocus !== null;
+
+              const strokeColor = palette.stroke;
+              const strokeWidth = isCurrentFocused ? 3.0 : isBase ? 2.25 : 1.75;
+              const opacity = hasAnyFocus ? (isCurrentFocused ? 1.0 : 0.15) : 1.0;
+
+              // Build continuous multi-segment paths splitting by isFilled
+              type Segment = { isFilled: boolean; points: { x: number; y: number }[] };
+              const segments: Segment[] = [];
+              let currentSegment: Segment | null = null;
+
+              for (let i = 0; i < s.points.length; i++) {
+                const pt = s.points[i];
+                if (pt.value === null) {
+                  currentSegment = null;
+                  continue;
+                }
+                const x = getX(i, activeDates.length);
+                const y = getY(pt.value);
+
+                if (!currentSegment || currentSegment.isFilled !== pt.isFilled) {
+                  // Connect with last point if transitioning to avoid gap
+                  const prevPt: { x: number; y: number } | null =
+                    currentSegment && currentSegment.points.length > 0
+                      ? currentSegment.points[currentSegment.points.length - 1]
+                      : null;
+                  currentSegment = {
+                    isFilled: pt.isFilled,
+                    points: prevPt ? [prevPt, { x, y }] : [{ x, y }],
+                  };
+                  segments.push(currentSegment);
+                } else {
+                  currentSegment.points.push({ x, y });
+                }
+              }
+
+              return (
+                <g
+                  key={`series-${s.ticker}`}
+                  opacity={opacity}
+                  style={{ transition: "opacity 150ms ease" }}
+                  onClick={() => handleToggleFocus(s.ticker)}
+                  onMouseEnter={() => handleLegendHover(s.ticker)}
+                  onMouseLeave={() => handleLegendHover(null)}
+                  className="cursor-pointer"
+                  data-testid={`series-group-${s.ticker}`}
+                >
+                  {segments.map((seg, sIdx) => {
+                    if (seg.points.length < 2) return null;
+                    const d = seg.points.reduce((acc, p, pIdx) => {
+                      return `${acc} ${pIdx === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
+                    }, "");
+                    return (
+                      <path
+                        key={`path-${sIdx}`}
+                        d={d}
+                        fill="none"
+                        stroke={strokeColor}
+                        strokeWidth={strokeWidth}
+                        strokeDasharray={seg.isFilled ? "3 3" : undefined}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        style={{ vectorEffect: "non-scaling-stroke" }}
+                      />
+                    );
+                  })}
+
+                  {/* Hover indicator dot */}
+                  {hoverIndex !== null && s.points[hoverIndex]?.value !== null && (
+                    <circle
+                      cx={getX(hoverIndex, activeDates.length)}
+                      cy={getY(s.points[hoverIndex].value!)}
+                      r={isCurrentFocused ? 4.5 : 3.5}
+                      fill="#ffffff"
+                      stroke={strokeColor}
+                      strokeWidth={2}
+                    />
+                  )}
+                </g>
+              );
+            })}
+
+            {/* Right Gutter Terminal Badges & Leader Lines */}
+            {sortedBadges.map((b) => {
+              const isFocused = activeFocus === b.ticker;
+              const hasAnyFocus = activeFocus !== null;
+              const badgeOpacity = hasAnyFocus ? (isFocused ? 1.0 : 0.25) : 0.9;
+              const displacement = Math.abs(b.actualY - b.idealY);
+              const retText =
+                b.terminalReturn !== null
+                  ? `${b.terminalReturn > 0 ? "+" : ""}${b.terminalReturn.toFixed(1)}%`
+                  : "";
+
+              return (
+                <g
+                  key={`badge-${b.ticker}`}
+                  data-testid={`badge-${b.ticker}`}
+                  onClick={() => handleToggleFocus(b.ticker)}
+                  onMouseEnter={() => handleLegendHover(b.ticker)}
+                  onMouseLeave={() => handleLegendHover(null)}
+                  className="cursor-pointer"
+                >
+                  {/* Leader line if displaced > 4px */}
+                  {displacement > 4 && (
+                    <line
+                      x1={b.finalX}
+                      y1={b.idealY}
+                      x2={plotRight + 4}
+                      y2={b.actualY}
+                      stroke={b.color}
+                      strokeWidth={1}
+                      strokeDasharray="2 2"
+                      opacity={hasAnyFocus ? (isFocused ? 0.9 : 0.2) : 0.6}
+                      data-testid={`leader-line-${b.ticker}`}
+                    />
+                  )}
+
+                  {/* Terminal badge background & text */}
+                  <rect
+                    x={plotRight + 4}
+                    y={b.actualY - 8}
+                    width={52}
+                    height={16}
+                    rx={3}
+                    fill={b.color}
+                    opacity={badgeOpacity}
+                  />
+                  <text
+                    x={plotRight + 30}
+                    y={b.actualY + 3.5}
+                    textAnchor="middle"
+                    fill="#ffffff"
+                    fontSize={10}
+                    fontWeight={700}
+                    opacity={hasAnyFocus ? (isFocused ? 1.0 : 0.5) : 1.0}
+                    className="font-tabular-nums"
+                  >
+                    {retText}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Hidden Accessible Table for Screen Readers */}
+          <table className="sr-only">
+            <caption>{accessibleSummary}</caption>
+            <thead>
+              <tr>
+                <th scope="col">종목코드</th>
+                <th scope="col">종목명</th>
+                <th scope="col">최종 수익률</th>
+                <th scope="col">최대 낙폭(MDD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {validSeries.map((s) => {
+                const etf = basket.find((b) => b.ticker === s.ticker);
+                return (
+                  <tr key={`sr-${s.ticker}`}>
+                    <td>{s.ticker}</td>
+                    <td>{etf?.name ?? s.ticker}</td>
+                    <td>{s.terminalReturn !== null ? `${s.terminalReturn.toFixed(1)}%` : "N/A"}</td>
+                    <td>{`${s.maxDrawdown.toFixed(1)}%`}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* 5. Static Legal Disclaimers (자본시장법 제101조 및 금융 컴플라이언스 3종 상시 각주 - 웹 화면 전용, 이미지 저장 시 제외) */}
+      <div
+        data-testid="compare-chart-web-disclaimers"
+        data-export-ignore="true"
+        className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 font-normal"
+      >
+        <p className="font-semibold text-slate-700 dark:text-slate-300">
+          * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.
+        </p>
+        <p>• 분배금은 분배락일 종가로 재투자했다고 가정한 이론 수치이며, 실제 지급일·재투자 시점·거래비용은 반영하지 않았습니다.</p>
+        <p>• 세금은 반영하지 않은 세전 기준입니다. 계좌 유형에 따라 실제 세후 수익률은 달라집니다.</p>
+        <p>• 과거 성과가 미래 수익을 보장하지 않습니다.</p>
+      </div>
+
+      {/* 6. 초슬림 1줄 공식 워터마크 풋터 (Option 1: 이미지 저장 시 자리를 차지하지 않는 1줄 인라인 워터마크) */}
+      <div
+        data-testid="compare-chart-official-footer"
+        className={`mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 ${
+          isExporting ? "flex" : "hidden"
+        } items-center justify-between gap-2 text-slate-400 dark:text-slate-500 px-0.5`}
+      >
+        <span className="text-[9px] font-normal tracking-tight">
+          * 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.
+        </span>
+        <div className="flex items-center gap-1 text-[10px] font-extrabold text-slate-600 dark:text-slate-400 shrink-0">
+          <span>📊</span>
+          <span>ETF 캠퍼스 etf-campus.pages.dev</span>
+        </div>
+      </div>
+    </div>
+  );
+}

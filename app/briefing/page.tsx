@@ -15,7 +15,7 @@ export const metadata: Metadata = {
  */
 export default function BriefingPage() {
   return (
-    <main className="page-shell flex-1 py-6 sm:py-10">
+    <main className="page-shell flex-1 pt-4 pb-6 sm:pt-6 sm:pb-10">
       <MarketBriefing />
     </main>
   );

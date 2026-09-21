@@ -11,6 +11,8 @@ export interface Env {
   RESEND_API_KEY?: string;
   SLACK_WEBHOOK_URL?: string;
   MANUAL_RUN_TOKEN?: string;
+  GEMINI_API_KEY?: string;
+  GEMINI_TOKENS?: string;
 }
 
 export interface BriefingDistributeEvent {
@@ -51,10 +53,12 @@ export interface InflowItem {
   rank: number;
   ticker: string;
   name: string;
+  etfName?: string;
   assetClass?: string;
   theme?: string;
   inflow: number; // 억원
   inflowAmount?: number;
+  netInflowValue?: number;
   changePct?: number;
 }
 
@@ -68,30 +72,89 @@ export interface PeerGroupItem {
   totalAum?: number;
 }
 
+export interface DisparityItem {
+  ticker: string;
+  name: string;
+  assetClass: string;
+  nav: number;
+  price: number;
+  disparityPct: number;
+}
+
+export interface MarketIndexItem {
+  code: string;
+  label: string;
+  close: number;
+  change_pct: number;
+  as_of_date: string;
+}
+
+export interface MarketBriefingPulse {
+  totalEtfCount?: number;
+  generalEtfCount?: number;
+  upCount?: number;
+  flatCount?: number;
+  downCount?: number;
+  breadthRatioPct?: number;
+  marketTemperature?: string;
+  generalAumWeightedReturnPct?: number;
+  top50AumWeightedReturnPct?: number;
+  top100AumWeightedReturnPct?: number;
+  top200AumWeightedReturnPct?: number;
+  generalTotalAum?: number;
+  generalTotalTradeValue?: number;
+  top10TradeSharePct?: number;
+  allTop10TradeSharePct?: number;
+}
+
 export interface MarketBriefingPayload {
   asOfDate: string;
   publicationVersion: number;
+  publishedAt?: string;
+  updatedAt?: string;
+  isStale?: boolean;
+  staleDays?: number;
+  headline?: {
+    text: string;
+    generationStatus?: string;
+  };
+  marketIndices?: MarketIndexItem[];
+  pulse?: MarketBriefingPulse;
   headlineText?: string;
-  marketTemperature: string;
-  kospiClose: number;
-  kospiChangePct: number;
-  kosdaqClose: number;
-  kosdaqChangePct: number;
-  generalEtfCount: number;
-  upCount: number;
-  flatCount: number;
-  downCount: number;
-  breadthRatioPct: number;
-  generalTotalAum: number;
-  generalTotalTradeValue: number;
+  marketTemperature?: string;
+  kospiClose?: number;
+  kospiChangePct?: number;
+  kosdaqClose?: number;
+  kosdaqChangePct?: number;
+  generalEtfCount?: number;
+  upCount?: number;
+  flatCount?: number;
+  downCount?: number;
+  breadthRatioPct?: number;
+  generalTotalAum?: number;
+  generalTotalTradeValue?: number;
   marketTurnoverPct?: number;
-  top10TradeSharePct: number;
-  allTop10TradeSharePct: number;
-  generalAumWeightedReturnPct: number;
+  top10TradeSharePct?: number;
+  allTop10TradeSharePct?: number;
+  generalAumWeightedReturnPct?: number;
   top50WeightedReturnPct?: number;
-  assetClasses: AssetClassItem[];
-  focusEtfs: FocusEtfItem[];
+  disparityAlerts?: {
+    overvalued: DisparityItem[];
+    undervalued: DisparityItem[];
+  };
+  disparityWarning?: Array<{
+    ticker: string;
+    etfName?: string;
+    name?: string;
+    assetClass?: string;
+    disparityPct: number;
+    nav?: number;
+    price?: number;
+  }>;
+  assetClasses?: AssetClassItem[];
+  focusEtfs?: FocusEtfItem[];
   peerGroups?: PeerGroupItem[];
+  fundFlow?: any;
   periodicFlows?: {
     dailyFundFlows?: {
       topInflows: InflowItem[];

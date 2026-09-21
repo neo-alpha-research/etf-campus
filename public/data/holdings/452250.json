@@ -1,29 +1,29 @@
 {
   "ticker": "452250",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 99.68,
-      "shares": 241285235,
-      "item_code": null
-    },
-    {
-      "name": "스왑(키움증권)",
-      "weight_pct": 0.2,
-      "shares": 494620,
-      "item_code": null
-    },
-    {
-      "name": "스왑(KB증권)",
-      "weight_pct": 0.06,
-      "shares": 158196,
+      "weight_pct": 102.43,
+      "shares": 241371866,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": 0.04,
-      "shares": 102208,
+      "weight_pct": -0.18,
+      "shares": -442283,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)",
+      "weight_pct": -0.92,
+      "shares": -2188577,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)",
+      "weight_pct": -1.31,
+      "shares": -3109997,
       "item_code": null
     }
   ]

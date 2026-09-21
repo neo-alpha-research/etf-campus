@@ -1,101 +1,101 @@
 {
   "ticker": "481180",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 13.1,
+      "weight_pct": 12.75,
       "shares": 419,
       "item_code": "PLTR.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 11.63,
+      "weight_pct": 11.27,
       "shares": 133,
       "item_code": "MSFT.O"
     },
     {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 8.7,
+      "weight_pct": 8.91,
       "shares": 145,
       "item_code": "PANW.O"
     },
     {
-      "name": "오라클",
-      "weight_pct": 7.59,
-      "shares": 290,
-      "item_code": "ORCL.K"
-    },
-    {
-      "name": "SAP ADR",
-      "weight_pct": 7.5,
-      "shares": 201,
-      "item_code": "SAP"
-    },
-    {
-      "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 6.91,
-      "shares": 207,
-      "item_code": "CRWD.O"
-    },
-    {
       "name": "세일즈포스",
-      "weight_pct": 6.54,
+      "weight_pct": 7.88,
       "shares": 180,
       "item_code": "CRM"
     },
     {
+      "name": "크라우드 스트라이크 홀딩스",
+      "weight_pct": 7.54,
+      "shares": 207,
+      "item_code": "CRWD.O"
+    },
+    {
+      "name": "SAP ADR",
+      "weight_pct": 7.21,
+      "shares": 201,
+      "item_code": "SAP"
+    },
+    {
+      "name": "오라클",
+      "weight_pct": 6.92,
+      "shares": 290,
+      "item_code": "ORCL.K"
+    },
+    {
       "name": "서비스나우",
-      "weight_pct": 6.3,
+      "weight_pct": 6.87,
       "shares": 285,
       "item_code": "NOW"
     },
     {
       "name": "스노우플레이크",
-      "weight_pct": 5.75,
+      "weight_pct": 5.59,
       "shares": 103,
       "item_code": "SNOW.K"
     },
     {
       "name": "어도비",
-      "weight_pct": 5.39,
+      "weight_pct": 5.41,
       "shares": 112,
       "item_code": "ADBE.O"
     },
     {
       "name": "클라우드플레어",
-      "weight_pct": 4.75,
+      "weight_pct": 4.57,
       "shares": 94,
       "item_code": "NET"
     },
     {
       "name": "포티넷",
-      "weight_pct": 4.44,
+      "weight_pct": 4.37,
       "shares": 160,
       "item_code": "FTNT.O"
     },
     {
       "name": "데이터도그",
-      "weight_pct": 3.88,
+      "weight_pct": 3.66,
       "shares": 96,
       "item_code": "DDOG.O"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 3.39,
+      "weight_pct": 3.29,
       "shares": 62,
       "item_code": "APP.O"
     },
     {
       "name": "네비우스 그룹",
-      "weight_pct": 3.29,
+      "weight_pct": 2.95,
       "shares": 87,
       "item_code": "NBIS.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.78,
-      "shares": 6123697,
+      "weight_pct": 0.74,
+      "shares": 6010506,
       "item_code": null
     }
   ]

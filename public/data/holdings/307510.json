@@ -1,148 +1,148 @@
 {
   "ticker": "307510",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "파마리서치",
-      "weight_pct": 18.32,
+      "weight_pct": 17.27,
       "shares": 271,
       "item_code": "214450"
     },
     {
       "name": "씨젠",
-      "weight_pct": 6.45,
+      "weight_pct": 6.75,
       "shares": 1295,
       "item_code": "096530"
     },
     {
       "name": "엘앤씨바이오",
-      "weight_pct": 5.79,
-      "shares": 736,
+      "weight_pct": 6.46,
+      "shares": 761,
       "item_code": "290650"
     },
     {
       "name": "클래시스",
-      "weight_pct": 5.44,
+      "weight_pct": 5.66,
       "shares": 1079,
       "item_code": "214150"
     },
     {
       "name": "큐리옥스바이오시스템즈",
-      "weight_pct": 5.07,
+      "weight_pct": 4.67,
       "shares": 583,
       "item_code": "445680"
     },
     {
       "name": "루닛",
-      "weight_pct": 4.0,
+      "weight_pct": 3.96,
       "shares": 2829,
       "item_code": "328130"
     },
     {
       "name": "씨어스",
-      "weight_pct": 3.86,
+      "weight_pct": 3.81,
       "shares": 1133,
       "item_code": "458870"
     },
     {
       "name": "인바디",
-      "weight_pct": 3.48,
+      "weight_pct": 3.52,
       "shares": 368,
       "item_code": "041830"
     },
     {
-      "name": "리브스메드",
-      "weight_pct": 3.14,
-      "shares": 600,
-      "item_code": "491000"
-    },
-    {
       "name": "차바이오텍",
-      "weight_pct": 3.06,
+      "weight_pct": 3.14,
       "shares": 2422,
       "item_code": "085660"
     },
     {
+      "name": "리브스메드",
+      "weight_pct": 3.12,
+      "shares": 600,
+      "item_code": "491000"
+    },
+    {
       "name": "아이센스",
-      "weight_pct": 2.42,
+      "weight_pct": 2.41,
       "shares": 880,
       "item_code": "099190"
     },
     {
       "name": "로킷헬스케어",
-      "weight_pct": 2.1,
+      "weight_pct": 1.94,
       "shares": 486,
       "item_code": "376900"
     },
     {
       "name": "토모큐브",
-      "weight_pct": 1.94,
+      "weight_pct": 1.87,
       "shares": 404,
       "item_code": "475960"
     },
     {
       "name": "티앤엘",
-      "weight_pct": 1.81,
+      "weight_pct": 1.79,
       "shares": 370,
       "item_code": "340570"
     },
     {
       "name": "큐렉소",
-      "weight_pct": 1.63,
+      "weight_pct": 1.59,
       "shares": 1177,
       "item_code": "060280"
     },
     {
       "name": "덴티움",
-      "weight_pct": 1.53,
+      "weight_pct": 1.57,
       "shares": 264,
       "item_code": "145720"
     },
     {
       "name": "지노믹트리",
-      "weight_pct": 1.51,
+      "weight_pct": 1.41,
       "shares": 822,
       "item_code": "228760"
     },
     {
-      "name": "셀바스AI",
-      "weight_pct": 1.42,
-      "shares": 957,
-      "item_code": "108860"
-    },
-    {
       "name": "엔젤로보틱스",
-      "weight_pct": 1.42,
+      "weight_pct": 1.4,
       "shares": 437,
       "item_code": "455900"
     },
     {
+      "name": "한스바이오메드",
+      "weight_pct": 1.38,
+      "shares": 430,
+      "item_code": "042520"
+    },
+    {
+      "name": "셀바스AI",
+      "weight_pct": 1.38,
+      "shares": 957,
+      "item_code": "108860"
+    },
+    {
       "name": "원텍",
-      "weight_pct": 1.34,
+      "weight_pct": 1.37,
       "shares": 1741,
       "item_code": "336570"
     },
     {
       "name": "에스디바이오센서",
-      "weight_pct": 1.31,
+      "weight_pct": 1.36,
       "shares": 1398,
       "item_code": "137310"
     },
     {
-      "name": "한스바이오메드",
-      "weight_pct": 1.29,
-      "shares": 430,
-      "item_code": "042520"
-    },
-    {
       "name": "삼양바이오팜",
-      "weight_pct": 1.26,
+      "weight_pct": 1.25,
       "shares": 148,
       "item_code": "0120G0"
     },
     {
       "name": "넥스트바이오메디컬",
-      "weight_pct": 1.23,
+      "weight_pct": 1.22,
       "shares": 236,
       "item_code": "389650"
     },
@@ -154,111 +154,117 @@
     },
     {
       "name": "바디텍메드",
-      "weight_pct": 1.05,
+      "weight_pct": 1.07,
       "shares": 670,
       "item_code": "206640"
     },
     {
+      "name": "제테마",
+      "weight_pct": 1.06,
+      "shares": 1064,
+      "item_code": "216080"
+    },
+    {
       "name": "제이브이엠",
-      "weight_pct": 1.02,
+      "weight_pct": 1.06,
       "shares": 275,
       "item_code": "054950"
     },
     {
       "name": "뷰웍스",
-      "weight_pct": 0.97,
+      "weight_pct": 1.01,
       "shares": 234,
       "item_code": "100120"
     },
     {
-      "name": "바이오플러스",
-      "weight_pct": 0.91,
-      "shares": 1707,
-      "item_code": "099430"
-    },
-    {
       "name": "나이벡",
-      "weight_pct": 0.91,
+      "weight_pct": 0.95,
       "shares": 367,
       "item_code": "138610"
     },
     {
+      "name": "바이오플러스",
+      "weight_pct": 0.92,
+      "shares": 1707,
+      "item_code": "099430"
+    },
+    {
+      "name": "한국비엔씨",
+      "weight_pct": 0.92,
+      "shares": 2149,
+      "item_code": "256840"
+    },
+    {
       "name": "그래피",
-      "weight_pct": 0.9,
+      "weight_pct": 0.91,
       "shares": 319,
       "item_code": "318060"
     },
     {
       "name": "바텍",
-      "weight_pct": 0.83,
+      "weight_pct": 0.84,
       "shares": 282,
       "item_code": "043150"
     },
     {
       "name": "바이오노트",
-      "weight_pct": 0.81,
+      "weight_pct": 0.84,
       "shares": 1095,
       "item_code": "377740"
     },
     {
-      "name": "쓰리빌리언",
-      "weight_pct": 0.8,
-      "shares": 987,
-      "item_code": "394800"
-    },
-    {
-      "name": "제테마",
-      "weight_pct": 0.8,
-      "shares": 1064,
-      "item_code": "216080"
-    },
-    {
       "name": "바이오다인",
-      "weight_pct": 0.8,
+      "weight_pct": 0.82,
       "shares": 701,
       "item_code": "314930"
     },
     {
-      "name": "한국비엔씨",
-      "weight_pct": 0.8,
-      "shares": 2149,
-      "item_code": "256840"
+      "name": "쓰리빌리언",
+      "weight_pct": 0.77,
+      "shares": 987,
+      "item_code": "394800"
     },
     {
       "name": "지씨셀",
-      "weight_pct": 0.67,
+      "weight_pct": 0.71,
       "shares": 320,
       "item_code": "144510"
     },
     {
       "name": "아스테라시스",
-      "weight_pct": 0.67,
+      "weight_pct": 0.68,
       "shares": 824,
       "item_code": "450950"
     },
     {
       "name": "메디아나",
-      "weight_pct": 0.66,
+      "weight_pct": 0.64,
       "shares": 469,
       "item_code": "041920"
     },
     {
-      "name": "리센스메디컬",
-      "weight_pct": 0.61,
-      "shares": 339,
-      "item_code": "394420"
-    },
-    {
       "name": "인터로조",
-      "weight_pct": 0.61,
+      "weight_pct": 0.63,
       "shares": 283,
       "item_code": "119610"
     },
     {
+      "name": "나노엔텍",
+      "weight_pct": 0.62,
+      "shares": 929,
+      "item_code": "039860"
+    },
+    {
       "name": "디오",
-      "weight_pct": 0.58,
+      "weight_pct": 0.62,
       "shares": 349,
       "item_code": "039840"
+    },
+    {
+      "name": "리센스메디컬",
+      "weight_pct": 0.56,
+      "shares": 339,
+      "item_code": "394420"
     },
     {
       "name": "시너지이노베이션",
@@ -267,20 +273,8 @@
       "item_code": "048870"
     },
     {
-      "name": "나노엔텍",
-      "weight_pct": 0.55,
-      "shares": 929,
-      "item_code": "039860"
-    },
-    {
-      "name": "뷰노",
-      "weight_pct": 0.54,
-      "shares": 475,
-      "item_code": "338220"
-    },
-    {
       "name": "엘앤케이바이오",
-      "weight_pct": 0.52,
+      "weight_pct": 0.5,
       "shares": 813,
       "item_code": "156100"
     },
@@ -292,14 +286,20 @@
     },
     {
       "name": "뉴로핏",
-      "weight_pct": 0.46,
+      "weight_pct": 0.45,
       "shares": 373,
       "item_code": "380550"
     },
     {
+      "name": "뷰노",
+      "weight_pct": 0.4,
+      "shares": 475,
+      "item_code": "338220"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.3,
-      "shares": 1943774,
+      "weight_pct": 0.29,
+      "shares": 1819223,
       "item_code": null
     }
   ]

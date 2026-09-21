@@ -1,71 +1,71 @@
 {
   "ticker": "157500",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "한국금융지주",
-      "weight_pct": 25.5,
+      "weight_pct": 25.76,
       "shares": 337,
       "item_code": "071050"
     },
     {
       "name": "미래에셋증권",
-      "weight_pct": 22.01,
+      "weight_pct": 20.98,
       "shares": 1542,
       "item_code": "006800"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 17.31,
+      "weight_pct": 17.42,
       "shares": 496,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 13.7,
+      "weight_pct": 14.0,
       "shares": 124,
       "item_code": "039490"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 12.57,
+      "weight_pct": 12.83,
       "shares": 1195,
       "item_code": "005940"
     },
     {
       "name": "대신증권",
-      "weight_pct": 2.21,
+      "weight_pct": 2.27,
       "shares": 209,
       "item_code": "003540"
     },
     {
       "name": "신영증권",
-      "weight_pct": 2.08,
+      "weight_pct": 2.11,
       "shares": 34,
       "item_code": "001720"
     },
     {
       "name": "한화투자증권",
-      "weight_pct": 1.66,
+      "weight_pct": 1.69,
       "shares": 877,
       "item_code": "003530"
     },
     {
       "name": "SK증권",
-      "weight_pct": 1.46,
+      "weight_pct": 1.42,
       "shares": 1418,
       "item_code": "001510"
     },
     {
       "name": "유안타증권",
-      "weight_pct": 1.15,
+      "weight_pct": 1.18,
       "shares": 614,
       "item_code": "003470"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.29,
-      "shares": 752491,
+      "shares": 719176,
       "item_code": null
     }
   ]

@@ -1,46 +1,46 @@
 {
   "ticker": "437070",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Vanguard Long-Term Corporate Bond Idx Fund",
-      "weight_pct": 7.82,
+      "weight_pct": 7.73,
       "shares": 92,
       "item_code": "VCLT.O"
     },
     {
       "name": "WOORIB 6 3/8 PERP",
-      "weight_pct": 6.92,
+      "weight_pct": 6.95,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "HLINSU 6.3 06/24/55",
-      "weight_pct": 6.9,
+      "weight_pct": 6.91,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "SHNHAN 5 3/4 04/15/34",
-      "weight_pct": 6.84,
+      "weight_pct": 6.81,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "KRKPSC 6 3/8 06/11/27",
-      "weight_pct": 6.75,
+      "weight_pct": 6.79,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "OCBCSP 4.55 09/08/35",
-      "weight_pct": 6.6,
+      "weight_pct": 6.59,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "BABA 4 1/2 11/28/34",
-      "weight_pct": 6.44,
+      "weight_pct": 6.39,
       "shares": 5780,
       "item_code": null
     },
@@ -52,7 +52,7 @@
     },
     {
       "name": "NIPLIF 3.4 01/23/50",
-      "weight_pct": 6.3,
+      "weight_pct": 6.31,
       "shares": 5780,
       "item_code": null
     },
@@ -64,7 +64,7 @@
     },
     {
       "name": "HAOHUA 3 09/22/30",
-      "weight_pct": 6.26,
+      "weight_pct": 6.25,
       "shares": 5780,
       "item_code": null
     },
@@ -76,8 +76,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.68,
-      "shares": 5555264,
+      "weight_pct": 4.82,
+      "shares": 5632393,
       "item_code": null
     },
     {
@@ -88,25 +88,25 @@
     },
     {
       "name": "INDON 6 3/4 01/15/44",
-      "weight_pct": 3.58,
+      "weight_pct": 3.57,
       "shares": 2890,
       "item_code": null
     },
     {
       "name": "INDON 4.7 02/10/34",
-      "weight_pct": 3.24,
+      "weight_pct": 3.23,
       "shares": 2890,
       "item_code": null
     },
     {
       "name": "PHILIP 4 3/4 03/05/35",
-      "weight_pct": 3.21,
+      "weight_pct": 3.2,
       "shares": 2890,
       "item_code": null
     },
     {
       "name": "Vanguard Intermediate-Term Corp Bond Idx Fund",
-      "weight_pct": 1.64,
+      "weight_pct": 1.63,
       "shares": 17,
       "item_code": "VCIT.O"
     }

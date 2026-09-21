@@ -14,9 +14,20 @@ const LEGACY_AMC_TO_ISSUER_ID: Record<string, string> = {
 export const TER_RANGES = ["under0.1", "0.1to0.5", "over0.5"] as const;
 export type TerRange = (typeof TER_RANGES)[number];
 
+export type AccountMode = "all" | "pension" | "personal_pension" | "isa";
+export type GeneralTier = "all" | "tax_free" | "taxable";
+export type PensionTier = "all" | "safe" | "risk";
+export type PersonalPensionTier = "all" | "eligible" | "personal_only";
+export type IsaTier = "all" | "high_benefit" | "normal";
+
 export type ScreenerFilters = {
   keyword: string;
   pensionOnly: boolean;
+  accountMode: AccountMode;
+  generalTier: GeneralTier;
+  pensionTier: PensionTier;
+  personalTier: PersonalPensionTier;
+  isaTier: IsaTier;
   marketScopes: readonly MarketScope[];
   assetClasses: readonly AssetClass[];
   riskTypes: readonly RiskType[];
@@ -24,6 +35,7 @@ export type ScreenerFilters = {
   fxHedges: readonly FxHedge[];
   aumScope: AumScope;
   terRanges: readonly TerRange[];
+  distributionCycles: readonly string[];
 
   issuerIds: readonly string[];
 };
@@ -33,6 +45,11 @@ export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   // ETF Campus의 기본 이용자는 DC·IRP 투자자이므로, 첫 진입에서는
   // 공식 확인된 연금 편입 가능 ETF만 보여준다.
   pensionOnly: true,
+  accountMode: "pension",
+  generalTier: "all",
+  pensionTier: "all",
+  personalTier: "all",
+  isaTier: "all",
   marketScopes: [],
   assetClasses: [],
   riskTypes: ["normal"],
@@ -40,6 +57,7 @@ export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   fxHedges: [],
   aumScope: "1000plus",
   terRanges: [],
+  distributionCycles: [],
 
   issuerIds: [],
 };
@@ -62,18 +80,62 @@ export type ScreenerEtf = Pick<Etf,
   | "riskType"
   | "assetClass"
   | "pension"
+  | "pensionLimit"
+  | "personalPension"
+  | "personalPensionLimit"
+  | "personalPensionAsOfDate"
+  | "pensionSourceType"
+  | "pensionConfidence"
+  | "pensionVerified"
+  | "isaEligible"
+  | "isaEducationRequired"
+  | "isaTaxType"
+  | "isaTaxBenefit"
   | "asOfDate"
   | "returns"
+  | "returnsTr"
   | "classification"
->;
+  | "distributionYield"
+  | "distributionCycle"
+  | "lastDistributionDate"
+> & {
+  returnsNetTr?: Record<string, number | null>;
+};
 
 export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilters): ScreenerEtf[] {
   return etfs.filter((etf) => {
     if (filters.keyword) {
-      const kw = filters.keyword.toLowerCase();
-      if (!etf.name.toLowerCase().includes(kw) && !etf.baseIndex.toLowerCase().includes(kw)) return false;
+      const kw = filters.keyword.trim().toLowerCase();
+      if (
+        !etf.name.toLowerCase().includes(kw) &&
+        !etf.ticker.toLowerCase().includes(kw) &&
+        !etf.baseIndex.toLowerCase().includes(kw)
+      ) {
+        return false;
+      }
     }
-    if (filters.pensionOnly && etf.pension !== "가능") return false;
+
+    // Account & Regulatory classification filter
+    if (filters.pensionOnly && filters.accountMode === "pension") {
+      if (etf.pension !== "가능") return false;
+      if (filters.pensionTier === "safe" && etf.pensionLimit !== "100% (안전자산)") return false;
+      if (filters.pensionTier === "risk" && etf.pensionLimit !== "70% (위험자산)") return false;
+    } else if (filters.accountMode === "personal_pension") {
+      if (filters.personalTier === "personal_only") {
+        if (etf.personalPension !== "가능" || etf.pensionLimit !== "불가") return false;
+      } else {
+        if (etf.personalPension !== "가능") return false;
+      }
+    } else if (filters.accountMode === "isa") {
+      if (etf.isaEligible !== "가능") return false;
+      if (filters.isaTier === "high_benefit" && etf.isaTaxBenefit !== "높음") return false;
+      if (filters.isaTier === "normal" && etf.isaTaxBenefit === "높음") return false;
+    } else if (filters.accountMode === "all") {
+      if (filters.generalTier === "tax_free" && etf.isaTaxBenefit === "높음") return false;
+      if (filters.generalTier === "taxable" && etf.isaTaxBenefit !== "높음") return false;
+    } else if (filters.pensionOnly) {
+      if (etf.pension !== "가능") return false;
+    }
     
     if (filters.marketScopes.length > 0) {
       const scope = getEtfMarketScope(etf as unknown as Etf);
@@ -81,7 +143,20 @@ export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilter
     }
 
     if (filters.assetClasses.length && !filters.assetClasses.includes(etf.assetClass)) return false;
-    if (filters.riskTypes.length && !filters.riskTypes.includes(etf.riskType)) return false;
+    if (filters.riskTypes.length > 0) {
+      const hasNormal = filters.riskTypes.includes("normal");
+      const hasLeverage = filters.riskTypes.includes("leverage");
+      const hasInverse = filters.riskTypes.includes("inverse");
+      const hasParking = filters.riskTypes.includes("parking");
+
+      const matches = (
+        (hasNormal && etf.riskType === "normal" && etf.assetClass !== "금리·파킹") ||
+        (hasLeverage && etf.riskType === "leverage") ||
+        (hasInverse && etf.riskType === "inverse") ||
+        (hasParking && etf.assetClass === "금리·파킹")
+      );
+      if (!matches) return false;
+    }
     
     if (filters.strategies.length > 0) {
       const strategies = getEtfStrategies(etf as unknown as Etf);
@@ -91,6 +166,9 @@ export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilter
     if (filters.fxHedges.length > 0) {
       const fx = getEtfFxHedge(etf as unknown as Etf);
       if (!fx || !filters.fxHedges.includes(fx)) return false;
+    }
+    if (filters.distributionCycles.length > 0) {
+      if (!etf.distributionCycle || !filters.distributionCycles.includes(etf.distributionCycle)) return false;
     }
     if (filters.aumScope === "1000plus" && etf.aum < 100_000_000_000) return false;
     if (filters.aumScope === "500plus" && etf.aum < 50_000_000_000) return false;
@@ -104,6 +182,10 @@ export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilter
 export function serializeScreenerQuery(filters: ScreenerFilters): string {
   const isDefault = filters.keyword === "" &&
     filters.pensionOnly === DEFAULT_SCREENER_FILTERS.pensionOnly &&
+    filters.accountMode === DEFAULT_SCREENER_FILTERS.accountMode &&
+    filters.pensionTier === DEFAULT_SCREENER_FILTERS.pensionTier &&
+    filters.personalTier === DEFAULT_SCREENER_FILTERS.personalTier &&
+    filters.isaTier === DEFAULT_SCREENER_FILTERS.isaTier &&
     filters.marketScopes.length === 0 &&
     filters.assetClasses.length === 0 &&
     filters.riskTypes.length === 1 && filters.riskTypes[0] === "normal" &&
@@ -111,15 +193,32 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
     filters.fxHedges.length === 0 &&
     filters.aumScope === "1000plus" &&
     filters.terRanges.length === 0 &&
+    filters.distributionCycles.length === 0 &&
     filters.issuerIds.length === 0;
 
   if (isDefault) return "";
 
   const query = new URLSearchParams();
   if (filters.keyword) query.set("q", filters.keyword);
-  // 기본값(true)은 URL을 짧게 유지한다. 사용자가 필터를 해제한 경우에만
-  // 명시적으로 기록해 새로고침·공유 URL에서도 해제 상태를 보존한다.
-  if (!filters.pensionOnly) query.set("pension", "all");
+  
+  // 계좌 필터 직렬화 (ISA, 연금저축, 퇴직연금 세부한도, 전체)
+  if (filters.accountMode === "isa") {
+    query.set("account", "isa");
+    if (filters.isaTier === "all") query.set("isa_tier", "all");
+    else if (filters.isaTier === "high_benefit") query.set("isa_tier", "high_benefit");
+    else if (filters.isaTier === "normal") query.set("isa_tier", "normal");
+  } else if (filters.accountMode === "personal_pension") {
+    query.set("account", "personal_pension");
+    if (filters.personalTier === "personal_only") query.set("personal_tier", "personal_only");
+  } else if (filters.accountMode === "all" || !filters.pensionOnly) {
+    query.set("account", "all");
+    query.set("pension", "all");
+    if (filters.generalTier && filters.generalTier !== "all") query.set("general_tier", filters.generalTier);
+  } else if (filters.accountMode === "pension") {
+    if (filters.pensionTier === "safe") query.set("pension_tier", "safe");
+    else if (filters.pensionTier === "risk") query.set("pension_tier", "risk");
+  }
+
   filters.marketScopes.forEach((value) => query.append("market", value));
   filters.assetClasses.forEach((value) => query.append("asset", value));
   filters.riskTypes.forEach((value) => query.append("risk", value));
@@ -127,6 +226,7 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   filters.fxHedges.forEach((value) => query.append("fx", value));
   if (filters.aumScope !== "all") query.set("aum", filters.aumScope);
   filters.terRanges.forEach((value) => query.append("ter", value));
+  filters.distributionCycles.forEach((value) => query.append("cycle", value));
   filters.issuerIds.forEach((value) => query.append("issuer", value));
 
   if (Array.from(query.keys()).length === 0) {
@@ -151,11 +251,57 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
   if (Array.from(query.keys()).length === 0) {
     return { ...DEFAULT_SCREENER_FILTERS };
   }
+
+  const rawAccount = query.get("account");
+  const rawPension = query.get("pension");
+  const rawGeneralTier = query.get("general_tier");
+  const rawPensionTier = query.get("pension_tier");
+  const rawPersonalTier = query.get("personal_tier");
+  const rawIsaTier = query.get("isa_tier");
+
+  let accountMode: AccountMode = "pension";
+  let pensionOnly = true;
+
+  if (rawAccount === "isa") {
+    accountMode = "isa";
+    pensionOnly = false;
+  } else if (rawAccount === "personal_pension" || rawAccount === "personal") {
+    accountMode = "personal_pension";
+    pensionOnly = false;
+  } else if (rawAccount === "all" || rawPension === "all") {
+    accountMode = "all";
+    pensionOnly = false;
+  } else if (rawAccount === "pension") {
+    accountMode = "pension";
+    pensionOnly = true;
+  }
+
+  const generalTier: GeneralTier =
+    rawGeneralTier === "tax_free" ? "tax_free" : (rawGeneralTier === "taxable" ? "taxable" : "all");
+
+  const pensionTier: PensionTier =
+    rawPensionTier === "safe" ? "safe" : (rawPensionTier === "risk" ? "risk" : "all");
+
+  const personalTier: PersonalPensionTier =
+    rawPersonalTier === "personal_only" ? "personal_only" : (rawPersonalTier === "eligible" ? "eligible" : "all");
+
+  const isaTier: IsaTier =
+    rawIsaTier === "all"
+      ? "all"
+      : rawIsaTier === "normal"
+      ? "normal"
+      : rawIsaTier === "high_benefit"
+      ? "high_benefit"
+      : (accountMode === "isa" ? "high_benefit" : "all");
+
   return {
     keyword: query.get("q") || "",
-    // 기존의 pension=eligible 링크와, pension 파라미터가 없는 새 링크는
-    // 모두 연금 ETF 기본 필터를 적용한다. pension=all만 해제 상태다.
-    pensionOnly: query.get("pension") !== "all",
+    pensionOnly,
+    accountMode,
+    generalTier,
+    pensionTier,
+    personalTier,
+    isaTier,
     marketScopes: validValues(query.getAll("market"), MARKET_SCOPES),
     assetClasses: validValues(query.getAll("asset"), ASSET_CLASSES),
     riskTypes: validValues(query.getAll("risk"), RISK_TYPES),
@@ -163,6 +309,7 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
     fxHedges: validValues(query.getAll("fx"), FX_HEDGES),
     aumScope: validValue(query.get("aum"), AUM_SCOPES, "all"),
     terRanges: validValues(query.getAll("ter"), TER_RANGES),
+    distributionCycles: query.getAll("cycle"),
     issuerIds: Array.from(new Set([
       ...query.getAll("amc").map(amc => LEGACY_AMC_TO_ISSUER_ID[amc] || amc),
       ...query.getAll("issuer")

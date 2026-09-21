@@ -1,5 +1,4 @@
 import {
-  RETURN_PERIODS,
   type AssetClass,
   type Etf,
   type EtfSlim,
@@ -7,7 +6,7 @@ import {
   type RiskType,
 } from "./etf-types";
 
-export const INVESTOR_MODES = ["general", "pension", "derivatives", "new", "mixed_bonds", "tdf"] as const;
+export const INVESTOR_MODES = ["general", "pension", "derivatives", "new", "mixed_bonds", "tdf", "covered_call"] as const;
 export const AUM_SCOPES = ["all", "1000plus", "500plus"] as const;
 export const SORT_KEYS = ["return", "tradeValue", "aum", "listingDate"] as const;
 export const SORT_DIRECTIONS = ["desc", "asc"] as const;
@@ -83,7 +82,8 @@ export function getReturnPeriods(mode: InvestorMode): readonly ReturnPeriod[] {
   return mode === "new" ? NEW_RETURN_PERIODS : GENERAL_RETURN_PERIODS;
 }
 
-export function getDefaultPeriod(mode: InvestorMode): ReturnPeriod {
+export function getDefaultPeriod(_mode?: InvestorMode): ReturnPeriod {
+  void _mode;
   return "1d";
 }
 
@@ -101,6 +101,13 @@ export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[
       return isTRF || isMixedBond || (isMixedAsset && etf.name.includes("채권"));
     });
   }
+  if (mode === "covered_call") {
+    return etfs.filter((etf) => {
+      const strat = etf.classification?.strategy ?? "";
+      const tokens = strat.split("·").map((s) => s.trim());
+      return tokens.includes("커버드콜");
+    });
+  }
   return etfs.filter(isNewListing);
 }
 
@@ -113,7 +120,20 @@ export function getEtfsByAumScope(etfs: readonly Etf[], scope: AumScope): Etf[] 
 export function applyExplorerFilters(etfs: readonly Etf[], filters: ExplorerFilters): Etf[] {
   return etfs.filter((etf) => {
     if (filters.assetClasses.length && !filters.assetClasses.includes(etf.assetClass)) return false;
-    if (filters.riskTypes.length && !filters.riskTypes.includes(etf.riskType)) return false;
+    if (filters.riskTypes.length > 0) {
+      const hasNormal = filters.riskTypes.includes("normal");
+      const hasLeverage = filters.riskTypes.includes("leverage");
+      const hasInverse = filters.riskTypes.includes("inverse");
+      const hasParking = filters.riskTypes.includes("parking");
+
+      const matches = (
+        (hasNormal && etf.riskType === "normal" && etf.assetClass !== "금리·파킹") ||
+        (hasLeverage && etf.riskType === "leverage") ||
+        (hasInverse && etf.riskType === "inverse") ||
+        (hasParking && etf.assetClass === "금리·파킹")
+      );
+      if (!matches) return false;
+    }
     return true;
   });
 }
@@ -149,8 +169,14 @@ export function getEtfSearchSuggestions(etfs: readonly EtfSlim[], query: string,
     .map(({ etf }) => etf);
 }
 
-function getSortValue(etf: Etf, sort: ExplorerSortKey, period: ReturnPeriod): number | null {
-  if (sort === "return") return etf.returns[period];
+function getSortValue(etf: Etf, sort: ExplorerSortKey, period: ReturnPeriod, isTrMode = false): number | null {
+  if (sort === "return") {
+    if (isTrMode) {
+      const tr = etf.returnsTr || etf.returnsNetTr;
+      return (tr && tr[period] !== undefined && tr[period] !== null) ? tr[period]! : null;
+    }
+    return etf.returns[period];
+  }
   if (sort === "tradeValue" || sort === "aum") return etf[sort];
   return etf.listingDate ? parseDate(etf.listingDate) : null;
 }
@@ -160,10 +186,11 @@ export function sortExplorerEtfs(
   sort: ExplorerSortKey,
   direction: SortDirection,
   period: ReturnPeriod,
+  isTrMode = false,
 ): Etf[] {
   return [...etfs].sort((a, b) => {
-    const aValue = getSortValue(a, sort, period);
-    const bValue = getSortValue(b, sort, period);
+    const aValue = getSortValue(a, sort, period, isTrMode);
+    const bValue = getSortValue(b, sort, period, isTrMode);
     if (aValue === null) return bValue === null ? b.tradeValue - a.tradeValue || a.ticker.localeCompare(b.ticker) : 1;
     if (bValue === null) return -1;
     const compared = direction === "asc" ? aValue - bValue : bValue - aValue;
@@ -210,8 +237,4 @@ export function serializeExplorerQuery(state: ExplorerState): string {
   state.assetClasses.forEach((value) => query.append("asset", value));
   state.riskTypes.forEach((value) => query.append("risk", value));
   return query.toString();
-}
-
-export function isReturnPeriod(value: string): value is ReturnPeriod {
-  return RETURN_PERIODS.includes(value as ReturnPeriod);
 }

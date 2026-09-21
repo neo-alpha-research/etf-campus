@@ -1,0 +1,52 @@
+name: Auto Curate Books
+
+on:
+  schedule:
+    # 매주 일요일 UTC 18:00 (한국 시간 월요일 새벽 3:00) 구동
+    - cron: '0 18 * * 0'
+  workflow_dispatch: # 수동 실행 버튼
+
+permissions:
+  contents: write
+
+concurrency:
+  group: book-curation
+  cancel-in-progress: false
+
+jobs:
+  curate-books:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🤖 Run AI Curation Script
+        env:
+          ALADIN_TTB_KEY: ${{ secrets.ALADIN_TTB_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npx tsx scripts/auto-curate-books.ts
+
+      - name: 🚀 Commit & Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/external-books/ data/coupang-links.json
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "chore(content): 🤖 AI 자동 도서 큐레이션 업데이트"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No book content changes to commit."
+          fi

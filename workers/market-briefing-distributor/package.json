@@ -4,14 +4,24 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "dev": "wrangler dev",
     "deploy:preview": "wrangler deploy --env preview",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "briefing:render": "npx tsx render-instagram.ts --render-only",
+    "briefing:pipeline": "npx tsx render-instagram.ts"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260818.1",
+    "@types/nodemailer": "^8.0.1",
     "typescript": "^5.9.0",
     "wrangler": "^4.31.0"
+  },
+  "dependencies": {
+    "@resvg/resvg-wasm": "^2.6.2",
+    "dotenv": "^17.4.2",
+    "nodemailer": "^9.0.6",
+    "puppeteer": "^25.9.0",
+    "sharp": "^0.35.4"
   }
 }

@@ -1,28 +1,28 @@
 {
   "ticker": "463640",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "넥스트에라 에너지",
-      "weight_pct": 11.26,
+      "weight_pct": 11.33,
       "shares": 672,
       "item_code": "NEE"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.23,
-      "shares": 50265604,
+      "weight_pct": 7.32,
+      "shares": 49377654,
       "item_code": null
     },
     {
       "name": "서던",
-      "weight_pct": 6.48,
+      "weight_pct": 6.5,
       "shares": 363,
       "item_code": "SO"
     },
     {
       "name": "듀크 에너지",
-      "weight_pct": 6.09,
+      "weight_pct": 6.14,
       "shares": 251,
       "item_code": "DUK"
     },
@@ -34,135 +34,135 @@
     },
     {
       "name": "콘스텔레이션 에너지",
-      "weight_pct": 5.73,
+      "weight_pct": 5.87,
       "shares": 103,
       "item_code": "CEG.O"
     },
     {
       "name": "아메리칸 일렉트릭 파워 컴퍼니",
-      "weight_pct": 4.3,
+      "weight_pct": 4.38,
       "shares": 175,
       "item_code": "AEP.O"
     },
     {
       "name": "도미니언 에너지",
-      "weight_pct": 3.77,
+      "weight_pct": 3.82,
       "shares": 283,
       "item_code": "D"
     },
     {
       "name": "셈프라 에너지",
-      "weight_pct": 3.57,
+      "weight_pct": 3.6,
       "shares": 210,
       "item_code": "SRE"
     },
     {
       "name": "엔터지",
-      "weight_pct": 3.14,
+      "weight_pct": 3.21,
       "shares": 147,
       "item_code": "ETR"
     },
     {
       "name": "엑셀 에너지",
-      "weight_pct": 3.11,
+      "weight_pct": 3.1,
       "shares": 201,
       "item_code": "XEL.O"
     },
     {
       "name": "엑셀론",
-      "weight_pct": 2.91,
+      "weight_pct": 2.93,
       "shares": 330,
       "item_code": "EXC.O"
     },
     {
       "name": "비스트라",
-      "weight_pct": 2.84,
+      "weight_pct": 2.86,
       "shares": 102,
       "item_code": "VST"
     },
     {
-      "name": "퍼시픽 가스 & 일렉트릭",
-      "weight_pct": 2.57,
-      "shares": 710,
-      "item_code": "PCG"
-    },
-    {
       "name": "콘솔리데이티드 에디슨",
-      "weight_pct": 2.55,
+      "weight_pct": 2.6,
       "shares": 118,
       "item_code": "ED"
     },
     {
       "name": "퍼블릭 서비스 엔터프라이즈",
-      "weight_pct": 2.36,
+      "weight_pct": 2.39,
       "shares": 160,
       "item_code": "PEG"
     },
     {
       "name": "WEC 에너지 그룹",
-      "weight_pct": 2.24,
+      "weight_pct": 2.26,
       "shares": 105,
       "item_code": "WEC"
     },
     {
+      "name": "퍼시픽 가스 & 일렉트릭",
+      "weight_pct": 2.02,
+      "shares": 710,
+      "item_code": "PCG"
+    },
+    {
       "name": "애머런",
-      "weight_pct": 1.91,
+      "weight_pct": 1.92,
       "shares": 89,
       "item_code": "AEE"
     },
     {
       "name": "DTE 에너지",
-      "weight_pct": 1.83,
+      "weight_pct": 1.85,
       "shares": 67,
       "item_code": "DTE"
     },
     {
-      "name": "에디슨 인터내셔널",
-      "weight_pct": 1.83,
-      "shares": 124,
-      "item_code": "EIX"
-    },
-    {
       "name": "애트모스 에너지",
-      "weight_pct": 1.81,
+      "weight_pct": 1.83,
       "shares": 53,
       "item_code": "ATO"
     },
     {
       "name": "아메리칸 워터 웍스",
-      "weight_pct": 1.72,
+      "weight_pct": 1.75,
       "shares": 63,
       "item_code": "AWK"
     },
     {
       "name": "에버소스 에너지",
-      "weight_pct": 1.72,
+      "weight_pct": 1.73,
       "shares": 121,
       "item_code": "ES"
     },
     {
       "name": "PPL",
-      "weight_pct": 1.68,
+      "weight_pct": 1.69,
       "shares": 242,
       "item_code": "PPL"
     },
     {
       "name": "센터포인트 에너지",
-      "weight_pct": 1.66,
+      "weight_pct": 1.69,
       "shares": 211,
       "item_code": "CNP"
     },
     {
-      "name": "NRG 에너지",
+      "name": "퍼스트에너지",
       "weight_pct": 1.57,
+      "shares": 167,
+      "item_code": "FE"
+    },
+    {
+      "name": "NRG 에너지",
+      "weight_pct": 1.51,
       "shares": 68,
       "item_code": "NRG"
     },
     {
-      "name": "퍼스트에너지",
-      "weight_pct": 1.55,
-      "shares": 167,
-      "item_code": "FE"
+      "name": "에디슨 인터내셔널",
+      "weight_pct": 1.48,
+      "shares": 124,
+      "item_code": "EIX"
     },
     {
       "name": "CMS 에너지",
@@ -172,13 +172,13 @@
     },
     {
       "name": "나이소스",
-      "weight_pct": 1.26,
+      "weight_pct": 1.28,
       "shares": 154,
       "item_code": "NI"
     },
     {
       "name": "에버지",
-      "weight_pct": 1.21,
+      "weight_pct": 1.23,
       "shares": 74,
       "item_code": "EVRG.O"
     },
@@ -190,13 +190,13 @@
     },
     {
       "name": "피너클 웨스트 캐피털",
-      "weight_pct": 0.76,
+      "weight_pct": 0.77,
       "shares": 39,
       "item_code": "PNW"
     },
     {
       "name": "AES",
-      "weight_pct": 0.67,
+      "weight_pct": 0.69,
       "shares": 230,
       "item_code": "AES"
     }

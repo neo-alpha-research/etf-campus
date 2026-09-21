@@ -7,10 +7,16 @@ import {
   RISK_TYPES,
   type AssetClass,
   type Etf,
-    type EtfClassification,
+  type EtfClassification,
+  type EtfReturns,
   type ListingDateStatus,
   type PensionStatus,
-
+  type PensionLimit,
+  type PensionSourceType,
+  type PensionConfidenceLevel,
+  type IsaStatus,
+  type IsaTaxType,
+  type IsaTaxBenefit,
   type RiskType,
 } from "../domain/etf-types";
 import { resolveIssuer } from "./etf-amc-mapping";
@@ -57,7 +63,38 @@ function optionalText(row: CsvRow, field: string): string | null {
   return value || null;
 }
 
+function deriveIso6166Isin(ticker: string): string {
+  const cleanTk = ticker.trim().toUpperCase();
+  if (cleanTk.length !== 6) return `KR7${cleanTk}000`;
+  const isin11 = `KR7${cleanTk}00`;
+  let converted = "";
+  for (const c of isin11) {
+    if (c >= "0" && c <= "9") {
+      converted += c;
+    } else {
+      converted += String(c.charCodeAt(0) - 55);
+    }
+  }
+  const digits = converted.split("").map(Number);
+  let total = 0;
+  for (let i = 0; i < digits.length; i++) {
+    const d = digits[digits.length - 1 - i];
+    if (i % 2 === 0) {
+      const doubled = d * 2;
+      total += Math.floor(doubled / 10) + (doubled % 10);
+    } else {
+      total += d;
+    }
+  }
+  const check = (10 - (total % 10)) % 10;
+  return isin11 + check;
+}
+
 function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
+  const comparisonPath = path.join(dataDirectory, "comparison", "etf_comparison_classification.csv");
+  if (fs.existsSync(comparisonPath)) {
+    return indexUnique(readCsv(comparisonPath), "ticker", "etf_comparison_classification.csv");
+  }
   const classificationPath = path.join(dataDirectory, "classification", "etf_classification_review_draft.csv");
   if (!fs.existsSync(classificationPath)) return new Map();
   return indexUnique(readCsv(classificationPath), "ticker", "etf_classification_review_draft.csv");
@@ -65,6 +102,43 @@ function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
 
 function parseClassification(row: CsvRow | undefined): EtfClassification | null {
   if (!row) return null;
+
+  const isComparisonCsv = "asset_family" in row || "region_primary" in row;
+  if (isComparisonCsv) {
+    const assetFamily = optionalText(row, "asset_family");
+    const regionPrimary = optionalText(row, "region_primary");
+    const comparisonTopic = optionalText(row, "comparison_topic");
+    const comparisonSubtopic = optionalText(row, "comparison_subtopic");
+    const strategyStyle = optionalText(row, "strategy_style");
+    const payoffStructure = optionalText(row, "payoff_structure");
+    const fxHedgeRaw = optionalText(row, "fx_hedge");
+    const status = optionalText(row, "classification_status") ?? "verified_official";
+
+    let fxHedge: string | null = null;
+    if (fxHedgeRaw === "hedged") fxHedge = "환헤지";
+    else if (fxHedgeRaw === "unhedged") fxHedge = "환노출";
+
+    let strategy: string | null = null;
+    if (payoffStructure === "covered_call") strategy = "커버드콜";
+    else if (payoffStructure === "buffer") strategy = "버퍼";
+    else if (strategyStyle === "active") strategy = "액티브";
+    else strategy = "일반";
+
+    const marketScope = regionPrimary && !["해당없음", "미확인", "-"].includes(regionPrimary) ? regionPrimary : null;
+
+    return {
+      published: true,
+      marketScope,
+      assetClass: assetFamily,
+      assetDetail: comparisonSubtopic || comparisonTopic || null,
+      strategy,
+      fxHedge,
+      reviewStatus: status,
+      reviewPriority: "",
+      sourceUrl: optionalText(row, "official_source_url"),
+      evidenceSummary: optionalText(row, "evidence_basis"),
+    };
+  }
 
   const reviewStatus = optionalText(row, "review_status") ?? "미검수";
   const published = ["자동확정", "수기확정"].includes(reviewStatus);
@@ -86,33 +160,122 @@ function parseClassification(row: CsvRow | undefined): EtfClassification | null 
   };
 }
 
+function loadTrReturnsIndex(dataDirectory: string): Map<string, { tr: Record<string, number | null>, netTr: Record<string, number | null> }> {
+  const trPath = path.join(dataDirectory, "returns", "etf_total_return_metrics.csv");
+  if (!fs.existsSync(trPath)) return new Map();
+  
+  const rows = readCsv(trPath);
+  const result = new Map<string, { tr: Record<string, number | null>, netTr: Record<string, number | null> }>();
+  
+  for (const row of rows) {
+    const ticker = row.ticker?.trim();
+    if (!ticker) continue;
+    
+    if (!result.has(ticker)) {
+      result.set(ticker, {
+        tr: {
+          "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
+          "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+        },
+        netTr: {
+          "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
+          "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+        }
+      });
+    }
+    
+    const period = row.period?.trim();
+    const status = row.calculation_status?.trim();
+    const pctStr = row.total_return_pct?.trim();
+    const netPctStr = row.net_total_return_pct?.trim();
+    
+    let mappedPeriod: string | undefined;
+    if (period === "1y") mappedPeriod = "12m";
+    else if (period === "2y") mappedPeriod = "24m";
+    else if (period === "3y") mappedPeriod = "36m";
+    else if (["1d", "1w", "2w", "1m", "2m", "3m", "6m", "ytd", "itd"].includes(period || "")) mappedPeriod = period;
+    
+    if (mappedPeriod && status === "calculated" && pctStr) {
+      const parsed = parseFloat(pctStr);
+      if (!isNaN(parsed)) {
+        result.get(ticker)!.tr[mappedPeriod] = parsed;
+      }
+      if (netPctStr) {
+        const netParsed = parseFloat(netPctStr);
+        if (!isNaN(netParsed)) {
+          result.get(ticker)!.netTr[mappedPeriod] = netParsed;
+        }
+      }
+    }
+  }
+  return result;
+}
+
+function loadIssuerPensionDisclosureDates(dataDirectory: string): Map<string, string> {
+  const manifestPath = path.join(dataDirectory, "regulatory", "sources", "evidence_manifest.json");
+  const datesByIssuerId = new Map<string, string>();
+  if (!fs.existsSync(manifestPath)) return datesByIssuerId;
+
+  try {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as Record<string, { collected_at?: string }>;
+    for (const [key, meta] of Object.entries(manifest)) {
+      if (!key.startsWith("issuers/")) continue;
+      const parts = key.split("/");
+      if (parts.length >= 3) {
+        const issuerDir = parts[1];
+        const issuerId = issuerDir === "ace" ? "koreainvestment" : issuerDir;
+
+        let dateStr: string | null = null;
+        if (meta && typeof meta.collected_at === "string") {
+          dateStr = meta.collected_at.slice(0, 10);
+        } else {
+          const match = parts[2].match(/(\d{4})(\d{2})(\d{2})/);
+          if (match) {
+            dateStr = `${match[1]}-${match[2]}-${match[3]}`;
+          }
+        }
+        if (dateStr) {
+          datesByIssuerId.set(issuerId, dateStr);
+          datesByIssuerId.set(issuerDir, dateStr);
+        }
+      }
+    }
+  } catch {
+    // Graceful fallback
+  }
+
+  return datesByIssuerId;
+}
+
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const feeByTicker = loadOfficialEtfFeeIndex(dataDirectory);
   const distributionByTicker = loadDistributionSummaryIndex(dataDirectory);
 
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
-  const pensionRows = readCsv(path.join(dataDirectory, "pension_verify_sheet.csv"));
 
   const masterByTicker = indexUnique(masterRows, "ticker", "etf_master_draft.csv");
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
-  const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
   const classificationByTicker = loadClassificationIndex(dataDirectory);
+  const trReturnsByTicker = loadTrReturnsIndex(dataDirectory);
+  const issuerPensionDates = loadIssuerPensionDisclosureDates(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
-  assertCompleteJoin(pensionByTicker, tickers, "pension_verify_sheet.csv");
 
   return masterRows.map((master) => {
     const ticker = requireField(master, "ticker", "etf_master_draft.csv");
     const returns = returnsByTicker.get(ticker)!;
-    const pension = pensionByTicker.get(ticker)!;
+    const trData = trReturnsByTicker.get(ticker) || { tr: {}, netTr: {} };
 
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
     const name = requireField(master, "name", `master:${ticker}`);
+    const isin = master.isin_cd?.trim() || deriveIso6166Isin(ticker);
+    const issuer = resolveIssuer(ticker, isin, name);
+
     return {
-      isin: requireField(master, "isin_cd", `master:${ticker}`),
+      isin,
       ticker,
       name,
       baseIndex: requireField(master, "base_index", `master:${ticker}`),
@@ -125,12 +288,30 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       trackingError: parseOptionalNullableNumber(master, "tracking_error", `master:${ticker}`),
       fee: feeByTicker.get(ticker) ?? null,
       distributionSummary: distributionByTicker.get(ticker) ?? null,
+      distributionYield: distributionByTicker.get(ticker)?.ttmDividendYieldPct ?? null,
+      distributionCycle: distributionByTicker.get(ticker)?.paymentCycle ?? null,
+      lastDistributionDate: distributionByTicker.get(ticker)?.latest?.exDate ?? null,
 
-      issuer: resolveIssuer(ticker, requireField(master, "isin_cd", `master:${ticker}`), name),
+      issuer,
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
-      pension: assertMember(requireField(pension, "final_pension", `pension:${ticker}`), PENSION_STATUSES, "final_pension") as PensionStatus,
-      pensionSource: requireField(pension, "final_src", `pension:${ticker}`),
+      pension: assertMember(
+        (optionalText(master, "pension_eligible") || "불가") as string,
+        PENSION_STATUSES,
+        "pension_eligible"
+      ) as PensionStatus,
+      pensionSource: (optionalText(master, "pension_source") || "미확인") as string,
+      pensionLimit: optionalText(master, "pension_limit") as PensionLimit | null,
+      pensionSourceType: optionalText(master, "pension_source") as PensionSourceType | null,
+      pensionVerified: optionalText(master, "pension_verified") as "Y" | "N" | null,
+      pensionConfidence: optionalText(master, "pension_confidence") as PensionConfidenceLevel | null,
+      personalPension: (optionalText(master, "personal_pension") || null) as "가능" | "불가" | null,
+      personalPensionLimit: (optionalText(master, "personal_pension_limit") || null) as "100%" | "불가" | null,
+      personalPensionAsOfDate: issuerPensionDates.get(issuer.issuerId) ?? null,
+      isaEligible: optionalText(master, "isa_eligible") as IsaStatus | null,
+      isaEducationRequired: optionalText(master, "isa_education_required") as "Y" | "N" | null,
+      isaTaxType: (optionalText(master, "isa_tax_type") || null) as IsaTaxType | null,
+      isaTaxBenefit: (optionalText(master, "isa_tax_benefit") || null) as IsaTaxBenefit | null,
       liquidity: requireField(master, "liquidity", `master:${ticker}`),
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
       listingDate: optionalText(master, "listing_date"),
@@ -155,6 +336,8 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
         "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
         itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
+      returnsTr: Object.keys(trData.tr).length > 0 ? (trData.tr as EtfReturns) : undefined,
+      returnsNetTr: Object.keys(trData.netTr).length > 0 ? (trData.netTr as EtfReturns) : undefined,
       itdAnchor: {
         price: parseOptionalNullableNumber(returns, "itd_anchor_close", `returns:${ticker}`),
         date: optionalText(returns, "itd_anchor_date"),

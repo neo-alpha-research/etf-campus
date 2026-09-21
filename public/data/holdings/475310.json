@@ -1,71 +1,71 @@
 {
   "ticker": "475310",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "이수페타시스",
-      "weight_pct": 22.19,
+      "weight_pct": 22.74,
       "shares": 2639,
       "item_code": "007660"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 19.0,
+      "weight_pct": 18.86,
       "shares": 1148,
       "item_code": "042700"
     },
     {
       "name": "대덕전자",
-      "weight_pct": 13.34,
+      "weight_pct": 13.47,
       "shares": 1608,
       "item_code": "353200"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 12.33,
+      "weight_pct": 12.59,
       "shares": 407,
       "item_code": "039030"
     },
     {
       "name": "리노공업",
-      "weight_pct": 11.97,
+      "weight_pct": 11.93,
       "shares": 2407,
       "item_code": "058470"
     },
     {
       "name": "하나마이크론",
-      "weight_pct": 6.72,
+      "weight_pct": 6.32,
       "shares": 2326,
       "item_code": "067310"
     },
     {
       "name": "테크윙",
-      "weight_pct": 4.8,
+      "weight_pct": 4.72,
       "shares": 1296,
       "item_code": "089030"
     },
     {
       "name": "티에스이",
-      "weight_pct": 3.96,
+      "weight_pct": 3.78,
       "shares": 210,
       "item_code": "131290"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 3.27,
+      "weight_pct": 3.24,
       "shares": 346,
       "item_code": "031980"
     },
     {
       "name": "해성디에스",
-      "weight_pct": 2.01,
+      "weight_pct": 1.92,
       "shares": 487,
       "item_code": "195870"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.37,
-      "shares": 5047303,
+      "weight_pct": 0.38,
+      "shares": 4952567,
       "item_code": null
     }
   ]

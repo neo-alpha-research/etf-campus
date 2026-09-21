@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2026-08-22"
 
 [triggers]
-crons = ["13 15,16,17 * * *", "5 3 * * *"] # 00:13, 01:13, 02:13 KST and 12:05 KST
+crons = ["13 15,16,17 * * *"] # 00:13, 01:13, 02:13 KST
 
 [vars]
 # SUPABASE_URL is configured per environment. SUPABASE_SERVICE_ROLE_KEY and

@@ -1,24 +1,24 @@
 {
   "ticker": "401170",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "크래프톤",
-      "weight_pct": 11.42,
+      "weight_pct": 11.71,
       "shares": 114,
       "item_code": "259960"
     },
     {
-      "name": "NAVER",
-      "weight_pct": 11.36,
-      "shares": 115,
-      "item_code": "035420"
-    },
-    {
       "name": "카카오",
-      "weight_pct": 11.34,
+      "weight_pct": 11.26,
       "shares": 690,
       "item_code": "035720"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 11.17,
+      "shares": 115,
+      "item_code": "035420"
     },
     {
       "name": "NC",
@@ -28,67 +28,67 @@
     },
     {
       "name": "하이브",
-      "weight_pct": 9.78,
+      "weight_pct": 9.8,
       "shares": 120,
       "item_code": "352820"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 8.85,
+      "weight_pct": 9.11,
       "shares": 14,
       "item_code": "009150"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 8.77,
+      "weight_pct": 8.4,
       "shares": 2005,
       "item_code": "034220"
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 6.26,
+      "weight_pct": 6.06,
       "shares": 23,
       "item_code": "011070"
     },
     {
       "name": "펄어비스",
-      "weight_pct": 3.87,
+      "weight_pct": 3.83,
       "shares": 269,
       "item_code": "263750"
     },
     {
-      "name": "JYP Ent.",
-      "weight_pct": 3.57,
-      "shares": 197,
-      "item_code": "035900"
-    },
-    {
       "name": "넷마블",
-      "weight_pct": 3.56,
+      "weight_pct": 3.69,
       "shares": 215,
       "item_code": "251270"
     },
     {
+      "name": "JYP Ent.",
+      "weight_pct": 3.54,
+      "shares": 197,
+      "item_code": "035900"
+    },
+    {
       "name": "에스엠",
-      "weight_pct": 3.26,
+      "weight_pct": 3.31,
       "shares": 96,
       "item_code": "041510"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 1.74,
+      "weight_pct": 1.78,
       "shares": 96,
       "item_code": "122870"
     },
     {
       "name": "CJ ENM",
-      "weight_pct": 1.2,
+      "weight_pct": 1.21,
       "shares": 81,
       "item_code": "035760"
     },
     {
       "name": "선익시스템",
-      "weight_pct": 0.99,
+      "weight_pct": 1.05,
       "shares": 32,
       "item_code": "171090"
     },
@@ -100,31 +100,31 @@
     },
     {
       "name": "디어유",
-      "weight_pct": 0.72,
+      "weight_pct": 0.69,
       "shares": 84,
       "item_code": "376300"
     },
     {
       "name": "사피엔반도체",
-      "weight_pct": 0.51,
+      "weight_pct": 0.54,
       "shares": 40,
       "item_code": "452430"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.4,
-      "shares": 888616,
+      "weight_pct": 0.41,
+      "shares": 896763,
       "item_code": null
     },
     {
       "name": "라온텍",
-      "weight_pct": 0.27,
+      "weight_pct": 0.31,
       "shares": 157,
       "item_code": "418420"
     },
     {
       "name": "라온시큐어",
-      "weight_pct": 0.17,
+      "weight_pct": 0.18,
       "shares": 46,
       "item_code": "042510"
     }

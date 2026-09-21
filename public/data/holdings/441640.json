@@ -1,204 +1,198 @@
 {
   "ticker": "441640",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 30.46,
+      "weight_pct": 30.37,
       "shares": 199,
       "item_code": "VOO"
     },
     {
       "name": "Amplify CWP Enhanced Dividend Income ETF",
-      "weight_pct": 14.99,
-      "shares": 1421,
+      "weight_pct": 15.0,
+      "shares": 1430,
       "item_code": "DIVO.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.14,
-      "shares": 26420529,
+      "weight_pct": 4.16,
+      "shares": 26174311,
       "item_code": null
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 3.39,
+      "weight_pct": 3.48,
       "shares": 31,
       "item_code": "MSFT.O"
     },
     {
+      "name": "애플",
+      "weight_pct": 3.01,
+      "shares": 42,
+      "item_code": "AAPL.O"
+    },
+    {
       "name": "암젠",
-      "weight_pct": 2.9,
+      "weight_pct": 2.94,
       "shares": 30,
       "item_code": "AMGN.O"
     },
     {
       "name": "비자",
-      "weight_pct": 2.87,
-      "shares": 34,
+      "weight_pct": 2.84,
+      "shares": 35,
       "item_code": "V"
     },
     {
-      "name": "애플",
-      "weight_pct": 2.86,
-      "shares": 42,
-      "item_code": "AAPL.O"
+      "name": "제이피모간체이스",
+      "weight_pct": 2.71,
+      "shares": 35,
+      "item_code": "JPM"
     },
     {
       "name": "캐터필러",
-      "weight_pct": 2.78,
+      "weight_pct": 2.68,
       "shares": 15,
       "item_code": "CAT"
     },
     {
-      "name": "골드만삭스",
-      "weight_pct": 2.7,
-      "shares": 12,
-      "item_code": "GS"
-    },
-    {
-      "name": "제이피모간체이스",
-      "weight_pct": 2.68,
-      "shares": 34,
-      "item_code": "JPM"
-    },
-    {
       "name": "셰브론",
-      "weight_pct": 2.47,
+      "weight_pct": 2.65,
       "shares": 57,
       "item_code": "CVX"
     },
     {
+      "name": "골드만삭스",
+      "weight_pct": 2.63,
+      "shares": 12,
+      "item_code": "GS"
+    },
+    {
       "name": "아메리칸 익스프레스",
-      "weight_pct": 2.32,
-      "shares": 31,
+      "weight_pct": 2.27,
+      "shares": 32,
       "item_code": "AXP"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 2.0,
+      "weight_pct": 2.11,
       "shares": 44,
       "item_code": "NVDA.O"
     },
     {
-      "name": "TJX 컴퍼니스",
-      "weight_pct": 1.97,
-      "shares": 66,
-      "item_code": "TJX"
-    },
-    {
       "name": "머크 앤 코",
-      "weight_pct": 1.96,
+      "weight_pct": 1.95,
       "shares": 59,
       "item_code": "MRK"
     },
     {
       "name": "RTX",
-      "weight_pct": 1.87,
-      "shares": 40,
+      "weight_pct": 1.84,
+      "shares": 41,
       "item_code": "RTX"
     },
     {
       "name": "CME 그룹",
-      "weight_pct": 1.71,
+      "weight_pct": 1.77,
       "shares": 28,
       "item_code": "CME.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 1.65,
+      "weight_pct": 1.64,
       "shares": 22,
       "item_code": "GOOGL.O"
     },
     {
+      "name": "TJX 컴퍼니스",
+      "weight_pct": 1.64,
+      "shares": 56,
+      "item_code": "TJX"
+    },
+    {
+      "name": "월마트",
+      "weight_pct": 1.56,
+      "shares": 67,
+      "item_code": "WMT.O"
+    },
+    {
       "name": "홈디포",
-      "weight_pct": 1.59,
+      "weight_pct": 1.55,
       "shares": 22,
       "item_code": "HD"
     },
     {
-      "name": "월마트",
-      "weight_pct": 1.51,
-      "shares": 66,
-      "item_code": "WMT.O"
-    },
-    {
       "name": "페덱스",
-      "weight_pct": 1.37,
-      "shares": 18,
+      "weight_pct": 1.35,
+      "shares": 19,
       "item_code": "FDX"
     },
     {
       "name": "맥도날드",
-      "weight_pct": 1.37,
+      "weight_pct": 1.35,
       "shares": 23,
       "item_code": "MCD"
     },
     {
       "name": "매러선 페트롤리엄",
-      "weight_pct": 1.17,
+      "weight_pct": 1.26,
       "shares": 15,
       "item_code": "MPC"
     },
     {
-      "name": "서던 코퍼",
-      "weight_pct": 1.16,
-      "shares": 25,
-      "item_code": "SCCO.K"
-    },
-    {
       "name": "코카콜라",
-      "weight_pct": 1.07,
-      "shares": 54,
+      "weight_pct": 1.06,
+      "shares": 55,
       "item_code": "KO"
     },
     {
-      "name": "애그니코 이글 마인스",
-      "weight_pct": 1.01,
-      "shares": 21,
-      "item_code": "AEM"
+      "name": "아처 대니얼스 미들랜드",
+      "weight_pct": 1.03,
+      "shares": 56,
+      "item_code": "ADM"
     },
     {
       "name": "듀크 에너지",
-      "weight_pct": 1.0,
+      "weight_pct": 1.01,
       "shares": 38,
       "item_code": "DUK"
     },
     {
-      "name": "아처 대니얼스 미들랜드",
-      "weight_pct": 0.96,
-      "shares": 55,
-      "item_code": "ADM"
+      "name": "애그니코 이글 마인스",
+      "weight_pct": 0.93,
+      "shares": 22,
+      "item_code": "AEM"
+    },
+    {
+      "name": "프리포트 맥모란",
+      "weight_pct": 0.76,
+      "shares": 48,
+      "item_code": "FCX"
+    },
+    {
+      "name": "CF 인더스트리스 홀딩스",
+      "weight_pct": 0.61,
+      "shares": 20,
+      "item_code": "CF"
     },
     {
       "name": "버라이존",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 54,
       "item_code": "VZ"
     },
     {
+      "name": "서던 코퍼",
+      "weight_pct": 0.57,
+      "shares": 13,
+      "item_code": "SCCO.K"
+    },
+    {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 0.54,
-      "shares": 10,
+      "weight_pct": 0.55,
+      "shares": 11,
       "item_code": "IBM"
-    },
-    {
-      "name": "CF 인더스트리스 홀딩스",
-      "weight_pct": 0.4,
-      "shares": 14,
-      "item_code": "CF"
-    },
-    {
-      "name": "프리포트 맥모란",
-      "weight_pct": 0.27,
-      "shares": 15,
-      "item_code": "FCX"
-    },
-    {
-      "name": "페덱스 프레이트 홀딩 컴퍼니",
-      "weight_pct": 0.13,
-      "shares": 4,
-      "item_code": "FDXF.K"
     },
     {
       "name": "VZ US 09/18/26 C48 Equity",
@@ -213,12 +207,6 @@
       "item_code": null
     },
     {
-      "name": "MPC US 09/18/26 C370 Equity",
-      "weight_pct": 0.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "CVX US 09/11/26 C215 Equity",
       "weight_pct": 0.0,
       "shares": 0,
@@ -226,6 +214,12 @@
     },
     {
       "name": "MSFT US 09/18/26 C500 Equity",
+      "weight_pct": -0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "MPC US 09/18/26 C370 Equity",
       "weight_pct": -0.01,
       "shares": 0,
       "item_code": null

@@ -32,6 +32,7 @@ def command_steps(skip_collect: bool) -> list[tuple[str, list[str]]]:
     if not skip_collect:
         steps.extend(
             [
+                ("seibro_distribution_collection", [PYTHON, "scripts/collect_seibro_distributions.py", "--days", "90"]),
                 ("distribution_registry_seed", [PYTHON, "scripts/collect_distribution_registry.py", "seed"]),
                 ("official_source_collection", [PYTHON, "scripts/collect_distribution_sources.py", "run"]),
                 ("distribution_registry_discovery", [PYTHON, "scripts/collect_distribution_registry.py", "discover"]),
@@ -51,6 +52,7 @@ def command_steps(skip_collect: bool) -> list[tuple[str, list[str]]]:
             ("candidate_validation", [PYTHON, "scripts/build_distribution_candidates.py", "validate"]),
             ("kind_notice_validation", [PYTHON, "scripts/reconcile_kind_distribution_notices.py", "validate"]),
             ("kind_event_validation", [PYTHON, "scripts/reconcile_kind_distribution_events.py", "validate"]),
+            ("zero_hallucination_validation", [PYTHON, "scripts/verify_zero_hallucination.py"]),
         ]
     )
     return steps

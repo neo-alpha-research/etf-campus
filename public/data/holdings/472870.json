@@ -1,29 +1,29 @@
 {
   "ticker": "472870",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 115.39,
-      "shares": 401177877,
+      "weight_pct": 118.2,
+      "shares": 401307632,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_44F9_20260612",
-      "weight_pct": -0.89,
-      "shares": -3108629,
+      "weight_pct": -1.07,
+      "shares": -3661463,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)_44F9_20260612",
-      "weight_pct": -3.99,
-      "shares": -13893057,
+      "weight_pct": -4.81,
+      "shares": -16363779,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)_44F9_20260630",
-      "weight_pct": -10.5,
-      "shares": -36508625,
+      "weight_pct": -12.3,
+      "shares": -41778132,
       "item_code": null
     }
   ]

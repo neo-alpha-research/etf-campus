@@ -6,7 +6,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("./_lib/session", () => ({
-  mergeSessionHeaders: (response, session) => {
+  mergeSessionHeaders: (response, _session) => {
     const merged = new Headers(response.headers);
     merged.set("X-Community-CSRF", "old-csrf-from-session");
     merged.set("Set-Cookie", "session-cookie=val; HttpOnly");
@@ -27,7 +27,7 @@ function createContext(pathname, method, headers = {}) {
   const reqHeaders = new Headers(headers);
   return {
     request: new Request(url, { method, headers: reqHeaders }),
-    next: vi.fn(async (req) => {
+    next: vi.fn(async () => {
       return new Response("ok", { 
         status: 200, 
         headers: { "X-Community-CSRF": "new-csrf-from-handler" }
@@ -82,7 +82,7 @@ describe("커뮤니티 미들웨어", () => {
       "X-Community-CSRF": "valid",
       "Cookie": "__Host-etf-campus-community-csrf=valid"
     });
-    const response = await onRequest(ctx);
+    await onRequest(ctx);
     expect(ctx.next).toHaveBeenCalled();
   });
 

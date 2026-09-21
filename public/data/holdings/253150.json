@@ -1,47 +1,47 @@
 {
   "ticker": "253150",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "선물2026년09월물",
-      "weight_pct": 164.53,
-      "shares": 62,
+      "weight_pct": 164.82,
+      "shares": 58,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 77.88,
-      "shares": 7996267757,
+      "weight_pct": 77.52,
+      "shares": 7091369717,
       "item_code": null
     },
     {
       "name": "PLUS 200TR",
-      "weight_pct": 7.68,
+      "weight_pct": 8.21,
       "shares": 6100,
       "item_code": "491220"
     },
     {
       "name": "TIGER 레버리지",
-      "weight_pct": 6.53,
+      "weight_pct": 6.58,
       "shares": 6038,
       "item_code": "123320"
     },
     {
       "name": "ACE 레버리지",
-      "weight_pct": 5.92,
+      "weight_pct": 5.93,
       "shares": 13400,
       "item_code": "152500"
     },
     {
       "name": "PLUS 200",
-      "weight_pct": 1.28,
+      "weight_pct": 1.37,
       "shares": 1193,
       "item_code": "152100"
     },
     {
       "name": "KODEX 레버리지",
-      "weight_pct": 0.67,
-      "shares": 632,
+      "weight_pct": 0.36,
+      "shares": 342,
       "item_code": "122630"
     }
   ]

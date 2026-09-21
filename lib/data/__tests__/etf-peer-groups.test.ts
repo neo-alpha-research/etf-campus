@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/etf-peer-groups";
 import { loadEtfs } from "@/lib/data/etf-repository";
 import { readCsv } from "@/lib/data/csv";
+import type { EtfReturns } from "@/lib/domain/etf-types";
 
 const etfs = loadEtfs();
 const byTicker = new Map(etfs.map((etf) => [etf.ticker, etf]));
@@ -133,6 +134,31 @@ describe("classification data contracts", () => {
     }
   });
 
+  it("채권혼합 방어: 순수 채권군(우량 회사채, 장기국채 등)에 개별주식 혼합형 ETF가 혼입되지 않는다", () => {
+    const pureBondTopics = new Set(["우량 회사채·금융채", "국내 장기국채", "미국 장기국채"]);
+    const pureBondEtfs = classifications.filter((row) => pureBondTopics.has(row.comparison_topic));
+    for (const item of pureBondEtfs) {
+      expect(item.name).not.toContain("채권혼합");
+      expect(item.asset_family).not.toBe("혼합자산");
+    }
+  });
+
+  it("커버드콜 격리 방어: 순수 미국 빅테크 (M7) 토픽에는 옵션 매도 커버드콜 상품이 혼입되지 않는다", () => {
+    const m7Etfs = classifications.filter((row) => row.comparison_topic === "미국 빅테크 (M7)");
+    expect(m7Etfs.length).toBeGreaterThan(0);
+    for (const item of m7Etfs) {
+      expect(item.name).not.toContain("커버드콜");
+      expect(item.payoff_structure).not.toBe("covered_call");
+    }
+  });
+
+  it("통신 인프라 주식형 방어: RISE 네트워크인프라(367760)의 asset_family는 리츠·인프라가 아닌 주식이다", () => {
+    const networkInfra = classifications.find((row) => row.ticker === "367760");
+    expect(networkInfra).toBeDefined();
+    expect(networkInfra?.asset_family).toBe("주식");
+    expect(networkInfra?.comparison_category).toBe("산업·섹터");
+  });
+
   it("필드 소실 감지: strategy_style이 plain인 행의 비율이 전체의 60% 미만이고, fx_hedge가 unknown인 행의 비율이 20% 미만이다", () => {
     const total = classifications.length;
     const plainCount = classifications.filter((row) => row.strategy_style === "plain").length;
@@ -207,6 +233,25 @@ describe("classification data contracts", () => {
     const candidateTickers = primary!.candidates.map((c) => c.etf.ticker);
     expect(candidateTickers).not.toContain("329200");
     expect(candidateTickers).toContain("0207Z0"); // KIWOOM 미국우주데이터센터인프라
+  });
+
+  it("Zero-Hallucination: TR 12m 정렬 시 PR 1년 수익률로 혼용 fallback하지 않는다", () => {
+    const base = etfs[0]!;
+    const candA: PeerCandidate = {
+      etf: { ...base, ticker: "TR_HAS", returnsTr: { ...base.returnsTr, "12m": 10 } as unknown as EtfReturns, returns: { ...base.returns, "12m": 5 } as unknown as EtfReturns, aum: 100, tradeValue: 100 },
+      profile: profile({ ticker: "TR_HAS" }),
+      similarityScore: 50,
+      reasons: [],
+    };
+    const candB: PeerCandidate = {
+      etf: { ...base, ticker: "TR_MISSING", returnsTr: undefined, returns: { ...base.returns, "12m": 20 } as unknown as EtfReturns, aum: 100, tradeValue: 100 },
+      profile: profile({ ticker: "TR_MISSING" }),
+      similarityScore: 50,
+      reasons: [],
+    };
+    const sorted = sortPeerCandidates([candB, candA]);
+    expect(sorted[0].etf.ticker).toBe("TR_HAS");
+    expect(sorted[1].etf.ticker).toBe("TR_MISSING");
   });
 });
 

@@ -1,102 +1,126 @@
 {
   "ticker": "0231Z0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "RISE 코스피",
-      "weight_pct": 19.46,
-      "shares": 1394,
-      "item_code": "302450"
-    },
-    {
       "name": "KODEX 200가치저변동",
-      "weight_pct": 12.7,
-      "shares": 2293,
+      "weight_pct": 10.36,
+      "shares": 1859,
       "item_code": "223190"
     },
     {
-      "name": "KODEX ESG종합채권(A-이상)액티브",
-      "weight_pct": 12.22,
-      "shares": 550,
-      "item_code": "439860"
+      "name": "RISE 코스피",
+      "weight_pct": 10.31,
+      "shares": 744,
+      "item_code": "302450"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 9.72,
+      "weight_pct": 9.58,
       "shares": 452,
       "item_code": "148020"
     },
     {
+      "name": "KODEX 코스피",
+      "weight_pct": 8.94,
+      "shares": 656,
+      "item_code": "226490"
+    },
+    {
       "name": "HANARO Fn K-반도체",
-      "weight_pct": 9.46,
-      "shares": 862,
+      "weight_pct": 8.69,
+      "shares": 802,
       "item_code": "395270"
     },
     {
       "name": "KODEX 머니마켓액티브",
-      "weight_pct": 6.7,
+      "weight_pct": 6.95,
       "shares": 325,
       "item_code": "488770"
     },
     {
       "name": "PLUS 200",
-      "weight_pct": 5.18,
+      "weight_pct": 5.1,
       "shares": 239,
       "item_code": "152100"
     },
     {
+      "name": "KODEX 국고채3년",
+      "weight_pct": 5.01,
+      "shares": 400,
+      "item_code": "114260"
+    },
+    {
       "name": "KODEX IT",
-      "weight_pct": 5.02,
-      "shares": 378,
+      "weight_pct": 4.87,
+      "shares": 369,
       "item_code": "266370"
     },
     {
       "name": "KODEX 반도체",
-      "weight_pct": 4.75,
-      "shares": 191,
+      "weight_pct": 4.47,
+      "shares": 182,
       "item_code": "091160"
     },
     {
-      "name": "PLUS 코스피",
-      "weight_pct": 4.44,
-      "shares": 317,
-      "item_code": "227830"
+      "name": "KODEX AI전력핵심설비",
+      "weight_pct": 4.27,
+      "shares": 613,
+      "item_code": "487240"
+    },
+    {
+      "name": "KODEX ESG종합채권(A-이상)액티브",
+      "weight_pct": 4.03,
+      "shares": 175,
+      "item_code": "439860"
+    },
+    {
+      "name": "KODEX 금융채1~2년(AA-이상)PLUS액티브",
+      "weight_pct": 3.57,
+      "shares": 1750,
+      "item_code": "0162M0"
     },
     {
       "name": "ACE 200",
-      "weight_pct": 3.55,
+      "weight_pct": 3.49,
       "shares": 166,
       "item_code": "105190"
     },
     {
       "name": "ACE 코스피",
-      "weight_pct": 3.01,
+      "weight_pct": 2.99,
       "shares": 216,
       "item_code": "305050"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.53,
-      "shares": 12938960,
+      "weight_pct": 2.12,
+      "shares": 10442038,
       "item_code": null
     },
     {
-      "name": "KODEX 단기채권PLUS",
-      "weight_pct": 0.56,
-      "shares": 25,
-      "item_code": "214980"
+      "name": "삼성전자",
+      "weight_pct": 1.52,
+      "shares": 30,
+      "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 0.33,
-      "shares": 1,
+      "weight_pct": 1.31,
+      "shares": 4,
       "item_code": "000660"
     },
     {
-      "name": "삼성전자",
-      "weight_pct": 0.31,
-      "shares": 6,
-      "item_code": "005930"
+      "name": "SOL 200TR",
+      "weight_pct": 1.18,
+      "shares": 150,
+      "item_code": "295040"
+    },
+    {
+      "name": "KODEX 단기채권PLUS",
+      "weight_pct": 1.16,
+      "shares": 50,
+      "item_code": "214980"
     }
   ]
 }

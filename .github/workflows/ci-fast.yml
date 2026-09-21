@@ -2,10 +2,18 @@ name: Fast Validation
 
 on: 
   push:
+    branches: [main]
     paths-ignore:
       - 'data/**'
       - 'docs/**'
       - '**.md'
+      - 'scripts/**'
+      - '.archive_etf/**'
+      - 'OSMU_Archive/**'
+      - '.githooks/**'
+      - 'public/images/**'
+      - 'public/mock-community-posts.json'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,22 +25,19 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-
-            workers/market-briefing-publisher/package-lock.json
+          cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npx tsc --noEmit -p tsconfig.ci.json
       - run: npm test
-      - working-directory: workers/market-briefing-publisher
+      - name: Typecheck active Cloudflare Workers
         run: |
-          npm ci
-          npm run typecheck
+          npm --workspace=workers/market-briefing-distributor run typecheck
+          npm --workspace=workers/community-maintenance run typecheck

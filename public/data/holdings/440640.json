@@ -1,58 +1,70 @@
 {
   "ticker": "440640",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 22.93,
-      "shares": 25837295,
+      "weight_pct": 15.99,
+      "shares": 18028173,
       "item_code": null
     },
     {
       "name": "기업은행(신)2508이1.5A-21",
-      "weight_pct": 14.62,
+      "weight_pct": 14.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채이자03260-27",
-      "weight_pct": 14.42,
+      "weight_pct": 14.47,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채이자03290-26",
-      "weight_pct": 10.26,
+      "weight_pct": 10.29,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국캐피탈553-1",
-      "weight_pct": 9.55,
+      "weight_pct": 9.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈447-4",
-      "weight_pct": 9.5,
+      "weight_pct": 9.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치농협캐피탈250-1",
-      "weight_pct": 7.25,
+      "weight_pct": 7.28,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "SK텔레콤71-3",
-      "weight_pct": 6.28,
+      "weight_pct": 6.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력1170",
+      "weight_pct": 3.73,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금24신이0200-1010-2",
+      "weight_pct": 2.95,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한화252-1",
-      "weight_pct": 2.93,
+      "weight_pct": 2.94,
       "shares": 0,
       "item_code": null
     },

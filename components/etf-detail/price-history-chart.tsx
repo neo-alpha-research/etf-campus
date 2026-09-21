@@ -4,7 +4,7 @@ import { useState, useMemo, useRef } from "react";
 import useSWR from "swr";
 import { toPng } from "html-to-image";
 import { getPricePeriodRange, type PricePeriod } from "@/lib/domain/etf-price-period";
-import type { ItdAnchor } from "@/lib/domain/etf-types";
+import type { ItdAnchor, EtfReturns } from "@/lib/domain/etf-types";
 
 type PricePoint = {
   date: string;
@@ -49,7 +49,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: Record<string, number | null> }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
@@ -110,7 +110,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     !startStr ? null : `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}&basis=pr`,
     fetcher
   );
-
+  
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const sourcePoints = data?.points ?? EMPTY_POINTS;
   const points = useMemo<ChartPoint[]>(() => {
@@ -130,7 +130,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     }));
 
     return rawPoints;
-  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor, fixedReturns]);
+  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor]);
 
   const isShort = useMemo(() => {
     if (isNewListing) return false;
@@ -141,14 +141,12 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
   }, [points, startStr, isNewListing]);
 
-    const { pathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
-
+  const { prPathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
     const w = 800;
-    const h = 160; // Reduced height for better readability
-        if (points.length === 0) return { pathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
+    const h = 160;
+    if (points.length === 0) return { prPathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
     
     const returns = points.map((point) => point.returnPct);
-
     const minR = Math.min(...returns, 0);
     const maxR = Math.max(...returns, 0);
     
@@ -160,15 +158,13 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     const xS = w / Math.max(points.length - 1, 1);
     const yS = h / (max - min);
 
-        const path = points.map((p, i) => {
-
+    const prPath = points.map((p, i) => {
       const x = i * xS;
       const y = h - (p.returnPct - min) * yS;
       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(" ");
 
-        return { pathData: path, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
-
+    return { prPathData: prPath, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
   }, [points]);
 
   const zeroY = height - (0 - minReturn) * yScale;
@@ -268,17 +264,19 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             )}
           </div>
           
-          <button 
-            onClick={handleDownload}
-            className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
-            title="차트를 PNG로 다운로드"
-            aria-label="차트를 PNG로 다운로드"
-          >
-            <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
-            </svg>
-            <span className="hidden sm:inline">저장</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={handleDownload}
+              className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
+              title="차트를 PNG로 다운로드"
+              aria-label="차트를 PNG로 다운로드"
+            >
+              <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
+              </svg>
+              <span className="hidden sm:inline">저장</span>
+            </button>
+          </div>
         </div>
       )}
 
@@ -363,12 +361,11 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
             <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
-            {/* Main Line */}
-            <path d={pathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            {/* Main PR Line */}
+            <path d={prPathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             
             {/* Interactive Hover Layer */}
-                        {points.map((p, i) => {
-
+            {points.map((p, i) => {
               const x = i * xScale;
               const y = height - (p.returnPct - minReturn) * yScale;
               const isHover = hoverIndex === i;
@@ -399,7 +396,10 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           </svg>
 
           {/* Tooltip Overlay (HTML) */}
-          {hoverIndex !== null && points[hoverIndex] && (
+          {hoverIndex !== null && points[hoverIndex] && (() => {
+            const prPt = points[hoverIndex];
+            
+            return (
             <div 
               className="absolute top-0 pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
               style={{ 
@@ -407,16 +407,17 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                 transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >
-              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(points[hoverIndex].date)}</div>
-              <div className={`text-xl font-black tracking-tighter font-mono leading-none ${points[hoverIndex].returnPct > 0 ? 'text-rose-400' : points[hoverIndex].returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
-                {points[hoverIndex].returnPct > 0 ? '+' : ''}{points[hoverIndex].returnPct.toFixed(2)}%
+              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(prPt.date)}</div>
+              
+              <div className={`text-xl font-black tracking-tighter font-mono leading-none ${prPt.returnPct > 0 ? 'text-rose-400' : prPt.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
+                {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
               </div>
-                            <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
-                {points[hoverIndex].close.toLocaleString()}원
+              
+              <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
+                {prPt.close.toLocaleString()}원
               </div>
-
             </div>
-          )}
+          )})()}
         </div>
       )}
 

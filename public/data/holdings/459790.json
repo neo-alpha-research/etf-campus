@@ -1,6 +1,6 @@
 {
   "ticker": "459790",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "알파벳 Class A",
@@ -9,82 +9,82 @@
       "item_code": "GOOGL.O"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 5.84,
+      "shares": 116,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "아마존닷컴",
       "weight_pct": 5.63,
       "shares": 156,
       "item_code": "AMZN.O"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 5.55,
-      "shares": 116,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 5.25,
+      "weight_pct": 5.56,
       "shares": 181,
       "item_code": "NVDA.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 5.17,
+      "weight_pct": 5.33,
       "shares": 75,
       "item_code": "MSFT.O"
     },
     {
       "name": "애플",
-      "weight_pct": 4.84,
+      "weight_pct": 5.13,
       "shares": 112,
       "item_code": "AAPL.O"
     },
     {
       "name": "메타",
-      "weight_pct": 4.76,
+      "weight_pct": 4.88,
       "shares": 59,
       "item_code": "META.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 4.32,
+      "weight_pct": 3.79,
       "shares": 127,
       "item_code": "MRVL.O"
     },
     {
       "name": "비자",
-      "weight_pct": 3.6,
+      "weight_pct": 3.57,
       "shares": 67,
       "item_code": "V"
     },
     {
-      "name": "MP 머터리얼즈",
-      "weight_pct": 3.3,
-      "shares": 403,
-      "item_code": "MP"
-    },
-    {
       "name": "골드만삭스",
-      "weight_pct": 3.29,
+      "weight_pct": 3.24,
       "shares": 22,
       "item_code": "GS"
     },
     {
-      "name": "암 홀딩스 ADR",
-      "weight_pct": 3.19,
-      "shares": 92,
-      "item_code": "ARM.O"
+      "name": "스페이스X",
+      "weight_pct": 3.18,
+      "shares": 158,
+      "item_code": "SPCX.O"
     },
     {
       "name": "로크웰 오토메이션",
-      "weight_pct": 3.17,
+      "weight_pct": 3.14,
       "shares": 53,
       "item_code": "ROK"
     },
     {
-      "name": "스페이스X",
-      "weight_pct": 3.06,
-      "shares": 158,
-      "item_code": "SPCX.O"
+      "name": "MP 머터리얼즈",
+      "weight_pct": 3.05,
+      "shares": 403,
+      "item_code": "MP"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 3.05,
+      "shares": 92,
+      "item_code": "ARM.O"
     },
     {
       "name": "블룸 에너지",
@@ -93,86 +93,86 @@
       "item_code": "BE"
     },
     {
-      "name": "캐터필러",
-      "weight_pct": 3.04,
-      "shares": 26,
-      "item_code": "CAT"
-    },
-    {
       "name": "바이킹 테라퓨틱스",
       "weight_pct": 2.98,
       "shares": 629,
       "item_code": "VKTX.O"
     },
     {
-      "name": "플루언스 에너지",
-      "weight_pct": 2.98,
-      "shares": 1948,
-      "item_code": "FLNC.O"
+      "name": "캐터필러",
+      "weight_pct": 2.95,
+      "shares": 26,
+      "item_code": "CAT"
     },
     {
       "name": "로빈후드",
-      "weight_pct": 2.97,
+      "weight_pct": 2.89,
       "shares": 198,
       "item_code": "HOOD.O"
     },
     {
-      "name": "루멘텀 홀딩스",
-      "weight_pct": 2.93,
-      "shares": 22,
-      "item_code": "LITE.O"
+      "name": "플루언스 에너지",
+      "weight_pct": 2.86,
+      "shares": 1948,
+      "item_code": "FLNC.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 2.74,
+      "weight_pct": 2.78,
       "shares": 21,
       "item_code": "MU.O"
     },
     {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 2.77,
+      "shares": 22,
+      "item_code": "LITE.O"
+    },
+    {
       "name": "존슨앤드존슨",
-      "weight_pct": 2.52,
+      "weight_pct": 2.58,
       "shares": 67,
       "item_code": "JNJ"
     },
     {
       "name": "인텔",
-      "weight_pct": 2.47,
+      "weight_pct": 2.54,
       "shares": 202,
       "item_code": "INTC.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 2.45,
+      "weight_pct": 2.39,
       "shares": 37,
       "item_code": "AMD.O"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.38,
+      "shares": 23106203,
+      "item_code": null
+    },
+    {
       "name": "로켓 랩",
-      "weight_pct": 2.34,
+      "weight_pct": 2.26,
       "shares": 256,
       "item_code": "RKLB.O"
     },
     {
       "name": "월마트",
-      "weight_pct": 2.14,
+      "weight_pct": 2.21,
       "shares": 148,
       "item_code": "WMT.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.12,
-      "shares": 21272973,
-      "item_code": null
-    },
-    {
       "name": "GE 버노바",
-      "weight_pct": 2.06,
+      "weight_pct": 1.98,
       "shares": 15,
       "item_code": "GEV"
     },
     {
       "name": "테라다인",
-      "weight_pct": 1.86,
+      "weight_pct": 1.76,
       "shares": 37,
       "item_code": "TER.O"
     }

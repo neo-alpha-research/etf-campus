@@ -1,22 +1,22 @@
 {
   "ticker": "0166T0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "월트 디즈니",
-      "weight_pct": 8.58,
+      "weight_pct": 8.48,
       "shares": 283,
       "item_code": "DIS"
     },
     {
       "name": "스포티파이 테크놀러지",
-      "weight_pct": 8.41,
+      "weight_pct": 8.48,
       "shares": 55,
       "item_code": "SPOT.K"
     },
     {
       "name": "소니 그룹 ADR",
-      "weight_pct": 7.66,
+      "weight_pct": 8.04,
       "shares": 1150,
       "item_code": "SONY.K"
     },
@@ -27,135 +27,135 @@
       "item_code": "AMZN.O"
     },
     {
-      "name": "테이크-투 인터랙티브 소프트웨어",
-      "weight_pct": 6.65,
-      "shares": 103,
-      "item_code": "TTWO.O"
-    },
-    {
       "name": "넷플릭스",
-      "weight_pct": 6.3,
+      "weight_pct": 6.38,
       "shares": 280,
       "item_code": "NFLX.O"
     },
     {
+      "name": "테이크-투 인터랙티브 소프트웨어",
+      "weight_pct": 6.3,
+      "shares": 103,
+      "item_code": "TTWO.O"
+    },
+    {
       "name": "컴캐스트",
-      "weight_pct": 6.06,
+      "weight_pct": 5.97,
       "shares": 806,
       "item_code": "CMCSA.O"
     },
     {
       "name": "레딧",
-      "weight_pct": 5.75,
+      "weight_pct": 5.46,
       "shares": 134,
       "item_code": "RDDT.K"
     },
     {
-      "name": "씨 ADR",
-      "weight_pct": 4.12,
-      "shares": 125,
-      "item_code": "SE"
-    },
-    {
       "name": "텐센트",
-      "weight_pct": 4.06,
+      "weight_pct": 4.11,
       "shares": 259,
       "item_code": "0700.HK"
     },
     {
+      "name": "씨 ADR",
+      "weight_pct": 3.97,
+      "shares": 125,
+      "item_code": "SE"
+    },
+    {
       "name": "뉴욕타임스",
-      "weight_pct": 3.72,
+      "weight_pct": 3.76,
       "shares": 197,
       "item_code": "NYT"
     },
     {
       "name": "라이브 네이션 엔터테인먼트",
-      "weight_pct": 3.39,
+      "weight_pct": 3.35,
       "shares": 67,
       "item_code": "LYV"
     },
     {
-      "name": "폭스 Class A",
-      "weight_pct": 3.18,
-      "shares": 165,
-      "item_code": "FOXA.O"
-    },
-    {
       "name": "반다이남코 홀딩스",
-      "weight_pct": 3.08,
+      "weight_pct": 3.2,
       "shares": 314,
       "item_code": "7832.T"
     },
     {
+      "name": "폭스 Class A",
+      "weight_pct": 3.07,
+      "shares": 165,
+      "item_code": "FOXA.O"
+    },
+    {
       "name": "산리오",
-      "weight_pct": 2.5,
+      "weight_pct": 2.77,
       "shares": 1193,
       "item_code": "8136.T"
     },
     {
       "name": "코나미 그룹",
-      "weight_pct": 2.47,
+      "weight_pct": 2.49,
       "shares": 64,
       "item_code": "9766.T"
     },
     {
-      "name": "핀터레스트",
-      "weight_pct": 2.36,
-      "shares": 367,
-      "item_code": "PINS.K"
-    },
-    {
       "name": "닌텐도",
-      "weight_pct": 2.12,
+      "weight_pct": 2.21,
       "shares": 137,
       "item_code": "7974.T"
     },
     {
+      "name": "핀터레스트",
+      "weight_pct": 2.2,
+      "shares": 367,
+      "item_code": "PINS.K"
+    },
+    {
       "name": "워너 뮤직 그룹",
-      "weight_pct": 2.11,
+      "weight_pct": 2.16,
       "shares": 274,
       "item_code": "WMG.O"
     },
     {
-      "name": "해즈브로",
-      "weight_pct": 1.96,
-      "shares": 73,
-      "item_code": "HAS.O"
-    },
-    {
       "name": "로블록스",
-      "weight_pct": 1.94,
+      "weight_pct": 2.14,
       "shares": 187,
       "item_code": "RBLX.K"
     },
     {
+      "name": "해즈브로",
+      "weight_pct": 1.93,
+      "shares": 73,
+      "item_code": "HAS.O"
+    },
+    {
       "name": "하이브",
-      "weight_pct": 1.73,
+      "weight_pct": 1.76,
       "shares": 48,
       "item_code": "352820"
     },
     {
-      "name": "넥스타 미디어 그룹",
-      "weight_pct": 1.57,
-      "shares": 30,
-      "item_code": "NXST.O"
-    },
-    {
       "name": "웹툰 엔터테인먼트",
-      "weight_pct": 1.55,
+      "weight_pct": 1.56,
       "shares": 537,
       "item_code": "WBTN.O"
     },
     {
+      "name": "넥스타 미디어 그룹",
+      "weight_pct": 1.53,
+      "shares": 30,
+      "item_code": "NXST.O"
+    },
+    {
       "name": "마텔",
-      "weight_pct": 1.44,
+      "weight_pct": 1.4,
       "shares": 342,
       "item_code": "MAT.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 2231718,
+      "weight_pct": 0.45,
+      "shares": 2231375,
       "item_code": null
     }
   ]

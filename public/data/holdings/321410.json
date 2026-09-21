@@ -1,101 +1,101 @@
 {
   "ticker": "321410",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 11.52,
-      "shares": 123474493,
+      "weight_pct": 9.98,
+      "shares": 106110595,
       "item_code": null
     },
     {
       "name": "iShares Core MSCI Pacific ETF",
-      "weight_pct": 10.0,
-      "shares": 910,
+      "weight_pct": 9.94,
+      "shares": 907,
       "item_code": "IPAC.K"
     },
     {
       "name": "iShares Floating Rate Bond ETF",
-      "weight_pct": 9.6,
-      "shares": 1460,
+      "weight_pct": 9.89,
+      "shares": 1510,
       "item_code": "FLOT.K"
     },
     {
-      "name": "iShares Broad USD High Yield Corporate Bond ETF",
-      "weight_pct": 9.6,
-      "shares": 2015,
-      "item_code": "USHY.K"
-    },
-    {
       "name": "iShares Core 1-5 Year USD Bond ETF",
-      "weight_pct": 9.59,
-      "shares": 1546,
+      "weight_pct": 9.86,
+      "shares": 1604,
       "item_code": "ISTB.O"
     },
     {
+      "name": "iShares Broad USD High Yield Corporate Bond ETF",
+      "weight_pct": 9.85,
+      "shares": 2091,
+      "item_code": "USHY.K"
+    },
+    {
       "name": "iShares Core Universal USD Bond ETF",
-      "weight_pct": 9.57,
-      "shares": 1626,
+      "weight_pct": 9.85,
+      "shares": 1693,
       "item_code": "IUSB.O"
     },
     {
       "name": "iShares Broad USD Investment Grade Corporate Bond",
-      "weight_pct": 9.52,
-      "shares": 1462,
+      "weight_pct": 9.84,
+      "shares": 1532,
       "item_code": "USIG.O"
     },
     {
       "name": "iShares Preferred and Income Securities ETF",
-      "weight_pct": 9.47,
-      "shares": 2393,
+      "weight_pct": 9.79,
+      "shares": 2526,
       "item_code": "PFF.O"
     },
     {
       "name": "iShares Global REIT ETF",
-      "weight_pct": 6.98,
-      "shares": 1929,
+      "weight_pct": 7.5,
+      "shares": 2125,
       "item_code": "REET.K"
     },
     {
       "name": "iShares JP Morgan EM Corporate Bond ETF",
-      "weight_pct": 4.78,
-      "shares": 818,
+      "weight_pct": 4.93,
+      "shares": 850,
       "item_code": "CEMB.K"
     },
     {
-      "name": "iShares Core US REIT ETF",
-      "weight_pct": 2.85,
-      "shares": 329,
-      "item_code": "USRT.K"
-    },
-    {
       "name": "iShares CMBS ETF",
-      "weight_pct": 2.53,
-      "shares": 405,
+      "weight_pct": 3.1,
+      "shares": 501,
       "item_code": "CMBS.K"
     },
     {
+      "name": "iShares Core US REIT ETF",
+      "weight_pct": 2.15,
+      "shares": 254,
+      "item_code": "USRT.K"
+    },
+    {
       "name": "iShares JP Morgan EM Local Currency Bond ETF",
-      "weight_pct": 2.35,
-      "shares": 421,
+      "weight_pct": 1.82,
+      "shares": 329,
       "item_code": "LEMB.K"
     },
     {
       "name": "iShares MSCI EAFE Value ETF",
-      "weight_pct": 1.52,
-      "shares": 143,
+      "weight_pct": 1.44,
+      "shares": 137,
       "item_code": "EFV"
     },
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": 0.06,
-      "shares": 717666,
+      "weight_pct": 0.0,
+      "shares": -45686,
       "item_code": null
     },
     {
       "name": "외국환포워드USD",
-      "weight_pct": -106.15,
-      "shares": -1137155547,
+      "weight_pct": -92.4,
+      "shares": -981900417,
       "item_code": null
     }
   ]

@@ -25,7 +25,7 @@ EVENTS_PATH = DIST_DIR / "etf_distribution_events.csv"
 COVERAGE_PATH = DIST_DIR / "etf_tr_data_coverage.csv"
 ACTIONS_PATH = ROOT / "data" / "corporate_actions" / "etf_corporate_actions.csv"
 OUT_PATH = ROOT / "data" / "returns" / "etf_total_return_metrics.csv"
-PRICE_PATHS = [ROOT / "data" / "income_page2_price_history.csv", ROOT / "data" / "page3_price_history.csv"]
+PRICE_PATHS = [ROOT / "data" / "returns" / "etf_price_history.csv"]
 
 ACTION_COLUMNS = [
     "action_id", "etf_id", "ticker", "action_type", "effective_date",
@@ -34,11 +34,11 @@ ACTION_COLUMNS = [
 ]
 METRIC_COLUMNS = [
     "etf_id", "ticker", "period", "as_of_date", "target_start_date",
-    "actual_start_date", "actual_end_date", "total_return_pct", "return_basis",
+    "actual_start_date", "actual_end_date", "total_return_pct", "net_total_return_pct", "return_basis",
     "calculation_status", "distribution_event_count", "blocking_event_ids",
     "price_observation_count", "calculation_version", "calculated_at",
 ]
-PERIODS = ("1d", "1w", "2w", "1m", "2m", "3m", "6m", "1y", "2y", "3y", "ytd")
+PERIODS = ("1d", "1w", "2w", "1m", "2m", "3m", "6m", "1y", "2y", "3y", "ytd", "itd")
 COMPLETE_DISTRIBUTION = {"verified_complete", "verified_no_distribution"}
 COMPLETE_ACTIONS = {"verified_complete", "verified_no_action"}
 
@@ -118,6 +118,8 @@ def target_start(as_of: date, period: str) -> date:
         return date.fromordinal(as_of.toordinal() - 14)
     if period == "ytd":
         return date(as_of.year - 1, 12, 31)
+    if period == "itd":
+        return date.min
     months = {"1m": 1, "2m": 2, "3m": 3, "6m": 6, "1y": 12, "2y": 24, "3y": 36}[period]
     return shift_months(as_of, months)
 
@@ -127,14 +129,24 @@ def nearest_on_or_before(points: list[PricePoint], wanted: date) -> PricePoint |
     return eligible[-1] if eligible else None
 
 
-def load_prices() -> dict[str, list[PricePoint]]:
+def get_master_latest_date() -> date | None:
+    path = ROOT / "data" / "etf_master_draft.csv"
+    if path.exists():
+        for r in rows(path):
+            d = parse_day(r.get("bas_dt"))
+            if d:
+                return d
+    return None
+
+
+def load_prices(cutoff: date | None = None) -> dict[str, list[PricePoint]]:
     values: dict[str, dict[date, float]] = defaultdict(dict)
     for path in PRICE_PATHS:
         for row in rows(path):
             day = parse_day(row.get("date"))
             close = number(row.get("close"))
             code = ticker(row.get("ticker"))
-            if day and close is not None and close > 0 and code:
+            if day and close is not None and close > 0 and code and (cutoff is None or day <= cutoff):
                 values[code][day] = close
     return {code: [PricePoint(day, close) for day, close in sorted(items.items())] for code, items in values.items()}
 
@@ -184,12 +196,16 @@ def blocked_status(ticker_value: str, start: date, end: date, coverage: dict[str
 
 def calculate_for_period(code: str, isin: str, period: str, points: list[PricePoint], coverage: dict[str, dict[str, str]], events: dict[str, list[dict[str, str]]], actions: dict[str, list[dict[str, str]]]) -> dict[str, str]:
     as_of = points[-1].day
-    wanted = target_start(as_of, period)
-    start_point = nearest_on_or_before(points, wanted)
+    if period == "itd":
+        wanted = points[0].day
+        start_point = points[0]
+    else:
+        wanted = target_start(as_of, period)
+        start_point = nearest_on_or_before(points, wanted)
     base = {
         "etf_id": isin, "ticker": code, "period": period, "as_of_date": as_of.isoformat(),
         "target_start_date": wanted.isoformat(), "actual_start_date": "", "actual_end_date": as_of.isoformat(),
-        "total_return_pct": "", "return_basis": "market_price_tr_pre_tax_ex_date_reinvested",
+        "total_return_pct": "", "net_total_return_pct": "", "return_basis": "market_price_tr_pre_tax_ex_date_reinvested",
         "calculation_status": "", "distribution_event_count": "0", "blocking_event_ids": "",
         "price_observation_count": "0", "calculation_version": "1", "calculated_at": now_iso(),
     }
@@ -217,12 +233,15 @@ def calculate_for_period(code: str, isin: str, period: str, points: list[PricePo
             distribution_by_day[event_day] += amount
             count += 1
     factor = 1.0
+    net_factor = 1.0
     previous = in_range[0]
     for current in in_range[1:]:
         cash = distribution_by_day.get(current.day, 0.0)
         factor *= (current.close + cash) / previous.close
+        net_factor *= (current.close + cash * 0.846) / previous.close
         previous = current
     base["total_return_pct"] = f"{(factor - 1.0) * 100:.6f}"
+    base["net_total_return_pct"] = f"{(net_factor - 1.0) * 100:.6f}"
     base["distribution_event_count"] = str(count)
     base["calculation_status"] = "calculated"
     return base
@@ -231,9 +250,19 @@ def calculate_for_period(code: str, isin: str, period: str, points: list[PricePo
 def main() -> int:
     parser = argparse.ArgumentParser(description="Calculate verified fixed-period ETF total return metrics")
     parser.add_argument("--ticker", action="append", default=[], help="Optional ticker filter; repeatable")
+    parser.add_argument("--target_date", help="Target end date for calculations (YYYY-MM-DD). Defaults to the latest available date in prices.")
     args = parser.parse_args()
     ensure_actions_ledger()
-    prices = load_prices()
+
+    target_end_date = date.fromisoformat(args.target_date) if args.target_date else get_master_latest_date()
+    prices = load_prices(cutoff=target_end_date)
+    if args.ticker:
+        target_tickers = set(args.ticker)
+        prices = {k: v for k, v in prices.items() if k in target_tickers}
+
+    if target_end_date:
+        for ticker_code, points in prices.items():
+            prices[ticker_code] = [p for p in points if p.day <= target_end_date]
     master = load_master()
     events = grouped_events()
     actions = grouped_actions()
@@ -241,6 +270,8 @@ def main() -> int:
     wanted = {ticker(value) for value in args.ticker}
     result: list[dict[str, str]] = []
     for code, points in sorted(prices.items()):
+        if not points:
+            continue
         if wanted and code not in wanted:
             continue
         for period in PERIODS:

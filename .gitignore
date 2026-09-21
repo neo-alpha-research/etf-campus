@@ -36,12 +36,47 @@ data/staging/
 
 *.sql
 !migrations/*.sql
+!scripts/*.sql
+!docs/*.sql
+temp_holdings_chunks/
 *.tmp
 .*-temp
 *-temp
 *.mjs
+!scripts/*.mjs
+!scripts/**/*.mjs
 user_requests.txt
 scratch/
 .run_daily_market.lock
 public/data/market_holidays.txt
 ecos_key.txt
+
+# Generated Archives
+OSMU_Archive/
+_archive/
+distributor-preview/
+
+# Prompt and raw scrap dumps
+Claude outputs/
+Claude_Opus_User_Request*.txt
+kofia_fee_cmp.xml
+
+# Holdings audit measured composition (uploaded as GitHub Actions artifact, not committed)
+data/regulatory/holdings_measured_composition.csv
+data/reports/holdings_anomaly_*.json
+!data/reports/holdings_anomaly_last.json
+
+# Raw regulatory disclosure XML snapshots (30MB+, preserved via artifact/local)
+data/regulatory/sources/kofia_dis_response_*.xml
+
+# Built worker artifacts
+dist/
+workers/**/dist/
+
+# One-off forensic and secret scratch files
+scripts/_oneoff/*forensic*
+scripts/_oneoff/*secret*
+scripts/_oneoff/*.key
+scripts/_oneoff/*token*
+
+

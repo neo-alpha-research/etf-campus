@@ -1,16 +1,10 @@
 {
   "ticker": "475270",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "미래에셋증권72",
       "weight_pct": 22.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "KB증권47-1",
-      "weight_pct": 22.31,
       "shares": 0,
       "item_code": null
     },
@@ -23,6 +17,12 @@
     {
       "name": "농업금융채권(은행)2025-05이2Y-C",
       "weight_pct": 22.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB증권47-1",
+      "weight_pct": 22.16,
       "shares": 0,
       "item_code": null
     },
@@ -46,8 +46,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -16.23,
-      "shares": -17414078,
+      "weight_pct": -16.08,
+      "shares": -17256108,
       "item_code": null
     }
   ]

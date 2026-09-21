@@ -103,31 +103,14 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
   }
 
   // 보조 문구 생성
-  const totalPeerCount = Math.max(selected.totalCount - 1, 0);
   const directPeerCount = selected.candidates.filter(
     (candidate) => candidate.tier === "same_peer_group",
   ).length;
-  const structureReferenceCount = selected.candidates.filter(
-    (candidate) => candidate.tier === "structure_reference",
-  ).length;
-  const investmentReferenceCount = selected.candidates.filter(
-    (candidate) => candidate.tier === "investment_reference",
-  ).length;
-  const similarPeerCount = selected.candidates.length - directPeerCount - structureReferenceCount - investmentReferenceCount;
-  const displayedPeerCount = selected.candidates.length;
-  const guideText = investmentReferenceCount > 0
-    ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 투자 참고 ${investmentReferenceCount}개를 표시합니다.`
-    : structureReferenceCount > 0
-      ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 동일 수익구조 참고 ${structureReferenceCount}개를 표시합니다.`
-      : similarPeerCount > 0
-        ? `동종 ETF ${directPeerCount}개와 유사 ETF ${similarPeerCount}개를 표시합니다. 유사 ETF는 안전 기준을 통과한 후보입니다.`
-        : totalPeerCount > displayedPeerCount
-          ? `동종 후보 ${totalPeerCount}개 중 비교 가능성이 높은 ${displayedPeerCount}개를 표시합니다.`
-          : `동종 ETF ${displayedPeerCount}개를 표시합니다.`;
+
   // 헤더 생성
   let headerLabel = "직접 비교그룹";
   if (directPeerCount === 0) {
-    headerLabel = "자동 추천 비교그룹";
+    headerLabel = "동종 테마 유사 비교그룹";
   } else if (directPeerCount < selected.candidates.length) {
     headerLabel = "직접/유사 비교그룹 (확장됨)";
   } else {

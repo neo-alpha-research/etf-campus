@@ -1,29 +1,29 @@
 {
   "ticker": "261220",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 87.63,
-      "shares": 506821614,
+      "weight_pct": 87.03,
+      "shares": 553157066,
       "item_code": null
     },
     {
       "name": "Crude Oil 2026 10",
-      "weight_pct": 87.42,
+      "weight_pct": 86.7,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "United States Oil Fund LP",
-      "weight_pct": 12.36,
-      "shares": 406,
+      "weight_pct": 12.96,
+      "shares": 426,
       "item_code": "USO"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -86.07,
-      "shares": -36,
+      "weight_pct": -90.55,
+      "shares": -42,
       "item_code": null
     }
   ]

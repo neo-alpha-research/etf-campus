@@ -1,0 +1,35 @@
+#!/bin/sh
+# Zero-Leak Secret Scanner for Public GitHub
+echo "🔒 [Pre-Commit Hook] Scanning staged files for credentials and API keys..."
+
+FORBIDDEN_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(\.env|\.dev\.vars|secrets\.txt)' | grep -v -E '(\.example|\.sample)' || true)
+if [ -n "$FORBIDDEN_FILES" ]; then
+  echo "❌ [BLOCKED] Forbidden credential file staged: $FORBIDDEN_FILES" >&2
+  exit 1
+fi
+
+# android/app/google-services.json은 Firebase 모바일 앱의 공개 클라이언트 식별자이므로 시크릿 스캔 예외로 허용
+DIFF_ADDED=$(git diff --cached -U0 -- ':!android/app/google-services.json')
+
+if echo "$DIFF_ADDED" | grep -E '^\+[^+].*AIzaSy[A-Za-z0-9_-]{33}' >/dev/null; then
+  echo "❌ [BLOCKED] Plaintext Google API Key (AIzaSy...) detected in staged diff!" >&2
+  exit 1
+fi
+
+if echo "$DIFF_ADDED" | grep -E '^\+[^+].*AQ\.Ab8[A-Za-z0-9_-]{40,}' >/dev/null; then
+  echo "❌ [BLOCKED] Plaintext Gemini API Token (AQ.Ab8...) detected in staged diff!" >&2
+  exit 1
+fi
+
+if echo "$DIFF_ADDED" | grep -E '^\+[^+].*[0-9]{9,11}:AA[A-Za-z0-9_-]{33}' >/dev/null; then
+  echo "❌ [BLOCKED] Plaintext Telegram Bot Token detected in staged diff!" >&2
+  exit 1
+fi
+
+if echo "$DIFF_ADDED" | grep -E '^\+[^+].*(THAAN|IGAAd)[A-Za-z0-9_-]{50,}' >/dev/null; then
+  echo "❌ [BLOCKED] Plaintext Meta / Threads Access Token detected in staged diff!" >&2
+  exit 1
+fi
+
+echo "✅ [Pre-Commit Hook] Clean diff. Staged changes are 100% safe for Public GitHub."
+exit 0

@@ -27,7 +27,7 @@ export function FounderLetter({
           </div>
 
           {/* Letter Body */}
-          <div className="space-y-4 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed break-keep">
+          <div className="space-y-3.5 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed break-keep">
             <p>
               안녕하세요, ETF 캠퍼스를 설립한 <strong className="font-extrabold text-neutral-950">Neo</strong>입니다.
             </p>
@@ -79,7 +79,7 @@ export function FounderLetter({
                 onClick={onNavigateQuiz}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface border border-neutral-300 hover:bg-neutral-50 text-neutral-800 text-xs sm:text-sm font-black shadow-2xs transition-all active:scale-[0.98]"
               >
-                <span>🎓 바로 OT 퀴즈 풀기</span>
+                <span>🎓 바로 팩트체크 도전하기</span>
                 <span>➔</span>
               </button>
             </div>

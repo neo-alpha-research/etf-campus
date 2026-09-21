@@ -1,17 +1,17 @@
 {
   "ticker": "461910",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 109.58,
-      "shares": 1907819163,
+      "weight_pct": 108.61,
+      "shares": 1908114382,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_250205_1",
-      "weight_pct": -9.58,
-      "shares": -166844235,
+      "weight_pct": -8.61,
+      "shares": -151328697,
       "item_code": null
     }
   ]

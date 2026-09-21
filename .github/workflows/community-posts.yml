@@ -1,0 +1,110 @@
+name: Community board auto-activation
+
+on:
+  schedule:
+    # 매일 03:00 KST (= UTC 18:00) — GitHub Actions 한산 시간대
+    # KST = UTC+9 이므로: 03:00 KST = 전날 18:00 UTC
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "대상 날짜 (YYYY-MM-DD). 비워두면 오늘 KST 기준 자동 적용."
+        required: false
+        type: string
+      dry_run:
+        description: "Dry-run 모드 (파일 저장 없이 미리보기)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  add-community-posts:
+    name: Add 3 community posts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Resolve target date (KST)
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            TARGET_DATE="${{ github.event.inputs.date }}"
+          else
+            TARGET_DATE=$(TZ=Asia/Seoul date +%Y-%m-%d)
+          fi
+          echo "TARGET_DATE=$TARGET_DATE" >> $GITHUB_ENV
+          echo "[INFO] Target date: $TARGET_DATE"
+
+      - name: Generate community posts
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/community/add_posts.py --date "${{ env.TARGET_DATE }}"
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: Generate community posts (dry-run)
+        if: github.event.inputs.dry_run == 'true'
+        run: python scripts/community/add_posts.py --date "${{ env.TARGET_DATE }}" --dry-run
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: Validate tickers (Zero-Hallucination gate)
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/community/validate_tickers.py --strict
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: Check for changes
+        if: github.event.inputs.dry_run != 'true'
+        id: changes
+        run: |
+          if git diff --quiet public/mock-community-posts.json scripts/community/topic_bank.json; then
+            echo "CHANGED=false" >> $GITHUB_ENV
+          else
+            echo "CHANGED=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit and push
+        if: github.event.inputs.dry_run != 'true' && env.CHANGED == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/mock-community-posts.json scripts/community/topic_bank.json
+          git commit -m "feat(community): auto-activate board posts for ${{ env.TARGET_DATE }}"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin main && git push origin main && break || sleep 5
+          done
+
+      - name: Report result
+        if: always()
+        run: |
+          echo "=== Community Post Activation Report ==="
+          echo "Date     : ${{ env.TARGET_DATE }}"
+          echo "Dry-run  : ${{ github.event.inputs.dry_run }}"
+          python - <<'PYEOF'
+          import json
+          try:
+              with open("public/mock-community-posts.json", encoding="utf-8") as f:
+                  d = json.load(f)
+              total = len(d["posts"])
+              target = "${{ env.TARGET_DATE }}"
+              recent = [p for p in d["posts"] if p["createdAt"].startswith(target)]
+              print(f"Total posts  : {total}")
+              print(f"Posts today  : {len(recent)}")
+              for p in recent:
+                  print(f"  [{p['category']['slug']}] {p['title'][:60]}")
+          except Exception as e:
+              print(f"Report error: {e}")
+          PYEOF

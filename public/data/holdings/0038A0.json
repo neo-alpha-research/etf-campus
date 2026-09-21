@@ -1,119 +1,119 @@
 {
   "ticker": "0038A0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 16.91,
+      "weight_pct": 17.64,
       "shares": 428,
       "item_code": "NVDA.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 14.4,
+      "weight_pct": 14.91,
       "shares": 221,
       "item_code": "TSLA.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 9.64,
+      "weight_pct": 9.5,
       "shares": 196,
       "item_code": "AMZN.O"
     },
     {
       "name": "인튜이티브 서지컬",
-      "weight_pct": 9.1,
+      "weight_pct": 9.13,
       "shares": 130,
       "item_code": "ISRG.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.27,
+      "weight_pct": 8.15,
       "shares": 128,
       "item_code": "GOOGL.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 7.44,
+      "weight_pct": 7.55,
       "shares": 448,
       "item_code": "INTC.O"
     },
     {
       "name": "테라다인",
-      "weight_pct": 5.88,
+      "weight_pct": 5.47,
       "shares": 86,
       "item_code": "TER.O"
     },
     {
       "name": "애널로그 디바이시스",
-      "weight_pct": 5.28,
+      "weight_pct": 5.06,
       "shares": 75,
       "item_code": "ADI.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 4.77,
+      "weight_pct": 4.88,
       "shares": 154,
       "item_code": "QCOM.O"
     },
     {
       "name": "암바렐라",
-      "weight_pct": 2.41,
+      "weight_pct": 2.37,
       "shares": 184,
       "item_code": "AMBA.O"
     },
     {
-      "name": "코그넥스",
-      "weight_pct": 2.18,
-      "shares": 187,
-      "item_code": "CGNX.O"
-    },
-    {
       "name": "노밴타",
-      "weight_pct": 2.17,
+      "weight_pct": 2.18,
       "shares": 80,
       "item_code": "NOVT.O"
     },
     {
+      "name": "코그넥스",
+      "weight_pct": 2.13,
+      "shares": 187,
+      "item_code": "CGNX.O"
+    },
+    {
       "name": "로크웰 오토메이션",
-      "weight_pct": 2.15,
+      "weight_pct": 2.09,
       "shares": 26,
       "item_code": "ROK"
     },
     {
       "name": "팀켄",
-      "weight_pct": 2.07,
+      "weight_pct": 1.96,
       "shares": 87,
       "item_code": "TKR"
     },
     {
       "name": "아우스터",
-      "weight_pct": 2.01,
+      "weight_pct": 1.88,
       "shares": 298,
       "item_code": "OUST.O"
     },
     {
       "name": "리갈 벨로이트",
-      "weight_pct": 1.87,
+      "weight_pct": 1.79,
       "shares": 19,
       "item_code": "RBC"
     },
     {
       "name": "리걸 렉스노드",
-      "weight_pct": 1.7,
+      "weight_pct": 1.63,
       "shares": 54,
       "item_code": "RRX"
     },
     {
       "name": "알레그로 마이크로시스템즈",
-      "weight_pct": 1.56,
+      "weight_pct": 1.51,
       "shares": 225,
       "item_code": "ALGM.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.09,
-      "shares": 709569,
+      "weight_pct": 0.1,
+      "shares": 737600,
       "item_code": null
     }
   ]

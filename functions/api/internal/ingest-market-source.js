@@ -1,10 +1,15 @@
 const MAX_BODY_BYTES = 1_500_000;
-const MAX_ETFS_PER_BATCH = 40;
+const MAX_ETFS_PER_BATCH = 100;
 const MAX_SIGNATURE_AGE_SECONDS = 300;
 const textEncoder = new TextEncoder();
 
-const RISK_TYPES = new Set(["normal", "leveraged", "inverse", "unknown"]);
-const INDEX_CODES = new Set(["KOSPI", "KOSDAQ", "^KS11", "^KQ11", "^GSPC", "^IXIC", "^N225", "KRW=X", "CL=F", "GC=F", "SI=F", "DGS10", "VIXCLS", "^TNX", "^VIX", "T10Y2Y"]);
+const RISK_TYPES = new Set(["normal", "leverage", "leveraged", "inverse", "parking", "unknown"]);
+const INDEX_CODES = new Set([
+  "KOSPI", "KOSDAQ", "VKOSPI", "KR10Y",
+  "^KS11", "^KQ11", "^GSPC", "SPX", "^IXIC", "NDX", "^N225",
+  "KRW=X", "USDKRW", "CL=F", "CLF", "GC=F", "GC", "SI=F", "SI",
+  "DGS10", "VIXCLS", "^TNX", "^VIX", "VIX", "T10Y2Y"
+]);
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -69,7 +74,7 @@ function validateStart(payload, common) {
   return { ok: true, value: { ...common, expectedEtfCount: payload.expectedEtfCount, generalEtfCount: payload.generalEtfCount, aumCoveragePct: payload.aumCoveragePct, etfSourceHash: payload.etfSourceHash, indexSourceHash: payload.indexSourceHash, validation: payload.validation, gitCommitSha } };
 }
 
-function validateBatch(payload, common) {
+function validateBatch(payload) {
   if (!Array.isArray(payload.etfs) || payload.etfs.length < 1 || payload.etfs.length > MAX_ETFS_PER_BATCH) return { ok: false, error: "invalid_batch_size" };
   const seen = new Set();
   const etfs = [];
@@ -83,7 +88,7 @@ function validateBatch(payload, common) {
   return { ok: true, value: etfs };
 }
 
-function validateFinalization(payload, common) {
+function validateFinalization(payload) {
   if (!Array.isArray(payload.indices) || payload.indices.length < 2) return { ok: false, error: "invalid_index_count" };
   const indices = payload.indices.map(normalizeIndex);
   if (indices.some((index) => !index)) return { ok: false, error: "invalid_index_row" };
@@ -159,8 +164,33 @@ async function finalizeSnapshot(env, common, indices) {
      FROM market_source_snapshot_manifest WHERE as_of_date = ? AND source_version = ? AND status = 'collecting'`,
   ).bind(common.asOfDate, common.sourceVersion).first();
   if (!manifest) {
-    const existing = await db.prepare(`SELECT status FROM market_source_snapshot_manifest WHERE as_of_date = ? AND source_version = ?`).bind(common.asOfDate, common.sourceVersion).first();
-    if (existing?.status === "ready") return { status: "already_ready", asOfDate: common.asOfDate, sourceVersion: common.sourceVersion };
+    const existing = await db.prepare(`SELECT status, index_source_hash FROM market_source_snapshot_manifest WHERE as_of_date = ? AND source_version = ?`).bind(common.asOfDate, common.sourceVersion).first();
+    if (existing?.status === "ready") {
+      const supportedIndices = indices.filter((index) => Boolean(index && index.code));
+      if (supportedIndices.length > 0) {
+        const now = nowIso();
+        const statements = supportedIndices.flatMap((index) => [
+          db.prepare(
+            `INSERT INTO market_source_index_daily (
+               as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+               volume_value, source_hash, ingested_at
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(as_of_date, index_code) DO UPDATE SET
+               source_version=excluded.source_version, index_name=excluded.index_name, close_value=excluded.close_value,
+               change_points=excluded.change_points, change_pct=excluded.change_pct, volume_value=excluded.volume_value,
+               source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
+          ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, existing.index_source_hash || "resync", now),
+          db.prepare(
+            `INSERT INTO market_source_index_daily_audit (
+               as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+               volume_value, source_hash, ingested_at
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, existing.index_source_hash || "resync", now),
+        ]);
+        await env.ETF_PRICES.batch(statements);
+      }
+      return { status: "already_ready", asOfDate: common.asOfDate, sourceVersion: common.sourceVersion, indicesUpdated: supportedIndices.length };
+    }
     throw new Error("snapshot_not_collecting");
   }
   const counts = await db.prepare(
@@ -173,19 +203,27 @@ async function finalizeSnapshot(env, common, indices) {
   if (Math.abs(calculatedCoverage - manifest.aum_coverage_pct) > 0.000001) throw new Error("snapshot_aum_coverage_mismatch");
 
   const eventId = `market_snapshot_ready:${common.asOfDate}:${common.sourceVersion}:market_briefing`;
-  const payload = JSON.stringify({ event_id: eventId, event_type: "market_snapshot_ready", target_name: "market_briefing", as_of_date: common.asOfDate, source_version: common.sourceVersion });
   const now = nowIso();
+  const supportedIndices = indices.filter((index) => Boolean(index && index.code));
   const statements = [
-    ...indices.map((index) => db.prepare(
-      `INSERT INTO market_source_index_daily (
-         as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
-         volume_value, source_hash, ingested_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(as_of_date, source_version, index_code) DO UPDATE SET
-         index_name=excluded.index_name, close_value=excluded.close_value, change_points=excluded.change_points,
-         change_pct=excluded.change_pct, volume_value=excluded.volume_value, source_hash=excluded.source_hash,
-         ingested_at=excluded.ingested_at`,
-    ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now)),
+    ...supportedIndices.flatMap((index) => [
+      db.prepare(
+        `INSERT INTO market_source_index_daily (
+           as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+           volume_value, source_hash, ingested_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(as_of_date, index_code) DO UPDATE SET
+           source_version=excluded.source_version, index_name=excluded.index_name, close_value=excluded.close_value,
+           change_points=excluded.change_points, change_pct=excluded.change_pct, volume_value=excluded.volume_value,
+           source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
+      ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now),
+      db.prepare(
+        `INSERT INTO market_source_index_daily_audit (
+           as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
+           volume_value, source_hash, ingested_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).bind(common.asOfDate, common.sourceVersion, index.code, index.name, index.close, index.changePoints, index.changePct, index.volumeValue, manifest.index_source_hash, now),
+    ]),
     db.prepare(
       `UPDATE market_source_snapshot_manifest
        SET status='ready', ready_at=?, updated_at=?

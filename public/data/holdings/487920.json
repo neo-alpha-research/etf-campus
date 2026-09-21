@@ -1,106 +1,106 @@
 {
   "ticker": "487920",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Bajaj Finance Ltd",
-      "weight_pct": 5.77,
+      "weight_pct": 5.69,
       "shares": 1476,
       "item_code": null
     },
     {
-      "name": "Adani Ports & Special Economic Zone Ltd",
-      "weight_pct": 5.54,
-      "shares": 910,
-      "item_code": null
-    },
-    {
-      "name": "Titan Co Ltd",
-      "weight_pct": 5.53,
-      "shares": 301,
-      "item_code": null
-    },
-    {
       "name": "Reliance Industries Ltd",
-      "weight_pct": 5.44,
+      "weight_pct": 5.57,
       "shares": 1164,
       "item_code": null
     },
     {
-      "name": "Tata Power Co Ltd/The",
-      "weight_pct": 5.13,
-      "shares": 3914,
+      "name": "Titan Co Ltd",
+      "weight_pct": 5.56,
+      "shares": 301,
       "item_code": null
     },
     {
-      "name": "Bajaj Finserv Ltd",
-      "weight_pct": 4.97,
-      "shares": 686,
+      "name": "Adani Ports & Special Economic Zone Ltd",
+      "weight_pct": 5.48,
+      "shares": 910,
       "item_code": null
     },
     {
       "name": "Bajaj Auto Ltd",
-      "weight_pct": 4.94,
+      "weight_pct": 5.29,
       "shares": 117,
       "item_code": null
     },
     {
       "name": "Tata Consultancy Services Ltd",
-      "weight_pct": 4.93,
+      "weight_pct": 5.23,
       "shares": 603,
       "item_code": null
     },
     {
+      "name": "Tata Power Co Ltd/The",
+      "weight_pct": 5.02,
+      "shares": 3914,
+      "item_code": null
+    },
+    {
+      "name": "Bajaj Finserv Ltd",
+      "weight_pct": 4.95,
+      "shares": 686,
+      "item_code": null
+    },
+    {
       "name": "Indian Hotels Co Ltd/The",
-      "weight_pct": 4.88,
+      "weight_pct": 4.94,
       "shares": 1880,
       "item_code": null
     },
     {
       "name": "Voltas Ltd",
-      "weight_pct": 4.73,
+      "weight_pct": 4.76,
       "shares": 1080,
       "item_code": null
     },
     {
       "name": "UltraTech Cement Ltd",
-      "weight_pct": 4.47,
+      "weight_pct": 4.42,
       "shares": 106,
       "item_code": null
     },
     {
-      "name": "Adani Enterprises Ltd",
-      "weight_pct": 4.4,
-      "shares": 393,
-      "item_code": null
-    },
-    {
-      "name": "Hindalco Industries Ltd",
-      "weight_pct": 4.25,
-      "shares": 1120,
-      "item_code": null
-    },
-    {
-      "name": "Trent Ltd",
-      "weight_pct": 4.17,
-      "shares": 398,
-      "item_code": null
-    },
-    {
       "name": "Grasim Industries Ltd",
-      "weight_pct": 4.12,
+      "weight_pct": 4.19,
       "shares": 347,
       "item_code": null
     },
     {
+      "name": "Trent Ltd",
+      "weight_pct": 4.16,
+      "shares": 398,
+      "item_code": null
+    },
+    {
+      "name": "Hindalco Industries Ltd",
+      "weight_pct": 4.15,
+      "shares": 1120,
+      "item_code": null
+    },
+    {
+      "name": "Adani Enterprises Ltd",
+      "weight_pct": 4.12,
+      "shares": 393,
+      "item_code": null
+    },
+    {
       "name": "Tata Steel Ltd",
-      "weight_pct": 3.97,
+      "weight_pct": 3.95,
       "shares": 5871,
       "item_code": null
     },
     {
       "name": "Jio Financial Services Ltd",
-      "weight_pct": 3.96,
+      "weight_pct": 3.94,
       "shares": 4564,
       "item_code": null
     },
@@ -112,13 +112,13 @@
     },
     {
       "name": "Mahindra & Mahindra Ltd",
-      "weight_pct": 3.78,
+      "weight_pct": 3.68,
       "shares": 309,
       "item_code": null
     },
     {
       "name": "Ambuja Cements Ltd",
-      "weight_pct": 3.69,
+      "weight_pct": 3.59,
       "shares": 2443,
       "item_code": null
     },
@@ -130,14 +130,14 @@
     },
     {
       "name": "Tata Motors Passenger Vehicles Limited",
-      "weight_pct": 3.21,
+      "weight_pct": 3.23,
       "shares": 2849,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.62,
-      "shares": 2519471,
+      "weight_pct": 0.58,
+      "shares": 2292309,
       "item_code": null
     }
   ]

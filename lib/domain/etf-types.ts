@@ -12,7 +12,7 @@ export const MARKET_SCOPES = ["국내", "미국", "중국", "일본", "인도", 
 export const STRATEGIES = ["패시브", "액티브", "커버드콜"] as const;
 export const FX_HEDGES = ["비헤지", "헤지", "부분 헤지", "탄력 헤지"] as const;
 
-export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
+export const RISK_TYPES = ["normal", "leverage", "inverse", "parking"] as const;
 export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
 export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"] as const;
 
@@ -36,7 +36,20 @@ export type MarketScope = (typeof MARKET_SCOPES)[number];
 export type Strategy = (typeof STRATEGIES)[number];
 export type FxHedge = (typeof FX_HEDGES)[number];
 export type RiskType = (typeof RISK_TYPES)[number];
-export type PensionStatus = (typeof PENSION_STATUSES)[number];export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
+export type PensionStatus = (typeof PENSION_STATUSES)[number];
+export const PENSION_LIMITS = ["100% (안전자산)", "70% (위험자산)", "불가"] as const;
+export type PensionLimit = (typeof PENSION_LIMITS)[number];
+export const ISA_STATUSES = ["가능", "불가"] as const;
+export type IsaStatus = (typeof ISA_STATUSES)[number];
+export const ISA_TAX_TYPES = ["국내주식형", "기타"] as const;
+export type IsaTaxType = (typeof ISA_TAX_TYPES)[number];
+export const ISA_TAX_BENEFITS = ["높음", "낮음"] as const;
+export type IsaTaxBenefit = (typeof ISA_TAX_BENEFITS)[number];
+export const PENSION_SOURCE_TYPES = ["법령조건직접판정", "규칙기반추정", "표본대조", "증권사목록대조"] as const;
+export type PensionSourceType = (typeof PENSION_SOURCE_TYPES)[number];
+export const PENSION_CONFIDENCE_LEVELS = ["높음", "보통", "낮음"] as const;
+export type PensionConfidenceLevel = (typeof PENSION_CONFIDENCE_LEVELS)[number];
+export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
 
 export type EtfIssuer = {
   issuerId: string;
@@ -88,18 +101,23 @@ export type EtfDistributionEvent = {
   recordDate: string | null;
   payDate: string | null;
   distributionType: string;
-  displayStatus: "issuer_notice" | "krx_official_partial";
+  dividendYieldPct?: number | null;
+  displayStatus: "issuer_notice" | "krx_official_partial" | "official_seibro_krx" | string;
   displayLabel: string;
   updatedAt: string | null;
 };
 
 export type EtfDistributionSummary = {
   ticker: string;
-  sourceStatus: "issuer_notice" | "krx_official_partial" | "mixed_official_sources";
+  sourceStatus: "issuer_notice" | "krx_official_partial" | "mixed_official_sources" | "official_seibro_krx" | string;
   sourceLabel: string;
-  latest: EtfDistributionEvent;
+  latest: EtfDistributionEvent | null;
   records: EtfDistributionEvent[];
   eventCount: number;
+  paymentCycle?: string | null;
+  ttmAmountKrw?: number | null;
+  ttmDividendYieldPct?: number | null;
+  isTr?: boolean;
   updatedAt: string;
 };
 
@@ -140,12 +158,26 @@ export type Etf = {
   trackingError?: number | null;
   fee?: EtfFeeInfo | null;
   distributionSummary?: EtfDistributionSummary | null;
+  distributionYield?: number | null;
+  distributionCycle?: string | null;
+  lastDistributionDate?: string | null;
 
   issuer: EtfIssuer;
   riskType: RiskType;
   assetClass: AssetClass;
   pension: PensionStatus;
   pensionSource: string;
+  pensionLimit?: PensionLimit | null;
+  pensionSourceType?: PensionSourceType | null;
+  pensionVerified?: "Y" | "N" | null;
+  pensionConfidence?: PensionConfidenceLevel | null;
+  personalPension?: "가능" | "불가" | null;
+  personalPensionLimit?: "100%" | "불가" | null;
+  personalPensionAsOfDate?: string | null;
+  isaEligible?: IsaStatus | null;
+  isaEducationRequired?: "Y" | "N" | null;
+  isaTaxType?: IsaTaxType | null;
+  isaTaxBenefit?: IsaTaxBenefit | null;
   liquidity: string;
   asOfDate: string;
   listingDate: string | null;
@@ -156,13 +188,33 @@ export type Etf = {
   listingDateVerifiedAt: string | null;
   listingDateEvidenceId: string | null;
   returns: EtfReturns;
+  returnsTr?: EtfReturns;
+  returnsNetTr?: EtfReturns;
   itdAnchor?: ItdAnchor;
   isNew90d: boolean | null;
   isNew3m: boolean;
   classification?: EtfClassification | null;
 };
 
-export type EtfSlim = Pick<Etf, "ticker" | "name" | "baseIndex" | "assetClass" | "riskType" | "pension" | "tradeValue" | "changePct" | "aum" | "classification"> & {
+export type EtfSlim = Pick<
+  Etf,
+  | "ticker"
+  | "name"
+  | "baseIndex"
+  | "assetClass"
+  | "riskType"
+  | "pension"
+  | "pensionLimit"
+  | "pensionSourceType"
+  | "pensionVerified"
+  | "pensionConfidence"
+  | "isaEligible"
+  | "isaEducationRequired"
+  | "tradeValue"
+  | "changePct"
+  | "aum"
+  | "classification"
+> & {
   // We can include a pre-computed searchKey if we want, or just compute on the fly.
 };
 

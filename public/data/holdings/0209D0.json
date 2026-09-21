@@ -1,58 +1,58 @@
 {
   "ticker": "0209D0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 26.96,
+      "weight_pct": 27.24,
       "shares": 203,
       "item_code": "006400"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 26.38,
+      "weight_pct": 26.43,
       "shares": 305,
       "item_code": "373220"
     },
     {
       "name": "이수스페셜티케미컬",
-      "weight_pct": 8.37,
+      "weight_pct": 8.62,
       "shares": 538,
       "item_code": "457190"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 7.89,
+      "weight_pct": 7.51,
       "shares": 154,
       "item_code": "010120"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 7.18,
+      "weight_pct": 6.89,
       "shares": 10,
       "item_code": "298040"
     },
     {
       "name": "롯데에너지머티리얼즈",
-      "weight_pct": 5.62,
+      "weight_pct": 6.21,
       "shares": 685,
       "item_code": "020150"
     },
     {
-      "name": "대주전자재료",
-      "weight_pct": 5.54,
-      "shares": 257,
-      "item_code": "078600"
-    },
-    {
       "name": "엘앤에프",
-      "weight_pct": 5.3,
+      "weight_pct": 5.44,
       "shares": 175,
       "item_code": "066970"
     },
     {
+      "name": "대주전자재료",
+      "weight_pct": 5.38,
+      "shares": 257,
+      "item_code": "078600"
+    },
+    {
       "name": "서진시스템",
-      "weight_pct": 3.7,
+      "weight_pct": 3.19,
       "shares": 384,
       "item_code": "178320"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.28,
-      "shares": 1227984,
+      "weight_pct": 0.31,
+      "shares": 1267294,
       "item_code": null
     }
   ]

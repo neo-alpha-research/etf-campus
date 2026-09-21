@@ -1,35 +1,35 @@
 {
   "ticker": "477080",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스왑(메리츠증권)_44G4_20260624",
       "weight_pct": 35.69,
-      "shares": 38342052,
+      "shares": 38361750,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 35.22,
-      "shares": 37833432,
+      "shares": 37847024,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_44G4_260722",
       "weight_pct": 13.67,
-      "shares": 14682817,
+      "shares": 14690360,
       "item_code": null
     },
     {
       "name": "스왑(하나증권)_44G4_20260715",
       "weight_pct": 9.92,
-      "shares": 10660566,
+      "shares": 10666043,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)_44G4_20260729",
       "weight_pct": 5.48,
-      "shares": 5889822,
+      "shares": 5892848,
       "item_code": null
     }
   ]

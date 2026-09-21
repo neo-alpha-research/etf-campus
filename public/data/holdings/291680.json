@@ -1,22 +1,22 @@
 {
   "ticker": "291680",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 95.36,
-      "shares": 367827529,
+      "weight_pct": 95.37,
+      "shares": 372357695,
       "item_code": null
     },
     {
       "name": "CSOP Hang Seng China Etp Idx Dly (-2x) Invrs Prod",
-      "weight_pct": 4.63,
+      "weight_pct": 4.62,
       "shares": 69000,
       "item_code": "7588.HK"
     },
     {
-      "name": "H-SHARES IDX FUT AUG 2026",
-      "weight_pct": -85.79,
+      "name": "H-SHARES IDX FUT SEPT 2026",
+      "weight_pct": -82.79,
       "shares": -4,
       "item_code": null
     }

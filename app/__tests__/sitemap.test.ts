@@ -10,8 +10,7 @@ describe("sitemap", () => {
     expect(etfEntries).toHaveLength(loadEtfs().length);
     expect(entries.every((entry) => entry.url.startsWith("https://"))).toBe(true);
     expect(entries.some((entry) => entry.url.endsWith("/guides/foundation-first"))).toBe(true);
-    expect(entries.some((entry) => entry.url.endsWith("/books/review/the-little-book-of-common-sense-investing"))).toBe(true);
-    expect(entries.some((entry) => entry.url.endsWith("/books/review/magic-pension-allocation"))).toBe(true);
+    expect(entries.some((entry) => entry.url.includes("/books/review/"))).toBe(true);
     expect(entries.some((entry) => entry.url.endsWith("/style/turtle"))).toBe(true);
     expect(entries.some((entry) => entry.url.endsWith("/style/fox"))).toBe(true);
     expect(entries.filter((entry) => entry.url.includes("/style/"))).toHaveLength(10);

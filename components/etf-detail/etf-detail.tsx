@@ -2,17 +2,18 @@ import Link from "next/link";
 
 import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
-import { formatMoney, formatWon, formatFeePct } from "@/lib/domain/etf-format";
+import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { isNewListing } from "@/lib/domain/etf-explorer";
-import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
+import { type Etf } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient } from "./etf-detail-client";
+import { FeeMetricItem } from "./fee-metric-item";
 import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
 import { EtfHoldings } from "./etf-holdings";
+import { ReturnPeriodGrid } from "./return-period-grid";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
-import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
@@ -49,11 +50,9 @@ function formatStrategyLabel(
 export function EtfDetail({
   etf,
   peerComparison,
-  returnDisplayStatus,
 }: {
   etf: Etf;
   peerComparison?: PeerComparison;
-  returnDisplayStatus?: EtfReturnDisplayStatus;
 }) {
 
   const resolvedPeerComparison: PeerComparison = peerComparison ?? {
@@ -90,37 +89,9 @@ export function EtfDetail({
 
   const itdAvailable = Boolean(newListing && etf.itdAnchor?.price && etf.itdAnchor?.date && etf.returns.itd !== null);
   const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
-  const defaultPeriods: ReturnPeriod[] = newListing
-    ? ["1d", "1w", "2w", "1m", "2m", ...(itdAvailable ? ["itd" as const] : [])]
-    : ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
-
-  const fee = etf.fee;
-  const isFeeVerified = fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source";
-  const feeSource = fee?.dartReceiptNo
-    ? {
-        label: "\uAE08\uAC10\uC6D0 DART \uD22C\uC790\uC124\uBA85\uC11C",
-        url: `https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${fee.dartReceiptNo}`,
-      }
-    : fee?.primarySourceUrl
-      ? { label: "\uC6B4\uC6A9\uC0AC \uACF5\uC2DD \uC790\uB8CC", url: fee.primarySourceUrl }
-      : fee?.secondarySourceUrl
-        ? { label: "\uACF5\uC2DD \uBCF4\uC870 \uC790\uB8CC", url: fee.secondarySourceUrl }
-        : null;
-
-  const getFeeStatusText = (status: string | undefined) => {
-    switch(status) {
-      case "seed_unverified": return "검증 전 데이터";
-      case "conflict": return "출처 간 정보 불일치";
-      case "pending_review": return "공식 데이터 확인 중";
-      case "stale": return "최신화 필요";
-      default: return "공식 데이터 확인 중";
-    }
-  };
-
-  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "ITD" };
 
   return (
-    <main className="page-shell flex-1 py-6 sm:py-8 space-y-3">
+    <main className="page-shell flex-1 py-3 sm:py-8 space-y-3">
       {/* 1. 상품 헤더 */}
       <section aria-labelledby="header-title">
         <h2 className="sr-only" id="header-title">상품 헤더</h2>
@@ -129,7 +100,7 @@ export function EtfDetail({
             
             <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
-                <Link className="inline-flex items-center justify-center rounded-md bg-neutral-100 p-1.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors mr-1" href="/" aria-label="목록으로 돌아가기">
+                <Link className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md bg-neutral-100 p-1.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors mr-1" href="/" aria-label="목록으로 돌아가기">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </Link>
                 {marketScope && <span className="rounded-md border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-700">{marketScope}</span>}
@@ -138,6 +109,45 @@ export function EtfDetail({
                 {etf.classification?.fxHedge && <span className="rounded-md border border-teal-200 bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700">{etf.classification.fxHedge}</span>}
                 <RiskBadge riskType={etf.riskType} />
                 {etf.pension === "가능" && <PensionBadge status={etf.pension} />}
+                {etf.pensionLimit === "100% (안전자산)" && (
+                  <span className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1" title="퇴직연금감독규정 제12조 제4항상 적격 안전자산 (퇴직연금 계좌 100% 전액 편입 가능)">
+                    안전자산 100%
+                  </span>
+                )}
+                {etf.pensionLimit === "70% (위험자산)" && (
+                  <span className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-bold text-blue-800 flex items-center gap-1" title="퇴직연금감독규정 제12조 제4항상 위험자산 한도 적용 (퇴직연금 계좌 최대 70%까지 편입 가능)">
+                    위험자산 70%
+                  </span>
+                )}
+                {etf.pensionLimit && etf.pensionLimit !== "불가" && etf.pensionVerified === "N" && (
+                  <span
+                    className={`rounded-md border px-2 py-1 text-xs font-bold flex items-center gap-1 cursor-help ${
+                      etf.pensionConfidence === "낮음"
+                        ? "border-neutral-300 bg-neutral-100 text-neutral-600"
+                        : "border-amber-300 bg-amber-50 text-amber-800"
+                    }`}
+                    title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
+                  >
+                    추정
+                  </span>
+                )}
+                {etf.pensionConfidence === "보통" && (
+                  <span
+                    className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1 cursor-help"
+                    title={
+                      etf.pensionLimit === "불가"
+                        ? "선물 파생평가액 규정상 원칙적 편입 불가이나, 증권사별 예외 취급 정책 여부는 거래 증권사에서 최종 확인하십시오"
+                        : "합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오"
+                    }
+                  >
+                    {etf.pensionLimit === "불가" ? "정책확인" : "증권사 최종확인 권장"}
+                  </span>
+                )}
+                {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1" title="중개형 ISA 및 일반 계좌 편입 가능 (금융투자교육원 사전교육 및 기본예탁금 필요)">
+                    교육필요
+                  </span>
+                )}
                 {cautions.map(caution => (
                   <span key={caution} className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">{caution}</span>
                 ))}
@@ -146,9 +156,9 @@ export function EtfDetail({
                 )}
               </div>
 
-              <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
+              <h1 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-strong">
                 {etf.name}
-                <span className="text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
+                <span className="text-base sm:text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
               </h1>
             </div>
             
@@ -165,13 +175,32 @@ export function EtfDetail({
                   <span className="text-3xl font-black text-brand-700 tabular-nums tracking-tight">{formatWon(etf.close)}</span>
                   <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
                 </div>
-                {(etf.nav != null || etf.disparity != null) && (
-                  <div className="flex items-center gap-2 text-[13px] font-semibold text-neutral-600 bg-neutral-100/80 px-2.5 py-1 rounded-md max-w-fit">
+                {(etf.nav != null || etf.disparity != null || etf.trackingError != null) && (
+                  <div className="flex items-center gap-2 text-[13px] font-semibold text-neutral-600 bg-neutral-100/80 px-2.5 py-1 rounded-md max-w-fit flex-wrap">
                     {etf.nav != null && <span>NAV: {formatWon(etf.nav)}</span>}
-                    {etf.nav != null && etf.disparity != null && <span className="w-px h-3 bg-neutral-300 mx-0.5"></span>}
+                    {etf.nav != null && (etf.disparity != null || etf.trackingError != null) && <span className="w-px h-3 bg-neutral-300 mx-0.5 hidden sm:block"></span>}
                     {etf.disparity != null && (
                       <span className="flex items-center gap-1">
                         괴리율: <ReturnCell value={etf.disparity} />
+                      </span>
+                    )}
+                    {etf.disparity != null && etf.trackingError != null && <span className="w-px h-3 bg-neutral-300 mx-0.5 hidden sm:block"></span>}
+                    {etf.trackingError != null && (
+                      <span className="flex items-center gap-1 group relative cursor-help text-neutral-700 font-mono">
+                        <span className="font-sans font-semibold">추적오차율:</span> {etf.trackingError.toFixed(2)}%
+                        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-[calc(100%+8px)] w-72 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] font-sans font-normal whitespace-normal break-keep">
+                          <div className="absolute -top-1.5 left-4 sm:left-1/2 sm:-translate-x-1/2 border-[6px] border-transparent border-b-slate-900/98" />
+                          <div className="text-[12px] font-black text-brand-300 mb-1">추적 오차율 (Tracking Error)</div>
+                          <div className="text-[11px] text-neutral-200 leading-tight mb-2">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
+                          <div className="text-[11px] text-emerald-300 bg-emerald-950/70 p-2 rounded border border-emerald-700/60 leading-snug mb-1.5">
+                            <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]입니다.</strong>
+                          </div>
+                          {etf.name.includes("액티브") && (
+                            <div className="text-[10.5px] bg-brand-900/40 text-brand-200 p-1.5 rounded border border-brand-700/50 mt-1">
+                              💡 <strong>액티브 ETF:</strong> 초과수익 추구로 추적오차율이 자연스럽게 높게 나타납니다.
+                            </div>
+                          )}
+                        </div>
                       </span>
                     )}
                   </div>
@@ -230,30 +259,7 @@ export function EtfDetail({
               {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
               {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}
               
-              <div className="overflow-hidden rounded-xl border border-line bg-line">
-                <div
-                  role="table"
-                  aria-label={`${etf.name} 기본 기간별 가격 수익률`}
-                  data-testid="return-period-table"
-                  className="grid gap-px"
-                  style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
-                >
-                  {defaultPeriods.map((period) => (
-                    <div key={period} role="cell" className="bg-surface py-2.5 px-0.5 sm:px-1 flex flex-col items-center justify-center text-center">
-                      <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
-                        <span aria-hidden="true">{EN_PERIOD_LABELS[period] || period}</span>
-                      </div>
-                      <div className="text-[11px] sm:text-[12px] font-bold tabular-nums tracking-tighter">
-                        {etf.returns[period] === null ? (
-                          <span aria-label="데이터 없음" className="text-muted font-medium">—</span>
-                        ) : (
-                          <ReturnCell value={etf.returns[period]!} />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ReturnPeriodGrid etf={etf} />
 
               <EtfHoldings ticker={etf.ticker} />
             </div>
@@ -262,7 +268,7 @@ export function EtfDetail({
             <div className="w-full lg:w-[30%] lg:min-w-[300px]">
               <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm h-full flex flex-col gap-5">
                 <h3 className="text-base font-extrabold text-strong">투자 전 체크 지표</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-1 gap-5">
                   <div className="flex flex-col justify-center">
                     <dt className="text-sm font-bold text-gray-500">순자산</dt>
                     <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.aum)}</dd>
@@ -272,45 +278,67 @@ export function EtfDetail({
                     <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.tradeValue)}</dd>
                   </div>
 
-                  <div className="flex flex-col justify-center group relative cursor-help">
-                    <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                      총보수
-                      <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </dt>
-                    <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong font-mono tabular-nums">
-                      {isFeeVerified ? (
-                        <span>
-                          {formatFeePct(fee?.totalFeePct)}
-                        </span>
-                      ) : (
-                        <span className="text-sm font-medium text-amber-600 font-sans">
-                          {getFeeStatusText(fee?.verificationStatus)}
-                        </span>
-                      )}
-                    </dd>
+                  <FeeMetricItem etf={etf} />
 
-                    {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
-                        기타비용과 매매중개수수료율을 모두 포함한 실제 부담 총비용(Total Expense Ratio)입니다.
-                        {feeSource && (
-                          <div className="mt-3 border-t border-neutral-600 pt-2 text-[11px] text-neutral-300">
-                            <span className="mr-1 text-neutral-400">대표 출처:</span>
-                            <a
-                              className="underline decoration-neutral-500 underline-offset-2 hover:text-white pointer-events-auto"
-                              href={feeSource.url}
-                              rel="noreferrer"
-                              target="_blank"
-                            >
-                              {feeSource.label}
-                            </a>
-                          </div>
-                        )}
+                  <div className="flex flex-col justify-center">
+                    <dt className="text-sm font-bold text-gray-500">절세 계좌 편입</dt>
+                    <dd className="mt-1 flex flex-col gap-1 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-neutral-500 font-medium">퇴직연금(DC·IRP)</span>
+                        <span className={`font-bold ${
+                          etf.pensionLimit === "100% (안전자산)" 
+                            ? "text-emerald-700" 
+                            : etf.pensionLimit === "70% (위험자산)" 
+                            ? "text-blue-700" 
+                            : etf.pension === "가능" 
+                            ? "text-brand-700" 
+                            : "text-neutral-400"
+                        }`}>
+                          {etf.pensionLimit ? etf.pensionLimit : (etf.pension === "가능" ? "편입 가능" : "불가")}
+                        </span>
+                      </div>
+                      {["357870", "477080"].includes(etf.ticker) && (
+                        <p className="text-[11px] text-amber-700 leading-tight">
+                          * 증권사에 따라 안전자산으로 분류될 수 있습니다. 실제 한도는 가입한 퇴직연금사업자에서 확인하십시오.
+                        </p>
+                      )}
+                      {etf.ticker === "0198A0" && (
+                        <p className="text-[11px] text-neutral-500 leading-tight">
+                          * 일부 증권사에서 취급하지 않을 수 있습니다.
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-neutral-500 font-medium">중개형 ISA</span>
+                        <span className="font-bold text-indigo-700">
+                          {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") ? "편입 가능 (사전교육 필요)" : "편입 가능"}
+                        </span>
+                      </div>
+                    </dd>
+                  </div>
+                  
+                  {/* 추적 오차율 추가 */}
+                  {etf.trackingError != null && (
+                    <div className="flex flex-col justify-center group relative cursor-help">
+                      <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
+                        추적 오차율
+                        <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </dt>
+                      <dd className="mt-1 text-lg font-bold text-strong font-mono tabular-nums">
+                        {etf.trackingError.toFixed(2)}%
+                      </dd>
+                      
+                      <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 max-w-[calc(100vw-32px)] z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none">
+                        <div className="bg-slate-900/98 backdrop-blur-md text-white text-xs rounded-xl p-4 shadow-xl border border-slate-700/80 font-medium leading-relaxed whitespace-normal break-keep">
+                          과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 
+                          <br/><br/>
+                          <span className="text-emerald-400 font-bold">숫자가 낮을수록</span> ETF가 목표 기초지수를 잘 추종하고 있음을 의미하는 신뢰 지표입니다.
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
                       기본 수익률 기준
@@ -323,18 +351,24 @@ export function EtfDetail({
                     </dd>
 
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 pointer-events-none">
-                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 max-w-[calc(100vw-32px)] z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 pointer-events-none">
+                      <div className="bg-slate-900/98 backdrop-blur-md text-white text-xs rounded-xl p-4 shadow-xl border border-slate-700/80 font-medium leading-relaxed whitespace-normal break-keep">
                         {etf.distributionSummary 
                           ? "상세페이지의 수익률은 분배금 재투자 여부를 반영하지 않은 시장 가격 기준 누적 수익률(PR)입니다. 배당/분배금이 지급되는 ETF의 경우, 실제 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다." 
                           : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 해당 ETF의 분배금(배당) 상세 내역은 현재 제공되지 않으며, 실제 분배금이 지급되었을 경우 이를 합산한 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다."}
                       </div>
                     </div>
                   </div>
-                {etf.distributionSummary ? <DistributionHistoryCard summary={etf.distributionSummary} /> : null}
+                </div>
+
+                <DistributionHistoryCard
+                  summary={etf.distributionSummary}
+                  etfName={etf.name}
+                  isTr={etf.returnsTr != null}
+                  isNewListing={isNewListing(etf)}
+                />
               </div>
             </div>
-          </div>
           </div>
         </section>
 

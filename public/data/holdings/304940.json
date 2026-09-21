@@ -1,29 +1,29 @@
 {
   "ticker": "304940",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
+      "name": "원화현금",
+      "weight_pct": 94.03,
+      "shares": 1504668498,
+      "item_code": null
+    },
+    {
       "name": "Nasdaq100 Emini 2026 09",
-      "weight_pct": 94.06,
+      "weight_pct": 93.67,
       "shares": 1,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 93.98,
-      "shares": 1511403529,
-      "item_code": null
-    },
-    {
       "name": "Invesco QQQ Trust  Series 1",
-      "weight_pct": 6.01,
+      "weight_pct": 5.96,
       "shares": 98,
       "item_code": "QQQ.O"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -27.91,
-      "shares": -32,
+      "weight_pct": -27.26,
+      "shares": -31,
       "item_code": null
     }
   ]

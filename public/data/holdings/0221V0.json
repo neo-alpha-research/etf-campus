@@ -1,6 +1,6 @@
 {
   "ticker": "0221V0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "하나캐피탈406-5",
@@ -9,8 +9,14 @@
       "item_code": null
     },
     {
+      "name": "부국증권 20260828-11-66(단)",
+      "weight_pct": 9.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "광주은행2026-03이(변)1갑-31",
-      "weight_pct": 9.32,
+      "weight_pct": 9.3,
       "shares": 0,
       "item_code": null
     },
@@ -33,12 +39,6 @@
       "item_code": null
     },
     {
-      "name": "HS효성첨단소재 20260729-30-2",
-      "weight_pct": 4.65,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나증권 20250908-364-23",
       "weight_pct": 4.65,
       "shares": 0,
@@ -47,6 +47,12 @@
     {
       "name": "하나증권 20250908-364-24",
       "weight_pct": 4.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "HS효성첨단소재 20260831-30-5",
+      "weight_pct": 4.64,
       "shares": 0,
       "item_code": null
     },
@@ -129,9 +135,15 @@
       "item_code": null
     },
     {
+      "name": "에이치씨디제육차 20260831-91-4(단)",
+      "weight_pct": 1.84,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -10.42,
-      "shares": -10460912,
+      "weight_pct": -21.53,
+      "shares": -21631881,
       "item_code": null
     }
   ]

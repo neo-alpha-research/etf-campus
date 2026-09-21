@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import {
   Star,
   ThumbsUp,
@@ -10,13 +13,24 @@ import {
   ArrowRight,
   ExternalLink,
   Info,
+  Target,
+  ZoomIn,
+  X,
 } from "lucide-react";
 
-import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
-import { MarkdownContent } from "@/components/markdown/markdown-content";
 import type { ExternalBook } from "@/lib/content/learning-content";
+import { MarkdownContent } from "@/components/markdown/markdown-content";
 
-export function ExternalBookDetail({ book }: { book: ExternalBook }) {
+export function ExternalBookDetail({
+  book,
+  relatedBooks,
+  crossSellBanner,
+}: {
+  book: ExternalBook;
+  relatedBooks?: ExternalBook[];
+  crossSellBanner?: React.ReactNode;
+}) {
+  const [showCoverModal, setShowCoverModal] = useState(false);
   const coverUrl = book.coverImage;
 
   return (
@@ -56,11 +70,45 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-extrabold text-amber-950 border border-amber-200">
-              <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span className="tabular-nums text-sm">{book.rating.toFixed(1)}</span>
-              <span className="text-amber-800/80 font-medium">({book.reviewCount}개 리뷰)</span>
-            </span>
+            <div className="relative group/rating cursor-help">
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-extrabold text-amber-950 border border-amber-200 transition-colors hover:bg-amber-100">
+                <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                <span className="tabular-nums text-sm">
+                  {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)}
+                </span>
+                <span className="text-amber-800/80 font-medium">({book.reviewCount}개 리뷰)</span>
+              </span>
+
+              {/* 빅 3 서점 평점 상세 툴팁 */}
+              <div className="absolute right-0 top-full mt-1.5 w-48 rounded-xl bg-white p-3.5 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible transition-all z-30 text-left pointer-events-none whitespace-normal break-keep">
+                <p className="text-xs font-extrabold text-neutral-800 mb-2 flex items-center gap-1">
+                  <span>📊 3사 통합 평점 상세</span>
+                </p>
+                <div className="space-y-1.5 text-xs text-neutral-600 font-medium">
+                  <div className="flex justify-between items-center">
+                    <span>교보문고</span>
+                    <span className="font-bold text-amber-600">★ {(book.kyoboRating ?? book.rating).toFixed(1)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>YES24</span>
+                    <span className="font-bold text-amber-600">★ {(book.yes24Rating ?? book.rating).toFixed(1)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>알라딘</span>
+                    <span className="font-bold text-amber-600">★ {(book.aladinRating ?? book.rating).toFixed(1)}</span>
+                  </div>
+                </div>
+                <div className="mt-2.5 pt-2 border-t border-neutral-100 flex justify-between items-center text-[11px] text-neutral-500 font-bold">
+                  <span>3사 평균 평점</span>
+                  <span className="text-amber-700 font-black">
+                    {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)} / 5.0
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[9px] text-neutral-400 leading-tight">
+                  ※ 도서 추천 순위는 서점 누적 판매량(베스트셀러) 기준입니다.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -83,17 +131,35 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
       </header>
 
       {/* 한 줄 총평 (D 고객 요구: 1분 안에 결론 도달) + 표지 카드 */}
-      <section className="mt-6 flex flex-col sm:flex-row gap-5 rounded-2xl border-2 border-brand-100 bg-brand-50/40 p-5 sm:p-6 items-center">
-        <div className="flex aspect-[3/4] w-28 sm:w-32 shrink-0 items-center justify-center rounded-xl bg-white border border-line/60 overflow-hidden shadow-xs">
+      <section className="mt-6 flex flex-col sm:flex-row gap-6 rounded-3xl border-2 border-brand-100 bg-brand-50/40 p-5 sm:p-7 items-center">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => { if (coverUrl) setShowCoverModal(true); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              if (coverUrl) setShowCoverModal(true);
+            }
+          }}
+          className="group/cover flex aspect-[3/4] w-36 sm:w-44 shrink-0 items-center justify-center rounded-2xl bg-white border border-neutral-200/90 overflow-hidden relative shadow-sm hover:shadow-md transition-all cursor-zoom-in"
+          aria-label={`${book.title} 표지 크게 보기`}
+        >
           {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt={book.title}
-              width={128}
-              height={170}
-              className="h-full w-full object-cover"
-              unoptimized
-            />
+            <>
+              <Image
+                src={coverUrl}
+                alt={book.title}
+                width={176}
+                height={235}
+                className="h-full w-full object-contain p-1.5 transition-transform duration-200 group-hover/cover:scale-105"
+                unoptimized
+                priority
+              />
+              <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/cover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-xs font-extrabold text-white backdrop-blur-[1px]">
+                <ZoomIn className="h-4 w-4" />
+                <span>표지 크게 보기</span>
+              </div>
+            </>
           ) : (
             <BookOpen className="h-10 w-10 text-neutral-300" strokeWidth={1.5} />
           )}
@@ -111,6 +177,28 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
           </p>
         </div>
       </section>
+
+      {/* 🎯 이런 분께 강력 추천합니다 (추천 대상 및 선정 근거 카드) */}
+      {(book.targetPersona || book.targetRationale) && (
+        <section className="mt-6 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5 sm:p-6 shadow-2xs">
+          <div className="flex items-center gap-2 text-sm font-extrabold text-indigo-950 mb-3 border-b border-indigo-200/70 pb-2.5">
+            <Target className="h-4 w-4 text-indigo-600 shrink-0" />
+            <span>🎯 이런 투자자분께 강력 추천합니다</span>
+          </div>
+          <div className="space-y-2 text-xs sm:text-sm text-neutral-800 leading-relaxed">
+            {book.targetPersona && (
+              <p>
+                <strong className="font-bold text-indigo-950">[추천 대상]</strong> {book.targetPersona}
+              </p>
+            )}
+            {book.targetRationale && (
+              <p className="text-neutral-700">
+                <strong className="font-bold text-indigo-950">[선정 근거]</strong> {book.targetRationale}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Pros & Cons 2열 대칭 패널 (E 고객: 동등한 무게감, 색상 단독 의존 금지) */}
       <section className="mt-8">
@@ -153,10 +241,81 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
         </div>
       </section>
 
-      {/* 크로스셀 배너 (Pros/Cons 요약 직후 상향 배치) */}
-      {book.relatedInternalLink && (
-        <CrossSellBanner internalLink={book.relatedInternalLink} />
+      {/* 도서 심층 리포트 및 챕터별 핵심 분석 (Editorial In-Depth Report) */}
+      {book.content && book.content.trim() !== "" && (
+        <section className="mt-10">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="rounded-md bg-brand-800 text-white px-2.5 py-1 text-xs font-black">
+                CAMPUS EDITORIAL REPORT
+              </span>
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">
+                도서 심층 분석 &amp; 핵심 투자 인사이트
+              </h2>
+            </div>
+            <span className="rounded-md bg-neutral-100 text-neutral-600 px-2 py-0.5 text-xs font-semibold border border-line">
+              ⏱️ 약 3분 완독 리포트
+            </span>
+          </div>
+
+          <div className="rounded-3xl border border-line bg-surface p-6 sm:p-8 sm:py-9 shadow-xs">
+            <MarkdownContent source={book.content} />
+          </div>
+        </section>
       )}
+
+      {/* 같은 분야 다른 추천 도서 비교 탐색 */}
+      {relatedBooks && relatedBooks.length > 0 && (
+        <section className="mt-10 border-t border-line pt-8">
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <h3 className="text-base sm:text-lg font-extrabold text-strong flex items-center gap-2">
+              <span>📚 같은 『{book.category}』 분야 추천 도서</span>
+            </h3>
+            <Link href="/books" className="text-xs font-bold text-brand-700 hover:text-brand-800">
+              전체 도서 보기 →
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {relatedBooks.map((relBook) => (
+              <Link
+                key={relBook.slug}
+                href={`/books/review/${relBook.slug}`}
+                className="flex items-center gap-3.5 rounded-2xl border border-line bg-surface p-3.5 transition-all hover:border-brand-300 hover:shadow-xs group"
+              >
+                {relBook.coverImage ? (
+                  <div className="aspect-[3/4] w-12 sm:w-14 shrink-0 rounded-lg overflow-hidden bg-white border border-neutral-100 flex items-center justify-center p-1">
+                    <Image
+                      src={relBook.coverImage}
+                      alt={relBook.title}
+                      width={56}
+                      height={75}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-[3/4] w-12 sm:w-14 shrink-0 rounded-lg bg-neutral-100 flex items-center justify-center">
+                    <BookOpen className="h-5 w-5 text-neutral-400" />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <span className="text-[10px] font-extrabold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200/60">
+                    {relBook.shortTargetTag ? `🎯 ${relBook.shortTargetTag}` : relBook.publisher}
+                  </span>
+                  <h4 className="mt-1 text-xs sm:text-sm font-extrabold text-strong line-clamp-1 group-hover:text-brand-700 transition-colors">
+                    {relBook.title}
+                  </h4>
+                  <p className="mt-0.5 text-[11px] text-neutral-500 line-clamp-1">
+                    {relBook.author} 저 · ★ {(((relBook.kyoboRating ?? relBook.rating) + (relBook.yes24Rating ?? relBook.rating) + (relBook.aladinRating ?? relBook.rating)) / 3).toFixed(1)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 크로스셀 배너 (심층 리포트 후 배치) */}
+      {crossSellBanner}
 
       {/* 고객 F 요구: Backtest Ticker 연계 실행 CTA */}
       {book.backtestTicker && (
@@ -175,7 +334,7 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
                 도서에서 언급된 ETF의 실제 구성종목 및 보수 확인하기
               </h3>
               <p className="mt-1 text-xs text-neutral-600">
-                책에서 배운 투자 기준을 바탕으로 해당 종목의 실시간 괴리율, 총보수, 배당 이력을 확인해 보세요.
+                책에서 배운 투자 기준을 바탕으로 해당 종목의 괴리율, 총보수, 배당 이력을 확인해 보세요.
               </p>
             </div>
 
@@ -191,22 +350,14 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
         </section>
       )}
 
-      {/* 마크다운 본문 영역 */}
-      <section className="mt-8 rounded-2xl border border-line bg-surface p-5 sm:p-8">
-        <h2 className="text-xl font-extrabold tracking-[-0.03em] text-strong mb-6 pb-3 border-b border-line">
-          도서 심층 리뷰 및 상세 분석
-        </h2>
-        <MarkdownContent source={book.content} />
-      </section>
-
       {/* 제휴 구매처 배너 */}
       {book.affiliateUrl && (
         <section className="mt-8 rounded-3xl border-2 border-brand-200 bg-brand-50/80 p-6 sm:p-8 shadow-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
             <div>
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-bold text-brand-800 border border-brand-300/60">
-                  도서 공식 제휴처
+                <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 border border-blue-300/60 flex items-center gap-1">
+                  쿠팡 파트너스 안내
                 </span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {book.publisher} 정식 출간 도서
@@ -215,8 +366,25 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
               <h3 className="mt-2 text-lg sm:text-xl font-extrabold text-brand-950">
                 『{book.title}』 도서 소장 및 실전 독서하기
               </h3>
+
+              {book.discountPrice && (
+                <div className="mt-2 flex items-baseline gap-2">
+                  {book.originalPrice && (
+                    <span className="text-xs text-neutral-400 line-through tabular-nums">
+                      정가 {book.originalPrice.toLocaleString()}원
+                    </span>
+                  )}
+                  <span className="text-lg sm:text-xl font-black text-neutral-900 tabular-nums">
+                    {book.discountPrice.toLocaleString()}원
+                  </span>
+                  <span className="text-xs font-black text-red-600">
+                    (10% 할인 · 배송 혜택)
+                  </span>
+                </div>
+              )}
+
               <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
-                온라인 공식 서점에서 할인 혜택과 빠른 배송으로 도서를 바로 만나보실 수 있습니다.
+                쿠팡 상품 페이지에서 실시간 재고와 배송 일정을 확인하실 수 있습니다. 도서 정보와 할인 혜택을 확인해 보세요.
               </p>
             </div>
 
@@ -224,33 +392,63 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
               href={book.affiliateUrl}
               rel="sponsored nofollow noopener"
               target="_blank"
-              aria-label={`${book.title} 도서 구매처 바로가기 (새 창 열림)`}
-              className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:ring-2 focus-visible:ring-brand-500"
+              aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
+              className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0073E9] hover:bg-[#005fb8] px-6 py-3 text-sm font-black text-white shadow-sm transition-all hover:shadow-md active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-blue-500"
             >
-              <span>도서 구매처 바로가기</span>
+              <span>쿠팡에서 도서 확인하기</span>
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
           <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
-            * 본 링크는 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있으며 도서 구매 가격에는 일체 영향이 없습니다.
+            * 본 링크에는 쿠팡 파트너스 활동이 포함되어 있으며, 이에 따라 운영자에게 일정액의 수수료가 제공됩니다.
           </p>
         </section>
       )}
 
-      {/* 컴플라이언스 및 면책 고지 */}
-      <footer className="mt-8 border-t border-line pt-6 text-xs leading-relaxed text-muted space-y-1.5">
-        <p>
-          • 본 도서 소개 및 리뷰는 ETF 투자 판단 기준을 익히기 위한 학습 목적의 큐레이션 콘텐츠입니다.
-        </p>
-        <p>
-          • 특정 금융투자상품의 매수·매도 권유나 수익률을 보장하지 않으며, 투자에 대한 모든 결정과 책임은 투자자 본인에게 있습니다.
-        </p>
-        {book.irpEligible && (
-          <p>
-            • 연금저축 및 IRP 계좌의 세제 혜택과 인출 조건은 관련 세법 및 관계 법령의 개정에 따라 달라질 수 있으므로 금융감독원 및 국세청 공시를 함께 확인하시기 바랍니다.
-          </p>
-        )}
-      </footer>
+      {/* 고해상도 표지 확대 모달 (Lightbox) */}
+      {showCoverModal && coverUrl && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="도서 표지 고해상도 확대"
+          onClick={() => setShowCoverModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-xs animate-in fade-in duration-150"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-xs sm:max-w-md w-full rounded-2xl bg-white p-5 shadow-2xl border border-neutral-200"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
+              <h4 className="text-sm font-extrabold text-neutral-800 line-clamp-1 pr-2">
+                {book.title}
+              </h4>
+              <button
+                type="button"
+                onClick={() => setShowCoverModal(false)}
+                className="rounded-lg p-1.5 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
+                aria-label="닫기"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex aspect-[3/4] w-full items-center justify-center rounded-xl bg-neutral-50 overflow-hidden border border-neutral-100 shadow-inner">
+              <Image
+                src={coverUrl}
+                alt={book.title}
+                width={500}
+                height={680}
+                className="h-full w-full object-contain p-2"
+                unoptimized
+              />
+            </div>
+
+            <p className="mt-3 text-center text-xs text-neutral-500 font-medium">
+              {book.author} 저 · {book.publisher}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

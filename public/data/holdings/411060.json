@@ -1,6 +1,6 @@
 {
   "ticker": "411060",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "금 현물 99.99_1Kg",
@@ -11,7 +11,7 @@
     {
       "name": "원화현금",
       "weight_pct": -0.03,
-      "shares": -882335,
+      "shares": -932199,
       "item_code": null
     }
   ]

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { AsOfDate } from "../as-of-date";
@@ -7,6 +7,7 @@ import { PensionBadge } from "../pension-badge";
 import { ReturnCell } from "../return-cell";
 import { RiskBadge } from "../risk-badge";
 import { ClassificationSummary } from "../classification-summary";
+import { FeeDoubleStack } from "../fee-double-stack";
 import type { Etf } from "@/lib/domain/etf-types";
 
 const classifiedEtf = {
@@ -65,5 +66,51 @@ describe("ETF 공용 표시 컴포넌트", () => {
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
     expect(screen.getByLabelText("연금 불가")).toHaveTextContent("X");
     expect(screen.getByLabelText("연금 확인 필요")).toBeEmptyDOMElement();
+  });
+
+  describe("FeeDoubleStack 컴포넌트", () => {
+    it("결산 전 ETF는 단일 행 명목 보수를 표시하고 클릭 시 고가독성 툴팁을 토글한다", () => {
+      const newEtf = {
+        asOfDate: "20260905",
+        listingDate: "20260501",
+        fee: { totalFeePct: 0.5 },
+      };
+
+      render(<FeeDoubleStack etf={newEtf} />);
+      const btn = screen.getByRole("button", { name: /결산 전 명목보수 안내 툴팁 보기/ });
+      expect(btn).toBeInTheDocument();
+      expect(screen.getByText("명목 0.50%")).toBeInTheDocument();
+
+      // Tooltip contains structured header and clear explanation
+      expect(screen.getByText("결산 전 ETF 명목보수 안내")).toBeInTheDocument();
+      expect(screen.getByText(/첫 회계연도 결산 전/)).toBeInTheDocument();
+      expect(screen.getByText(/금융투자협회 공시 원칙/)).toBeInTheDocument();
+
+      // Click to toggle
+      expect(btn).toHaveAttribute("aria-expanded", "false");
+      fireEvent.click(btn);
+      expect(btn).toHaveAttribute("aria-expanded", "true");
+      fireEvent.click(btn);
+      expect(btn).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("숨은 비용 경고가 있는 합성 ETF는 경고 아이콘과 실부담비용을 표시한다", () => {
+      const syntheticEtf = {
+        asOfDate: "20260905",
+        listingDate: "20240101",
+        fee: {
+          totalFeePct: 0.2,
+          otherCostPct: 0.3,
+          tradingCostPct: 0.5, // synthetic: 0.2 + 0.3 + 0.5 = 1.0% (diff 0.8% >= 0.5%)
+        },
+      };
+
+      render(<FeeDoubleStack etf={syntheticEtf} />);
+      expect(screen.getByText("1.00%")).toBeInTheDocument();
+      expect(screen.getByText("명목 0.20%")).toBeInTheDocument();
+      const warningBtn = screen.getByRole("button", { name: /숨은 비용 주의 안내 툴팁 보기/ });
+      expect(warningBtn).toBeInTheDocument();
+      expect(screen.getByText("숨은 비용(기타비용·매매수수료) 주의")).toBeInTheDocument();
+    });
   });
 });

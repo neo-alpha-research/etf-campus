@@ -1,22 +1,28 @@
 {
   "ticker": "252410",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 99.51,
-      "shares": 129838210,
+      "weight_pct": 99.49,
+      "shares": 137269549,
       "item_code": null
     },
     {
       "name": "RISE 200선물인버스2X",
-      "weight_pct": 0.48,
+      "weight_pct": 0.5,
       "shares": 7894,
       "item_code": "252420"
     },
     {
+      "name": "미니선물2026년09월물",
+      "weight_pct": -9.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "선물2026년09월물",
-      "weight_pct": -98.9,
+      "weight_pct": -88.32,
       "shares": 0,
       "item_code": null
     }

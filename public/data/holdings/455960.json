@@ -1,17 +1,17 @@
 {
   "ticker": "455960",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스왑(메리츠증권)_44E5_20260716",
       "weight_pct": 98.85,
-      "shares": 119680793,
+      "shares": 118696648,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
       "weight_pct": 1.14,
-      "shares": 1001,
+      "shares": 1005,
       "item_code": null
     }
   ]

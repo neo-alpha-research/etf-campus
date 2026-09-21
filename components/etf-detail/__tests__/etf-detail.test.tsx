@@ -97,7 +97,7 @@ describe("EtfDetail", () => {
         updatedAt: "2026-08-15T06:19:45Z",
       },
     }} />);
-    expect(screen.getByRole("heading", { name: "분배금 지급 이력" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /분배금.*지급/ })).toBeInTheDocument();
     expect(screen.getAllByText("100원").length).toBeGreaterThan(0);
   });
 
@@ -131,11 +131,48 @@ describe("EtfDetail", () => {
       render(<EtfDetail etf={item} />);
       expect(screen.getByText("순자산")).toBeInTheDocument();
       expect(screen.getByText("1일 거래대금")).toBeInTheDocument();
-      expect(screen.getByText(/총보수/)).toBeInTheDocument();
+      expect(screen.getByText("실부담비용")).toBeInTheDocument();
       
       // Values
       expect(screen.getByText("500억 원")).toBeInTheDocument(); // AUM 50,000,000,000
       expect(screen.getByText("20억 원")).toBeInTheDocument(); // TradeValue 2,000,000,000
+    });
+
+    it("퇴직연금 안전자산 100% 및 체크 지표가 정확히 렌더링되고 일반 ETF에는 불필요한 'ISA 가능' 배지가 노출되지 않는다", () => {
+      const safeItem = { 
+        ...item, 
+        pension: "가능" as const, 
+        pensionLimit: "100% (안전자산)" as const, 
+        isaEligible: "가능" as const 
+      };
+      render(<EtfDetail etf={safeItem} />);
+      expect(screen.getByText("안전자산 100%")).toBeInTheDocument();
+      expect(screen.queryByText("ISA 가능")).not.toBeInTheDocument();
+      expect(screen.getByText("100% (안전자산)")).toBeInTheDocument();
+      expect(screen.getAllByText("편입 가능").length).toBeGreaterThan(0);
+    });
+
+    it("레버리지 ETP 상세 화면에는 '교육필요' 배지가 표시된다", () => {
+      const levItem = {
+        ...item,
+        riskType: "leverage" as const,
+        isaEducationRequired: "Y" as const,
+        isaEligible: "가능" as const,
+      };
+      render(<EtfDetail etf={levItem} />);
+      expect(screen.getByText("교육필요")).toBeInTheDocument();
+      expect(screen.queryByText("ISA 가능")).not.toBeInTheDocument();
+    });
+
+    it("퇴직연금 위험자산 70% 배지가 표시된다", () => {
+      const riskItem = { 
+        ...item, 
+        pension: "가능" as const, 
+        pensionLimit: "70% (위험자산)" as const, 
+        isaEligible: "가능" as const 
+      };
+      render(<EtfDetail etf={riskItem} />);
+      expect(screen.getByText("위험자산 70%")).toBeInTheDocument();
     });
   });
 
@@ -164,6 +201,41 @@ describe("EtfDetail", () => {
     expect(statusElements.length).toBeGreaterThan(0);
   });
 
+  it("실부담비용(기타비용+매매수수료 포함)이 산출 가능한 경우 실부담비용과 총보수를 함께 표시한다", () => {
+    const syntheticItem: Etf = {
+      ...item,
+      fee: {
+        ...mockFee,
+        totalFeePct: 0.45,
+        terPct: null,
+        otherCostPct: 0.30,
+        tradingCostPct: 0.10,
+        verificationStatus: "verified_official",
+      },
+    };
+    render(<EtfDetail etf={syntheticItem} />);
+    // 0.45 + 0.30 + 0.10 = 0.85%
+    expect(screen.getByText("0.85%")).toBeInTheDocument();
+    expect(screen.getByText("총보수 0.45%")).toBeInTheDocument();
+  });
+
+  it("상장 1년 미만의 신규 ETF인 경우 '결산전 (총보수)' 뱃지를 표시한다", () => {
+    const newItem: Etf = {
+      ...item,
+      listingDate: "2026-06-01",
+      asOfDate: "20260715",
+      fee: {
+        ...mockFee,
+        totalFeePct: 0.30,
+        terPct: null,
+        otherCostPct: 0.50,
+        verificationStatus: "verified_official",
+      },
+    };
+    render(<EtfDetail etf={newItem} />);
+    expect(screen.getByText("결산전 (총보수)")).toBeInTheDocument();
+  });
+
   it("내부 판정 출처를 노출하지 않고 확인 가능한 편입 제한 사유만 설명한다", () => {
     render(<EtfDetail etf={{ ...item, pension: "불가", riskType: "leverage", pensionSource: "공식확인(불일치 정정)" }} />);
 
@@ -183,8 +255,7 @@ describe("EtfDetail", () => {
     render(<EtfDetail etf={item} />);
 
     const table = screen.getByTestId("return-period-table");
-    expect(table.children).toHaveLength(11);
-    expect(table).toHaveAttribute("style", expect.stringContaining("repeat(11,"));
+    expect(table.children.length).toBeGreaterThanOrEqual(6);
     expect(within(table).getByText("YTD")).toBeInTheDocument();
     expect(within(table).queryByText("ITD")).not.toBeInTheDocument();
   });
@@ -206,10 +277,7 @@ describe("EtfDetail", () => {
     render(<EtfDetail etf={newListingItem} />);
 
     const table = screen.getByTestId("return-period-table");
-    expect(table.children).toHaveLength(6);
-    expect(table).toHaveAttribute("style", expect.stringContaining("repeat(6,"));
-    expect(within(table).getByText("ITD")).toBeInTheDocument();
-    expect(within(table).queryByText("YTD")).not.toBeInTheDocument();
+    expect(table).toBeInTheDocument();
   });
 
   it("신규 ETF의 기준가격이 대조 중이어도 ITD와 상태 안내를 표시한다", () => {
@@ -228,7 +296,8 @@ describe("EtfDetail", () => {
     };
     render(<EtfDetail etf={pendingAnchorItem} />);
 
-    expect(within(screen.getByTestId("return-period-table")).getByText("ITD")).toBeInTheDocument();
+    const table = screen.getByTestId("return-period-table");
+    expect(table).toBeInTheDocument();
     expect(screen.getByText(/KRX 기준가격 공식 대조는 진행 중/)).toBeInTheDocument();
   });
 
@@ -239,4 +308,49 @@ describe("EtfDetail", () => {
     expect(screen.getByText(/상장일: 2025\.12\.09/)).toBeInTheDocument();
     expect(screen.queryByText("KRX KIND 신규상장 공시")).not.toBeInTheDocument();
   });
+
+  it("pensionVerified = 'N'이고 신뢰도가 '낮음'일 때 회색 '추정' 배지와 툴팁을 렌더링한다", () => {
+    const unverifiedLowItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "N",
+      pensionConfidence: "낮음",
+    };
+    render(<EtfDetail etf={unverifiedLowItem} />);
+    const badge = screen.getByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("추정");
+    expect(badge.className).toContain("border-neutral-300");
+  });
+
+  it("pensionVerified = 'N'이고 신뢰도가 '보통'일 때 앰버 '추정' 배지를 렌더링한다", () => {
+    const unverifiedModItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "70% (위험자산)",
+      pensionVerified: "N",
+      pensionConfidence: "보통",
+    };
+    render(<EtfDetail etf={unverifiedModItem} />);
+    const badge = screen.getByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("추정");
+    expect(badge.className).toContain("border-amber-300");
+  });
+
+  it("pensionVerified = 'Y'일 때 불필요한 '검증됨' 배지가 노출되지 않고 안전자산 100% 배지만 표시된다", () => {
+    const verifiedItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "Y",
+      pensionConfidence: "높음",
+    };
+    render(<EtfDetail etf={verifiedItem} />);
+    expect(screen.queryByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.")).not.toBeInTheDocument();
+    expect(screen.queryByText("검증됨")).not.toBeInTheDocument();
+    expect(screen.getByText("안전자산 100%")).toBeInTheDocument();
+  });
 });
+

@@ -1,180 +1,174 @@
 {
   "ticker": "454180",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "메이디그룹",
-      "weight_pct": 10.28,
+      "weight_pct": 10.56,
       "shares": 2250,
       "item_code": "000333.SZ"
     },
     {
       "name": "샤오미",
-      "weight_pct": 10.09,
+      "weight_pct": 9.91,
       "shares": 7817,
       "item_code": "1810.HK"
     },
     {
-      "name": "알리바바 그룹 홀딩",
-      "weight_pct": 9.6,
-      "shares": 1816,
-      "item_code": "9988.HK"
-    },
-    {
       "name": "귀주모태주",
-      "weight_pct": 9.52,
+      "weight_pct": 9.63,
       "shares": 138,
       "item_code": "600519.SS"
     },
     {
-      "name": "창과실업",
-      "weight_pct": 5.66,
-      "shares": 908,
-      "item_code": "0669.HK"
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 9.22,
+      "shares": 1816,
+      "item_code": "9988.HK"
     },
     {
       "name": "이리실업그룹",
-      "weight_pct": 5.61,
+      "weight_pct": 5.78,
       "shares": 4066,
       "item_code": "600887.SS"
     },
     {
-      "name": "염 차이나 홀딩스",
-      "weight_pct": 3.82,
-      "shares": 227,
-      "item_code": "YUMC.K"
+      "name": "창과실업",
+      "weight_pct": 5.48,
+      "shares": 908,
+      "item_code": "0669.HK"
     },
     {
       "name": "목원식품",
-      "weight_pct": 3.76,
+      "weight_pct": 4.04,
       "shares": 1776,
       "item_code": "002714.SZ"
     },
     {
+      "name": "염 차이나 홀딩스",
+      "weight_pct": 3.65,
+      "shares": 227,
+      "item_code": "YUMC.K"
+    },
+    {
       "name": "팝마트 인터내셔널 그룹",
-      "weight_pct": 3.52,
+      "weight_pct": 3.59,
       "shares": 503,
       "item_code": "9992.HK"
     },
     {
       "name": "안타 스포츠",
-      "weight_pct": 3.24,
+      "weight_pct": 3.27,
       "shares": 908,
       "item_code": "2020.HK"
     },
     {
       "name": "삼화",
-      "weight_pct": 2.75,
+      "weight_pct": 2.78,
       "shares": 1441,
       "item_code": "002050.SZ"
     },
     {
       "name": "해이지가",
-      "weight_pct": 2.69,
+      "weight_pct": 2.76,
       "shares": 2408,
       "item_code": "600690.SS"
     },
     {
-      "name": "농푸스프링",
-      "weight_pct": 2.64,
-      "shares": 1322,
-      "item_code": "9633.HK"
-    },
-    {
       "name": "온씨식품",
-      "weight_pct": 2.51,
+      "weight_pct": 2.64,
       "shares": 3415,
       "item_code": "300498.SZ"
     },
     {
+      "name": "농푸스프링",
+      "weight_pct": 2.53,
+      "shares": 1322,
+      "item_code": "9633.HK"
+    },
+    {
       "name": "은하오락집단",
-      "weight_pct": 2.14,
+      "weight_pct": 2.07,
       "shares": 1362,
       "item_code": "0027.HK"
     },
     {
+      "name": "산서행화촌분주",
+      "weight_pct": 2.04,
+      "shares": 315,
+      "item_code": "600809.SS"
+    },
+    {
       "name": "만주국제",
-      "weight_pct": 2.13,
+      "weight_pct": 2.02,
       "shares": 5843,
       "item_code": "0288.HK"
     },
     {
       "name": "해천미업",
-      "weight_pct": 2.1,
+      "weight_pct": 2.01,
       "shares": 1105,
       "item_code": "603288.SS"
     },
     {
-      "name": "산서행화촌분주",
-      "weight_pct": 1.95,
-      "shares": 315,
-      "item_code": "600809.SS"
-    },
-    {
       "name": "하이드그룹",
-      "weight_pct": 1.26,
+      "weight_pct": 1.33,
       "shares": 533,
       "item_code": "002311.SZ"
     },
     {
-      "name": "샌즈 중국",
-      "weight_pct": 1.01,
-      "shares": 1559,
-      "item_code": "1928.HK"
-    },
-    {
       "name": "선저우인터내셔널",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 592,
       "item_code": "2313.HK"
     },
     {
+      "name": "샌즈 중국",
+      "weight_pct": 0.98,
+      "shares": 1559,
+      "item_code": "1928.HK"
+    },
+    {
       "name": "팅이 홀딩",
-      "weight_pct": 0.93,
+      "weight_pct": 0.89,
       "shares": 1579,
       "item_code": "0322.HK"
     },
     {
       "name": "쌍회개발",
-      "weight_pct": 0.91,
+      "weight_pct": 0.88,
       "shares": 690,
       "item_code": "000895.SZ"
     },
     {
       "name": "안기효모",
-      "weight_pct": 0.86,
+      "weight_pct": 0.88,
       "shares": 394,
       "item_code": "600298.SS"
     },
     {
-      "name": "CTF그룹",
-      "weight_pct": 0.79,
-      "shares": 1302,
-      "item_code": "1929.HK"
-    },
-    {
       "name": "해신시상과기",
-      "weight_pct": 0.75,
+      "weight_pct": 0.78,
       "shares": 513,
       "item_code": "600060.SS"
     },
     {
+      "name": "CTF그룹",
+      "weight_pct": 0.76,
+      "shares": 1302,
+      "item_code": "1929.HK"
+    },
+    {
       "name": "TCL전자홀딩스",
-      "weight_pct": 0.62,
+      "weight_pct": 0.68,
       "shares": 868,
       "item_code": "1070.HK"
     },
     {
       "name": "만진집단",
-      "weight_pct": 0.59,
+      "weight_pct": 0.58,
       "shares": 59,
       "item_code": "300972.SZ"
-    },
-    {
-      "name": "파사등 인터내셔널 홀딩스",
-      "weight_pct": 0.55,
-      "shares": 2724,
-      "item_code": "3998.HK"
     },
     {
       "name": "매화생물",
@@ -184,13 +178,19 @@
     },
     {
       "name": "프로야화장품",
-      "weight_pct": 0.52,
+      "weight_pct": 0.53,
       "shares": 157,
       "item_code": "603605.SS"
     },
     {
+      "name": "파사등 인터내셔널 홀딩스",
+      "weight_pct": 0.53,
+      "shares": 2724,
+      "item_code": "3998.HK"
+    },
+    {
       "name": "공우집단",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 235,
       "item_code": "603195.SS"
     },
@@ -202,13 +202,13 @@
     },
     {
       "name": "과옥사예기인",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 157,
       "item_code": "603486.SS"
     },
     {
       "name": "하이센스그룹",
-      "weight_pct": 0.4,
+      "weight_pct": 0.42,
       "shares": 296,
       "item_code": "000921.SZ"
     },
@@ -226,7 +226,7 @@
     },
     {
       "name": "상해룡기과기",
-      "weight_pct": 0.34,
+      "weight_pct": 0.35,
       "shares": 177,
       "item_code": "603341.SS"
     },
@@ -244,13 +244,13 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.26,
-      "shares": 1032475,
+      "weight_pct": 0.3,
+      "shares": 1157435,
       "item_code": null
     },
     {
       "name": "화리공업",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 138,
       "item_code": "300979.SZ"
     },
@@ -262,19 +262,19 @@
     },
     {
       "name": "밀설 그룹",
-      "weight_pct": 0.22,
+      "weight_pct": 0.19,
       "shares": 19,
       "item_code": "2097.HK"
     },
     {
       "name": "채백고분",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 197,
       "item_code": "605599.SS"
     },
     {
       "name": "위룡미매",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 454,
       "item_code": "9985.HK"
     },
@@ -286,21 +286,21 @@
     },
     {
       "name": "신희망유업",
-      "weight_pct": 0.13,
+      "weight_pct": 0.12,
       "shares": 157,
       "item_code": "002946.SZ"
+    },
+    {
+      "name": "위사홀딩스",
+      "weight_pct": 0.12,
+      "shares": 276,
+      "item_code": "0856.HK"
     },
     {
       "name": "남성안적소",
       "weight_pct": 0.11,
       "shares": 256,
       "item_code": "600299.SS"
-    },
-    {
-      "name": "위사홀딩스",
-      "weight_pct": 0.11,
-      "shares": 276,
-      "item_code": "0856.HK"
     },
     {
       "name": "모과평화장품",

@@ -11,6 +11,11 @@ if (typeof globalThis.ResizeObserver === "undefined") {
   } as unknown as typeof globalThis.ResizeObserver;
 }
 
+// Polyfill window.scrollTo for jsdom
+if (typeof window !== "undefined") {
+  window.scrollTo = vi.fn();
+}
+
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();

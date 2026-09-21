@@ -1,59 +1,59 @@
 {
   "ticker": "0000D0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "TIGER 단기통안채",
-      "weight_pct": 45.71,
+      "weight_pct": 46.02,
       "shares": 1818,
       "item_code": "157450"
     },
     {
       "name": "원화현금",
-      "weight_pct": 32.66,
-      "shares": 146246908,
+      "weight_pct": 32.91,
+      "shares": 146381004,
       "item_code": null
     },
     {
       "name": "TIGER 머니마켓액티브",
-      "weight_pct": 10.05,
+      "weight_pct": 10.12,
       "shares": 434,
       "item_code": "0043B0"
     },
     {
       "name": "TIGER CD금리플러스액티브(합성)",
-      "weight_pct": 9.73,
+      "weight_pct": 9.78,
       "shares": 43,
       "item_code": "499660"
     },
     {
       "name": "TIGER CD금리투자KIS(합성)",
-      "weight_pct": 8.44,
+      "weight_pct": 8.5,
       "shares": 652,
       "item_code": "357870"
     },
     {
       "name": "KEDI Nvidia U.S. 30Y Treasury Target Cov",
-      "weight_pct": -0.6,
-      "shares": -2701338,
+      "weight_pct": -0.71,
+      "shares": -3168773,
       "item_code": null
     },
     {
       "name": "KEDI Nvidia U.S. 30Y Treasury Target Cov",
-      "weight_pct": -1.71,
-      "shares": -7683851,
+      "weight_pct": -1.81,
+      "shares": -8077914,
       "item_code": null
     },
     {
       "name": "KEDI Nvidia U.S. 30Y Treasury Target Cov",
-      "weight_pct": -1.74,
-      "shares": -7795805,
+      "weight_pct": -2.09,
+      "shares": -9314214,
       "item_code": null
     },
     {
       "name": "KEDI Nvidia U.S. 30Y Treasury Target Cov",
-      "weight_pct": -2.54,
-      "shares": -11415904,
+      "weight_pct": -2.73,
+      "shares": -12144083,
       "item_code": null
     }
   ]

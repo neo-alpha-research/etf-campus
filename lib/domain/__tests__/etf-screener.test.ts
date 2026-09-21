@@ -31,6 +31,38 @@ describe("ETF 스크리너", () => {
     expect(result.map((item) => item.ticker)).toEqual(["B"]);
   });
 
+  it("상품구조에서 파킹·단기자금과 일반형을 독립적으로 필터링한다", () => {
+    const mixed = [
+      etf({ ticker: "STOCK", assetClass: "주식-국내", riskType: "normal" }),
+      etf({ ticker: "PARK", assetClass: "금리·파킹", riskType: "normal" }),
+      etf({ ticker: "LEV", assetClass: "주식-국내", riskType: "leverage" }),
+    ];
+    const normalOnly = filterEtfs(mixed, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, riskTypes: ["normal"], aumScope: "all" });
+    expect(normalOnly.map((i) => i.ticker)).toEqual(["STOCK"]);
+
+    const parkingOnly = filterEtfs(mixed, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, riskTypes: ["parking"], aumScope: "all" });
+    expect(parkingOnly.map((i) => i.ticker)).toEqual(["PARK"]);
+  });
+
+  it("키워드로 종목명, 종목코드(티커), 기초지수를 검색한다", () => {
+    const list = [
+      etf({ ticker: "069500", name: "KODEX 200", baseIndex: "코스피 200" }),
+      etf({ ticker: "379800", name: "TIGER 미국S&P500", baseIndex: "S&P 500" }),
+      etf({ ticker: "465580", name: "ACE 미국30년국채액티브", baseIndex: "Bloomberg US Treasury 20+ Year" }),
+    ];
+    // 1. 티커 6자리 검색
+    const byTicker = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "069500" });
+    expect(byTicker.map((i) => i.ticker)).toEqual(["069500"]);
+
+    // 2. 종목명 검색
+    const byName = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "TIGER" });
+    expect(byName.map((i) => i.ticker)).toEqual(["379800"]);
+
+    // 3. 기초지수 검색
+    const byIndex = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "Bloomberg" });
+    expect(byIndex.map((i) => i.ticker)).toEqual(["465580"]);
+  });
+
   it("복수 선택 필터를 URL 쿼리로 왕복한다", () => {
     const filters: ScreenerFilters = {
       ...DEFAULT_SCREENER_FILTERS,
@@ -128,5 +160,136 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
     // 지역 선택 시 제외됨
     const withFilter = filterEtfs(items, { ...DEFAULT_SCREENER_FILTERS, aumScope: "all", riskTypes: [], marketScopes: ["미국"] });
     expect(withFilter.some(i => i.ticker === "UN1")).toBe(false);
+  });
+
+  it("퇴직연금 안전자산(100%)과 위험자산(70%) 한도를 정밀하게 분리 필터링한다", () => {
+    const mixed = [
+      etf({ ticker: "SAFE_BOND", pension: "가능", pensionLimit: "100% (안전자산)", riskType: "normal" }),
+      etf({ ticker: "SAFE_PARK", pension: "가능", pensionLimit: "100% (안전자산)", riskType: "normal", assetClass: "금리·파킹" }),
+      etf({ ticker: "RISK_EQUITY", pension: "가능", pensionLimit: "70% (위험자산)", riskType: "normal", assetClass: "주식-국내" }),
+      etf({ ticker: "INELIGIBLE", pension: "불가", pensionLimit: "불가", riskType: "leverage" }),
+    ];
+
+    const safeOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "pension",
+      pensionTier: "safe",
+    });
+    expect(safeOnly.map(i => i.ticker)).toEqual(["SAFE_BOND", "SAFE_PARK"]);
+
+    const riskOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "pension",
+      pensionTier: "risk",
+    });
+    expect(riskOnly.map(i => i.ticker)).toEqual(["RISK_EQUITY"]);
+  });
+
+  it("중개형 ISA 계좌 모드에서는 레버리지/인버스를 제외하고 1배수 전 종목을 허용한다", () => {
+    const mixed = [
+      etf({ ticker: "EQUITY", isaEligible: "가능", riskType: "normal", isaTaxBenefit: "낮음" }),
+      etf({ ticker: "FUTURES_OIL", isaEligible: "가능", riskType: "normal", isaTaxBenefit: "높음" }),
+      etf({ ticker: "LEV_2X", isaEligible: "불가", riskType: "leverage" }),
+      etf({ ticker: "INV_1X", isaEligible: "불가", riskType: "inverse" }),
+    ];
+
+    const isaAllowed = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+      isaTier: "all",
+    });
+    expect(isaAllowed.map(i => i.ticker)).toEqual(["EQUITY", "FUTURES_OIL"]);
+
+    const isaHighBenefitOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+      isaTier: "high_benefit",
+    });
+    expect(isaHighBenefitOnly.map(i => i.ticker)).toEqual(["FUTURES_OIL"]);
+
+    const isaNormalOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+      isaTier: "normal",
+    });
+    expect(isaNormalOnly.map(i => i.ticker)).toEqual(["EQUITY"]);
+  });
+
+  it("중개형 ISA 절세 실익 필터를 URL 쿼리로 왕복한다", () => {
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      accountMode: "isa",
+      pensionOnly: false,
+      isaTier: "high_benefit",
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.get("account")).toBe("isa");
+    expect(query.get("isa_tier")).toBe("high_benefit");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("high_benefit");
+  });
+
+  it("중개형 ISA 모드 진입 시(isa_tier 미지정) 절세 혜택형(high_benefit)이 기본값으로 파싱된다", () => {
+    const query = new URLSearchParams("account=isa");
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("high_benefit");
+  });
+
+  it("중개형 ISA 전체 모드(isa_tier=all)를 URL 쿼리로 정상 왕복한다", () => {
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      accountMode: "isa",
+      pensionOnly: false,
+      isaTier: "all",
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.get("account")).toBe("isa");
+    expect(query.get("isa_tier")).toBe("all");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("all");
+  });
+
+  it("분배 주기(월 분배 등) 필터링과 URL 쿼리 왕복이 정상 작동한다", () => {
+    const mixed = [
+      etf({ ticker: "MONTHLY", distributionCycle: "월 분배" }),
+      etf({ ticker: "QUARTERLY", distributionCycle: "분기 분배" }),
+      etf({ ticker: "TR", distributionCycle: "TR (재투자)" }),
+    ];
+
+    const monthlyOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      distributionCycles: ["월 분배"],
+    });
+    expect(monthlyOnly.map(i => i.ticker)).toEqual(["MONTHLY"]);
+
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      distributionCycles: ["월 분배"],
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.getAll("cycle")).toContain("월 분배");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.distributionCycles).toEqual(["월 분배"]);
   });
 });

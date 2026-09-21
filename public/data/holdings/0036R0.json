@@ -1,107 +1,107 @@
 {
   "ticker": "0036R0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 12.73,
+      "weight_pct": 13.37,
       "shares": 411,
       "item_code": "NVDA.O"
     },
     {
       "name": "인튜이티브 서지컬",
-      "weight_pct": 12.4,
+      "weight_pct": 12.51,
       "shares": 226,
       "item_code": "ISRG.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 10.47,
+      "weight_pct": 10.91,
       "shares": 204,
       "item_code": "TSLA.O"
     },
     {
       "name": "로크웰 오토메이션",
-      "weight_pct": 9.08,
+      "weight_pct": 8.89,
       "shares": 142,
       "item_code": "ROK"
     },
     {
       "name": "테라다인",
-      "weight_pct": 8.68,
+      "weight_pct": 8.12,
       "shares": 161,
       "item_code": "TER.O"
     },
     {
       "name": "오로라 이노베이션",
-      "weight_pct": 7.82,
+      "weight_pct": 7.5,
       "shares": 9188,
       "item_code": "AUR.O"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 6.23,
-      "shares": 87,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "메드트로닉",
-      "weight_pct": 6.14,
+      "weight_pct": 6.21,
       "shares": 451,
       "item_code": "MDT"
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 6.02,
+      "shares": 87,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 5.59,
+      "weight_pct": 5.47,
       "shares": 144,
       "item_code": "TXN.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 4.39,
+      "weight_pct": 4.48,
       "shares": 337,
       "item_code": "INTC.O"
     },
     {
-      "name": "마이크로칩 테크놀러지",
-      "weight_pct": 3.76,
-      "shares": 344,
-      "item_code": "MCHP.O"
-    },
-    {
       "name": "퀄컴",
-      "weight_pct": 3.59,
+      "weight_pct": 3.7,
       "shares": 148,
       "item_code": "QCOM.O"
     },
     {
+      "name": "마이크로칩 테크놀러지",
+      "weight_pct": 3.67,
+      "shares": 344,
+      "item_code": "MCHP.O"
+    },
+    {
       "name": "마이크로소프트",
-      "weight_pct": 3.08,
+      "weight_pct": 3.15,
       "shares": 42,
       "item_code": "MSFT.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 2.77,
+      "weight_pct": 2.75,
       "shares": 54,
       "item_code": "GOOGL.O"
     },
     {
       "name": "메타",
-      "weight_pct": 1.77,
+      "weight_pct": 1.8,
       "shares": 20,
       "item_code": "META.O"
     },
     {
       "name": "허니웰 인터내셔널",
-      "weight_pct": 1.14,
+      "weight_pct": 1.1,
       "shares": 35,
       "item_code": "HON.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.27,
-      "shares": 2548419,
+      "weight_pct": 0.26,
+      "shares": 2401886,
       "item_code": null
     }
   ]

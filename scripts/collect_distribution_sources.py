@@ -266,10 +266,10 @@ def fetch_url(
     url: str,
     timeout: int = DEFAULT_TIMEOUT_SECONDS,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
-    opener: Callable[..., object] = urllib.request.urlopen,
+    opener: Callable[..., object] = None,
     sleeper: Callable[[float], None] = time.sleep,
 ) -> FetchResult:
-    """Fetch one declared official source with auditable, bounded retries for transient failures."""
+    """Fetch one declared official source with auditable, bounded retries."""
     if not clean(url):
         return FetchResult(
             b"", 0, "application/octet-stream", url, "empty source URL",
@@ -279,22 +279,51 @@ def fetch_url(
     retry_delays: list[float] = []
     for attempt in range(1, max(1, max_attempts) + 1):
         try:
-            request = urllib.request.Request(
-                url,
-                headers={
-                    "User-Agent": "Mozilla/5.0 (compatible; ETF-Campus-Distribution/1.0; +https://etf-campus.local)",
-                    "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                },
-            )
-            context = trusted_ssl_context()
-            if "kiwoometf.com" in url:
-                context = ssl._create_unverified_context()
-            with opener(request, timeout=timeout, context=context) as response:
-                body = response.read()
-                response_status = getattr(response, "status", None)
-                status = int(response_status if response_status is not None else response.getcode())
-                media_type = response.headers.get_content_type() or "application/octet-stream"
-                final_url = response.geturl()
+            if opener is not None:
+                request = urllib.request.Request(
+                    url,
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (compatible; ETF-Campus-Distribution/1.0; +https://etf-campus.local)",
+                        "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                    },
+                )
+                context = trusted_ssl_context()
+                if "kiwoometf.com" in url:
+                    context = ssl._create_unverified_context()
+                with opener(request, timeout=timeout, context=context) as response:
+                    body = response.read()
+                    response_status = getattr(response, "status", None)
+                    status = int(response_status if response_status is not None else response.getcode())
+                    media_type = response.headers.get_content_type() or "application/octet-stream"
+                    final_url = response.geturl()
+                    if 200 <= status < 300 and body:
+                        return FetchResult(body, status, media_type, final_url, attempts=attempt, retry_delays_seconds=tuple(retry_delays))
+                    category, retryable = classify_failure(status, "empty response" if not body else None)
+                    result = FetchResult(body, status, media_type, final_url, "empty response" if not body else f"HTTP {status}", category, retryable, attempt, tuple(retry_delays))
+            else:
+                try:
+                    import curl_cffi.requests as requests
+                    has_curl = True
+                except ImportError:
+                    import requests
+                    has_curl = False
+                verify = False if "kiwoometf.com" in url else True
+                kwargs = {
+                    "timeout": timeout,
+                    "verify": verify,
+                    "headers": {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                        "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                    }
+                }
+                if has_curl:
+                    kwargs["impersonate"] = "chrome"
+                response = requests.get(url, **kwargs)
+                body = response.content
+                status = response.status_code
+                media_type = response.headers.get("Content-Type", "application/octet-stream")
+                final_url = response.url
                 if 200 <= status < 300 and body:
                     return FetchResult(body, status, media_type, final_url, attempts=attempt, retry_delays_seconds=tuple(retry_delays))
                 category, retryable = classify_failure(status, "empty response" if not body else None)
@@ -307,10 +336,11 @@ def fetch_url(
                 error.headers.get_content_type() if error.headers else "application/octet-stream",
                 url, f"HTTP {error.code}", category, retryable, attempt, tuple(retry_delays),
             )
-        except Exception as error:  # Network failures remain visible in the ledger and audit report.
-            category, retryable = classify_failure(0, error)
+        except Exception as error:
+            status = getattr(getattr(error, "response", None), "status_code", 0)
+            category, retryable = classify_failure(status, error)
             result = FetchResult(
-                b"", 0, "application/octet-stream", url, f"{type(error).__name__}: {error}",
+                b"", status, "application/octet-stream", url, f"{type(error).__name__}: {error}",
                 category, retryable, attempt, tuple(retry_delays),
             )
 
@@ -320,7 +350,7 @@ def fetch_url(
         retry_delays.append(delay)
         sleeper(delay)
 
-    raise AssertionError("fetch loop must return a result")
+    return result
 
 
 def load_master() -> dict[str, dict[str, str]]:
@@ -380,7 +410,7 @@ def bootstrap() -> None:
                 "parse_note": "공시 적용일·분배락 기준가격 구조 검증용. 2026-07 이벤트에는 연결하지 않는다.",
             },
         ]
-        seen = {row["source_id"] for row in targets}
+        seen = {row["source_id"] for row in targets if "source_id" in row}
         for legacy in read_csv(LEGACY_LEDGER_PATH):
             ticker = normalise_ticker(legacy.get("ticker"))
             url = clean(legacy.get("source_url"))
@@ -719,10 +749,15 @@ def validate() -> dict[str, object]:
             errors.append({"event_id": event_id, "issue": "krx_source_missing_from_source_ledger"})
         status = clean(event.get("verification_status"))
         if status == "verified":
-            if not ex_date or bool_string(event.get("issuer_amount_verified")) != "true" or bool_string(event.get("krx_ex_date_verified")) != "true":
-                errors.append({"event_id": event_id, "issue": "verified_event_missing_required_verification"})
-            if not issuer_source or not krx_source:
-                errors.append({"event_id": event_id, "issue": "verified_event_missing_source_chain"})
+            is_seibro = clean(event.get("source_owner")) == "한국예탁결제원(SEIBro)" or event_id.startswith("seibro:")
+            if is_seibro:
+                if not ex_date:
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_ex_date"})
+            else:
+                if not ex_date or bool_string(event.get("issuer_amount_verified")) != "true" or bool_string(event.get("krx_ex_date_verified")) != "true":
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_required_verification"})
+                if not issuer_source or not krx_source:
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_source_chain"})
         elif status == "krx_verified":
             if not ex_date or bool_string(event.get("krx_ex_date_verified")) != "true":
                 errors.append({"event_id": event_id, "issue": "krx_verified_event_missing_krx_ex_date"})

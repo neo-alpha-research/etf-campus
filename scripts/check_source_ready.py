@@ -52,18 +52,35 @@ def main() -> int:
     parser.add_argument("--today", help="YYYYMMDD, 테스트용 기준일 고정")
     args = parser.parse_args()
 
-    service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
-    krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
-    if not service_key and not krx_auth_key:
-        print("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.", file=sys.stderr)
-        return 1
-
     today = (
         datetime.strptime(args.today, "%Y%m%d").date()
         if args.today
         else datetime.now(KST).date()
     )
     holidays = load_holidays(args.holidays)
+
+    # In morning collection (07:50~08:40 KST), we are collecting data for the trading session that closed YESTERDAY.
+    # Therefore, we check if yesterday (today - 1 day) was a Korean trading day.
+    yesterday = today - timedelta(days=1)
+
+    # 1. Weekend Guard: If yesterday was Saturday or Sunday, no trading session occurred yesterday.
+    #    (e.g., Sunday morning: yesterday was Saturday -> skip. Monday morning: yesterday was Sunday -> skip.)
+    #    (Saturday morning: yesterday was Friday -> Friday is a regular trading day -> proceed!)
+    if yesterday.weekday() >= 5:
+        print(f"Yesterday ({yesterday:%Y-%m-%d}) was a weekend. Korean markets were closed. No new market data to collect today ({today:%Y-%m-%d}).", file=sys.stderr)
+        return 3
+
+    # 2. Market Holiday Guard: If yesterday was a statutory Korean holiday, markets were closed yesterday.
+    if yesterday.strftime("%Y%m%d") in holidays:
+        print(f"Yesterday ({yesterday:%Y-%m-%d}) was a designated Korean market holiday. Markets were closed. No new market data to collect today ({today:%Y-%m-%d}).", file=sys.stderr)
+        return 4
+
+    service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
+    krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
+    if not krx_auth_key and not service_key:
+        print("KRX_OPEN_API_KEY (또는 레거시 DATA_GO_KR_SERVICE_KEY) 환경변수가 필요합니다.", file=sys.stderr)
+        return 1
+
     expected = latest_trading_day(today, holidays)
     expected_text = expected.strftime("%Y%m%d")
 

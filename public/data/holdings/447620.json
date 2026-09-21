@@ -1,16 +1,16 @@
 {
   "ticker": "447620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고03875-2612(23-10)",
-      "weight_pct": 24.69,
+      "weight_pct": 24.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "SOL 초단기채권액티브",
-      "weight_pct": 15.7,
+      "weight_pct": 15.71,
       "shares": 4548,
       "item_code": "469830"
     },
@@ -21,26 +21,26 @@
       "item_code": "MSFT.O"
     },
     {
-      "name": "아마존닷컴",
-      "weight_pct": 9.96,
-      "shares": 436,
-      "item_code": "AMZN.O"
-    },
-    {
       "name": "애플",
-      "weight_pct": 9.4,
+      "weight_pct": 9.67,
       "shares": 341,
       "item_code": "AAPL.O"
     },
     {
+      "name": "아마존닷컴",
+      "weight_pct": 9.67,
+      "shares": 436,
+      "item_code": "AMZN.O"
+    },
+    {
       "name": "엔비디아",
-      "weight_pct": 8.95,
+      "weight_pct": 9.2,
       "shares": 486,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.71,
+      "weight_pct": 8.46,
       "shares": 290,
       "item_code": "GOOGL.O"
     },
@@ -53,7 +53,7 @@
     {
       "name": "원화현금",
       "weight_pct": 2.76,
-      "shares": 43579511,
+      "shares": 43436379,
       "item_code": null
     }
   ]

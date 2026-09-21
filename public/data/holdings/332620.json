@@ -1,6 +1,6 @@
 {
   "ticker": "332620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "PFE 5.3 05/19/53",
@@ -10,7 +10,7 @@
     },
     {
       "name": "JPM 3.964 11/15/48",
-      "weight_pct": 4.74,
+      "weight_pct": 4.73,
       "shares": 4021,
       "item_code": null
     },
@@ -22,31 +22,31 @@
     },
     {
       "name": "KO 2 7/8 05/05/41",
-      "weight_pct": 4.0,
+      "weight_pct": 3.99,
       "shares": 3475,
       "item_code": null
     },
     {
       "name": "AMZN 2 7/8 05/12/41",
-      "weight_pct": 3.88,
+      "weight_pct": 3.87,
       "shares": 3475,
       "item_code": null
     },
     {
       "name": "BRK 4 1/4 01/15/49",
-      "weight_pct": 3.71,
+      "weight_pct": 3.7,
       "shares": 3026,
       "item_code": null
     },
     {
       "name": "NEE 5.8 03/15/65",
-      "weight_pct": 3.55,
+      "weight_pct": 3.54,
       "shares": 2406,
       "item_code": null
     },
     {
       "name": "UNH 4.45 12/15/48",
-      "weight_pct": 3.55,
+      "weight_pct": 3.54,
       "shares": 2844,
       "item_code": null
     },
@@ -70,25 +70,25 @@
     },
     {
       "name": "SO 3 03/15/52",
-      "weight_pct": 3.31,
+      "weight_pct": 3.3,
       "shares": 3475,
       "item_code": null
     },
     {
       "name": "CSCO 5.3 02/26/54",
-      "weight_pct": 2.94,
+      "weight_pct": 2.93,
       "shares": 2085,
       "item_code": null
     },
     {
       "name": "PFE 2.7 05/28/50",
-      "weight_pct": 2.76,
+      "weight_pct": 2.75,
       "shares": 2994,
       "item_code": null
     },
     {
       "name": "QCOM 6 05/20/53",
-      "weight_pct": 2.6,
+      "weight_pct": 2.61,
       "shares": 1711,
       "item_code": null
     },
@@ -105,8 +105,14 @@
       "item_code": null
     },
     {
-      "name": "AAPL 4 1/4 02/09/47",
+      "name": "원화현금",
       "weight_pct": 2.37,
+      "shares": 2064483,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4 1/4 02/09/47",
+      "weight_pct": 2.36,
       "shares": 1877,
       "item_code": null
     },
@@ -118,7 +124,7 @@
     },
     {
       "name": "TOTAL 3.461 07/12/49",
-      "weight_pct": 2.3,
+      "weight_pct": 2.29,
       "shares": 2149,
       "item_code": null
     },
@@ -129,20 +135,8 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.27,
-      "shares": 2025196,
-      "item_code": null
-    },
-    {
       "name": "NEE 4 1/8 02/01/42",
-      "weight_pct": 2.2,
-      "shares": 1711,
-      "item_code": null
-    },
-    {
-      "name": "CMCSA 5.35 05/15/53",
-      "weight_pct": 2.2,
+      "weight_pct": 2.21,
       "shares": 1711,
       "item_code": null
     },
@@ -153,8 +147,14 @@
       "item_code": null
     },
     {
+      "name": "CMCSA 5.35 05/15/53",
+      "weight_pct": 2.19,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
       "name": "PEP 4.2 07/18/52",
-      "weight_pct": 2.08,
+      "weight_pct": 2.07,
       "shares": 1711,
       "item_code": null
     },
@@ -190,7 +190,7 @@
     },
     {
       "name": "DUK 3.95 03/15/48",
-      "weight_pct": 1.76,
+      "weight_pct": 1.75,
       "shares": 1513,
       "item_code": null
     },
@@ -202,7 +202,7 @@
     },
     {
       "name": "BAC 4.33 03/15/50",
-      "weight_pct": 1.64,
+      "weight_pct": 1.63,
       "shares": 1331,
       "item_code": null
     },
@@ -220,7 +220,7 @@
     },
     {
       "name": "JPM 4.26 02/22/48",
-      "weight_pct": 1.2,
+      "weight_pct": 1.19,
       "shares": 967,
       "item_code": null
     },

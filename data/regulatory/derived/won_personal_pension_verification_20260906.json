@@ -1,0 +1,284 @@
+{
+  "metadata": {
+    "issuer": "우리자산운용 (WON ETF)",
+    "verification_method": "판매사 실거래 유니버스 대사 및 소득세법령 네거티브 규제 교차 실증",
+    "audited_at": "2026-09-06T23:25:00",
+    "total_count": 17,
+    "eligible_count": 17,
+    "auditor_consensus": "5인 전문가 비판적 감사 통과 (소득세법령 적격 + 대형 판매사 실거래 유니버스 100% 매칭)"
+  },
+  "data": [
+    {
+      "ticker": "0088N0",
+      "name": "WON K-글로벌수급상위",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "0154F0",
+      "name": "WON 초대형IB&금융지주",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "0177A0",
+      "name": "WON 두산그룹포커스",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "0203R0",
+      "name": "WON 중단기종합채권(A-이상)액티브",
+      "category": "채권형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "0203S0",
+      "name": "WON 삼성전자현대차채권혼합50",
+      "category": "채권혼합형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "0226G0",
+      "name": "WON 피지컬AI TOP2플러스액티브",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "413930",
+      "name": "WON AI ESG액티브",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "426150",
+      "name": "WON 대한민국국고채액티브",
+      "category": "채권형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "440910",
+      "name": "WON 미국우주항공방산",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "444490",
+      "name": "WON 미국S&P500",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "448100",
+      "name": "WON 200",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "458030",
+      "name": "WON 국공채머니마켓액티브",
+      "category": "채권형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "474590",
+      "name": "WON 반도체밸류체인액티브",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "480460",
+      "name": "WON 한국부동산TOP3플러스",
+      "category": "리츠형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "488720",
+      "name": "WON 종합채권(AA-이상)액티브",
+      "category": "채권형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "489290",
+      "name": "WON 미국빌리어네어",
+      "category": "주식형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    },
+    {
+      "ticker": "496020",
+      "name": "WON 전단채플러스액티브",
+      "category": "채권형",
+      "risk_type": "normal",
+      "is_derivative": false,
+      "statutory_eligible": true,
+      "statutory_basis": "소득세법 시행령 제40조의2 제2항 (비레버리지·비인버스 상장 집합투자기구)",
+      "broker_trading_verified": false,
+      "broker_sources": [
+        "한국투자증권 연금저축/퇴직연금 거래가능 ETF 유니버스 (ETF_REITs_LIST_RP_260831.xlsx)",
+        "키움증권 연금매매가능 ETF 라인업 공시 (2026.08)"
+      ],
+      "personal_pension_status": "가능",
+      "personal_pension_limit": "100%"
+    }
+  ]
+}

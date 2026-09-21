@@ -1,227 +1,601 @@
 import type { MarketBriefingPayload } from "../types";
+import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
+import type { PolishedNarrative } from "../services/gemini";
 
-export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: string): { subject: string; html: string } {
-  const dateStr = payload.asOfDate || "2026-08-28";
+function normalizeToEok(val: number | string | undefined | null): number {
+  if (!val) return 0;
+  const num = typeof val === "string" ? parseFloat(val.replace(/,/g, "")) : val;
+  if (isNaN(num)) return 0;
+  if (num > 10_000_000_000) {
+    return Math.round(num / 100_000_000);
+  }
+  return Math.round(num);
+}
+
+function escapeXml(unsafe?: string): string {
+  if (!unsafe) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+export function generateNewsletterHtml(
+  payload: MarketBriefingPayload,
+  baseUrl: string,
+  narrative?: PolishedNarrative | MarketRegime
+): { subject: string; preheader: string; html: string } {
+  const regime = narrative || classifyMarketRegime(payload);
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "하락 우세";
 
-  const kospiClose = payload.kospiClose || 6788.88;
-  const kospiChangePct = payload.kospiChangePct ?? -1.79;
-  const kospiColor = kospiChangePct > 0 ? "#EF4444" : kospiChangePct < 0 ? "#38BDF8" : "#94A3B8";
+  // 1. 3대 지표 및 3축 시장 매트릭스
+  const kospiChangePct = payload.kospiChangePct ?? 0;
+  const kospiColor = kospiChangePct >= 0 ? "#DC2626" : "#2563EB";
   const kospiSign = kospiChangePct > 0 ? "+" : "";
 
-  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.86;
+  const kosdaqChangePct = payload.kosdaqChangePct ?? 0;
+  const kosdaqSign = kosdaqChangePct > 0 ? "+" : "";
+
+  const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
   const etfSign = etfReturn > 0 ? "+" : "";
-  const etfColor = etfReturn > 0 ? "#EF4444" : etfReturn < 0 ? "#38BDF8" : "#94A3B8";
-  const spread = etfReturn - kospiChangePct;
-  const spreadSign = spread > 0 ? "+" : "";
+  const etfColor = etfReturn >= 0 ? "#DC2626" : "#2563EB";
 
-  const aumJo = ((payload.generalTotalAum || 3851607) / 10000).toFixed(1);
-  const tradeJo = ((payload.generalTotalTradeValue || 87792) / 10000).toFixed(1);
+  const capSpread = (regime as any).capSpread ?? Number((kospiChangePct - kosdaqChangePct).toFixed(2));
+  const etfDivergence = (regime as any).etfDivergence ?? Number((kospiChangePct - etfReturn).toFixed(2));
+  const capSpreadSign = capSpread > 0 ? "+" : "";
+  const etfDivergenceSign = etfDivergence > 0 ? "+" : "";
 
-  const up = payload.upCount || 350;
-  const flat = payload.flatCount || 35;
-  const down = payload.downCount || 637;
-  const headline = payload.headlineText || "일반 ETF 1,022개 중 350개가 상승해 하락 우세 흐름을 보였습니다. KOSPI -1.79% 대비 일반 ETF는 -0.86%로 +0.93%p 초과 방어력을 나타냈습니다.";
+  // 2. 전체 ETF 총 순자산 & 거래대금
+  const totalAumEok = normalizeToEok(payload.marketScaleSnapshot?.totalAum || payload.pulse?.generalTotalAum || payload.generalTotalAum || 0);
+  const totalTradeEok = normalizeToEok(payload.marketScaleSnapshot?.totalTradeValue || payload.pulse?.generalTotalTradeValue || payload.generalTotalTradeValue || 0);
+  const aumJo = (totalAumEok / 10000).toFixed(1);
+  const tradeJo = (totalTradeEok / 10000).toFixed(1);
+  const turnoverPct = totalAumEok > 0 ? ((totalTradeEok / totalAumEok) * 100) : (payload.marketScaleSnapshot?.marketTurnoverPct ?? payload.marketTurnoverPct ?? 0);
+  const totalEtfCount = payload.pulse?.totalEtfCount || 0;
+
+  // 3. 등락 분포
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? (up + flat + down);
+  const upRatioPct = generalCount > 0 ? (up / generalCount) * 100 : 0;
+
+  // 4. 전일 대비 증감
+  const dailyTs = payload.marketScaleTimeSeries?.daily || [];
+  const latestTs = dailyTs.length > 0 ? dailyTs[dailyTs.length - 1] : null;
+  const prevTs = dailyTs.length > 1 ? dailyTs[dailyTs.length - 2] : null;
+
+  let totalAumChangeStr = "";
+  let totalAdtvChangeStr = "";
+  if (latestTs) {
+    const aumChangeJo = latestTs.aumChange / 10000;
+    const signAum = aumChangeJo > 0 ? "+" : "";
+    const colorAum = aumChangeJo >= 0 ? "#DC2626" : "#2563EB";
+    totalAumChangeStr = `<span style="color: ${colorAum};" class="tabular">${signAum}${aumChangeJo.toFixed(1)}조원</span>`;
+
+    if (prevTs) {
+      const adtvChangeJo = (latestTs.adtv - prevTs.adtv) / 10000;
+      const signAdtv = adtvChangeJo > 0 ? "+" : "";
+      const colorAdtv = adtvChangeJo >= 0 ? "#DC2626" : "#2563EB";
+      totalAdtvChangeStr = `<span style="color: ${colorAdtv};" class="tabular">${signAdtv}${adtvChangeJo.toFixed(1)}조원</span>`;
+    }
+  }
+
+  // 5. 테마 랭킹 (괄호 완전 제거 규칙 준수)
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
+    (a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct
+  );
+  const winners = sortedPeerGroups.slice(0, 3);
+  const losers = [...sortedPeerGroups].reverse().slice(0, 3);
+
+  const topTheme = sortedPeerGroups[0] || { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
+  const bottomTheme = sortedPeerGroups.length > 1 ? sortedPeerGroups[sortedPeerGroups.length - 1] : { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
+  const cleanTopThemeName = (topTheme.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+  const cleanBottomThemeName = (bottomTheme.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+  const topThemeRet = topTheme.cappedAumWeightedReturnPct ?? 0;
+  const bottomThemeRet = bottomTheme.cappedAumWeightedReturnPct ?? 0;
+  const topThemeSign = topThemeRet > 0 ? "+" : "";
+  const bottomThemeSign = bottomThemeRet > 0 ? "+" : "";
+  const topThemeVerb = topThemeRet > 0 ? "상승 주도" : "선방";
+  const themeSpread = Math.abs(topThemeRet - bottomThemeRet);
+
+  // 6. 스마트머니 수급
+  const topInflows: any[] = (payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
+  const topInflowName = topInflows[0]?.name || topInflows[0]?.etfName || "핵심 ETF";
+  const topInflowInflow = topInflows[0]?.inflow
+    ? Math.round(topInflows[0].inflow)
+    : topInflows[0]?.netInflowValue
+    ? Math.round(topInflows[0].netInflowValue / 100000000)
+    : 0;
+  const topInflowAmountStr = topInflowInflow > 0 ? ` +${topInflowInflow.toLocaleString()}억원 등` : " 중심";
+
+  // 7. 괴리율 경보
+  const disparityList = payload.disparityWarning || [];
+  const overvalued = disparityList.filter((d) => d.disparityPct > 0);
+  const undervalued = disparityList.filter((d) => d.disparityPct < 0);
+
+  // 8. 3축 매트릭스 진단 텍스트
+  let divergenceDiagnosis = "대표 지수와 대다수 ETF의 체감 수익률이 고르게 일치했습니다.";
+  if (etfDivergence >= 1.5) {
+    divergenceDiagnosis = "대형주 쏠림으로 인한 지수 착시가 관측되었으며 일반 ETF 상승폭은 차별화되었습니다.";
+  } else if (etfDivergence <= -1.0) {
+    divergenceDiagnosis = "지수 약세 속에서도 분산 ETF의 자산배분 방어력이 우수하게 작동했습니다.";
+  }
+
   const utmLink = `${baseUrl}/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
+  const subject = `[ETF 마켓 브리핑] ${formattedDate} ${regime.statusName} 속 '${cleanTopThemeName}' 강세 및 스마트머니 순유입`;
+  const preheader = `[${formattedDate} 마켓 브리핑] KOSPI ${kospiSign}${kospiChangePct.toFixed(2)}% · 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% | 주도 테마 '${cleanTopThemeName}' ${topThemeSign}${topThemeRet.toFixed(2)}% 및 스마트머니 순유입 집중 종목`;
 
-  const defaultAssetClasses = [
-    { assetClass: "원자재", aumSharePct: 2.0, aumWeightedReturnPct: 1.25, ytd: 14.5 },
-    { assetClass: "채권", aumSharePct: 14.2, aumWeightedReturnPct: -0.08, ytd: 4.2 },
-    { assetClass: "국내주식", aumSharePct: 47.3, aumWeightedReturnPct: -0.12, ytd: 16.8 },
-    { assetClass: "혼합·자산배분", aumSharePct: 0.8, aumWeightedReturnPct: -0.90, ytd: 5.1 },
-    { assetClass: "해외주식", aumSharePct: 33.9, aumWeightedReturnPct: -1.18, ytd: 22.4 },
-    { assetClass: "부동산/리츠", aumSharePct: 1.8, aumWeightedReturnPct: -1.53, ytd: 3.5 },
-  ];
-
-  const subject = `🚨 [ETF 브리핑] ${formattedDate} 시장 체온 '${temp}' · KOSPI 대비 +0.93%p 방어`;
-
-  const html = `
-<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${subject}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <title>${escapeXml(subject)}</title>
   <style>
-    body { margin: 0; padding: 0; background-color: #0B0F19; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #E2E8F0; }
-    .container { max-width: 620px; margin: 0 auto; background-color: #0F172A; border-radius: 16px; overflow: hidden; border: 1px solid #1E293B; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
-    .header { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding: 36px 24px; text-align: center; color: #FFFFFF; border-bottom: 1px solid #334155; }
-    .badge { display: inline-block; padding: 5px 14px; background-color: #10B981; color: #022C22; font-size: 12px; font-weight: 900; border-radius: 9999px; letter-spacing: 1px; }
-    .title { font-size: 26px; font-weight: 900; margin: 16px 0 8px; color: #FFFFFF; letter-spacing: -0.5px; }
-    .subtitle { font-size: 14px; color: #94A3B8; }
-    .content { padding: 28px 24px; }
-    .section-title { font-size: 18px; font-weight: 800; color: #F8FAFC; margin: 32px 0 14px; display: flex; align-items: center; }
-    .quote-box { background-color: #1E293B; border-left: 4px solid #10B981; padding: 18px; border-radius: 0 12px 12px 0; margin-bottom: 24px; font-size: 16px; font-weight: 600; line-height: 1.6; color: #F1F5F9; }
+    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; background-color: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 600px; margin: 20px auto; background-color: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); border: 1px solid #E2E8F0; }
+    .header { background: linear-gradient(135deg, #064E3B 0%, #047857 100%); padding: 28px 20px; text-align: center; color: #FFFFFF; }
+    .badge { display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #A7F3D0; padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.3); }
+    .title { font-size: 24px; font-weight: 900; margin: 0; color: #FFFFFF; letter-spacing: -0.6px; line-height: 1.25; }
+    .content { padding: 24px 18px; }
     
-    .quick-cta { display: block; background: linear-gradient(90deg, #10B981 0%, #059669 100%); color: #FFFFFF !important; text-align: center; padding: 14px 0; border-radius: 10px; font-size: 15px; font-weight: 800; text-decoration: none; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
-
-    .grid-2 { display: table; width: 100%; margin-bottom: 16px; }
-    .grid-col { display: table-cell; width: 50%; padding: 6px; box-sizing: border-box; }
-    .metric-card { background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; padding: 16px; text-align: center; }
-    .metric-label { font-size: 12px; color: #94A3B8; font-weight: 700; }
-    .metric-value { font-size: 22px; font-weight: 900; margin: 6px 0 4px; color: #F8FAFC; }
+    .tabular { font-variant-numeric: tabular-nums; }
+    .metric-card { background-color: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px 10px; text-align: center; box-sizing: border-box; }
+    .metric-label { font-size: 12.5px; color: #475569; font-weight: 800; margin-bottom: 4px; }
+    .metric-value { font-size: 20px; font-weight: 900; margin: 3px 0; color: #0F172A; }
     
-    .table-custom { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
-    .table-custom th { background-color: #1E293B; padding: 12px 10px; text-align: left; font-weight: 700; color: #94A3B8; border-bottom: 2px solid #334155; }
-    .table-custom td { padding: 12px 10px; border-bottom: 1px solid #1E293B; color: #E2E8F0; }
+    .table-custom { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 13.5px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E2E8F0; table-layout: fixed; }
+    .table-custom th { background-color: #F1F5F9; padding: 10px 8px; text-align: left; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; }
+    .table-custom td { padding: 10px 8px; border-bottom: 1px solid #F1F5F9; color: #1E293B; }
+    .table-custom tr:last-child td { border-bottom: none; }
     
-    .btn-primary { display: block; width: 100%; background-color: #2563EB; color: #FFFFFF !important; text-align: center; padding: 16px 0; border-radius: 10px; font-size: 16px; font-weight: 800; text-decoration: none; margin: 32px 0 16px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
-    .footer { background-color: #0B0F19; padding: 28px 24px; text-align: center; font-size: 12px; color: #64748B; border-top: 1px solid #1E293B; line-height: 1.7; }
-
-    @media (prefers-color-scheme: light) {
-      body { background-color: #F8FAFC; color: #1E293B; }
-      .container { background-color: #FFFFFF; border-color: #E2E8F0; }
-      .header { background: #0F172A; }
-      .quote-box { background-color: #F1F5F9; color: #334155; }
-      .metric-card { background-color: #F8FAFC; border-color: #E2E8F0; }
-      .metric-value { color: #0F172A; }
-      .table-custom th { background-color: #F1F5F9; color: #475569; border-color: #E2E8F0; }
-      .table-custom td { border-color: #F1F5F9; color: #334155; }
-      .section-title { color: #0F172A; }
-      .footer { background-color: #F8FAFC; border-color: #E2E8F0; color: #64748B; }
+    .btn-primary { display: block; width: 100%; background-color: #059669; color: #FFFFFF !important; text-align: center; padding: 16px 12px; border-radius: 12px; font-size: 16px; font-weight: 800; text-decoration: none; box-sizing: border-box; letter-spacing: -0.3px; }
+    .footer { background-color: #F8FAFC; padding: 22px 18px 24px; border-top: 1px solid #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif; }
+    
+    @media only screen and (max-width: 480px) {
+      .container { margin: 6px auto !important; border-radius: 12px !important; width: 100% !important; max-width: 100% !important; }
+      .header { padding: 20px 14px !important; }
+      .title { font-size: 19px !important; margin: 0 !important; }
+      .content { padding: 16px 12px !important; }
+      
+      .exec-box { padding: 14px 12px !important; margin-bottom: 18px !important; border-radius: 0 10px 10px 0 !important; }
+      .exec-headline { font-size: 14px !important; line-height: 1.5 !important; }
+      .bullet-card { padding: 10px 12px !important; }
+      
+      .metric-col { display: block !important; width: 100% !important; margin-bottom: 10px !important; }
+      .metric-spacer { display: none !important; width: 0 !important; height: 0 !important; }
+      .metric-card { padding: 12px 10px !important; border-radius: 10px !important; }
+      .metric-label { font-size: 12px !important; }
+      .metric-value { font-size: 18px !important; margin: 2px 0 !important; }
+      
+      .table-custom th, .table-custom td { padding: 9px 6px !important; }
+      .theme-col-rank { width: 68px !important; font-size: 12px !important; }
+      .theme-col-name { font-size: 13px !important; word-break: break-all !important; }
+      .theme-col-ret { font-size: 13.5px !important; min-width: 72px !important; }
+      
+      .smart-col-rank { width: 30px !important; font-size: 12.5px !important; }
+      .smart-col-name { font-size: 13px !important; word-break: break-all !important; }
+      .smart-col-inflow { font-size: 13.5px !important; width: 88px !important; }
+      
+      .disparity-box { padding: 14px 12px !important; margin-top: 18px !important; }
+      .disparity-badge { font-size: 11.5px !important; padding: 2px 6px !important; }
+      
+      .btn-primary { padding: 14px 8px !important; font-size: 15px !important; }
+      .footer { padding: 18px 12px !important; }
     }
   </style>
 </head>
-<body>
-  <div style="padding: 24px 12px;">
-    <div class="container">
-      <div class="header">
-        <span class="badge">ETF CAMPUS · 18:30 DAILY BRIEFING</span>
-        <div class="title">${formattedDate} 마켓 브리핑</div>
-        <div class="subtitle">대한민국 ETF 시장 7-STEP 정량 분석 뉴스레터</div>
+<body bgcolor="#F8FAFC" style="margin: 0; padding: 0; background-color: #F8FAFC;">
+  <!-- Hidden Preheader for Inbox Preview -->
+  <div style="display: none; max-height: 0px; overflow: hidden; font-size: 1px; line-height: 1px; color: #FFFFFF; opacity: 0;">
+    ${escapeXml(preheader)}
+    &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+
+  <div style="padding: 12px 6px;">
+    <div class="container" style="max-width: 600px; margin: 20px auto; background-color: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); border: 1px solid #E2E8F0;">
+      <!-- Header -->
+      <div class="header" style="background: linear-gradient(135deg, #064E3B 0%, #047857 100%); padding: 28px 20px; text-align: center; color: #FFFFFF;">
+        <span class="badge" style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #A7F3D0; padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.3);">ETF CAMPUS · DAILY BRIEFING</span>
+        <div class="title" style="font-size: 24px; font-weight: 900; margin: 0; color: #FFFFFF; letter-spacing: -0.6px; line-height: 1.25;">${formattedDate} ETF 마켓 브리핑</div>
       </div>
 
-      <div class="content">
-        <div class="quote-box">
-          "${headline}"
-        </div>
+      <!-- Content -->
+      <div class="content" style="padding: 24px 18px;">
+        <!-- 1. Executive Summary (3-Axis Market Matrix Diagnosis Box) -->
+        <div class="exec-box" style="background-color: #F8FAFC; border-left: 5px solid #059669; padding: 18px; border-radius: 0 14px 14px 0; margin-bottom: 24px; border-top: 1.5px solid #E2E8F0; border-right: 1.5px solid #E2E8F0; border-bottom: 1.5px solid #E2E8F0;">
+          <!-- Top Row: Section Title & Analysis Base (Stacked for 100% Zero-Overflow Consistency) -->
+          <div style="border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 8px; margin-bottom: 12px;">
+            <div style="font-size: 16.5px; font-weight: 900; color: #065F46; letter-spacing: -0.4px;">오늘의 30초 핵심 진단</div>
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748B; margin-top: 3px;">※ 일반 ETF ${generalCount.toLocaleString()}개 전수 분석</div>
+          </div>
 
-        <a href="${utmLink}" class="quick-cta">
-          📊 1분 만에 오늘의 테마 롱숏 맵 &amp; AUM 브릿지 분석하기 →
-        </a>
+          <div style="margin-bottom: 8px;">
+            <span style="display: inline-block; background-color: #ECFDF5; color: #047857; font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #A7F3D0; white-space: nowrap;">
+              ${escapeXml(regime.statusName)}
+            </span>
+          </div>
 
-        <div class="grid-2">
-          <div class="grid-col" style="padding-left: 0;">
-            <div class="metric-card">
-              <div class="metric-label">KOSPI vs 일반 ETF</div>
-              <div class="metric-value tabular" style="font-size: 19px;">
-                <span style="color: ${kospiColor};">${kospiSign}${kospiChangePct.toFixed(2)}%</span> / <span style="color: ${etfColor};">${etfSign}${etfReturn.toFixed(2)}%</span>
+          <div class="exec-headline" style="font-size: 15.5px; font-weight: 800; color: #0F172A; line-height: 1.55; margin-bottom: 14px; letter-spacing: -0.3px; word-break: keep-all; overflow-wrap: break-word;">
+            ${escapeXml(regime.slide1Subheadline || `코스피 ${kospiSign}${kospiChangePct.toFixed(2)}% 등락 속 일반 ETF 시장은 상승 ${up}개 vs 하락 ${down}개로 ${regime.statusName} 흐름을 시현했습니다.`)}
+          </div>
+
+          <!-- 3-Bullet Strategic Insight Box (Zero Parentheses & Zero Emojis) -->
+          <div class="bullet-card" style="background-color: #FFFFFF; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E2E8F0;">
+            <!-- Bullet 1: 3-Axis Market Pulse -->
+            <div style="margin-bottom: 10px; border-bottom: 1px solid #F1F5F9; padding-bottom: 9px;">
+              <div style="margin-bottom: 4px;">
+                <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid #E2E8F0;">시장 체온</span>
               </div>
-              <div style="font-size: 12px; font-weight: 800; color: #10B981;" class="tabular">+${spread.toFixed(2)}%p 초과 방어 🛡️</div>
+              <div style="font-size: 14px; font-weight: 700; color: #1E293B; line-height: 1.6; word-break: keep-all; overflow-wrap: break-word;">
+                KOSPI ${kospiSign}${kospiChangePct.toFixed(2)}% 대비 일반 ETF 가중수익률 ${etfSign}${etfReturn.toFixed(2)}%, 괴리 ${etfDivergenceSign}${etfDivergence.toFixed(2)}%p 수준. ${divergenceDiagnosis}
+              </div>
             </div>
-          </div>
-          <div class="grid-col" style="padding-right: 0;">
-            <div class="metric-card">
-              <div class="metric-label">시장 체온 (등락 분포)</div>
-              <div class="metric-value" style="color: #38BDF8;">${temp}</div>
-              <div style="font-size: 12px; color: #94A3B8;" class="tabular">상승 ${up} · 보합 ${flat} · 하락 ${down}</div>
+            <!-- Bullet 2: Leading & Lagging Theme Spread -->
+            <div style="margin-bottom: 10px; border-bottom: 1px solid #F1F5F9; padding-bottom: 9px;">
+              <div style="margin-bottom: 4px;">
+                <span style="display: inline-block; background-color: #FEF2F2; color: #DC2626; font-size: 12px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid #FECACA;">주도 테마</span>
+              </div>
+              <div style="font-size: 14px; font-weight: 700; color: #1E293B; line-height: 1.6; word-break: keep-all; overflow-wrap: break-word;">
+                <strong style="color: #DC2626;">'${escapeXml(cleanTopThemeName)}'</strong> ${topThemeSign}${topThemeRet.toFixed(2)}% ${topThemeVerb}, 최하위 '${escapeXml(cleanBottomThemeName)}' ${bottomThemeSign}${bottomThemeRet.toFixed(2)}% 대비 테마 스프레드 <span style="white-space: nowrap;">${themeSpread.toFixed(2)}%p</span>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="grid-col" style="padding-left: 0;">
-            <div class="metric-card">
-              <div class="metric-label">총 운용자산 (AUM)</div>
-              <div class="metric-value tabular">${aumJo}조원</div>
-              <div style="font-size: 12px; color: #94A3B8;">1,022개 일반 ETF 기준</div>
-            </div>
-          </div>
-          <div class="grid-col" style="padding-right: 0;">
-            <div class="metric-card">
-              <div class="metric-label">일 거래대금 / 회전율</div>
-              <div class="metric-value tabular">${tradeJo}조원</div>
-              <div style="font-size: 12px; color: #94A3B8;" class="tabular">회전율 2.28%</div>
+            <!-- Bullet 3: Smart Money Flow Focus -->
+            <div>
+              <div style="margin-bottom: 4px;">
+                <span style="display: inline-block; background-color: #ECFDF5; color: #047857; font-size: 12px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid #A7F3D0;">스마트머니</span>
+              </div>
+              <div style="font-size: 14px; font-weight: 700; color: #1E293B; line-height: 1.6; word-break: keep-all; overflow-wrap: break-word;">
+                <strong style="color: #047857;">'${escapeXml(topInflowName)}'</strong>${topInflowAmountStr} 실질 자금 순유입 집중
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="section-title">📊 7대 자산군 성과 매트릭스 (연초 대비 YTD 비교)</div>
-        <table class="table-custom">
+        <!-- 2. 4-Card Overview Grid (Email-Safe Standard Table) -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 10px; border-collapse: collapse;">
+          <tr>
+            <td class="metric-col" width="48.5%" style="vertical-align: top;">
+              <div class="metric-card" style="background-color: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px 10px; text-align: center; box-sizing: border-box;">
+                <div class="metric-label" style="font-size: 12.5px; color: #475569; font-weight: 800; margin-bottom: 4px;">KOSPI vs 일반 ETF</div>
+                <div class="metric-value tabular" style="font-size: 19px; font-weight: 900; margin: 4px 0; color: #0F172A; font-variant-numeric: tabular-nums;">
+                  <span style="color: ${kospiColor}; white-space: nowrap;">${kospiSign}${kospiChangePct.toFixed(2)}%</span>
+                  <span style="color: #94A3B8; font-size: 14px;"> / </span>
+                  <span style="color: ${etfColor}; white-space: nowrap;">${etfSign}${etfReturn.toFixed(2)}%</span>
+                </div>
+                <div style="font-size: 12px; font-weight: 700; color: #475569; font-variant-numeric: tabular-nums;" class="tabular">
+                  KOSDAQ ${kosdaqSign}${kosdaqChangePct.toFixed(2)}% · 스프레드 <span style="white-space: nowrap;">${capSpreadSign}${capSpread.toFixed(2)}%p</span>
+                </div>
+              </div>
+            </td>
+            <td class="metric-spacer" width="3%"></td>
+            <td class="metric-col" width="48.5%" style="vertical-align: top;">
+              <div class="metric-card" style="background-color: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px 10px; text-align: center; box-sizing: border-box;">
+                <div class="metric-label" style="font-size: 12.5px; color: #475569; font-weight: 800; margin-bottom: 4px;">시장 체온 · 등락 분포</div>
+                <div class="metric-value tabular" style="font-size: 17px; margin: 5px 0; font-weight: 900; color: #0F172A; font-variant-numeric: tabular-nums;">
+                  <span style="color: #DC2626; white-space: nowrap;">상승 ${up}</span>
+                  <span style="color: #CBD5E1; font-size: 13px;"> · </span>
+                  <span style="color: #64748B; white-space: nowrap;">보합 ${flat}</span>
+                  <span style="color: #CBD5E1; font-size: 13px;"> · </span>
+                  <span style="color: #2563EB; white-space: nowrap;">하락 ${down}</span>
+                </div>
+                <div style="font-size: 12px; font-weight: 700; color: #475569; font-variant-numeric: tabular-nums;" class="tabular">
+                  상승 비율 <span style="white-space: nowrap;">${upRatioPct.toFixed(1)}%</span> · 일반 ${generalCount.toLocaleString()}개 기준
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 22px; border-collapse: collapse;">
+          <tr>
+            <td class="metric-col" width="48.5%" style="vertical-align: top;">
+              <div class="metric-card" style="background-color: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px 10px; text-align: center; box-sizing: border-box;">
+                <div class="metric-label" style="font-size: 12.5px; color: #475569; font-weight: 800; margin-bottom: 4px;">전체 ETF 총 순자산 AUM</div>
+                <div class="metric-value tabular" style="font-size: 20px; font-weight: 900; margin: 3px 0; color: #0F172A; font-variant-numeric: tabular-nums;">${aumJo}조원</div>
+                <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-bottom: 4px;">
+                  ${totalEtfCount > 0 ? `${totalEtfCount.toLocaleString()}개 전체 종목 기준` : `${generalCount.toLocaleString()}개 일반 종목 포함`}
+                </div>
+                ${totalAumChangeStr ? `<div style="font-size: 12px; font-weight: 800; color: #1E293B; margin-top: 5px; border-top: 1.5px dashed #CBD5E1; padding-top: 4px; white-space: nowrap;">전체 ETF 기준 전일비 ${totalAumChangeStr}</div>` : ""}
+              </div>
+            </td>
+            <td class="metric-spacer" width="3%"></td>
+            <td class="metric-col" width="48.5%" style="vertical-align: top;">
+              <div class="metric-card" style="background-color: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px 10px; text-align: center; box-sizing: border-box;">
+                <div class="metric-label" style="font-size: 12.5px; color: #475569; font-weight: 800; margin-bottom: 4px;">전체 ETF 일 거래대금 · 회전율</div>
+                <div class="metric-value tabular" style="font-size: 20px; font-weight: 900; margin: 3px 0; color: #0F172A; font-variant-numeric: tabular-nums;">${tradeJo}조원</div>
+                <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-bottom: 4px;" class="tabular">
+                  일일 회전율 <span style="white-space: nowrap;">${turnoverPct.toFixed(1)}%</span>
+                </div>
+                ${totalAdtvChangeStr ? `<div style="font-size: 12px; font-weight: 800; color: #1E293B; margin-top: 5px; border-top: 1.5px dashed #CBD5E1; padding-top: 4px; white-space: nowrap;">전체 ETF 기준 전일비 ${totalAdtvChangeStr}</div>` : ""}
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <!-- 3. Section: Leading & Lagging Themes (Top 3 vs Worst 3) -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 8px;">
+          <tr>
+            <td style="text-align: left; vertical-align: middle;">
+              <div style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">▲ 상위 Top 3 vs ▼ 하위 Worst 3 테마</div>
+              <div style="font-size: 11.5px; color: #64748B; font-weight: 700; margin-top: 3px;">※ AUM 가중 평균 수익률 기준</div>
+            </td>
+          </tr>
+        </table>
+        <table class="table-custom" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13.5px; border: 1.5px solid #E2E8F0; border-radius: 12px; overflow: hidden; table-layout: fixed;">
+          <colgroup>
+            <col style="width: 72px;">
+            <col style="width: auto;">
+            <col style="width: 80px;">
+          </colgroup>
           <thead>
             <tr>
-              <th>자산군</th>
-              <th style="text-align: right;">AUM 비중</th>
-              <th style="text-align: right;">당일 수익률</th>
-              <th style="text-align: right;">연초대비(YTD)</th>
+              <th class="theme-col-rank" style="width: 72px; background-color: #F1F5F9; padding: 10px 8px; text-align: left; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; white-space: nowrap;">구분</th>
+              <th class="theme-col-name" style="background-color: #F1F5F9; padding: 10px 8px; text-align: left; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; word-break: break-all; overflow-wrap: anywhere;">테마명</th>
+              <th class="theme-col-ret" style="width: 80px; background-color: #F1F5F9; padding: 10px 8px; text-align: right; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; white-space: nowrap;">등락률</th>
             </tr>
           </thead>
           <tbody>
-            ${defaultAssetClasses.map(ac => `
+            ${winners.map((w, idx) => {
+              const cleanName = (w.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+              const ret = w.cappedAumWeightedReturnPct ?? 0;
+              const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
+              const retColor = ret >= 0 ? "#DC2626" : "#2563EB";
+              return `
               <tr>
-                <td style="font-weight: 700;">${ac.assetClass}</td>
-                <td style="text-align: right;" class="tabular">${ac.aumSharePct.toFixed(1)}%</td>
-                <td style="text-align: right; font-weight: 800; color: ${ac.aumWeightedReturnPct > 0 ? '#EF4444' : '#38BDF8'};" class="tabular">${ac.aumWeightedReturnPct > 0 ? '+' : ''}${ac.aumWeightedReturnPct.toFixed(2)}%</td>
-                <td style="text-align: right; font-weight: 800; color: ${ac.ytd > 0 ? '#EF4444' : '#38BDF8'};" class="tabular">${ac.ytd > 0 ? '+' : ''}${ac.ytd.toFixed(1)}%</td>
+                <td class="theme-col-rank" style="width: 72px; padding: 9px 8px; font-weight: 800; color: #DC2626; font-size: 12.5px; white-space: nowrap; border-bottom: 1px solid #F1F5F9; vertical-align: middle;">▲ 상위 ${idx + 1}위</td>
+                <td class="theme-col-name" style="padding: 9px 8px; font-weight: 800; color: #0F172A; font-size: 13.5px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; word-break: break-all; overflow-wrap: anywhere;">${escapeXml(cleanName)}</td>
+                <td class="theme-col-ret tabular" style="width: 80px; text-align: right; padding: 9px 8px; font-weight: 900; color: ${retColor}; font-size: 14px; white-space: nowrap; border-bottom: 1px solid #F1F5F9; vertical-align: middle; font-variant-numeric: tabular-nums;">${retSign}${ret.toFixed(2)}%</td>
               </tr>
-            `).join("")}
+            `;}).join("")}
+            ${losers.map((l, idx) => {
+              const cleanName = (l.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+              const ret = l.cappedAumWeightedReturnPct ?? 0;
+              const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
+              const retColor = ret >= 0 ? "#DC2626" : "#2563EB";
+              const isLast = idx === losers.length - 1;
+              return `
+              <tr>
+                <td class="theme-col-rank" style="width: 72px; padding: 9px 8px; font-weight: 800; color: #2563EB; font-size: 12.5px; white-space: nowrap; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle;">▼ 하위 ${idx + 1}위</td>
+                <td class="theme-col-name" style="padding: 9px 8px; font-weight: 800; color: #0F172A; font-size: 13.5px; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle; word-break: break-all; overflow-wrap: anywhere;">${escapeXml(cleanName)}</td>
+                <td class="theme-col-ret tabular" style="width: 80px; text-align: right; padding: 9px 8px; font-weight: 900; color: ${retColor}; font-size: 14px; white-space: nowrap; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle; font-variant-numeric: tabular-nums;">${retSign}${ret.toFixed(2)}%</td>
+              </tr>
+            `;}).join("")}
           </tbody>
         </table>
 
-        <div class="section-title">💰 스마트머니 당일 실질 순유입 TOP 5 (진성수급)</div>
-        <table class="table-custom">
+        <!-- Theme Spread Footnote / Summary Card -->
+        <div style="margin-top: 8px; margin-bottom: 22px; padding: 11px 14px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; text-align: left; line-height: 1.6; word-break: keep-all;">
+          <span style="font-size: 12.5px; color: #475569; font-weight: 600;">
+            💡 <strong style="color: #0F172A;">테마 스프레드 분석:</strong> 1위 <strong style="color: #0F172A;">'${escapeXml(cleanTopThemeName)}'</strong> 대비 최하위 <strong style="color: #0F172A;">'${escapeXml(cleanBottomThemeName)}'</strong> 간 테마 수익률 격차는 <strong style="color: #059669; font-weight: 800; white-space: nowrap;" class="tabular">${themeSpread.toFixed(2)}%p</strong>입니다.
+          </span>
+        </div>
+
+        <!-- 4. Section: Smart Money Net Inflows TOP 5 (Fixed Table Layout & Inline CSS) -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 8px;">
+          <tr>
+            <td style="text-align: left; vertical-align: middle;">
+              <div style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">스마트머니 외인·기관 실질 순유입 TOP 5</div>
+              <div style="font-size: 11.5px; color: #64748B; font-weight: 700; margin-top: 3px;">※ 일반 테마 ETF · 단위: 억원</div>
+            </td>
+          </tr>
+        </table>
+        <table class="table-custom" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 13.5px; border: 1.5px solid #E2E8F0; border-radius: 12px; overflow: hidden; table-layout: fixed;">
+          <colgroup>
+            <col style="width: 32px;">
+            <col style="width: auto;">
+            <col style="width: 92px;">
+          </colgroup>
           <thead>
             <tr>
-              <th>순위</th>
-              <th>종목명 / 티커</th>
-              <th style="text-align: right;">실질 순유입액</th>
-              <th style="text-align: right;">당일 등락률</th>
+              <th class="smart-col-rank" style="width: 32px; background-color: #F1F5F9; padding: 10px 4px; text-align: center; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; white-space: nowrap;">순위</th>
+              <th class="smart-col-name" style="background-color: #F1F5F9; padding: 10px 8px; text-align: left; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; word-break: break-all; overflow-wrap: anywhere;">종목명 / 티커</th>
+              <th class="smart-col-inflow" style="width: 92px; background-color: #F1F5F9; padding: 10px 8px; text-align: right; font-weight: 800; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 12.5px; white-space: nowrap;">순유입액</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">1</td>
-              <td><div style="font-weight: 700;">KODEX 200</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">069500 · 국내대표지수</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+4,250억원</td>
-              <td style="text-align: right; font-weight: 800; color: #EF4444;" class="tabular">+1.25%</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">2</td>
-              <td><div style="font-weight: 700;">KODEX 미국S&amp;P500TR</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">379800 · 해외대표지수</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+3,120억원</td>
-              <td style="text-align: right; font-weight: 800; color: #EF4444;" class="tabular">+0.95%</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">3</td>
-              <td><div style="font-weight: 700;">TIGER 미국나스닥100</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">133690 · 해외빅테크</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+2,850억원</td>
-              <td style="text-align: right; font-weight: 800; color: #EF4444;" class="tabular">+1.65%</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">4</td>
-              <td><div style="font-weight: 700;">PLUS 고배당주</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">448290 · 국내고배당</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+1,950억원</td>
-              <td style="text-align: right; font-weight: 800; color: #EF4444;" class="tabular">+0.45%</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">5</td>
-              <td><div style="font-weight: 700;">ACE 미국30년국채액티브</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">396500 · 미국장기채</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+1,650억원</td>
-              <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-0.15%</td>
-            </tr>
+            ${topInflows.slice(0, 5).map((item, idx) => {
+              const name = item.name || item.etfName || item.ticker || "";
+              const ticker = item.ticker || "";
+              const inflowEok = item.inflow ? Math.round(item.inflow) : item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0;
+              const etfDetailUrl = `${baseUrl}/etf/${ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=smart_money_${dateStr.replace(/-/g, "")}`;
+              const isLast = idx === 4 || idx === topInflows.slice(0, 5).length - 1;
+              return `
+              <tr>
+                <td class="smart-col-rank" style="width: 32px; padding: 10px 4px; text-align: center; font-weight: 800; color: ${idx === 0 ? "#059669" : "#64748B"}; font-size: 13px; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle; white-space: nowrap;">${idx + 1}</td>
+                <td class="smart-col-name" style="padding: 10px 8px; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle; word-break: break-all; overflow-wrap: anywhere;">
+                  <a href="${etfDetailUrl}" target="_blank" style="text-decoration: none; color: #0F172A; display: block;">
+                    <div style="font-weight: 800; font-size: 13.5px; color: #0F172A; line-height: 1.35; word-break: break-all; overflow-wrap: anywhere;">${escapeXml(name)}</div>
+                    <div style="font-size: 11.5px; font-weight: 700; color: #059669; margin-top: 2px; font-variant-numeric: tabular-nums; white-space: nowrap;" class="tabular">${escapeXml(ticker)} · 종목 상세 ↗</div>
+                  </a>
+                </td>
+                <td class="smart-col-inflow tabular" style="width: 92px; text-align: right; padding: 10px 8px; border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; vertical-align: middle; font-weight: 900; color: #047857; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums;">+${inflowEok.toLocaleString()}억원</td>
+              </tr>
+              `;
+            }).join("")}
           </tbody>
         </table>
 
-        <a href="${utmLink}" class="btn-primary">
-          🌐 62개 테마 롱숏 맵 &amp; AUM 브릿지 풀버전 분석하기 →
-        </a>
+        <!-- 5. Section: Disparity Warning (2-Tier Stacked Card for 100% Zero-Overflow) -->
+        <div class="disparity-box" style="margin-top: 24px; background-color: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 8px; margin-bottom: 12px;">
+            <tr>
+              <td style="text-align: left; vertical-align: middle;">
+                <span style="font-size: 15.5px; font-weight: 900; color: #0F172A; margin-right: 6px;">수급 쏠림 주의 ETF · 괴리율 경보</span>
+                <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 800; padding: 2px 7px; border-radius: 999px; white-space: nowrap;">총 ${disparityList.length}개</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding-top: 4px;">
+                <span style="font-size: 11.5px; font-weight: 700; color: #64748B;">기준: 국내 1.0% / 해외 3.0% 이상 괴리 발생 종목</span>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Overvalued Sub-panel (2-Tier Stacked Card for 100% Zero-Overflow) -->
+          <div style="margin-bottom: 18px;">
+            <div style="margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1.5px solid #FEE2E2;">
+              <div style="font-size: 14px; font-weight: 800; color: #DC2626;">고평가 TOP 3 · 할증 주의</div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #991B1B; margin-top: 3px;">
+                ※ 시장가 &gt; NAV (추격 매수 주의 · 실시간 괴리율 확인)
+              </div>
+            </div>
+            ${overvalued.length === 0 ? `
+              <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 11px; text-align: center; font-size: 13px; color: #475569; font-weight: 700;">
+                <span style="color: #10B981; font-weight: 800; margin-right: 5px;">[정상]</span> 현재 고평가 경보 종목이 없습니다.
+              </div>
+            ` : `
+              ${overvalued.slice(0, 3).map((item, idx) => {
+                const isLast = idx === 2 || idx === overvalued.slice(0, 3).length - 1;
+                return `
+                <div style="border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; padding: 9px 0;">
+                  <!-- Row 1: Rank + ETF Name (Full Width Available) -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; table-layout: fixed;">
+                    <tr>
+                      <td style="width: 24px; vertical-align: top; padding-right: 6px;">
+                        <span style="display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; background-color: #FEE2E2; color: #DC2626; font-size: 11.5px; font-weight: 900; border-radius: 4px;">${idx + 1}</span>
+                      </td>
+                      <td style="vertical-align: middle; word-break: break-all; overflow-wrap: anywhere;">
+                        <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #0F172A; font-weight: 800; font-size: 13.5px; line-height: 1.35; display: block; word-break: break-all; overflow-wrap: anywhere;">
+                          ${escapeXml(item.etfName)}
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                  <!-- Row 2: Metadata (Left) + Badge (Right) -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 5px;">
+                    <tr>
+                      <td style="padding-left: 28px; font-size: 11.5px; font-weight: 700; color: #64748B; vertical-align: middle;">
+                        <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #64748B;">
+                          <span class="tabular">${escapeXml(item.ticker)}</span> · ${escapeXml(item.assetClass || "일반")} <span style="color: #059669; font-weight: 800;">상세 ↗</span>
+                        </a>
+                      </td>
+                      <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                        <span class="disparity-badge tabular" style="display: inline-block; background-color: #FEF2F2; color: #DC2626; font-weight: 800; font-size: 12px; padding: 3px 7px; border-radius: 6px; border: 1px solid #FECACA; white-space: nowrap; font-variant-numeric: tabular-nums;">+${item.disparityPct.toFixed(2)}% 고평가</span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                `;
+              }).join("")}
+            `}
+          </div>
+
+          <!-- Undervalued Sub-panel (2-Tier Stacked Card for 100% Zero-Overflow) -->
+          <div>
+            <div style="margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1.5px solid #DBEAFE;">
+              <div style="font-size: 14px; font-weight: 800; color: #2563EB;">저평가 TOP 3 · 할인 체크</div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #1E40AF; margin-top: 3px;">
+                ※ 시장가 &lt; NAV (헐값 매도 유의 및 시차 확인)
+              </div>
+            </div>
+            ${undervalued.length === 0 ? `
+              <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 11px; text-align: center; font-size: 13px; color: #475569; font-weight: 700;">
+                <span style="color: #10B981; font-weight: 800; margin-right: 5px;">[정상]</span> 현재 저평가 경보 종목이 없습니다.
+              </div>
+            ` : `
+              ${undervalued.slice(0, 3).map((item, idx) => {
+                const isLast = idx === 2 || idx === undervalued.slice(0, 3).length - 1;
+                return `
+                <div style="border-bottom: ${isLast ? "none" : "1px solid #F1F5F9"}; padding: 9px 0;">
+                  <!-- Row 1: Rank + ETF Name (Full Width Available) -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; table-layout: fixed;">
+                    <tr>
+                      <td style="width: 24px; vertical-align: top; padding-right: 6px;">
+                        <span style="display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; background-color: #DBEAFE; color: #2563EB; font-size: 11.5px; font-weight: 900; border-radius: 4px;">${idx + 1}</span>
+                      </td>
+                      <td style="vertical-align: middle; word-break: break-all; overflow-wrap: anywhere;">
+                        <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #0F172A; font-weight: 800; font-size: 13.5px; line-height: 1.35; display: block; word-break: break-all; overflow-wrap: anywhere;">
+                          ${escapeXml(item.etfName)}
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                  <!-- Row 2: Metadata (Left) + Badge (Right) -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 5px;">
+                    <tr>
+                      <td style="padding-left: 28px; font-size: 11.5px; font-weight: 700; color: #64748B; vertical-align: middle;">
+                        <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #64748B;">
+                          <span class="tabular">${escapeXml(item.ticker)}</span> · ${escapeXml(item.assetClass || "일반")} <span style="color: #059669; font-weight: 800;">상세 ↗</span>
+                        </a>
+                      </td>
+                      <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                        <span class="disparity-badge tabular" style="display: inline-block; background-color: #EFF6FF; color: #2563EB; font-weight: 800; font-size: 12px; padding: 3px 7px; border-radius: 6px; border: 1px solid #BFDBFE; white-space: nowrap; font-variant-numeric: tabular-nums;">${item.disparityPct.toFixed(2)}% 저평가</span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                `;
+              }).join("")}
+            `}
+          </div>
+        </div>
+
+        <!-- 6. Call to Action Button (Bulletproof Table-Wrapped Inline Button) -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 26px 0 10px;">
+          <tr>
+            <td align="center" style="background-color: #059669; border-radius: 12px; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);">
+              <a href="${utmLink}" class="btn-primary" target="_blank" style="display: block; width: 100%; padding: 16px 12px; font-size: 16px; font-weight: 800; color: #FFFFFF !important; text-decoration: none; text-align: center; border-radius: 12px; box-sizing: border-box; letter-spacing: -0.3px;">
+                마켓 브리핑 풀버전 보기 ↗
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ETF 캠퍼스 공식 최신 표준 풋터 밴드 (2-Row Table 기반 라운드 배너) -->
+        <table class="footer-banner" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 22px; background-color: #F8FAFC; border: 1.2px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; text-align: center;">
+          <tr>
+            <td align="center" style="font-size: 12.5px; font-weight: 800; color: #059669; letter-spacing: -0.2px; line-height: 1.45; padding-bottom: 3px;">
+              🔍 DC/IRP · 연금저축 · ISA 계좌별 ETF 비교
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="font-size: 12.5px; font-weight: 900; color: #0F172A; line-height: 1.45;">
+              📊 ETF 캠퍼스 <a href="${baseUrl}" target="_blank" style="color: #0F172A; text-decoration: none; font-weight: 900;">etf-campus.pages.dev</a>
+            </td>
+          </tr>
+        </table>
       </div>
 
-      <div class="footer">
-        <div><strong>ETF CAMPUS (ETF 캠퍼스)</strong></div>
-        <div style="margin: 6px 0 12px;">퇴근길 18:30에 받아보는 가장 정확한 정량 ETF 마켓 브리핑</div>
-        <div style="font-size: 11px; color: #64748B;">
-          본 뉴스레터는 정보 제공을 목적으로 발송되며, 특정 금융투자상품의 매수·매도를 권유하지 않습니다.<br>
-          투자 원금의 손실 위험이 따를 수 있으며, 최종 투자 책임은 투자자 본인에게 있습니다.
+      <!-- 7. Compliance & Regulatory Disclaimers (Capital Markets Act Art. 101 & As-Of Date Standard) -->
+      <div class="footer" style="background-color: #F8FAFC; padding: 22px 18px 24px; border-top: 1px solid #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;">
+        <div style="font-size: 11.5px; color: #64748B; line-height: 1.65; text-align: left; word-break: keep-all; font-weight: 600; margin-bottom: 6px;">
+          * 기준: ${formattedDate} 한국거래소(KRX) 및 금융투자협회 공시
         </div>
+        <div style="font-size: 11.5px; color: #64748B; line-height: 1.65; text-align: left; word-break: keep-all; font-weight: 500;">
+          * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다. 과거의 운용 실적이 미래의 수익을 보장하지 않습니다.
+        </div>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 14px; padding-top: 12px; border-top: 1px solid #E2E8F0;">
+          <tr>
+            <td style="font-size: 11px; color: #94A3B8; text-align: left; vertical-align: middle;">
+              © 2026 ETF Campus. All rights reserved.
+            </td>
+            <td style="font-size: 11px; color: #64748B; text-align: right; vertical-align: middle; white-space: nowrap;">
+              <a href="${baseUrl}" target="_blank" style="color: #64748B; text-decoration: none; font-weight: 700;">홈페이지</a>
+              <span style="margin: 0 5px; color: #CBD5E1;">·</span>
+              <a href="${baseUrl}/unsubscribe" style="color: #64748B; text-decoration: underline;">수신거부 (Unsubscribe)</a>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
 </body>
-</html>
-  `;
+</html>`;
 
-  return { subject, html };
+  return { subject, preheader, html };
 }

@@ -1,191 +1,191 @@
 {
   "ticker": "0107F0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "웨스턴유니온",
-      "weight_pct": 6.35,
-      "shares": 3627,
-      "item_code": "WU"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 6.18,
-      "shares": 122,
+      "weight_pct": 6.4,
+      "shares": 120,
       "item_code": "NVDA.O"
     },
     {
+      "name": "웨스턴유니온",
+      "weight_pct": 6.3,
+      "shares": 3651,
+      "item_code": "WU"
+    },
+    {
       "name": "마이크로소프트",
-      "weight_pct": 5.71,
+      "weight_pct": 5.76,
       "shares": 47,
       "item_code": "MSFT.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 5.29,
-      "shares": 64,
+      "weight_pct": 5.18,
+      "shares": 63,
       "item_code": "GOOGL.O"
     },
     {
       "name": "버라이존",
-      "weight_pct": 4.83,
-      "shares": 398,
+      "weight_pct": 4.94,
+      "shares": 401,
       "item_code": "VZ"
     },
     {
       "name": "UPS(유나이티드 파셀 서비스)",
-      "weight_pct": 4.47,
-      "shares": 175,
+      "weight_pct": 4.43,
+      "shares": 176,
       "item_code": "UPS"
     },
     {
       "name": "베스트 바이",
-      "weight_pct": 4.17,
-      "shares": 197,
+      "weight_pct": 4.02,
+      "shares": 199,
       "item_code": "BBY"
     },
     {
       "name": "LCI 인더스트리스",
       "weight_pct": 3.88,
-      "shares": 156,
+      "shares": 157,
       "item_code": "LCII.K"
+    },
+    {
+      "name": "셰브론",
+      "weight_pct": 3.87,
+      "shares": 75,
+      "item_code": "CVX"
     },
     {
       "name": "옴니콤 그룹",
       "weight_pct": 3.84,
-      "shares": 181,
+      "shares": 182,
       "item_code": "OMC"
     },
     {
       "name": "딜럭스",
-      "weight_pct": 3.73,
-      "shares": 654,
+      "weight_pct": 3.68,
+      "shares": 659,
       "item_code": "DLX"
     },
     {
       "name": "이스트만 케미컬",
-      "weight_pct": 3.68,
-      "shares": 209,
+      "weight_pct": 3.61,
+      "shares": 210,
       "item_code": "EMN"
     },
     {
-      "name": "셰브론",
-      "weight_pct": 3.6,
-      "shares": 74,
-      "item_code": "CVX"
-    },
-    {
       "name": "티 로웨 프라이스 그룹",
-      "weight_pct": 3.58,
-      "shares": 132,
+      "weight_pct": 3.54,
+      "shares": 133,
       "item_code": "TROW.O"
     },
     {
       "name": "피플스 뱅코프",
-      "weight_pct": 3.32,
-      "shares": 347,
+      "weight_pct": 3.34,
+      "shares": 349,
       "item_code": "PEBO.O"
     },
     {
       "name": "컬럼비아 뱅킹 시스템",
-      "weight_pct": 3.29,
-      "shares": 444,
+      "weight_pct": 3.21,
+      "shares": 447,
       "item_code": "COLB.O"
     },
     {
       "name": "펩시코",
-      "weight_pct": 3.08,
-      "shares": 89,
+      "weight_pct": 3.09,
+      "shares": 90,
       "item_code": "PEP.O"
     },
     {
       "name": "앤테로 미드스트림",
-      "weight_pct": 2.85,
-      "shares": 523,
+      "weight_pct": 2.89,
+      "shares": 526,
       "item_code": "AM"
     },
     {
-      "name": "리전스 파이낸셜",
-      "weight_pct": 2.71,
-      "shares": 367,
-      "item_code": "RF"
-    },
-    {
-      "name": "TSMC ADR",
-      "weight_pct": 2.68,
-      "shares": 26,
-      "item_code": "TSM"
-    },
-    {
-      "name": "CVB 파이낸셜",
-      "weight_pct": 2.67,
-      "shares": 495,
-      "item_code": "CVBF.O"
-    },
-    {
       "name": "브로드컴",
-      "weight_pct": 2.62,
+      "weight_pct": 2.73,
       "shares": 30,
       "item_code": "AVGO.O"
     },
     {
+      "name": "CVB 파이낸셜",
+      "weight_pct": 2.67,
+      "shares": 498,
+      "item_code": "CVBF.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 2.65,
+      "shares": 26,
+      "item_code": "TSM"
+    },
+    {
+      "name": "리전스 파이낸셜",
+      "weight_pct": 2.64,
+      "shares": 369,
+      "item_code": "RF"
+    },
+    {
       "name": "뱅크 오즈크",
-      "weight_pct": 2.5,
-      "shares": 209,
+      "weight_pct": 2.49,
+      "shares": 210,
       "item_code": "OZK.O"
     },
     {
       "name": "뱅크 오브 하와이",
-      "weight_pct": 2.42,
+      "weight_pct": 2.4,
       "shares": 130,
       "item_code": "BOH"
     },
     {
-      "name": "레이놀드 컨슈머 프라덕츠",
-      "weight_pct": 2.37,
-      "shares": 400,
-      "item_code": "REYN.O"
-    },
-    {
       "name": "퍼스트 하와이안",
-      "weight_pct": 2.33,
-      "shares": 371,
+      "weight_pct": 2.31,
+      "shares": 374,
       "item_code": "FHB.O"
     },
     {
+      "name": "레이놀드 컨슈머 프라덕츠",
+      "weight_pct": 2.23,
+      "shares": 402,
+      "item_code": "REYN.O"
+    },
+    {
       "name": "메타",
-      "weight_pct": 1.76,
+      "weight_pct": 1.77,
       "shares": 12,
       "item_code": "META.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.67,
+      "weight_pct": 1.66,
       "shares": 7,
       "item_code": "MU.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.57,
+      "weight_pct": 1.62,
       "shares": 18,
       "item_code": "TSLA.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.28,
-      "shares": 11,
+      "weight_pct": 1.22,
+      "shares": 10,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 0.74,
-      "shares": 35,
+      "weight_pct": 0.75,
+      "shares": 34,
       "item_code": "INTC.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.66,
-      "shares": 3804740,
+      "weight_pct": 0.73,
+      "shares": 4131681,
       "item_code": null
     }
   ]

@@ -13,9 +13,9 @@ function InfoTooltip({ text }: { text: React.ReactNode }) {
       >
         <Info className="h-4 w-4" />
       </button>
-      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-72 -translate-x-1/2 rounded-xl bg-neutral-900/95 p-3 text-[12px] leading-relaxed text-white opacity-0 shadow-xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-72 max-w-[calc(100vw-32px)] -translate-x-1/2 rounded-xl bg-slate-900/98 p-3 text-[12px] leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-md transition-all group-hover:pointer-events-auto group-hover:opacity-100 whitespace-normal break-keep">
         {text}
-        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900/95" />
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900/98" />
       </div>
     </div>
   );
@@ -47,6 +47,18 @@ export function FundFlowRanking({
 
   if (!currentData || (!currentData.topInflows?.length && !currentData.topOutflows?.length)) {
     return null;
+  }
+
+  const hasNonZeroInflow = currentData.topInflows?.some((r) => Math.abs(r.netInflowValue || 0) > 0);
+  const hasNonZeroOutflow = currentData.topOutflows?.some((r) => Math.abs(r.netInflowValue || 0) > 0);
+
+  if (!hasNonZeroInflow && !hasNonZeroOutflow) {
+    return (
+      <div className="rounded-2xl border border-[#E8ECE1] bg-[#F8FAF6] p-8 text-center">
+        <p className="text-sm sm:text-base font-bold text-neutral-700">당일 실질 자금 유출입 변동을 집계하고 있습니다.</p>
+        <p className="mt-1.5 text-xs text-neutral-400">한국거래소(KRX) 상장주식수 원장 및 설정·환매 변동분이 확정되는 대로 실시간 반영됩니다.</p>
+      </div>
+    );
   }
 
   const maxInflow = Math.max(...currentData.topInflows.map((r) => Math.abs(r.netInflowValue || 0)), 1);
@@ -86,9 +98,10 @@ export function FundFlowRanking({
         <div className="flex items-center gap-2 self-end sm:self-auto text-[12px] text-neutral-500 font-medium">
           <span className="inline-flex items-center gap-1">
             <span>실질 자금 순유입·순유출 기준</span>
-            <InfoTooltip text="주가 등락에 따른 평가액 변동을 제외하고, 펀드 설정·환매(발행좌수 증감)로 인해 실제 오고 간 순수 자금 규모입니다." />
+            <InfoTooltip text="주가 등락에 따른 평가액 변동을 제외하고, 운용사-기관(LP) 간 1차 시장 펀드 설정·환매(발행좌수 증감: ΔShares × NAV)로 인해 실제 오고 간 순수 자금 규모입니다. (장내 단순 매매대금이 아님)" />
           </span>
           <span className="text-neutral-300">|</span>
+
           <span className="font-semibold text-neutral-600">단위: 억원</span>
         </div>
       </div>
@@ -112,7 +125,6 @@ export function FundFlowRanking({
           <div className="divide-y divide-neutral-100 flex-1 flex flex-col justify-between">
             {currentData.topInflows.slice(0, 5).map((row, idx) => {
               const widthPct = Math.min((Math.abs(row.netInflowValue) / maxInflow) * 100, 100);
-              const isTop3 = idx < 3;
 
               return (
                 <Link
@@ -174,7 +186,6 @@ export function FundFlowRanking({
           <div className="divide-y divide-neutral-100 flex-1 flex flex-col justify-between">
             {currentData.topOutflows.slice(0, 5).map((row, idx) => {
               const widthPct = Math.min((Math.abs(row.netInflowValue) / maxOutflow) * 100, 100);
-              const isTop3 = idx < 3;
 
               return (
                 <Link

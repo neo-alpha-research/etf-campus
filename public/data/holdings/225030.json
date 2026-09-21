@@ -1,40 +1,40 @@
 {
   "ticker": "225030",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 83.65,
-      "shares": 94322448,
+      "weight_pct": 83.79,
+      "shares": 95139262,
       "item_code": null
     },
     {
       "name": "ProShares Short S&P500 ETF",
-      "weight_pct": 8.43,
+      "weight_pct": 8.35,
       "shares": 212,
       "item_code": "SH"
     },
     {
       "name": "Direxion Daily S&P 500 Bear 1X ETF",
-      "weight_pct": 7.91,
+      "weight_pct": 7.84,
       "shares": 757,
       "item_code": "SPDN.K"
     },
     {
       "name": "SP500 MIC EMIN FUT SEP 2026",
-      "weight_pct": -11.41,
+      "weight_pct": -13.95,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -67.58,
+      "weight_pct": -66.88,
       "shares": -5,
       "item_code": null
     },
     {
       "name": "S&P500 EMINI FUT SEPT 2026",
-      "weight_pct": -71.34,
+      "weight_pct": -69.79,
       "shares": 0,
       "item_code": null
     }

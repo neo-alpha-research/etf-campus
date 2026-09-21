@@ -1,0 +1,72 @@
+{
+  "ticker": "0234N0",
+  "as_of_date": "2026-09-03",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 27.83,
+      "shares": 537,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 22.69,
+      "shares": 68,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 14.19,
+      "shares": 49,
+      "item_code": "009150"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 12.8,
+      "shares": 63,
+      "item_code": "402340"
+    },
+    {
+      "name": "삼성물산",
+      "weight_pct": 7.02,
+      "shares": 91,
+      "item_code": "028260"
+    },
+    {
+      "name": "삼성생명",
+      "weight_pct": 6.75,
+      "shares": 111,
+      "item_code": "032830"
+    },
+    {
+      "name": "SK",
+      "weight_pct": 5.75,
+      "shares": 51,
+      "item_code": "034730"
+    },
+    {
+      "name": "삼성E&A",
+      "weight_pct": 1.51,
+      "shares": 167,
+      "item_code": "028050"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.55,
+      "shares": 2661413,
+      "item_code": null
+    },
+    {
+      "name": "SKC",
+      "weight_pct": 0.5,
+      "shares": 29,
+      "item_code": "011790"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 0.38,
+      "shares": 11,
+      "item_code": "095340"
+    }
+  ]
+}

@@ -1,28 +1,28 @@
 {
   "ticker": "122260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "통화안정증권03370-2707-01",
-      "weight_pct": 19.28,
+      "weight_pct": 19.29,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02900-2705-01",
-      "weight_pct": 19.21,
+      "weight_pct": 19.22,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02400-2707-02",
-      "weight_pct": 19.13,
+      "weight_pct": 19.14,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02840-2801-02",
-      "weight_pct": 19.09,
+      "weight_pct": 19.08,
       "shares": 0,
       "item_code": null
     },
@@ -34,8 +34,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.2,
-      "shares": 43765748,
+      "weight_pct": 4.18,
+      "shares": 43635777,
       "item_code": null
     }
   ]

@@ -1,17 +1,17 @@
 {
   "ticker": "486830",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
-    {
-      "name": "원화현금",
-      "weight_pct": 9.53,
-      "shares": 10159590,
-      "item_code": null
-    },
     {
       "name": "한국도로공사고속도로건설채권883",
       "weight_pct": 5.42,
       "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.22,
+      "shares": 4503696,
       "item_code": null
     },
     {
@@ -107,6 +107,18 @@
     {
       "name": "신한캐피탈 20211019-1826-8",
       "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20251107-364-15",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260507-195-38",
+      "weight_pct": 2.65,
       "shares": 0,
       "item_code": null
     },

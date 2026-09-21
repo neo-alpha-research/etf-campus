@@ -1,131 +1,131 @@
 {
   "ticker": "487910",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "Mahindra & Mahindra Ltd",
-      "weight_pct": 9.31,
-      "shares": 808,
-      "item_code": null
-    },
-    {
       "name": "Apollo Hospitals Enterprise Ltd",
-      "weight_pct": 9.04,
+      "weight_pct": 9.14,
       "shares": 304,
       "item_code": null
     },
     {
+      "name": "Mahindra & Mahindra Ltd",
+      "weight_pct": 9.04,
+      "shares": 808,
+      "item_code": null
+    },
+    {
       "name": "Divi's Laboratories Ltd",
-      "weight_pct": 5.69,
+      "weight_pct": 5.85,
       "shares": 186,
       "item_code": null
     },
     {
       "name": "TVS Motor Co Ltd",
-      "weight_pct": 5.49,
+      "weight_pct": 5.24,
       "shares": 363,
       "item_code": null
     },
     {
-      "name": "Hyundai Motor India Ltd",
-      "weight_pct": 5.08,
-      "shares": 666,
-      "item_code": null
-    },
-    {
-      "name": "Voltas Ltd",
-      "weight_pct": 4.98,
-      "shares": 1207,
-      "item_code": null
-    },
-    {
       "name": "Sun Pharmaceutical Industries Ltd",
-      "weight_pct": 4.88,
+      "weight_pct": 5.02,
       "shares": 758,
       "item_code": null
     },
     {
-      "name": "Maruti Suzuki India Ltd",
-      "weight_pct": 4.86,
-      "shares": 106,
-      "item_code": null
-    },
-    {
-      "name": "Dixon Technologies India Ltd",
-      "weight_pct": 4.8,
-      "shares": 96,
-      "item_code": null
-    },
-    {
-      "name": "Max Healthcare Institute Ltd",
-      "weight_pct": 4.78,
-      "shares": 1403,
-      "item_code": null
-    },
-    {
-      "name": "LG Electronics India Ltd",
-      "weight_pct": 4.7,
-      "shares": 827,
-      "item_code": null
-    },
-    {
       "name": "Bajaj Auto Ltd",
-      "weight_pct": 4.69,
+      "weight_pct": 5.01,
       "shares": 118,
       "item_code": null
     },
     {
+      "name": "Voltas Ltd",
+      "weight_pct": 4.99,
+      "shares": 1207,
+      "item_code": null
+    },
+    {
+      "name": "Hyundai Motor India Ltd",
+      "weight_pct": 4.98,
+      "shares": 666,
+      "item_code": null
+    },
+    {
+      "name": "Max Healthcare Institute Ltd",
+      "weight_pct": 4.83,
+      "shares": 1403,
+      "item_code": null
+    },
+    {
+      "name": "Dixon Technologies India Ltd",
+      "weight_pct": 4.77,
+      "shares": 96,
+      "item_code": null
+    },
+    {
+      "name": "LG Electronics India Ltd",
+      "weight_pct": 4.73,
+      "shares": 827,
+      "item_code": null
+    },
+    {
+      "name": "Maruti Suzuki India Ltd",
+      "weight_pct": 4.71,
+      "shares": 106,
+      "item_code": null
+    },
+    {
       "name": "Eicher Motors Ltd",
-      "weight_pct": 4.63,
+      "weight_pct": 4.65,
       "shares": 170,
       "item_code": null
     },
     {
-      "name": "Havells India Ltd",
-      "weight_pct": 4.46,
-      "shares": 1045,
-      "item_code": null
-    },
-    {
       "name": "Amber Enterprises India Ltd",
-      "weight_pct": 4.35,
+      "weight_pct": 4.43,
       "shares": 172,
       "item_code": null
     },
     {
+      "name": "Havells India Ltd",
+      "weight_pct": 4.39,
+      "shares": 1045,
+      "item_code": null
+    },
+    {
       "name": "Lupin Ltd",
-      "weight_pct": 3.87,
+      "weight_pct": 3.86,
       "shares": 523,
       "item_code": null
     },
     {
       "name": "Dr Reddy's Laboratories Ltd",
-      "weight_pct": 3.58,
+      "weight_pct": 3.59,
       "shares": 893,
       "item_code": null
     },
     {
-      "name": "Crompton Greaves Consumer Electricals Lt",
-      "weight_pct": 3.51,
-      "shares": 4342,
-      "item_code": null
-    },
-    {
-      "name": "Tata Motors Passenger Vehicles Limited",
-      "weight_pct": 3.45,
-      "shares": 3255,
-      "item_code": null
-    },
-    {
       "name": "Blue Star Ltd",
-      "weight_pct": 3.42,
+      "weight_pct": 3.48,
       "shares": 680,
       "item_code": null
     },
     {
+      "name": "Tata Motors Passenger Vehicles Limited",
+      "weight_pct": 3.46,
+      "shares": 3255,
+      "item_code": null
+    },
+    {
+      "name": "Crompton Greaves Consumer Electricals Lt",
+      "weight_pct": 3.44,
+      "shares": 4342,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 1380312,
+      "weight_pct": 0.27,
+      "shares": 1140561,
       "item_code": null
     }
   ]

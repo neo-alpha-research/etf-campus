@@ -1,83 +1,83 @@
 {
   "ticker": "466810",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "삼성SDI",
-      "weight_pct": 10.01,
-      "shares": 53,
-      "item_code": "006400"
-    },
-    {
       "name": "SK이노베이션",
-      "weight_pct": 9.66,
+      "weight_pct": 11.78,
       "shares": 260,
       "item_code": "096770"
     },
     {
+      "name": "삼성SDI",
+      "weight_pct": 9.82,
+      "shares": 53,
+      "item_code": "006400"
+    },
+    {
       "name": "엘앤에프",
-      "weight_pct": 9.17,
+      "weight_pct": 9.15,
       "shares": 213,
       "item_code": "066970"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 8.85,
+      "weight_pct": 8.79,
       "shares": 145,
       "item_code": "003670"
     },
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 8.48,
-      "shares": 69,
-      "item_code": "373220"
-    },
-    {
       "name": "POSCO홀딩스",
-      "weight_pct": 8.45,
+      "weight_pct": 8.53,
       "shares": 75,
       "item_code": "005490"
     },
     {
+      "name": "LG에너지솔루션",
+      "weight_pct": 8.26,
+      "shares": 69,
+      "item_code": "373220"
+    },
+    {
       "name": "코스모신소재",
-      "weight_pct": 8.33,
+      "weight_pct": 8.09,
       "shares": 616,
       "item_code": "005070"
     },
     {
       "name": "코스모화학",
-      "weight_pct": 8.18,
+      "weight_pct": 7.81,
       "shares": 2189,
       "item_code": "005420"
     },
     {
       "name": "LG화학",
-      "weight_pct": 7.65,
+      "weight_pct": 7.78,
       "shares": 84,
       "item_code": "051910"
     },
     {
       "name": "에코프로",
-      "weight_pct": 7.51,
+      "weight_pct": 6.95,
       "shares": 246,
       "item_code": "086520"
     },
     {
+      "name": "에코프로비엠",
+      "weight_pct": 6.48,
+      "shares": 177,
+      "item_code": "247540"
+    },
+    {
       "name": "에코프로머티",
-      "weight_pct": 6.53,
+      "weight_pct": 6.15,
       "shares": 509,
       "item_code": "450080"
     },
     {
-      "name": "에코프로비엠",
-      "weight_pct": 6.38,
-      "shares": 163,
-      "item_code": "247540"
-    },
-    {
       "name": "원화현금",
-      "weight_pct": 0.74,
-      "shares": 2237272,
+      "weight_pct": 0.34,
+      "shares": 1002734,
       "item_code": null
     }
   ]

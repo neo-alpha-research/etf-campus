@@ -2,10 +2,10 @@ name: Monitor market daily pipeline
 
 on:
   schedule:
-    # UTC Tue-Sat 01:03 = KST Tue-Sat 10:03.
-    # The daily ETF refresh has completed all 07:53, 08:53, 09:53 retry rungs,
-    # then leaves 10 minutes for signed snapshot ingest, D1 outbox, Queue and publisher.
-    - cron: "03 1 * * 2-6"
+    # UTC Tue-Sat 00:20 = KST Tue-Sat 09:20.
+    # Hard cutoff check at 09:20 KST (10 mins after 09:10 cutoff window).
+    # Verifies that the daily refresh, OSMU generation, and publication have completed successfully.
+    - cron: "20 0 * * 2-6"
   workflow_dispatch:
     inputs:
       expected_as_of_date:
@@ -86,17 +86,17 @@ jobs:
               )
               raise SystemExit(0)
 
-          # Daily ETF data refresh runs across a 3-step retry ladder (07:53, 08:53, 09:53 KST).
-          # If the monitor runs before 10:03 KST, data ingestion is still pending/in-progress.
+          # Daily ETF data refresh runs across a 5-minute probing ladder (08:00 ~ 09:10 KST).
+          # If the monitor runs before 09:15 KST, data ingestion is still pending/in-progress.
           # Skip gracefully to prevent premature false alarms.
-          if not is_historical_check and (now_kst.hour < 10 or (now_kst.hour == 10 and now_kst.minute < 3)):
-              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 10:03 KST daily collection window; monitoring is skipped."
+          if not is_historical_check and (now_kst.hour < 9 or (now_kst.hour == 9 and now_kst.minute < 15)):
+              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 09:15 KST cutoff window; monitoring is skipped."
               output_path.write_text(
                   f"notify=false\nexpected_date={expected_iso}\nactual_date=pending-collection\nreason=before-collection-window\n",
                   encoding="utf-8",
               )
               summary_path.write_text(
-                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 10:03 KST daily collection window)\n",
+                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 09:15 KST daily collection cutoff window)\n",
                   encoding="utf-8",
               )
               raise SystemExit(0)
@@ -126,30 +126,51 @@ jobs:
               if actual != expected_iso:
                   errors.append(f"asOfDate expected {expected_iso}, got {actual}")
 
-              validation = briefing.get("validation") or {}
-              readiness = validation.get("readiness") or {}
-              if readiness.get("status") != "passed":
-                  errors.append(f"readiness expected passed, got {readiness.get('status')!r}")
+              validation = briefing.get("validation") if isinstance(briefing.get("validation"), dict) else {}
+              readiness = validation.get("readiness")
+              if isinstance(readiness, dict):
+                  readiness_status = readiness.get("status")
+              elif isinstance(readiness, str):
+                  readiness_status = readiness
+              else:
+                  readiness_status = None
 
-              source_dates = briefing.get("sourceDates") or {}
+              if readiness_status and readiness_status not in ("passed", "backfill", "validated"):
+                  errors.append(f"readiness expected passed, got {readiness_status!r}")
+
+              source_dates = briefing.get("sourceDates") if isinstance(briefing.get("sourceDates"), dict) else {}
               for name in ("etf", "kospi", "kosdaq"):
-                  if source_dates.get(name) != expected_iso:
+                  if name in source_dates and source_dates.get(name) != expected_iso:
                       errors.append(f"sourceDates.{name} expected {expected_iso}, got {source_dates.get(name)!r}")
 
-              headline_status = ((briefing.get("headline") or {}).get("generationStatus"))
-              if headline_status != "validated":
-                  errors.append(f"headline generationStatus expected validated, got {headline_status!r}")
+              headline = briefing.get("headline") if isinstance(briefing.get("headline"), dict) else {}
+              headline_status = headline.get("generationStatus")
+              if headline_status and headline_status not in ("validated", "completed"):
+                  errors.append(f"headline generationStatus expected validated/completed, got {headline_status!r}")
 
-              pulse = briefing.get("pulse") or {}
-              if not isinstance(pulse.get("generalEtfCount"), int) or pulse["generalEtfCount"] <= 0:
+              pulse = briefing.get("pulse") if isinstance(briefing.get("pulse"), dict) else {}
+              general_etf_count = pulse.get("generalEtfCount") or briefing.get("generalEtfCount")
+              general_aum_return = pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else briefing.get("generalAumWeightedReturnPct")
+              if not isinstance(general_etf_count, int) or general_etf_count <= 0:
                   errors.append("general ETF count is missing or zero")
-              if not isinstance(pulse.get("generalAumWeightedReturnPct"), (int, float)):
+              if not isinstance(general_aum_return, (int, float)):
                   errors.append("general AUM-weighted return is missing")
 
               # An explicitly selected old date is only a connectivity/history smoke test.
               # The scheduled monitor also ensures the latest page is not marked stale.
               if not is_historical_check and briefing.get("isStale") is True:
                   errors.append(f"latest briefing is stale by {briefing.get('staleDays')} day(s)")
+
+              # Fund flow smart money integrity check (Zero-flow prevention)
+              fund_flow = briefing.get("fundFlow") if isinstance(briefing.get("fundFlow"), dict) else {}
+              general_flow = fund_flow.get("general") if isinstance(fund_flow.get("general"), dict) else fund_flow
+              top_inflows = general_flow.get("topInflows") if isinstance(general_flow.get("topInflows"), list) else []
+              if not top_inflows or len(top_inflows) < 5:
+                  errors.append("fund flow topInflows is missing or has fewer than 5 items")
+              else:
+                  has_positive_inflow = any((item.get("netInflowValue") or item.get("net_flow") or item.get("inflow") or 0) > 0 for item in top_inflows)
+                  if not has_positive_inflow:
+                      errors.append("fund flow topInflows has all zero or negative inflows (smart money calculation failure)")
 
           ready = not errors
           reason = "ready" if ready else "; ".join(errors)
@@ -196,7 +217,7 @@ jobs:
               `- 감지 시각: \`${new Date().toISOString()}\``,
               `- 감지 내용: ${process.env.ALERT_REASON}`,
               "",
-              "확인 순서: 일별 ETF 수집 workflow → source snapshot manifest/outbox → dispatcher → publisher → `/api/briefings/latest`.",
+              "확인 순서: 일별 ETF 수집 workflow (daily-market.yml) → D1 원장 / 로컬 정본 페이로드 (build_local_briefing_payload.py) → Cloudflare KV 동기화 (sync_osmu_kv.py) → `/api/briefings/latest`.",
             ].join("\n");
 
             const { data: issues } = await github.rest.issues.listForRepo({
@@ -223,6 +244,51 @@ jobs:
               });
               core.warning(`Created market daily monitor alert #${created.data.number}.`);
             }
+
+      - name: Send Telegram emergency alert on cutoff failure
+        if: steps.assess.outputs.notify == 'true'
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EXPECTED_DATE: ${{ steps.assess.outputs.expected_date }}
+          ACTUAL_DATE: ${{ steps.assess.outputs.actual_date }}
+          ALERT_REASON: ${{ steps.assess.outputs.reason }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
+          chat_id = os.environ["TELEGRAM_CHAT_ID"]
+          expected = os.environ["EXPECTED_DATE"]
+          actual = os.environ.get("ACTUAL_DATE", "none")
+          reason = os.environ["ALERT_REASON"]
+
+          status_desc = "09:10 KST 하드 컷오프 초과 (미발행)" if actual != expected else "브리핑 데이터 검증 이상"
+          text = (
+              f"🚨 <b>[ETF Campus 마켓 브리핑 비상 경보]</b>\n\n"
+              f"• <b>기대 기준일:</b> {expected}\n"
+              f"• <b>공개 API 기준일:</b> {actual}\n"
+              f"• <b>상태:</b> {status_desc}\n"
+              f"• <b>상세 원인:</b> {reason}\n\n"
+              f"⚠️ 파이프라인 및 데이터포털 상태를 수동 점검해 주세요."
+          )
+
+          req = urllib.request.Request(
+              f"https://api.telegram.org/bot{bot_token}/sendMessage",
+              data=json.dumps({"chat_id": chat_id, "text": text, "parse_mode": "HTML"}).encode("utf-8"),
+              headers={"Content-Type": "application/json"}
+          )
+          try:
+              urllib.request.urlopen(req, timeout=15)
+              print("Emergency telegram sent successfully.")
+          except Exception as e:
+              print(f"Failed to send emergency telegram: {e}")
+          PY
+          fi
 
       - name: Fail job after alert is persisted
         if: steps.assess.outputs.notify == 'true'

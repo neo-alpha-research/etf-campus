@@ -1,136 +1,136 @@
 {
   "ticker": "371870",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "넷이즈",
-      "weight_pct": 8.78,
+      "weight_pct": 8.62,
       "shares": 1744,
       "item_code": "9999.HK"
     },
     {
       "name": "샤오미",
-      "weight_pct": 8.52,
+      "weight_pct": 8.38,
       "shares": 11621,
       "item_code": "1810.HK"
     },
     {
-      "name": "BYD",
-      "weight_pct": 8.48,
-      "shares": 3559,
-      "item_code": "1211.HK"
-    },
-    {
       "name": "텐센트",
-      "weight_pct": 8.18,
+      "weight_pct": 8.24,
       "shares": 713,
       "item_code": "0700.HK"
     },
     {
+      "name": "BYD",
+      "weight_pct": 8.22,
+      "shares": 3559,
+      "item_code": "1211.HK"
+    },
+    {
       "name": "메이투안",
-      "weight_pct": 8.09,
+      "weight_pct": 8.08,
       "shares": 4027,
       "item_code": "3690.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 7.9,
+      "weight_pct": 7.6,
       "shares": 2632,
       "item_code": "9988.HK"
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 7.54,
+      "weight_pct": 7.57,
       "shares": 4201,
       "item_code": "0981.HK"
     },
     {
       "name": "레노버",
-      "weight_pct": 5.99,
+      "weight_pct": 6.09,
       "shares": 7610,
       "item_code": "0992.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 5.13,
+      "weight_pct": 5.01,
       "shares": 1764,
       "item_code": "9618.HK"
     },
     {
       "name": "바이두",
-      "weight_pct": 3.92,
+      "weight_pct": 4.11,
       "shares": 1677,
       "item_code": "9888.HK"
     },
     {
       "name": "콰이쇼우",
-      "weight_pct": 2.92,
+      "weight_pct": 3.06,
       "shares": 3377,
       "item_code": "1024.HK"
     },
     {
       "name": "트립닷컴 그룹",
-      "weight_pct": 2.81,
+      "weight_pct": 2.78,
       "shares": 305,
       "item_code": "9961.HK"
     },
     {
       "name": "화훙 그레이스 반도체",
-      "weight_pct": 2.63,
+      "weight_pct": 2.76,
       "shares": 872,
       "item_code": "1347.HK"
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 2.16,
+      "weight_pct": 2.09,
       "shares": 1800,
       "item_code": "9868.HK"
     },
     {
       "name": "리 오토",
-      "weight_pct": 1.92,
+      "weight_pct": 1.91,
       "shares": 1554,
       "item_code": "2015.HK"
     },
     {
       "name": "미적집단",
-      "weight_pct": 1.73,
+      "weight_pct": 1.79,
       "shares": 682,
       "item_code": "0300.HK"
     },
     {
-      "name": "호라이즌 로보틱스",
-      "weight_pct": 1.58,
-      "shares": 12985,
-      "item_code": "9660.HK"
-    },
-    {
       "name": "미니맥스 그룹",
-      "weight_pct": 1.5,
+      "weight_pct": 1.7,
       "shares": 193,
       "item_code": "0100.HK"
     },
     {
+      "name": "호라이즌 로보틱스",
+      "weight_pct": 1.56,
+      "shares": 12985,
+      "item_code": "9660.HK"
+    },
+    {
       "name": "하이얼 스마트 홈",
-      "weight_pct": 1.48,
+      "weight_pct": 1.49,
       "shares": 2679,
       "item_code": "6690.HK"
     },
     {
-      "name": "센스타임",
-      "weight_pct": 1.44,
-      "shares": 38051,
-      "item_code": "0020.HK"
-    },
-    {
       "name": "서니옵티컬",
-      "weight_pct": 1.25,
+      "weight_pct": 1.46,
       "shares": 777,
       "item_code": "2382.HK"
     },
     {
+      "name": "센스타임",
+      "weight_pct": 1.41,
+      "shares": 38051,
+      "item_code": "0020.HK"
+    },
+    {
       "name": "징동헬스",
-      "weight_pct": 1.19,
+      "weight_pct": 1.18,
       "shares": 1245,
       "item_code": "6618.HK"
     },
@@ -142,51 +142,51 @@
     },
     {
       "name": "영포과기",
-      "weight_pct": 0.84,
+      "weight_pct": 0.78,
       "shares": 817,
       "item_code": "9863.HK"
     },
     {
-      "name": "니오",
-      "weight_pct": 0.61,
-      "shares": 686,
-      "item_code": "9866.HK"
-    },
-    {
-      "name": "알리바바 건강 정보 기술",
-      "weight_pct": 0.58,
-      "shares": 7135,
-      "item_code": "0241.HK"
-    },
-    {
       "name": "비야디전자",
-      "weight_pct": 0.52,
+      "weight_pct": 0.61,
       "shares": 872,
       "item_code": "0285.HK"
     },
     {
+      "name": "알리바바 건강 정보 기술",
+      "weight_pct": 0.57,
+      "shares": 7135,
+      "item_code": "0241.HK"
+    },
+    {
+      "name": "니오",
+      "weight_pct": 0.55,
+      "shares": 686,
+      "item_code": "9866.HK"
+    },
+    {
+      "name": "나우리지 아틀라스 테크놀로지",
+      "weight_pct": 0.49,
+      "shares": 16,
+      "item_code": "2513.HK"
+    },
+    {
       "name": "동정여행",
-      "weight_pct": 0.48,
+      "weight_pct": 0.47,
       "shares": 1554,
       "item_code": "0780.HK"
     },
     {
-      "name": "나우리지 아틀라스 테크놀로지",
-      "weight_pct": 0.42,
-      "shares": 16,
-      "item_code": "2513.HK"
+      "name": "원화현금",
+      "weight_pct": 0.07,
+      "shares": 520912,
+      "item_code": null
     },
     {
       "name": "등신음악오락",
       "weight_pct": 0.06,
       "shares": 71,
       "item_code": "1698.HK"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 0.04,
-      "shares": 333563,
-      "item_code": null
     }
   ]
 }

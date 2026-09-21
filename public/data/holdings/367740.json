@@ -1,106 +1,106 @@
 {
   "ticker": "367740",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 10.26,
+      "weight_pct": 10.03,
       "shares": 393,
       "item_code": "006400"
     },
     {
-      "name": "SK텔레콤",
-      "weight_pct": 9.37,
-      "shares": 2061,
-      "item_code": "017670"
-    },
-    {
       "name": "KT",
-      "weight_pct": 9.0,
+      "weight_pct": 9.29,
       "shares": 3639,
       "item_code": "030200"
     },
     {
+      "name": "SK텔레콤",
+      "weight_pct": 8.94,
+      "shares": 2061,
+      "item_code": "017670"
+    },
+    {
       "name": "한미반도체",
-      "weight_pct": 7.98,
+      "weight_pct": 7.93,
       "shares": 783,
       "item_code": "042700"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 7.87,
+      "weight_pct": 7.66,
       "shares": 645,
       "item_code": "005930"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 7.3,
+      "weight_pct": 7.51,
       "shares": 680,
       "item_code": "018260"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 7.25,
+      "weight_pct": 7.44,
       "shares": 1401,
       "item_code": "007660"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 6.93,
+      "weight_pct": 7.24,
       "shares": 109,
       "item_code": "009150"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 5.79,
+      "weight_pct": 5.58,
       "shares": 73,
       "item_code": "000660"
     },
     {
       "name": "LG유플러스",
-      "weight_pct": 4.51,
+      "weight_pct": 4.71,
       "shares": 6676,
       "item_code": "032640"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.25,
+      "weight_pct": 4.28,
       "shares": 823,
       "item_code": "240810"
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 3.7,
+      "weight_pct": 3.63,
       "shares": 135,
       "item_code": "011070"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 3.4,
+      "weight_pct": 3.3,
       "shares": 7735,
       "item_code": "034220"
     },
     {
       "name": "ISC",
-      "weight_pct": 2.05,
+      "weight_pct": 2.12,
       "shares": 262,
       "item_code": "095340"
     },
     {
       "name": "파크시스템스",
-      "weight_pct": 1.45,
+      "weight_pct": 1.39,
       "shares": 117,
       "item_code": "140860"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 1.14,
+      "weight_pct": 1.1,
       "shares": 299,
       "item_code": "131970"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 1.06,
+      "weight_pct": 1.05,
       "shares": 183,
       "item_code": "031980"
     },
@@ -112,33 +112,39 @@
     },
     {
       "name": "코리아써키트",
-      "weight_pct": 0.83,
+      "weight_pct": 0.8,
       "shares": 297,
       "item_code": "007810"
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 0.6,
+      "weight_pct": 0.59,
       "shares": 199,
       "item_code": "189300"
     },
     {
+      "name": "비에이치",
+      "weight_pct": 0.58,
+      "shares": 608,
+      "item_code": "090460"
+    },
+    {
       "name": "쏠리드",
-      "weight_pct": 0.59,
+      "weight_pct": 0.57,
       "shares": 1394,
       "item_code": "050890"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.53,
-      "shares": 11584975,
+      "weight_pct": 0.54,
+      "shares": 11412212,
       "item_code": null
     },
     {
-      "name": "네패스",
-      "weight_pct": 0.48,
-      "shares": 440,
-      "item_code": "033640"
+      "name": "덕산네오룩스",
+      "weight_pct": 0.5,
+      "shares": 327,
+      "item_code": "213420"
     },
     {
       "name": "케이아이엔엑스",
@@ -147,26 +153,20 @@
       "item_code": "093320"
     },
     {
-      "name": "덕산네오룩스",
-      "weight_pct": 0.48,
-      "shares": 327,
-      "item_code": "213420"
-    },
-    {
-      "name": "비에이치",
-      "weight_pct": 0.47,
-      "shares": 608,
-      "item_code": "090460"
+      "name": "네패스",
+      "weight_pct": 0.46,
+      "shares": 440,
+      "item_code": "033640"
     },
     {
       "name": "에이디테크놀로지",
-      "weight_pct": 0.34,
+      "weight_pct": 0.31,
       "shares": 281,
       "item_code": "200710"
     },
     {
       "name": "이녹스첨단소재",
-      "weight_pct": 0.29,
+      "weight_pct": 0.3,
       "shares": 308,
       "item_code": "272290"
     },

@@ -1,71 +1,71 @@
 {
   "ticker": "411540",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 13.59,
+      "weight_pct": 13.79,
       "shares": 150,
       "item_code": "207940"
     },
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 12.48,
+      "weight_pct": 11.99,
       "shares": 191,
       "item_code": "012450"
     },
     {
-      "name": "두산에너빌리티",
-      "weight_pct": 10.66,
-      "shares": 2184,
-      "item_code": "034020"
-    },
-    {
       "name": "LG에너지솔루션",
-      "weight_pct": 10.59,
+      "weight_pct": 10.7,
       "shares": 503,
       "item_code": "373220"
     },
     {
+      "name": "두산에너빌리티",
+      "weight_pct": 10.24,
+      "shares": 2184,
+      "item_code": "034020"
+    },
+    {
       "name": "삼성전자",
-      "weight_pct": 9.78,
+      "weight_pct": 9.92,
       "shares": 647,
       "item_code": "005930"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 9.59,
+      "weight_pct": 9.5,
       "shares": 158,
       "item_code": "402340"
     },
     {
-      "name": "SK하이닉스",
-      "weight_pct": 9.04,
-      "shares": 92,
-      "item_code": "000660"
-    },
-    {
       "name": "기아",
-      "weight_pct": 8.89,
+      "weight_pct": 9.44,
       "shares": 1240,
       "item_code": "000270"
     },
     {
+      "name": "SK하이닉스",
+      "weight_pct": 9.09,
+      "shares": 92,
+      "item_code": "000660"
+    },
+    {
       "name": "HD현대중공업",
-      "weight_pct": 8.01,
+      "weight_pct": 7.75,
       "shares": 300,
       "item_code": "329180"
     },
     {
       "name": "현대차",
-      "weight_pct": 7.33,
+      "weight_pct": 7.5,
       "shares": 324,
       "item_code": "005380"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.03,
-      "shares": 648276,
+      "shares": 525571,
       "item_code": null
     }
   ]

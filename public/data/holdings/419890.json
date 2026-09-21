@@ -1,59 +1,59 @@
 {
   "ticker": "419890",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "경기주택도시공사23-11-63(사)",
-      "weight_pct": 16.23,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "산업금융채권26신이010007061(사)",
-      "weight_pct": 16.11,
+      "weight_pct": 16.13,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사232(사)",
-      "weight_pct": 16.1,
+      "weight_pct": 16.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경기주택도시공사23-11-63(사)",
+      "weight_pct": 16.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "중소기업은행(신)2511이2A-10(사)",
-      "weight_pct": 15.89,
+      "weight_pct": 15.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리은행3008할인01갑06(지)",
-      "weight_pct": 15.48,
+      "weight_pct": 15.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한 자금부 20250924-362-1",
-      "weight_pct": 7.99,
+      "weight_pct": 8.0,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데카드569-1(녹)",
-      "weight_pct": 7.91,
+      "weight_pct": 7.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드265-2(사)",
-      "weight_pct": 7.86,
+      "weight_pct": 7.85,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -3.61,
-      "shares": -38914271,
+      "weight_pct": -3.46,
+      "shares": -37226956,
       "item_code": null
     }
   ]

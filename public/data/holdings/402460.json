@@ -1,124 +1,124 @@
 {
   "ticker": "402460",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "KT",
-      "weight_pct": 11.54,
+      "weight_pct": 11.73,
       "shares": 1594,
       "item_code": "030200"
     },
     {
       "name": "SK텔레콤",
-      "weight_pct": 11.29,
+      "weight_pct": 10.6,
       "shares": 848,
       "item_code": "017670"
     },
     {
       "name": "NAVER",
-      "weight_pct": 10.47,
+      "weight_pct": 10.29,
       "shares": 360,
       "item_code": "035420"
     },
     {
       "name": "LG전자",
-      "weight_pct": 9.78,
+      "weight_pct": 10.06,
       "shares": 367,
       "item_code": "066570"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 9.05,
+      "weight_pct": 9.28,
       "shares": 307,
       "item_code": "259960"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 8.37,
+      "weight_pct": 8.62,
       "shares": 45,
       "item_code": "009150"
     },
     {
       "name": "하이브",
-      "weight_pct": 6.42,
+      "weight_pct": 6.44,
       "shares": 268,
       "item_code": "352820"
     },
     {
-      "name": "LG이노텍",
-      "weight_pct": 5.93,
-      "shares": 74,
-      "item_code": "011070"
-    },
-    {
       "name": "LG유플러스",
-      "weight_pct": 5.79,
+      "weight_pct": 5.95,
       "shares": 2924,
       "item_code": "032640"
     },
     {
+      "name": "LG이노텍",
+      "weight_pct": 5.74,
+      "shares": 74,
+      "item_code": "011070"
+    },
+    {
       "name": "심텍",
-      "weight_pct": 4.69,
+      "weight_pct": 4.64,
       "shares": 275,
       "item_code": "222800"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 4.36,
+      "weight_pct": 4.17,
       "shares": 3388,
       "item_code": "034220"
     },
     {
       "name": "제일기획",
-      "weight_pct": 1.95,
+      "weight_pct": 1.98,
       "shares": 767,
       "item_code": "030000"
     },
     {
       "name": "펄어비스",
-      "weight_pct": 1.78,
+      "weight_pct": 1.76,
       "shares": 421,
       "item_code": "263750"
     },
     {
       "name": "넷마블",
-      "weight_pct": 1.66,
+      "weight_pct": 1.73,
       "shares": 342,
       "item_code": "251270"
     },
     {
       "name": "에스엠",
-      "weight_pct": 1.5,
+      "weight_pct": 1.52,
       "shares": 150,
       "item_code": "041510"
     },
     {
       "name": "티엘비",
-      "weight_pct": 0.99,
+      "weight_pct": 0.96,
       "shares": 178,
       "item_code": "356860"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.93,
-      "shares": 6940422,
+      "shares": 6852785,
       "item_code": null
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 0.83,
+      "weight_pct": 0.85,
       "shares": 156,
       "item_code": "122870"
     },
     {
       "name": "선익시스템",
-      "weight_pct": 0.5,
+      "weight_pct": 0.53,
       "shares": 55,
       "item_code": "171090"
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 0.45,
+      "weight_pct": 0.41,
       "shares": 109,
       "item_code": "003570"
     },
@@ -129,16 +129,16 @@
       "item_code": "078340"
     },
     {
+      "name": "하이비젼시스템",
+      "weight_pct": 0.19,
+      "shares": 116,
+      "item_code": "126700"
+    },
+    {
       "name": "나무가",
       "weight_pct": 0.18,
       "shares": 100,
       "item_code": "190510"
-    },
-    {
-      "name": "하이비젼시스템",
-      "weight_pct": 0.18,
-      "shares": 116,
-      "item_code": "126700"
     },
     {
       "name": "플리토",
@@ -171,16 +171,16 @@
       "item_code": "051370"
     },
     {
-      "name": "이스트소프트",
-      "weight_pct": 0.09,
-      "shares": 89,
-      "item_code": "047560"
-    },
-    {
       "name": "로보로보",
       "weight_pct": 0.08,
       "shares": 147,
       "item_code": "215100"
+    },
+    {
+      "name": "이스트소프트",
+      "weight_pct": 0.08,
+      "shares": 89,
+      "item_code": "047560"
     },
     {
       "name": "뉴프렉스",

@@ -1,71 +1,71 @@
 {
   "ticker": "491830",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 27.3,
+      "weight_pct": 29.03,
       "shares": 1000,
       "item_code": "NVDA.O"
     },
     {
-      "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 17.13,
-      "shares": 537,
-      "item_code": "MRVL.O"
-    },
-    {
       "name": "브로드컴",
-      "weight_pct": 16.61,
+      "weight_pct": 17.7,
       "shares": 358,
       "item_code": "AVGO.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 16.1,
+      "weight_pct": 15.77,
       "shares": 257,
       "item_code": "AMD.O"
     },
     {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 15.07,
+      "shares": 537,
+      "item_code": "MRVL.O"
+    },
+    {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 12.79,
+      "weight_pct": 12.27,
       "shares": 391,
       "item_code": "ARM.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 3.98,
+      "weight_pct": 4.15,
       "shares": 186,
       "item_code": "QCOM.O"
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 2.21,
+      "weight_pct": 2.12,
       "shares": 50,
       "item_code": "CDNS.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 1.9,
+      "weight_pct": 1.97,
       "shares": 35,
       "item_code": "SNPS.O"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 1.21,
+      "weight_pct": 1.19,
       "shares": 32,
       "item_code": "ALAB.O"
     },
     {
       "name": "세레브라스 시스템스",
-      "weight_pct": 0.97,
+      "weight_pct": 0.94,
       "shares": 41,
       "item_code": "CBRS.O"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.26,
-      "shares": -2759972,
+      "shares": -2684178,
       "item_code": null
     }
   ]

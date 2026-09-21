@@ -1,120 +1,126 @@
 {
   "ticker": "0035T0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 8.53,
-      "shares": 82221287,
+      "weight_pct": 8.76,
+      "shares": 81427388,
       "item_code": null
     },
     {
-      "name": "삼성전자",
-      "weight_pct": 8.06,
-      "shares": 291,
-      "item_code": "005930"
-    },
-    {
       "name": "테슬라",
-      "weight_pct": 7.7,
+      "weight_pct": 8.14,
       "shares": 155,
       "item_code": "TSLA.O"
     },
     {
+      "name": "삼성전자",
+      "weight_pct": 7.86,
+      "shares": 291,
+      "item_code": "005930"
+    },
+    {
       "name": "레인보우로보틱스",
-      "weight_pct": 6.95,
+      "weight_pct": 6.68,
       "shares": 142,
       "item_code": "277810"
     },
     {
       "name": "현대차",
-      "weight_pct": 4.26,
+      "weight_pct": 4.19,
       "shares": 103,
       "item_code": "005380"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 4.13,
+      "weight_pct": 4.14,
       "shares": 156,
       "item_code": "108490"
     },
     {
-      "name": "현대모비스",
-      "weight_pct": 3.49,
-      "shares": 74,
-      "item_code": "012330"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 3.45,
+      "weight_pct": 3.67,
       "shares": 114,
       "item_code": "NVDA.O"
     },
     {
       "name": "오므론",
-      "weight_pct": 3.39,
+      "weight_pct": 3.53,
       "shares": 584,
       "item_code": "6645.T"
     },
     {
       "name": "나부테스코",
-      "weight_pct": 3.3,
+      "weight_pct": 3.38,
       "shares": 799,
       "item_code": "6268.T"
     },
     {
-      "name": "에스피지",
-      "weight_pct": 3.18,
-      "shares": 325,
-      "item_code": "058610"
+      "name": "현대모비스",
+      "weight_pct": 3.33,
+      "shares": 74,
+      "item_code": "012330"
     },
     {
       "name": "키엔스",
-      "weight_pct": 3.16,
+      "weight_pct": 3.27,
       "shares": 43,
       "item_code": "6861.T"
     },
     {
+      "name": "에스피지",
+      "weight_pct": 2.99,
+      "shares": 325,
+      "item_code": "058610"
+    },
+    {
       "name": "니덱",
-      "weight_pct": 2.75,
+      "weight_pct": 2.81,
       "shares": 1183,
       "item_code": "6594.T"
     },
     {
       "name": "하모닉 드라이브 시스템스",
-      "weight_pct": 2.67,
+      "weight_pct": 2.68,
       "shares": 516,
       "item_code": "6324.T"
     },
     {
       "name": "에스엠씨",
-      "weight_pct": 2.67,
+      "weight_pct": 2.68,
       "shares": 41,
       "item_code": "6273.T"
     },
     {
       "name": "화낙",
-      "weight_pct": 2.6,
+      "weight_pct": 2.65,
       "shares": 480,
       "item_code": "6954.T"
     },
     {
       "name": "무그 Class A",
-      "weight_pct": 2.55,
+      "weight_pct": 2.49,
       "shares": 46,
       "item_code": "MOGa"
     },
     {
+      "name": "텔레다인 테크놀로지스",
+      "weight_pct": 2.46,
+      "shares": 27,
+      "item_code": "TDY"
+    },
+    {
       "name": "HL만도",
-      "weight_pct": 2.51,
+      "weight_pct": 2.44,
       "shares": 480,
       "item_code": "204320"
     },
     {
-      "name": "텔레다인 테크놀로지스",
-      "weight_pct": 2.48,
-      "shares": 27,
-      "item_code": "TDY"
+      "name": "무라타제작소",
+      "weight_pct": 2.44,
+      "shares": 363,
+      "item_code": "6981.T"
     },
     {
       "name": "코그넥스",
@@ -123,62 +129,56 @@
       "item_code": "CGNX.O"
     },
     {
-      "name": "무라타제작소",
-      "weight_pct": 2.34,
-      "shares": 363,
-      "item_code": "6981.T"
-    },
-    {
       "name": "우드워드",
       "weight_pct": 2.3,
       "shares": 46,
       "item_code": "WWD.O"
     },
     {
-      "name": "파커-하니핀",
-      "weight_pct": 2.29,
-      "shares": 15,
-      "item_code": "PH"
-    },
-    {
       "name": "에스엘",
-      "weight_pct": 2.22,
+      "weight_pct": 2.2,
       "shares": 408,
       "item_code": "005850"
     },
     {
       "name": "로크웰 오토메이션",
-      "weight_pct": 2.18,
+      "weight_pct": 2.17,
       "shares": 35,
       "item_code": "ROK"
     },
     {
-      "name": "아우스터",
-      "weight_pct": 2.01,
-      "shares": 391,
-      "item_code": "OUST.O"
+      "name": "파커-하니핀",
+      "weight_pct": 2.15,
+      "shares": 15,
+      "item_code": "PH"
     },
     {
       "name": "야스카와 전기",
-      "weight_pct": 2.0,
+      "weight_pct": 1.95,
       "shares": 450,
       "item_code": "6506.T"
     },
     {
+      "name": "아우스터",
+      "weight_pct": 1.91,
+      "shares": 391,
+      "item_code": "OUST.O"
+    },
+    {
       "name": "LG이노텍",
-      "weight_pct": 1.81,
+      "weight_pct": 1.78,
       "shares": 29,
       "item_code": "011070"
     },
     {
       "name": "현대글로비스",
-      "weight_pct": 1.33,
+      "weight_pct": 1.32,
       "shares": 63,
       "item_code": "086280"
     },
     {
       "name": "삼현",
-      "weight_pct": 1.17,
+      "weight_pct": 1.09,
       "shares": 342,
       "item_code": "437730"
     }

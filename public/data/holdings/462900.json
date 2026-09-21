@@ -1,118 +1,118 @@
 {
   "ticker": "462900",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "알테오젠",
-      "weight_pct": 9.3,
+      "weight_pct": 9.53,
       "shares": 220,
       "item_code": "196170"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 8.41,
+      "weight_pct": 8.19,
       "shares": 815,
       "item_code": "298380"
     },
     {
       "name": "올릭스",
-      "weight_pct": 7.87,
+      "weight_pct": 8.04,
       "shares": 553,
       "item_code": "226950"
     },
     {
-      "name": "에스티팜",
-      "weight_pct": 7.74,
-      "shares": 514,
-      "item_code": "237690"
-    },
-    {
       "name": "셀트리온",
-      "weight_pct": 7.43,
+      "weight_pct": 7.73,
       "shares": 286,
       "item_code": "068270"
     },
     {
+      "name": "에스티팜",
+      "weight_pct": 7.54,
+      "shares": 514,
+      "item_code": "237690"
+    },
+    {
       "name": "한미약품",
-      "weight_pct": 7.11,
+      "weight_pct": 7.15,
       "shares": 104,
       "item_code": "128940"
     },
     {
       "name": "한올바이오파마",
-      "weight_pct": 6.47,
+      "weight_pct": 5.91,
       "shares": 741,
       "item_code": "009420"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 5.93,
+      "weight_pct": 5.75,
       "shares": 101,
       "item_code": "214450"
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 5.06,
+      "weight_pct": 4.71,
       "shares": 663,
       "item_code": "347850"
     },
     {
-      "name": "알지노믹스",
-      "weight_pct": 4.23,
-      "shares": 986,
-      "item_code": "476830"
-    },
-    {
       "name": "리가켐바이오",
-      "weight_pct": 4.16,
+      "weight_pct": 4.05,
       "shares": 308,
       "item_code": "141080"
     },
     {
+      "name": "알지노믹스",
+      "weight_pct": 3.97,
+      "shares": 986,
+      "item_code": "476830"
+    },
+    {
       "name": "오스코텍",
-      "weight_pct": 3.4,
+      "weight_pct": 3.79,
       "shares": 715,
       "item_code": "039200"
     },
     {
       "name": "휴젤",
-      "weight_pct": 3.26,
+      "weight_pct": 3.49,
       "shares": 98,
       "item_code": "145020"
     },
     {
       "name": "녹십자",
-      "weight_pct": 3.07,
+      "weight_pct": 3.28,
       "shares": 178,
       "item_code": "006280"
     },
     {
       "name": "보로노이",
-      "weight_pct": 2.72,
+      "weight_pct": 2.95,
       "shares": 120,
       "item_code": "310210"
     },
     {
+      "name": "HLB이노베이션",
+      "weight_pct": 2.56,
+      "shares": 1127,
+      "item_code": "024850"
+    },
+    {
       "name": "에이프릴바이오",
-      "weight_pct": 2.49,
+      "weight_pct": 2.37,
       "shares": 955,
       "item_code": "397030"
     },
     {
       "name": "앱클론",
-      "weight_pct": 2.48,
+      "weight_pct": 2.14,
       "shares": 663,
       "item_code": "174900"
     },
     {
-      "name": "HLB이노베이션",
-      "weight_pct": 2.18,
-      "shares": 1127,
-      "item_code": "024850"
-    },
-    {
       "name": "넥스트바이오메디컬",
-      "weight_pct": 1.67,
+      "weight_pct": 1.71,
       "shares": 369,
       "item_code": "389650"
     },
@@ -124,13 +124,13 @@
     },
     {
       "name": "인제니아테라퓨틱스(Reg.S)",
-      "weight_pct": 1.43,
+      "weight_pct": 1.51,
       "shares": 607,
       "item_code": "950260"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 0.64,
+      "weight_pct": 0.65,
       "shares": 3,
       "item_code": "207940"
     },
@@ -142,8 +142,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.31,
-      "shares": 2344463,
+      "weight_pct": 0.33,
+      "shares": 2280543,
       "item_code": null
     },
     {

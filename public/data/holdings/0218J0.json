@@ -1,71 +1,71 @@
 {
   "ticker": "0218J0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "테슬라",
-      "weight_pct": 24.82,
-      "shares": 231,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "스페이스X",
-      "weight_pct": 24.03,
-      "shares": 555,
+      "weight_pct": 24.96,
+      "shares": 572,
       "item_code": "SPCX.O"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 24.53,
+      "shares": 224,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "iShares 0-1 Year Treasury Bond ETF",
-      "weight_pct": 12.49,
-      "shares": 365,
+      "weight_pct": 12.57,
+      "shares": 372,
       "item_code": "SHV"
     },
     {
       "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
-      "weight_pct": 12.49,
-      "shares": 439,
+      "weight_pct": 12.57,
+      "shares": 448,
       "item_code": "BIL"
     },
     {
       "name": "iShares 0-3 Month Treasury Bond ETF",
-      "weight_pct": 12.49,
-      "shares": 400,
+      "weight_pct": 12.57,
+      "shares": 408,
       "item_code": "SGOV.K"
     },
     {
       "name": "F/m US Treasury 3 Month Bill Fund",
-      "weight_pct": 2.5,
-      "shares": 161,
+      "weight_pct": 2.52,
+      "shares": 165,
       "item_code": "TBIL.O"
     },
     {
+      "name": "Invesco Short Term Treasury ETF",
+      "weight_pct": 2.52,
+      "shares": 77,
+      "item_code": "TBLL.K"
+    },
+    {
       "name": "Vanguard 0-3 Month Treasury Bill ETF",
-      "weight_pct": 2.49,
-      "shares": 106,
+      "weight_pct": 2.51,
+      "shares": 108,
       "item_code": "VBIL.O"
     },
     {
       "name": "State Street SPDR Bloomberg 3-12 Month T-Bill ETF",
-      "weight_pct": 2.49,
-      "shares": 81,
+      "weight_pct": 2.51,
+      "shares": 82,
       "item_code": "BILS.K"
     },
     {
-      "name": "Invesco Short Term Treasury ETF",
-      "weight_pct": 2.49,
-      "shares": 76,
-      "item_code": "TBLL.K"
-    },
-    {
       "name": "Goldman Sachs Access Treasury 0-1 Year ETF",
-      "weight_pct": 2.49,
-      "shares": 80,
+      "weight_pct": 2.51,
+      "shares": 82,
       "item_code": "GBIL.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.16,
-      "shares": 5167095,
+      "weight_pct": 0.2,
+      "shares": 896133,
       "item_code": null
     }
   ]

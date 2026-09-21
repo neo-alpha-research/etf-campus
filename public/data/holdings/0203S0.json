@@ -1,29 +1,29 @@
 {
   "ticker": "0203S0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고02375-2703(22-1)",
-      "weight_pct": 39.26,
+      "weight_pct": 40.3,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 25.04,
-      "shares": 410,
+      "weight_pct": 25.02,
+      "shares": 424,
       "item_code": "005930"
     },
     {
       "name": "현대차",
-      "weight_pct": 24.94,
-      "shares": 273,
+      "weight_pct": 25.02,
+      "shares": 281,
       "item_code": "005380"
     },
     {
       "name": "원화예금",
-      "weight_pct": 10.9,
-      "shares": 47479830,
+      "weight_pct": 9.64,
+      "shares": 40938047,
       "item_code": null
     }
   ]

@@ -8,6 +8,7 @@ export default defineConfig([
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
+      "@next/next/no-img-element": "off",
     },
   },
   globalIgnores([
@@ -24,5 +25,7 @@ export default defineConfig([
     "compress_images.js",
     "scratch/**",
     "workers/**/.wrangler/**",
+    "workers/**/dist/**",
+    "_archive/**",
   ]),
 ]);

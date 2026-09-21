@@ -1,28 +1,28 @@
 {
   "ticker": "0191W0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 10.62,
+      "weight_pct": 10.56,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 9.91,
-      "shares": 10020257,
-      "item_code": null
-    },
-    {
-      "name": "SK307-2",
-      "weight_pct": 8.36,
-      "shares": 0,
+      "weight_pct": 10.01,
+      "shares": 10101316,
       "item_code": null
     },
     {
       "name": "산업금융채권26신이0300-0720-1",
-      "weight_pct": 8.31,
+      "weight_pct": 8.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK307-2",
+      "weight_pct": 8.28,
       "shares": 0,
       "item_code": null
     },
@@ -33,62 +33,56 @@
       "item_code": null
     },
     {
+      "name": "포스코인터내셔널33-2",
+      "weight_pct": 8.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "산업금융채권26신이0200-0803-1",
       "weight_pct": 8.26,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "포스코인터내셔널33-2",
-      "weight_pct": 8.24,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나캐피탈448-5",
-      "weight_pct": 8.21,
+      "weight_pct": 8.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈345-3",
-      "weight_pct": 8.17,
+      "weight_pct": 8.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3003(25-3)",
-      "weight_pct": 8.01,
+      "weight_pct": 7.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 5.77,
+      "weight_pct": 5.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리금융캐피탈545-3(녹)",
-      "weight_pct": 4.11,
+      "weight_pct": 4.12,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대카드927-1",
-      "weight_pct": 3.7,
+      "weight_pct": 3.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": 1.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "10년국채 F 202609",
-      "weight_pct": 1.31,
+      "weight_pct": -1.69,
       "shares": 0,
       "item_code": null
     }

@@ -1,41 +1,41 @@
 {
   "ticker": "441680",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "나스닥100커버드콜 TRS 260624-05",
       "weight_pct": 43.16,
-      "shares": 231148204,
+      "shares": 229209135,
       "item_code": null
     },
     {
       "name": "나스닥100커버드콜 TRS 260624-03",
-      "weight_pct": 29.15,
-      "shares": 156111747,
+      "weight_pct": 29.09,
+      "shares": 154505546,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 11.17,
-      "shares": 59865169,
+      "weight_pct": 11.23,
+      "shares": 59688041,
       "item_code": null
     },
     {
       "name": "나스닥100커버드콜 TRS 260811-01",
       "weight_pct": 7.29,
-      "shares": 39045382,
+      "shares": 38720916,
       "item_code": null
     },
     {
       "name": "나스닥100커버드콜 TRS 260323-01",
       "weight_pct": 3.12,
-      "shares": 16722601,
+      "shares": 16590586,
       "item_code": null
     },
     {
       "name": "나스닥100커버드콜 TRS 250923-02",
       "weight_pct": 2.93,
-      "shares": 15717672,
+      "shares": 15593509,
       "item_code": null
     },
     {
@@ -47,7 +47,7 @@
     {
       "name": "나스닥100커버드콜 TRS 251107-04",
       "weight_pct": 0.96,
-      "shares": 5191049,
+      "shares": 5149991,
       "item_code": null
     }
   ]

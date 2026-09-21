@@ -1,197 +1,191 @@
 {
   "ticker": "0119H0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "우리카드272-2",
-      "weight_pct": 6.07,
+      "weight_pct": 7.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산은캐피탈715-7",
-      "weight_pct": 3.19,
+      "weight_pct": 3.78,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대카드890-5",
-      "weight_pct": 3.17,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대카드878-3",
-      "weight_pct": 3.15,
+      "weight_pct": 3.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈529-4",
-      "weight_pct": 3.15,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비캐피탈587-3",
-      "weight_pct": 3.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "JB 우리캐피탈562-2",
-      "weight_pct": 3.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한카드2201-3",
-      "weight_pct": 3.14,
+      "weight_pct": 3.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈154-1",
-      "weight_pct": 3.14,
+      "weight_pct": 3.73,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈587-3",
+      "weight_pct": 3.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2201-3",
+      "weight_pct": 3.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KT199-3",
-      "weight_pct": 3.14,
+      "weight_pct": 3.72,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "산은캐피탈778-3",
-      "weight_pct": 3.09,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리금융캐피탈537-5",
-      "weight_pct": 3.09,
+      "name": "JB 우리캐피탈562-2",
+      "weight_pct": 3.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈469-5",
-      "weight_pct": 3.08,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비캐피탈572-5",
-      "weight_pct": 3.08,
+      "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈471-3",
-      "weight_pct": 3.08,
+      "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "현대캐피탈2087-2",
-      "weight_pct": 3.08,
+      "name": "산은캐피탈778-3",
+      "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농협금융지주54-2",
-      "weight_pct": 3.08,
+      "weight_pct": 3.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈537-5",
+      "weight_pct": 3.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈572-5",
+      "weight_pct": 3.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2087-2",
+      "weight_pct": 3.64,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드430-3",
-      "weight_pct": 3.06,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대커머셜562-4",
-      "weight_pct": 3.06,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "엔에이치농협캐피탈254-3",
-      "weight_pct": 3.05,
+      "weight_pct": 3.62,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈340-3",
-      "weight_pct": 3.05,
+      "weight_pct": 3.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜562-4",
+      "weight_pct": 3.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈254-3",
+      "weight_pct": 3.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB 우리캐피탈550-8",
-      "weight_pct": 3.05,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나캐피탈462-4",
-      "weight_pct": 3.04,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대커머셜558-3(녹)",
-      "weight_pct": 3.04,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대캐피탈2075-3(사)",
-      "weight_pct": 3.04,
+      "weight_pct": 3.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산은캐피탈773-3",
-      "weight_pct": 3.04,
+      "weight_pct": 3.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈462-4",
+      "weight_pct": 3.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜558-3(녹)",
+      "weight_pct": 3.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2075-3(사)",
+      "weight_pct": 3.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "BNK캐피탈382-6",
-      "weight_pct": 3.03,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한캐피탈519-3",
-      "weight_pct": 3.03,
+      "weight_pct": 3.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "BNK캐피탈379-5",
-      "weight_pct": 3.03,
+      "weight_pct": 3.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈519-3",
+      "weight_pct": 3.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치농협캐피탈247-7",
-      "weight_pct": 3.02,
+      "weight_pct": 3.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드437-2",
-      "weight_pct": 3.02,
+      "weight_pct": 3.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.28,
-      "shares": 1277775,
+      "weight_pct": -13.09,
+      "shares": -12992035,
       "item_code": null
     }
   ]

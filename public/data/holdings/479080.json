@@ -1,574 +1,574 @@
 {
   "ticker": "479080",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 14.84,
-      "shares": 15951559,
+      "weight_pct": 8.91,
+      "shares": 9580627,
       "item_code": null
     },
     {
       "name": "기업은행(변)2603이1A-16",
-      "weight_pct": 2.95,
+      "weight_pct": 3.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스비케이제십삼차 20260710",
-      "weight_pct": 2.94,
+      "weight_pct": 3.09,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(비에스에프플러스제이차 2026",
-      "weight_pct": 2.45,
+      "weight_pct": 2.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(디알제십팔차 20260716-77-1(",
-      "weight_pct": 2.09,
+      "weight_pct": 2.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(넥스트레벨제일차 20260729-9",
-      "weight_pct": 2.05,
+      "weight_pct": 2.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(효성비나제이차 20260827-32-",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(아이엠히어로제사차 20260811",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(스파클링제일차 20260727-66-",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(롯데위탁관리부동산투자회사",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(뉴스타그린에너지제일차 2026",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스제이엘제일차 20260714-7",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(미래에셋증권 20260623-92-15",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(블루베어제삼차 20260619-91-",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(뉴스타그린테크제일차 202608",
-      "weight_pct": 1.95,
+      "weight_pct": 2.05,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스이제이제칠차 20260629-9",
-      "weight_pct": 1.89,
+      "weight_pct": 1.99,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스에스에프제삼십사차 2026",
-      "weight_pct": 1.73,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(큐브에스피 20260713-63-1(단",
-      "weight_pct": 1.67,
+      "weight_pct": 1.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스에이치에스제이차 202606",
-      "weight_pct": 1.47,
+      "weight_pct": 1.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "전자단기사채(넥스트레벨제일차 20260828-9",
+      "weight_pct": 1.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스비케이제십삼차 20260810",
-      "weight_pct": 1.46,
+      "weight_pct": 1.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(블루노블레스제일차 20260807",
-      "weight_pct": 1.46,
+      "weight_pct": 1.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(컬티베이션제십차 20260710-9",
-      "weight_pct": 1.27,
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(에이치아이베타제일차 202607",
-      "weight_pct": 1.19,
+      "weight_pct": 1.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(엘에스일렉트릭 20260824-37-8)",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스온제십차 20260810-29-1(",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "전자단기사채(에이치아이베타제일차 202607",
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(슈프림제이십사차유동화전문 20260715-9",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CD(아이엠뱅크 증권운용부 20260709-91-1)",
-      "weight_pct": 0.98,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CD(경남 서울영업부 20260630-62-1)",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(컬티베이션제십일차 20260622",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(비에스에프플러스제이차 2026",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(디비증권 20260615-92-28(단)",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(키스비케이제십삼차 20260610",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(블루베어제일차 20260605-91-",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(케이비증권 20260520-120-91)",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(한국투자증권 20260514-123-129)",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대커머셜528-2",
-      "weight_pct": 0.98,
+      "weight_pct": 1.03,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "전자단기사채(에이치아이베타제일차 202607",
-      "weight_pct": 0.97,
+      "name": "전자단기사채(세인트알파제일차 20260831-8",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CD(경남 서울영업부 20260831-91-1)",
+      "weight_pct": 1.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(케이비증권 20260624-145-162)",
-      "weight_pct": 0.97,
+      "weight_pct": 1.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(케이비증권 20260624-145-161)",
-      "weight_pct": 0.97,
+      "weight_pct": 1.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(아이엠히어로제사차 20260729",
-      "weight_pct": 0.78,
+      "weight_pct": 0.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(에이치아이베타제일차 202607",
-      "weight_pct": 0.5,
+      "weight_pct": 0.52,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(한국투자금융지주 20251001-364-14)",
-      "weight_pct": 0.49,
+      "name": "CP(브릿지베타제일차 20260901-91-9)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(한국투자금융지주 20251001-364-13)",
-      "weight_pct": 0.49,
+      "name": "CP(우리자이제일차 20260831-91-6)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(현대차증권 20260318-212-8)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(현대차증권 20260318-212-7)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(슈프림제이십사차유동화전문 20260715-9",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-8)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-6)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-5)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-7)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-1)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-3)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-4)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리히어로즈제일차 20260713-91-2)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(슈프림제이십육차유동화전문 20260622-9",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(슈프림제이십육차유동화전문 20260622-9",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(슈프림제이십사차유동화전문 20260615-9",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(프로젝트엘에이치씨 20260629-92-37)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(프로젝트엘에이치씨 20260629-92-38)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(프로젝트엘에이치씨 20260629-92-39)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(케이비더퍼스트제일차 20260626-89-5)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(케이비더퍼스트제일차 20260626-89-4)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리테크원제이차 20260623-92-9)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(우리테크원제이차 20260623-92-8)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(브릿지베타제일차 20260601-92-9)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(비엔케이투자증권 20260519-136-31)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(아이엠증권 20260508-122-16)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(한국투자증권 20260508-152-28)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(한국투자증권 20260508-152-27)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(한국투자증권 20260508-152-26)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(한국투자증권 20260508-152-25)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(아이엠증권 20260508-122-17)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(부산롯데호텔 20260331-183-7)",
-      "weight_pct": 0.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(부산롯데호텔 20260331-183-8)",
-      "weight_pct": 0.49,
+      "name": "CP(우리자이제일차 20260831-91-5)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(케이디비첨단전략이에스지제십차 202608",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(디온제일차 20260824-184-3)",
-      "weight_pct": 0.48,
+      "name": "CP(현대차증권 20260318-212-8)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(디온제일차 20260824-184-2)",
-      "weight_pct": 0.48,
+      "name": "CP(현대차증권 20260318-212-7)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(부산롯데호텔 20260811-92-2)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(부산롯데호텔 20260811-92-1)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(슈프림제이십사차유동화전문 20260715-9",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-8)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-6)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-5)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-7)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-1)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-3)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-4)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리히어로즈제일차 20260713-91-2)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(신한투자증권 20251120-364-49)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(신한투자증권 20251120-364-50)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(키스에스에프제이십팔차 20260609-150-1",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(슈프림제이십육차유동화전문 20260622-9",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(슈프림제이십육차유동화전문 20260622-9",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(슈프림제이십사차유동화전문 20260615-9",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(프로젝트엘에이치씨 20260629-92-37)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(프로젝트엘에이치씨 20260629-92-38)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(프로젝트엘에이치씨 20260629-92-39)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(케이비더퍼스트제일차 20260626-89-5)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(케이비더퍼스트제일차 20260626-89-4)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리테크원제이차 20260623-92-9)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리테크원제이차 20260623-92-8)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(비엔케이투자증권 20260519-136-31)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한국투자증권 20260508-152-28)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한국투자증권 20260508-152-27)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한국투자증권 20260508-152-26)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한국투자증권 20260508-152-25)",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(아이엠증권 20260504-184-3)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(아이엠증권 20260504-184-4)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(현대카드 20260430-190-49)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(현대카드 20260430-190-47)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(현대카드 20260430-190-46)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(현대카드 20260430-190-48)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(롯데오토리스 20260421-183-5)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(롯데오토리스 20260421-183-6)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(부산롯데호텔 20260331-183-7)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(부산롯데호텔 20260331-183-8)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(디온제일차 20260824-184-3)",
+      "weight_pct": 0.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(디온제일차 20260824-184-2)",
+      "weight_pct": 0.5,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(뉴스타엔디제삼차 20260709-364-11)",
-      "weight_pct": 0.47,
+      "weight_pct": 0.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(뉴스타엔디제삼차 20260709-364-12)",
-      "weight_pct": 0.47,
+      "weight_pct": 0.49,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "CP(브릿지베타제일차 20260601-92-10)",
-      "weight_pct": 0.29,
+      "name": "CP(브릿지베타제일차 20260901-91-10)",
+      "weight_pct": 0.3,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(오시리아파크제이차 20260701-92-5)",
-      "weight_pct": 0.24,
+      "weight_pct": 0.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(오시리아파크제이차 20260701-92-4)",
-      "weight_pct": 0.24,
+      "weight_pct": 0.25,
       "shares": 0,
       "item_code": null
     }

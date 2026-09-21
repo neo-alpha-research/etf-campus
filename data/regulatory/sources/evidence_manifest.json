@@ -1,0 +1,402 @@
+{
+  "kofia_dis_response_20260905.xml": {
+    "sha256": "9675c6cf921b47d52ba90c35512e651c1672b388f444dcd745a1751443b1dc3f",
+    "bytes": 30355259,
+    "record_count": 20661,
+    "collected_at": "2026-09-05T19:27:56.613959+09:00",
+    "collector": "scripts/collector/kofia_fee_collector.py",
+    "retention": "GitHub Actions artifact 30일 / 로컬 보존",
+    "extract": "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+    "extract_sha256": "b392cd199880dcbc3c0b973eb63b0038319b220f29ac59a02f419966ef46959e",
+    "extract_bytes": 1590461,
+    "extract_record_count": 1077,
+    "verified_ticker_count": 1067
+  },
+  "dart/20260330000048.xml": {
+    "sha256": "0711cb2fcad5b2ffd6f084e9a08ad4fefbca39a1879d5f7757352f3d03d1de96",
+    "bytes": 8954,
+    "rcpNo": "20260330000048",
+    "ticker": "0177N0",
+    "name": "KODEX 삼성전자SK하이닉스채권혼합50",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-03-30",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000022.xml": {
+    "sha256": "7268f5fb4979e61f19456b013f16db4ca96cebbcb4f32df5b15313e88ab0aee8",
+    "bytes": 13318,
+    "rcpNo": "20260515000022",
+    "ticker": "475630",
+    "name": "TIGER CD1년금리액티브(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000024.xml": {
+    "sha256": "6877f418ea3d44f1a3fab083b7b5d3d61c1edbea62e500bc9f94a5a4dbc91d75",
+    "bytes": 13991,
+    "rcpNo": "20260515000024",
+    "ticker": "357870",
+    "name": "TIGER CD금리투자KIS(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000068.xml": {
+    "sha256": "1816d7d567f3830f2df7c2cdbe7c899abaf785014380e9ea3839c976673c543f",
+    "bytes": 12253,
+    "rcpNo": "20260515000068",
+    "ticker": "449170",
+    "name": "TIGER KOFR금리액티브(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260630000020.xml": {
+    "sha256": "89bb36a2e1d1e6cadaaedf4926ae86f1cd67382d7fd9d540c69a31572dba4165",
+    "bytes": 20064,
+    "rcpNo": "20260630000020",
+    "ticker": "284430",
+    "name": "KODEX 200미국채혼합50",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-06-30",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260722000125.xml": {
+    "sha256": "0e5c40a7a8ed78353e90943ac6c85ce3a65c70a515bf778814f7fcaf736315f6",
+    "bytes": 19095,
+    "rcpNo": "20260722000125",
+    "ticker": "448330",
+    "name": "KODEX 삼성전자채권혼합",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-07-22",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260807000061.xml": {
+    "sha256": "5f1514cddcb3bf610b109b8c12bb57f32557a314b5ea74f33ff8f6af7e8dde7e",
+    "bytes": 12756,
+    "rcpNo": "20260807000061",
+    "ticker": "0162Z0",
+    "name": "RISE 삼성전자SK하이닉스채권혼합50",
+    "amc": "KB자산운용",
+    "filing_date": "2026-08-07",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260807000062.xml": {
+    "sha256": "646ed1a211ea9196ae84b0260892dadd9ea28d125830facdfbb9342b9147b605",
+    "bytes": 11575,
+    "rcpNo": "20260807000062",
+    "ticker": "477080",
+    "name": "RISE CD금리액티브(합성)",
+    "amc": "KB자산운용",
+    "filing_date": "2026-08-07",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260813000065.xml": {
+    "sha256": "0b6c0c9016d34d8f9eab969d10328735dd4ca170d479ff539b4dd9e5ca226726",
+    "bytes": 16921,
+    "rcpNo": "20260813000065",
+    "ticker": "423160",
+    "name": "KODEX KOFR금리액티브(합성)",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-08-13",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260813000200.xml": {
+    "sha256": "bd80e7a9ae5df7fc4c61351d43a89301ee93d39599d3500dcfb11eeab77fe10f",
+    "bytes": 16927,
+    "rcpNo": "20260813000200",
+    "ticker": "459580",
+    "name": "KODEX CD금리액티브(합성)",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-08-13",
+    "source": "OpenDART API document.xml"
+  },
+  "statutes/퇴직연금감독규정_20260905.txt": {
+    "sha256": "f2d39ae7f9eaedf00d6c7b8e5e68afd2a767ab47be32132abd002e842a5ff5c2",
+    "bytes": 54673,
+    "title": "퇴직연금감독규정 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000244795&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:15:00+09:00"
+  },
+  "statutes/퇴직연금감독규정_20260905.html": {
+    "sha256": "6e03b40bae1b79a24e04bb1e76b996ef8ea4f591eccc306c3326037afcd99585",
+    "bytes": 231608,
+    "title": "퇴직연금감독규정 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000244795&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:15:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법_20260905.txt": {
+    "sha256": "dbe9e49285aa06204e97a24468a86e05e50ccc4235f1541e32fa0f2a46f79507",
+    "bytes": 88210,
+    "title": "근로자퇴직급여 보장법 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=246387&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법_20260905.html": {
+    "sha256": "f0c670976902dc3199c043e384645ed798bf565abb865bf597232a05573cde5f",
+    "bytes": 418702,
+    "title": "근로자퇴직급여 보장법 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=246387&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법시행령_20260905.txt": {
+    "sha256": "fe3564f18b5e57df9458e67706fdb740cab0e0fddb494c5bf18aec3dc43811eb",
+    "bytes": 109650,
+    "title": "근로자퇴직급여 보장법 시행령 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=258055&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법시행령_20260905.html": {
+    "sha256": "d774390cd5e49a4272a519173749d011116cf4320c18fc1da1efabdcbd23eb35",
+    "bytes": 563854,
+    "title": "근로자퇴직급여 보장법 시행령 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=258055&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/금융위원회고시_제2023-56호_20231116.txt": {
+    "sha256": "2996198eb8a8f59c314229a4d95bc09ec37bbd9dc949ddfc6b25388afae60c0e",
+    "bytes": 55768,
+    "title": "금융위원회고시 제2023-56호 (전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000228308&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:18:00+09:00"
+  },
+  "statutes/금융위원회고시_제2023-56호_20231116.html": {
+    "sha256": "37c29dab9a9a0e21471a35ec284e9ccb80ad356c31ea2bb07dd8f73ab6295250",
+    "bytes": 231575,
+    "title": "금융위원회고시 제2023-56호 (HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000228308&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:18:00+09:00"
+  },
+  "statutes/금융위원회고시_제2018-23호_20180907.txt": {
+    "sha256": "a1beffd93f5eb34d8096ffcc5982fcf4b2bf11e91e710dbdcd03f9d3160dead6",
+    "bytes": 50213,
+    "title": "금융위원회고시 제2018-23호 (전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000154932&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:19:00+09:00"
+  },
+  "statutes/금융위원회고시_제2018-23호_20180907.html": {
+    "sha256": "54a9ae76a866579febdb464867248500809dbb152d423fa9479b19860ea49a60",
+    "bytes": 187507,
+    "title": "금융위원회고시 제2018-23호 (HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000154932&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:19:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법시행규칙_20260905.txt": {
+    "title": "근로자퇴직급여 보장법 시행규칙 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=243903&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:40:00+09:00",
+    "sha256": "23303347a05855a80c821c814c997df5bd0da34d6b109eeb87a68af144ff6b29",
+    "bytes": 21514
+  },
+  "statutes/근로자퇴직급여보장법시행규칙_20260905.html": {
+    "title": "근로자퇴직급여 보장법 시행규칙 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=243903&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:40:00+09:00",
+    "sha256": "7088821dc9a49a3f5f39ff537f7555b2e2d898f53186eb22211b422d8d8f6095",
+    "bytes": 242491
+  },
+  "statutes/kofia_annex_15_official.hwp": {
+    "sha256": "e84a3e74cc39c3a14bf746dfbef6bc44c68ad4bff1e9ab3b14f2081d4d43e901",
+    "size_bytes": 218112,
+    "collected_at": "2026-09-05T21:15:00+09:00",
+    "source_url": "https://law.kofia.or.kr/download.do?gubun=102&seq=3641",
+    "source_type": "KOFIA_OFFICIAL_ATTACHMENT_15",
+    "description": "금융투자회사의 영업 및 업무에 관한 규정 시행세칙 제27조 [별지 제15호] 집합투자기구 분류 정본 HWP"
+  },
+  "statutes/kofia_annex_15_official.txt": {
+    "sha256": "1892d5588ee669ca623dfac2f71a6dfec7566fe13fd584efb248446ab5aea25d",
+    "size_bytes": 53215,
+    "collected_at": "2026-09-05T21:15:00+09:00",
+    "source_url": "https://law.kofia.or.kr/download.do?gubun=102&seq=3641",
+    "source_type": "KOFIA_OFFICIAL_ATTACHMENT_15_TEXT",
+    "description": "금융투자회사의 영업 및 업무에 관한 규정 시행세칙 제27조 [별지 제15호] 집합투자기구 분류 HWP 텍스트 추출본"
+  },
+  "statutes/퇴직연금감독규정시행세칙_20260905.txt": {
+    "title": "퇴직연금감독규정시행세칙 (금융감독원세칙 전문 텍스트, 제5조의2 적격 TDF 요건 포함)",
+    "source_url": "https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=2200000108661",
+    "collected_at": "2026-09-05T22:10:00+09:00",
+    "sha256": "13d9af2604ca26f30ccc8ed85d4201d98c738fb36bbd7cf1c029177eed9688b0",
+    "bytes": 6874
+  },
+  "statutes/금융투자업규정_제4-54조_20260905.txt": {
+    "title": "금융투자업규정 제4-54조 (위험평가액 산정방법 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=2100000282072",
+    "collected_at": "2026-09-05T22:10:00+09:00",
+    "sha256": "c4a9dad9209403036e1572fa69acdf7489d78730395e852c43c97dde6851cfc4",
+    "bytes": 7316
+  },
+  "statutes/자본시장법시행령_제240조_20260905.txt": {
+    "title": "자본시장과 금융투자업에 관한 법률 시행령 제240조 (집합투자기구의 종류별 최소투자비율 등)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288399&chrClsCd=010202",
+    "collected_at": "2026-09-05T22:11:00+09:00",
+    "sha256": "4fb19e8f1cc586edc99ec8c8a9548bc5ad60fd1cd892caa0a44220fec9c63931",
+    "bytes": 3517
+  },
+  "brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx": {
+    "sha256": "7e1429bdaff52ca60805c4caee8858e1b81e21b48e4c850f4d3fc30a23379ae6",
+    "bytes": 158303,
+    "as_of_date": "2026-08-31",
+    "source_type": "퇴직연금(RP)판매사실거래유니버스(한국투자증권)",
+    "account_type": "retirement_pension",
+    "personal_pension_eligible": false,
+    "collected_at": "2026-09-06T23:45:00+09:00",
+    "note": "퇴직연금(DC/IRP) 전용 원장이며 개인연금 증거로 사용 불가"
+  },
+  "issuers/miraeasset/tiger_pension_search_20260906.html": {
+    "sha256": "229c93f6f411ebe39bf924c7fc2ad104d705ac9fe01d939732ef175e4d4d117b",
+    "bytes": 2363345,
+    "source_url": "https://investments.miraeasset.com/tigeretf/ko/product/search/list.do",
+    "api_endpoint": "https://investments.miraeasset.com/tigeretf/ko/product/search/list.ajax",
+    "publisher": "미래에셋자산운용",
+    "collected_at": "2026-09-06T08:21:26.289997",
+    "record_count": 231
+  },
+  "issuers/samsung/kodex_pension_search_20260906.json": {
+    "sha256": "930dbbaf1f23a136b8701b0c7df03c92910f491654594c0928d2ee8d9ac9ab05",
+    "bytes": 131321,
+    "source_url": "https://www.samsungfund.com/etf/product/pensionlist.do",
+    "api_endpoint": "https://www.samsungfund.com/api/v1/kodex/product-pension-invest/search.do",
+    "publisher": "삼성자산운용",
+    "collected_at": "2026-09-06T08:21:26.289997",
+    "record_count": 218
+  },
+  "brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt": {
+    "sha256": "1d3102f62c8dca739b7370e8bc9adf74f823b15ca3d1e899e31861bfdecf3e95",
+    "bytes": 38227,
+    "as_of_date": "2026-08-31",
+    "source_type": "퇴직연금(RP)판매사실거래유니버스(한국투자증권)",
+    "account_type": "retirement_pension",
+    "personal_pension_eligible": false,
+    "collected_at": "2026-09-06T23:45:00+09:00",
+    "note": "퇴직연금(DC/IRP) 전용 원장이며 개인연금 증거로 사용 불가"
+  },
+  "issuers/ace/ace_pension_search_20260906.json": {
+    "source_url": "https://papi.aceetf.co.kr/api/funds/pension?size=200",
+    "sha256": "c80905bb0674a8b829201fea1fbdfa12edc4017ed4bf42f9ae0eeeb9b5262561",
+    "bytes": 56270,
+    "collected_at": "2026-09-06",
+    "format": "json",
+    "description": "한국투자신탁운용(ACE) 공식 웹 퇴직연금 매매가능 상품 API 응답 (101종목, retirementPensionRatio 공시)"
+  },
+  "issuers/kb/rise_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "KB자산운용 RISE 공식 전체 상품 유니버스 (143종목)",
+    "sha256": "54d7ada3e9f270cff7bd4020a7194336bdd93e9090cf799b627052bd1cbbc211",
+    "bytes": 37537,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/hanwha/plus_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "한화자산운용 PLUS 공식 전체 상품 API (84종목)",
+    "sha256": "1951149d8d9b1919cdb914bcecfaefed34a03a335684439352d378b8f60be8df",
+    "bytes": 108629,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/kiwoom/kiwoom_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "키움투자자산운용 KIWOOM 공식 전체 상품 API (70종목)",
+    "sha256": "52ab73bc0a5470d3b96a10bb9aa76db5dc0e9d4ccbdf3d8cb59c812e1075d189",
+    "bytes": 343598,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/shinhan/sol_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "신한자산운용",
+    "description": "신한자산운용 SOL 공식 전체 상품 유니버스 API (84종목, 개인연금/퇴직연금 태그)",
+    "source_url": "https://www.soletf.com/api/common/searchByEtfNameOrFilter",
+    "sha256": "cc9714abfc44061f991b0948f3e9f073067750661a0a546dbce5383b26d980fb",
+    "bytes": 151422,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/nhamundi/hanaro_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "NH-Amundi자산운용",
+    "description": "NH-Amundi자산운용 HANARO 공식 상품 검색 API (50종목 전수, iPension/rPension 공시)",
+    "source_url": "https://www.hanaroetf.com/api/v1/fund/get-fund-search-list",
+    "sha256": "37b709ff3bc0a455a357e8968964314baa7a3e47db3cc8ec2968b2798a551ee8",
+    "bytes": 8938,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/samsungactive/koact_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "삼성액티브자산운용",
+    "description": "삼성액티브자산운용 KoAct 공식 전체 상품 API (25종목 전수, dcYn/irpYn 공시)",
+    "source_url": "https://www.samsungactive.co.kr/api/v1/product/etf.do",
+    "sha256": "c7938bef9b5d2016cd8a19bec08777026e5348270b138d12d149fcf2aa0291c2",
+    "bytes": 58405,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/hana/oneq_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "하나자산운용",
+    "description": "하나자산운용 1Q 공식 전체 상품 유니버스 (27종목 전수, 개인연금 구분필드 부재로 판정 불가 보류)",
+    "source_url": "https://1qetf.com/pages/ETFproducts/ETF.list.php",
+    "sha256": "38ea5fc2929a1db8dd9fab20f0d56767325f717c0599dee32bae736e3a013fdf",
+    "bytes": 8618,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/timefolio/time_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "타임폴리오자산운용",
+    "description": "타임폴리오자산운용 TIME 공식 상품 유니버스 (18종목 전수, 개인연금/퇴직연금 뱃지 공시)",
+    "source_url": "https://timeetf.co.kr/m11_view.php",
+    "sha256": "73919d945786e3cf99007cc5748aa4e8ff641ea6a1b9262cdcc66e43fbe5eca9",
+    "bytes": 6940,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/woori/won_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "우리자산운용",
+    "description": "우리자산운용 WON 공식 상품 유니버스 (17종목 전수, 퇴직연금 indicator 공시)",
+    "source_url": "https://www.wooriam.kr/investment/etf-list",
+    "sha256": "6cdb06584d5ca389bdabd9037493f3da9b74d8624795de0bb523db993fad36dc",
+    "bytes": 4810,
+    "collected_at": "2026-09-06"
+  },
+  "statutes/소득세법_제20조의3_20260907.txt": {
+    "source_type": "국가법령정보센터공식원문",
+    "publisher": "법제처",
+    "description": "소득세법 제20조의3(연금소득) 공식 법령 원문 텍스트 (연금저축계좌 정의)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280405",
+    "collected_at": "2026-09-07",
+    "sha256": "d195115d2090fde680e5d83db3d0915da06b9f596e6f1dbb4bd27100951414fc",
+    "bytes": 2165
+  },
+  "statutes/소득세법시행령_제40조의2_20260907.txt": {
+    "source_type": "국가법령정보센터공식원문",
+    "publisher": "법제처",
+    "description": "소득세법 시행령 제40조의2(연금계좌 등) 공식 법령 원문 텍스트 (투자중개업자 집합투자증권 중개계약)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286211",
+    "collected_at": "2026-09-07",
+    "sha256": "1163f8994401a85ce6c6e2551f03e6a402bb5df96da8238cb6b18ab7d8550faf",
+    "bytes": 11994
+  },
+  "statutes/kofia_pension_terms_20260907.html": {
+    "source_type": "금융투자협회표준약관공식HTML",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 연금저축계좌설정약관 제8조(집합투자증권의 매매) 공식 웹 팝업 HTML",
+    "source_url": "https://law.kofia.or.kr/service/law/standardTerms.do",
+    "collected_at": "2026-09-07",
+    "sha256": "5dd34358acc5c8b518eb9c37a87780bf8c11ddd8176f978cd44b6289e7e11c3d",
+    "bytes": 4949
+  },
+  "statutes/kofia_pension_terms_20260907.txt": {
+    "source_type": "금융투자협회표준약관공식원문",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 연금저축계좌설정약관 제8조(집합투자증권의 매매) 원문 텍스트 (ETF 매입 및 레버리지/인버스 배제)",
+    "source_url": "https://law.kofia.or.kr/service/law/standardTerms.do",
+    "collected_at": "2026-09-07",
+    "sha256": "25d450c0a7a6ef40a404ea7e441ede97f651b5890782b75924af971e1c36e590",
+    "bytes": 1478
+  },
+  "kofia_pension_funds_20260907.xml": {
+    "source_type": "공적공시원문(KOFIA_DIS)",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 전자공시서비스(KOFIA DIS) 연금저축펀드 비교공시 공식 전체 데이터 XML (3,245개 펀드/ETF)",
+    "source_url": "https://dis.kofia.or.kr/websquare/index.jsp?w2xPath=/wq/fundann/DISAnnSaveProduct.xml&divisionId=MDIS01018001000000&serviceId=SDIS01018001000",
+    "sha256": "30fea26e58217359a0ae2b97b1d1e7a4fa0bc9851d5136c96bffdbf19e9df3b2",
+    "bytes": 2813685,
+    "collected_at": "2026-09-07"
+  }
+}

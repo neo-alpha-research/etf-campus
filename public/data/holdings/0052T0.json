@@ -1,40 +1,40 @@
 {
   "ticker": "0052T0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK인텔릭스13-2",
-      "weight_pct": 10.87,
+      "weight_pct": 10.88,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움캐피탈222-1",
-      "weight_pct": 10.81,
+      "weight_pct": 10.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국캐피탈555-1",
-      "weight_pct": 10.69,
+      "weight_pct": 10.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈132-3",
-      "weight_pct": 10.58,
+      "weight_pct": 10.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "넥센타이어63-2",
-      "weight_pct": 10.54,
+      "weight_pct": 10.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데캐피탈506-1",
-      "weight_pct": 6.45,
+      "weight_pct": 6.44,
       "shares": 0,
       "item_code": null
     },
@@ -46,49 +46,49 @@
     },
     {
       "name": "전자단기사채(아이엠히어로제사차 20260729",
-      "weight_pct": 5.34,
+      "weight_pct": 5.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(부국증권 20260724-91-75(단)",
-      "weight_pct": 5.34,
+      "weight_pct": 5.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전자단기사채(에이치아이베타제일차 202607",
-      "weight_pct": 5.34,
+      "weight_pct": 5.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대한항공111-2",
-      "weight_pct": 5.29,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "JB 우리캐피탈539-4",
       "weight_pct": 5.25,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "롯데카드569-4",
-      "weight_pct": 5.22,
+      "name": "JB 우리캐피탈539-4",
+      "weight_pct": 5.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(롯데오토리스 20260820-243-2)",
+      "weight_pct": 5.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드569-4",
       "weight_pct": 5.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(한국투자금융지주 20260703-361-110)",
-      "weight_pct": 5.19,
+      "weight_pct": 5.2,
       "shares": 0,
       "item_code": null
     },
@@ -100,8 +100,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -8.67,
-      "shares": -8805177,
+      "weight_pct": -8.64,
+      "shares": -8768460,
       "item_code": null
     }
   ]

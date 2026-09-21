@@ -4,6 +4,7 @@ const labels: Record<RiskType, string> = {
   normal: "비레버리지",
   leverage: "레버리지",
   inverse: "인버스",
+  parking: "파킹형",
 };
 
 export function RiskBadge({ riskType }: { riskType: RiskType }) {

@@ -42,7 +42,7 @@ export default async function EtfPage({ params }: Props) {
 
   const peerComparison = getPeerComparison(etf, etfs);
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-6xl xl:max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <Suspense fallback={<div className="h-36 animate-pulse rounded-2xl border border-line bg-brand-50/60" />}>
         <AuthGate
           featureLabel="ETF 상세 분석"

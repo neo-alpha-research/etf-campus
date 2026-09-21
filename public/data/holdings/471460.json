@@ -1,35 +1,35 @@
 {
   "ticker": "471460",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 92.51,
+      "weight_pct": 92.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한 자금부 20260219-365-1",
-      "weight_pct": 21.34,
+      "weight_pct": 21.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KIWOOM 국고채10년레버리지",
-      "weight_pct": 12.13,
+      "weight_pct": 12.17,
       "shares": 1200,
       "item_code": "167860"
     },
     {
       "name": "국고채원금01230-5403(24-2)",
-      "weight_pct": 1.24,
+      "weight_pct": 1.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화예금",
-      "weight_pct": -27.25,
-      "shares": -251457674,
+      "weight_pct": -28.06,
+      "shares": -251593185,
       "item_code": null
     }
   ]

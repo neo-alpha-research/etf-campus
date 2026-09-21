@@ -1,130 +1,124 @@
 {
   "ticker": "329650",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 18.94,
+      "weight_pct": 18.81,
       "shares": 930,
       "item_code": "URTH.K"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 5.62,
+      "shares": 78849023,
+      "item_code": null
+    },
+    {
       "name": "KODEX MSCI선진국",
-      "weight_pct": 5.1,
+      "weight_pct": 5.02,
       "shares": 1836,
       "item_code": "251350"
     },
     {
       "name": "iShares MSCI ACWI ETF",
-      "weight_pct": 4.93,
+      "weight_pct": 4.9,
       "shares": 315,
       "item_code": "ACWI.O"
     },
     {
-      "name": "국고02000-4903(19-2)",
-      "weight_pct": 4.37,
+      "name": "통안02540-2611-01",
+      "weight_pct": 4.32,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "국고03500-2906(26-5)",
-      "weight_pct": 4.27,
+      "name": "국고02000-4903(19-2)",
+      "weight_pct": 4.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금26신이0300-0403-2",
-      "weight_pct": 4.27,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "통안02540-2611-01",
-      "weight_pct": 4.27,
+      "weight_pct": 4.3,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-3003(25-3)",
-      "weight_pct": 4.15,
+      "weight_pct": 4.17,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리금융캐피탈503-2",
-      "weight_pct": 3.65,
+      "weight_pct": 3.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사233",
-      "weight_pct": 3.43,
+      "weight_pct": 3.47,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사235",
-      "weight_pct": 3.41,
+      "weight_pct": 3.45,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02690-2803-03",
-      "weight_pct": 3.39,
+      "weight_pct": 3.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안03730-2807-02",
-      "weight_pct": 3.22,
+      "weight_pct": 3.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-2903(24-1)",
-      "weight_pct": 2.57,
+      "weight_pct": 2.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈348-5",
-      "weight_pct": 2.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고03500-5603(26-2)",
-      "weight_pct": 2.55,
+      "weight_pct": 2.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02375-2812(18-10)",
-      "weight_pct": 2.5,
+      "weight_pct": 2.52,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국서부발전70-1",
-      "weight_pct": 2.5,
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 2.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-4209(22-11)",
-      "weight_pct": 2.25,
+      "weight_pct": 2.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안03430-2703-03",
-      "weight_pct": 2.15,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고02250-3709(17-5)",
-      "weight_pct": 1.78,
+      "weight_pct": 2.18,
       "shares": 0,
       "item_code": null
     },
@@ -135,20 +129,26 @@
       "item_code": "471230"
     },
     {
+      "name": "국고02250-3709(17-5)",
+      "weight_pct": 1.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고03250-5303(23-2)",
-      "weight_pct": 1.75,
+      "weight_pct": 1.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03125-5209(22-9)",
-      "weight_pct": 1.71,
+      "weight_pct": 1.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈524-3",
-      "weight_pct": 1.67,
+      "weight_pct": 1.68,
       "shares": 0,
       "item_code": null
     },
@@ -159,26 +159,20 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.29,
-      "shares": 18356047,
-      "item_code": null
-    },
-    {
       "name": "국고02375-3809(18-7)",
-      "weight_pct": 1.19,
+      "weight_pct": 1.18,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02000-4603(국고16-1)",
-      "weight_pct": 0.88,
+      "weight_pct": 0.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01875-2906(19-4)",
-      "weight_pct": 0.81,
+      "weight_pct": 0.82,
       "shares": 0,
       "item_code": null
     },

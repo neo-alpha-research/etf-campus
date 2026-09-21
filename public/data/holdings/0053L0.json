@@ -1,40 +1,40 @@
 {
   "ticker": "0053L0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "도봇",
-      "weight_pct": 9.89,
+      "weight_pct": 9.71,
       "shares": 11522,
       "item_code": "2432.HK"
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 9.46,
+      "weight_pct": 9.05,
       "shares": 5567,
       "item_code": "9868.HK"
     },
     {
       "name": "유비테크 로보틱스",
-      "weight_pct": 8.95,
+      "weight_pct": 8.97,
       "shares": 3008,
       "item_code": "9880.HK"
     },
     {
       "name": "회천기술",
-      "weight_pct": 8.69,
+      "weight_pct": 8.6,
       "shares": 3306,
       "item_code": "300124.SZ"
     },
     {
       "name": "입신정밀",
-      "weight_pct": 8.45,
+      "weight_pct": 8.46,
       "shares": 3483,
       "item_code": "002475.SZ"
     },
     {
       "name": "신비정보",
-      "weight_pct": 7.64,
+      "weight_pct": 7.79,
       "shares": 4539,
       "item_code": "002230.SZ"
     },
@@ -46,25 +46,25 @@
     },
     {
       "name": "웨이얼반도체",
-      "weight_pct": 6.74,
+      "weight_pct": 6.69,
       "shares": 1891,
       "item_code": "603501.SS"
     },
     {
-      "name": "항립유항",
-      "weight_pct": 4.52,
-      "shares": 1096,
-      "item_code": "601100.SS"
-    },
-    {
       "name": "서니옵티컬",
-      "weight_pct": 4.17,
+      "weight_pct": 4.81,
       "shares": 1830,
       "item_code": "2382.HK"
     },
     {
+      "name": "항립유항",
+      "weight_pct": 4.76,
+      "shares": 1096,
+      "item_code": "601100.SS"
+    },
+    {
       "name": "영익지조",
-      "weight_pct": 3.62,
+      "weight_pct": 3.72,
       "shares": 6966,
       "item_code": "002600.SZ"
     },
@@ -76,56 +76,56 @@
     },
     {
       "name": "녹적해파",
-      "weight_pct": 3.13,
+      "weight_pct": 3.12,
       "shares": 252,
       "item_code": "688017.SS"
     },
     {
       "name": "와룡전기",
-      "weight_pct": 2.74,
+      "weight_pct": 2.67,
       "shares": 2159,
       "item_code": "600580.SS"
     },
     {
       "name": "쌍환전동기계",
-      "weight_pct": 2.61,
+      "weight_pct": 2.6,
       "shares": 1729,
       "item_code": "002472.SZ"
     },
     {
       "name": "장영정밀",
-      "weight_pct": 2.21,
+      "weight_pct": 2.09,
       "shares": 2031,
       "item_code": "300115.SZ"
     },
     {
       "name": "민실그룹",
-      "weight_pct": 1.95,
+      "weight_pct": 1.68,
       "shares": 1811,
       "item_code": "0425.HK"
     },
     {
-      "name": "영파진유과기",
-      "weight_pct": 1.67,
-      "shares": 426,
-      "item_code": "300953.SZ"
-    },
-    {
       "name": "균승전자",
-      "weight_pct": 1.62,
+      "weight_pct": 1.67,
       "shares": 2020,
       "item_code": "600699.SS"
     },
     {
+      "name": "영파진유과기",
+      "weight_pct": 1.64,
+      "shares": 426,
+      "item_code": "300953.SZ"
+    },
+    {
       "name": "Orbbec Inc Class A",
-      "weight_pct": 1.53,
+      "weight_pct": 1.59,
       "shares": 385,
       "item_code": "688322.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.55,
-      "shares": -2707147,
+      "weight_pct": -0.6,
+      "shares": -2881013,
       "item_code": null
     }
   ]

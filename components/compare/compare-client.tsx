@@ -5,24 +5,138 @@ import { useCompareBasket } from "@/lib/hooks/use-compare-basket";
 import { CompareSearch } from "./compare-search";
 import { CompareThemes } from "./compare-themes";
 import { EtfCompareView } from "@/components/etf-detail/etf-compare-view";
-import { EtfCompareChart } from "./etf-compare-chart";
-import { useEffect, useCallback } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useAuthSession } from "@/components/auth/use-auth-session";
-import { withReturnTo } from "@/lib/auth/return-to";
+import {
+  EtfCompareTimeseriesChart,
+  type ComparePeriod,
+  type SeriesV2Data,
+} from "./etf-compare-timeseries-chart";
+import { useEffect, useCallback, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 
-export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
-  const { basket, mounted, toastMessage, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket();
-  const { authenticated, isLoading } = useAuthSession();
-  const router = useRouter();
-  const pathname = usePathname();
+export interface ManifestTickerEntry {
+  status?: "ok" | "quarantined";
+  reason?: string;
+  as_of?: string;
+  asOf?: string;
+  version?: string;
+}
+
+export interface SeriesManifest {
+  asOf: string;
+  tickers?: Record<string, string | ManifestTickerEntry>;
+}
+
+export function getSeriesUrl(
+  ticker: string,
+  isRecent: boolean,
+  manifest: SeriesManifest | null
+): string {
+  const fileSuffix = isRecent ? ".recent.json" : ".json";
+  const entry = manifest?.tickers?.[ticker];
+  let version = manifest?.asOf;
+  if (typeof entry === "string") {
+    version = entry;
+  } else if (entry && typeof entry === "object") {
+    version = entry.version || entry.asOf || entry.as_of || manifest?.asOf;
+  }
+  const query = version ? `?v=${version}` : "";
+  return `/data/series/v2/${ticker}${fileSuffix}${query}`;
+}
+
+export function getCompareRequestKey(
+  basket: readonly { ticker: string }[],
+  period: ComparePeriod,
+  manifestAsOf?: string
+): string {
+  return `${basket.map((e) => e.ticker).join(",")}_${period}_${manifestAsOf || "default"}`;
+}
+
+export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
+  const { basket, mounted, toastMessage, showToast, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket(etfs);
   const searchParams = useSearchParams();
 
-  // URL 파라미터(tickers, base, action 등) 처리 및 초기 바구니 설정
+  const initialPeriod: ComparePeriod = (() => {
+    const p = searchParams.get("period");
+    if (p) {
+      const pUpper = p.toUpperCase() as ComparePeriod;
+      if (["1M", "3M", "6M", "1Y", "3Y"].includes(pUpper)) return pUpper;
+    }
+    return "1Y";
+  })();
+
+  const initialTrMode = searchParams.get("basis")?.toLowerCase() === "tr";
+
+  const [period, setPeriod] = useState<ComparePeriod>(initialPeriod);
+  const [isTrMode, setIsTrMode] = useState<boolean>(initialTrMode);
+  const [isConfirmingClear, setIsConfirmingClear] = useState(false);
+  const [hoveredTicker, setHoveredTicker] = useState<string | null>(null);
+  const [seriesMap, setSeriesMap] = useState<Record<string, SeriesV2Data | null>>({});
+  const [quarantinedMap, setQuarantinedMap] = useState<Record<string, { reason: string }>>({});
+  const [loadedKey, setLoadedKey] = useState<string>("");
+  const [manifest, setManifest] = useState<SeriesManifest | null>(null);
+  const seriesCacheRef = useRef<Map<string, SeriesV2Data>>(new Map());
+
+  // Dynamic manifest fetch on mount
+  useEffect(() => {
+    let isMounted = true;
+    fetch("/data/series/v2/manifest.json", { cache: "no-cache" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: SeriesManifest | null) => {
+        if (isMounted && data) {
+          setManifest(data);
+        }
+      })
+      .catch(() => {
+        // Fallback gracefully
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const currentKey = getCompareRequestKey(basket, period, manifest?.asOf);
+  const isLoadingSeries = basket.length > 0 && loadedKey !== currentKey;
+
+  // URL query sync helper
+  const syncUrl = useCallback((tickersList: string[], curPeriod: ComparePeriod, curTrMode: boolean) => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (tickersList.length > 0) {
+      params.set("tickers", tickersList.join(","));
+      params.set("base", tickersList[0]);
+    } else {
+      params.delete("tickers");
+      params.delete("base");
+    }
+    params.set("period", curPeriod.toLowerCase());
+    params.set("basis", curTrMode ? "tr" : "pr");
+    const qs = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}?${qs}`);
+  }, []);
+
+  const handleCopyLink = useCallback(() => {
+    if (basket.length === 0) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const tickers = basket.map((e) => e.ticker).join(",");
+    const baseTicker = basket[0]?.ticker ?? "";
+    const basis = isTrMode ? "tr" : "pr";
+    const periodParam = period.toLowerCase();
+    const shareUrl = `${origin}/compare?tickers=${encodeURIComponent(tickers)}&base=${encodeURIComponent(baseTicker)}&period=${periodParam}&basis=${basis}`;
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        showToast("비교 링크가 클립보드에 복사되었습니다.");
+      }).catch(() => {
+        showToast("링크 복사에 실패했습니다.");
+      });
+    } else {
+      showToast("클립보드를 지원하지 않는 환경입니다.");
+    }
+  }, [basket, isTrMode, period, showToast]);
+
+  // URL 파라미터(tickers, base) 초기 파싱
   useEffect(() => {
     if (!mounted) return;
 
-    // 1. URL에 tickers 또는 base 파라미터가 전달된 경우 (로그인 여부 무관 즉시 바구니 채우기)
     const tickersParam = searchParams.get("tickers");
     const baseParam = searchParams.get("base");
 
@@ -37,108 +151,93 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
       if (targetTickers.length > 0) {
         const matchedEtfs = targetTickers
           .map((ticker) => etfs.find((e) => e.ticker === ticker))
-          .filter((e): e is EtfSlim => e !== undefined);
+          .filter((e): e is Etf => e !== undefined);
         if (matchedEtfs.length > 0) {
           overwriteBasket(matchedEtfs);
         }
       }
-
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.delete("tickers");
-      newParams.delete("base");
-      newParams.delete("group");
-      newParams.delete("action");
-      const qs = newParams.toString();
-      router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-      return;
     }
+  }, [mounted, searchParams, etfs, overwriteBasket]);
 
-    // 2. 로그인 완료 후 URL의 action 파라미터 처리
-    const action = searchParams.get("action");
-    if (action) {
-      if (isLoading || !authenticated) return;
+  // Keep URL in sync when basket, period, or isTrMode changes
+  useEffect(() => {
+    if (!mounted) return;
+    const tickerList = basket.map((e) => e.ticker);
+    syncUrl(tickerList, period, isTrMode);
+  }, [mounted, basket, period, isTrMode, syncUrl]);
 
-      let modified = false;
-      const newParams = new URLSearchParams(searchParams.toString());
+  // Parallel Data Fetching for v2 Series
+  useEffect(() => {
+    if (!mounted || basket.length === 0) return;
 
-      if (action === "add") {
-        const ticker = searchParams.get("ticker");
-        if (ticker) {
-          const etf = etfs.find((e) => e.ticker === ticker);
-          if (etf) addEtf(etf);
+    let isMounted = true;
+    const isRecent = period === "1M" || period === "3M" || period === "6M" || period === "1Y";
+    const requestKey = getCompareRequestKey(basket, period, manifest?.asOf);
+
+    const fetchPromises = basket.map(async (etf) => {
+      const entry = manifest?.tickers?.[etf.ticker];
+      if (entry && typeof entry === "object" && entry.status === "quarantined") {
+        return {
+          ticker: etf.ticker,
+          data: null,
+          quarantined: true,
+          reason: entry.reason || "데이터 정합성 검증 중",
+        };
+      }
+      const url = getSeriesUrl(etf.ticker, isRecent, manifest);
+      const cacheKey = `${etf.ticker}_${isRecent ? "recent" : "full"}_${url}`;
+      if (seriesCacheRef.current.has(cacheKey)) {
+        return { ticker: etf.ticker, data: seriesCacheRef.current.get(cacheKey)!, quarantined: false, reason: "" };
+      }
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
         }
-        newParams.delete("ticker");
-        modified = true;
-      } else if (action === "remove") {
-        const ticker = searchParams.get("ticker");
-        if (ticker) removeEtf(ticker);
-        newParams.delete("ticker");
-        modified = true;
-      } else if (action === "clear") {
-        clearBasket();
-        modified = true;
-      } else if (action === "theme") {
-        const tickers = searchParams.get("tickers");
-        if (tickers) {
-          const tickerArray = tickers.split(",");
-          const themeEtfs = etfs.filter((e) => tickerArray.includes(e.ticker));
-          if (themeEtfs.length > 0) overwriteBasket(themeEtfs);
+        const data: SeriesV2Data = await res.json();
+        seriesCacheRef.current.set(cacheKey, data);
+        return { ticker: etf.ticker, data, quarantined: false, reason: "" };
+      } catch {
+        return { ticker: etf.ticker, data: null, quarantined: false, reason: "" };
+      }
+    });
+
+    Promise.allSettled(fetchPromises).then((results) => {
+      if (!isMounted) return;
+      const newMap: Record<string, SeriesV2Data | null> = {};
+      const newQuarantined: Record<string, { reason: string }> = {};
+      for (const r of results) {
+        if (r.status === "fulfilled") {
+          newMap[r.value.ticker] = r.value.data;
+          if (r.value.quarantined) {
+            newQuarantined[r.value.ticker] = { reason: r.value.reason || "데이터 정합성 검증 중" };
+          }
         }
-        newParams.delete("tickers");
-        modified = true;
       }
+      setSeriesMap(newMap);
+      setQuarantinedMap(newQuarantined);
+      setLoadedKey(requestKey);
+    });
 
-      if (modified) {
-        newParams.delete("action");
-        const qs = newParams.toString();
-        router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-        return;
-      }
-    }
+    return () => {
+      isMounted = false;
+    };
+  }, [mounted, basket, period, manifest]);
 
-    // 3. 최초 접속 시 (로컬스토리지 비어있을 때) 대표지수 5종목 자동 채우기
-    if (!localStorage.getItem("etfcampus_compare_basket")) {
-      const defaultTickers = ["069500", "229200", "245340", "360750", "133690"];
-      const themeEtfs = defaultTickers
-        .map((ticker) => etfs.find((e) => e.ticker === ticker))
-        .filter((e): e is EtfSlim => e !== undefined);
-      if (themeEtfs.length > 0) {
-        overwriteBasket(themeEtfs);
-      }
-    }
-  }, [mounted, isLoading, authenticated, searchParams, etfs, addEtf, removeEtf, clearBasket, overwriteBasket, pathname, router]);
-
-  const requireAuth = useCallback((actionPath: string) => {
-    if (isLoading) return true; // 로딩 중에는 액션 차단
-    if (!authenticated) {
-      const currentQuery = searchParams.toString();
-      const currentPath = `${pathname}${currentQuery ? `?${currentQuery}` : ""}`;
-      const returnUrl = currentPath.includes("?") 
-        ? `${currentPath}&${actionPath}` 
-        : `${currentPath}?${actionPath}`;
-      router.push(withReturnTo("/login/", returnUrl));
-      return true;
-    }
-    return false;
-  }, [authenticated, isLoading, pathname, searchParams, router]);
-
-  const handleAddEtf = useCallback((etf: EtfSlim) => {
-    if (requireAuth(`action=add&ticker=${etf.ticker}`)) return;
+  const handleAddEtf = useCallback((etf: Etf | EtfSlim) => {
     addEtf(etf);
-  }, [requireAuth, addEtf]);
+  }, [addEtf]);
 
   const handleRemoveEtf = useCallback((ticker: string) => {
-    if (requireAuth(`action=remove&ticker=${ticker}`)) return;
     removeEtf(ticker);
-  }, [requireAuth, removeEtf]);
+  }, [removeEtf]);
 
   const handleClearBasket = useCallback(() => {
-    if (requireAuth(`action=clear`)) return;
     clearBasket();
-  }, [requireAuth, clearBasket]);
+    setIsConfirmingClear(false);
+  }, [clearBasket]);
 
-  const handleSelectTheme = useCallback((themeEtfs: EtfSlim[]) => {
-    // 추천 테마 클릭은 회원가입/로그인 없이 체험 가능하도록 requireAuth 제거
+  const handleSelectTheme = useCallback((themeEtfs: Etf[]) => {
     overwriteBasket(themeEtfs);
   }, [overwriteBasket]);
 
@@ -165,37 +264,130 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
   const isFull = basket.length >= MAX_ITEMS;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-extrabold text-strong">ETF 비교</h1>
-        <p className="text-sm text-muted">최대 {MAX_ITEMS}개의 ETF를 한눈에 비교해 보세요.</p>
+    <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-1 sm:gap-2">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-strong">ETF 비교</h1>
+        <p className="text-xs sm:text-sm text-muted">최대 {MAX_ITEMS}개의 ETF를 한눈에 비교해 보세요.</p>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-2xl bg-neutral-50 p-6 border border-line">
+      <div className="flex flex-col gap-3 sm:gap-4 rounded-xl sm:rounded-2xl bg-neutral-50 p-3.5 sm:p-6 border border-line">
         <CompareSearch etfs={etfs} onAdd={handleAddEtf} disabled={isFull} />
-        <CompareThemes etfs={etfs} onSelectTheme={handleSelectTheme} />
+        <CompareThemes
+          etfs={etfs}
+          currentTickers={basket.map((e) => e.ticker)}
+          onSelectTheme={handleSelectTheme}
+        />
       </div>
 
-      <div className="mt-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold text-strong">비교 종목</h2>
-            <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-sm font-semibold text-brand-700">
+      <div className="mt-2 sm:mt-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <h2 className="text-lg sm:text-xl font-bold text-strong">비교 종목</h2>
+            <span className="rounded-full bg-brand-50 px-2 sm:px-2.5 py-0.5 text-xs sm:text-sm font-semibold text-brand-700">
               {basket.length}개 선택 <span className="text-brand-400 font-medium">/ 최대 {MAX_ITEMS}개</span>
             </span>
           </div>
-          {basket.length > 0 && (
-            <button onClick={handleClearBasket} className="group flex items-center justify-center gap-1.5 h-[34px] px-4 text-[13px] font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-sm active:scale-[0.97]">
-              <svg className="size-[15px] transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-              모든 종목 지우기
-            </button>
-          )}
+
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            {/* Master TR Mode Toggle */}
+            {basket.length > 0 && (
+              <button
+                type="button"
+                role="switch"
+                aria-checked={isTrMode}
+                onClick={() => setIsTrMode((prev) => !prev)}
+                className={`inline-flex items-center gap-1.5 sm:gap-2 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all border shadow-xs ${
+                  isTrMode
+                    ? "bg-brand-50 border-brand-300 text-brand-800 ring-2 ring-brand-100"
+                    : "bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
+                }`}
+                title="배당금(분배금)을 재투자했을 때의 총수익률(Total Return)로 차트와 표를 일괄 전환합니다."
+              >
+                <span className={isTrMode ? "text-brand-700 font-extrabold" : "text-neutral-600"}>
+                  TR (분배금 세전 재투자) {isTrMode ? "ON" : "OFF"}
+                </span>
+                <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
+                  <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
+                </div>
+              </button>
+            )}
+
+            {/* Copy Share Link */}
+            {basket.length > 0 && (
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="group flex items-center justify-center gap-1.5 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold text-neutral-600 bg-white border border-neutral-200 hover:bg-neutral-50 hover:text-neutral-900 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
+                title="현재 비교 조합 링크를 클립보드에 복사합니다."
+              >
+                <svg className="size-[13px] text-neutral-500 transition-transform duration-200 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                <span>링크 복사</span>
+              </button>
+            )}
+
+            {/* Clear Basket with Safe 2-Step Confirmation */}
+            {basket.length > 0 && (
+              isConfirmingClear ? (
+                <div className="flex items-center gap-1.5 h-8 sm:h-[34px] px-2 sm:px-2.5 bg-rose-50 border border-rose-200 rounded-lg animate-in fade-in duration-200">
+                  <span className="text-[11px] sm:text-xs font-bold text-rose-700 mr-0.5 sm:mr-1">모두 비울까요?</span>
+                  <button
+                    type="button"
+                    onClick={handleClearBasket}
+                    className="h-5 sm:h-6 px-1.5 sm:px-2 text-[10px] sm:text-[11px] font-black text-white bg-rose-600 hover:bg-rose-700 rounded transition-colors shadow-2xs active:scale-95"
+                  >
+                    확인
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsConfirmingClear(false)}
+                    className="h-5 sm:h-6 px-1.5 text-[10px] sm:text-[11px] font-bold text-neutral-600 hover:text-neutral-900 bg-white border border-neutral-200 rounded transition-colors active:scale-95"
+                  >
+                    취소
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsConfirmingClear(true)}
+                  className="group flex items-center justify-center gap-1.5 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
+                  title="비교함에 담긴 모든 종목을 삭제합니다."
+                >
+                  <svg className="size-[13px] sm:size-[14px] transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  <span>모든 종목 지우기</span>
+                </button>
+              )
+            )}
+          </div>
         </div>
         
         {basket.length > 0 ? (
           <div className="animate-in fade-in duration-300">
-            <EtfCompareChart basket={basket as Etf[]} />
-            <EtfCompareView basket={basket as Etf[]} onRemove={handleRemoveEtf} />
+            <EtfCompareTimeseriesChart
+              basket={basket as Etf[]}
+              isTrMode={isTrMode}
+              onToggleTr={() => setIsTrMode((prev) => !prev)}
+              baseTicker={basket[0]?.ticker}
+              period={period}
+              onPeriodChange={setPeriod}
+              seriesMap={seriesMap}
+              quarantinedMap={quarantinedMap}
+              isLoading={isLoadingSeries}
+              onHoverTicker={setHoveredTicker}
+              focusedTicker={hoveredTicker}
+            />
+            <EtfCompareView
+              basket={basket as Etf[]}
+              onRemove={handleRemoveEtf}
+              isTrMode={isTrMode}
+              onToggleTr={() => setIsTrMode((prev) => !prev)}
+              period={period}
+              seriesMap={seriesMap}
+              focusedTicker={hoveredTicker}
+            />
           </div>
         ) : (
           <div className="py-24 text-center rounded-2xl border border-dashed border-line bg-surface">

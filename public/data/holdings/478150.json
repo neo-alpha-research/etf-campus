@@ -1,184 +1,184 @@
 {
   "ticker": "478150",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "RTX",
-      "weight_pct": 9.18,
+      "weight_pct": 9.3,
       "shares": 311,
       "item_code": "RTX"
     },
     {
       "name": "GE 에어로스페이스",
-      "weight_pct": 8.54,
-      "shares": 173,
+      "weight_pct": 7.38,
+      "shares": 153,
       "item_code": "GE"
     },
     {
       "name": "무그 Class A",
-      "weight_pct": 5.29,
+      "weight_pct": 5.27,
       "shares": 99,
       "item_code": "MOGa"
     },
     {
-      "name": "하우멧 에어로스페이스",
-      "weight_pct": 4.87,
-      "shares": 130,
-      "item_code": "HWM"
-    },
-    {
       "name": "제너럴 다이내믹스",
-      "weight_pct": 4.73,
+      "weight_pct": 4.79,
       "shares": 89,
       "item_code": "GD"
     },
     {
       "name": "ROLLS-ROYCE HOLDINGS PLC",
-      "weight_pct": 4.59,
+      "weight_pct": 4.55,
       "shares": 1576,
       "item_code": null
     },
     {
       "name": "SAFRAN SA",
-      "weight_pct": 4.55,
+      "weight_pct": 4.47,
       "shares": 80,
       "item_code": null
     },
     {
       "name": "록히드 마틴",
-      "weight_pct": 4.17,
+      "weight_pct": 4.2,
       "shares": 53,
       "item_code": "LMT"
     },
     {
-      "name": "AIRBUS SE",
-      "weight_pct": 4.07,
-      "shares": 122,
-      "item_code": null
-    },
-    {
       "name": "노스롭 그루만",
-      "weight_pct": 4.06,
+      "weight_pct": 4.11,
       "shares": 53,
       "item_code": "NOC"
     },
     {
+      "name": "AIRBUS SE",
+      "weight_pct": 4.04,
+      "shares": 122,
+      "item_code": null
+    },
+    {
+      "name": "하우멧 에어로스페이스",
+      "weight_pct": 3.75,
+      "shares": 101,
+      "item_code": "HWM"
+    },
+    {
       "name": "L3 해리스 테크놀러지스",
-      "weight_pct": 3.37,
+      "weight_pct": 3.53,
       "shares": 92,
       "item_code": "LHX"
     },
     {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 3.35,
+      "shares": 128,
+      "item_code": "PLTR.O"
+    },
+    {
       "name": "RHEINMETALL AG",
-      "weight_pct": 2.95,
+      "weight_pct": 2.91,
       "shares": 16,
       "item_code": null
     },
     {
       "name": "트랜스다임 그룹",
-      "weight_pct": 2.85,
+      "weight_pct": 2.86,
       "shares": 17,
       "item_code": "TDG"
     },
     {
       "name": "허니웰 에어로스페이스",
-      "weight_pct": 2.65,
+      "weight_pct": 2.6,
       "shares": 116,
       "item_code": "HONA.O"
     },
     {
       "name": "텔레다인 테크놀로지스",
-      "weight_pct": 2.55,
+      "weight_pct": 2.58,
       "shares": 29,
       "item_code": "TDY"
     },
     {
-      "name": "팔란티어 테크놀로지스",
-      "weight_pct": 2.25,
-      "shares": 91,
-      "item_code": "PLTR.O"
-    },
-    {
-      "name": "액손 엔터프라이스",
-      "weight_pct": 2.2,
-      "shares": 26,
-      "item_code": "AXON.O"
-    },
-    {
       "name": "가와사키중공업",
-      "weight_pct": 2.12,
+      "weight_pct": 2.17,
       "shares": 944,
       "item_code": "7012.T"
     },
     {
       "name": "카펜터 테크놀로지",
-      "weight_pct": 2.02,
+      "weight_pct": 2.06,
       "shares": 30,
       "item_code": "CRS"
     },
     {
       "name": "미쓰비시중공업",
-      "weight_pct": 1.98,
+      "weight_pct": 2.04,
       "shares": 579,
       "item_code": "7011.T"
     },
     {
+      "name": "액손 엔터프라이스",
+      "weight_pct": 1.96,
+      "shares": 26,
+      "item_code": "AXON.O"
+    },
+    {
       "name": "로켓 랩",
-      "weight_pct": 1.82,
+      "weight_pct": 1.8,
       "shares": 198,
       "item_code": "RKLB.O"
     },
     {
       "name": "ATI",
-      "weight_pct": 1.77,
+      "weight_pct": 1.75,
       "shares": 60,
       "item_code": "ATI"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.59,
-      "shares": 15801061,
+      "weight_pct": 1.67,
+      "shares": 15727716,
+      "item_code": null
+    },
+    {
+      "name": "THYSSENKRUPP AG",
+      "weight_pct": 1.41,
+      "shares": 590,
       "item_code": null
     },
     {
       "name": "허니웰 인터내셔널",
-      "weight_pct": 1.41,
+      "weight_pct": 1.4,
       "shares": 46,
       "item_code": "HON.O"
     },
     {
       "name": "SAAB AB-B",
-      "weight_pct": 1.39,
+      "weight_pct": 1.38,
       "shares": 149,
       "item_code": null
     },
     {
-      "name": "THYSSENKRUPP AG",
-      "weight_pct": 1.38,
-      "shares": 590,
-      "item_code": null
-    },
-    {
       "name": "THALES SA",
-      "weight_pct": 1.37,
+      "weight_pct": 1.36,
       "shares": 34,
       "item_code": null
     },
     {
       "name": "커티스 라이트",
-      "weight_pct": 1.29,
+      "weight_pct": 1.26,
       "shares": 15,
       "item_code": "CW"
     },
     {
       "name": "헌팅턴 잉걸스 인더스트리즈",
-      "weight_pct": 1.19,
+      "weight_pct": 1.23,
       "shares": 29,
       "item_code": "HII"
     },
     {
       "name": "크라토스 디펜스 & 시큐리티 솔루션",
-      "weight_pct": 1.18,
+      "weight_pct": 1.15,
       "shares": 161,
       "item_code": "KTOS.O"
     },
@@ -189,38 +189,44 @@
       "item_code": null
     },
     {
-      "name": "FTAI 애비에이션",
-      "weight_pct": 1.09,
-      "shares": 39,
-      "item_code": "FTAI.O"
-    },
-    {
       "name": "BWX 테크놀로지스",
-      "weight_pct": 0.98,
+      "weight_pct": 1.08,
       "shares": 46,
       "item_code": "BWXT.K"
     },
     {
-      "name": "한화에어로스페이스",
-      "weight_pct": 0.92,
-      "shares": 8,
-      "item_code": "012450"
+      "name": "FTAI 애비에이션",
+      "weight_pct": 1.07,
+      "shares": 39,
+      "item_code": "FTAI.O"
+    },
+    {
+      "name": "스페이스X",
+      "weight_pct": 0.99,
+      "shares": 48,
+      "item_code": "SPCX.O"
     },
     {
       "name": "엘빗 시스템즈",
-      "weight_pct": 0.9,
+      "weight_pct": 0.93,
       "shares": 9,
       "item_code": "ESLT.O"
     },
     {
+      "name": "한화에어로스페이스",
+      "weight_pct": 0.87,
+      "shares": 8,
+      "item_code": "012450"
+    },
+    {
       "name": "아처 에비에이션",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 872,
       "item_code": "ACHR.K"
     },
     {
       "name": "한화오션",
-      "weight_pct": 0.71,
+      "weight_pct": 0.69,
       "shares": 79,
       "item_code": "042660"
     }

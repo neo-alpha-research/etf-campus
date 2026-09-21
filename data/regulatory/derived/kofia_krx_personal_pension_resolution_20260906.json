@@ -1,0 +1,3040 @@
+{
+  "version": "1.0",
+  "title": "개인연금(연금저축) 적격성 97종목 전수 해소 및 공적·판매사 교차실증 보고서",
+  "legal_basis": "소득세법 시행령 제40조의2 (연금계좌 내 편입 제한 대상: 레버리지/인버스 배제 원칙)",
+  "total_items": 97,
+  "verified_at": "2026-09-06T23:50:00+09:00",
+  "methodology": "1단계: KRX 기초지수 배율(1x) 및 비레버리지/비인버스 네거티브 필터링, 2단계: KOFIA 및 대형 판매사 유니버스 교차 대조, 3단계: 퇴직연금 안전/위험자산 적격 승인 여부 크로스체크",
+  "items": [
+    {
+      "isin_code": "KR70000Y0004",
+      "short_code": "0000Y0",
+      "ticker_name": "HK 26-12 회사채(AA-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70001P0004",
+      "short_code": "0001P0",
+      "ticker_name": "마이티 바이오시밀러&CDMO액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70002C0008",
+      "short_code": "0002C0",
+      "ticker_name": "에셋플러스 인도일등기업포커스20액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70004G0002",
+      "short_code": "0004G0",
+      "ticker_name": "1Q 미국배당TOP30",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70005G0001",
+      "short_code": "0005G0",
+      "ticker_name": "IBK K-AI반도체코어테크",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70007N0000",
+      "short_code": "0007N0",
+      "ticker_name": "아이엠에셋 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70017Y0005",
+      "short_code": "0017Y0",
+      "ticker_name": "1Q 종합채권(AA-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70026S0002",
+      "short_code": "0026S0",
+      "ticker_name": "1Q 미국S&P500",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70052S0009",
+      "short_code": "0052S0",
+      "ticker_name": "1Q 미국S&P500미국채혼합50액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70052T0008",
+      "short_code": "0052T0",
+      "ticker_name": "1Q 중단기회사채(A-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70053M0004",
+      "short_code": "0053M0",
+      "ticker_name": "더제이 중소형포커스액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70069M0006",
+      "short_code": "0069M0",
+      "ticker_name": "1Q 미국나스닥100",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70073X0007",
+      "short_code": "0073X0",
+      "ticker_name": "FOCUS 알리바바미국채커버드콜혼합",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70083S0002",
+      "short_code": "0083S0",
+      "ticker_name": "1Q 미국메디컬AI",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70094X0002",
+      "short_code": "0094X0",
+      "ticker_name": "1Q 샤오미밸류체인액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70098Z0006",
+      "short_code": "0098Z0",
+      "ticker_name": "FOCUS 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70103T0007",
+      "short_code": "0103T0",
+      "ticker_name": "1Q K소버린AI",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70111P0001",
+      "short_code": "0111P0",
+      "ticker_name": "1Q 미국나스닥100미국채혼합50액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70112X0000",
+      "short_code": "0112X0",
+      "ticker_name": "마이티 200TR",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70113P0009",
+      "short_code": "0113P0",
+      "ticker_name": "HK 머니마켓액티브",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70120J0008",
+      "short_code": "0120J0",
+      "ticker_name": "BNK 카카오그룹포커스",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70131V0009",
+      "short_code": "0131V0",
+      "ticker_name": "1Q 미국우주항공테크",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70131W0008",
+      "short_code": "0131W0",
+      "ticker_name": "1Q 단기특수은행채액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70135Y0002",
+      "short_code": "0135Y0",
+      "ticker_name": "IBK 중기종합채권(AA-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70172V0009",
+      "short_code": "0172V0",
+      "ticker_name": "1Q 은액티브",
+      "asset_class": "원자재",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70174J0003",
+      "short_code": "0174J0",
+      "ticker_name": "DAISHIN 오피스리츠플러스",
+      "asset_class": "리츠·인프라",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70176P0003",
+      "short_code": "0176P0",
+      "ticker_name": "FOCUS AI반도체위클리고정커버드콜",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70178H0001",
+      "short_code": "0178H0",
+      "ticker_name": "IBK 미국AI TOP10국채혼합50",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70182R0003",
+      "short_code": "0182R0",
+      "ticker_name": "1Q K반도체TOP2+",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70182S0002",
+      "short_code": "0182S0",
+      "ticker_name": "1Q K반도체TOP2채권혼합50",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70184E0006",
+      "short_code": "0184E0",
+      "ticker_name": "1Q 200채권혼합50액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70184V0005",
+      "short_code": "0184V0",
+      "ticker_name": "UNICORN K바이오액티브",
+      "asset_class": "혼합·자산배분",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70186S0008",
+      "short_code": "0186S0",
+      "ticker_name": "1Q 코스닥150채권혼합50액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70189Z0006",
+      "short_code": "0189Z0",
+      "ticker_name": "DAISHIN 금융&지주고배당",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70191B0000",
+      "short_code": "0191B0",
+      "ticker_name": "MIDAS 코스닥액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70191M0007",
+      "short_code": "0191M0",
+      "ticker_name": "마이티 5월만기자동연장특수채(AAA)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70191S0001",
+      "short_code": "0191S0",
+      "ticker_name": "IBK 코스닥150",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70193M0005",
+      "short_code": "0193M0",
+      "ticker_name": "BNK 27-12 특수채(AAA이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70206G0008",
+      "short_code": "0206G0",
+      "ticker_name": "1Q 현대차기아채권혼합50",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70208N0007",
+      "short_code": "0208N0",
+      "ticker_name": "IBK 코스피액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70214M0000",
+      "short_code": "0214M0",
+      "ticker_name": "MIDAS 바이오헬스케어액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70218K0008",
+      "short_code": "0218K0",
+      "ticker_name": "BNK 스마트카",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70220A0006",
+      "short_code": "0220A0",
+      "ticker_name": "KIWOOM 현대차그룹TOP3채권혼합50",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E2",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://www.kiwoometf.com/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E2",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70220B0005",
+      "short_code": "0220B0",
+      "ticker_name": "DS 코스닥액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70221V0000",
+      "short_code": "0221V0",
+      "ticker_name": "IBK 초단기채권액티브",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70222F0009",
+      "short_code": "0222F0",
+      "ticker_name": "마이티 AI데이터센터밸류체인",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70224X0005",
+      "short_code": "0224X0",
+      "ticker_name": "1Q 엔비디아알파벳미국채혼합50",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70226D0007",
+      "short_code": "0226D0",
+      "ticker_name": "FOCUS 금융반도체지주채권혼합50액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70229F0002",
+      "short_code": "0229F0",
+      "ticker_name": "마이티 신약포커스바이오액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR70232A0002",
+      "short_code": "0232A0",
+      "ticker_name": "MIDAS 머니마켓액티브",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7108590001",
+      "short_code": "108590",
+      "ticker_name": "TREX 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7140950007",
+      "short_code": "140950",
+      "ticker_name": "파워 코스피100",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7145850004",
+      "short_code": "145850",
+      "ticker_name": "TREX 펀더멘탈 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7152870002",
+      "short_code": "152870",
+      "ticker_name": "파워 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7159800002",
+      "short_code": "159800",
+      "ticker_name": "마이티 코스피100",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7192720001",
+      "short_code": "192720",
+      "ticker_name": "파워 고배당저변동성",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7215620006",
+      "short_code": "215620",
+      "ticker_name": "HK S&P코리아로우볼",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7285690004",
+      "short_code": "285690",
+      "ticker_name": "FOCUS ESG리더스",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7391670007",
+      "short_code": "391670",
+      "ticker_name": "HK 베스트일레븐액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7403790009",
+      "short_code": "403790",
+      "ticker_name": "MIDAS 코스피액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7407820000",
+      "short_code": "407820",
+      "ticker_name": "에셋플러스 코리아플랫폼액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7407830009",
+      "short_code": "407830",
+      "ticker_name": "에셋플러스 글로벌플랫폼액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7433220001",
+      "short_code": "433220",
+      "ticker_name": "에셋플러스 글로벌대장장이액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7433250008",
+      "short_code": "433250",
+      "ticker_name": "UNICORN R&D 액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7434960001",
+      "short_code": "434960",
+      "ticker_name": "DAISHIN K200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7438740003",
+      "short_code": "438740",
+      "ticker_name": "MIDAS 중소형액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7442090007",
+      "short_code": "442090",
+      "ticker_name": "에셋플러스 코리아대장장이액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7442260006",
+      "short_code": "442260",
+      "ticker_name": "마이티 다이나믹퀀트액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7445690001",
+      "short_code": "445690",
+      "ticker_name": "BNK 주주가치액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7448570002",
+      "short_code": "448570",
+      "ticker_name": "FOCUS AI코리아액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7451060008",
+      "short_code": "451060",
+      "ticker_name": "1Q 200액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7451150007",
+      "short_code": "451150",
+      "ticker_name": "에셋플러스 글로벌영에이지액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7457930006",
+      "short_code": "457930",
+      "ticker_name": "BNK 미래전략기술액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7462340001",
+      "short_code": "462340",
+      "ticker_name": "에셋플러스 글로벌다이나믹시니어액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7463290007",
+      "short_code": "463290",
+      "ticker_name": "1Q 단기금융채액티브",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7465780005",
+      "short_code": "465780",
+      "ticker_name": "마이티 26-09 특수채(AAA)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7466810009",
+      "short_code": "466810",
+      "ticker_name": "BNK 2차전지양극재",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7470310004",
+      "short_code": "470310",
+      "ticker_name": "UNICORN 생성형AI강소기업액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7472720002",
+      "short_code": "472720",
+      "ticker_name": "TRUSTON 주주가치액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7472840008",
+      "short_code": "472840",
+      "ticker_name": "IBK 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7472920008",
+      "short_code": "472920",
+      "ticker_name": "HK 종합채권(AA-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7474920006",
+      "short_code": "474920",
+      "ticker_name": "에셋플러스 차이나일등기업포커스10액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7476000005",
+      "short_code": "476000",
+      "ticker_name": "UNICORN 포스트IPO액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7477490007",
+      "short_code": "477490",
+      "ticker_name": "에셋플러스 글로벌일등기업포커스10액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7479080004",
+      "short_code": "479080",
+      "ticker_name": "1Q 머니마켓액티브",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7483570008",
+      "short_code": "483570",
+      "ticker_name": "KCGI 미국S&P500 TOP10",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7486240005",
+      "short_code": "486240",
+      "ticker_name": "DAISHIN AI반도체&인프라액티브",
+      "asset_class": "리츠·인프라",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7487750002",
+      "short_code": "487750",
+      "ticker_name": "BNK 온디바이스AI",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7488290008",
+      "short_code": "488290",
+      "ticker_name": "MIDAS 일본테크액티브",
+      "asset_class": "주식-해외",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7491510004",
+      "short_code": "491510",
+      "ticker_name": "파워 K-주주가치액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7491610002",
+      "short_code": "491610",
+      "ticker_name": "1Q CD금리액티브(합성)",
+      "asset_class": "금리·파킹",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7491700001",
+      "short_code": "491700",
+      "ticker_name": "HK 200",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7492500004",
+      "short_code": "492500",
+      "ticker_name": "1Q 현대차그룹채권(A+이상)&국고통안",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7494220007",
+      "short_code": "494220",
+      "ticker_name": "UNICORN SK하이닉스밸류체인액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7495330003",
+      "short_code": "495330",
+      "ticker_name": "1Q 코리아밸류업",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "E1",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://dis.kofia.or.kr/ 및 https://data.krx.co.kr/",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "E1",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7496130006",
+      "short_code": "496130",
+      "ticker_name": "TRUSTON 코리아밸류업액티브",
+      "asset_class": "주식-국내",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "70% (위험자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    },
+    {
+      "isin_code": "KR7498180009",
+      "short_code": "498180",
+      "ticker_name": "파워 종합채권(AA-이상)액티브",
+      "asset_class": "채권",
+      "elg_status": "ELIGIBLE",
+      "evidence_class": "S",
+      "verified_at": "2026-09-06T23:50:00+09:00",
+      "evidence_source_url": "https://data.krx.co.kr/ 및 소득세법 시행령 제40조의2",
+      "validation_details": {
+        "negative_filter_passed": true,
+        "is_leveraged_or_inverse": false,
+        "retirement_pension_safety_approved": true,
+        "retirement_pension_limit": "100% (안전자산)",
+        "legal_basis": "소득세법 시행령 제40조의2"
+      },
+      "evidence_grade": "S",
+      "verification_history": [
+        {
+          "source_id": "KRX_MASTER",
+          "query_timestamp": "2026-09-06T07:30:15Z",
+          "is_leverage_inverse_detected": false,
+          "normal_listed_yn": "Y"
+        },
+        {
+          "source_id": "KOFIA_STD",
+          "query_timestamp": "2026-09-06T07:45:22Z",
+          "std_code_matched_yn": "Y"
+        }
+      ]
+    }
+  ],
+  "manifest_version": "1.0.0",
+  "data_source_priority": [
+    "KRX_MASTER",
+    "KOFIA_STD",
+    "AMC_WEBPAGE"
+  ],
+  "compliance_rules": {
+    "prohibited_keywords": [
+      "레버리지",
+      "인버스",
+      "Leverage",
+      "Inverse",
+      "2X",
+      "2x",
+      "-2X",
+      "-2x",
+      "곱버스",
+      "선물인버스"
+    ],
+    "exception_allow_keywords": [
+      "합성"
+    ]
+  }
+}

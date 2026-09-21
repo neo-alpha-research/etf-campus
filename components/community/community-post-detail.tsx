@@ -9,6 +9,8 @@ import { CommunityReportDialog } from "@/components/community/community-report-d
 import { LegalDisclaimer } from "@/components/layout/disclaimer";
 import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
 import { CashtagText } from "@/lib/community/cashtag";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const categories = [
   { slug: "free-qna", name: "자유·질문" },
@@ -307,7 +309,6 @@ export function CommunityPostDetail() {
       }
 
       // Local / Mock fallback saving
-      const currentSession = getCommunitySession();
       const newComment: Comment = {
         publicId: "local-comment-" + Date.now(),
         authorNickname: (typeof window !== "undefined" && localStorage.getItem("etf-campus:nickname")) || "ETF투자자",
@@ -420,7 +421,70 @@ export function CommunityPostDetail() {
         </form> : <>
           <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">{post.title}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500"><span>{post.authorNickname}</span><span>{formatDate(post.createdAt)}</span>{post.updatedAt !== post.createdAt ? <span>수정됨</span> : null}{!post.canEdit ? <CommunityReportDialog endpoint={`/api/community/posts/${slug}/report`} targetLabel="게시물" onAuthRequired={() => setAuthOpen(true)} onSubmitted={setMessage} /> : null}</div>
-          <div className="mt-7 whitespace-pre-wrap break-words text-[15px] leading-8 text-slate-800"><CashtagText text={post.bodyText} /></div>
+          <div className="mt-7 text-[15px] leading-8 text-slate-800 break-words">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ children }) => (
+                  <h2 className="mt-7 mb-3 text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-2 first:mt-0">
+                    {children}
+                  </h2>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="mt-7 mb-3 text-lg sm:text-xl font-extrabold text-slate-900 border-b border-slate-100 pb-2 first:mt-0">
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="mt-5 mb-2 text-base sm:text-lg font-bold text-slate-900">
+                    {children}
+                  </h3>
+                ),
+                p: ({ children }) => <p className="mt-3 leading-7 text-slate-800">{children}</p>,
+                ul: ({ children }) => (
+                  <ul className="mt-3 list-disc space-y-1.5 pl-6 text-slate-800 leading-7">
+                    {children}
+                  </ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-slate-800 leading-7">
+                    {children}
+                  </ol>
+                ),
+                li: ({ children }) => <li className="leading-7">{children}</li>,
+                strong: ({ children }) => (
+                  <strong className="font-extrabold text-slate-950">{children}</strong>
+                ),
+                blockquote: ({ children }) => (
+                  <blockquote className="mt-4 rounded-xl border-l-4 border-brand-500 bg-brand-50/70 p-4 text-brand-950 leading-relaxed">
+                    {children}
+                  </blockquote>
+                ),
+                code: ({ children }) => (
+                  <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs font-semibold text-brand-900 border border-slate-200">
+                    {children}
+                  </code>
+                ),
+                table: ({ children }) => (
+                  <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200">
+                    <table className="w-full text-left text-sm">{children}</table>
+                  </div>
+                ),
+                th: ({ children }) => (
+                  <th className="bg-slate-50 px-4 py-2.5 font-extrabold text-slate-900 border-b border-slate-200">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="border-t border-slate-100 px-4 py-2.5 text-slate-700">
+                    {children}
+                  </td>
+                ),
+              }}
+            >
+              {post.bodyText}
+            </ReactMarkdown>
+          </div>
           <div className="mt-6 flex items-center gap-3">
             <button
               type="button"

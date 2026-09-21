@@ -1,113 +1,113 @@
 {
   "ticker": "0100K0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 32.47,
-      "shares": 200,
+      "weight_pct": 32.42,
+      "shares": 175,
       "item_code": "012450"
     },
     {
       "name": "KODEX 방산TOP10",
-      "weight_pct": 28.86,
-      "shares": 18756,
+      "weight_pct": 28.96,
+      "shares": 16597,
       "item_code": "0080G0"
     },
     {
       "name": "한국항공우주",
-      "weight_pct": 26.18,
-      "shares": 1348,
+      "weight_pct": 26.44,
+      "shares": 1193,
       "item_code": "047810"
     },
     {
       "name": "LIG디펜스앤에어로스페이스",
-      "weight_pct": 24.29,
-      "shares": 231,
+      "weight_pct": 24.15,
+      "shares": 204,
       "item_code": "079550"
     },
     {
       "name": "현대로템",
-      "weight_pct": 17.7,
-      "shares": 905,
+      "weight_pct": 17.77,
+      "shares": 800,
       "item_code": "064350"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 12.96,
-      "shares": 1179,
+      "weight_pct": 12.33,
+      "shares": 1020,
       "item_code": "272210"
     },
     {
-      "name": "2026-09 LIG디펜스앤에어로스페이스개별선",
-      "weight_pct": 8.88,
-      "shares": 8,
+      "name": "2026-09 한화에어로스페이스개별선물",
+      "weight_pct": 8.96,
+      "shares": 4,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 한화시스템개별선물",
+      "weight_pct": 8.87,
+      "shares": 73,
       "item_code": null
     },
     {
       "name": "2026-09 현대로템개별선물",
       "weight_pct": 8.87,
-      "shares": 45,
+      "shares": 40,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 LIG디펜스앤에어로스페이스개별선",
+      "weight_pct": 8.84,
+      "shares": 7,
       "item_code": null
     },
     {
       "name": "2026-09 한국항공우주개별선물",
-      "weight_pct": 8.82,
-      "shares": 45,
-      "item_code": null
-    },
-    {
-      "name": "2026-09 한화시스템개별선물",
-      "weight_pct": 8.81,
-      "shares": 80,
-      "item_code": null
-    },
-    {
-      "name": "2026-09 한화에어로스페이스개별선물",
-      "weight_pct": 8.52,
-      "shares": 5,
+      "weight_pct": 8.79,
+      "shares": 40,
       "item_code": null
     },
     {
       "name": "2026-09 풍산개별선물",
-      "weight_pct": 5.83,
-      "shares": 49,
+      "weight_pct": 6.16,
+      "shares": 44,
       "item_code": null
     },
     {
       "name": "풍산",
-      "weight_pct": 3.11,
-      "shares": 266,
+      "weight_pct": 3.15,
+      "shares": 226,
       "item_code": "103140"
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 1.55,
-      "shares": 168,
+      "weight_pct": 1.69,
+      "shares": 149,
       "item_code": "189300"
     },
     {
       "name": "아이쓰리시스템",
-      "weight_pct": 1.43,
-      "shares": 163,
+      "weight_pct": 1.51,
+      "shares": 144,
       "item_code": "214430"
     },
     {
       "name": "엠앤씨솔루션",
-      "weight_pct": 0.65,
-      "shares": 310,
+      "weight_pct": 0.87,
+      "shares": 275,
       "item_code": "484870"
     },
     {
       "name": "스피어",
-      "weight_pct": 0.45,
-      "shares": 140,
+      "weight_pct": 0.43,
+      "shares": 124,
       "item_code": "347700"
     },
     {
       "name": "원화현금",
-      "weight_pct": -49.72,
-      "shares": -352205033,
+      "weight_pct": -49.78,
+      "shares": -275374662,
       "item_code": null
     }
   ]

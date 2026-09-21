@@ -1,112 +1,112 @@
 {
   "ticker": "385600",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 10.48,
+      "weight_pct": 10.27,
       "shares": 223,
       "item_code": "006400"
     },
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 8.84,
-      "shares": 289,
-      "item_code": "373220"
-    },
-    {
       "name": "POSCO홀딩스",
-      "weight_pct": 8.69,
+      "weight_pct": 8.75,
       "shares": 310,
       "item_code": "005490"
     },
     {
+      "name": "LG에너지솔루션",
+      "weight_pct": 8.59,
+      "shares": 289,
+      "item_code": "373220"
+    },
+    {
       "name": "LG전자",
-      "weight_pct": 8.04,
+      "weight_pct": 8.42,
       "shares": 491,
       "item_code": "066570"
     },
     {
       "name": "LG화학",
-      "weight_pct": 7.96,
+      "weight_pct": 8.08,
       "shares": 351,
       "item_code": "051910"
     },
     {
       "name": "기아",
-      "weight_pct": 7.4,
+      "weight_pct": 7.57,
       "shares": 711,
       "item_code": "000270"
     },
     {
-      "name": "현대모비스",
-      "weight_pct": 7.19,
-      "shares": 193,
-      "item_code": "012330"
-    },
-    {
       "name": "삼성전기",
-      "weight_pct": 6.98,
+      "weight_pct": 7.31,
       "shares": 61,
       "item_code": "009150"
     },
     {
+      "name": "현대모비스",
+      "weight_pct": 6.86,
+      "shares": 193,
+      "item_code": "012330"
+    },
+    {
       "name": "현대차",
-      "weight_pct": 6.11,
+      "weight_pct": 6.01,
       "shares": 186,
       "item_code": "005380"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 4.14,
-      "shares": 425,
+      "weight_pct": 4.21,
+      "shares": 463,
       "item_code": "247540"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 4.02,
+      "weight_pct": 3.99,
       "shares": 265,
       "item_code": "003670"
     },
     {
       "name": "한국타이어앤테크놀로지",
-      "weight_pct": 2.97,
+      "weight_pct": 3.07,
       "shares": 548,
       "item_code": "161390"
     },
     {
       "name": "LG유플러스",
-      "weight_pct": 2.53,
+      "weight_pct": 2.65,
       "shares": 2084,
       "item_code": "032640"
     },
     {
       "name": "포스코인터내셔널",
-      "weight_pct": 1.59,
+      "weight_pct": 1.67,
       "shares": 368,
       "item_code": "047050"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.42,
-      "shares": 17303908,
+      "weight_pct": 1.2,
+      "shares": 14055251,
       "item_code": null
     },
     {
-      "name": "서진시스템",
-      "weight_pct": 1.26,
-      "shares": 369,
-      "item_code": "178320"
-    },
-    {
       "name": "한솔케미칼",
-      "weight_pct": 1.2,
+      "weight_pct": 1.17,
       "shares": 71,
       "item_code": "014680"
     },
     {
+      "name": "서진시스템",
+      "weight_pct": 1.05,
+      "shares": 369,
+      "item_code": "178320"
+    },
+    {
       "name": "HL만도",
-      "weight_pct": 1.07,
+      "weight_pct": 1.04,
       "shares": 257,
       "item_code": "204320"
     },
@@ -117,62 +117,62 @@
       "item_code": "357780"
     },
     {
+      "name": "롯데에너지머티리얼즈",
+      "weight_pct": 0.69,
+      "shares": 223,
+      "item_code": "020150"
+    },
+    {
       "name": "태성",
-      "weight_pct": 0.71,
+      "weight_pct": 0.66,
       "shares": 170,
       "item_code": "323280"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 0.66,
+      "weight_pct": 0.62,
       "shares": 87,
       "item_code": "078600"
     },
     {
-      "name": "롯데에너지머티리얼즈",
-      "weight_pct": 0.64,
-      "shares": 223,
-      "item_code": "020150"
-    },
-    {
       "name": "현대위아",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 125,
       "item_code": "011210"
     },
     {
       "name": "삼화콘덴서",
-      "weight_pct": 0.52,
+      "weight_pct": 0.56,
       "shares": 59,
       "item_code": "001820"
     },
     {
       "name": "피엔티",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 153,
       "item_code": "137400"
     },
     {
       "name": "해성디에스",
-      "weight_pct": 0.37,
+      "weight_pct": 0.35,
       "shares": 81,
       "item_code": "195870"
     },
     {
       "name": "나노신소재",
-      "weight_pct": 0.3,
+      "weight_pct": 0.28,
       "shares": 72,
       "item_code": "121600"
     },
     {
       "name": "네패스",
-      "weight_pct": 0.27,
+      "weight_pct": 0.26,
       "shares": 137,
       "item_code": "033640"
     },
     {
       "name": "삼현",
-      "weight_pct": 0.25,
+      "weight_pct": 0.23,
       "shares": 92,
       "item_code": "437730"
     },
@@ -214,13 +214,13 @@
     },
     {
       "name": "상신이디피",
-      "weight_pct": 0.14,
+      "weight_pct": 0.13,
       "shares": 78,
       "item_code": "091580"
     },
     {
       "name": "솔브레인홀딩스",
-      "weight_pct": 0.11,
+      "weight_pct": 0.12,
       "shares": 33,
       "item_code": "036830"
     },
@@ -229,6 +229,12 @@
       "weight_pct": 0.1,
       "shares": 194,
       "item_code": "003720"
+    },
+    {
+      "name": "필에너지",
+      "weight_pct": 0.09,
+      "shares": 97,
+      "item_code": "378340"
     },
     {
       "name": "일진홀딩스",
@@ -243,22 +249,16 @@
       "item_code": "126700"
     },
     {
-      "name": "필에너지",
-      "weight_pct": 0.08,
-      "shares": 97,
-      "item_code": "378340"
-    },
-    {
       "name": "상아프론테크",
       "weight_pct": 0.08,
       "shares": 69,
       "item_code": "089980"
     },
     {
-      "name": "신성에스티",
+      "name": "에코앤드림",
       "weight_pct": 0.08,
-      "shares": 39,
-      "item_code": "416180"
+      "shares": 119,
+      "item_code": "101360"
     },
     {
       "name": "일진하이솔루스",
@@ -267,10 +267,10 @@
       "item_code": "271940"
     },
     {
-      "name": "에코앤드림",
+      "name": "신성에스티",
       "weight_pct": 0.07,
-      "shares": 119,
-      "item_code": "101360"
+      "shares": 39,
+      "item_code": "416180"
     },
     {
       "name": "SJG세종",
@@ -292,21 +292,21 @@
     },
     {
       "name": "메가터치",
-      "weight_pct": 0.04,
+      "weight_pct": 0.05,
       "shares": 80,
       "item_code": "446540"
+    },
+    {
+      "name": "나노팀",
+      "weight_pct": 0.04,
+      "shares": 75,
+      "item_code": "417010"
     },
     {
       "name": "아이티엠반도체",
       "weight_pct": 0.03,
       "shares": 46,
       "item_code": "084850"
-    },
-    {
-      "name": "나노팀",
-      "weight_pct": 0.03,
-      "shares": 75,
-      "item_code": "417010"
     }
   ]
 }

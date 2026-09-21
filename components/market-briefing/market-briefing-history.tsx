@@ -1,4 +1,5 @@
 "use client";
+import { useRef } from "react";
 
 import { useMarketBriefingHistory } from "@/lib/hooks/use-market-briefing-history";
 import { useAuthSession } from "@/components/auth/use-auth-session";
@@ -45,7 +46,7 @@ function InfoTooltip({
         <Info className="h-3 w-3 shrink-0" />
       </button>
       <div
-        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-52 sm:w-56 rounded-xl bg-neutral-900/95 p-2.5 text-[11px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left`}
+        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-52 sm:w-56 max-w-[calc(100vw-32px)] rounded-xl bg-slate-900/98 p-2.5 text-[11px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-md transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left whitespace-normal break-keep`}
       >
         {text}
         <div className={`absolute ${arrowClasses}`} />
@@ -85,13 +86,11 @@ type MarketBriefingHistoryProps = {
 
 export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefingHistoryProps) {
   const { authenticated } = useAuthSession();
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const {
     items,
     isLoading,
-    isLoadingMore,
-    hasMore,
     error,
-    loadMore,
     refresh,
   } = useMarketBriefingHistory({ limit: 5 });
 
@@ -141,7 +140,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
             </div>
 
             <ol className="divide-y divide-[#E8EDE2]">
-              {items.map((item, index) => {
+              {items.filter(item => item.asOfDate >= "2026-08-31").map((item, index) => {
                 const isActive = item.asOfDate === activeDate;
                 const isPastItem = index > 0;
 
@@ -189,18 +188,43 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
             </ol>
           </div>
 
-          {hasMore && (
-            <div className="mt-4 flex justify-center">
+          <div className="mt-5 flex justify-center">
+            <div className="relative inline-flex">
+              <input 
+                ref={dateInputRef}
+                type="date" 
+                id="history-date-picker"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 block"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val) {
+                    if (val < "2026-08-31") {
+                      alert("마켓 브리핑은 2026년 8월 31일부터 정식 제공됩니다.");
+                      e.target.value = "";
+                      return;
+                    }
+                    onSelectDate(val);
+                  }
+                }}
+                min="2026-08-31"
+                max={new Date().toISOString().split('T')[0]}
+                title="2026년 8월 31일 이후의 날짜를 선택하여 과거 브리핑을 조회합니다"
+              />
               <button
                 type="button"
-                onClick={() => void loadMore()}
-                disabled={isLoadingMore}
-                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-4 py-2 text-xs font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60"
+                onClick={() => {
+                  try {
+                    dateInputRef.current?.showPicker();
+                  } catch {
+                    dateInputRef.current?.focus();
+                  }
+                }}
+                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-5 py-2.5 text-[13px] font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] flex items-center gap-2 shadow-sm relative z-20 pointer-events-auto"
               >
-                {isLoadingMore ? "불러오는 중…" : "▾ 지난 마켓 브리핑 더 보기"}
+                📅 달력에서 이전 일자 찾기
               </button>
             </div>
-          )}
+          </div>
         </>
       )}
     </section>

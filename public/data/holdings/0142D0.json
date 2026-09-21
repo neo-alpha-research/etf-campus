@@ -1,71 +1,71 @@
 {
   "ticker": "0142D0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "네비우스 그룹",
-      "weight_pct": 22.16,
+      "weight_pct": 22.04,
       "shares": 387,
       "item_code": "NBIS.O"
     },
     {
       "name": "오라클",
-      "weight_pct": 17.44,
+      "weight_pct": 17.65,
       "shares": 438,
       "item_code": "ORCL.K"
     },
     {
       "name": "코어위브",
-      "weight_pct": 15.18,
+      "weight_pct": 15.05,
       "shares": 645,
       "item_code": "CRWV.O"
     },
     {
       "name": "아이렌",
-      "weight_pct": 14.85,
+      "weight_pct": 14.74,
       "shares": 1404,
       "item_code": "IREN.O"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 8.76,
+      "weight_pct": 8.65,
       "shares": 34,
       "item_code": "LITE.O"
     },
     {
       "name": "버티브 홀딩스",
-      "weight_pct": 6.31,
+      "weight_pct": 6.53,
       "shares": 89,
       "item_code": "VRT"
     },
     {
       "name": "어플라이드 디지털",
-      "weight_pct": 5.77,
+      "weight_pct": 5.56,
       "shares": 803,
       "item_code": "APLD.O"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 4.08,
+      "weight_pct": 4.07,
       "shares": 75,
       "item_code": "ANET.K"
     },
     {
       "name": "셀레스티카",
-      "weight_pct": 2.89,
+      "weight_pct": 2.93,
       "shares": 35,
       "item_code": "CLS"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 2.26,
+      "weight_pct": 2.47,
       "shares": 5,
       "item_code": "SNDK.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.25,
-      "shares": 1323143,
+      "shares": 1229207,
       "item_code": null
     }
   ]

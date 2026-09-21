@@ -1,6 +1,34 @@
 -- 0028_lead_waitlist_hardening.sql
 -- 대기자 테이블 스키마 보강: 캠페인 격리, 동의 버전/시각 추적, 멱등 업데이트 지원
 
+-- 0. migration_baselines 감사 테이블 준비 및 Step 1 사전 행수 기록 (FM-011 준수)
+CREATE TABLE IF NOT EXISTS migration_baselines (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  migration_name TEXT NOT NULL,
+  target_table TEXT NOT NULL,
+  pre_count INTEGER NOT NULL,
+  post_count INTEGER NOT NULL,
+  details TEXT,
+  recorded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO migration_baselines (
+  migration_name,
+  target_table,
+  pre_count,
+  post_count,
+  details,
+  recorded_at
+)
+SELECT
+  '0028_lead_waitlist_hardening',
+  'lead_waitlist',
+  (SELECT COUNT(*) FROM lead_waitlist),
+  -1,
+  'Migration started: pre-change row count captured',
+  datetime('now')
+WHERE EXISTS (SELECT 1 FROM sqlite_master WHERE type='table' AND name='lead_waitlist');
+
 -- 1. 신규 컬럼 증분 추가 (기존 테이블 구조 보존)
 ALTER TABLE lead_waitlist ADD COLUMN campaign TEXT NOT NULL DEFAULT 'challenge_guide_2026';
 ALTER TABLE lead_waitlist ADD COLUMN terms_version TEXT;
@@ -38,3 +66,9 @@ CREATE TABLE IF NOT EXISTS lead_rate_limits (
 CREATE INDEX IF NOT EXISTS idx_lead_rate_limits_reset_at 
 ON lead_rate_limits(reset_at);
 
+-- 5. Step 3: 사후 행수 기록 및 완료 마킹 (FM-011 준수)
+UPDATE migration_baselines
+SET post_count = (SELECT COUNT(*) FROM lead_waitlist),
+    details = 'Migration completed: post-change row count verified',
+    recorded_at = datetime('now')
+WHERE migration_name = '0028_lead_waitlist_hardening';

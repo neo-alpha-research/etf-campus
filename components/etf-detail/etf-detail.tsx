@@ -12,6 +12,7 @@ import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
 import { EtfHoldings } from "./etf-holdings";
 import { ReturnPeriodGrid } from "./return-period-grid";
+import { ChallengeBridgeBanner } from "@/components/learning/challenge-bridge-banner";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 
@@ -373,6 +374,8 @@ export function EtfDetail({
         </section>
 
       </EtfDetailClient>
+
+      <ChallengeBridgeBanner source={`etf_detail_${etf.ticker}`} />
 
       <script dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} type="application/ld+json" />
     </main>

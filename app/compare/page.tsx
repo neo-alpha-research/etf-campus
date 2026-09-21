@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CompareClient } from "@/components/compare/compare-client";
+import { ChallengeBridgeBanner } from "@/components/learning/challenge-bridge-banner";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function ComparePage() {
       <Suspense fallback={<div className="h-36 animate-pulse rounded-2xl border border-line bg-brand-50/60" />}>
         <CompareClient etfs={etfs} />
       </Suspense>
+      <ChallengeBridgeBanner source="compare_page" />
     </main>
   );
 }

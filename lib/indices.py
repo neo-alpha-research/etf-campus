@@ -45,11 +45,18 @@ RAW_SOURCE_TO_CANONICAL: dict[str, str] = {
     # FX
     "KRW=X": "USDKRW",
     "USDKRW": "USDKRW",
-    # Domestic (KRX / ECOS)
+    "FX_USDKRW": "USDKRW",
+    # Domestic (KRX)
     "KOSPI": "KOSPI",
     "KOSDAQ": "KOSDAQ",
     "VKOSPI": "VKOSPI",
     "KR10Y": "KR10Y",
+    "KR10YT=RR": "KR10Y",
+    # Naver Securities Official SSOT Reuters Codes
+    "CLcv1": "CLF",
+    "GCcv1": "GC",
+    "SIcv1": "SI",
+    "US10YT=RR": "DGS10",
 }
 
 # 정규 코드 -> 한글 공식 레이블 매핑

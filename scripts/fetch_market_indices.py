@@ -166,25 +166,6 @@ def get_krx_auth_key() -> str | None:
                     return val
     return None
 
-def get_ecos_api_key() -> str | None:
-    key = os.environ.get("ECOS_API_KEY")
-    if key and key.strip():
-        return key.strip().lstrip("\ufeff")
-    dev_vars = Path(".dev.vars")
-    if dev_vars.exists():
-        for line in dev_vars.read_text(encoding="utf-8").splitlines():
-            if line.startswith("ECOS_API_KEY="):
-                val = line.split("=", 1)[1].strip().lstrip("\ufeff")
-                if val:
-                    return val
-    ecos_file = Path("ecos_key.txt")
-    if ecos_file.exists():
-        for line in ecos_file.read_text(encoding="utf-8").splitlines():
-            line = line.strip().lstrip("\ufeff")
-            if line and not line.startswith("#"):
-                return line
-    return None
-
 def fetch_krx_vkospi(auth_key: str, as_of_date: str, retries: int = 3) -> dict | None:
     query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
     url = f"https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?{query}"
@@ -220,102 +201,6 @@ def fetch_krx_vkospi(auth_key: str, as_of_date: str, retries: int = 3) -> dict |
                 time.sleep(attempt * 1.5)
             else:
                 logging.error(f"KRX VKOSPI API failed after {retries} attempts: {error}")
-                return None
-
-def fetch_ecos_kr10y(api_key: str, target_date_str: str, retries: int = 3) -> dict | None:
-    """한국은행 ECOS Open API를 통해 대한민국 국고채 10년물 금리를 수집합니다."""
-    target_date = datetime.strptime(target_date_str, "%Y%m%d")
-    start_date = (target_date - timedelta(days=20)).strftime("%Y%m%d")
-    end_date = target_date.strftime("%Y%m%d")
-    url = f"https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/30/817Y002/D/{start_date}/{end_date}/010210000"
-
-    req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0"})
-    for attempt in range(1, retries + 1):
-        try:
-            with urllib.request.urlopen(req, timeout=25) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-
-            rows = payload.get("StatisticSearch", {}).get("row", [])
-            if not rows:
-                logging.warning(f"ECOS returned no rows for 국고채(10년) between {start_date} and {end_date}")
-                return None
-
-            valid_rows = [r for r in rows if r.get("TIME") and r.get("DATA_VALUE") and r.get("TIME") <= target_date_str]
-            if not valid_rows:
-                logging.warning(f"No valid ECOS rows found up to {target_date_str}")
-                return None
-
-            latest_row = valid_rows[-1]
-            price = float(latest_row["DATA_VALUE"])
-
-            change_points = 0.0
-            if len(valid_rows) >= 2:
-                prev_row = valid_rows[-2]
-                prev_price = float(prev_row["DATA_VALUE"])
-                change_points = round(price - prev_price, 3)
-
-            return {
-                "label": "국채 10년",
-                "code": "KR10Y",
-                "value": price,
-                "change": change_points,
-                "changePoints": change_points,
-                "as_of_date": iso_date(latest_row["TIME"]),
-            }
-        except Exception as error:
-            if attempt < retries:
-                logging.warning(f"ECOS KR10Y attempt {attempt} failed ({error}). Retrying...")
-                time.sleep(attempt * 1.5)
-            else:
-                logging.error(f"ECOS KR10Y fetch failed after {retries} attempts: {error}")
-                return None
-
-def fetch_ecos_usdkrw(api_key: str, target_date_str: str, retries: int = 3) -> dict | None:
-    """한국은행 ECOS Open API를 통해 원/달러 공식 매매기준율을 수집합니다."""
-    target_date = datetime.strptime(target_date_str, "%Y%m%d")
-    start_date = (target_date - timedelta(days=20)).strftime("%Y%m%d")
-    end_date = target_date.strftime("%Y%m%d")
-    url = f"https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/30/731Y001/D/{start_date}/{end_date}/0000001"
-
-    req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0"})
-    for attempt in range(1, retries + 1):
-        try:
-            with urllib.request.urlopen(req, timeout=25) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-
-            rows = payload.get("StatisticSearch", {}).get("row", [])
-            if not rows:
-                return None
-
-            valid_rows = [r for r in rows if r.get("TIME") and r.get("DATA_VALUE") and r.get("TIME") <= target_date_str]
-            if not valid_rows:
-                return None
-
-            latest_row = valid_rows[-1]
-            price = float(latest_row["DATA_VALUE"])
-
-            change_pct = 0.0
-            change_points = 0.0
-            if len(valid_rows) >= 2:
-                prev_row = valid_rows[-2]
-                prev_price = float(prev_row["DATA_VALUE"])
-                change_points = round(price - prev_price, 2)
-                change_pct = round((price - prev_price) / prev_price * 100, 2)
-
-            return {
-                "label": "원/달러",
-                "code": "KRW=X",
-                "value": price,
-                "change": change_pct,
-                "changePoints": change_points,
-                "as_of_date": iso_date(latest_row["TIME"]),
-                "is_closed": False,
-            }
-        except Exception as error:
-            if attempt < retries:
-                time.sleep(attempt * 1.5)
-            else:
-                logging.warning(f"ECOS USD/KRW fetch failed after {retries} attempts: {error}")
                 return None
 
 
@@ -412,8 +297,7 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str, retries: int = 3)
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     }
 
-    is_kr_fx = ticker_symbol == "KRW=X"
-    tz = ZoneInfo("Asia/Seoul") if is_kr_fx else ZoneInfo("America/New_York")
+    tz = ZoneInfo("America/New_York")
 
     for attempt in range(1, retries + 1):
         try:
@@ -454,22 +338,14 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str, retries: int = 3)
             if price is None or prev_close is None:
                 return None
 
-            if ticker_symbol == "^TNX":
-                change_val = round(price - prev_close, 3)
-                change_points = round(price - prev_close, 3)
-            else:
-                change_val = round(((price - prev_close) / prev_close) * 100, 2)
-                change_points = round(price - prev_close, 2)
+            change_val = round(((price - prev_close) / prev_close) * 100, 2)
+            change_points = round(price - prev_close, 2)
 
             iso_target = f"{target_date_str[:4]}-{target_date_str[4:6]}-{target_date_str[6:8]}"
-
-            if is_kr_fx:
-                is_closed = bool(target_date_actual) and target_date_actual < iso_target
-            else:
-                is_closed = (
-                    iso_target in US_MARKET_HOLIDAYS_2026
-                    or (bool(target_date_actual) and target_date_actual < iso_target)
-                )
+            is_closed = (
+                iso_target in US_MARKET_HOLIDAYS_2026
+                or (bool(target_date_actual) and target_date_actual < iso_target)
+            )
 
             return {
                 "value": round(price, 2),
@@ -520,7 +396,6 @@ def main():
     iso_target = iso_date(target_date_str)
 
     krx_auth_key = get_krx_auth_key()
-    ecos_api_key = get_ecos_api_key()
 
     # Load existing indices snapshot for fallback and duplicate checking
     out_path = Path("data/market_indices.json")
@@ -577,12 +452,9 @@ def main():
             else:
                 failed_labels.append(label)
 
-    # 2. 국내 국채 10년물 (1차: 네이버 증권 공식 마감 SSOT, 2차: ECOS, 3차: 스냅샷 Fallback)
+    # 2. 국내 국채 10년물 (네이버 증권 공식 마감 종가 SSOT)
+    logging.info("Fetching 국채 10년 (KR10YT=RR) from Naver...")
     kr10y_data = fetch_naver_bond("KR10YT=RR", iso_target)
-    if not kr10y_data and ecos_api_key:
-        logging.info("Naver KR10Y failed, attempting ECOS fallback...")
-        kr10y_data = fetch_ecos_kr10y(ecos_api_key, target_date_str)
-
     if kr10y_data:
         kr10y_data["label"] = "국채 10년"
         kr10y_data["code"] = "KR10Y"
@@ -595,16 +467,9 @@ def main():
     else:
         failed_labels.append("국채 10년")
 
-    # 3. 원/달러 (1차: 네이버 증권 공식 일별 마감 SSOT, 2차: ECOS, 3차: Yahoo, 4차: 스냅샷 Fallback)
+    # 3. 원/달러 (네이버 증권 공식 일별 마감 SSOT)
     logging.info("Fetching 원/달러 (USD/KRW) official rate from Naver...")
     usdkrw_data = fetch_naver_market_index("exchange", "FX_USDKRW", iso_target)
-    if not usdkrw_data and ecos_api_key:
-        logging.info("Naver USD/KRW failed, attempting ECOS fallback...")
-        usdkrw_data = fetch_ecos_usdkrw(ecos_api_key, target_date_str)
-    if not usdkrw_data:
-        logging.info("Fetching 원/달러 (KRW=X) fallback from Yahoo Finance...")
-        usdkrw_data = fetch_index_data("KRW=X", target_date_str)
-
     if usdkrw_data:
         usdkrw_data["label"] = "원/달러"
         usdkrw_data["code"] = "USDKRW"
@@ -638,13 +503,9 @@ def main():
         else:
             failed_labels.append(label)
 
-    # 5. 미국 국채 10년물 (1차: 네이버 증권 공식 마감 SSOT, 2차: Yahoo ^TNX, 3차: 스냅샷 Fallback)
+    # 5. 미국 국채 10년물 (네이버 증권 공식 마감 종가 SSOT)
     logging.info("Fetching 미 국채 10년물 (US10YT=RR) from Naver...")
     us10y_data = fetch_naver_bond("US10YT=RR", iso_target)
-    if not us10y_data:
-        logging.info("Naver US10Y failed, attempting Yahoo ^TNX fallback...")
-        us10y_data = fetch_index_data("^TNX", target_date_str)
-
     if us10y_data:
         us10y_data["label"] = "미 국채 10년물"
         us10y_data["code"] = "DGS10"

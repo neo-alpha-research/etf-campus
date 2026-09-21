@@ -204,7 +204,6 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: python scripts/fetch_market_indices.py
 
       - name: Detect publishable data changes

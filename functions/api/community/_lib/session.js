@@ -1,4 +1,4 @@
-import { publicSupabase } from "./supabase";
+import { publicSupabase, adminSupabase } from "./supabase";
 import { errorResponse } from "../_lib/api-security";
 
 const ACCESS_COOKIE = "__Host-etf-campus-community-at";
@@ -210,4 +210,20 @@ export async function authenticatedSession(context) {
     return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") };
   }
 }
+
+export async function checkProfileConfigured(env, userId) {
+  try {
+    const admin = adminSupabase(env);
+    const { data } = await admin
+      .from("user_profiles")
+      .select("public_nickname, terms_version")
+      .eq("id", userId)
+      .maybeSingle();
+
+    return Boolean(data?.public_nickname && data?.terms_version);
+  } catch {
+    return false;
+  }
+}
+
 export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE, PWSETUP_COOKIE };

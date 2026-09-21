@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   parseJsonBody: vi.fn(),
   verifyTurnstile: vi.fn(),
   enforceDatabaseRateLimit: vi.fn(),
+  checkProfileConfigured: vi.fn(),
 }));
 
 vi.mock("../_lib/supabase", () => ({
@@ -25,6 +26,7 @@ vi.mock("../_lib/api-security", () => ({
 
 vi.mock("../_lib/session", () => ({
   sessionHeaders: () => new Headers(),
+  checkProfileConfigured: mocks.checkProfileConfigured,
 }));
 
 import { onRequestPost } from "./login-password.js";
@@ -58,5 +60,44 @@ describe("로그인 열거 방지", () => {
     expect(response1.status).toBe(401);
     expect(response2.status).toBe(401);
     expect(body1).toEqual(body2);
+  });
+
+  it("로그인 성공 시 profileConfigured: true와 200 상태코드를 반환한다", async () => {
+    mocks.parseJsonBody.mockResolvedValue({ email: "user@example.com", password: "correct-password" });
+    mocks.verifyTurnstile.mockResolvedValue(null);
+    mocks.enforceDatabaseRateLimit.mockResolvedValue(null);
+    mocks.signInWithPassword.mockResolvedValueOnce({
+      error: null,
+      data: {
+        session: { access_token: "access_123", refresh_token: "refresh_123" },
+        user: { id: "user_uuid_123", email: "user@example.com" },
+      },
+    });
+    mocks.checkProfileConfigured.mockResolvedValueOnce(true);
+
+    const response = await onRequestPost(requestContext());
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body).toEqual({ authenticated: true, profileConfigured: true });
+    expect(mocks.checkProfileConfigured).toHaveBeenCalledWith(expect.anything(), "user_uuid_123");
+  });
+
+  it("온보딩 미완료 계정 로그인 성공 시 profileConfigured: false를 반환한다", async () => {
+    mocks.parseJsonBody.mockResolvedValue({ email: "new@example.com", password: "correct-password" });
+    mocks.verifyTurnstile.mockResolvedValue(null);
+    mocks.enforceDatabaseRateLimit.mockResolvedValue(null);
+    mocks.signInWithPassword.mockResolvedValueOnce({
+      error: null,
+      data: {
+        session: { access_token: "access_456", refresh_token: "refresh_456" },
+        user: { id: "user_uuid_456", email: "new@example.com" },
+      },
+    });
+    mocks.checkProfileConfigured.mockResolvedValueOnce(false);
+
+    const response = await onRequestPost(requestContext());
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body).toEqual({ authenticated: true, profileConfigured: false });
   });
 });

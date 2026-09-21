@@ -1,7 +1,7 @@
 import { publicSupabase } from "../_lib/supabase";
 import { parseJsonBody, verifyTurnstile, enforceDatabaseRateLimit } from "../_lib/request-security";
 import { errorResponse, jsonResponse } from "../_lib/api-security";
-import { sessionHeaders, readPasswordSetup } from "../_lib/session";
+import { sessionHeaders, readPasswordSetup, checkProfileConfigured } from "../_lib/session";
 
 const PWSETUP_COOKIE_CLEAR = "__Host-etf-campus-community-pwsetup=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0";
 
@@ -20,16 +20,18 @@ export async function onRequestPost(context) {
     const setupData = readPasswordSetup(context.request);
     if (!setupData) return errorResponse(401, "AUTH_REQUIRED", "세션이 만료되었습니다. 다시 시도해 주세요.");
 
-    const captchaError = await verifyTurnstile(context, payload?.captchaToken, "community_password_set");
-    if (captchaError) return captchaError;
-
-    const ipLimit = await enforceDatabaseRateLimit(context, "password-set-ip", context.request.headers.get("CF-Connecting-IP") ?? "unknown", 10, 600);
-    if (ipLimit) return clearPwSetup(ipLimit);
-
     const cookieHeader = context.request.headers.get("Cookie") || "";
     const match = cookieHeader.match(/__Host-etf-campus-community-pwsetup=([^;]+)/);
     const tokenString = match ? match[1] : "";
-    const tokenLimit = await enforceDatabaseRateLimit(context, "password-set-token", tokenString, 1, 600);
+
+    const [captchaError, ipLimit, tokenLimit] = await Promise.all([
+      verifyTurnstile(context, payload?.captchaToken, "community_password_set"),
+      enforceDatabaseRateLimit(context, "password-set-ip", context.request.headers.get("CF-Connecting-IP") ?? "unknown", 10, 600),
+      enforceDatabaseRateLimit(context, "password-set-token", tokenString, 1, 600),
+    ]);
+
+    if (captchaError) return captchaError;
+    if (ipLimit) return clearPwSetup(ipLimit);
     if (tokenLimit) {
       const response = tokenLimit.status === 429
         ? errorResponse(429, "RATE_LIMITED", "이미 사용된 인증입니다. 처음부터 다시 시도해 주세요.")
@@ -70,11 +72,12 @@ export async function onRequestPost(context) {
       return clearPwSetup(response);
     }
 
+    const profileConfigured = await checkProfileConfigured(context.env, signInData.user.id);
     const headers = sessionHeaders(signInData.session, undefined, setupData.rememberMe);
     headers.set("Content-Type", "application/json");
     headers.append("Set-Cookie", PWSETUP_COOKIE_CLEAR);
 
-    return new Response(JSON.stringify({ authenticated: true }), { status: 200, headers });
+    return new Response(JSON.stringify({ authenticated: true, profileConfigured }), { status: 200, headers });
 
   } catch (err) {
     console.error("set-password unhandled error:", err?.message ?? String(err));

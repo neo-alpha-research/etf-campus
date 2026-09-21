@@ -1,5 +1,5 @@
 import { adminSupabase, publicSupabase } from "./supabase";
-import { sessionHeaders } from "./session";
+import { sessionHeaders, checkProfileConfigured } from "./session";
 import { clearOAuthStateCookie, hashTxId } from "./oauth-state";
 
 function textEncoder() {
@@ -161,20 +161,7 @@ export async function issueBridgeSession(env, { authEmail, userId }) {
   return verifyResult.data.session;
 }
 
-export async function checkProfileConfigured(env, userId) {
-  try {
-    const admin = adminSupabase(env);
-    const { data } = await admin
-      .from("user_profiles")
-      .select("public_nickname, terms_version")
-      .eq("id", userId)
-      .maybeSingle();
-
-    return Boolean(data?.public_nickname && data?.terms_version);
-  } catch {
-    return false;
-  }
-}
+export { checkProfileConfigured };
 
 export function oauthSuccessRedirect(session, destination, rememberMe) {
   const headers = sessionHeaders(session, undefined, rememberMe);

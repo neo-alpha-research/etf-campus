@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
-import { communityFetch, markCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
+import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
 
 type Props = {
   initialStep?: Step;
@@ -42,7 +42,13 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(() => getInitialErrorMessage(initialError));
+  const [prevInitialError, setPrevInitialError] = useState(initialError);
   const [rememberMe, setRememberMe] = useState(true);
+
+  if (initialError !== prevInitialError) {
+    setPrevInitialError(initialError);
+    setMessage(getInitialErrorMessage(initialError));
+  }
   
   const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
@@ -89,7 +95,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+      if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
         const userEmail = email || "neo.alpharesearch@gmail.com";
         const nickname = userEmail.split("@")[0] || "테스트투자자";
         try {
@@ -99,16 +105,13 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         onAuthenticated();
         return;
       }
-      await communityFetch("/api/community/auth/login-password", {
+      const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/login-password", {
         method: "POST",
         body: JSON.stringify({ email, password, rememberMe, captchaToken: loginCaptchaToken }),
       });
       markCommunitySession();
-      await refreshCommunitySession();
-      const profile = await communityFetch("/api/community/auth/profile");
-      if (profile.profileConfigured) {
+      if (res.profileConfigured !== false) {
         onAuthenticated();
-
       } else {
         setStep("profile");
       }
@@ -173,16 +176,13 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      await communityFetch("/api/community/auth/set-password", {
+      const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/set-password", {
         method: "POST",
         body: JSON.stringify({ password, captchaToken: passwordCaptchaToken }),
       });
       markCommunitySession();
-      await refreshCommunitySession();
-      const profile = await communityFetch("/api/community/auth/profile");
-      if (profile.profileConfigured) {
+      if (res.profileConfigured) {
         onAuthenticated();
-
       } else {
         setStep("profile");
       }

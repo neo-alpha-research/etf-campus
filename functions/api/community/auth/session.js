@@ -1,4 +1,5 @@
 import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
+import { adminSupabase } from "../_lib/supabase";
 import { jsonResponse } from "../_lib/api-security";
 
 export async function onRequestGet(context) {
@@ -9,12 +10,26 @@ export async function onRequestGet(context) {
     (session.user.email.includes("@oauth.") || session.user?.app_metadata?.auth_bridge === "oauth-v1");
   const exposedEmail = isInternalOAuthEmail ? null : session.user?.email;
 
+  let displayName = null;
+  try {
+    const admin = adminSupabase(context.env);
+    const { data: profile } = await admin
+      .from("user_profiles")
+      .select("public_nickname")
+      .eq("id", session.user.id)
+      .maybeSingle();
+    displayName = profile?.public_nickname ?? null;
+  } catch {
+    // Graceful fallback if profile lookup fails
+  }
+
   return mergeSessionHeaders(
     jsonResponse({ 
       authenticated: true,
       user: {
         id: session.user.id,
         email: exposedEmail,
+        displayName,
         isOAuth: Boolean(isInternalOAuthEmail),
       }
     }), 

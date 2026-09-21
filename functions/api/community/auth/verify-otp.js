@@ -13,11 +13,14 @@ export async function onRequestPost(context) {
   const token = typeof payload?.token === "string" ? payload.token.trim() : "";
   if (!EMAIL_PATTERN.test(email) || !OTP_PATTERN.test(token)) return errorResponse(400, "VALIDATION_ERROR", "이메일과 8자리 인증 코드를 확인해 주세요.");
 
-  const captchaError = await verifyTurnstile(context, payload?.captchaToken, "community_otp_verify");
+  const [captchaError, emailLimit, ipLimit] = await Promise.all([
+    verifyTurnstile(context, payload?.captchaToken, "community_otp_verify"),
+    enforceDatabaseRateLimit(context, "otp-verify-email", email, 5, 600),
+    enforceDatabaseRateLimit(context, "otp-verify-ip", context.request.headers.get("CF-Connecting-IP") ?? "unknown", 10, 600),
+  ]);
+
   if (captchaError) return captchaError;
-  const emailLimit = await enforceDatabaseRateLimit(context, "otp-verify-email", email, 5, 600);
   if (emailLimit) return emailLimit;
-  const ipLimit = await enforceDatabaseRateLimit(context, "otp-verify-ip", context.request.headers.get("CF-Connecting-IP") ?? "unknown", 10, 600);
   if (ipLimit) return ipLimit;
 
   try {

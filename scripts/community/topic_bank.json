@@ -423,8 +423,8 @@
     {
       "id": "sca-028",
       "board": "stock-cost-analysis",
-      "title": "레버리지·인버스 ETF를 연금 계좌에 넣으면 안 되는 이유",
-      "excerpt": "레버리지·인버스 ETF의 일별 복리 음의 효과(Volatility Decay), 연금 계좌 미편입 이유를 설명합니다.",
+      "title": "레버리지·인버스 ETF를 연금 계좌에 넣으면 안 되는 이유 (제도적 편입 불가 규정 및 ISA 차이 총정리)",
+      "excerpt": "연금 계좌(DC·IRP·연금저축)의 레버리지/인버스 편입 불가 법적 근거(퇴직연금감독규정)와 일별 복리 음의 효과(Volatility Decay), 중개형 ISA 거래 요건을 심층 분석합니다.",
       "verified_tickers": [],
       "tags": [
         "레버리지",

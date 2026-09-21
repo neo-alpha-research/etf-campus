@@ -217,7 +217,11 @@ def generate_post(topic: dict, date_str: str) -> dict:
         "stock-cost-analysis": [
             f"비용 비교 잘 정리해 주셨어요. 실부담비용 기준으로 봐야 한다는 점 공감합니다.",
             f"추적오차까지 고려해야 한다는 걸 몰랐는데 배웠습니다.",
-            f"{tags[0] if tags else 'ETF'} 분석 감사합니다. 연금 계좌에서도 적용 가능한 내용이네요.",
+            (
+                "제도적 차이점과 거래 시 유의사항을 명확히 짚어주셔서 많은 도움이 되었습니다."
+                if any(k in (tags + [title]) for k in ["레버리지", "인버스", "편입 불가", "금지"])
+                else f"{tags[0] if tags else 'ETF'} 분석 감사합니다. 핵심 데이터와 비용 구조 비교가 유익하네요."
+            ),
         ],
     }
     templates = comment_templates.get(board, comment_templates["free-qna"])

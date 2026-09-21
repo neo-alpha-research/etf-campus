@@ -80,14 +80,15 @@ export async function onRequestGet(context) {
       subject: identity.subject,
     });
 
-    // 7. Issue genuine Supabase session via generateLink/verify loopback
-    const session = await issueBridgeSession(context.env, {
-      authEmail: userResolution.authEmail,
-      userId: userResolution.userId,
-    });
+    // 7. & 8. Issue genuine Supabase session and check profile in parallel
+    const [session, profileConfigured] = await Promise.all([
+      issueBridgeSession(context.env, {
+        authEmail: userResolution.authEmail,
+        userId: userResolution.userId,
+      }),
+      checkProfileConfigured(context.env, userResolution.userId),
+    ]);
 
-    // 8. Determine destination
-    const profileConfigured = await checkProfileConfigured(context.env, userResolution.userId);
     const returnTo = safeReturnTo(transaction.return_to, "/");
 
     let destination = returnTo;

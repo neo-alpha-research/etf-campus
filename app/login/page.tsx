@@ -14,17 +14,20 @@ function LoginContent() {
   const initialError = searchParams.get("error") || undefined;
 
   return (
-    <div className="mx-auto w-full max-w-md px-4 py-16">
-      <SupabaseAuthFlow
-        initialStep={initialStep}
-        returnTo={returnTo}
-        initialError={initialError}
-        onAuthenticated={() => {
-          router.replace(returnTo);
-          router.refresh();
-        }}
-      />
-    </div>
+    <>
+      <link rel="preconnect" href="https://challenges.cloudflare.com" />
+      <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+      <div className="mx-auto w-full max-w-md px-4 py-16">
+        <SupabaseAuthFlow
+          initialStep={initialStep}
+          returnTo={returnTo}
+          initialError={initialError}
+          onAuthenticated={() => {
+            router.replace(returnTo);
+          }}
+        />
+      </div>
+    </>
   );
 }
 

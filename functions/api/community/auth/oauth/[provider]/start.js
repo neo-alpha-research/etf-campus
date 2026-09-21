@@ -16,12 +16,13 @@ export async function onRequestPost(context) {
     return errorResponse(400, "INVALID_PROVIDER", "지원하지 않는 소셜 로그인 제공자입니다.");
   }
 
-  // 1. Rate limiting by IP
   const ip = context.request.headers.get("CF-Connecting-IP") || "unknown";
-  const rateLimitError = await enforceDatabaseRateLimit(context, "oauth-start-ip", ip, 30, 600);
+  const [rateLimitError, payload] = await Promise.all([
+    enforceDatabaseRateLimit(context, "oauth-start-ip", ip, 30, 600),
+    parseJsonBody(context.request),
+  ]);
   if (rateLimitError) return rateLimitError;
 
-  const payload = await parseJsonBody(context.request);
   const rawReturnTo = payload?.returnTo;
   const returnTo = safeReturnTo(rawReturnTo, "/");
   const rememberMe = payload?.rememberMe !== false;
@@ -35,17 +36,7 @@ export async function onRequestPost(context) {
     // 2. Build provider authorization URL
     const authorizationUrl = adapter.getAuthorizationUrl(context.env, txId, callbackUri);
 
-    // 3. Record transaction in database
-    await recordTransaction(context.env, {
-      txId,
-      provider,
-      origin,
-      returnTo,
-      rememberMe,
-      mode: "login",
-    });
-
-    // 4. Issue signed __Host-oauth-state cookie
+    // 3. Issue signed state and record transaction concurrently
     const statePayload = {
       version: 1,
       txId,
@@ -55,7 +46,18 @@ export async function onRequestPost(context) {
     };
 
     const secret = context.env.OAUTH_STATE_HMAC_SECRET || "dev-oauth-state-hmac-secret-default";
-    const signedState = await signOAuthState(secret, statePayload);
+    const [, signedState] = await Promise.all([
+      recordTransaction(context.env, {
+        txId,
+        provider,
+        origin,
+        returnTo,
+        rememberMe,
+        mode: "login",
+      }),
+      signOAuthState(secret, statePayload),
+    ]);
+
     const stateCookie = createOAuthStateCookie(signedState, 600);
 
     const headers = new Headers({

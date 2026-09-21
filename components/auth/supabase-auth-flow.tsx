@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { mutate } from "swr";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
 import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
 
@@ -56,10 +57,22 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [passwordCaptchaToken, setPasswordCaptchaToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
 
+  const [oauthLoading, setOauthLoading] = useState<"kakao" | "naver" | null>(null);
+  const pendingLoginTokenRef = useRef<((tok: string) => void) | null>(null);
+
+  function handleLoginToken(token: string | null) {
+    setLoginCaptchaToken(token);
+    if (token && pendingLoginTokenRef.current) {
+      pendingLoginTokenRef.current(token);
+      pendingLoginTokenRef.current = null;
+    }
+  }
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   async function startOAuth(provider: "kakao" | "naver") {
+    setOauthLoading(provider);
     setLoading(true);
     setMessage("");
     try {
@@ -70,6 +83,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
           localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname: localNickname, authenticated: true }));
         } catch {}
         markCommunitySession();
+        void mutate("/api/community/auth/session");
         onAuthenticated();
         return;
       }
@@ -86,12 +100,14 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "소셜 로그인을 시작할 수 없습니다.");
+      setOauthLoading(null);
       setLoading(false);
     }
   }
 
   async function loginPassword(event: React.FormEvent) {
     event.preventDefault();
+    if (!email.trim() || !password) return;
     setLoading(true);
     setMessage("");
     try {
@@ -102,14 +118,32 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
           localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname, authenticated: true }));
         } catch {}
         markCommunitySession();
+        void mutate("/api/community/auth/session");
         onAuthenticated();
         return;
       }
+
+      let activeToken = loginCaptchaToken;
+      if (!activeToken) {
+        activeToken = await new Promise<string>((resolve, reject) => {
+          const timer = setTimeout(() => {
+            pendingLoginTokenRef.current = null;
+            reject(new Error("보안 확인 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."));
+          }, 4000);
+
+          pendingLoginTokenRef.current = (tok: string) => {
+            clearTimeout(timer);
+            resolve(tok);
+          };
+        });
+      }
+
       const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/login-password", {
         method: "POST",
-        body: JSON.stringify({ email, password, rememberMe, captchaToken: loginCaptchaToken }),
+        body: JSON.stringify({ email, password, rememberMe, captchaToken: activeToken }),
       });
       markCommunitySession();
+      void mutate("/api/community/auth/session");
       if (res.profileConfigured !== false) {
         onAuthenticated();
       } else {
@@ -120,6 +154,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setLoginCaptchaToken(null);
       setCaptchaKey(k => k + 1);
     } finally {
+      pendingLoginTokenRef.current = null;
       setLoading(false);
     }
   }
@@ -181,6 +216,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         body: JSON.stringify({ password, captchaToken: passwordCaptchaToken }),
       });
       markCommunitySession();
+      void mutate("/api/community/auth/session");
       if (res.profileConfigured) {
         onAuthenticated();
       } else {
@@ -225,6 +261,8 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
           utmCampaign
         }),
       });
+      markCommunitySession();
+      void mutate("/api/community/auth/session");
       setStep("onboarding");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "프로필을 저장하지 못했습니다.");
@@ -242,6 +280,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         method: "POST",
         body: JSON.stringify({ ageBand, interestAccountType }),
       });
+      void mutate("/api/community/auth/session");
       onAuthenticated();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "온보딩 정보를 저장하지 못했습니다.");
@@ -251,6 +290,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   }
 
   function skipOnboarding() {
+    void mutate("/api/community/auth/session");
     onAuthenticated();
   }
 
@@ -278,10 +318,22 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 disabled={loading}
                 className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#FEE500] px-4 text-[15px] font-bold text-[#191919] shadow-sm transition hover:bg-[#FDD800] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
               >
-                <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 3C6.477 3 2 6.477 2 10.771c0 2.766 1.859 5.187 4.673 6.556l-1.189 4.354a.428.428 0 0 0 .61.478l5.228-3.468c.224.02.45.03.678.03 5.523 0 10-3.478 10-7.771C22 6.477 17.523 3 12 3z" />
-                </svg>
-                <span>카카오로 3초 만에 시작하기</span>
+                {oauthLoading === "kakao" ? (
+                  <>
+                    <svg className="h-5 w-5 animate-spin text-[#191919]" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>카카오 연결 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 3C6.477 3 2 6.477 2 10.771c0 2.766 1.859 5.187 4.673 6.556l-1.189 4.354a.428.428 0 0 0 .61.478l5.228-3.468c.224.02.45.03.678.03 5.523 0 10-3.478 10-7.771C22 6.477 17.523 3 12 3z" />
+                    </svg>
+                    <span>카카오로 3초 만에 시작하기</span>
+                  </>
+                )}
               </button>
 
               <button
@@ -290,10 +342,22 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 disabled={loading}
                 className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#03C75A] px-4 text-[15px] font-bold text-white shadow-sm transition hover:bg-[#02b350] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
               >
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
-                </svg>
-                <span>네이버로 시작하기</span>
+                {oauthLoading === "naver" ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>네이버 연결 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
+                    </svg>
+                    <span>네이버로 시작하기</span>
+                  </>
+                )}
               </button>
             </div>
 
@@ -322,8 +386,24 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
                 <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
               </label>
-              <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
-              <button disabled={loading || (typeof window !== "undefined" && window.location.hostname === "localhost" ? false : loginCaptchaToken === null)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer">{loading ? "로그인 중" : "이메일 로그인"}</button>
+              <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={handleLoginToken} />
+              <button
+                type="submit"
+                disabled={loading || !email.trim() || !password}
+                className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>보안 확인 및 로그인 중...</span>
+                  </>
+                ) : (
+                  "이메일 로그인"
+                )}
+              </button>
               <div className="mt-4 text-center">
                 <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
               </div>

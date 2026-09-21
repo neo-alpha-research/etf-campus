@@ -45,15 +45,45 @@ export function AuthNav() {
     };
   }, [isOpen, closeMenu]);
 
-  // Close on Escape key
+  // Close on Escape, Tab and navigate with ArrowDown / ArrowUp in role="menu"
   useEffect(() => {
     if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
         closeMenu(true);
+        return;
+      }
+
+      if (e.key === "Tab") {
+        closeMenu(false);
+        return;
+      }
+
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        const menuEl = menuRef.current?.querySelector<HTMLElement>('[role="menu"]');
+        if (!menuEl) return;
+        const items = Array.from(
+          menuEl.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])')
+        );
+        if (items.length === 0) return;
+
+        e.preventDefault();
+        const activeEl = document.activeElement as HTMLElement | null;
+        const currentIndex = items.findIndex((item) => item === activeEl);
+
+        let nextIndex = 0;
+        if (e.key === "ArrowDown") {
+          nextIndex = currentIndex === -1 || currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+        } else {
+          nextIndex = currentIndex === -1 || currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+        }
+
+        items[nextIndex]?.focus();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, closeMenu]);
@@ -98,6 +128,18 @@ export function AuthNav() {
             ref={triggerRef}
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+                if (!isOpen) {
+                  e.preventDefault();
+                  setIsOpen(true);
+                  setTimeout(() => {
+                    const first = menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])');
+                    first?.focus();
+                  }, 50);
+                }
+              }
+            }}
             aria-expanded={isOpen}
             aria-haspopup="menu"
             aria-label="계정 및 로그인 메뉴"
@@ -179,6 +221,18 @@ export function AuthNav() {
         ref={triggerRef}
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+            if (!isOpen) {
+              e.preventDefault();
+              setIsOpen(true);
+              setTimeout(() => {
+                const first = menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])');
+                first?.focus();
+              }, 50);
+            }
+          }
+        }}
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label={`내 계정 메뉴 (${displayName})`}

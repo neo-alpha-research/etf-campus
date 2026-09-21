@@ -4,17 +4,17 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { ChallengeBridgeBanner } from "../challenge-bridge-banner";
 import { ChallengeWaitlistModal } from "../challenge-waitlist-modal";
 
-describe("ChallengeBridgeBanner", () => {
-  it("Astra 핵심 카피와 3대 점검 기둥, 면책 문구를 올바르게 렌더링한다", () => {
+describe("ChallengeBridgeBanner - Neutral Educational Copy", () => {
+  it("담백한 교육 안내 헤드라인과 3대 점검 기둥, 면책 문구를 올바르게 렌더링한다", () => {
     render(<ChallengeBridgeBanner source="compare_test" />);
 
     expect(
-      screen.getByText("비교는 끝났습니다. 다음은 내 계좌를 스스로 점검할 차례입니다.")
+      screen.getByText("ETF 비용과 계좌별 규칙을 차근차근 확인해 보세요")
     ).toBeInTheDocument();
 
-    expect(screen.getByText("숨은 실부담비용 역산")).toBeInTheDocument();
-    expect(screen.getByText("70% 위험자산 한도 점검")).toBeInTheDocument();
-    expect(screen.getByText("30일 자기주도 체크리스트")).toBeInTheDocument();
+    expect(screen.getByText("실부담비용 항목 이해")).toBeInTheDocument();
+    expect(screen.getByText("계좌별 편입 규칙 점검")).toBeInTheDocument();
+    expect(screen.getByText("단계별 자가 점검 루틴")).toBeInTheDocument();
 
     // 면책 조항
     expect(
@@ -27,25 +27,25 @@ describe("ChallengeBridgeBanner", () => {
       "/books"
     );
     expect(
-      screen.getByRole("button", { name: /얼리버드 50% 혜택 알림 받기/ })
+      screen.getByRole("button", { name: /출시 알림 신청하기/ })
     ).toBeInTheDocument();
   });
 
-  it("얼리버드 버튼 클릭 시 대기자 등록 모달이 열린다", () => {
+  it("출시 알림 버튼 클릭 시 대기자 등록 모달이 열린다", () => {
     render(<ChallengeBridgeBanner source="compare_test" />);
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /얼리버드 50% 혜택 알림 받기/ }));
+    fireEvent.click(screen.getByRole("button", { name: /출시 알림 신청하기/ }));
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /30일 자기주도 챌린지 & 가이드 패키지/ })
+      screen.getByRole("heading", { name: /ETF 비용과 계좌별 규칙 자가 점검 가이드/ })
     ).toBeInTheDocument();
   });
 });
 
-describe("ChallengeWaitlistModal", () => {
+describe("ChallengeWaitlistModal - Operational Requirements & A11y", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
@@ -65,20 +65,41 @@ describe("ChallengeWaitlistModal", () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
-  it("이메일 입력 후 성공적으로 신청되면 완료 화면을 표시한다", async () => {
+  it("동의 체크박스는 기본 미선택(unchecked)이어야 하며, 미동의 시 에러를 표시한다", () => {
+    render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
+
+    const checkbox = screen.getByLabelText(/위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다/);
+    expect(checkbox).not.toBeChecked();
+
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/);
+    fireEvent.change(emailInput, { target: { value: "lead@example.com" } });
+
+    fireEvent.submit(screen.getByTestId("waitlist-form"));
+
+    expect(
+      screen.getByText("개인정보 수집 및 출시 알림 수신에 동의해 주세요.")
+    ).toBeInTheDocument();
+  });
+
+  it("이메일 입력 및 필수 동의 후 성공적으로 신청되면 완료 화면을 표시한다", async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ success: true, message: "등록 완료" }),
+      json: async () => ({ success: true, message: "신청 완료" }),
     });
     global.fetch = mockFetch;
 
     render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
 
-    const emailInput = screen.getByLabelText(/출시 알림 및 쿠폰 수신 이메일/);
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/);
     fireEvent.change(emailInput, { target: { value: "lead@example.com" } });
 
+    // 동의 체크
+    const checkbox = screen.getByLabelText(/위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다/);
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+
     // 제출
-    const submitBtn = screen.getByRole("button", { name: /얼리버드 50% 혜택 알림 받기/ });
+    const submitBtn = screen.getByRole("button", { name: /출시 알림 신청하기/ });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -94,7 +115,7 @@ describe("ChallengeWaitlistModal", () => {
     // 성공 메시지 확인
     await waitFor(() => {
       expect(
-        screen.getByText("얼리버드 대기자 등록이 완료되었습니다!")
+        screen.getByText("출시 알림 신청이 완료되었습니다")
       ).toBeInTheDocument();
     });
   });
@@ -102,7 +123,7 @@ describe("ChallengeWaitlistModal", () => {
   it("이메일 형식 오류 시 클라이언트 유효성 에러를 표시한다", () => {
     render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
 
-    const emailInput = screen.getByLabelText(/출시 알림 및 쿠폰 수신 이메일/);
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/);
     fireEvent.change(emailInput, { target: { value: "bad-email-no-at" } });
 
     fireEvent.submit(screen.getByTestId("waitlist-form"));
@@ -110,24 +131,32 @@ describe("ChallengeWaitlistModal", () => {
     expect(screen.getByText("유효한 이메일 주소를 입력해 주세요.")).toBeInTheDocument();
   });
 
-  it("API 실패 응답 시 서버 에러 메시지를 표시한다", async () => {
+  it("API 실패 응답 시 에러 메시지를 표시하고 기존 입력값을 보존한다", async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: false,
       json: async () => ({
-        error: { message: "서버 처리 중 일시적인 오류입니다." },
+        error: { message: "데이터베이스에 접수 내역을 기록하지 못했습니다. 잠시 후 다시 시도해 주세요." },
       }),
     });
     global.fetch = mockFetch;
 
     render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
 
-    const emailInput = screen.getByLabelText(/출시 알림 및 쿠폰 수신 이메일/);
-    fireEvent.change(emailInput, { target: { value: "test@domain.com" } });
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/) as HTMLInputElement;
+    fireEvent.change(emailInput, { target: { value: "keep-me@example.com" } });
+
+    const checkbox = screen.getByLabelText(/위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다/);
+    fireEvent.click(checkbox);
 
     fireEvent.submit(screen.getByTestId("waitlist-form"));
 
     await waitFor(() => {
-      expect(screen.getByText("서버 처리 중 일시적인 오류입니다.")).toBeInTheDocument();
+      expect(
+        screen.getByText("데이터베이스에 접수 내역을 기록하지 못했습니다. 잠시 후 다시 시도해 주세요.")
+      ).toBeInTheDocument();
     });
+
+    // 입력값 보존 검증
+    expect(emailInput.value).toBe("keep-me@example.com");
   });
 });

@@ -103,4 +103,36 @@ describe("AuthNav Component - Responsive Compact Account Menu", () => {
     fireEvent.keyDown(window, { key: "Escape" });
     expect(screen.queryByRole("menu", { name: "사용자 계정 메뉴" })).not.toBeInTheDocument();
   });
+
+  it("드롭다운이 열린 상태에서 ArrowDown 및 ArrowUp 키로 메뉴 아이템을 탐색할 수 있다", () => {
+    mockSession = {
+      authenticated: false,
+      user: null,
+      isLoading: false,
+      signOut: vi.fn(),
+    };
+
+    render(<AuthNav />);
+
+    const mobileTrigger = screen.getByRole("button", { name: "계정 및 로그인 메뉴" });
+    fireEvent.click(mobileTrigger);
+
+    const menu = screen.getByRole("menu", { name: "계정 메뉴" });
+    expect(menu).toBeInTheDocument();
+
+    const menuItems = screen.getAllByRole("menuitem");
+    expect(menuItems.length).toBeGreaterThan(1);
+
+    // ArrowDown 누르면 첫 번째 아이템 포커스
+    fireEvent.keyDown(window, { key: "ArrowDown" });
+    expect(document.activeElement).toBe(menuItems[0]);
+
+    // 한 번 더 누르면 두 번째 아이템 포커스
+    fireEvent.keyDown(window, { key: "ArrowDown" });
+    expect(document.activeElement).toBe(menuItems[1]);
+
+    // ArrowUp 누르면 다시 첫 번째 아이템 포커스
+    fireEvent.keyDown(window, { key: "ArrowUp" });
+    expect(document.activeElement).toBe(menuItems[0]);
+  });
 });

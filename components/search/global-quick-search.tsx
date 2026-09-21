@@ -44,10 +44,15 @@ export function GlobalQuickSearch({
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocusedElementRef = useRef<HTMLElement | null>(null);
 
-  // Focus trap & restoration
+  // Focus trap, restoration & scroll lock
   useEffect(() => {
     if (isOpen) {
       previousFocusedElementRef.current = (document.activeElement as HTMLElement) || null;
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
     } else if (previousFocusedElementRef.current) {
       const el = previousFocusedElementRef.current;
       previousFocusedElementRef.current = null;
@@ -235,7 +240,7 @@ export function GlobalQuickSearch({
       role="dialog"
       aria-modal="true"
       aria-label="ETF 통합 퀵 검색"
-      className="fixed inset-0 z-50 flex items-start justify-center bg-neutral-950/45 backdrop-blur-xs p-3 sm:p-4 pt-12 sm:pt-20 overflow-y-auto"
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-neutral-950/45 backdrop-blur-xs p-3 sm:p-4 pt-12 sm:pt-20 overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

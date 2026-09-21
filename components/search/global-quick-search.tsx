@@ -41,6 +41,23 @@ export function GlobalQuickSearch({
   const [recentTickers, setRecentTickers] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previousFocusedElementRef = useRef<HTMLElement | null>(null);
+
+  // Focus trap & restoration
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusedElementRef.current = (document.activeElement as HTMLElement) || null;
+    } else if (previousFocusedElementRef.current) {
+      const el = previousFocusedElementRef.current;
+      previousFocusedElementRef.current = null;
+      setTimeout(() => {
+        if (el && typeof el.focus === "function") {
+          el.focus();
+        }
+      }, 10);
+    }
+  }, [isOpen]);
 
   // Load index data on mount or open
   useEffect(() => {
@@ -159,6 +176,30 @@ export function GlobalQuickSearch({
       return;
     }
 
+    // Modal Focus Trap
+    if (e.key === "Tab") {
+      if (dialogRef.current) {
+        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+          'input, button, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length > 0) {
+          const firstEl = focusables[0];
+          const lastEl = focusables[focusables.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
+        }
+      }
+    }
+
     if (suggestions.length === 0) return;
 
     if (e.key === "ArrowDown") {
@@ -198,8 +239,9 @@ export function GlobalQuickSearch({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
+      onKeyDown={handleKeyDown}
     >
-      <div className="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-line overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col">
+      <div ref={dialogRef} className="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-line overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col">
         {/* Search Input Bar */}
         <div className="relative flex items-center border-b border-line px-3 sm:px-4 py-2.5 sm:py-3 bg-white">
           <svg
@@ -226,7 +268,6 @@ export function GlobalQuickSearch({
               setQuery(e.target.value);
               setActiveIndex(0);
             }}
-            onKeyDown={handleKeyDown}
             placeholder="ETF 종목명 또는 6자리 코드 검색 (예: KODEX 200, 069500)"
             className="w-full bg-transparent text-sm sm:text-base font-bold text-strong placeholder:font-medium placeholder:text-neutral-400 outline-none"
           />
@@ -238,7 +279,7 @@ export function GlobalQuickSearch({
                 setActiveIndex(0);
                 inputRef.current?.focus();
               }}
-              className="p-1 rounded-md text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition-colors mr-1"
+              className="p-1 rounded-md text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition-colors mr-1 shrink-0 cursor-pointer"
               aria-label="검색어 지우기"
             >
               <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -246,9 +287,20 @@ export function GlobalQuickSearch({
               </svg>
             </button>
           ) : null}
-          <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded border border-neutral-300 bg-neutral-100 px-1.5 py-0.5 text-[10px] font-bold text-neutral-500 select-none">
+          <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded border border-neutral-300 bg-neutral-100 px-1.5 py-0.5 text-[10px] font-bold text-neutral-500 select-none shrink-0">
             ESC
           </kbd>
+          {/* Mobile Explicit Close Button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="sm:hidden flex items-center justify-center p-1.5 rounded-lg text-neutral-500 hover:text-neutral-800 hover:bg-neutral-100 transition-colors ml-1 shrink-0 cursor-pointer"
+            aria-label="검색창 닫기"
+          >
+            <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         {/* Content Area */}
@@ -265,113 +317,109 @@ export function GlobalQuickSearch({
             suggestions.length > 0 ? (
               <ul id="global-search-results" ref={listRef} role="listbox" className="flex flex-col gap-1">
                 {suggestions.map((item, idx) => {
-                  const isActive = activeIndex === idx;
+                  const isActive = idx === activeIndex;
                   return (
                     <li
                       key={item.ticker}
                       role="option"
                       aria-selected={isActive}
                       data-active={isActive}
-                      onMouseEnter={() => setActiveIndex(idx)}
                       onClick={() => handleSelect(item.ticker)}
-                      className={`group flex items-center justify-between p-2.5 sm:p-3 rounded-xl cursor-pointer transition-all ${
+                      onMouseEnter={() => setActiveIndex(idx)}
+                      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-xl cursor-pointer transition-colors ${
                         isActive
-                          ? "bg-brand-50/90 text-brand-900 ring-1 ring-brand-300 shadow-2xs"
-                          : "hover:bg-neutral-50 text-strong"
+                          ? "bg-brand-50 border border-brand-200 text-brand-950"
+                          : "hover:bg-neutral-50 border border-transparent"
                       }`}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <span className="font-mono text-xs font-bold text-neutral-600 bg-neutral-100 group-hover:bg-white px-1.5 py-0.5 rounded shrink-0 border border-neutral-200">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="font-mono text-xs font-black text-neutral-500 bg-neutral-100 px-1.5 py-0.5 rounded shrink-0">
                           {item.ticker}
                         </span>
                         <div className="flex flex-col min-w-0">
-                          <span className="text-sm font-bold truncate group-hover:text-brand-800">
+                          <span className="text-xs sm:text-sm font-bold truncate text-strong">
                             {item.name}
                           </span>
-                          <div className="flex items-center gap-1.5 text-[11px] text-muted">
-                            <span className="truncate">{item.assetClass}</span>
-                            {item.pensionLimit && (
-                              <>
-                                <span>·</span>
-                                <span className={item.pensionLimit.includes("100%") ? "text-emerald-700 font-bold" : "text-neutral-500"}>
-                                  {item.pensionLimit.includes("100%") ? "안전자산 100%" : item.pensionLimit.includes("70%") ? "위험자산 70%" : item.pensionLimit}
-                                </span>
-                              </>
-                            )}
-                            {item.feePct !== null && item.feePct !== undefined && (
-                              <>
-                                <span>·</span>
-                                <span>보수 {item.feePct.toFixed(2)}%</span>
-                              </>
-                            )}
-                          </div>
+                          {item.baseIndex ? (
+                            <span className="text-[11px] text-muted truncate">
+                              기초: {item.baseIndex}
+                            </span>
+                          ) : null}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1 shrink-0 ml-2">
-                        <span className="hidden sm:inline text-xs font-bold text-brand-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                          상세보기
-                        </span>
-                        <svg
-                          className="size-4 text-neutral-400 group-hover:text-brand-700 group-hover:translate-x-0.5 transition-all"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
+
+                      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                        {item.assetClass ? (
+                          <span className="text-[10px] font-bold text-neutral-600 bg-neutral-100 px-1.5 py-0.5 rounded">
+                            {item.assetClass}
+                          </span>
+                        ) : null}
+                        {item.feePct !== null && item.feePct !== undefined ? (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                            {(item.feePct * 100).toFixed(2)}%
+                          </span>
+                        ) : null}
                       </div>
                     </li>
                   );
                 })}
               </ul>
             ) : (
-              <div className="text-center py-10">
-                <p className="text-sm font-bold text-neutral-700">검색 결과가 없습니다</p>
-                <p className="text-xs text-neutral-400 mt-1">
-                  &apos;{query}&apos;에 일치하는 ETF를 찾지 못했습니다. 종목명이나 6자리 코드를 확인해 보세요.
+              <div className="py-12 text-center text-sm text-neutral-500">
+                <p className="font-bold text-neutral-800 mb-1">검색 결과가 없습니다</p>
+                <p className="text-xs text-neutral-400">
+                  종목명(예: TIGER 미국나스닥100)이나 6자리 코드(133690)를 확인해 보세요.
                 </p>
               </div>
             )
           ) : (
-            <div className="flex flex-col gap-4 py-2">
+            <div className="space-y-4 py-2">
               {/* Recent Searches */}
-              {recentEtfs.length > 0 && (
+              {recentEtfs.length > 0 ? (
                 <div>
-                  <div className="flex items-center justify-between px-1 mb-2">
+                  <div className="flex items-center justify-between px-2 mb-1.5">
                     <span className="text-xs font-bold text-neutral-500">최근 본 종목</span>
                     <button
                       type="button"
                       onClick={() => {
-                        setRecentTickers([]);
                         localStorage.removeItem(RECENT_SEARCHES_KEY);
+                        setRecentTickers([]);
                       }}
-                      className="text-[11px] text-neutral-400 hover:text-neutral-600 transition-colors"
+                      className="text-[11px] text-neutral-400 hover:text-neutral-700 transition-colors"
                     >
-                      기록 삭제
+                      전체 삭제
                     </button>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {recentEtfs.map((etf) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {recentEtfs.map((item) => (
                       <button
-                        key={etf.ticker}
+                        key={item.ticker}
                         type="button"
-                        onClick={() => handleSelect(etf.ticker)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-line bg-surface hover:border-brand-300 hover:bg-brand-50/50 text-xs font-bold text-strong transition-all shadow-2xs"
+                        onClick={() => handleSelect(item.ticker)}
+                        className="flex items-center justify-between p-2 rounded-xl border border-line bg-neutral-50/50 hover:bg-brand-50 hover:border-brand-200 transition-all text-left group"
                       >
-                        <span className="font-mono text-[11px] text-brand-700">{etf.ticker}</span>
-                        <span className="truncate max-w-[140px]">{etf.name}</span>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="font-mono text-xs font-bold text-neutral-500 group-hover:text-brand-700">
+                            {item.ticker}
+                          </span>
+                          <span className="text-xs font-bold text-strong truncate group-hover:text-brand-800">
+                            {item.name}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-neutral-400 group-hover:text-brand-600 shrink-0">
+                          이동 →
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
-              )}
+              ) : null}
 
-              {/* Popular Benchmark ETFs */}
+              {/* Benchmark / Recommended ETFs */}
               <div>
-                <span className="block text-xs font-bold text-neutral-500 px-1 mb-2">
-                  대표 인기 ETF
-                </span>
+                <div className="px-2 mb-1.5">
+                  <span className="text-xs font-bold text-neutral-500">대표 인기 ETF</span>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                   {BENCHMARK_ETFS.map((bench) => (
                     <button

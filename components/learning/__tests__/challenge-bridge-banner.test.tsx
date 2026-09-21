@@ -117,6 +117,38 @@ describe("ChallengeWaitlistModal - Operational Requirements & A11y", () => {
       expect(
         screen.getByText("출시 알림 신청이 완료되었습니다")
       ).toBeInTheDocument();
+      expect(screen.getByText("알림 신청 접수 완료")).toBeInTheDocument();
+    });
+  });
+
+  it("alreadySent 응답 시 신규 접수 대신 발송 완료 안내 화면과 고객센터 이메일을 표시한다", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        success: true,
+        alreadySent: true,
+        message: "이미 해당 이메일로 가이드 출시 알림이 발송 완료되었습니다.",
+      }),
+    });
+    global.fetch = mockFetch;
+
+    render(<ChallengeWaitlistModal isOpen={true} onClose={() => {}} />);
+
+    const emailInput = screen.getByLabelText(/출시 알림 수신 이메일/);
+    fireEvent.change(emailInput, { target: { value: "sent_user@example.com" } });
+
+    const checkbox = screen.getByLabelText(/위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다/);
+    fireEvent.click(checkbox);
+
+    const submitBtn = screen.getByRole("button", { name: /출시 알림 신청하기/ });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("이미 가이드 알림이 발송 완료되었습니다")
+      ).toBeInTheDocument();
+      expect(screen.getByText("발송 완료 안내")).toBeInTheDocument();
+      expect(screen.getAllByText(/neo\.alpharesearch@gmail\.com/).length).toBeGreaterThanOrEqual(1);
     });
   });
 

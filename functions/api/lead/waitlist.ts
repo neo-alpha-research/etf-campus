@@ -4,6 +4,7 @@ const MAX_PAYLOAD_BYTES = 4096; // 4KB 요청 크기 제한
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const ALLOWED_CAMPAIGNS = new Set(["challenge_guide_2026"]);
 const SERVER_TERMS_VERSION = "v1.0";
+const SUPPORT_EMAIL = "neo.alpharesearch@gmail.com";
 
 function isValidEmail(email: unknown): email is string {
   return (
@@ -32,6 +33,12 @@ interface D1PreparedStatementLike {
 
 interface D1DatabaseLike {
   prepare: (query: string) => D1PreparedStatementLike;
+}
+
+export interface WaitlistEnv {
+  ETF_PRICES?: D1DatabaseLike;
+  LEAD_RATE_LIMIT_SECRET?: string;
+  AUTH_SECRET?: string;
 }
 
 /**
@@ -87,13 +94,25 @@ async function readBodyStreamWithLimit(
 }
 
 /**
- * 속도 제한 키의 개인정보(IP, 이메일) 노출을 차단하기 위한 솔트 기반 SHA-256 단방향 해시
+ * 속도 제한 키의 개인정보(IP, 이메일) 노출을 차단하기 위한 서버 비밀키 기반 HMAC-SHA-256 단방향 해시
+ * 고정 공개 솔트 대신 서버 비밀키(LEAD_RATE_LIMIT_SECRET / AUTH_SECRET)를 사용하여 레인보우 테이블 공격을 방지함.
  */
-async function hashRateLimitKey(prefix: "rl_ip" | "rl_em", value: string): Promise<string> {
+async function hashRateLimitKey(
+  secret: string,
+  prefix: "rl_ip" | "rl_em",
+  value: string
+): Promise<string> {
   const encoder = new TextEncoder();
-  const data = encoder.encode(`lead_rate_salt_2026:${prefix}:${value}`);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const data = encoder.encode(`${prefix}:${value}`);
+  const signature = await crypto.subtle.sign("HMAC", key, data);
+  const hashArray = Array.from(new Uint8Array(signature));
   const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
   return `${prefix}_${hashHex.slice(0, 32)}`;
 }
@@ -138,7 +157,7 @@ async function enforceAtomicRateLimit(
 
 export async function onRequestPost(context: {
   request: Request;
-  env?: { ETF_PRICES?: D1DatabaseLike };
+  env?: WaitlistEnv;
 }) {
   try {
     const { request, env } = context;
@@ -216,10 +235,15 @@ export async function onRequestPost(context: {
         : "compare_bridge";
 
     // 9. 원자적 동시성 레이트 리밋 검증 (IP 60초 내 5회, Email 60초 내 3회)
-    // 개인정보 보호를 위해 IP/이메일은 SHA-256 단방향 해시 키로 변환하여 보관
+    // 개인정보 보호를 위해 IP/이메일은 서버 비밀키 기반 HMAC-SHA-256 단방향 해시 키로 변환하여 보관
+    const rateLimitSecret =
+      env?.LEAD_RATE_LIMIT_SECRET ||
+      env?.AUTH_SECRET ||
+      "etf_campus_lead_rate_secret_v1";
+
     const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
-    const ipKey = await hashRateLimitKey("rl_ip", clientIp);
-    const emailKey = await hashRateLimitKey("rl_em", trimmedEmail);
+    const ipKey = await hashRateLimitKey(rateLimitSecret, "rl_ip", clientIp);
+    const emailKey = await hashRateLimitKey(rateLimitSecret, "rl_em", trimmedEmail);
 
     try {
       const ipResult = await enforceAtomicRateLimit(db, ipKey, 5, 60);
@@ -252,7 +276,7 @@ export async function onRequestPost(context: {
           {
             success: true,
             alreadySent: true,
-            message: "이미 해당 이메일로 가이드 출시 알림이 발송 완료되었습니다. 추가 발송이 필요하시면 고객센터로 문의해 주세요.",
+            message: `이미 해당 이메일로 가이드 출시 알림이 발송 완료되었습니다. 추가 문의 또는 재발송이 필요하시면 고객센터(${SUPPORT_EMAIL})로 문의해 주세요.`,
           },
           200
         );
@@ -267,7 +291,7 @@ export async function onRequestPost(context: {
 
     // 11. 멱등 저장 쿼리 실행 (ON CONFLICT 업데이트)
     // - 중복 신청 (pending): 1행 유지, 최신 관심사/출처/동의시각 갱신
-    // - 철회 후 재신청 (withdrawn): 사용자의 신규 동의에 따라 status = 'pending' 복구 및 신규 동의시각 갱신
+    // - 발송 완료(sent) 보호: SQL 레벨에서도 status='sent'인 행은 CASE문으로 보호되어 'pending'으로 덮어써지지 않음
     let result: { success?: boolean; meta?: Record<string, unknown> };
     try {
       result = await db
@@ -281,7 +305,7 @@ export async function onRequestPost(context: {
             source = excluded.source,
             terms_version = excluded.terms_version,
             agreed_at = excluded.agreed_at,
-            status = 'pending',
+            status = CASE WHEN lead_waitlist.status = 'sent' THEN 'sent' ELSE 'pending' END,
             updated_at = datetime('now')`
         )
         .bind(trimmedEmail, selectedInterest, leadSource, activeCampaign, currentTermsVersion)

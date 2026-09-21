@@ -448,6 +448,9 @@ describe("Lead Waitlist API (POST /api/lead/waitlist) - Fail-Closed & Operationa
 
     expect(mockPrepare).toHaveBeenCalledWith(expect.stringContaining("INSERT INTO lead_waitlist"));
     expect(mockPrepare).toHaveBeenCalledWith(expect.stringContaining("ON CONFLICT(email, campaign) DO UPDATE"));
+    expect(mockPrepare).toHaveBeenCalledWith(
+      expect.stringContaining("status = CASE WHEN lead_waitlist.status = 'sent' THEN 'sent' ELSE 'pending' END")
+    );
     expect(mockBind).toHaveBeenCalledWith(
       "investor@example.com",
       "dc_irp",

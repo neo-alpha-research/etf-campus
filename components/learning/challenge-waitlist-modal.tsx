@@ -9,6 +9,8 @@ interface ChallengeWaitlistModalProps {
   source?: string;
 }
 
+const SUPPORT_EMAIL = "neo.alpharesearch@gmail.com";
+
 export function ChallengeWaitlistModal({
   isOpen,
   onClose,
@@ -21,6 +23,7 @@ export function ChallengeWaitlistModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isAlreadySent, setIsAlreadySent] = useState(false);
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -28,6 +31,7 @@ export function ChallengeWaitlistModal({
 
   const handleClose = () => {
     setIsSuccess(false);
+    setIsAlreadySent(false);
     setErrorMessage(null);
     onClose();
   };
@@ -141,6 +145,7 @@ export function ChallengeWaitlistModal({
 
       const data = (await res.json().catch(() => null)) as {
         success?: boolean;
+        alreadySent?: boolean;
         error?: { message?: string };
       } | null;
 
@@ -154,6 +159,7 @@ export function ChallengeWaitlistModal({
         return;
       }
 
+      setIsAlreadySent(Boolean(data.alreadySent));
       setIsSuccess(true);
     } catch {
       setErrorMessage("네트워크 오류가 발생했습니다. 입력값은 유지되니 잠시 후 다시 시도해 주세요.");
@@ -193,37 +199,73 @@ export function ChallengeWaitlistModal({
         </button>
 
         {isSuccess ? (
-          /* 신청 완료 화면 */
+          /* 신청 결과 화면 (신규 접수 vs 기존 발송완료 분기) */
           <div className="p-6 sm:p-8 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-xs">
-              <CheckCircle2 className="h-8 w-8" />
-            </div>
+            {isAlreadySent ? (
+              <>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 shadow-xs">
+                  <BookOpen className="h-8 w-8" />
+                </div>
 
-            <span className="mt-4 inline-block rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-bold text-emerald-800 border border-emerald-200">
-              알림 신청 접수 완료
-            </span>
+                <span className="mt-4 inline-block rounded-full bg-amber-100/80 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-200">
+                  발송 완료 안내
+                </span>
 
-            <h3
-              id="waitlist-modal-title"
-              ref={successHeadingRef}
-              tabIndex={-1}
-              className="mt-2.5 text-xl sm:text-2xl font-extrabold tracking-tight text-strong focus:outline-hidden"
-            >
-              출시 알림 신청이 완료되었습니다
-            </h3>
+                <h3
+                  id="waitlist-modal-title"
+                  ref={successHeadingRef}
+                  tabIndex={-1}
+                  className="mt-2.5 text-xl sm:text-2xl font-extrabold tracking-tight text-strong focus:outline-hidden"
+                >
+                  이미 가이드 알림이 발송 완료되었습니다
+                </h3>
 
-            <p className="mt-3 text-xs sm:text-sm text-neutral-600 leading-relaxed">
-              등록하신 이메일(<span className="font-semibold text-strong">{email}</span>)로 실무 기반 ETF 자가 점검 교육 가이드 및 체크리스트가 준비되는 대로 가장 먼저 안내해 드리겠습니다.
-            </p>
+                <p className="mt-3 text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                  입력하신 이메일(<span className="font-semibold text-strong">{email}</span>)로 이미 교육 가이드 및 체크리스트 출시 알림이 정상 발송되었습니다. 메일함(스팸함 포함)을 확인해 주시기 바라며, 메일을 확인하기 어려우시거나 재발송이 필요하시면 <span className="font-semibold text-neutral-800">{SUPPORT_EMAIL}</span>으로 문의해 주세요.
+                </p>
 
-            <div className="mt-6 rounded-xl bg-neutral-50 p-4 border border-line text-left text-xs text-neutral-600 space-y-1.5">
-              <p className="font-bold text-neutral-800 flex items-center gap-1.5">
-                <Shield className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                안내 사항
-              </p>
-              <p>• 본 가이드는 브라우저 기반 자가 점검 체크리스트로 구성되며 특정 종목을 추천하지 않습니다.</p>
-              <p>• 수신 동의 철회를 원하시면 언제든지 <span className="font-semibold text-neutral-800">etfcampus@gmail.com</span>으로 요청하실 수 있습니다.</p>
-            </div>
+                <div className="mt-6 rounded-xl bg-neutral-50 p-4 border border-line text-left text-xs text-neutral-600 space-y-1.5">
+                  <p className="font-bold text-neutral-800 flex items-center gap-1.5">
+                    <Shield className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                    안내 사항
+                  </p>
+                  <p>• 본 가이드는 브라우저 기반 자가 점검 체크리스트로 구성되며 특정 종목을 추천하지 않습니다.</p>
+                  <p>• 수신 동의 철회 시 등록된 개인정보는 지체 없이 즉시 영구 파기되며, 언제든지 <span className="font-semibold text-neutral-800">{SUPPORT_EMAIL}</span>으로 요청하실 수 있습니다.</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-xs">
+                  <CheckCircle2 className="h-8 w-8" />
+                </div>
+
+                <span className="mt-4 inline-block rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-bold text-emerald-800 border border-emerald-200">
+                  알림 신청 접수 완료
+                </span>
+
+                <h3
+                  id="waitlist-modal-title"
+                  ref={successHeadingRef}
+                  tabIndex={-1}
+                  className="mt-2.5 text-xl sm:text-2xl font-extrabold tracking-tight text-strong focus:outline-hidden"
+                >
+                  출시 알림 신청이 완료되었습니다
+                </h3>
+
+                <p className="mt-3 text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                  등록하신 이메일(<span className="font-semibold text-strong">{email}</span>)로 실무 기반 ETF 자가 점검 교육 가이드 및 체크리스트가 준비되는 대로 가장 먼저 안내해 드리겠습니다.
+                </p>
+
+                <div className="mt-6 rounded-xl bg-neutral-50 p-4 border border-line text-left text-xs text-neutral-600 space-y-1.5">
+                  <p className="font-bold text-neutral-800 flex items-center gap-1.5">
+                    <Shield className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                    안내 사항
+                  </p>
+                  <p>• 본 가이드는 브라우저 기반 자가 점검 체크리스트로 구성되며 특정 종목을 추천하지 않습니다.</p>
+                  <p>• 수신 동의 철회 시 등록된 개인정보는 지체 없이 즉시 영구 파기되며, 언제든지 <span className="font-semibold text-neutral-800">{SUPPORT_EMAIL}</span>으로 요청하실 수 있습니다.</p>
+                </div>
+              </>
+            )}
 
             <button
               type="button"
@@ -282,7 +324,7 @@ export function ChallengeWaitlistModal({
               data-testid="waitlist-form"
               className="mt-5 space-y-4"
             >
-              {/* 이메일 입력 */}
+              {/* 이메일 입력 (모바일 자동 줌 방지 text-base sm:text-sm) */}
               <div>
                 <label htmlFor="waitlist-email" className="block text-xs font-bold text-neutral-700 mb-1">
                   출시 알림 수신 이메일 <span className="text-rose-500">*</span>
@@ -299,7 +341,7 @@ export function ChallengeWaitlistModal({
                 />
               </div>
 
-              {/* 관심 영역 선택 */}
+              {/* 관심 영역 선택 (최소 44px 터치 영역) */}
               <div>
                 <span className="block text-xs font-bold text-neutral-700 mb-1.5">
                   가장 관심 있는 점검 영역
@@ -326,23 +368,23 @@ export function ChallengeWaitlistModal({
                 </div>
               </div>
 
-              {/* 필수 개인정보 수집 및 동의 박스 (최소 운영 요건 완비) */}
+              {/* 필수 개인정보 수집 및 동의 박스 (최소 운영 요건 및 지체 없는 파기 명시) */}
               <div className="rounded-xl border border-line bg-neutral-50/70 p-3 text-[11px] leading-relaxed text-neutral-600 space-y-2">
                 <div className="space-y-1">
                   <p><strong className="text-neutral-800">• 수집 목적:</strong> ETF 자가 점검 가이드 및 루틴 출시 알림</p>
                   <p><strong className="text-neutral-800">• 수집 항목:</strong> 이메일 주소, 관심 영역</p>
-                  <p><strong className="text-neutral-800">• 보유 기간:</strong> 서비스 출시 알림 완료 시 또는 신청자의 동의 철회 시까지</p>
+                  <p><strong className="text-neutral-800">• 보유 기간:</strong> 서비스 출시 알림 완료 시 또는 동의 철회 시 지체 없이 파기</p>
                   <p><strong className="text-neutral-800">• 거부 권리:</strong> 개인정보 수집 동의를 거부할 수 있으며, 거부 시 출시 알림이 발송되지 않습니다.</p>
-                  <p><strong className="text-neutral-800">• 동의 철회 안내:</strong> 언제든지 etfcampus@gmail.com으로 수신 동의 철회를 요청하실 수 있습니다.</p>
+                  <p><strong className="text-neutral-800">• 동의 철회 안내:</strong> {SUPPORT_EMAIL}으로 철회 요청 시 등록된 이메일은 지체 없이 즉시 영구 파기됩니다.</p>
                 </div>
 
-                <div className="flex items-start gap-2 pt-1 border-t border-line">
+                <div className="flex items-start gap-2.5 pt-1.5 border-t border-line cursor-pointer">
                   <input
                     id="agree-waitlist"
                     type="checkbox"
                     checked={agreeRequired}
                     onChange={(e) => setAgreeRequired(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+                    className="mt-0.5 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 cursor-pointer shrink-0"
                   />
                   <label htmlFor="agree-waitlist" className="text-xs font-bold text-neutral-700 leading-snug cursor-pointer select-none">
                     [필수] 위 개인정보 수집·이용 및 출시 알림 수신에 동의합니다.

@@ -1,9 +1,9 @@
 # ETF Campus 리드 대기자(Waitlist) 운영 정책 및 배포·롤백 실행 매뉴얼
 
-**문서 버전**: 2.0.0  
+**문서 버전**: 2.1.0  
 **기준 일자**: 2026-09-21  
 **대상 서비스**: ETF 비용 및 계좌별 규칙 자가 점검 교육 가이드 대기자 알림 (`campaign: challenge_guide_2026`)  
-**원칙**: Zero-Hallucination, 개인정보 최소화(Privacy-by-Design), Fail-Closed, 운영자 승인 중심의 현실적 배포/롤백  
+**원칙**: Zero-Hallucination, 개인정보 최소화(Privacy-by-Design), Fail-Closed, 지체 없는 즉시 파기, 운영자 확정 중심의 현실적 배포/롤백  
 
 ---
 
@@ -14,166 +14,113 @@
 2. **마케팅·뉴스레터 자동 확대 절대 금지 (Zero Cross-Pollination)**:
    - 본 알림 수신 동의는 플랫폼의 일반 마케팅 광고, 상업적 프로모션, 정기 데일리 뉴스레터 수신으로 **자동 확대되거나 강제 전환되지 않습니다**.
    - 차후 정기 뉴스레터나 마케팅 정보를 수신하려면 별도의 명시적 선택 동의(`marketing_optional`) 절차를 거쳐야 합니다.
-3. **발송 완료자(`status = 'sent'`)의 신청 범위 엄격 보존**:
+3. **발송 완료자(`status = 'sent'`)의 신청 범위 및 상태 엄격 보호**:
    - 1차 가이드 출시 알림이 발송 완료된 신청자(`status = 'sent'`)가 웹사이트에서 동일 이메일로 다시 신청하더라도, **후속 판본(v2 등)이나 타 캠페인 발송 대기로 상태가 `'pending'`으로 자동 확장되지 않습니다**.
-   - 서버 API는 `200 OK` 및 `alreadySent: true`("이미 해당 이메일로 가이드 출시 알림이 발송 완료되었습니다") 응답을 반환하며, DB 내 상태는 `'sent'`로 온전히 보존됩니다.
+   - **화면(UI)**: 일반 신규 접수 완료 화면이 아닌 **"가이드 발송 완료 안내" 화면(`alreadySent: true`)**을 명확히 구분 표시하여 기존 발송 내역과 고객센터 문의처(`neo.alpharesearch@gmail.com`)를 안내합니다.
+   - **서버 및 SQL**: API 계층의 1차 검사뿐 아니라, DB 저장 SQL 레벨에서도 `status = CASE WHEN lead_waitlist.status = 'sent' THEN 'sent' ELSE 'pending' END` 방어식을 적용하여 경쟁 상태에서도 발송 완료 상태가 `'pending'`으로 덮어써지지 않도록 이중 보호합니다.
 
 ---
 
-## 2. 접수 및 발송 운영 정책 (Operations)
+## 2. 개인정보 지체 없는 파기 및 수신 동의 철회 정책 (Retention & Immediate Disposal)
 
-### 2.1 접수 안내 메일 발송 수단
-- **현재 검증 환경**: n8n 자동화 워크플로 및 Cloudflare Email Workers 기반 로컬/스테이징 테스트 파이프라인.
-- **프로덕션 발송 수단**: **`[미확정: 운영자 의사결정 필요]`**
-  - 후보 1: Resend API (높은 도달률, 템플릿 버전 제어 용이, Webhook 지원)
-  - 후보 2: AWS SES 또는 Cloudflare Email Workers
-  - 후보 3: n8n + 전용 SMTP 릴레이
-  - **선행 전제**: 발송 공식 도메인(`noreply@etfcampus.kr` 또는 `support@etfcampus.kr`)에 대한 SPF, DKIM, DMARC DNS 레코드 인증 설정 완료 후 최종 확정.
+본 교육 가이드 사전 알림은 상거래 계약이나 금융투자상품 거래가 아닌 단순 1회성 무료 알림 서비스이므로, 전자상거래법 등 5년 보존 근거가 없습니다. 따라서 **분쟁 예방을 명목으로 철회자 명단을 계속 보관하지 않으며, 별도 보존 근거가 없는 데이터는 지체 없이 물리적 영구 파기(DELETE)**합니다.
 
-### 2.2 수신 동의 철회 vs 개인정보 물리적 파기 (Withdrawal vs Deletion)
-수신 거부(동의 철회)와 완전 삭제(잊혀질 권리)를 명확히 구분하여 운영합니다:
-
-1. **수신 동의 철회 (Withdrawal — `status = 'withdrawn'`)**:
-   - **신청 창구**: 공식 이메일 `etfcampus@gmail.com`
-   - **처리 절차**: 메일 접수 시 영업일 기준 **`[미확정: 운영자 의사결정 필요 — 접수 후 24시간 vs 3영업일 이내]`** D1 `lead_waitlist`에서 상태를 철회로 갱신:
-     ```sql
-     UPDATE lead_waitlist 
-     SET status = 'withdrawn', updated_at = datetime('now') 
-     WHERE email = ? AND campaign = 'challenge_guide_2026';
-     ```
-   - **보관 및 배제**: 분쟁 예방 및 부인방지(동의/철회 이력 증빙)를 위해 DB 행은 보존하되, 가이드 발송 대상 쿼리(`WHERE status = 'pending'`)에서 원천 배제됩니다.
-   - **재동의 처리**: 철회자가 차후 웹사이트에서 다시 필수 동의 체크 후 신청 시 `status = 'pending'`으로 복구되며 신규 동의 시각이 기록됩니다.
-
-2. **개인정보 물리적 파기 (Physical Deletion — `DELETE`)**:
-   - **신청 창구**: 공식 이메일 `etfcampus@gmail.com` (정보주체의 영구 삭제 요청)
-   - **처리 절차**: 접수 즉시 D1 원장에서 물리적 완전 삭제를 수행하여 영구 소멸:
+### 2.1 수신 동의 철회 및 파기 창구 (Withdrawal Channel)
+- **공식 접수 창구**: `neo.alpharesearch@gmail.com`
+- **화면 표기**: 출시 알림 모달 입력 폼의 동의 박스 및 접수 완료/발송 완료 화면에 명시.
+- **운영자 처리 절차 (24시간 이내 내부 목표)**:
+  1. 철회 또는 삭제 요청 메일 접수 시 24시간 이내에 Cloudflare D1 `lead_waitlist`에서 지체 없이 즉시 물리적 삭제(`DELETE`) 집행:
      ```sql
      DELETE FROM lead_waitlist 
      WHERE email = ? AND campaign = 'challenge_guide_2026';
      ```
-   - **재신청 시 처리**: 원장에서 영구 소멸되었으므로, 차후 재신청 시 신규 1행으로 등록됩니다.
+  2. 파기 완료 후 신청자에게 확인 회신 발송.
+  3. 원장에서 영구 소멸되므로 향후 발송 쿼리에서 원천 배제되며, 정보주체가 차후 재신청할 경우 신규 1행으로 등록됩니다.
 
-### 2.3 명단 보관 및 수동 정기 파기 계획 (Retention & Manual Disposal)
-개인정보 보호법 제21조에 따라 목적 달성 시 복구 불가능한 방법으로 영구 파기합니다:
-*(주의: 자동 파기 크론 워커가 구축되기 전까지는 시스템이 임의로 삭제하지 않으며, 운영자가 수동으로 D1 명령을 실행하여 파기합니다)*
+### 2.2 목적 달성 후 지체 없는 파기
+1. **가이드 발송 완료 후**:
+   - 가이드 출시 알림 발송 완료(`status = 'sent'`) 후 반송 처리 확인(최대 7일 이내)이 완료되는 즉시, 보존 근거가 없으므로 D1 원장에서 전원 지체 없이 물리적 삭제(`DELETE FROM lead_waitlist WHERE campaign = 'challenge_guide_2026'`)합니다.
+2. **출시 지연 및 프로젝트 중단 시**:
+   - 출시가 장기 지연되거나 프로젝트가 중단되는 경우, 취소 결정 즉시 전원 수동 영구 삭제를 집행합니다.
 
-1. **가이드 발송 완료 후 수동 파기**:
-   - 1차 가이드 알림 발송 완료(`status = 'sent'`) 후 **`[미확정: 운영자 의사결정 필요 — 발송 완료 30일 후 vs 즉시 파기]`** 경과 시점에 운영자가 아래 명령으로 수동 파기:
-     ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_waitlist WHERE status = 'sent' AND campaign = 'challenge_guide_2026' AND updated_at < datetime('now', '-30 days')"
-     ```
-2. **출시 지연 및 장기 보관 제한**:
-   - 최대 유예 기간 90일 초과 시까지 출시되지 못한 경우, 운영자가 수동 일괄 파기 수행. **`[미확정: 파기 실행 주기 및 담당자 확정 필요]`**
-3. **프로젝트 취소/중단 시**:
-   - 취소 결정 즉시 전원 수동 영구 삭제:
-     ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_waitlist WHERE campaign = 'challenge_guide_2026'"
-     ```
-4. **레이트 리밋 테이블(`lead_rate_limits`) 만료 레코드 수동 정리**:
-   - SHA-256 해시 키로 보관되는 레이트 리밋 테이블의 만료 데이터(`reset_at < now`)는 **`[미확정: 운영자 의사결정 필요 — 주 1회 정기 수동 실행 vs 월 1회]`** 아래 명령으로 수동 정리:
+---
+
+## 3. 서버 비밀키 기반 속도 제한 및 키 보유·삭제 절차 (Rate Limiting Security)
+
+### 3.1 서버 비밀키 기반 HMAC-SHA-256 해시
+- 고정된 공개 솔트를 배제하고, Cloudflare 환경 변수로 주입되는 서버 비밀키(`LEAD_RATE_LIMIT_SECRET` 또는 `AUTH_SECRET`)를 기반으로 HMAC-SHA-256 단방향 해시 키(`rl_ip_<hash>`, `rl_em_<hash>`)를 생성합니다.
+- `lead_rate_limits` 테이블에는 원문 IP나 이메일이 평문으로 절대 저장되지 않습니다.
+
+### 3.2 만료 데이터 및 키 삭제 절차 (Key Retention & Disposal)
+1. **만료 레코드 정기 수동 정리 (최소 주 1회)**:
+   - 윈도우가 만료된 레코드(`reset_at < now`)는 운영자가 최소 주 1회 아래 명령으로 D1 원장에서 정리합니다:
      ```bash
      npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_rate_limits WHERE reset_at < strftime('%s', 'now')"
      ```
+2. **서버 비밀키 로테이션 시 폐기 절차**:
+   - 서버 비밀키(`LEAD_RATE_LIMIT_SECRET`)를 갱신/교체할 경우, 기존 해시 키와 신규 해시 키의 불일치로 인한 오작동을 방지하기 위해 반드시 기존 속도 제한 테이블 데이터를 일괄 초기화합니다:
+     ```bash
+     npx wrangler d1 execute ETF_PRICES --remote --command "DELETE FROM lead_rate_limits"
+     ```
 
 ---
 
-## 3. 원격 D1 현황 및 배포 순서 (D1 Status & Safe Deployment)
+## 4. 운영자 최종 확인표 (Operator Decision Matrix)
 
-### 3.1 현재 원격 D1 상태 (읽기 전용 관측 실측값)
+아래 항목은 운영자 결정 권고안을 바탕으로 현재 확인된 시스템 상태와 확정 대기 항목을 정리한 최종 확정표입니다:
+
+| 항목 | 현재 확인된 상태 (As-Is) | 운영자 결정 권고안 (To-Be) | 확정 상태 및 조치 사항 |
+| :--- | :--- | :--- | :--- |
+| **메일 발송 시스템** | `neo.alpharesearch@gmail.com`<br>(Gmail SMTP SSL 465, OSMU 가동 중) | **Resend 트랜잭셔널 API 우선**<br>(대량 발송 한도 회피, Webhook 추적) | ⏳ **[운영자 최종 확인 대기]**<br>초기 100건 이하 파일럿은 기존 Gmail SMTP 즉시 사용 가능, 정식 배포 전 Resend API 키 발급 여부 확인 |
+| **발송 도메인 소유** | `etf-campus.pages.dev` 운영 중<br>(커스텀 도메인 미확정) | `etfcampus.kr` 또는 `etfcampus.pages.dev`<br>(SPF / DKIM / DMARC 설정 필요) | ⏳ **[운영자 최종 확인 대기]**<br>공식 도메인 DNS 레코드 인증 완료 전까지는 기존 `neo.alpharesearch@gmail.com` 명의로 발송 |
+| **철회 및 CS 창구** | `neo.alpharesearch@gmail.com` 운영 중 | `neo.alpharesearch@gmail.com`<br>(일원화된 공식 창구) | ✅ **[확정 반영 완료]**<br>화면, 약관, API 응답 문구에 `neo.alpharesearch@gmail.com` 일원화 적용 |
+| **철회 처리 내부 목표** | 수동 접수 및 D1 명령 실행 | **접수 후 24시간 이내 D1 DELETE 집행** | ✅ **[운영 방침 수립]**<br>영업일 기준 24시간 이내 즉시 물리적 삭제 원칙 수립 |
+| **목적 달성 후 파기** | 별도 보존 근거 없음 | **가이드 발송 완료 후 지체 없이 영구 파기** | ✅ **[운영 방침 수립]**<br>분쟁 예방 명목 보관 폐지, 발송 직후 원장 일괄 삭제 |
+| **속도 제한 데이터 정리**| D1 수동 쿼리 실행 | **최소 주 1회 정기 수동 정리 집행** | ✅ **[운영 방침 수립]**<br>`reset_at < now` 조건으로 주간 단위 D1 삭제 집행 |
+
+---
+
+## 5. 접수 차단 방법 및 가짜 성공 API 복귀 금지 (Ingress Shutoff & Fail-Closed)
+
+### 5.1 접수 차단 방법 (Ingress Shutoff Mechanism)
+장애 발생, 대기자 모집 종료, 또는 보안 점검 시 접수를 즉각 차단하는 절차는 다음과 같습니다:
+
+1. **프론트엔드 레벨 즉각 차단**:
+   - `components/learning/challenge-bridge-banner.tsx`의 '출시 알림 신청하기' 버튼을 '사전 알림 마감'으로 텍스트 변경하고 `disabled` 처리하거나, 배너를 비활성화합니다.
+2. **API 레벨 즉각 차단 (Cloudflare Pages Functions)**:
+   - `functions/api/lead/waitlist.ts` 최상단에 차단 플래그(`MAINTENANCE_MODE = true`)를 적용하여 호출 시 즉시 503을 반환합니다:
+     ```ts
+     return errorResponse(503, "UNAVAILABLE", "대기자 알림 신청 접수가 일시 마감되었습니다.");
+     ```
+
+### 5.2 가짜 성공 API 복귀 금지 (Strict Fail-Closed Recovery Path)
+- **과거 결함 영구 배제**: "DB 연결 누락/테이블 미적용/저장 실패 시에도 사용자에게 접수 완료(200) 화면을 띄워주는 가짜 성공" 구현을 영구 금지합니다.
+- **엄격한 정상 복구 경로**:
+  - 오직 D1 원장에 `result.success === true`로 확정 기록된 경우에만 `201 Created`를 반환합니다.
+  - DB 또는 레이트 리밋 저장소 장애 시에는 반드시 `503 UNAVAILABLE` 또는 `500 UNAVAILABLE`로 실패를 정직하게 알리고, 사용자 입력값(이메일, 관심사)을 보존하여 복구 후 즉시 재시도할 수 있도록 지원합니다.
+
+---
+
+## 6. 배포 직전 원격 D1 상태 확인 (D1 Pre-Deployment Audit)
+
 - **출처 문서**: `functions/api/lead/__tests__/fixtures/d1-remote-observation.json`
-- **대상 DB**: Cloudflare D1 `ETF_PRICES` (`11c4e874-fba2-4e34-91d0-808892284c86`, APAC/ICN)
-- **적용 완료 마이그레이션**: `0001` ~ `0026_correct_migration_baselines_0024.sql`
-- **미적용 대기 마이그레이션**:
+- **대상 데이터베이스**: Cloudflare D1 `ETF_PRICES` (`11c4e874-fba2-4e34-91d0-808892284c86`, APAC/ICN)
+- **현재 원격 적용 상태**: `0001` ~ `0026_correct_migration_baselines_0024.sql` 완료.
+- **적용 대기 마이그레이션**:
   1. `migrations/0027_lead_waitlist.sql` (기초 대기자 테이블 생성)
   2. `migrations/0028_lead_waitlist_hardening.sql` (캠페인 격리, 동의 버전/시각, 레이트 리밋 테이블, 멱등 복합 인덱스, FM-011 행수 감사)
-- **테이블 실측**: `SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%lead%'` 실행 결과 `[]` (현재 원격 D1에 대기자 관련 테이블 0건 존재).
-
-### 3.2 단계별 배포 순서 (선 마이그레이션 -> 후 API 배포)
-API가 배포되었으나 DB 테이블이 없으면 Fail-Closed 정책에 따라 사용자에게 즉시 503/500 장애가 노출되므로, 반드시 **마이그레이션 선적용 후 애플리케이션 배포** 순서를 준수합니다:
-
-```mermaid
-flowchart TD
-  A["로컬 통합 검증 완료\n(21개 테스트, tsc, eslint 100% 통과)"] --> B["작업 브랜치 Push & Main 병합 PR 승인"]
-  B --> C["Step 1: 원격 D1 마이그레이션 적용\n(npx wrangler d1 migrations apply ETF_PRICES --remote)"]
-  C --> D["Step 2: D1 원격 테이블 생성 실측 검증\n(sqlite_master 조회: lead_waitlist, lead_rate_limits)"]
-  D --> E["Step 3: Pages 웹 애플리케이션 & API 배포\n(GitHub Actions / Cloudflare Pages 배포)"]
-  E --> F["Step 4: 프로덕션 실측 헬스체크\n(모바일/데스크톱 폼 정상 동작 확인)"]
-```
+- **실측 테이블 조회 결과**: `SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%lead%'` -> `[]` (대기자 관련 테이블 0건 실측 확인 완료).
+- **배포 실행 순서**: **선 D1 마이그레이션 적용 -> 후 Pages 애플리케이션 배포** 원칙 엄수.
 
 ---
 
-## 4. 단계별 2-Tier 현실적 롤백 아키텍처 (Realistic 2-Tier Rollback)
+## 7. 실제 모바일 화면 검증 내역 (Mobile A11y & Viewport Audit)
 
-전체 DB 복원(Time-Travel)이나 무차별적인 테이블 삭제(DROP)는 **ETF 실시간 가격, 유저 포트폴리오, 커뮤니티 데이터 등 정상 운영 중인 핵심 서비스에 연쇄적인 장애와 데이터 손실**을 유발합니다. 따라서 롤백은 철저히 2단계로 격리하여 실행합니다:
-
-### 4.1 Tier 1: 기본 롤백 절차 (애플리케이션 및 트래픽 차단 / 코드 롤백)
-배포 직후 API 오류나 모달 오작동 발생 시 **DB를 건드리지 않고 애플리케이션 계층에서 즉시 100% 흡수**합니다:
-
-1. **1단계 (트래픽 즉각 차단)**:
-   - 프론트엔드 모달 접수 일시 차단 또는 이전 정상 빌드로 1-Click 배포 롤백:
-     - Cloudflare Pages 대시보드 -> `Deployments` -> 직전 정상 배포 클릭 -> `Rollback to this deployment` 실행 (소요 시간 10초 이내).
-2. **2단계 (API 긴급 핫픽스 배포)**:
-   - 원격 DB 스키마는 그대로 유지한 채, 문제가 발생한 API/프론트엔드 코드만 핫픽스 브랜치에서 수정하여 신속 재배포.
-3. **효과**:
-   - `ETF_PRICES` 데이터베이스의 타 테이블(ETF 가격, 유저 프로필 등)에 0.001%의 영향도 주지 않고 안전하게 장애 격리.
-
-### 4.2 Tier 2: 비상 재해 복구 (Disaster Recovery — 운영자 서면 승인 필수)
-마이그레이션 SQL 자체의 심각한 오류로 인해 D1 시스템 카탈로그가 오염되는 등 극단적인 비상 상황에서만 예외적으로 수행합니다:
-
-1. **조건**: 운영 책임자의 명시적 승인(`Operator Veto Review`) 필수.
-2. **격리된 역방향 SQL 실행**:
-   - 전체 복원 대신 대기자 신규 개체만 안전하게 정리:
-     ```bash
-     npx wrangler d1 execute ETF_PRICES --remote --command "DROP TABLE IF EXISTS lead_rate_limits; DROP INDEX IF EXISTS idx_lead_waitlist_email_campaign; DROP INDEX IF EXISTS idx_lead_waitlist_campaign;"
-     ```
-3. **D1 Time-Travel 복원 (최후의 수단)**:
-   - 타 복구 수단이 전무할 때, 마이그레이션 직전 북마크 시점으로만 한정 복원:
-     ```bash
-     npx wrangler d1 time-travel restore ETF_PRICES --bookmark <PRE_MIGRATION_BOOKMARK_ID>
-     ```
-
----
-
-## 5. UI/UX 및 모바일 접근성 검증 기준 (Mobile A11y Audit)
-
-| 점검 항목 | 기준 규격 | 구현 현황 | 검증 결과 |
+| 점검 항목 | 기준 규격 | 모달 적용 현황 | 검증 결과 |
 | :--- | :--- | :--- | :--- |
-| **모바일 뷰포트 대응** | 360px, 390px, 430px 너비 | `p-3 sm:p-4`, `max-w-lg` 가변 폭 | ✅ 패딩 및 마진 완벽 정렬, 잘림 없음 |
-| **터치 타깃 최소 크기** | 최소 44x44px 이상 | 닫기(44x44), 확인(44px), 관심영역(44px), 제출(44px) | ✅ 전 인터랙션 버튼 `min-h-[44px]` 확보 |
-| **체크박스 터치 편의성** | 손쉬운 터치 | `label` 클릭 연동 및 `pt-1.5 cursor-pointer` | ✅ 텍스트 영역 터치 시 즉각 토글 |
-| **iOS 자동 줌 방지** | 폰트 크기 16px 이상 | 이메일 input: `text-base sm:text-sm` (16px) | ✅ 포커스 시 Safari 강제 확대 방지 |
-| **키보드 가림 방지** | 가상 키보드 스크롤 | 모달 카드 `max-h-[90vh] overflow-y-auto` | ✅ 키보드 오픈 시 내부 독립 스크롤 가능 |
+| **모바일 뷰포트 대응** | 360px, 390px, 430px 너비 | `p-3 sm:p-4`, `max-w-lg` 가변 폭 | ✅ 패딩 및 마진 완벽 정렬, 모바일 잘림 없음 |
+| **터치 타깃 최소 크기** | 최소 44x44px 이상 | 닫기(44x44), 확인(44px), 관심사(44px), 제출(44px) | ✅ 전 인터랙션 버튼 `min-h-[44px]` 확보 |
+| **iOS 자동 줌 방지** | 폰트 크기 16px 이상 | 이메일 input: `text-base sm:text-sm` (16px) | ✅ 모바일 Safari 포커스 시 브라우저 화면 강제 확대 차단 |
+| **키보드 가림 방지** | 가상 키보드 스크롤 | 모달 카드 `max-h-[90vh] overflow-y-auto` | ✅ 키보드 노출 시 내부 독립 스크롤로 버튼 조작 보장 |
+| **화면 분기 렌더링** | 신규 접수 vs 기존 발송완료 | `alreadySent: true` 시 앰버 톤 발송 완료 화면 전환 | ✅ 기존 신청자 오인 방지 및 고객센터 안내 노출 |
 | **접근성 포커스 제어** | WAI-ARIA Dialog 패턴 | Escape 닫기, Focus Trap, 완료 헤딩 포커스 이동 | ✅ 키보드 및 스크린 리더 100% 대응 |
-
----
-
-## 6. 자산 출처 및 무결성 실증 (Asset Provenance: PDF Cheatsheet)
-
-- **파일 경로**: `public/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf`
-- **파일 크기**: `234,815 바이트`
-- **SHA-256 해시**: `847455348f4b045261a578bf682c935c10abc27ff0802288eb6b85c0a4814fe5`
-- **출처 및 변경 이력**:
-  - `Marketing_Writer` 저장소의 승인된 마스터 치트시트 PDF와 바이트 단위로 100% 동일함.
-  - 이전 세션의 `git checkout`은 커밋 `f53a57c8`(231,903B)에서 최신 승인본 커밋 `4e19a739`(234,815B)로 동기화 복원한 것이며, 임의 재생성이나 위조 없이 Git 원본 이력에 온전히 보존되어 있음.
-  - 자동화 회귀 테스트(`data/__tests__/tutorial-content.test.ts`)에서 SHA-256 해시를 매 빌드마다 검증 중.
-
----
-
-## 7. 브랜치 커밋 경계 및 머지 계획 (Branch Merge Boundaries)
-
-현재 작업 브랜치(`fix/oauth-unauth-start-and-captcha-stabilization`)에 포함된 작업 영역을 명확히 구분하여 `main` 병합 시 추적성을 보장합니다:
-
-1. **소셜 로그인 및 보안 강화 영역** (`commit a6eb0241`):
-   - 비인증 소셜 OAuth start 경로 화이트리스트 확장
-   - 캡차 위젯 세션 타임아웃 보존 및 중복 스크립트 정리
-2. **튜토리얼 및 치트시트 규제 정합성 영역** (`commit 4e19a739`):
-   - IRP 70% 한도 규제 근거 명시 및 ISA 추가 공제 계산식 엄격 분리
-   - `download=auto` 치트 해금 디커플링 및 10문항 완주 로직 검증
-   - 치트시트 PDF SHA-256 마스터 동기화
-3. **대기자 접수 API 및 D1 무결성 강화 영역** (`commit 19faf68c`, `9b47dbdc`, `793eb13b` 및 현재 작업):
-   - 0027 원본 보존 및 0028 증분 하드닝 마이그레이션 (FM-011 통과)
-   - 4096B 스트리밍 바이트 카운팅 및 즉각 중단(abort)
-   - SHA-256 해시 키 기반 개인정보 최소화 레이트 리밋
-   - SQLite 원자적 `ON CONFLICT ... RETURNING` 동시성 제어
-   - Fail-Closed 503/500 응답 및 `status = 'sent'` 신청 범위 보호
-   - 모바일 44px 터치 타깃 및 iOS 자동 확대 방지

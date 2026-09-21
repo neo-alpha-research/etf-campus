@@ -70,11 +70,19 @@ export async function onRequest(context) {
 
   const required = needsAuthentication(pathname, method);
   const tokens = requestSessionTokens(context.request);
-  if (!required && !tokens.accessToken) return context.next();
-  if (required && !tokens.accessToken) return errorResponse(401, "AUTH_REQUIRED", "로그인이 필요합니다.");
+  const hasAnyToken = Boolean(tokens.accessToken || tokens.refreshToken);
+
+  if (!hasAnyToken) {
+    if (required) return errorResponse(401, "AUTH_REQUIRED", "로그인이 필요합니다.");
+    return context.next();
+  }
 
   const session = await authenticatedSession(context);
   if (session.error) return required ? session.error : context.next();
+
+  context.data = context.data || {};
+  context.data.session = session;
+
   const headers = new Headers(context.request.headers);
   headers.set("Authorization", `Bearer ${session.accessToken}`);
   const request = new Request(context.request, { headers });

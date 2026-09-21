@@ -16,14 +16,25 @@ let cachedConfigPromise: Promise<AuthConfig> | null = null;
 
 function getAuthConfig(): Promise<AuthConfig> {
   if (!cachedConfigPromise) {
-    cachedConfigPromise = fetch("/api/community/auth/config", { credentials: "same-origin" })
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
+
+    cachedConfigPromise = fetch("/api/community/auth/config", { 
+      credentials: "same-origin",
+      signal: controller?.signal,
+    })
       .then(async (response) => {
+        if (timer) clearTimeout(timer);
         const config = await response.json();
         if (!response.ok) throw new Error(config?.error?.message ?? "CAPTCHA 설정을 확인할 수 없습니다.");
         return config as AuthConfig;
       })
       .catch((err) => {
+        if (timer) clearTimeout(timer);
         cachedConfigPromise = null;
+        if (err?.name === "AbortError") {
+          throw new Error("보안 확인 설정 요청 시간이 초과되었습니다.");
+        }
         throw err;
       });
   }
@@ -31,6 +42,11 @@ function getAuthConfig(): Promise<AuthConfig> {
 }
 
 let turnstileScriptPromise: Promise<void> | null = null;
+
+export function _resetTurnstileStateForTesting() {
+  cachedConfigPromise = null;
+  turnstileScriptPromise = null;
+}
 
 function loadTurnstileScript(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
@@ -84,6 +100,8 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
 
   const handleRetry = () => {
     setMessage("");
+    cachedConfigPromise = null;
+    turnstileScriptPromise = null;
     if (widgetId.current && window.turnstile) {
       try {
         window.turnstile.reset(widgetId.current);

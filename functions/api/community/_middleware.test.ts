@@ -3,6 +3,7 @@ import { onRequest } from "./_middleware.js";
 
 const mocks = vi.hoisted(() => ({
   authenticatedSession: vi.fn(),
+  requestSessionTokens: vi.fn(() => ({ accessToken: "test-token", refreshToken: null })),
 }));
 
 vi.mock("./_lib/session", () => ({
@@ -19,7 +20,7 @@ vi.mock("./_lib/session", () => ({
     }
     return null;
   }),
-  requestSessionTokens: vi.fn(() => ({ accessToken: "test-token" })),
+  requestSessionTokens: mocks.requestSessionTokens,
 }));
 
 function createContext(pathname, method, headers = {}) {
@@ -97,5 +98,38 @@ describe("커뮤니티 미들웨어", () => {
     const response = await onRequest(ctx);
     // Because it's PUBLIC_AUTH_PATHS, mergeSessionHeaders is skipped
     expect(response.headers.get("X-Community-CSRF")).toBe("new-csrf-from-handler");
+  });
+
+  it("T-10: Refresh 쿠키만 있고 Access 쿠키가 없을 때 보호 API 요청 시 401로 조기 거부하지 않고 authenticatedSession을 호출해 갱신을 시도한다", async () => {
+    mocks.requestSessionTokens.mockReturnValueOnce({ accessToken: null, refreshToken: "valid-refresh-token" });
+    const fakeSession = { accessToken: "new-access-token", user: { id: "user-123" } };
+    mocks.authenticatedSession.mockResolvedValueOnce(fakeSession);
+
+    const ctx = createContext("/api/community/posts", "POST", {
+      Origin: "https://example.com",
+      "Content-Type": "application/json",
+      "X-Community-CSRF": "valid-csrf",
+    });
+
+    const response = await onRequest(ctx as any);
+    expect(mocks.authenticatedSession).toHaveBeenCalled();
+    expect(response.status).toBe(200);
+    // context.data.session에 세션 정보가 정상 캐싱되었는지 확인
+    expect((ctx as any).data?.session).toEqual(fakeSession);
+  });
+
+  it("T-11: Access/Refresh 쿠키가 둘 다 없는 경우 보호 API 요청 시 authenticatedSession 호출 없이 즉시 401을 반환한다", async () => {
+    mocks.requestSessionTokens.mockReturnValueOnce({ accessToken: null, refreshToken: null });
+    mocks.authenticatedSession.mockClear();
+
+    const ctx = createContext("/api/community/posts", "POST", {
+      Origin: "https://example.com",
+      "Content-Type": "application/json",
+      "X-Community-CSRF": "valid-csrf",
+    });
+
+    const response = await onRequest(ctx as any);
+    expect(response.status).toBe(401);
+    expect(mocks.authenticatedSession).not.toHaveBeenCalled();
   });
 });

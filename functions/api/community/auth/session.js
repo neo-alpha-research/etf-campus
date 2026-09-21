@@ -3,7 +3,7 @@ import { adminSupabase } from "../_lib/supabase";
 import { jsonResponse } from "../_lib/api-security";
 
 export async function onRequestGet(context) {
-  const session = await authenticatedSession(context);
+  const session = context.data?.session ?? await authenticatedSession(context);
   if (session.error) return session.error;
   
   const isInternalOAuthEmail = typeof session.user?.email === "string" && 

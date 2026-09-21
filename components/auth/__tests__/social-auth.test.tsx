@@ -34,7 +34,7 @@ describe("SupabaseAuthFlow Social Login UI", () => {
   it("renders Kakao and Naver social login buttons in login step", () => {
     render(<SupabaseAuthFlow onAuthenticated={vi.fn()} />);
 
-    expect(screen.getByRole("button", { name: /카카오로 3초 만에 시작하기/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /카카오로 시작하기/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /네이버로 시작하기/i })).toBeInTheDocument();
     expect(screen.getByText("또는 이메일로 로그인")).toBeInTheDocument();
   });
@@ -51,7 +51,7 @@ describe("SupabaseAuthFlow Social Login UI", () => {
     const onAuth = vi.fn();
     render(<SupabaseAuthFlow onAuthenticated={onAuth} />);
 
-    const kakaoBtn = screen.getByRole("button", { name: /카카오로 3초 만에 시작하기/i });
+    const kakaoBtn = screen.getByRole("button", { name: /카카오로 시작하기/i });
     fireEvent.click(kakaoBtn);
 
     expect(onAuth).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ describe("SupabaseAuthFlow Social Login UI", () => {
 
       render(<SupabaseAuthFlow onAuthenticated={vi.fn()} returnTo="/explore/" />);
 
-      const kakaoBtn = screen.getByRole("button", { name: /카카오로 3초 만에 시작하기/i });
+      const kakaoBtn = screen.getByRole("button", { name: /카카오로 시작하기/i });
       fireEvent.click(kakaoBtn);
 
       await waitFor(() => {

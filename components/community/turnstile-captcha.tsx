@@ -30,28 +30,45 @@ function getAuthConfig(): Promise<AuthConfig> {
   return cachedConfigPromise;
 }
 
+let turnstileScriptPromise: Promise<void> | null = null;
+
 function loadTurnstileScript(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
   if (window.turnstile) return Promise.resolve();
+  if (turnstileScriptPromise) return turnstileScriptPromise;
 
-  const existing = document.querySelector<HTMLScriptElement>('script[src*="challenges.cloudflare.com/turnstile"]');
-  if (existing) {
-    return new Promise((resolve, reject) => {
-      if (window.turnstile) { resolve(); return; }
-      existing.addEventListener("load", () => resolve(), { once: true });
-      existing.addEventListener("error", () => reject(new Error("보안 확인 도구를 불러오지 못했습니다.")), { once: true });
-    });
-  }
+  turnstileScriptPromise = new Promise((resolve, reject) => {
+    // 기존에 로딩에 실패한 script 태그가 남아있다면 제거하여 신규 요청 보장
+    const existing = document.querySelector<HTMLScriptElement>('script[src*="challenges.cloudflare.com/turnstile"]');
+    if (existing) {
+      existing.remove();
+    }
 
-  return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async = true;
     script.defer = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("보안 확인 도구를 불러오지 못했습니다."));
+
+    const timer = setTimeout(() => {
+      script.remove();
+      turnstileScriptPromise = null;
+      reject(new Error("보안 확인 도구 로딩 시간이 초과되었습니다."));
+    }, 10000);
+
+    script.onload = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    script.onerror = () => {
+      clearTimeout(timer);
+      script.remove();
+      turnstileScriptPromise = null;
+      reject(new Error("보안 확인 도구를 불러오지 못했습니다."));
+    };
     document.head.appendChild(script);
   });
+
+  return turnstileScriptPromise;
 }
 
 export function TurnstileCaptcha({ action, onToken }: Props) {

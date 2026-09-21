@@ -86,16 +86,21 @@ export function clearCommunityDraft() {
   browserStorage()?.removeItem(DRAFT_KEY);
 }
 
+const UNAUTHENTICATED_AUTH_PATHS = new Set([
+  "/api/community/auth/request-otp",
+  "/api/community/auth/verify-otp",
+  "/api/community/auth/set-password",
+  "/api/community/auth/login-password",
+  "/api/community/auth/oauth/kakao/start",
+  "/api/community/auth/oauth/naver/start",
+]);
+
 export async function communityFetch<T = any>(path: string, init: RequestInit = {}): Promise<T> {
   const method = (init.method ?? "GET").toUpperCase();
   const unsafe = ["POST", "PATCH", "PUT", "DELETE"].includes(method);
   
-  const isAuthStart = path.startsWith("/api/community/auth/request-otp") || 
-                      path.startsWith("/api/community/auth/verify-otp") || 
-                      path.startsWith("/api/community/auth/set-password") || 
-                      path.startsWith("/api/community/auth/login-password") ||
-                      path.startsWith("/api/community/auth/oauth/kakao/start") ||
-                      path.startsWith("/api/community/auth/oauth/naver/start");
+  const cleanPath = path.split("?")[0];
+  const isAuthStart = UNAUTHENTICATED_AUTH_PATHS.has(cleanPath);
                       
   if (unsafe && !isAuthStart) await ensureCsrf();
 

@@ -144,7 +144,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             const timer = setTimeout(() => {
               pendingLoginTokenRef.current = null;
               reject(new Error("보안 확인 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."));
-            }, 4000);
+            }, 6000);
 
             pendingLoginTokenRef.current = (tok: string) => {
               clearTimeout(timer);
@@ -168,9 +168,13 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         setStep("profile");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다.");
+      const errMsg = error instanceof Error ? error.message : "로그인에 실패했습니다.";
+      setMessage(errMsg);
       setLoginCaptchaToken(null);
-      setCaptchaKey(k => k + 1);
+      // 단순 대기 시간 초과 시에는 진행 중인 위젯을 강제 재생성(destroy)하지 않고 유지하여 진행을 방해하지 않음
+      if (!errMsg.includes("시간이 초과되었습니다")) {
+        setCaptchaKey(k => k + 1);
+      }
     } finally {
       pendingLoginTokenRef.current = null;
       setIsWaitingCaptcha(false);
@@ -350,7 +354,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M12 3C6.477 3 2 6.477 2 10.771c0 2.766 1.859 5.187 4.673 6.556l-1.189 4.354a.428.428 0 0 0 .61.478l5.228-3.468c.224.02.45.03.678.03 5.523 0 10-3.478 10-7.771C22 6.477 17.523 3 12 3z" />
                     </svg>
-                    <span>카카오로 3초 만에 시작하기</span>
+                    <span>카카오로 시작하기</span>
                   </>
                 )}
               </button>

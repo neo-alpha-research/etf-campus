@@ -32,7 +32,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
 
     render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "신규 회원가입 / 비밀번호 재설정 (이메일 인증)" }));
+    fireEvent.click(screen.getByRole("button", { name: "이메일 간편 로그인 / 회원가입" }));
 
     await act(async () => {
       mocks.captchaCallbacks.get("community_otp_request")?.("consumed-request-token");
@@ -58,8 +58,12 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     // 1. request OTP
     mocks.communityFetch.mockResolvedValueOnce({ message: "인증 코드를 보냈습니다." });
     
-    // 2. verify OTP
-    mocks.communityFetch.mockResolvedValueOnce({ profileConfigured: true });
+    // 2. verify OTP (reset password returns passwordSetupRequired)
+    mocks.communityFetch.mockResolvedValueOnce({
+      authenticated: true,
+      passwordSetupRequired: true,
+      isPasswordReset: true,
+    });
     
     // 3. set password throws error with passwordChanged: true
     const setPasswordError = new Error("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.") as Error & { status: number; code: string; body: { passwordChanged: boolean } };
@@ -69,7 +73,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     mocks.communityFetch.mockRejectedValueOnce(setPasswordError);
 
     render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={vi.fn()} />);
-    fireEvent.click(screen.getByRole("button", { name: "신규 회원가입 / 비밀번호 재설정 (이메일 인증)" }));
+    fireEvent.click(screen.getByRole("button", { name: "비밀번호 재설정" }));
 
     // OTP request step
     await act(async () => mocks.captchaCallbacks.get("community_otp_request")?.("token1"));
@@ -94,5 +98,35 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
       expect(screen.getByText("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "이메일 로그인" })).toBeInTheDocument(); // Login step's main button
     });
+  });
+
+  it("기존 회원이 이메일 간편 로그인으로 인증 코드를 입력하면 비밀번호 설정 없이 즉시 인증 완료된다", async () => {
+    const onAuthenticated = vi.fn();
+    mocks.communityFetch
+      .mockResolvedValueOnce({ message: "인증 코드를 보냈습니다." })
+      .mockResolvedValueOnce({
+        authenticated: true,
+        profileConfigured: true,
+        passwordSetupRequired: false,
+        isNewUser: false,
+      });
+
+    render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={onAuthenticated} />);
+    fireEvent.click(screen.getByRole("button", { name: "이메일 간편 로그인 / 회원가입" }));
+
+    // OTP request step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_request")?.("token1"));
+    fireEvent.change(screen.getByLabelText("이메일"), { target: { value: "existing@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: "8자리 인증 코드 받기" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "인증 완료" })).toBeInTheDocument());
+
+    // OTP verify step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_verify")?.("token2"));
+    fireEvent.change(screen.getByLabelText("인증 코드"), { target: { value: "87654321" } });
+    fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
+
+    // Should call onAuthenticated immediately without showing password setup
+    await waitFor(() => expect(onAuthenticated).toHaveBeenCalledTimes(1));
+    expect(screen.queryByRole("button", { name: "비밀번호 저장 후 계속" })).not.toBeInTheDocument();
   });
 });

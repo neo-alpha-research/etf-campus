@@ -19,24 +19,25 @@ function getAuthConfig(): Promise<AuthConfig> {
     const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
 
-    cachedConfigPromise = fetch("/api/community/auth/config", { 
-      credentials: "same-origin",
-      signal: controller?.signal,
-    })
-      .then(async (response) => {
-        if (timer) clearTimeout(timer);
+    cachedConfigPromise = (async () => {
+      try {
+        const response = await fetch("/api/community/auth/config", { 
+          credentials: "same-origin",
+          signal: controller?.signal,
+        });
         const config = await response.json();
         if (!response.ok) throw new Error(config?.error?.message ?? "CAPTCHA 설정을 확인할 수 없습니다.");
         return config as AuthConfig;
-      })
-      .catch((err) => {
-        if (timer) clearTimeout(timer);
+      } catch (err: unknown) {
         cachedConfigPromise = null;
-        if (err?.name === "AbortError") {
+        if (err && typeof err === "object" && "name" in err && (err as { name: string }).name === "AbortError") {
           throw new Error("보안 확인 설정 요청 시간이 초과되었습니다.");
         }
         throw err;
-      });
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    })();
   }
   return cachedConfigPromise;
 }

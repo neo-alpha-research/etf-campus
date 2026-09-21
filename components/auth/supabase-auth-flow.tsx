@@ -29,6 +29,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [token, setToken] = useState("");
+  const [otpPurpose, setOtpPurpose] = useState<"login" | "reset_password">("login");
 
 
   const [nickname, setNickname] = useState("");
@@ -209,10 +210,25 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      await communityFetch("/api/community/auth/verify-otp", {
+      const res = await communityFetch<{
+        authenticated?: boolean;
+        profileConfigured?: boolean;
+        passwordSetupRequired?: boolean;
+        isPasswordReset?: boolean;
+      }>("/api/community/auth/verify-otp", {
         method: "POST",
-        body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken }),
+        body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken, purpose: otpPurpose }),
       });
+
+      // 1. 기존 가입 완료 회원이 이메일 OTP로 로그인한 경우: 즉시 세션 반영 후 returnTo 복귀
+      if (res.profileConfigured && otpPurpose !== "reset_password") {
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        onAuthenticated();
+        return;
+      }
+
+      // 2. 비밀번호 재설정 또는 신규 회원인 경우: password-setup 단계로 이동
       setPasswordCaptchaToken(null);
       setStep("password-setup");
       setPassword("");
@@ -427,8 +443,21 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                   "이메일 로그인"
                 )}
               </button>
-              <div className="mt-4 text-center">
-                <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
+              <div className="mt-4 flex items-center justify-between text-xs sm:text-sm">
+                <button
+                  type="button"
+                  onClick={() => { setOtpPurpose("login"); setStep("otp-request"); setMessage(""); }}
+                  className="font-semibold text-brand-700 hover:underline cursor-pointer"
+                >
+                  이메일 간편 로그인 / 회원가입
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setOtpPurpose("reset_password"); setStep("otp-request"); setMessage(""); }}
+                  className="text-slate-500 hover:text-slate-700 hover:underline cursor-pointer"
+                >
+                  비밀번호 재설정
+                </button>
               </div>
             </form>
           </div>
@@ -436,7 +465,11 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
         {step === "otp-request" ? (
           <form className="mt-6 space-y-4" onSubmit={requestOtp}>
-            <p className="text-sm leading-6 text-slate-600">이메일 인증을 통해 가입 및 비밀번호 재설정을 진행할 수 있습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {otpPurpose === "reset_password"
+                ? "가입된 이메일로 8자리 인증 코드를 보내드립니다. 인증 후 새 비밀번호를 설정할 수 있습니다."
+                : "이메일 인증을 통해 간편 로그인 및 신규 가입을 진행할 수 있습니다."}
+            </p>
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
@@ -468,7 +501,11 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
         {step === "password-setup" ? (
           <form className="mt-6 space-y-4" onSubmit={setupPassword}>
-            <p className="text-sm leading-6 text-slate-600">앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {otpPurpose === "reset_password"
+                ? "새로 사용할 비밀번호를 설정해 주세요. 설정 완료 후 새 비밀번호로 로그인됩니다."
+                : "앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다."}
+            </p>
             <label className="block text-sm font-semibold text-slate-800">새 비밀번호
               <div className="relative mt-2">
                 <input type={showPassword ? "text" : "password"} required minLength={8} autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="8자리 이상 입력" />

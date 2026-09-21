@@ -8,7 +8,6 @@ const mocks = vi.hoisted(() => ({
 vi.mock("../_lib/session", () => ({
   authenticatedSession: mocks.authenticatedSession,
   clearSessionHeaders: () => new Headers({ "Set-Cookie": "clear" }),
-  mergeSessionHeaders: (response: Response) => response,
 }));
 
 vi.mock("../_lib/supabase", () => ({

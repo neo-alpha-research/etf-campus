@@ -1,10 +1,20 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   passwordSetupHeaders,
   readPasswordSetup,
   clearPasswordSetupHeaders,
   COMMUNITY_SESSION_COOKIE_NAMES,
+  checkProfileConfigured,
 } from "./session";
+
+const mocks = vi.hoisted(() => ({
+  adminSupabase: vi.fn(),
+}));
+
+vi.mock("./supabase", () => ({
+  adminSupabase: mocks.adminSupabase,
+  publicSupabase: vi.fn(),
+}));
 
 
 
@@ -140,6 +150,63 @@ describe("session", () => {
   describe("COMMUNITY_SESSION_COOKIE_NAMES", () => {
     it("S-8: PWSETUP_COOKIE가 포함됨", () => {
       expect(Object.values(COMMUNITY_SESSION_COOKIE_NAMES)).toContain("__Host-etf-campus-community-pwsetup");
+    });
+  });
+
+  describe("checkProfileConfigured", () => {
+    it("기존 회원의 public_nickname이 존재하면 terms_version이 없어도 true를 반환한다", async () => {
+      mocks.adminSupabase.mockReturnValue({
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: async () => ({
+                data: { public_nickname: "기존연구원", terms_version: null },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const configured = await checkProfileConfigured({} as any, "user-uuid-123");
+      expect(configured).toBe(true);
+    });
+
+    it("신규 회원이거나 닉네임이 없으면 false를 반환한다", async () => {
+      mocks.adminSupabase.mockReturnValue({
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: async () => ({
+                data: null,
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const configured = await checkProfileConfigured({} as any, "user-new-uuid");
+      expect(configured).toBe(false);
+    });
+
+    it("프로필 조회 중 DB 오류가 발생하면 예외를 던져 503 Fail-Closed로 처리되게 한다 (신규 회원 오판 방지)", async () => {
+      mocks.adminSupabase.mockReturnValue({
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: async () => ({
+                data: null,
+                error: { message: "connection timeout" },
+              }),
+            }),
+          }),
+        }),
+      });
+
+      await expect(checkProfileConfigured({} as any, "user-uuid-error")).rejects.toThrow(
+        "Failed to query user profile"
+      );
     });
   });
 });

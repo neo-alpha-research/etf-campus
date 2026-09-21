@@ -1,4 +1,4 @@
-import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
+import { authenticatedSession, clearSessionHeaders } from "../_lib/session";
 import { adminSupabase } from "../_lib/supabase";
 import { jsonResponse } from "../_lib/api-security";
 
@@ -23,18 +23,15 @@ export async function onRequestGet(context) {
     // Graceful fallback if profile lookup fails
   }
 
-  return mergeSessionHeaders(
-    jsonResponse({ 
-      authenticated: true,
-      user: {
-        id: session.user.id,
-        email: exposedEmail,
-        displayName,
-        isOAuth: Boolean(isInternalOAuthEmail),
-      }
-    }), 
-    session
-  );
+  return jsonResponse({ 
+    authenticated: true,
+    user: {
+      id: session.user.id,
+      email: exposedEmail,
+      displayName,
+      isOAuth: Boolean(isInternalOAuthEmail),
+    }
+  });
 }
 
 export async function onRequestDelete() {

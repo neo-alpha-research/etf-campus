@@ -159,4 +159,44 @@ describe("TurnstileCaptcha 실측 검증", () => {
       expect(screen.getByRole("button", { name: "보안 확인 다시 시도" })).toBeInTheDocument();
     });
   });
+
+  it("설정 API의 본문(response.json) 수신이 지연될 때 8초 타이머가 유지되어 AbortError로 차단하고 에러 메시지를 표시한다", async () => {
+    vi.useFakeTimers();
+    try {
+      _resetTurnstileStateForTesting();
+      window.turnstile = {
+        render: vi.fn(),
+        remove: vi.fn(),
+        reset: vi.fn(),
+      };
+
+      // fetch 응답은 즉시 도착하지만, json() 본문 수신이 멈추는 상황 시뮬레이션
+      globalThis.fetch = vi.fn().mockImplementation((_url, options) => {
+        const signal = options?.signal;
+        return Promise.resolve({
+          ok: true,
+          json: () => new Promise((_resolve, reject) => {
+            if (signal) {
+              signal.addEventListener("abort", () => {
+                reject(new DOMException("The operation was aborted", "AbortError"));
+              });
+            }
+          }),
+        });
+      });
+
+      render(<TurnstileCaptcha action="community_password_login" onToken={vi.fn()} />);
+
+      // 8초 이상 타이머 진행하여 AbortController 트리거
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(8500);
+      });
+
+      // 본문 수신 중 타임아웃 발생 및 에러 메시지 노출 확인
+      expect(screen.getByText("보안 확인 설정 요청 시간이 초과되었습니다.")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "보안 확인 다시 시도" })).toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

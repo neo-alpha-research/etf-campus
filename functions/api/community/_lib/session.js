@@ -212,18 +212,19 @@ export async function authenticatedSession(context) {
 }
 
 export async function checkProfileConfigured(env, userId) {
-  try {
-    const admin = adminSupabase(env);
-    const { data } = await admin
-      .from("user_profiles")
-      .select("public_nickname, terms_version")
-      .eq("id", userId)
-      .maybeSingle();
+  const admin = adminSupabase(env);
+  const { data, error } = await admin
+    .from("user_profiles")
+    .select("public_nickname, terms_version")
+    .eq("id", userId)
+    .maybeSingle();
 
-    return Boolean(data?.public_nickname && data?.terms_version);
-  } catch {
-    return false;
+  if (error) {
+    console.error("checkProfileConfigured query error:", error);
+    throw new Error("Failed to query user profile");
   }
+
+  return Boolean(data?.public_nickname && typeof data.public_nickname === "string" && data.public_nickname.trim().length > 0);
 }
 
 export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE, PWSETUP_COOKIE };

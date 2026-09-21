@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { SiteHeader } from "../site-header";
 
 let mockPathname = "/explore/";
@@ -92,4 +92,48 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
 
     expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: "instant" });
   });
+
+  it("ETF 검색 버튼이 렌더링되고 클릭 시 통합 검색 모달이 열린다", () => {
+    render(<SiteHeader />);
+
+    // 데스크톱 또는 모바일의 ETF 검색 버튼 확인
+    const searchButtons = screen.getAllByRole("button", { name: /ETF.*빠른 검색/i });
+    expect(searchButtons.length).toBeGreaterThanOrEqual(1);
+
+    // 검색 모달 열기 전에는 모달이 없음
+    expect(screen.queryByRole("dialog", { name: "ETF 통합 퀵 검색" })).not.toBeInTheDocument();
+
+    // 검색 버튼 클릭 (fireEvent 사용)
+    fireEvent.click(searchButtons[0]);
+
+    // 모달이 열림
+    expect(screen.getByRole("dialog", { name: "ETF 통합 퀵 검색" })).toBeInTheDocument();
+  });
+
+  it("주요 메뉴 7개가 정상 렌더링된다", () => {
+    render(<SiteHeader />);
+
+    const expectedLabels = [
+      "마켓 브리핑",
+      "캠퍼스 투어",
+      "ETF 탐색",
+      "ETF 비교",
+      "ETF 이야기",
+      "도서·리뷰",
+      "알림·참여",
+    ];
+
+    for (const label of expectedLabels) {
+      const links = screen.getAllByRole("link", { name: label });
+      expect(links.length).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it("적성 리포트 칩(StyleChip)과 계정 내비게이션(AuthNav)이 마운트된다", () => {
+    render(<SiteHeader />);
+
+    expect(screen.getByTestId("style-chip")).toBeInTheDocument();
+    expect(screen.getAllByTestId("auth-nav").length).toBeGreaterThanOrEqual(1);
+  });
 });
+

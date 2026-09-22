@@ -14,26 +14,29 @@
       {
         "code": "CLF",
         "label": "WTI 원유",
-        "close": 91.88,
-        "change_points": 0.87,
-        "change_pct": 0.96,
-        "as_of_date": "2026-09-03"
+        "close": 91.3,
+        "change_points": 0.29,
+        "change_pct": 0.32,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 4.76,
-        "change_points": -0.034,
-        "change_pct": -0.034,
-        "as_of_date": "2026-09-03"
+        "close": 4.762,
+        "change_points": -0.032,
+        "change_pct": -0.032,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4523.3,
-        "change_points": 157,
-        "change_pct": 3.6,
-        "as_of_date": "2026-09-03"
+        "close": 4539.9,
+        "change_points": 125.3,
+        "change_pct": 2.84,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "KOSDAQ",
@@ -54,10 +57,11 @@
       {
         "code": "KR10Y",
         "label": "국채 10년",
-        "close": 4.367,
-        "change_points": -0.051,
-        "change_pct": -0.051,
-        "as_of_date": "2026-09-03"
+        "close": 4.363,
+        "change_points": -0.041,
+        "change_pct": -0.041,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "NDX",
@@ -70,10 +74,11 @@
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 67.57,
-        "change_points": 2.85,
-        "change_pct": 4.41,
-        "as_of_date": "2026-09-03"
+        "close": 67.7,
+        "change_points": 2.24,
+        "change_pct": 3.42,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "SPX",
@@ -86,10 +91,11 @@
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1356.24,
-        "change_points": -2.15,
-        "change_pct": -0.16,
-        "as_of_date": "2026-09-03"
+        "close": 1358.0,
+        "change_points": -2.3,
+        "change_pct": -0.17,
+        "as_of_date": "2026-09-03",
+        "is_closed": false
       },
       {
         "code": "VIX",

@@ -17,23 +17,26 @@
         "close": 91.48,
         "change_points": 0.18,
         "change_pct": 0.2,
-        "as_of_date": "2026-09-04"
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 4.78,
+        "close": 4.784,
         "change_points": 0.022,
         "change_pct": 0.022,
-        "as_of_date": "2026-09-04"
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4429.8,
-        "change_points": -61.9,
-        "change_pct": -1.38,
-        "as_of_date": "2026-09-04"
+        "close": 4476.6,
+        "change_points": -63.3,
+        "change_pct": -1.39,
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "KOSDAQ",
@@ -54,10 +57,11 @@
       {
         "code": "KR10Y",
         "label": "국채 10년",
-        "close": 4.36,
-        "change_points": -0.007,
-        "change_pct": -0.007,
-        "as_of_date": "2026-09-04"
+        "close": 4.361,
+        "change_points": -0.002,
+        "change_pct": -0.002,
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "NDX",
@@ -70,10 +74,11 @@
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 66.05,
-        "change_points": -0.93,
-        "change_pct": -1.38,
-        "as_of_date": "2026-09-04"
+        "close": 66.75,
+        "change_points": -0.96,
+        "change_pct": -1.41,
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "SPX",
@@ -86,10 +91,11 @@
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1355.41,
-        "change_points": -2.98,
-        "change_pct": -0.22,
-        "as_of_date": "2026-09-04"
+        "close": 1349.5,
+        "change_points": -9.0,
+        "change_pct": -0.66,
+        "as_of_date": "2026-09-04",
+        "is_closed": false
       },
       {
         "code": "VIX",

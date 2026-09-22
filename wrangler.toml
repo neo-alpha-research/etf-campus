@@ -28,7 +28,7 @@ SUPABASE_URL = "https://uetzvsfqnydzdvnpytus.supabase.co"
 TURNSTILE_REQUIRED = "true"
 TURNSTILE_SITE_KEY = "0x4AAAAAAETnRP7nHF7DIfQs"
 TURNSTILE_EXPECTED_HOSTNAME = "etf-campus.pages.dev"
-
+NEXT_PUBLIC_ALLOW_INDEXING = "true"
 
 [[env.production.d1_databases]]
 binding = "ETF_PRICES"

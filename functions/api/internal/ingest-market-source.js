@@ -5,10 +5,10 @@ const textEncoder = new TextEncoder();
 
 const RISK_TYPES = new Set(["normal", "leverage", "leveraged", "inverse", "parking", "unknown"]);
 const INDEX_CODES = new Set([
-  "KOSPI", "KOSDAQ", "VKOSPI", "KR10Y",
+  "KOSPI", "KOSDAQ", "VKOSPI", "KR10Y", "KR10YT=RR",
   "^KS11", "^KQ11", "^GSPC", "SPX", "^IXIC", "NDX", "^N225",
-  "KRW=X", "USDKRW", "CL=F", "CLF", "GC=F", "GC", "SI=F", "SI",
-  "DGS10", "VIXCLS", "^TNX", "^VIX", "VIX", "T10Y2Y"
+  "KRW=X", "USDKRW", "FX_USDKRW", "CL=F", "CLF", "CLcv1", "GC=F", "GC", "GCcv1", "SI=F", "SI", "SIcv1",
+  "DGS10", "US10YT=RR", "VIXCLS", "^TNX", "^VIX", "VIX", "T10Y2Y"
 ]);
 
 export async function onRequest(context) {

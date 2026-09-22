@@ -14,76 +14,6 @@
       "status": "official_verified",
       "ticker": "0198A0"
     },
-    "0208N0": {
-      "existing_anchor_close": 9545.0,
-      "isin": "KR70208N0007",
-      "listing_date": "2026-06-23",
-      "name": "IBK 코스피액티브",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000888",
-      "reference_price": 10580.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000888/20260622001928/99401.htm",
-      "status": "official_verified",
-      "ticker": "0208N0"
-    },
-    "0209D0": {
-      "existing_anchor_close": 8580.0,
-      "isin": "KR70209D0008",
-      "listing_date": "2026-06-23",
-      "name": "KODEX 전고체배터리ESS TOP2플러스",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000889",
-      "reference_price": 9380.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000889/20260622001930/99401.htm",
-      "status": "official_verified",
-      "ticker": "0209D0"
-    },
-    "0209Z0": {
-      "existing_anchor_close": 8650.0,
-      "isin": "KR70209Z0002",
-      "listing_date": "2026-06-23",
-      "name": "ACE 코리아AI전력TOP10",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000887",
-      "reference_price": 9290.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000887/20260622001927/99401.htm",
-      "status": "official_verified",
-      "ticker": "0209Z0"
-    },
-    "0210A0": {
-      "existing_anchor_close": 10100.0,
-      "isin": "KR70210A0008",
-      "listing_date": "2026-06-23",
-      "name": "ACE K반도체TOP2+",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000886",
-      "reference_price": 11180.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000886/20260622001926/99401.htm",
-      "status": "official_verified",
-      "ticker": "0210A0"
-    },
-    "0210E0": {
-      "existing_anchor_close": 9425.0,
-      "isin": "KR70210E0004",
-      "listing_date": "2026-06-23",
-      "name": "PLUS 200커버드콜액티브",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000885",
-      "reference_price": 10410.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000885/20260622001925/99401.htm",
-      "status": "official_verified",
-      "ticker": "0210E0"
-    },
     "0214M0": {
       "existing_anchor_close": 10050.0,
       "isin": "KR70214M0000",
@@ -603,6 +533,6 @@
       "ticker": "0239Z0"
     }
   },
-  "updated_at": "2026-09-19T08:17:59+09:00",
+  "updated_at": "2026-09-22T08:01:08+09:00",
   "version": 1
 }

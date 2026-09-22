@@ -11,10 +11,10 @@ import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(siteConfig.canonicalBaseUrl),
   title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
   description: siteConfig.description,
-  robots: siteConfig.isBeta ? { index: false, follow: false, nocache: true } : undefined,
+  robots: siteConfig.allowSearchIndexing ? undefined : { index: false, follow: false, nocache: true },
 };
 
 import { UtmTracker } from "@/components/utm-tracker";
@@ -48,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="hidden sm:block">
             <MarketTicker />
           </div>
-          {siteConfig.isBeta ? (
+          {siteConfig.showBetaBanner ? (
             <div className="hidden sm:block border-b border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-bold leading-5 text-amber-900" role="status">
               베타 테스트 중 · 사이트의 콘텐츠는 검증하고 있습니다. 투자 판단 자료로 단독 사용하지 마세요.
             </div>

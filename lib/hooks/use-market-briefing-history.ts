@@ -13,6 +13,9 @@ export type MarketBriefingHistoryItem = {
   top100AumWeightedReturnPct: number;
   breadthRatioPct: number;
   generalEtfCount: number;
+  upCount?: number;
+  flatCount?: number;
+  downCount?: number;
 };
 
 type HistoryApiResponse = {

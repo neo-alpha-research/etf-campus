@@ -16,11 +16,21 @@ export function resolveSitePolicy(env: Record<string, string | undefined> = proc
   const deployUrl = env.CF_PAGES_URL?.trim().replace(/\/$/, "") || canonicalBaseUrl;
 
   // 3. Production Environment Confirmation:
-  // In Cloudflare Pages, CF_PAGES_BRANCH provides the triggering branch name.
-  // Fail-closed: Only 'main' is the production branch.
-  // Missing, undefined, or any other branch name is strictly treated as non-production.
+  // In Cloudflare Pages, CF_PAGES_BRANCH provides the triggering branch name ('main').
+  // When building with wrangler.toml, COMMUNITY_ENVIRONMENT provides the environment ('production' vs 'preview').
+  // Fail-closed: Must be confirmed production.
+  // If branch is provided, only 'main' is production. Any other branch is strictly non-production.
+  // If branch is absent, check COMMUNITY_ENVIRONMENT === 'production'.
+  // If both are absent or unconfirmed, strictly treat as non-production (fail-closed).
   const branch = env.CF_PAGES_BRANCH?.trim();
-  const isProduction = branch === "main";
+  const communityEnv = env.COMMUNITY_ENVIRONMENT?.trim();
+
+  let isProduction = false;
+  if (branch) {
+    isProduction = branch === "main";
+  } else if (communityEnv) {
+    isProduction = communityEnv === "production";
+  }
 
   // 4. Search Engine Indexing Permission:
   // Fail-closed: Must be confirmed production AND indexing explicitly turned on via flag.

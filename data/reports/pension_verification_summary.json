@@ -1,13 +1,13 @@
 {
   "updated_at": "2026-09-06",
-  "total_universe": 1171,
+  "total_universe": 1175,
   "verified_count": 1163,
-  "verified_ratio": 99.32,
-  "unverified_count": 8,
-  "unverified_ratio": 0.68,
+  "verified_ratio": 98.98,
+  "unverified_count": 12,
+  "unverified_ratio": 1.02,
   "법령근거_확보": {
     "건수": 829,
-    "비율": 70.8,
+    "비율": 70.6,
     "구성": {
       "E1": 2,
       "E1B": 13,
@@ -18,7 +18,7 @@
   },
   "실무_확인": {
     "건수": 1163,
-    "비율": 99.3,
+    "비율": 99.0,
     "설명": "전체 검증 완료 (법령·공시·운용사·판매사 복합 실무 확인)"
   },
   "교차검증_강도": {
@@ -42,6 +42,11 @@
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
+      "ticker": "0240J0",
+      "name": "RISE 삼성SK그룹",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
       "ticker": "0238F0",
       "name": "KODEX 미국AI메모리TOP2플러스",
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
@@ -57,6 +62,11 @@
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
+      "ticker": "0238C0",
+      "name": "IBK 한미대표기업TOP2+채권혼합50액티브",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
       "ticker": "0239Z0",
       "name": "PLUS AI반도체소부장액티브",
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
@@ -67,8 +77,18 @@
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
+      "ticker": "0241R0",
+      "name": "TIGER 현대차LG전자고정피지컬AI밸류체인",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
       "ticker": "0227L0",
       "name": "HANARO 미국에이전틱AI TOP2+",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
+      "ticker": "0242S0",
+      "name": "파워 SK그룹",
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
@@ -78,23 +98,23 @@
     }
   ],
   "as_of": "2026-09-06",
-  "total": 1171,
+  "total": 1175,
   "verified": 1163,
-  "unverified": 8,
-  "verified_pct": 99.3,
+  "unverified": 12,
+  "verified_pct": 99.0,
   "s5_evidence_sufficiency_violations": 0,
   "안전자산_주의_잔여": 0,
   "isa_tax_type_coverage_pct": 100.0,
   "isa_breakdown": {
     "국내주식형_절세낮음": 353,
-    "기타_절세높음": 818,
+    "기타_절세높음": 822,
     "사전교육대상_Y": 72
   },
   "personal_pension_breakdown": {
-    "eligible": 1068,
+    "eligible": 1072,
     "ineligible": 103,
     "pending": 0,
     "coverage_ratio": 1.0,
-    "last_updated": "2026-09-22T08:01:21.341395+09:00"
+    "last_updated": "2026-09-23T08:01:27.118074+09:00"
   }
 }

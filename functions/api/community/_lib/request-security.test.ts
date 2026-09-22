@@ -85,4 +85,72 @@ describe("Turnstile rate-limit 오류 전파", () => {
       },
     });
   });
+
+  it("운영 환경에서 TURNSTILE_SECRET_KEY가 테스트 키이면 503 CONFIGURATION_ERROR를 반환한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "some-token", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(503);
+    expect(body.error.code).toBe("CONFIGURATION_ERROR");
+    expect(body.error.message).toBe("운영 환경에서는 테스트용 CAPTCHA 키를 구성할 수 없습니다.");
+  });
+
+  it("운영 환경에서 클라이언트가 전달한 테스트 토큰을 400 CAPTCHA_REQUIRED로 즉시 거부한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "real-prod-secret",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "1x0000000000000000000000000000000AA", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error.code).toBe("CAPTCHA_REQUIRED");
+    expect(body.error.message).toBe("운영 환경에서는 테스트용 CAPTCHA 토큰을 사용할 수 없습니다.");
+  });
+
+  it("운영 환경에서 verify 결과 호스트가 dummy나 example.com인 경우 거부한다", async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          success: true,
+          hostname: "dummy",
+          action: "community_otp_request",
+          challenge_ts: new Date().toISOString(),
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "real-prod-secret",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "real-user-token", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error.code).toBe("CAPTCHA_REQUIRED");
+    expect(body.error.message).toContain("HOSTNAME_MISMATCH");
+  });
 });

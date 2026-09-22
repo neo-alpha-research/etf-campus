@@ -29,4 +29,10 @@ describe("Turnstile 및 OTP 속도 제한 보안 계약", () => {
     expect(otp).toContain('"otp-request-ip"');
     expect(otp).toContain("CF-Connecting-IP");
   });
+
+  it("운영 환경에서 테스트용 Turnstile 시크릿 키 및 클라이언트 토큰을 엄격히 거부한다", () => {
+    expect(source).toContain('env.COMMUNITY_ENVIRONMENT === "production" && env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY');
+    expect(source).toContain("isProduction && CLOUDFLARE_TEST_TOKENS.has(token)");
+    expect(source).toContain("isServerTestMode && (result.hostname === \"localhost\" || result.hostname === \"example.com\" || result.hostname === \"dummy\")");
+  });
 });

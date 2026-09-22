@@ -68,11 +68,36 @@ export async function resolveOrCreateOAuthUser(env, { provider, appId, subject }
   const subjectHash = await computeSubjectHash(env.OAUTH_IDENTITY_HMAC_SECRET, provider, appId, subject);
 
   // 1. Resolve existing linked identity
-  const { data: existingUserId } = await admin.rpc("resolve_oauth_identity", {
+  let { data: existingUserId } = await admin.rpc("resolve_oauth_identity", {
     p_provider: provider,
     p_provider_app_id: appId,
     p_subject_hash: subjectHash,
   });
+
+  // 1-1. Dual-Key Fallback: if not found with current secret, attempt fallback to previous secret
+  if (!existingUserId && env.OAUTH_IDENTITY_HMAC_PREVIOUS_SECRET) {
+    const prevSubjectHash = await computeSubjectHash(env.OAUTH_IDENTITY_HMAC_PREVIOUS_SECRET, provider, appId, subject);
+    const { data: prevUserId } = await admin.rpc("resolve_oauth_identity", {
+      p_provider: provider,
+      p_provider_app_id: appId,
+      p_subject_hash: prevSubjectHash,
+    });
+
+    if (prevUserId) {
+      existingUserId = prevUserId;
+      // Seamless key rotation promotion: link the current subjectHash to the existing user
+      try {
+        await admin.rpc("link_oauth_identity", {
+          p_provider: provider,
+          p_provider_app_id: appId,
+          p_subject_hash: subjectHash,
+          p_user_id: prevUserId,
+        });
+      } catch (linkPromotionError) {
+        console.warn("Failed to auto-promote OAuth identity with rotated secret", linkPromotionError);
+      }
+    }
+  }
 
   if (existingUserId) {
     const { data: userFetch } = await admin.auth.admin.getUserById(existingUserId);

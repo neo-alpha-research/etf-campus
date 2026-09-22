@@ -12,15 +12,6 @@ export async function onRequestGet(context) {
     return errorResponse(503, "CONFIGURATION_ERROR", "외부 Preview 환경의 보안 설정이 준비되지 않았습니다.");
   }
 
-  console.error("DEBUG CONFIG ENV:", {
-    COMMUNITY_ENVIRONMENT: context.env?.COMMUNITY_ENVIRONMENT,
-    required,
-    hasSiteKey: Boolean(siteKey),
-    hasSecretKey: Boolean(context.env?.TURNSTILE_SECRET_KEY),
-    hasExpectedHost: Boolean(context.env?.TURNSTILE_EXPECTED_HOSTNAME),
-    envKeysCount: Object.keys(context.env || {}).length,
-    envKeys: Object.keys(context.env || {}),
-  });
 
   if (required && (!siteKey || !context.env.TURNSTILE_SECRET_KEY || !context.env.TURNSTILE_EXPECTED_HOSTNAME)) {
     return errorResponse(503, "CONFIGURATION_ERROR", "CAPTCHA 보안 설정을 확인해 주세요.");

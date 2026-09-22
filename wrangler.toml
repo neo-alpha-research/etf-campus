@@ -18,8 +18,9 @@ queue = "etf-campus-market-data-ready"
 COMMUNITY_ENVIRONMENT = "preview"
 SUPABASE_URL = "https://vdjyuqtcqhchopbrhexd.supabase.co"
 TURNSTILE_REQUIRED = "true"
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+TURNSTILE_SITE_KEY = "0x4AAAAAAERgiu-KGHqnHRgP"
 TURNSTILE_EXPECTED_HOSTNAME = "community-phase-3-preview-rc.etf-campus.pages.dev"
+NEXT_PUBLIC_ALLOW_INDEXING = "false"
 
 [env.production.vars]
 COMMUNITY_ENVIRONMENT = "production"

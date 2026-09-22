@@ -168,8 +168,7 @@ export async function issueBridgeSession(env, { authEmail, userId }) {
   // 2. Verify magiclink token via Public Client without emailing the user
   const publicClient = publicSupabase(env);
   const verifyResult = await publicClient.auth.verifyOtp({
-    email: authEmail,
-    token: hashedToken,
+    token_hash: hashedToken,
     type: "magiclink",
   });
 

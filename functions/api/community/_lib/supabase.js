@@ -74,8 +74,9 @@ function supabaseClient(env, accessToken, serviceRole = false) {
         const data = await response.json().catch(() => null);
         return response.ok ? { data, error: null } : { data: null, error: data ?? { message: "OTP request failed" } };
       },
-      async verifyOtp({ email, token, type }) {
-        const response = await fetch(new URL("/auth/v1/verify", url), { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, token, type }) });
+      async verifyOtp({ email, token, token_hash, type }) {
+        const body = token_hash ? { token_hash, type } : { email, token, type };
+        const response = await fetch(new URL("/auth/v1/verify", url), { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify(body) });
         const data = await response.json().catch(() => null);
         return response.ok ? { data: { session: data, user: data?.user ?? null }, error: null } : { data: null, error: data ?? { message: "OTP verification failed" } };
       },

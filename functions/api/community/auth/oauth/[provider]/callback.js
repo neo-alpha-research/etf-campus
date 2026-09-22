@@ -99,7 +99,11 @@ export async function onRequestGet(context) {
     // 9. Issue standard __Host- session cookies and redirect
     return oauthSuccessRedirect(session, destination, transaction.remember_me);
   } catch (error) {
-    console.error("OAuth callback processing failed", error);
+    console.error("OAuth callback processing failed", {
+      provider,
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return errorRedirect("/login/", "oauth_processing_failed");
   }
 }

@@ -17,14 +17,17 @@ export const kakaoProvider = {
     return url.toString();
   },
 
-  async exchangeCode(env, code, redirectUri) {
+  async exchangeCode(env, code, state, redirectUri) {
     const clientId = env.KAKAO_REST_API_KEY;
     if (!clientId) throw new Error("Missing KAKAO_REST_API_KEY");
+
+    // Support both 4-argument call (env, code, state, redirectUri) and 3-argument call (env, code, redirectUri)
+    const effectiveRedirectUri = redirectUri || state;
 
     const body = new URLSearchParams({
       grant_type: "authorization_code",
       client_id: clientId,
-      redirect_uri: redirectUri,
+      redirect_uri: effectiveRedirectUri,
       code,
     });
 

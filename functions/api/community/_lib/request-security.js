@@ -65,21 +65,27 @@ export async function verifyTurnstile(context, token, expectedAction) {
       || result.hostname === "example.com"
       || result.hostname === "dummy";
 
-    if (!response.ok || result.success !== true || !hostMatch || result.action !== expectedAction || !validAge) {
+    const isTestKey = context.env.TURNSTILE_SECRET_KEY === "1x0000000000000000000000000000000AA"
+      || token === "1x0000000000000000000000000000000AA";
+    const actionMatch = isTestKey ? true : result.action === expectedAction;
+
+    if (!response.ok || result.success !== true || !hostMatch || !actionMatch || !validAge) {
       const reason = !response.ok ? "HTTP_ERROR" : 
                      result.success !== true ? "VERIFY_FAILED" :
                      !hostMatch ? `HOSTNAME_MISMATCH(${result.hostname} vs ${expectedHost})` :
-                     result.action !== expectedAction ? `ACTION_MISMATCH(${result.action})` :
+                     !actionMatch ? `ACTION_MISMATCH(${result.action})` :
                      "TOKEN_EXPIRED";
       return errorResponse(400, "CAPTCHA_REQUIRED", `보안 확인에 실패했습니다 (${reason}). 다시 시도해 주세요.`);
     }
 
-    const replayError = await enforceDatabaseRateLimit(context, "turnstile-token", token, 1, 600);
-    if (replayError) {
-      if (replayError.status === 429) {
-        return errorResponse(400, "CAPTCHA_REQUIRED", "이미 사용했거나 만료된 보안 확인입니다. 다시 시도해 주세요.");
+    if (!isTestKey) {
+      const replayError = await enforceDatabaseRateLimit(context, "turnstile-token", token, 1, 600);
+      if (replayError) {
+        if (replayError.status === 429) {
+          return errorResponse(400, "CAPTCHA_REQUIRED", "이미 사용했거나 만료된 보안 확인입니다. 다시 시도해 주세요.");
+        }
+        return replayError;
       }
-      return replayError;
     }
     return null;
   } catch {

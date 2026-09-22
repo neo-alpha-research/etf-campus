@@ -41,8 +41,8 @@ function turnstileConfigurationError(env) {
   const required = env.TURNSTILE_REQUIRED === "true";
   if (externalEnvironment(env) && !required) return "외부 Preview 환경의 보안 설정이 준비되지 않았습니다.";
   if (required && (!env.TURNSTILE_SECRET_KEY || !env.TURNSTILE_EXPECTED_HOSTNAME)) return "CAPTCHA 보안 설정을 확인해 주세요.";
-  if (env.COMMUNITY_ENVIRONMENT === "production" && env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY) {
-    return "운영 환경에서는 테스트용 CAPTCHA 키를 구성할 수 없습니다.";
+  if (env.COMMUNITY_ENVIRONMENT !== "preview" && env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY) {
+    return "테스트용 CAPTCHA 키는 Preview 환경에서만 구성할 수 있습니다.";
   }
   return null;
 }
@@ -53,13 +53,13 @@ export async function verifyTurnstile(context, token, expectedAction) {
   if (context.env.TURNSTILE_REQUIRED !== "true") return null;
   if (!token || typeof token !== "string") return errorResponse(400, "CAPTCHA_REQUIRED", "보안 확인을 완료해 주세요.");
 
-  const isProduction = context.env.COMMUNITY_ENVIRONMENT === "production";
-  if (isProduction && CLOUDFLARE_TEST_TOKENS.has(token)) {
-    return errorResponse(400, "CAPTCHA_REQUIRED", "운영 환경에서는 테스트용 CAPTCHA 토큰을 사용할 수 없습니다.");
+  const isPreview = context.env.COMMUNITY_ENVIRONMENT === "preview";
+  if (!isPreview && CLOUDFLARE_TEST_TOKENS.has(token)) {
+    return errorResponse(400, "CAPTCHA_REQUIRED", "테스트용 CAPTCHA 토큰은 Preview 환경에서만 사용할 수 있습니다.");
   }
 
-  // 테스트 모드는 운영 환경이 아니고, 서버 시크릿이 공식 테스트 키로 명시 구성된 Preview/Local 환경에서만 허용
-  const isServerTestMode = !isProduction && context.env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY;
+  // 테스트 모드는 오직 명시적 Preview 환경이면서 서버 시크릿이 공식 테스트 키로 구성된 경우에만 한정
+  const isServerTestMode = isPreview && context.env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY;
 
   const formData = new FormData();
   formData.set("secret", context.env.TURNSTILE_SECRET_KEY);

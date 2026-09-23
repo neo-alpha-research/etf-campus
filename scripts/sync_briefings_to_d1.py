@@ -145,7 +145,7 @@ def sync_date_to_d1(date_str: str, payload_path: Path, verbose: bool = True) -> 
           metrics_json, source_dates_json, validation_json, published_at, updated_at
         ) VALUES (
           '{as_of}', 'ready', 'v1', 1, {sql_str(run_id)},
-          {kospi_close}, {kospi_change_pct}, {kosdaq_close}, {kosdaq_change_pct},
+          {kospi_close}, {kospi_change}, {kosdaq_close}, {kosdaq_change},
           {ret_pct}, {top50_ret}, {top100_ret}, {top200_ret},
           {gen_count}, {up_count}, {flat_count}, {down_count}, {breadth},
           {sql_str(temp)}, {total_aum}, {total_trade},

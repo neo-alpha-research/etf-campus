@@ -255,16 +255,60 @@ def main() -> int:
     from datetime import datetime, timezone, timedelta
     kst = timezone(timedelta(hours=9))
     now_kst = datetime.now(kst).date()
-    is_weekend = (now_kst.weekday() >= 5)
 
-    if is_weekend:
-        header = f"✨ [ETF CAMPUS] 금요일 마켓 브리핑 & OSMU 준비 완료 ({as_of_date})\n"
+    # Load holidays
+    holidays_file = Path("data/market_holidays.txt")
+    holidays = set()
+    if holidays_file.exists():
+        for line in holidays_file.read_text(encoding="utf-8").splitlines():
+            clean = line.split("#", 1)[0].strip()
+            if len(clean) == 8 and clean.isdigit():
+                holidays.add(clean)
+
+    def find_next_trading_day(start_date, h_set: set[str]) -> tuple:
+        cur = start_date + timedelta(days=1)
+        korean_weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+        while True:
+            ymd = cur.strftime("%Y%m%d")
+            if cur.weekday() < 5 and ymd not in h_set:
+                day_str = cur.strftime("%Y-%m-%d")
+                w_str = korean_weekdays[cur.weekday()]
+                return cur, f"{day_str} ({w_str})"
+            cur += timedelta(days=1)
+
+    # Check osmu_publish_status.json
+    status_file = None
+    status_data = {}
+    candidate_status_paths = []
+    if latest_dir:
+        candidate_status_paths.append(latest_dir / "osmu_publish_status.json")
+    candidate_status_paths.append(Path("OSMU_Archive") / as_of_date / "osmu_publish_status.json")
+
+    for p in candidate_status_paths:
+        if p.exists():
+            try:
+                status_data = json.loads(p.read_text(encoding="utf-8"))
+                status_file = p
+                break
+            except Exception:
+                pass
+
+    is_weekend = (now_kst.weekday() >= 5)
+    is_holiday = (now_kst.strftime("%Y%m%d") in holidays)
+    is_standby = (status_data.get("status") == "standby") or is_weekend or is_holiday
+
+    _, next_trading_str = find_next_trading_day(now_kst, holidays)
+    next_pub_date = status_data.get("next_publish_date") or next_trading_str
+
+    if is_standby and status_data.get("status") != "published":
+        reason_label = "추석 연휴" if "0924" in now_kst.strftime("%Y%m%d") or "0925" in now_kst.strftime("%Y%m%d") else ("주말" if is_weekend else "공휴일")
+        header = f"✨ [ETF CAMPUS] 마켓 브리핑 & OSMU 준비 완료 ({as_of_date})\n"
         status_text = (
-            "금요일 장 마감 데이터 적재 및 OSMU 에셋 렌더링이 완료되었습니다.\n\n"
-            "• 🌐 웹페이지 마켓 브리핑: 최신 데이터 반영 완료\n"
-            "• 📦 OSMU 에셋(스레드/인스타/뉴스레터): 렌더링 및 KV 적재 완료\n"
-            "• ⏰ 3대 채널 자동 발행 예정: 월요일 아침 07:30 KST\n"
-            "  (운영 대시보드에서 검토 후 '즉시 발송' 가능)\n"
+            f"연휴/휴장 기간 중 독자 소셜 피드 노이즈 방지를 위해 3대 채널 배포는 보류(Standby)되었습니다.\n\n"
+            f"• 🌐 웹페이지 마켓 브리핑: 최신 데이터 반영 완료\n"
+            f"• 📦 OSMU 에셋(스레드/인스타/뉴스레터): KV 적재 완료\n"
+            f"• ⏰ 3대 채널 자동 발행 예정: {next_pub_date} 아침 07:30 KST\n"
+            f"  (운영 대시보드에서 검토 후 '즉시 발송' 가능)\n"
         )
     else:
         header = f"🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료 ({as_of_date})\n"
@@ -291,8 +335,8 @@ def main() -> int:
         if len(full_message) <= 1024:
             photo_sent = send_telegram_photo(bot_token, chat_id, threads_image_file, full_message)
         else:
-            if is_weekend:
-                short_caption = f"✨ [ETF CAMPUS] {as_of_date} 마켓 브리핑 & OSMU 준비 완료\n\n• 월요일 아침 07:30 KST 자동 발행 예정\n\n👉 대시보드:\n{dashboard_link}"
+            if is_standby and status_data.get("status") != "published":
+                short_caption = f"✨ [ETF CAMPUS] {as_of_date} 마켓 브리핑 & OSMU 준비 완료\n\n• {next_pub_date} 아침 07:30 KST 자동 발행 예정\n\n👉 대시보드:\n{dashboard_link}"
             else:
                 short_caption = f"🎉 [ETF CAMPUS] {as_of_date} 마켓 브리핑 자동 발행 완료\n\n• 3대 채널(스레드/인스타/뉴스레터) 배포 성공\n\n👉 대시보드:\n{dashboard_link}"
             photo_sent = send_telegram_photo(bot_token, chat_id, threads_image_file, short_caption)

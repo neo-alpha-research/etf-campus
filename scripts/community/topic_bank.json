@@ -671,7 +671,8 @@
         "DCA",
         "증권사"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "sp-014",
@@ -1498,7 +1499,8 @@
         "NAV",
         "매수전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "sca-042",
@@ -2326,7 +2328,8 @@
         "세액공제추가",
         "절차"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "qna-036",

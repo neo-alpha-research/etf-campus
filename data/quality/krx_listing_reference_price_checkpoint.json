@@ -357,11 +357,11 @@
       "name": "HANARO 미국에이전틱AI TOP2+",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0227L0"
     },
     "0228G0": {
@@ -483,11 +483,11 @@
       "name": "KODEX 미국AI메모리TOP2플러스",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0238F0"
     },
     "0238P0": {
@@ -497,11 +497,11 @@
       "name": "TIGER 미국S&P500미국채혼합50",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0238P0"
     },
     "0239Y0": {
@@ -511,11 +511,11 @@
       "name": "PLUS 코리아HBM반도체",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0239Y0"
     },
     "0239Z0": {
@@ -525,14 +525,14 @@
       "name": "PLUS AI반도체소부장액티브",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0239Z0"
     }
   },
-  "updated_at": "2026-09-23T08:01:09+09:00",
+  "updated_at": "2026-09-24T08:00:53+09:00",
   "version": 1
 }

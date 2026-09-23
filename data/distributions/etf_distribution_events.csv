@@ -1,5 +1,5 @@
 ﻿event_id,etf_id,ticker,etf_name,issuer_ex_date,krx_apply_date,ex_date,record_date,pay_date,distribution_per_share_krw,distribution_type,event_status,currency,ex_rights_reference_price_krw,issuer_source_id,krx_source_id,issuer_amount_verified,krx_ex_date_verified,verification_status,verification_note,supersedes_event_id,source_collected_at,updated_at
-KR7489030007:2026-07-30:ordinary_cash:v1,KR7489030007,489030,PLUS 고배당주위클리커버드콜,2026-07-30,2026-07-30,2026-07-30,2026-07-31,2026-08-04,103,ordinary_cash,paid,KRW,,issuer:plus:489030:20260728:table,,true,false,partial,운용사 공식 공지의 분배락일 및 KRX 적용일은 2026-07-30으로 대조됨. KIND 원문 연결 전에는 partial 유지.,,2026-09-01T12:31:20+00:00,2026-09-22T09:16:45+00:00
+KR7489030007:2026-07-30:ordinary_cash:v1,KR7489030007,489030,PLUS 고배당주위클리커버드콜,2026-07-30,2026-07-30,2026-07-30,2026-07-31,2026-08-04,103,ordinary_cash,paid,KRW,,issuer:plus:489030:20260728:table,,true,false,partial,운용사 공식 공지의 분배락일 및 KRX 적용일은 2026-07-30으로 대조됨. KIND 원문 연결 전에는 partial 유지.,,2026-09-01T12:31:20+00:00,2026-09-23T09:20:28+00:00
 seibro:0000D0:20241230,,0000D0,,,,2024-12-27,2024-12-30,2025-01-03,50,ordinary_cash,,,,,,,,verified,,,,
 seibro:0000D0:20250131,,0000D0,,,,2025-01-30,2025-01-31,2025-02-04,101,ordinary_cash,,,,,,,,verified,,,,
 seibro:0000D0:20250228,,0000D0,,,,2025-02-27,2025-02-28,2025-03-05,97,ordinary_cash,,,,,,,,verified,,,,

@@ -272,7 +272,8 @@
         "인플레이션",
         "헷지"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "sca-018",
@@ -1011,7 +1012,8 @@
         "연말정산",
         "연금저축"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "qna-007",
@@ -2177,7 +2179,8 @@
         "30년복리",
         "연금전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "sp-056",

@@ -705,7 +705,8 @@
         "시장타이밍",
         "DCA"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "sp-016",
@@ -1517,7 +1518,8 @@
         "KRX금현물",
         "장기보유"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "sca-043",
@@ -2608,7 +2610,8 @@
         "증권사이전",
         "이전절차"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "qna-056",

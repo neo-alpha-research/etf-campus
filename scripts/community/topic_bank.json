@@ -463,7 +463,8 @@
         "롤오버",
         "합성구조"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "sp-001",
@@ -644,7 +645,8 @@
         "물가방어",
         "포트폴리오"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "sp-012",
@@ -2545,7 +2547,8 @@
         "2000만원",
         "절세계좌"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "qna-051",

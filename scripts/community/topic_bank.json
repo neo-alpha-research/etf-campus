@@ -1320,7 +1320,8 @@
         "자산보호",
         "안전성"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "qna-030",
@@ -1683,7 +1684,8 @@
         "재투자",
         "복리"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "sca-054",
@@ -1848,7 +1850,8 @@
         "로드맵",
         "첫투자"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "sp-035",

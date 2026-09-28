@@ -1,0 +1,156 @@
+{
+  "application": {
+    "name": "ETF Campus Member Operations",
+    "pages": [
+      {
+        "name": "MemberManagement",
+        "isDefault": true,
+        "layouts": [
+          {
+            "widgetName": "MainContainer",
+            "widgets": [
+              {
+                "widgetName": "HeaderTitle",
+                "type": "TEXT_WIDGET",
+                "text": "📊 ETF 캠퍼스 회원 운영 백오피스",
+                "fontSize": "1.5rem",
+                "fontWeight": "BOLD"
+              },
+              {
+                "widgetName": "StatTotalMembers",
+                "type": "STATBOX_WIDGET",
+                "label": "👥 전체 회원수",
+                "value": "{{FetchMembersAndKPI.data?.stats?.total_members ?? 0}}명"
+              },
+              {
+                "widgetName": "StatTodaySignups",
+                "type": "STATBOX_WIDGET",
+                "label": "📅 오늘 신규 가입 (KST)",
+                "value": "{{FetchMembersAndKPI.data?.stats?.today_signups ?? 0}}명"
+              },
+              {
+                "widgetName": "StatMarketingRate",
+                "type": "STATBOX_WIDGET",
+                "label": "📨 마케팅 수신 동의율",
+                "value": "{{FetchMembersAndKPI.data?.stats?.marketing_consent_rate ?? 0.0}}%"
+              },
+              {
+                "widgetName": "SearchInput",
+                "type": "INPUT_WIDGET_V2",
+                "placeholderText": "닉네임 또는 마스킹 이메일 검색",
+                "onTextChanged": "{{FetchMembersAndKPI.run()}}"
+              },
+              {
+                "widgetName": "StatusSelect",
+                "type": "SELECT_WIDGET",
+                "label": "상태 필터",
+                "options": [
+                  { "label": "전체 상태", "value": "" },
+                  { "label": "정상 (active)", "value": "active" },
+                  { "label": "일시정지 (suspended)", "value": "suspended" },
+                  { "label": "영구차단 (blocked)", "value": "blocked" }
+                ],
+                "onOptionChange": "{{FetchMembersAndKPI.run()}}"
+              },
+              {
+                "widgetName": "RoleSelect",
+                "type": "SELECT_WIDGET",
+                "label": "역할 필터",
+                "options": [
+                  { "label": "전체 역할", "value": "" },
+                  { "label": "일반회원 (member)", "value": "member" },
+                  { "label": "운영진 (moderator)", "value": "moderator" },
+                  { "label": "관리자 (admin)", "value": "admin" },
+                  { "label": "게스트 (guest)", "value": "guest" }
+                ],
+                "onOptionChange": "{{FetchMembersAndKPI.run()}}"
+              },
+              {
+                "widgetName": "TableMembers",
+                "type": "TABLE_WIDGET_V2",
+                "serverSidePaginationEnabled": true,
+                "tableData": "{{FetchMembersAndKPI.data?.members ?? []}}",
+                "totalRecordsCount": "{{FetchMembersAndKPI.data?.pagination?.total ?? 0}}",
+                "onPageChange": "{{FetchMembersAndKPI.run()}}",
+                "onPageSizeChange": "{{FetchMembersAndKPI.run()}}",
+                "primaryColumns": {
+                  "public_nickname": { "label": "닉네임" },
+                  "email_masked": { "label": "이메일(마스킹)" },
+                  "role": { "label": "역할" },
+                  "status": { "label": "상태" },
+                  "age_band": { "label": "연령대" },
+                  "interest_account_type": { "label": "관심계좌" },
+                  "marketing_consent": { "label": "마케팅동의" },
+                  "signup_utm_source": { "label": "유입채널" },
+                  "created_at": { "label": "가입일시" }
+                }
+              },
+              {
+                "widgetName": "MemberDetailModal",
+                "type": "MODAL_WIDGET",
+                "title": "회원 상세 정보 (마스킹 원칙 준수)",
+                "content": {
+                  "nickname": "{{TableMembers.selectedRow?.public_nickname}}",
+                  "masked_email": "{{TableMembers.selectedRow?.email_masked}}",
+                  "role": "{{TableMembers.selectedRow?.role}}",
+                  "status": "{{TableMembers.selectedRow?.status}}",
+                  "age_band": "{{TableMembers.selectedRow?.age_band ?? '확인 불가'}}",
+                  "interest_account_type": "{{TableMembers.selectedRow?.interest_account_type ?? '확인 불가'}}",
+                  "terms_version": "{{TableMembers.selectedRow?.terms_version ?? '확인 불가'}}",
+                  "terms_consented_at": "{{TableMembers.selectedRow?.terms_consented_at ?? '확인 불가'}}",
+                  "marketing_consent": "{{TableMembers.selectedRow?.marketing_consent ? '동의' : '미동의'}}",
+                  "marketing_consent_at": "{{TableMembers.selectedRow?.marketing_consent_at ?? '확인 불가'}}",
+                  "utm_source": "{{TableMembers.selectedRow?.signup_utm_source ?? '직접 유입'}}",
+                  "utm_medium": "{{TableMembers.selectedRow?.signup_utm_medium ?? '-'}}",
+                  "utm_campaign": "{{TableMembers.selectedRow?.signup_utm_campaign ?? '-'}}",
+                  "oauth_providers": "{{(TableMembers.selectedRow?.oauth_providers || []).join(', ') || '이메일 가입'}}",
+                  "last_sign_in_at": "{{TableMembers.selectedRow?.last_sign_in_at ?? '확인 불가'}}"
+                },
+                "actions": [
+                  {
+                    "label": "🚫 회원 상태 변경 (이번 릴리스 비활성화)",
+                    "disabled": true,
+                    "tooltip": "보안 정책에 따라 1차 릴리스에서는 쓰기 조치가 비활성화되어 있습니다."
+                  },
+                  {
+                    "label": "🚫 관리자 권한 변경 (이번 릴리스 비활성화)",
+                    "disabled": true,
+                    "tooltip": "보안 정책에 따라 1차 릴리스에서는 권한 변경 조치가 비활성화되어 있습니다."
+                  },
+                  {
+                    "label": "🚫 웰컴 메일 발송 (이번 릴리스 비활성화)",
+                    "disabled": true,
+                    "tooltip": "AAL2 집행 경로 및 중복 발송 방지 확인 후 별도 활성화됩니다."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "name": "FetchMembersAndKPI",
+            "pluginType": "API",
+            "actionConfiguration": {
+              "httpMethod": "GET",
+              "path": "https://etf-campus.pages.dev/api/community/admin/members",
+              "queryParameters": [
+                { "key": "page", "value": "{{TableMembers.pageNo || 1}}" },
+                { "key": "limit", "value": "{{TableMembers.pageSize || 20}}" },
+                { "key": "search", "value": "{{SearchInput.text || ''}}" },
+                { "key": "status", "value": "{{StatusSelect.selectedOptionValue || ''}}" },
+                { "key": "role", "value": "{{RoleSelect.selectedOptionValue || ''}}" },
+                { "key": "stats", "value": "true" }
+              ],
+              "headers": [
+                { "key": "Authorization", "value": "Bearer {{appsmith.store.BACKOFFICE_READ_SECRET}}" },
+                { "key": "User-Agent", "value": "ETF-Campus-Appsmith-Client/1.0" }
+              ],
+              "timeoutInMillisecond": 10000
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

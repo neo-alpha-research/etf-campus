@@ -15,11 +15,13 @@ const VALID_SECRET = "pilot-secret-test-token-12345";
 function makeContext(params: {
   url?: string;
   authorization?: string | null;
+  customHeader?: string | null;
   secret?: string | null;
   envName?: string;
 }) {
   const headers = new Headers();
   if (params.authorization) headers.set("Authorization", params.authorization);
+  if (params.customHeader) headers.set("X-Backoffice-Token", params.customHeader);
 
   return {
     request: new Request(params.url ?? "https://etf-campus.pages.dev/api/community/admin/members", {
@@ -27,29 +29,61 @@ function makeContext(params: {
       headers,
     }),
     env: {
-      COMMUNITY_ENVIRONMENT: params.envName ?? "preview",
+      COMMUNITY_ENVIRONMENT: params.envName ?? "production",
       BACKOFFICE_READ_SECRET: params.secret !== undefined ? params.secret : VALID_SECRET,
     },
   };
 }
 
-describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 API", () => {
+describe("GET /api/community/admin/members - 운영 및 프리뷰 백오피스 회원 읽기 전용 API", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("COMMUNITY_ENVIRONMENT가 preview가 아닌 경우 403 FORBIDDEN으로 차단한다", async () => {
+  it("COMMUNITY_ENVIRONMENT가 preview 또는 production이 아닌 경우 403 FORBIDDEN으로 차단한다", async () => {
     const ctx = makeContext({
       authorization: `Bearer ${VALID_SECRET}`,
-      envName: "production",
+      envName: "unauthorized_env",
     });
     const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
 
     expect(res.status).toBe(403);
     const body = await res.json();
     expect(body.error.code).toBe("FORBIDDEN");
-    expect(body.error.message).toContain("프리뷰 환경에서만");
+    expect(body.error.message).toContain("승인된 운영 및 프리뷰 환경");
     expect(mocks.rpc).not.toHaveBeenCalled();
+  });
+
+  it("운영 환경(production)에서도 유효한 토큰 인증 시 정상 200 응답을 반환한다", async () => {
+    mocks.rpc.mockImplementation((name: string) => {
+      if (name === "count_backoffice_members") return Promise.resolve({ data: 1, error: null });
+      if (name === "get_backoffice_members") {
+        return Promise.resolve({
+          data: [
+            {
+              id: "00000000-0000-0000-0000-000000000001",
+              public_nickname: "운영회원A",
+              email_masked: "o***@etfcampus.kr",
+              role: "member",
+              status: "active",
+              created_at: "2026-09-28T00:00:00Z",
+            },
+          ],
+          error: null,
+        });
+      }
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    const ctx = makeContext({
+      authorization: `Bearer ${VALID_SECRET}`,
+      envName: "production",
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.members[0].public_nickname).toBe("운영회원A");
   });
 
   it("인증 헤더가 누락된 경우 401 AUTH_REQUIRED를 반환한다", async () => {
@@ -109,7 +143,7 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
     expect(body.error.message).toContain("최대 1000");
   });
 
-  it("정상 토큰 인증 시 합성 회원 목록을 페이징과 함께 반환한다", async () => {
+  it("정상 토큰 인증 시 회원 목록과 페이징 정보를 반환하며 no-store 헤더를 설정한다", async () => {
     mocks.rpc.mockImplementation((name: string) => {
       if (name === "count_backoffice_members") {
         return Promise.resolve({ data: 3, error: null });
@@ -128,6 +162,9 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
               marketing_consent: true,
               signup_utm_source: "instagram",
               created_at: "2026-09-27T00:00:00Z",
+              age_band: "30s",
+              interest_account_type: "isa",
+              oauth_providers: ["kakao"],
             },
           ],
           error: null,
@@ -157,6 +194,45 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
       status: "active",
       marketing_consent: true,
       profile_complete: true,
+      age_band: "30s",
+      interest_account_type: "isa",
+      oauth_providers: ["kakao"],
+    });
+  });
+
+  it("stats=true 전달 시 get_backoffice_member_stats RPC를 병렬 호출하여 통계 객체를 포함한다", async () => {
+    mocks.rpc.mockImplementation((name: string) => {
+      if (name === "count_backoffice_members") return Promise.resolve({ data: 10, error: null });
+      if (name === "get_backoffice_members") return Promise.resolve({ data: [], error: null });
+      if (name === "get_backoffice_member_stats") {
+        return Promise.resolve({
+          data: [
+            {
+              total_members: 10,
+              today_signups: 2,
+              marketing_consent_count: 7,
+              marketing_consent_rate: 70.0,
+            },
+          ],
+          error: null,
+        });
+      }
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    const ctx = makeContext({
+      url: "https://etf-campus.pages.dev/api/community/admin/members?stats=true",
+      authorization: `Bearer ${VALID_SECRET}`,
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+    expect(res.status).toBe(200);
+
+    const body = await res.json();
+    expect(body.stats).toEqual({
+      total_members: 10,
+      today_signups: 2,
+      marketing_consent_count: 7,
+      marketing_consent_rate: 70.0,
     });
   });
 
@@ -192,7 +268,6 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
     const body = await res.json();
     const member = body.members[0];
 
-    // Must NOT default to "member", "active", false
     expect(member.role).toBe("확인 불가");
     expect(member.status).toBe("확인 불가");
     expect(member.marketing_consent).toBeNull();
@@ -226,7 +301,7 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
               public_nickname: "탈퇴표기오류회원",
               email_masked: "w***@test.local",
               role: "guest",
-              status: "withdrawn", // invalid in member_ops schema (CHECK status IN active, suspended, blocked) -> 확인 불가
+              status: "withdrawn", // invalid in member_ops schema
               created_at: "2026-09-27T00:00:00Z",
             },
           ],
@@ -274,7 +349,6 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
         return Promise.resolve({
           data: [
             {
-              // id is missing!
               public_nickname: "손상된데이터",
               created_at: "2026-09-27T00:00:00Z",
             },
@@ -303,7 +377,6 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
               id: "00000000-0000-0000-0000-000000000001",
               public_nickname: "테스트회원",
               email_masked: "t***@test.local",
-              // Raw email injected maliciously in mock DB response
               email: "raw_leak@test.local",
               contact_email: "raw_contact@test.local",
               created_at: "2026-09-27T00:00:00Z",
@@ -325,6 +398,23 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
     expect((member as Record<string, unknown>).contact_email).toBeUndefined();
   });
 
+  it("X-Backoffice-Token 커스텀 헤더로도 동일하게 인증을 지원한다", async () => {
+    mocks.rpc.mockImplementation((name: string) => {
+      if (name === "count_backoffice_members") return Promise.resolve({ data: 0, error: null });
+      if (name === "get_backoffice_members") return Promise.resolve({ data: [], error: null });
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    const ctx = makeContext({
+      authorization: null,
+      customHeader: VALID_SECRET,
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+
+    expect(res.status).toBe(200);
+    expect(mocks.rpc).toHaveBeenCalled();
+  });
+
   it("요청 limit이 50을 초과할 경우 최대 50건으로 자동 상한 제한(Cap)된다", async () => {
     mocks.rpc.mockImplementation((name: string) => {
       if (name === "count_backoffice_members") return Promise.resolve({ data: 0, error: null });
@@ -339,9 +429,11 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
     await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
 
     expect(mocks.rpc).toHaveBeenCalledWith("get_backoffice_members", {
-      p_limit: 50, // Clamped to 50
-      p_offset: 50, // (2 - 1) * 50
+      p_limit: 50,
+      p_offset: 50,
       p_search: null,
+      p_role: null,
+      p_status: null,
       p_sort_field: "created_at",
       p_sort_direction: "desc",
     });
@@ -364,6 +456,8 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
       p_limit: 20,
       p_offset: 0,
       p_search: null,
+      p_role: null,
+      p_status: null,
       p_sort_field: "created_at",
       p_sort_direction: "desc",
     });

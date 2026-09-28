@@ -1,7 +1,7 @@
 import { adminSupabase } from "../_lib/supabase";
 import { errorResponse, jsonResponse, readBearerToken } from "../_lib/api-security";
 
-const ALLOWED_SORT_FIELDS = new Set(["created_at", "public_nickname", "status"]);
+const ALLOWED_SORT_FIELDS = new Set(["created_at", "public_nickname", "status", "role"]);
 const ALLOWED_SORT_DIRECTIONS = new Set(["asc", "desc"]);
 const VALID_ROLES = new Set(["guest", "member", "moderator", "admin"]);
 const VALID_STATUSES = new Set(["active", "suspended", "blocked"]);
@@ -22,14 +22,15 @@ function timingSafeEqual(a, b) {
 }
 
 export async function onRequestGet(context) {
-  // 1. Strict environment guard: Preview only during pilot phase
-  if (context.env?.COMMUNITY_ENVIRONMENT !== "preview") {
-    return errorResponse(403, "FORBIDDEN", "백오피스 회원 조회 API는 프리뷰 환경에서만 허용됩니다.");
+  // 1. Strict environment guard: Preview and Production backoffice authorized
+  const envType = context.env?.COMMUNITY_ENVIRONMENT;
+  if (envType !== "preview" && envType !== "production") {
+    return errorResponse(403, "FORBIDDEN", "백오피스 회원 조회 API는 승인된 운영 및 프리뷰 환경에서만 허용됩니다.");
   }
 
   // 2. Standardized Bearer token verification (RFC 6750)
   const authorization = context.request.headers.get("Authorization");
-  const providedToken = readBearerToken(authorization);
+  const providedToken = readBearerToken(authorization) || context.request.headers.get("X-Backoffice-Token");
 
   if (!providedToken) {
     return errorResponse(401, "AUTH_REQUIRED", "백오피스 인증 토큰이 필요합니다.");
@@ -45,6 +46,9 @@ export async function onRequestGet(context) {
   const rawLimit = parseInt(url.searchParams.get("limit") || `${DEFAULT_LIMIT}`, 10);
   const rawPage = parseInt(url.searchParams.get("page") || "1", 10);
   const rawSearch = url.searchParams.get("search")?.trim() || null;
+  const rawRoleParam = url.searchParams.get("role")?.trim() || null;
+  const rawStatusParam = url.searchParams.get("status")?.trim() || null;
+  const includeStats = url.searchParams.get("stats") === "true";
   const rawSort = url.searchParams.get("sort") || "created_at";
   const rawDir = (url.searchParams.get("dir") || "desc").toLowerCase();
 
@@ -56,6 +60,9 @@ export async function onRequestGet(context) {
     return errorResponse(400, "VALIDATION_ERROR", `페이지 번호는 최대 ${MAX_PAGE}까지 허용됩니다.`);
   }
 
+  const rawRole = rawRoleParam && VALID_ROLES.has(rawRoleParam) ? rawRoleParam : null;
+  const rawStatus = rawStatusParam && VALID_STATUSES.has(rawStatusParam) ? rawStatusParam : null;
+
   const limit = Math.min(Math.max(Number.isFinite(rawLimit) ? rawLimit : DEFAULT_LIMIT, 1), MAX_LIMIT);
   const page = Math.max(Number.isFinite(rawPage) ? rawPage : 1, 1);
   const offset = (page - 1) * limit;
@@ -66,18 +73,30 @@ export async function onRequestGet(context) {
   try {
     const supabase = adminSupabase(context.env);
 
-    const [countResult, listResult] = await Promise.all([
-      supabase.rpc("count_backoffice_members", { p_search: rawSearch }),
+    const rpcPromises = [
+      supabase.rpc("count_backoffice_members", {
+        p_search: rawSearch,
+        p_role: rawRole,
+        p_status: rawStatus,
+      }),
       supabase.rpc("get_backoffice_members", {
         p_limit: limit,
         p_offset: offset,
         p_search: rawSearch,
+        p_role: rawRole,
+        p_status: rawStatus,
         p_sort_field: sortField,
         p_sort_direction: sortDirection,
       }),
-    ]);
+    ];
 
-    // 4. Strict validation of RPC count response (never silently coerce errors or nulls to 0)
+    if (includeStats) {
+      rpcPromises.push(supabase.rpc("get_backoffice_member_stats"));
+    }
+
+    const [countResult, listResult, statsResult] = await Promise.all(rpcPromises);
+
+    // 4. Strict validation of RPC count response
     if (countResult.error || countResult.data === null || typeof countResult.data === "undefined") {
       return errorResponse(503, "UNAVAILABLE", "회원 수 집계에 실패했습니다.");
     }
@@ -94,7 +113,7 @@ export async function onRequestGet(context) {
 
     const rawRows = listResult.data;
 
-    // 6. Strict field validation & mapping (Zero-Hallucination: do NOT convert missing values into false/active/member)
+    // 6. Strict field validation & mapping (Zero-Hallucination: preserve nulls, no raw emails)
     const members = [];
     for (const row of rawRows) {
       if (!row || typeof row !== "object" || !row.id || !row.created_at) {
@@ -112,10 +131,31 @@ export async function onRequestGet(context) {
         marketing_consent: typeof row.marketing_consent === "boolean" ? row.marketing_consent : null,
         signup_utm_source: row.signup_utm_source ?? null,
         created_at: row.created_at,
+        // Detailed modal fields (Zero-Hallucination)
+        age_band: row.age_band ?? null,
+        interest_account_type: row.interest_account_type ?? null,
+        terms_version: row.terms_version ?? null,
+        marketing_consent_at: row.marketing_consent_at ?? null,
+        signup_utm_medium: row.signup_utm_medium ?? null,
+        signup_utm_campaign: row.signup_utm_campaign ?? null,
+        last_sign_in_at: row.last_sign_in_at ?? null,
+        suspended_until: row.suspended_until ?? null,
+        oauth_providers: Array.isArray(row.oauth_providers) ? row.oauth_providers : [],
       });
     }
 
-    return jsonResponse({
+    let stats = null;
+    if (includeStats && statsResult && !statsResult.error && Array.isArray(statsResult.data) && statsResult.data.length > 0) {
+      const s = statsResult.data[0];
+      stats = {
+        total_members: Number(s.total_members ?? 0),
+        today_signups: Number(s.today_signups ?? 0),
+        marketing_consent_count: Number(s.marketing_consent_count ?? 0),
+        marketing_consent_rate: Number(s.marketing_consent_rate ?? 0.0),
+      };
+    }
+
+    const responsePayload = {
       members,
       pagination: {
         total: totalCount,
@@ -123,7 +163,13 @@ export async function onRequestGet(context) {
         limit,
         has_more: offset + members.length < totalCount,
       },
-    });
+    };
+
+    if (stats) {
+      responsePayload.stats = stats;
+    }
+
+    return jsonResponse(responsePayload);
   } catch {
     return errorResponse(503, "UNAVAILABLE", "회원 목록 조회 중 오류가 발생했습니다.");
   }

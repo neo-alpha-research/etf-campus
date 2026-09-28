@@ -3,8 +3,8 @@ import { errorResponse, jsonResponse, readBearerToken } from "../_lib/api-securi
 
 const ALLOWED_SORT_FIELDS = new Set(["created_at", "public_nickname", "status"]);
 const ALLOWED_SORT_DIRECTIONS = new Set(["asc", "desc"]);
-const VALID_ROLES = new Set(["member", "admin"]);
-const VALID_STATUSES = new Set(["active", "suspended", "withdrawn"]);
+const VALID_ROLES = new Set(["guest", "member", "moderator", "admin"]);
+const VALID_STATUSES = new Set(["active", "suspended", "blocked"]);
 
 const MAX_LIMIT = 50;
 const DEFAULT_LIMIT = 20;

@@ -199,6 +199,58 @@ describe("GET /api/community/admin/members - 백오피스 회원 읽기 전용 A
     expect(member.profile_complete).toBeNull();
   });
 
+  it("실제 DB 스키마 enum(guest/member/moderator/admin)과 상태 제약(active/suspended/blocked)을 정확히 인식한다", async () => {
+    mocks.rpc.mockImplementation((name: string) => {
+      if (name === "count_backoffice_members") return Promise.resolve({ data: 3, error: null });
+      if (name === "get_backoffice_members") {
+        return Promise.resolve({
+          data: [
+            {
+              id: "00000000-0000-0000-0000-000000000010",
+              public_nickname: "모더레이터",
+              email_masked: "m***@test.local",
+              role: "moderator",
+              status: "active",
+              created_at: "2026-09-27T00:00:00Z",
+            },
+            {
+              id: "00000000-0000-0000-0000-000000000011",
+              public_nickname: "차단회원",
+              email_masked: "b***@test.local",
+              role: "member",
+              status: "blocked",
+              created_at: "2026-09-27T00:00:00Z",
+            },
+            {
+              id: "00000000-0000-0000-0000-000000000012",
+              public_nickname: "탈퇴표기오류회원",
+              email_masked: "w***@test.local",
+              role: "guest",
+              status: "withdrawn", // invalid in member_ops schema (CHECK status IN active, suspended, blocked) -> 확인 불가
+              created_at: "2026-09-27T00:00:00Z",
+            },
+          ],
+          error: null,
+        });
+      }
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    const ctx = makeContext({ authorization: `Bearer ${VALID_SECRET}` });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+    expect(res.status).toBe(200);
+
+    const body = await res.json();
+    expect(body.members[0].role).toBe("moderator");
+    expect(body.members[0].status).toBe("active");
+
+    expect(body.members[1].role).toBe("member");
+    expect(body.members[1].status).toBe("blocked");
+
+    expect(body.members[2].role).toBe("guest");
+    expect(body.members[2].status).toBe("확인 불가");
+  });
+
   it("카운트 RPC가 null 또는 비정상 값을 반환하면 0명으로 표시하지 않고 503 오류를 반환한다", async () => {
     mocks.rpc.mockImplementation((name: string) => {
       if (name === "count_backoffice_members") return Promise.resolve({ data: null, error: null });

@@ -14,76 +14,6 @@
       "status": "official_verified",
       "ticker": "0198A0"
     },
-    "0208N0": {
-      "existing_anchor_close": 9545.0,
-      "isin": "KR70208N0007",
-      "listing_date": "2026-06-23",
-      "name": "IBK 코스피액티브",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000888",
-      "reference_price": 10580.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000888/20260622001928/99401.htm",
-      "status": "official_verified",
-      "ticker": "0208N0"
-    },
-    "0209D0": {
-      "existing_anchor_close": 8580.0,
-      "isin": "KR70209D0008",
-      "listing_date": "2026-06-23",
-      "name": "KODEX 전고체배터리ESS TOP2플러스",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000889",
-      "reference_price": 9380.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000889/20260622001930/99401.htm",
-      "status": "official_verified",
-      "ticker": "0209D0"
-    },
-    "0209Z0": {
-      "existing_anchor_close": 8650.0,
-      "isin": "KR70209Z0002",
-      "listing_date": "2026-06-23",
-      "name": "ACE 코리아AI전력TOP10",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000887",
-      "reference_price": 9290.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000887/20260622001927/99401.htm",
-      "status": "official_verified",
-      "ticker": "0209Z0"
-    },
-    "0210A0": {
-      "existing_anchor_close": 10100.0,
-      "isin": "KR70210A0008",
-      "listing_date": "2026-06-23",
-      "name": "ACE K반도체TOP2+",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000886",
-      "reference_price": 11180.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000886/20260622001926/99401.htm",
-      "status": "official_verified",
-      "ticker": "0210A0"
-    },
-    "0210E0": {
-      "existing_anchor_close": 9425.0,
-      "isin": "KR70210E0004",
-      "listing_date": "2026-06-23",
-      "name": "PLUS 200커버드콜액티브",
-      "notice_applied_date": "2026-06-23",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260622000885",
-      "reference_price": 10410.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/22/000885/20260622001925/99401.htm",
-      "status": "official_verified",
-      "ticker": "0210E0"
-    },
     "0214M0": {
       "existing_anchor_close": 10050.0,
       "isin": "KR70214M0000",
@@ -427,11 +357,11 @@
       "name": "HANARO 미국에이전틱AI TOP2+",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0227L0"
     },
     "0228G0": {
@@ -553,11 +483,11 @@
       "name": "KODEX 미국AI메모리TOP2플러스",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0238F0"
     },
     "0238P0": {
@@ -567,11 +497,11 @@
       "name": "TIGER 미국S&P500미국채혼합50",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0238P0"
     },
     "0239Y0": {
@@ -581,11 +511,11 @@
       "name": "PLUS 코리아HBM반도체",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0239Y0"
     },
     "0239Z0": {
@@ -595,14 +525,14 @@
       "name": "PLUS AI반도체소부장액티브",
       "notice_applied_date": "",
       "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
+      "reason": "HTTPSConnectionPool(host='kind.krx.co.kr', port=443): Read timed out. (read timeout=20.0)",
       "receipt_no": "",
       "reference_price": null,
       "source_url": "",
-      "status": "manual_review_required",
+      "status": "kind_search_error",
       "ticker": "0239Z0"
     }
   },
-  "updated_at": "2026-09-19T08:17:59+09:00",
+  "updated_at": "2026-09-24T08:00:53+09:00",
   "version": 1
 }

@@ -14,26 +14,29 @@
       {
         "code": "CLF",
         "label": "WTI 원유",
-        "close": 105.43,
-        "change_points": 4.04,
-        "change_pct": 3.98,
-        "as_of_date": "2026-09-15"
+        "close": 105.83,
+        "change_points": 4.44,
+        "change_pct": 4.38,
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 5,
+        "close": 4.996,
         "change_points": 0.035,
         "change_pct": 0.035,
-        "as_of_date": "2026-09-15"
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4326.5,
-        "change_points": -25.4,
-        "change_pct": -0.58,
-        "as_of_date": "2026-09-15"
+        "close": 4332.8,
+        "change_points": -19.1,
+        "change_pct": -0.44,
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "KOSDAQ",
@@ -54,10 +57,11 @@
       {
         "code": "KR10Y",
         "label": "국채 10년",
-        "close": 4.6,
-        "change_points": 0.064,
-        "change_pct": 0.064,
-        "as_of_date": "2026-09-15"
+        "close": 4.588,
+        "change_points": 0.056,
+        "change_pct": 0.056,
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "NDX",
@@ -70,10 +74,11 @@
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 64.21,
-        "change_points": 0.7,
-        "change_pct": 1.11,
-        "as_of_date": "2026-09-15"
+        "close": 63.86,
+        "change_points": -0.28,
+        "change_pct": -0.44,
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "SPX",
@@ -86,10 +91,11 @@
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1345.3,
-        "change_points": -1.1,
-        "change_pct": -0.08,
-        "as_of_date": "2026-09-15"
+        "close": 1363.7,
+        "change_points": 15.2,
+        "change_pct": 1.13,
+        "as_of_date": "2026-09-15",
+        "is_closed": false
       },
       {
         "code": "VIX",

@@ -9,14 +9,14 @@ import { STYLE_PROFILES } from "@/lib/onboarding/style-diagnosis";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url.replace(/\/$/, "");
+  const baseUrl = siteConfig.canonicalBaseUrl.replace(/\/$/, "");
   const etfs = loadEtfs();
   const lastModified = etfs[0] ? new Date(`${etfs[0].asOfDate.slice(0, 4)}-${etfs[0].asOfDate.slice(4, 6)}-${etfs[0].asOfDate.slice(6, 8)}T00:00:00+09:00`) : new Date();
-  const pages = ["", "/briefing", "/guides", "/books"].map((path, index) => ({
+  const pages = ["", "/briefing", "/guides", "/guides/self-check", "/books"].map((path, index) => ({
     url: `${baseUrl}${path}`,
     lastModified,
     changeFrequency: "daily" as const,
-    priority: index === 0 ? 1 : 0.7,
+    priority: index === 0 ? 1 : (path === "/guides/self-check" ? 0.8 : 0.7),
   }));
   const detailPages = etfs.map((etf) => ({
     url: `${baseUrl}/etf/${etf.ticker}`,

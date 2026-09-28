@@ -272,7 +272,8 @@
         "인플레이션",
         "헷지"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "sca-018",
@@ -358,7 +359,8 @@
         "니케이",
         "엔화"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-23"
     },
     {
       "id": "sca-024",
@@ -461,7 +463,8 @@
         "롤오버",
         "합성구조"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "sp-001",
@@ -642,7 +645,8 @@
         "물가방어",
         "포트폴리오"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "sp-012",
@@ -670,7 +674,8 @@
         "DCA",
         "증권사"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "sp-014",
@@ -686,7 +691,8 @@
         "국민연금",
         "은퇴설계"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-23"
     },
     {
       "id": "sp-015",
@@ -701,7 +707,8 @@
         "시장타이밍",
         "DCA"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "sp-016",
@@ -806,7 +813,8 @@
         "심리편향",
         "장기투자"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "sp-023",
@@ -1007,7 +1015,8 @@
         "연말정산",
         "연금저축"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "qna-007",
@@ -1164,7 +1173,8 @@
         "일시납",
         "연금저축"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-23"
     },
     {
       "id": "qna-019",
@@ -1310,7 +1320,8 @@
         "자산보호",
         "안전성"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "qna-030",
@@ -1494,7 +1505,8 @@
         "NAV",
         "매수전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "sca-042",
@@ -1509,7 +1521,8 @@
         "KRX금현물",
         "장기보유"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "sca-043",
@@ -1671,7 +1684,8 @@
         "재투자",
         "복리"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "sca-054",
@@ -1775,7 +1789,8 @@
         "적립식",
         "거치식"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "sp-031",
@@ -1835,7 +1850,8 @@
         "로드맵",
         "첫투자"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-28"
     },
     {
       "id": "sp-035",
@@ -2170,7 +2186,8 @@
         "30년복리",
         "연금전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-25"
     },
     {
       "id": "sp-056",
@@ -2321,7 +2338,8 @@
         "세액공제추가",
         "절차"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-24"
     },
     {
       "id": "qna-036",
@@ -2532,7 +2550,8 @@
         "2000만원",
         "절세계좌"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-27"
     },
     {
       "id": "qna-051",
@@ -2597,7 +2616,8 @@
         "증권사이전",
         "이전절차"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-26"
     },
     {
       "id": "qna-056",
@@ -2652,7 +2672,8 @@
         "건강보험",
         "금융소득기준"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-22"
     },
     {
       "id": "qna-060",

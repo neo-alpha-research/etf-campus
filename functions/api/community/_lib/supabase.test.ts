@@ -31,4 +31,52 @@ describe("Supabase Client", () => {
     expect(requestOptions.method).toBe("POST");
     expect(requestOptions.headers.Authorization).toBe("Bearer access-token");
   });
+
+  it("verifyOtp with token_hash sends { token_hash, type } payload", async () => {
+    globalFetch.mockResolvedValue({ ok: true, json: async () => ({ session: { access_token: "mock-token" }, user: { id: "user-123" } }) });
+
+    const client = publicSupabase({
+      SUPABASE_URL: "https://example.supabase.co",
+      SUPABASE_ANON_KEY: "anon-key"
+    });
+
+    const result = await client.auth.verifyOtp({
+      token_hash: "hashed_magiclink_token",
+      type: "magiclink",
+    });
+
+    expect(result.error).toBeNull();
+    expect(globalFetch).toHaveBeenCalledTimes(1);
+    const requestOptions = globalFetch.mock.calls[0][1];
+    expect(requestOptions.method).toBe("POST");
+    expect(JSON.parse(requestOptions.body)).toEqual({
+      token_hash: "hashed_magiclink_token",
+      type: "magiclink",
+    });
+  });
+
+  it("verifyOtp with email and token sends { email, token, type } payload", async () => {
+    globalFetch.mockResolvedValue({ ok: true, json: async () => ({ session: { access_token: "mock-token" }, user: { id: "user-123" } }) });
+
+    const client = publicSupabase({
+      SUPABASE_URL: "https://example.supabase.co",
+      SUPABASE_ANON_KEY: "anon-key"
+    });
+
+    const result = await client.auth.verifyOtp({
+      email: "test@example.com",
+      token: "123456",
+      type: "email",
+    });
+
+    expect(result.error).toBeNull();
+    expect(globalFetch).toHaveBeenCalledTimes(1);
+    const requestOptions = globalFetch.mock.calls[0][1];
+    expect(requestOptions.method).toBe("POST");
+    expect(JSON.parse(requestOptions.body)).toEqual({
+      email: "test@example.com",
+      token: "123456",
+      type: "email",
+    });
+  });
 });

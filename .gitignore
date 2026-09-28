@@ -36,10 +36,12 @@ data/staging/
 
 *.sql
 !migrations/*.sql
+!supabase/**/*.sql
 !scripts/*.sql
 !docs/*.sql
 temp_holdings_chunks/
 *.tmp
+supabase/.temp/
 .*-temp
 *-temp
 *.mjs

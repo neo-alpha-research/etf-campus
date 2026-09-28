@@ -144,10 +144,16 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                 const isActive = item.asOfDate === activeDate;
                 const isPastItem = index > 0;
 
+                const fallbackUp = Math.round(item.generalEtfCount * ((item.breadthRatioPct || 50) / 100));
+                const upCount = item.upCount ?? fallbackUp;
+                const flatCount = item.flatCount ?? 0;
+                const downCount = item.downCount ?? Math.max(item.generalEtfCount - upCount - flatCount, 0);
+
                 const narrative = generateMarketNarrative({
                   generalEtfCount: item.generalEtfCount,
-                  upCount: Math.round(item.generalEtfCount * ((item.breadthRatioPct || 50) / 100)),
-                  downCount: item.generalEtfCount - Math.round(item.generalEtfCount * ((item.breadthRatioPct || 50) / 100)),
+                  upCount,
+                  flatCount,
+                  downCount,
                   generalAumWeightedReturnPct: item.generalAumWeightedReturnPct,
                   breadthRatioPct: item.breadthRatioPct,
                 });

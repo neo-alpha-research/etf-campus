@@ -42,18 +42,18 @@
       {
         "code": "KR10Y",
         "label": "국채 10년",
-        "close": 4.547,
-        "change_pct": -0.053,
-        "change_points": -0.053,
+        "close": 4.553,
+        "change_pct": -0.035,
+        "change_points": -0.035,
         "as_of_date": "2026-09-16",
         "is_closed": false
       },
       {
         "code": "USDKRW",
         "label": "원/달러",
-        "close": 1353.3,
-        "change_pct": 0.59,
-        "change_points": 8.0,
+        "close": 1377.5,
+        "change_pct": 1.01,
+        "change_points": 13.8,
         "as_of_date": "2026-09-16",
         "is_closed": false
       },
@@ -78,9 +78,9 @@
       {
         "code": "DGS10",
         "label": "미 국채 10년물",
-        "close": 5.01,
-        "change_pct": 0.01,
-        "change_points": 0.01,
+        "close": 5.004,
+        "change_pct": 0.008,
+        "change_points": 0.008,
         "as_of_date": "2026-09-16",
         "is_closed": false
       },
@@ -96,27 +96,27 @@
       {
         "code": "CLF",
         "label": "WTI 원유",
-        "close": 101.96,
-        "change_pct": -3.66,
-        "change_points": -3.87,
+        "close": 102.43,
+        "change_pct": -3.21,
+        "change_points": -3.4,
         "as_of_date": "2026-09-16",
         "is_closed": false
       },
       {
         "code": "GC",
         "label": "금 선물",
-        "close": 4306.0,
-        "change_pct": -0.62,
-        "change_points": -26.8,
+        "close": 4387.5,
+        "change_pct": 1.26,
+        "change_points": 54.7,
         "as_of_date": "2026-09-16",
         "is_closed": false
       },
       {
         "code": "SI",
         "label": "은 선물",
-        "close": 63.42,
-        "change_pct": 0.3,
-        "change_points": 0.19,
+        "close": 64.92,
+        "change_pct": 1.66,
+        "change_points": 1.06,
         "as_of_date": "2026-09-16",
         "is_closed": false
       }

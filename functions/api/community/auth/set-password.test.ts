@@ -17,6 +17,15 @@ vi.mock("../_lib/supabase", () => ({
       signInWithPassword: mocks.signInWithPassword,
     },
   }),
+  adminSupabase: () => ({
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          maybeSingle: () => Promise.resolve({ data: { public_nickname: "testuser" }, error: null }),
+        }),
+      }),
+    }),
+  }),
 }));
 
 vi.mock("../_lib/request-security", () => ({

@@ -33,8 +33,6 @@ function TutorialContent() {
 
   const [maxUnlockedStep, setMaxUnlockedStep] = useState<number>(() => {
     if (typeof window === "undefined") return 1;
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("download") === "auto") return 5;
     const saved =
       localStorage.getItem("tutorial_max_unlocked_step") ||
       localStorage.getItem("tutorial_progress");
@@ -47,8 +45,6 @@ function TutorialContent() {
 
   const [currentStep, setCurrentStep] = useState<number>(() => {
     if (typeof window === "undefined") return 1;
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("download") === "auto") return 5;
     const savedStep = localStorage.getItem("tutorial_progress");
     if (savedStep) {
       const step = parseInt(savedStep, 10);
@@ -70,6 +66,11 @@ function TutorialContent() {
     return {};
   });
 
+  // 전체 5단계 10문항 정답 여부 엄격 판정
+  const isQuizAllCompleted = tutorialSteps.every((s) =>
+    s.questions.every((q) => answers[q.id] === q.answer)
+  );
+
   const handleTabChange = (tab: "tour" | "quiz" | "letter") => {
     setActiveTab(tab);
     if (typeof window !== "undefined") {
@@ -82,9 +83,17 @@ function TutorialContent() {
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
-  // 로그인/회원가입 후 ?download=auto 로 복귀 시 자동 PDF 다운로드 실행
+  // 로그인/회원가입 후 ?download=auto 로 복귀 시 안전한 자동 PDF 다운로드 실행
+  // - 10문항 전체 완주 + 로그인 인증이 확인된 경우에만 실행
+  // - 브라우저 팝업/다운로드 차단 시에도 수동 다운로드 버튼이 상시 노출되어 안전하게 수령 가능
+  // - 완주하지 않은 상태의 쿼리는 무시하고 안전하게 제거
   useEffect(() => {
-    if (isAutoDownloadIntent && authenticated) {
+    if (!isAutoDownloadIntent) return;
+
+    if (authenticated && isQuizAllCompleted) {
+      queueMicrotask(() => {
+        setCurrentStep(5);
+      });
       if (typeof document !== "undefined") {
         const link = document.createElement("a");
         link.href = "/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf";
@@ -93,14 +102,14 @@ function TutorialContent() {
         link.click();
         link.remove();
       }
-
-      if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("download");
-        window.history.replaceState({}, "", url.toString());
-      }
     }
-  }, [isAutoDownloadIntent, authenticated]);
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("download");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [isAutoDownloadIntent, authenticated, isQuizAllCompleted]);
 
   // 답변 선택 핸들러 (선택 즉시 실시간 피드백 및 로컬스토리지 저장)
   const handleSelectAnswer = (qId: string, value: boolean) => {
@@ -241,9 +250,7 @@ function TutorialContent() {
                   : "bg-neutral-200 text-neutral-600"
               }`}
             >
-              {maxUnlockedStep === 5 && stepData.questions.every((q) => answers[q.id] === q.answer)
-                ? "완료"
-                : `${currentStep}/5`}
+              {isQuizAllCompleted ? "완료" : `${currentStep}/5`}
             </span>
           </button>
         </div>
@@ -280,7 +287,7 @@ function TutorialContent() {
                 </span>
               </div>
               <div className="text-right flex flex-col items-end">
-                {!(currentStep === 5 && isStepCompleted) && (
+                {!isQuizAllCompleted && (
                   <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 mb-0.5">
                     🎁 완주 시 <span className="underline underline-offset-2">치트시트 PDF</span> 즉시 수여!
                   </span>
@@ -546,74 +553,81 @@ function TutorialContent() {
               </div>
             ) : currentStep === 5 ? (
               /* Grand Graduation & Cheat Sheet Reward Card */
-              <div className="text-center space-y-6 bg-gradient-to-br from-amber-50/95 via-orange-50/70 to-brand-50/90 p-6 sm:p-10 rounded-3xl border-2 border-amber-300 shadow-md animate-fade-in-up">
-                <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-amber-200/90 text-amber-950 border border-amber-400 shadow-2xs">
-                  <span>🎯</span>
-                  <span>5대 핵심 절세 마스터 코스 100% 이수 완료</span>
-                </div>
+              isQuizAllCompleted ? (
+                <div className="text-center space-y-6 bg-gradient-to-br from-amber-50/95 via-orange-50/70 to-brand-50/90 p-6 sm:p-10 rounded-3xl border-2 border-amber-300 shadow-md animate-fade-in-up">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-amber-200/90 text-amber-950 border border-amber-400 shadow-2xs">
+                    <span>🎯</span>
+                    <span>5대 핵심 절세 마스터 코스 100% 이수 완료</span>
+                  </div>
 
-                <div className="text-5xl sm:text-6xl animate-bounce">🏆</div>
-                <div className="space-y-2">
-                  <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 tracking-tight break-keep">
-                    축하합니다! 팩트체크 완주!
-                  </h2>
-                  <p className="text-neutral-700 font-medium text-sm sm:text-base break-keep leading-relaxed max-w-xl mx-auto">
-                    설립자 Neo가 제작한 <strong className="text-brand-900 font-extrabold underline decoration-amber-400">[2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]</strong>를 다운로드하여 실전에 활용하십시오.
+                  <div className="text-5xl sm:text-6xl animate-bounce">🏆</div>
+                  <div className="space-y-2">
+                    <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 tracking-tight break-keep">
+                      축하합니다! 팩트체크 완주!
+                    </h2>
+                    <p className="text-neutral-700 font-medium text-sm sm:text-base break-keep leading-relaxed max-w-xl mx-auto">
+                      설립자 Neo가 제작한 <strong className="text-brand-900 font-extrabold underline decoration-amber-400">[2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]</strong>를 다운로드하여 실전에 활용하십시오.
+                    </p>
+                  </div>
+
+                  {/* 🔒 End-Funnel Authentication Gate */}
+                  {authenticated ? (
+                    <div className="pt-2 space-y-3">
+                      <div className="p-3.5 bg-emerald-100/90 text-emerald-950 border border-emerald-300 rounded-2xl text-xs sm:text-sm font-bold animate-fade-in-up">
+                        🎉 5대 팩트체크 완주 및 로그인 인증 완료! 치트시트 수령 자격이 확인되었습니다.
+                      </div>
+                      <a
+                        href="/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
+                        download="2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
+                        className="block w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg text-center active:scale-[0.99] ring-2 ring-emerald-400/40 cursor-pointer"
+                      >
+                        🎁 [치트시트 수동 다운로드] 2026 직장인 3대 절세계좌 완벽 운용 치트시트 (PDF)
+                      </a>
+                      <p className="text-xs text-neutral-500 font-medium">
+                        💡 브라우저 다운로드 차단 시 위의 버튼을 직접 탭하시면 즉시 다운로드됩니다.
+                      </p>
+                      <div className="pt-1">
+                        <button
+                          type="button"
+                          onClick={handleResetQuiz}
+                          className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
+                        >
+                          🔄 팩트체크 처음부터 다시 풀기
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="pt-2 space-y-3">
+                      <p className="text-xs sm:text-sm font-bold text-amber-900 bg-amber-100/80 border border-amber-200/80 p-3.5 rounded-2xl break-keep">
+                        💡 5단계 완주를 축하합니다! 치트시트 PDF 다운로드는 무료 회원가입 후 로그인 시 즉시 제공됩니다.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => router.push(`/login?returnTo=${encodeURIComponent("/tutorial/?tab=quiz&download=auto")}`)}
+                        className="w-full bg-gradient-to-r from-brand-700 via-brand-800 to-indigo-900 hover:from-brand-600 hover:to-indigo-800 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg active:scale-[0.99] cursor-pointer"
+                      >
+                        🔒 무료 회원가입하고 치트시트 PDF 받기 ➔
+                      </button>
+                      <div className="pt-1">
+                        <button
+                          type="button"
+                          onClick={handleResetQuiz}
+                          className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
+                        >
+                          🔄 팩트체크 처음부터 다시 풀기
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center p-6 bg-amber-50/90 rounded-2xl border border-amber-300 text-xs sm:text-sm font-bold text-amber-900 space-y-2">
+                  <p>🎉 제5단계 정답을 맞추셨습니다!</p>
+                  <p className="font-normal text-neutral-600">
+                    단, 이전 단계(1~4단계) 중 다시 확인해야 할 문항이 있습니다. 상단의 단계 칩(01~04)을 눌러 모든 단계를 통과하시면 치트시트가 수여됩니다.
                   </p>
                 </div>
-
-                {/* 🔒 End-Funnel Authentication Gate */}
-                {authenticated ? (
-                  <div className="pt-2 space-y-3">
-                    {isAutoDownloadIntent && (
-                      <div className="p-3.5 bg-emerald-100/90 text-emerald-950 border border-emerald-300 rounded-2xl text-xs sm:text-sm font-bold animate-fade-in-up">
-                        🎉 로그인 성공! 치트시트 PDF 자동 다운로드가 시작되었습니다.
-                      </div>
-                    )}
-                    <a
-                      href="/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
-                      download="2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
-                      className="block w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg text-center active:scale-[0.99] ring-2 ring-emerald-400/40 cursor-pointer"
-                    >
-                      🎁 [즉시 다운로드] 2026 직장인 3대 절세계좌 완벽 운용 치트시트 (PDF)
-                    </a>
-                    <p className="text-xs text-neutral-500 font-medium">
-                      💡 언제든 다시 다운로드받으실 수 있습니다. (브라우저 다운로드 폴더 저장)
-                    </p>
-                    <div className="pt-1">
-                      <button
-                        type="button"
-                        onClick={handleResetQuiz}
-                        className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
-                      >
-                        🔄 팩트체크 처음부터 다시 풀기
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="pt-2 space-y-3">
-                    <p className="text-xs sm:text-sm font-bold text-amber-900 bg-amber-100/80 border border-amber-200/80 p-3.5 rounded-2xl break-keep">
-                      💡 치트시트 PDF 다운로드는 무료 회원가입 후 로그인 시 즉시 제공됩니다.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => router.push(`/login?returnTo=${encodeURIComponent("/tutorial/?tab=quiz&download=auto")}`)}
-                      className="w-full bg-gradient-to-r from-brand-700 via-brand-800 to-indigo-900 hover:from-brand-600 hover:to-indigo-800 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg active:scale-[0.99] cursor-pointer"
-                    >
-                      🔒 무료 회원가입하고 치트시트 PDF 받기 ➔
-                    </button>
-                    <div className="pt-1">
-                      <button
-                        type="button"
-                        onClick={handleResetQuiz}
-                        className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
-                      >
-                        🔄 팩트체크 처음부터 다시 풀기
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              )
             ) : (
               /* Next Step Success Banner */
               <div className="pt-2 animate-fade-in-up">

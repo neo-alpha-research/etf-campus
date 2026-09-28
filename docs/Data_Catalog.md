@@ -30,7 +30,7 @@
 | **총보수 및 실부담비용율** | **금융투자협회 (KOFIA DIS)** 법정 결산 원천<br>+ **에프앤가이드/네이버 증권 API** 신규상장 원천 | `kofia_fee_collector.py`<br>`sync_new_listing_fee.py`<br>`kofia-fee-sync.yml` | **매월 1, 5, 10일 11:00** (협회 결산 공시)<br>+ **매일 09:33** (신규상장 명목보수 즉시 수집) | `실부담비용율 = TER(총보수 + 기타비용) + 매매중개수수료율`<br>※ 신규 상장 ETF는 에프앤가이드 정제 약관 총보수 즉시 등록 및 마스킹(`masked_new`) 적용 | **1,170개 전수 원장 완비** / 신규 상장 ETF 당일 명목보수 100% 자동 수집 체계 구축 |
 | **퇴직연금 및 ISA 적격성** | **퇴직연금감독규정 제9조·제12조, 시행세칙 제5조의2, 조특법 제91조의18** 단일 룰 | `pension_regulatory_engine.py`<br>`phase0_merge_verify.py` | 시세 갱신 시 자동 평가 | 위험평가액 40% 초과 파생상품, 레버리지, 인버스 제외<br>※ 배율 기반 ISA 교육 대상 및 신뢰도 메타데이터 산출 | 법정 감독규정 / 정상 |
 | **국내 지수 (KOSPI/KOSDAQ)** | **한국거래소 (KRX Open API)** | `fetch_market_indices.py` | 거래일 익일 07:50~08:40 | 원천 데이터 활용 (`data/market_indices.json`, D1 저장) | 정상 |
-| **해외지수, 원자재, 환율, VIX** | **Yahoo Finance API** + 한국은행 ECOS | `fetch_market_indices.py` | 거래일 익일 07:50~08:40 | S&P500, 나스닥, 원/달러, WTI, 금, 국채10Y, VIX 수집 | 정상 |
+| **해외지수, 원자재, 환율, 국채, VIX** | **네이버 증권 공식 일별 시세 API (원자재·환율·국채 SSOT)**<br>+ **Yahoo Finance (미국 지수·VIX)** | `fetch_market_indices.py` | 거래일 익일 07:50~08:40 | WTI, 금, 은, 원/달러, 미·국내 국채10Y(네이버 정규 마감 종가 확정치)<br>S&P500, 나스닥, VIX(Yahoo Finance 공식 종가) 수집 | 단일 원천 (SSOT) / 정상 |
 | **분배금 및 TR 수익률** | **한국예탁결제원 (SEIBro)** 단일 공인 원천 | `collect_seibro_distributions.py`<br>`build_distribution_summaries.py`<br>PR/TR 산출 엔진 | **매일 13:07** | 주당 분배금 기반 TR 재투자 수식 적용<br>※ Playwright 구형 스크립트 삭제 완료 (2026-09-05) | 공인 중앙예탁기관 / 정상 |
 | **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 화면에서 **제거됨**<br>※ CI 좀비 스크립트 완전 삭제 | 사용 안 함 (정리 완료) |
 | **커뮤니티** | Supabase | Supabase RPC / Views | 실시간 | 자체 게시글 및 메타데이터 적재 | 자체 / 정상 |
@@ -85,25 +85,31 @@ VKOSPI  https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd
 
 **단일 원천 정책**: **한국거래소(KRX Open API) 단일 원천으로 확정**. (공공데이터포털 15094807 지수 API는 오전 11시 15분 이전 데이터 미발행으로 인해 아침 마켓 브리핑 정합성을 해치므로 원천 대상에서 공식 제외 철회)
 
-### 2-3. 해외지수, 환율, 원자재, 금리, 변동성
+### 2-3. 해외지수, 환율, 원자재, 국채 금리, 변동성
 
-**화면 사용처**: 마켓 티커, 마켓 브리핑 본문
+**화면 사용처**: 마켓 티커, 마켓 브리핑 본문, OSMU(인스타그램, 스레드, 뉴스레터)
 
-**수집 스크립트** [확인됨]: `scripts/fetch_market_indices.py` 24~34행 `TICKERS`
+**수집 스크립트** [확인됨]: `scripts/fetch_market_indices.py` (`NAVER_COMMODITY_FX_CONFIG`, `NAVER_BOND_CONFIG`, `US_TICKERS`)
 
-| 표시 라벨 | Yahoo 심볼 | 티커 노출 |
-|---|---|---|
-| S&P 500 | `^GSPC` | 노출 |
-| 나스닥 | `^IXIC` | 노출 |
-| 니케이 225 | `^N225` | 노출 |
-| 원/달러 | `KRW=X` | 노출 |
-| 미 국채 10년물 | `^TNX` | 노출 |
-| VIX | `^VIX` | 노출 |
-| WTI 원유 | `CL=F` | **제외** |
-| 금 선물 | `GC=F` | **제외** |
-| 은 선물 | `SI=F` | **제외** |
+**수집 원천 및 단일 진실 공급원(SSOT) 아키텍처**:
+2026-09-22 부로 Yahoo Finance의 선물 차근월물 임의 롤오버 왜곡(WTI 정규 종가와 차근월물 실시간 틱 괴리), 금/환율 야간 전산 틱 왜곡을 원천 방지하기 위해 **원자재, 환율, 국채 금리를 네이버 증권 공식 일별 시세(정규장 마감 확정치 Close/Settlement)로 전면 일원화(SSOT)**하였습니다.
 
-**호출 방식** [확인됨]: `query1.finance.yahoo.com/v8/finance/chart/{심볼}` 를 `User-Agent: Mozilla/5.0` 으로 호출
+| 구분 | 표시 라벨 | 심볼/코드 | 단일 원천 (SSOT) | API 엔드포인트 | 티커 노출 |
+|---|---|---|---|---|---|
+| 원자재 | WTI 원유 | `CLcv1` (`CLF`) | 네이버 증권 공식 일별 시세 | `https://m.stock.naver.com/front-api/marketIndex/prices?category=energy&reutersCode=CLcv1&pageSize=30` | **제외** (브리핑 전용) |
+| 원자재 | 금 선물 | `GCcv1` (`GC`) | 네이버 증권 공식 일별 시세 | `https://m.stock.naver.com/front-api/marketIndex/prices?category=metals&reutersCode=GCcv1&pageSize=30` | **제외** (브리핑 전용) |
+| 원자재 | 은 선물 | `SIcv1` (`SI`) | 네이버 증권 공식 일별 시세 | `https://m.stock.naver.com/front-api/marketIndex/prices?category=metals&reutersCode=SIcv1&pageSize=30` | **제외** (브리핑 전용) |
+| 환율 | 원/달러 | `FX_USDKRW` (`USDKRW`) | 네이버 증권 공식 일별 시세 | `https://m.stock.naver.com/front-api/marketIndex/prices?category=exchange&reutersCode=FX_USDKRW&pageSize=30` | 노출 |
+| 채권 금리 | 국채 10년 | `KR10YT=RR` (`KR10Y`) | 네이버 증권 공식 채권 시세 | `https://api.stock.naver.com/marketindex/bond/KR10YT=RR?pageSize=30` | 노출 |
+| 채권 금리 | 미 국채 10년물 | `US10YT=RR` (`DGS10`) | 네이버 증권 공식 채권 시세 | `https://api.stock.naver.com/marketindex/bond/US10YT=RR?pageSize=30` | 노출 |
+| 해외 지수 | S&P 500 | `^GSPC` | Yahoo Finance (정규장 종가) | `query1.finance.yahoo.com/v8/finance/chart/^GSPC` | 노출 |
+| 해외 지수 | 나스닥 | `^IXIC` | Yahoo Finance (정규장 종가) | `query1.finance.yahoo.com/v8/finance/chart/^IXIC` | 노출 |
+| 변동성 | VIX | `^VIX` | Yahoo Finance (정규장 종가) | `query1.finance.yahoo.com/v8/finance/chart/^VIX` | 노출 |
+
+**호출 방식 및 품질 게이트**:
+- **네이버 증권 일별 시세 API**: `pageSize=30` 이상으로 호출하여 해당 거래일의 16:00 정규장 마감 확정치(`closePrice`, `fluctuations`)를 수집. 양수 종가 검증(`CLOSING_PRICE` 게이트)과 브리핑 기준일(`baseDate`) 일치 여부를 대조하여 야간 틱 왜곡 원천 차단.
+- **Yahoo Finance API**: 정규 거래소 공식 마감 종가(`chart.result[0].meta.regularMarketPrice`) 및 전일 종가(`chartPreviousClose`)를 엄격 대조.
+- **국채 금리 표기 정합성**: `KR10YT=RR`, `US10YT=RR`의 `closePrice`는 수익률(%), `change_pct`에는 `fluctuations`(%p)를 매핑하여 `market-briefing.tsx`의 `yieldDecimal`(소수점 3자리) 및 `%p` 표기와 100% 정합성을 유지.
 
 **티커 제외 처리**: `components/market-ticker.tsx` 의 `excludedLabels`. 원자재 3종은 수집은 하되 티커에 표시하지 않고 브리핑 본문에서만 씁니다. **라벨 문자열이 `data/market_indices.json` 의 `label` 과 정확히 일치해야 필터가 동작합니다.**
 
@@ -111,11 +117,12 @@ VKOSPI  https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd
 
 Yahoo Finance 는 비공식 경로이며 브라우저 위장을 사용합니다.
 
-S&P 500, 나스닥, 니케이 225 는 **지수 자체에 재배포 제한**이 있어 출처를 바꿔도 해결되지 않습니다. FRED 의 `SP500` 은 S&P Dow Jones Indices 의 사전 서면 허가 없이 복제 금지, `NASDAQCOM` 은 상업적 이용에 사전 승인 필요, `NIKKEI225` 는 제3자 재배포에 Nikkei 허가 필요입니다.
+S&P 500, 나스닥은 **지수 자체에 재배포 제한**이 있어 출처를 바꿔도 해결되지 않습니다. FRED 의 `SP500` 은 S&P Dow Jones Indices 의 사전 서면 허가 없이 복제 금지, `NASDAQCOM` 은 상업적 이용에 사전 승인 필요입니다.
 
 VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 
 - 2026-09-08 부로 `scripts/publish_market_source_snapshot.py` 및 `scripts/fetch_market_indices.py` 내 미사용 레거시 함수(`fetch_fred_index`, `fetch_yahoo_index`, `fetch_krx_bond_yield` 등)를 완전 제거하여 단일화 완료.
+- 2026-09-22 부로 원자재(WTI, 금, 은), 환율(원/달러), 국채(한/미 10년물)의 Yahoo Finance 의존을 전면 폐기하고 네이버 증권 공식 정규 마감 종가 SSOT로 일원화 완료.
 
 **해외 지수 및 미국 시장 휴장일 동기화 원칙 (KST vs EDT)**:
 - **배경 및 거래 세션 동기화 메커니즘**:

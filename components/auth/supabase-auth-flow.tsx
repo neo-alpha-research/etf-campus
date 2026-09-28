@@ -1,24 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { mutate } from "swr";
 import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
-import { communityFetch, markCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
+import { communityFetch, markCommunitySession } from "@/lib/community/browser-client";
+import { CURRENT_TERMS_VERSION } from "@/lib/community/contracts";
 
 type Props = {
   initialStep?: Step;
   onAuthenticated: () => void;
   title?: string;
   subtitle?: string;
+  returnTo?: string;
+  initialError?: string;
 };
 
 export type Step = "login" | "otp-request" | "otp-verify" | "password-setup" | "profile" | "onboarding";
 
-export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title = "로그인", subtitle = "ETF CAMPUS" }: Props) {
+function getInitialErrorMessage(error?: string): string {
+  if (error === "oauth_cancelled") return "소셜 로그인이 취소되었습니다.";
+  if (error === "invalid_state" || error === "state_expired") return "로그인 세션이 만료되었습니다. 다시 시도해 주세요.";
+  if (error) return "소셜 로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.";
+  return "";
+}
+
+export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title = "로그인", subtitle = "ETF CAMPUS", returnTo = "/", initialError }: Props) {
   const [step, setStep] = useState<Step>(initialStep);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [token, setToken] = useState("");
+  const [otpPurpose, setOtpPurpose] = useState<"login" | "reset_password">("login");
 
 
   const [nickname, setNickname] = useState("");
@@ -26,14 +38,71 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [agreedToAge, setAgreedToAge] = useState(false);
   const [agreedToMarketing, setAgreedToMarketing] = useState(false);
+  const [marketingChanged, setMarketingChanged] = useState(false);
+  const [isTermsConsentOnly, setIsTermsConsentOnly] = useState(false);
+  const [profileFetchLoading, setProfileFetchLoading] = useState(false);
+  const [profileFetchError, setProfileFetchError] = useState<string | null>(null);
+  const [profileFetchRetryKey, setProfileFetchRetryKey] = useState(0);
   
   const [ageBand, setAgeBand] = useState("");
   const [interestAccountType, setInterestAccountType] = useState("");
 
+  useEffect(() => {
+    if (step !== "profile") return;
+
+    let cancelled = false;
+    const abortController = new AbortController();
+
+    async function loadProfile() {
+      setProfileFetchLoading(true);
+      setProfileFetchError(null);
+      try {
+        const data = await communityFetch<{
+          hasNickname?: boolean;
+          hasTermsConsent?: boolean;
+          profile?: { nickname?: string; marketingConsent?: boolean } | null;
+        }>("/api/community/auth/profile", {
+          timeoutMs: 8000,
+          signal: abortController.signal,
+        });
+        if (cancelled) return;
+        if (data?.hasNickname && data.profile?.nickname) {
+          setNickname(data.profile.nickname);
+          setIsTermsConsentOnly(true);
+          if (typeof data.profile.marketingConsent === "boolean") {
+            setAgreedToMarketing(data.profile.marketingConsent);
+          }
+        }
+      } catch (err) {
+        if (cancelled) return;
+        setProfileFetchError(
+          err instanceof Error ? err.message : "프로필 정보를 불러오지 못했습니다. 다시 시도해 주세요."
+        );
+      } finally {
+        if (!cancelled) {
+          setProfileFetchLoading(false);
+        }
+      }
+    }
+
+    void loadProfile();
+
+    return () => {
+      cancelled = true;
+      abortController.abort();
+    };
+  }, [step, profileFetchRetryKey]);
+
   
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-    const [rememberMe, setRememberMe] = useState(true);
+  const [message, setMessage] = useState(() => getInitialErrorMessage(initialError));
+  const [prevInitialError, setPrevInitialError] = useState(initialError);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  if (initialError !== prevInitialError) {
+    setPrevInitialError(initialError);
+    setMessage(getInitialErrorMessage(initialError));
+  }
   
   const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
@@ -41,46 +110,127 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [passwordCaptchaToken, setPasswordCaptchaToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
 
+  const [oauthLoading, setOauthLoading] = useState<"kakao" | "naver" | null>(null);
+  const [isWaitingCaptcha, setIsWaitingCaptcha] = useState(false);
+  const pendingLoginTokenRef = useRef<((tok: string) => void) | null>(null);
+
+  const handleLoginToken = useCallback((token: string | null) => {
+    setLoginCaptchaToken(token);
+    if (token && pendingLoginTokenRef.current) {
+      pendingLoginTokenRef.current(token);
+      pendingLoginTokenRef.current = null;
+    }
+  }, []);
+
+  const handleRequestToken = useCallback((token: string | null) => {
+    setRequestCaptchaToken(token);
+  }, []);
+
+  const handleVerifyToken = useCallback((token: string | null) => {
+    setVerifyCaptchaToken(token);
+  }, []);
+
+  const handlePasswordToken = useCallback((token: string | null) => {
+    setPasswordCaptchaToken(token);
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-  useEffect(() => {
-    // Reset state on unmount if needed
-  }, []);
-
-  async function loginPassword(event: React.FormEvent) {
-    event.preventDefault();
+  async function startOAuth(provider: "kakao" | "naver") {
+    setOauthLoading(provider);
     setLoading(true);
     setMessage("");
     try {
-      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+      if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+        const userEmail = `${provider}_user@oauth.etfcampus.kr`;
+        const localNickname = `${provider === "kakao" ? "카카오" : "네이버"}투자자`;
+        try {
+          localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname: localNickname, authenticated: true }));
+        } catch {}
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        onAuthenticated();
+        return;
+      }
+
+      const result = await communityFetch<{ authorizationUrl: string }>(`/api/community/auth/oauth/${provider}/start`, {
+        method: "POST",
+        body: JSON.stringify({ returnTo, rememberMe }),
+      });
+
+      if (result?.authorizationUrl) {
+        window.location.assign(result.authorizationUrl);
+      } else {
+        throw new Error("소셜 로그인 URL을 불러오지 못했습니다.");
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "소셜 로그인을 시작할 수 없습니다.");
+      setOauthLoading(null);
+      setLoading(false);
+    }
+  }
+
+  async function loginPassword(event: React.FormEvent) {
+    event.preventDefault();
+    if (!email.trim() || !password) return;
+    setLoading(true);
+    setMessage("");
+    try {
+      if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
         const userEmail = email || "neo.alpharesearch@gmail.com";
         const nickname = userEmail.split("@")[0] || "테스트투자자";
         try {
           localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname, authenticated: true }));
         } catch {}
         markCommunitySession();
+        void mutate("/api/community/auth/session");
         onAuthenticated();
         return;
       }
-      await communityFetch("/api/community/auth/login-password", {
+
+      let activeToken = loginCaptchaToken;
+      if (!activeToken) {
+        setIsWaitingCaptcha(true);
+        try {
+          activeToken = await new Promise<string>((resolve, reject) => {
+            const timer = setTimeout(() => {
+              pendingLoginTokenRef.current = null;
+              reject(new Error("보안 확인 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요."));
+            }, 6000);
+
+            pendingLoginTokenRef.current = (tok: string) => {
+              clearTimeout(timer);
+              resolve(tok);
+            };
+          });
+        } finally {
+          setIsWaitingCaptcha(false);
+        }
+      }
+
+      const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/login-password", {
         method: "POST",
-        body: JSON.stringify({ email, password, rememberMe, captchaToken: loginCaptchaToken }),
+        body: JSON.stringify({ email, password, rememberMe, captchaToken: activeToken }),
       });
       markCommunitySession();
-      await refreshCommunitySession();
-      const profile = await communityFetch("/api/community/auth/profile");
-      if (profile.profileConfigured) {
+      void mutate("/api/community/auth/session");
+      if (res.profileConfigured !== false) {
         onAuthenticated();
-
       } else {
         setStep("profile");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다.");
+      const errMsg = error instanceof Error ? error.message : "로그인에 실패했습니다.";
+      setMessage(errMsg);
       setLoginCaptchaToken(null);
-      setCaptchaKey(k => k + 1);
+      // 단순 대기 시간 초과 시에는 진행 중인 위젯을 강제 재생성(destroy)하지 않고 유지하여 진행을 방해하지 않음
+      if (!errMsg.includes("시간이 초과되었습니다")) {
+        setCaptchaKey(k => k + 1);
+      }
     } finally {
+      pendingLoginTokenRef.current = null;
+      setIsWaitingCaptcha(false);
       setLoading(false);
     }
   }
@@ -112,10 +262,41 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      await communityFetch("/api/community/auth/verify-otp", {
+      const res = await communityFetch<{
+        authenticated?: boolean;
+        profileConfigured?: boolean;
+        hasNickname?: boolean;
+        hasTermsConsent?: boolean;
+        needsTermsConsent?: boolean;
+        passwordSetupRequired?: boolean;
+        isPasswordReset?: boolean;
+        user?: { id?: string; email?: string; nickname?: string | null };
+      }>("/api/community/auth/verify-otp", {
         method: "POST",
-        body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken }),
+        body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken, purpose: otpPurpose }),
       });
+
+      // 1. 기존 가입 완료 회원이 이메일 OTP로 로그인한 경우: 즉시 세션 반영 후 returnTo 복귀
+      if (res.profileConfigured && otpPurpose !== "reset_password") {
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        onAuthenticated();
+        return;
+      }
+
+      // 2. 기존 회원이지만 필수 약관 동의가 필요한 경우: 비밀번호 설정 생략, 기존 닉네임 유지한 채 profile(동의) 화면으로 직행
+      if (res.hasNickname && !res.passwordSetupRequired && otpPurpose !== "reset_password") {
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        if (res.user?.nickname) {
+          setNickname(res.user.nickname);
+        }
+        setIsTermsConsentOnly(true);
+        setStep("profile");
+        return;
+      }
+
+      // 3. 비밀번호 재설정 또는 신규 회원인 경우: password-setup 단계로 이동
       setPasswordCaptchaToken(null);
       setStep("password-setup");
       setPassword("");
@@ -137,16 +318,14 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      await communityFetch("/api/community/auth/set-password", {
+      const res = await communityFetch<{ authenticated?: boolean; profileConfigured?: boolean }>("/api/community/auth/set-password", {
         method: "POST",
         body: JSON.stringify({ password, captchaToken: passwordCaptchaToken }),
       });
       markCommunitySession();
-      await refreshCommunitySession();
-      const profile = await communityFetch("/api/community/auth/profile");
-      if (profile.profileConfigured) {
+      void mutate("/api/community/auth/session");
+      if (res.profileConfigured) {
         onAuthenticated();
-
       } else {
         setStep("profile");
       }
@@ -167,10 +346,41 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
   async function saveProfile(event: React.FormEvent) {
     event.preventDefault();
+    if (profileFetchLoading || Boolean(profileFetchError)) {
+      return;
+    }
     setLoading(true);
     setMessage("");
     try {
-      const termsVersion = "v2026-08-24";
+      const termsVersion = CURRENT_TERMS_VERSION;
+
+      if (isTermsConsentOnly) {
+        // 기존 회원의 필수 약관 보완 처리:
+        // 신규 가입 저장(bootstrap_community_profile)을 거치지 않고,
+        // 기존 프로필 정보(가입 UTM, 닉네임, 맞춤 설정 등)를 100% 보존한 채 terms_version만 안전하게 갱신
+        const termsPayload: Record<string, unknown> = {
+          agreedToTerms,
+          agreedToPrivacy,
+          agreedToAge,
+          termsVersion,
+        };
+        // 사용자가 체크박스를 직접 조작한 경우에만 마케팅 동의를 전송하여 기존 DB 값을 보존
+        if (marketingChanged) {
+          termsPayload.agreedToMarketing = agreedToMarketing;
+        }
+
+        await communityFetch("/api/community/auth/terms", {
+          method: "POST",
+          body: JSON.stringify(termsPayload),
+        });
+        markCommunitySession();
+        void mutate("/api/community/auth/session");
+        // 온보딩 단계를 건너뛰고 원래 페이지(returnTo)로 즉시 복귀
+        onAuthenticated();
+        return;
+      }
+
+      // 신규 회원 가입 처리
       const utmSource = sessionStorage.getItem("utm_source") || "direct";
       const utmMedium = sessionStorage.getItem("utm_medium") || null;
       const utmCampaign = sessionStorage.getItem("utm_campaign") || null;
@@ -189,6 +399,8 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
           utmCampaign
         }),
       });
+      markCommunitySession();
+      void mutate("/api/community/auth/session");
       setStep("onboarding");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "프로필을 저장하지 못했습니다.");
@@ -206,6 +418,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         method: "POST",
         body: JSON.stringify({ ageBand, interestAccountType }),
       });
+      void mutate("/api/community/auth/session");
       onAuthenticated();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "온보딩 정보를 저장하지 못했습니다.");
@@ -215,6 +428,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   }
 
   function skipOnboarding() {
+    void mutate("/api/community/auth/session");
     onAuthenticated();
   }
 
@@ -224,50 +438,141 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1.5 mb-2">
           <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-br from-brand-600 to-indigo-900 uppercase">
-            {subtitle}
+            {step === "profile" && isTermsConsentOnly ? "TERMS CONSENT" : subtitle}
           </h1>
           <h2 id="community-auth-title" className="text-lg font-bold text-slate-600">
-            {step === "profile" ? "회원가입 완료" : step === "onboarding" ? "맞춤 정보 설정" : step === "password-setup" ? "비밀번호 설정" : title}
+            {step === "profile" ? (isTermsConsentOnly ? "이용약관 동의" : "회원가입 완료") : step === "onboarding" ? "맞춤 정보 설정" : step === "password-setup" ? "비밀번호 설정" : title}
           </h2>
         </div>
       </div>
 
         {step === "login" ? (
-          <form className="mt-6 space-y-4" onSubmit={loginPassword}>
-            <label className="block text-sm font-semibold text-slate-800">이메일
-              <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
-            </label>
-            <label className="block text-sm font-semibold text-slate-800">비밀번호
-              <div className="relative mt-2">
-                <input type={showPassword ? "text" : "password"} required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
-                <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-                  )}
+          <div className="mt-6 space-y-5">
+            {/* Social 1-Click Login */}
+            <div className="space-y-2.5">
+              <button
+                type="button"
+                onClick={() => startOAuth("kakao")}
+                disabled={loading}
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#FEE500] px-4 text-[15px] font-bold text-[#191919] shadow-sm transition hover:bg-[#FDD800] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+              >
+                {oauthLoading === "kakao" ? (
+                  <>
+                    <svg className="h-5 w-5 animate-spin text-[#191919]" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>카카오 연결 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 3C6.477 3 2 6.477 2 10.771c0 2.766 1.859 5.187 4.673 6.556l-1.189 4.354a.428.428 0 0 0 .61.478l5.228-3.468c.224.02.45.03.678.03 5.523 0 10-3.478 10-7.771C22 6.477 17.523 3 12 3z" />
+                    </svg>
+                    <span>카카오로 시작하기</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => startOAuth("naver")}
+                disabled={loading}
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#03C75A] px-4 text-[15px] font-bold text-white shadow-sm transition hover:bg-[#02b350] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+              >
+                {oauthLoading === "naver" ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>네이버 연결 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
+                    </svg>
+                    <span>네이버로 시작하기</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div className="relative my-4 flex items-center justify-center">
+              <div className="w-full border-t border-slate-200" />
+              <span className="absolute bg-white px-3 text-xs font-semibold text-slate-400">또는 이메일로 로그인</span>
+            </div>
+
+            <form className="space-y-4" onSubmit={loginPassword}>
+              <label className="block text-sm font-semibold text-slate-800">이메일
+                <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
+              </label>
+              <label className="block text-sm font-semibold text-slate-800">비밀번호
+                <div className="relative mt-2">
+                  <input type={showPassword ? "text" : "password"} required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
+                  <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                    )}
+                  </button>
+                </div>
+              </label>
+              <label className="flex items-center gap-2 mt-2">
+                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
+              </label>
+              <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={handleLoginToken} />
+              <button
+                type="submit"
+                disabled={loading || !email.trim() || !password}
+                className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>{isWaitingCaptcha ? "보안 확인 준비 중..." : "로그인 중..."}</span>
+                  </>
+                ) : (
+                  "이메일 로그인"
+                )}
+              </button>
+              <div className="mt-4 flex items-center justify-between text-xs sm:text-sm">
+                <button
+                  type="button"
+                  onClick={() => { setOtpPurpose("login"); setStep("otp-request"); setMessage(""); }}
+                  className="font-semibold text-brand-700 hover:underline cursor-pointer"
+                >
+                  이메일 간편 로그인 / 회원가입
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setOtpPurpose("reset_password"); setStep("otp-request"); setMessage(""); }}
+                  className="text-slate-500 hover:text-slate-700 hover:underline cursor-pointer"
+                >
+                  비밀번호 재설정
                 </button>
               </div>
-            </label>
-            <label className="flex items-center gap-2 mt-2">
-              <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
-              <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
-            </label>
-            <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
-            <button disabled={loading || (typeof window !== "undefined" && window.location.hostname === "localhost" ? false : loginCaptchaToken === null)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer">{loading ? "로그인 중" : "이메일 로그인"}</button>
-            <div className="mt-4 text-center">
-              <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
-            </div>
-          </form>
+            </form>
+          </div>
         ) : null}
 
         {step === "otp-request" ? (
           <form className="mt-6 space-y-4" onSubmit={requestOtp}>
-            <p className="text-sm leading-6 text-slate-600">이메일 인증을 통해 가입 및 비밀번호 재설정을 진행할 수 있습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {otpPurpose === "reset_password"
+                ? "가입된 이메일로 8자리 인증 코드를 보내드립니다. 인증 후 새 비밀번호를 설정할 수 있습니다."
+                : "이메일 인증을 통해 간편 로그인 및 신규 가입을 진행할 수 있습니다."}
+            </p>
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
-            <TurnstileCaptcha key={`community_otp_request_${captchaKey}`} action="community_otp_request" onToken={setRequestCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_request_${captchaKey}`} action="community_otp_request" onToken={handleRequestToken} />
             <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
             <div className="mt-4 text-center">
               <button type="button" onClick={() => { setStep("login"); setMessage(""); }} className="text-sm font-medium text-slate-500 hover:underline">비밀번호로 로그인하기</button>
@@ -285,7 +590,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
               <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
               <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
             </label>
-            <TurnstileCaptcha key={`community_otp_verify_${captchaKey}`} action="community_otp_verify" onToken={setVerifyCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_verify_${captchaKey}`} action="community_otp_verify" onToken={handleVerifyToken} />
             <div className="flex gap-3">
               <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("otp-request"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
               <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
@@ -295,7 +600,11 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
         {step === "password-setup" ? (
           <form className="mt-6 space-y-4" onSubmit={setupPassword}>
-            <p className="text-sm leading-6 text-slate-600">앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {otpPurpose === "reset_password"
+                ? "새로 사용할 비밀번호를 설정해 주세요. 설정 완료 후 새 비밀번호로 로그인됩니다."
+                : "앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다."}
+            </p>
             <label className="block text-sm font-semibold text-slate-800">새 비밀번호
               <div className="relative mt-2">
                 <input type={showPassword ? "text" : "password"} required minLength={8} autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-xl border border-slate-300 pl-3 pr-10 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="8자리 이상 입력" />
@@ -320,38 +629,72 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 </button>
               </div>
             </label>
-            <TurnstileCaptcha key={`community_password_set_${captchaKey}`} action="community_password_set" onToken={setPasswordCaptchaToken} />
+            <TurnstileCaptcha key={`community_password_set_${captchaKey}`} action="community_password_set" onToken={handlePasswordToken} />
             <button disabled={loading || passwordCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
           </form>
         ) : null}
 
         {step === "profile" ? (
           <form className="mt-6 space-y-4" onSubmit={saveProfile}>
-            <p className="text-sm leading-6 text-slate-600">ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요.</p>
+            <p className="text-sm leading-6 text-slate-600">
+              {isTermsConsentOnly
+                ? "서비스 이용을 위해 필수 약관에 동의해 주세요."
+                : "ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요."}
+            </p>
+            {profileFetchLoading ? (
+              <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
+                <svg className="h-4 w-4 animate-spin text-brand-600" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>회원 정보를 확인하고 있습니다...</span>
+              </div>
+            ) : null}
+            {profileFetchError ? (
+              <div className="flex flex-col gap-2 rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700" role="alert">
+                <p>{profileFetchError}</p>
+                <button
+                  type="button"
+                  onClick={() => setProfileFetchRetryKey(k => k + 1)}
+                  className="self-start rounded-lg bg-red-100 px-3 py-1.5 text-xs font-semibold text-red-800 hover:bg-red-200 cursor-pointer"
+                >
+                  다시 시도
+                </button>
+              </div>
+            ) : null}
             <label className="block text-sm font-semibold text-slate-800">공개 닉네임
-              <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="예: 연금공부중" />
+              {isTermsConsentOnly ? (
+                <div className="mt-2 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-100 px-3 py-3 text-base text-slate-700 font-medium">
+                  <span>{nickname}</span>
+                  <span className="text-xs bg-brand-50 text-brand-700 font-bold px-2 py-0.5 rounded-full border border-brand-200">기존 회원</span>
+                </div>
+              ) : (
+                <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 disabled:bg-slate-100 disabled:cursor-not-allowed" placeholder="예: 연금공부중" />
+              )}
             </label>
             <div className="flex flex-col gap-3 mt-4 p-4 border border-slate-200 rounded-xl bg-slate-50">
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToAge} onChange={e => setAgreedToAge(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToAge} onChange={e => setAgreedToAge(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 만 14세 이상입니다.</span>
               </label>
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 서비스 이용약관 동의</span>
               </label>
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToPrivacy} onChange={e => setAgreedToPrivacy(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToPrivacy} onChange={e => setAgreedToPrivacy(e.target.checked)} required disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[필수] 개인정보 수집 및 이용 동의</span>
               </label>
             </div>
             <div className="flex flex-col gap-3 mt-2 p-4 border border-slate-200 rounded-xl">
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToMarketing} onChange={e => setAgreedToMarketing(e.target.checked)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <input type="checkbox" checked={agreedToMarketing} onChange={e => { setAgreedToMarketing(e.target.checked); setMarketingChanged(true); }} disabled={profileFetchLoading || Boolean(profileFetchError)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 disabled:cursor-not-allowed" />
                 <span className="text-sm text-slate-700">[선택] 마케팅 정보 수신 동의<br/><span className="text-xs text-slate-500">새로운 챌린지, 전자책 등의 소식을 이메일로 받습니다.</span></span>
               </label>
             </div>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중..." : "동의하고 가입 완료"}</button>
+            <button disabled={loading || profileFetchLoading || Boolean(profileFetchError)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">
+              {loading ? "저장 중..." : profileFetchLoading ? "회원 정보 확인 중..." : isTermsConsentOnly ? "동의하고 계속하기" : "동의하고 가입 완료"}
+            </button>
           </form>
         ) : step === "onboarding" ? (
           <form className="mt-6 space-y-4" onSubmit={saveOnboarding}>

@@ -550,14 +550,20 @@ export function MarketBriefing() {
       "USDKRW": "USDKRW",
       "CL=F": "CLF",
       "CLF": "CLF",
+      "CLcv1": "CLF",
       "GC=F": "GC",
       "GC": "GC",
+      "GCcv1": "GC",
       "SI=F": "SI",
       "SI": "SI",
+      "SIcv1": "SI",
       "KOSPI": "KOSPI",
       "KOSDAQ": "KOSDAQ",
       "VKOSPI": "VKOSPI",
       "KR10Y": "KR10Y",
+      "KR10YT=RR": "KR10Y",
+      "US10YT=RR": "DGS10",
+      "FX_USDKRW": "USDKRW",
     };
 
     // Normalize any existing codes from briefing
@@ -599,12 +605,12 @@ export function MarketBriefing() {
       addGlobalIndex("S&P 500", "SPX", ["^GSPC", "SPX", "S&P 500", "S&P500"]);
       addGlobalIndex("나스닥", "NDX", ["^IXIC", "NDX", "나스닥"]);
       addGlobalIndex("VIX", "VIX", ["^VIX", "VIX", "VIXCLS"]);
-      addGlobalIndex("원/달러", "USDKRW", ["KRW=X", "USDKRW", "원/달러"]);
-      addGlobalIndex("국채 10년", "KR10Y", ["KR10Y", "국채 10년", "국채10년"]);
-      addGlobalIndex("미 국채 10년물", "DGS10", ["^TNX", "DGS10", "미 국채 10년물", "미국채 10년물"]);
-      addGlobalIndex("WTI 원유", "CLF", ["CL=F", "CLF", "WTI 원유"]);
-      addGlobalIndex("금 선물", "GC", ["GC=F", "GC", "금 선물"]);
-      addGlobalIndex("은 선물", "SI", ["SI=F", "SI", "은 선물"]);
+      addGlobalIndex("원/달러", "USDKRW", ["KRW=X", "USDKRW", "FX_USDKRW", "원/달러"]);
+      addGlobalIndex("국채 10년", "KR10Y", ["KR10Y", "KR10YT=RR", "국채 10년", "국채10년"]);
+      addGlobalIndex("미 국채 10년물", "DGS10", ["^TNX", "DGS10", "US10YT=RR", "미 국채 10년물", "미국채 10년물"]);
+      addGlobalIndex("WTI 원유", "CLF", ["CL=F", "CLF", "CLcv1", "WTI 원유"]);
+      addGlobalIndex("금 선물", "GC", ["GC=F", "GC", "GCcv1", "금 선물"]);
+      addGlobalIndex("은 선물", "SI", ["SI=F", "SI", "SIcv1", "은 선물"]);
     }
 
     const order = [

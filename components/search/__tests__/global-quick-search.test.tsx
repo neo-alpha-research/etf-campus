@@ -31,4 +31,13 @@ describe("GlobalQuickSearch", () => {
     fireEvent.keyDown(input, { key: "Escape" });
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
+
+  it("모바일 닫기 버튼을 클릭하면 onClose 콜백이 호출된다", () => {
+    const handleClose = vi.fn();
+    render(<GlobalQuickSearch isOpen={true} onClose={handleClose} />);
+    const closeBtn = screen.getByRole("button", { name: "검색창 닫기" });
+    expect(closeBtn).toBeInTheDocument();
+    fireEvent.click(closeBtn);
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
 });

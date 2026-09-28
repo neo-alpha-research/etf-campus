@@ -13,19 +13,20 @@ export async function onRequestPost(context) {
     return errorResponse(400, "VALIDATION_ERROR", "이메일 주소를 확인해 주세요.");
   }
 
-  const captchaError = await verifyTurnstile(context, payload?.captchaToken, "community_otp_request");
+  const [captchaError, emailLimit, ipLimit] = await Promise.all([
+    verifyTurnstile(context, payload?.captchaToken, "community_otp_request"),
+    enforceDatabaseRateLimit(context, "otp-request-email", email, 3, 600),
+    enforceDatabaseRateLimit(
+      context,
+      "otp-request-ip",
+      context.request.headers.get("CF-Connecting-IP") ?? "unknown",
+      10,
+      600,
+    ),
+  ]);
+
   if (captchaError) return captchaError;
-
-  const emailLimit = await enforceDatabaseRateLimit(context, "otp-request-email", email, 3, 600);
   if (emailLimit) return emailLimit;
-
-  const ipLimit = await enforceDatabaseRateLimit(
-    context,
-    "otp-request-ip",
-    context.request.headers.get("CF-Connecting-IP") ?? "unknown",
-    10,
-    600,
-  );
   if (ipLimit) return ipLimit;
 
   try {

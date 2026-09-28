@@ -21,9 +21,27 @@ export function MarkdownContent({ source }: { source: string }) {
             }
             return <a className="font-bold text-brand-700 underline underline-offset-2" href={href} target="_blank" rel="noopener noreferrer">{children}</a>;
           },
-          table: ({ children }) => <div className="mt-5 overflow-x-auto rounded-xl border border-line"><table className="w-full text-left text-sm">{children}</table></div>,
-          th: ({ children }) => <th className="bg-neutral-50 px-4 py-3 font-extrabold text-strong">{children}</th>,
-          td: ({ children }) => <td className="border-t border-line px-4 py-3">{children}</td>,
+          table: ({ children }) => (
+            <div className="mt-5 overflow-hidden rounded-xl border border-line">
+              <div className="flex items-center justify-between border-b border-line/70 bg-neutral-50/90 px-3 py-1.5 text-[11px] font-semibold text-neutral-500 sm:hidden">
+                <span>← 좌우로 밀어서 전체 내용 확인 →</span>
+                <span aria-hidden="true">⇄</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-[640px] w-full text-left text-sm border-collapse">{children}</table>
+              </div>
+            </div>
+          ),
+          th: ({ children }) => (
+            <th className="bg-neutral-50 px-4 py-3 font-extrabold text-strong first:sticky first:left-0 first:z-10 first:bg-neutral-50 first:border-r first:border-line">
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="border-t border-line px-4 py-3 first:sticky first:left-0 first:z-10 first:bg-surface first:border-r first:border-line">
+              {children}
+            </td>
+          ),
           blockquote: ({ children }) => <blockquote className="mt-5 rounded-xl border-l-4 border-brand-500 bg-brand-50/70 p-4 text-brand-950">{children}</blockquote>,
           pre: ({ children }) => <pre className="mt-5 overflow-x-auto rounded-2xl border border-line/80 bg-neutral-50/80 p-4.5 text-xs font-mono leading-relaxed text-neutral-800 shadow-xs">{children}</pre>,
           code: ({ children, className }) => className ? <code className={className}>{children}</code> : <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-xs font-semibold text-brand-900 border border-line/60">{children}</code>,

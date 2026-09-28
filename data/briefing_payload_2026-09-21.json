@@ -1,0 +1,2056 @@
+{
+  "briefing": {
+    "asOfDate": "2026-09-21",
+    "prevAsOfDate": "2026-09-18",
+    "publicationVersion": 1,
+    "publishedAt": "2026-09-21T08:30:00+09:00",
+    "updatedAt": "2026-09-21T08:30:00+09:00",
+    "isStale": false,
+    "staleDays": 0,
+    "headline": {
+      "text": "국내 ETF 시장 AUM 38.9조원 규모, 완만한 상승 마감",
+      "generationStatus": "validated"
+    },
+    "sourceDates": {
+      "etf": "2026-09-21",
+      "kospi": "2026-09-21",
+      "kosdaq": "2026-09-21"
+    },
+    "validation": {
+      "readiness": {
+        "status": "passed",
+        "etf_row_count": 1171,
+        "general_etf_count": 1028,
+        "aum_coverage_pct": 100,
+        "source": "local_canonical_builder"
+      }
+    },
+    "marketIndices": [
+      {
+        "code": "KOSPI",
+        "label": "코스피",
+        "close": 7007.72,
+        "change_pct": 1.65,
+        "change_points": 113.49,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "KOSDAQ",
+        "label": "코스닥",
+        "close": 836.27,
+        "change_pct": 1.11,
+        "change_points": 9.15,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "VKOSPI",
+        "label": "코스피 변동성지수",
+        "close": 42.99,
+        "change_pct": -1.31,
+        "change_points": -0.57,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "KR10Y",
+        "label": "국채 10년",
+        "close": 4.446,
+        "change_pct": -0.014,
+        "change_points": -0.014,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "USDKRW",
+        "label": "원/달러",
+        "close": 1375.0,
+        "change_pct": -0.94,
+        "change_points": -13.0,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "CLF",
+        "label": "WTI 원유",
+        "close": 95.78,
+        "change_pct": -4.51,
+        "change_points": -4.52,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "GC",
+        "label": "금 선물",
+        "close": 4383.9,
+        "change_pct": -0.93,
+        "change_points": -41.0,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "SI",
+        "label": "은 선물",
+        "close": 66.42,
+        "change_pct": -1.09,
+        "change_points": -0.73,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "DGS10",
+        "label": "미 국채 10년물",
+        "close": 4.951,
+        "change_pct": -0.045,
+        "change_points": -0.045,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "SPX",
+        "label": "S&P 500",
+        "close": 7764.7,
+        "change_pct": 1.49,
+        "change_points": 114.2,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "NDX",
+        "label": "나스닥",
+        "close": 27122.09,
+        "change_pct": 2.26,
+        "change_points": 599.55,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      },
+      {
+        "code": "VIX",
+        "label": "VIX",
+        "close": 14.87,
+        "change_pct": 0.41,
+        "change_points": 0.06,
+        "as_of_date": "2026-09-21",
+        "is_closed": false
+      }
+    ],
+    "pulse": {
+      "totalEtfCount": 1171,
+      "generalEtfCount": 1028,
+      "upCount": 582,
+      "flatCount": 38,
+      "downCount": 408,
+      "breadthRatioPct": 56.61,
+      "marketTemperature": "완만한 상승",
+      "generalAumWeightedReturnPct": 1.08,
+      "top50AumWeightedReturnPct": 1.52,
+      "top100AumWeightedReturnPct": 1.35,
+      "top200AumWeightedReturnPct": 1.19,
+      "aumWeightedReturns": [
+        {
+          "scope": "all",
+          "label": "전체 일반 ETF",
+          "constituent_count": 1028,
+          "total_aum": 388789547308191.0,
+          "weighted_return_pct": 1.08
+        },
+        {
+          "scope": "top_50",
+          "label": "Top 50",
+          "constituent_count": 50,
+          "total_aum": 232861918430986.0,
+          "weighted_return_pct": 1.52
+        },
+        {
+          "scope": "top_100",
+          "label": "Top 100",
+          "constituent_count": 100,
+          "total_aum": 283848481162761.0,
+          "weighted_return_pct": 1.35
+        },
+        {
+          "scope": "top_200",
+          "label": "Top 200",
+          "constituent_count": 200,
+          "total_aum": 332570788049559.0,
+          "weighted_return_pct": 1.19
+        }
+      ],
+      "generalTotalAum": 388789547308191.0,
+      "generalTotalTradeValue": 10210967192090.0,
+      "top10TradeSharePct": 70.36,
+      "allTop10TradeSharePct": 62.47
+    },
+    "marketScale": {
+      "totalEtfCount": 1171,
+      "generalEtfCount": 1028,
+      "totalAum": 377848761400415.0,
+      "totalTradeValue": 10235558459284.0
+    },
+    "marketScaleSnapshot": {
+      "totalEtfCount": 1171,
+      "generalEtfCount": 1017,
+      "totalAum": 4473838.6,
+      "totalTradeValue": 150848.0,
+      "marketTurnoverPct": 3.37,
+      "categories": [
+        {
+          "category": "general",
+          "label": "일반 실물 ETF",
+          "aum": 3719672.2,
+          "aumSharePct": 83.1,
+          "tradeValue": 102135.0,
+          "tradeSharePct": 67.7,
+          "turnoverPct": 2.75,
+          "etfCount": 1017
+        },
+        {
+          "category": "parking",
+          "label": "파킹·단기자금",
+          "aum": 513047.7,
+          "aumSharePct": 11.5,
+          "tradeValue": 13405.4,
+          "tradeSharePct": 8.9,
+          "turnoverPct": 2.61,
+          "etfCount": 51
+        },
+        {
+          "category": "leveraged",
+          "label": "레버리지",
+          "aum": 212659.7,
+          "aumSharePct": 4.8,
+          "tradeValue": 26167.5,
+          "tradeSharePct": 17.3,
+          "turnoverPct": 12.3,
+          "etfCount": 62
+        },
+        {
+          "category": "inverse",
+          "label": "인버스",
+          "aum": 28459.0,
+          "aumSharePct": 0.6,
+          "tradeValue": 9140.1,
+          "tradeSharePct": 6.1,
+          "turnoverPct": 32.12,
+          "etfCount": 41
+        }
+      ],
+      "composition": [
+        {
+          "type": "general",
+          "label": "일반 실물 ETF",
+          "aum": 3719672.2,
+          "pct": 83.1,
+          "count": 1017
+        },
+        {
+          "type": "parking",
+          "label": "파킹·단기자금",
+          "aum": 513047.7,
+          "pct": 11.5,
+          "count": 51
+        },
+        {
+          "type": "leveraged",
+          "label": "레버리지",
+          "aum": 212659.7,
+          "pct": 4.8,
+          "count": 62
+        },
+        {
+          "type": "inverse",
+          "label": "인버스",
+          "aum": 28459.0,
+          "pct": 0.6,
+          "count": 41
+        }
+      ]
+    },
+    "marketScaleTimeSeries": {
+      "daily": [
+        {
+          "key": "T-4",
+          "label": "2026.09.11",
+          "date": "2026-09-11",
+          "aum": 4547000,
+          "adtv": 168890,
+          "turnoverPct": 3.71,
+          "aumChange": 0,
+          "aumChangePct": 0,
+          "priceEffect": -60325,
+          "netInflow": 60325
+        },
+        {
+          "key": "T-3",
+          "label": "2026.09.14",
+          "date": "2026-09-14",
+          "aum": 4415502,
+          "adtv": 154805,
+          "turnoverPct": 3.51,
+          "aumChange": -131498,
+          "aumChangePct": -2.89,
+          "priceEffect": -87035,
+          "netInflow": -44463
+        },
+        {
+          "key": "T-2",
+          "label": "2026.09.15",
+          "date": "2026-09-15",
+          "aum": 4405517,
+          "adtv": 173401,
+          "turnoverPct": 3.94,
+          "aumChange": -9985,
+          "aumChangePct": -0.23,
+          "priceEffect": -8550,
+          "netInflow": -1435
+        },
+        {
+          "key": "T-1",
+          "label": "2026.09.16",
+          "date": "2026-09-16",
+          "aum": 4453172,
+          "adtv": 154391,
+          "turnoverPct": 3.47,
+          "aumChange": 47655,
+          "aumChangePct": 1.08,
+          "priceEffect": 48147,
+          "netInflow": -492
+        },
+        {
+          "key": "T",
+          "label": "2026.09.17",
+          "date": "2026-09-17",
+          "aum": 4473839,
+          "adtv": 156403,
+          "turnoverPct": 3.5,
+          "aumChange": 20667,
+          "aumChangePct": 0.46,
+          "priceEffect": 18964,
+          "netInflow": 1703
+        }
+      ],
+      "weekly": [
+        {
+          "key": "T-4",
+          "label": "2026.08.07",
+          "date": "2026-08-07",
+          "aum": 4289000,
+          "adtv": 149000,
+          "turnoverPct": 3.47,
+          "aumChange": 21000,
+          "aumChangePct": 0.49,
+          "priceEffect": 8000,
+          "netInflow": 13000
+        },
+        {
+          "key": "T-3",
+          "label": "2026.08.14",
+          "date": "2026-08-14",
+          "aum": 4342000,
+          "adtv": 152000,
+          "turnoverPct": 3.5,
+          "aumChange": 53000,
+          "aumChangePct": 1.24,
+          "priceEffect": 27000,
+          "netInflow": 26000
+        },
+        {
+          "key": "T-2",
+          "label": "2026.08.21",
+          "date": "2026-08-21",
+          "aum": 4514000,
+          "adtv": 161000,
+          "turnoverPct": 3.57,
+          "aumChange": 172000,
+          "aumChangePct": 3.96,
+          "priceEffect": 98000,
+          "netInflow": 74000
+        },
+        {
+          "key": "T-1",
+          "label": "2026.08.28",
+          "date": "2026-08-28",
+          "aum": 4551270,
+          "adtv": 162000,
+          "turnoverPct": 3.56,
+          "aumChange": 37270,
+          "aumChangePct": 0.83,
+          "priceEffect": 2000,
+          "netInflow": 35270
+        },
+        {
+          "key": "T",
+          "label": "2026.09.17",
+          "date": "2026-09-17",
+          "aum": 4473839,
+          "adtv": 156403,
+          "turnoverPct": 3.5,
+          "aumChange": -77431,
+          "aumChangePct": -1.7,
+          "priceEffect": -88799,
+          "netInflow": 11368
+        }
+      ],
+      "monthly": [
+        {
+          "key": "T-4",
+          "label": "2026.05.29",
+          "date": "2026-05-29",
+          "aum": 5074075,
+          "adtv": 148000,
+          "turnoverPct": 2.92,
+          "aumChange": 916075,
+          "aumChangePct": 22.03,
+          "priceEffect": 595000,
+          "netInflow": 321075
+        },
+        {
+          "key": "T-3",
+          "label": "2026.06.30",
+          "date": "2026-06-30",
+          "aum": 5124080,
+          "adtv": 156000,
+          "turnoverPct": 3.04,
+          "aumChange": 50005,
+          "aumChangePct": 0.99,
+          "priceEffect": 18000,
+          "netInflow": 32005
+        },
+        {
+          "key": "T-2",
+          "label": "2026.07.31",
+          "date": "2026-07-31",
+          "aum": 4344000,
+          "adtv": 165000,
+          "turnoverPct": 3.8,
+          "aumChange": -780080,
+          "aumChangePct": -15.22,
+          "priceEffect": -624000,
+          "netInflow": -156080
+        },
+        {
+          "key": "T-1",
+          "label": "2026.08.31",
+          "date": "2026-08-31",
+          "aum": 4501193,
+          "adtv": 172000,
+          "turnoverPct": 3.82,
+          "aumChange": 157193,
+          "aumChangePct": 3.62,
+          "priceEffect": 27000,
+          "netInflow": 130193
+        },
+        {
+          "key": "T",
+          "label": "2026.09.17",
+          "date": "2026-09-17",
+          "aum": 4473839,
+          "adtv": 156403,
+          "turnoverPct": 3.5,
+          "aumChange": -27354,
+          "aumChangePct": -0.61,
+          "priceEffect": -88799,
+          "netInflow": 61445
+        }
+      ],
+      "yearly": [
+        {
+          "key": "T-4",
+          "label": "2022.12.29",
+          "date": "2022-12-29",
+          "aum": 785114,
+          "adtv": 27870,
+          "turnoverPct": 3.55,
+          "aumChange": 45100,
+          "aumChangePct": 6.1,
+          "priceEffect": -32000,
+          "netInflow": 77100
+        },
+        {
+          "key": "T-3",
+          "label": "2023.12.28",
+          "date": "2023-12-28",
+          "aum": 1210657,
+          "adtv": 32090,
+          "turnoverPct": 2.65,
+          "aumChange": 425543,
+          "aumChangePct": 54.2,
+          "priceEffect": 214500,
+          "netInflow": 211043
+        },
+        {
+          "key": "T-2",
+          "label": "2024.12.30",
+          "date": "2024-12-30",
+          "aum": 1732320,
+          "adtv": 45120,
+          "turnoverPct": 2.6,
+          "aumChange": 521663,
+          "aumChangePct": 43.09,
+          "priceEffect": 247800,
+          "netInflow": 273863
+        },
+        {
+          "key": "T-1",
+          "label": "2025.12.30",
+          "date": "2025-12-30",
+          "aum": 2985000,
+          "adtv": 82400,
+          "turnoverPct": 2.76,
+          "aumChange": 1252680,
+          "aumChangePct": 72.31,
+          "priceEffect": 683800,
+          "netInflow": 568880
+        },
+        {
+          "key": "T",
+          "label": "2026.09.17",
+          "date": "2026-09-17",
+          "aum": 4473839,
+          "adtv": 156403,
+          "turnoverPct": 3.5,
+          "aumChange": 1488839,
+          "aumChangePct": 49.88,
+          "priceEffect": 669978,
+          "netInflow": 818861
+        }
+      ]
+    },
+    "assetClasses": [
+      {
+        "assetClass": "주식-국내",
+        "asset_class": "주식-국내",
+        "etfCount": 397,
+        "etf_count": 397,
+        "upCount": 252,
+        "up_count": 252,
+        "flatCount": 5,
+        "flat_count": 5,
+        "downCount": 140,
+        "down_count": 140,
+        "breadthRatioPct": 63.48,
+        "breadth_ratio_pct": 63.48,
+        "aumWeightedReturnPct": 1.82,
+        "aum_weighted_return_pct": 1.82,
+        "totalAum": 1815017.1,
+        "total_aum": 1815017.1,
+        "aumSharePct": 46.68,
+        "aum_share_pct": 46.68,
+        "totalTradeValue": 69662.8,
+        "total_trade_value": 69662.8,
+        "tradeSharePct": 68.22,
+        "trade_share_pct": 68.22
+      },
+      {
+        "assetClass": "주식-해외",
+        "asset_class": "주식-해외",
+        "etfCount": 362,
+        "etf_count": 362,
+        "upCount": 222,
+        "up_count": 222,
+        "flatCount": 9,
+        "flat_count": 9,
+        "downCount": 131,
+        "down_count": 131,
+        "breadthRatioPct": 61.33,
+        "breadth_ratio_pct": 61.33,
+        "aumWeightedReturnPct": 0.59,
+        "aum_weighted_return_pct": 0.59,
+        "totalAum": 1316209.1,
+        "total_aum": 1316209.1,
+        "aumSharePct": 33.85,
+        "aum_share_pct": 33.85,
+        "totalTradeValue": 28067.6,
+        "total_trade_value": 28067.6,
+        "tradeSharePct": 27.49,
+        "trade_share_pct": 27.49
+      },
+      {
+        "assetClass": "혼합자산",
+        "asset_class": "혼합자산",
+        "etfCount": 83,
+        "etf_count": 83,
+        "upCount": 57,
+        "up_count": 57,
+        "flatCount": 2,
+        "flat_count": 2,
+        "downCount": 24,
+        "down_count": 24,
+        "breadthRatioPct": 68.67,
+        "breadth_ratio_pct": 68.67,
+        "aumWeightedReturnPct": 0.76,
+        "aum_weighted_return_pct": 0.76,
+        "totalAum": 218730.5,
+        "total_aum": 218730.5,
+        "aumSharePct": 5.63,
+        "aum_share_pct": 5.63,
+        "totalTradeValue": 2093.7,
+        "total_trade_value": 2093.7,
+        "tradeSharePct": 2.05,
+        "trade_share_pct": 2.05
+      },
+      {
+        "assetClass": "채권",
+        "asset_class": "채권",
+        "etfCount": 132,
+        "etf_count": 132,
+        "upCount": 28,
+        "up_count": 28,
+        "flatCount": 21,
+        "flat_count": 21,
+        "downCount": 83,
+        "down_count": 83,
+        "breadthRatioPct": 21.21,
+        "breadth_ratio_pct": 21.21,
+        "aumWeightedReturnPct": -0.05,
+        "aum_weighted_return_pct": -0.05,
+        "totalAum": 396008.4,
+        "total_aum": 396008.4,
+        "aumSharePct": 10.19,
+        "aum_share_pct": 10.19,
+        "totalTradeValue": 1144.7,
+        "total_trade_value": 1144.7,
+        "tradeSharePct": 1.12,
+        "trade_share_pct": 1.12
+      },
+      {
+        "assetClass": "리츠·인프라",
+        "asset_class": "리츠·인프라",
+        "etfCount": 31,
+        "etf_count": 31,
+        "upCount": 18,
+        "up_count": 18,
+        "flatCount": 0,
+        "flat_count": 0,
+        "downCount": 13,
+        "down_count": 13,
+        "breadthRatioPct": 58.06,
+        "breadth_ratio_pct": 58.06,
+        "aumWeightedReturnPct": 0.65,
+        "aum_weighted_return_pct": 0.65,
+        "totalAum": 68098.5,
+        "total_aum": 68098.5,
+        "aumSharePct": 1.75,
+        "aum_share_pct": 1.75,
+        "totalTradeValue": 733.5,
+        "total_trade_value": 733.5,
+        "tradeSharePct": 0.72,
+        "trade_share_pct": 0.72
+      },
+      {
+        "assetClass": "원자재",
+        "asset_class": "원자재",
+        "etfCount": 23,
+        "etf_count": 23,
+        "upCount": 5,
+        "up_count": 5,
+        "flatCount": 1,
+        "flat_count": 1,
+        "downCount": 17,
+        "down_count": 17,
+        "breadthRatioPct": 21.74,
+        "breadth_ratio_pct": 21.74,
+        "aumWeightedReturnPct": -0.85,
+        "aum_weighted_return_pct": -0.85,
+        "totalAum": 73831.9,
+        "total_aum": 73831.9,
+        "aumSharePct": 1.9,
+        "aum_share_pct": 1.9,
+        "totalTradeValue": 407.3,
+        "total_trade_value": 407.3,
+        "tradeSharePct": 0.4,
+        "trade_share_pct": 0.4
+      }
+    ],
+    "peerGroups": [
+      {
+        "peerGroup": "자산배분 & 채권혼합",
+        "assetClass": "혼합자산",
+        "etfCount": 79,
+        "equalWeightReturnPct": 0.33,
+        "cappedAumWeightedReturnPct": 0.77,
+        "totalAum": 215563.4,
+        "topEtfName": "RISE 삼성전자SK하이닉스채권혼합50",
+        "topEtfTicker": "0162Z0"
+      },
+      {
+        "peerGroup": "인도 시장 & 밸류체인",
+        "assetClass": "주식-해외",
+        "etfCount": 11,
+        "equalWeightReturnPct": 0.3,
+        "cappedAumWeightedReturnPct": 0.33,
+        "totalAum": 9246.7,
+        "topEtfName": "KODEX 인도Nifty50",
+        "topEtfTicker": "453810"
+      },
+      {
+        "peerGroup": "기업집단",
+        "assetClass": "주식-국내",
+        "etfCount": 13,
+        "equalWeightReturnPct": 1.03,
+        "cappedAumWeightedReturnPct": 2.29,
+        "totalAum": 44847.5,
+        "topEtfName": "KODEX 삼성그룹",
+        "topEtfTicker": "102780"
+      },
+      {
+        "peerGroup": "만기매칭형 채권",
+        "assetClass": "채권",
+        "etfCount": 13,
+        "equalWeightReturnPct": -0.01,
+        "cappedAumWeightedReturnPct": -0.01,
+        "totalAum": 38538.9,
+        "topEtfName": "KODEX 26-12 금융채(AA-이상)액티브",
+        "topEtfTicker": "0117L0"
+      },
+      {
+        "peerGroup": "비만·신약 & 바이오시밀러",
+        "assetClass": "주식-국내",
+        "etfCount": 16,
+        "equalWeightReturnPct": -0.18,
+        "cappedAumWeightedReturnPct": -0.01,
+        "totalAum": 14920.3,
+        "topEtfName": "KoAct 바이오헬스케어액티브",
+        "topEtfTicker": "462900"
+      },
+      {
+        "peerGroup": "고배당 & 인컴 전략",
+        "assetClass": "주식-해외",
+        "etfCount": 33,
+        "equalWeightReturnPct": 0.27,
+        "cappedAumWeightedReturnPct": 0.54,
+        "totalAum": 63590.1,
+        "topEtfName": "PLUS 고배당주",
+        "topEtfTicker": "161510"
+      },
+      {
+        "peerGroup": "해외 월배당 & 커버드콜",
+        "assetClass": "주식-해외",
+        "etfCount": 32,
+        "equalWeightReturnPct": 0.27,
+        "cappedAumWeightedReturnPct": 0.37,
+        "totalAum": 133412.8,
+        "topEtfName": "TIGER 미국나스닥100타겟데일리커버드콜",
+        "topEtfTicker": "486290"
+      },
+      {
+        "peerGroup": "일본 테크 & 상사",
+        "assetClass": "주식-해외",
+        "etfCount": 11,
+        "equalWeightReturnPct": 0.23,
+        "cappedAumWeightedReturnPct": 0.33,
+        "totalAum": 6105.1,
+        "topEtfName": "TIGER 일본니케이225",
+        "topEtfTicker": "241180"
+      },
+      {
+        "peerGroup": "2차전지 셀 & 소재",
+        "assetClass": "주식-국내",
+        "etfCount": 17,
+        "equalWeightReturnPct": -1.58,
+        "cappedAumWeightedReturnPct": -2.04,
+        "totalAum": 48723.5,
+        "topEtfName": "KODEX 2차전지산업",
+        "topEtfTicker": "305720"
+      },
+      {
+        "peerGroup": "AI 반도체 & HBM",
+        "assetClass": "주식-국내",
+        "etfCount": 19,
+        "equalWeightReturnPct": 2.85,
+        "cappedAumWeightedReturnPct": 3.49,
+        "totalAum": 134044.2,
+        "topEtfName": "SOL AI반도체TOP2플러스",
+        "topEtfTicker": "0167A0"
+      },
+      {
+        "peerGroup": "글로벌 원자력 & SMR",
+        "assetClass": "주식-해외",
+        "etfCount": 5,
+        "equalWeightReturnPct": -1.4,
+        "cappedAumWeightedReturnPct": -1.27,
+        "totalAum": 4792.6,
+        "topEtfName": "RISE 글로벌원자력",
+        "topEtfTicker": "442320"
+      },
+      {
+        "peerGroup": "코스피 200 코어",
+        "assetClass": "주식-국내",
+        "etfCount": 24,
+        "equalWeightReturnPct": 2.13,
+        "cappedAumWeightedReturnPct": 2.19,
+        "totalAum": 579991.2,
+        "topEtfName": "KODEX 200",
+        "topEtfTicker": "069500"
+      },
+      {
+        "peerGroup": "K-푸드 & K-뷰티",
+        "assetClass": "주식-국내",
+        "etfCount": 8,
+        "equalWeightReturnPct": -0.43,
+        "cappedAumWeightedReturnPct": -0.23,
+        "totalAum": 4203.0,
+        "topEtfName": "TIGER 화장품",
+        "topEtfTicker": "228790"
+      },
+      {
+        "peerGroup": "금융·은행·증권·보험",
+        "assetClass": "주식-해외",
+        "etfCount": 8,
+        "equalWeightReturnPct": 0.69,
+        "cappedAumWeightedReturnPct": 0.85,
+        "totalAum": 12316.7,
+        "topEtfName": "TIGER 은행고배당플러스TOP10",
+        "topEtfTicker": "466940"
+      },
+      {
+        "peerGroup": "스타일·팩터",
+        "assetClass": "주식-해외",
+        "etfCount": 26,
+        "equalWeightReturnPct": 0.79,
+        "cappedAumWeightedReturnPct": 0.9,
+        "totalAum": 22652.2,
+        "topEtfName": "ACE 미국대형성장주액티브",
+        "topEtfTicker": "0127P0"
+      },
+      {
+        "peerGroup": "우량 회사채·금융채",
+        "assetClass": "채권",
+        "etfCount": 46,
+        "equalWeightReturnPct": -0.05,
+        "cappedAumWeightedReturnPct": -0.04,
+        "totalAum": 169180.4,
+        "topEtfName": "KODEX 종합채권(AA-이상)액티브",
+        "topEtfTicker": "273130"
+      },
+      {
+        "peerGroup": "국내 월배당 & 커버드콜",
+        "assetClass": "주식-국내",
+        "etfCount": 21,
+        "equalWeightReturnPct": 1.25,
+        "cappedAumWeightedReturnPct": 1.66,
+        "totalAum": 143747.6,
+        "topEtfName": "KODEX 200타겟위클리커버드콜",
+        "topEtfTicker": "498400"
+      },
+      {
+        "peerGroup": "사이버보안 & 양자컴퓨팅",
+        "assetClass": "주식-해외",
+        "etfCount": 5,
+        "equalWeightReturnPct": -0.1,
+        "cappedAumWeightedReturnPct": -0.32,
+        "totalAum": 7348.4,
+        "topEtfName": "SOL 미국양자컴퓨팅TOP10",
+        "topEtfTicker": "0023A0"
+      },
+      {
+        "peerGroup": "귀금속 (금·은·팔라듐)",
+        "assetClass": "원자재",
+        "etfCount": 13,
+        "equalWeightReturnPct": -0.8,
+        "cappedAumWeightedReturnPct": -0.92,
+        "totalAum": 70282.7,
+        "topEtfName": "ACE KRX금현물",
+        "topEtfTicker": "411060"
+      },
+      {
+        "peerGroup": "S&P 500 시장대표",
+        "assetClass": "주식-해외",
+        "etfCount": 36,
+        "equalWeightReturnPct": 0.31,
+        "cappedAumWeightedReturnPct": 0.24,
+        "totalAum": 409580.2,
+        "topEtfName": "TIGER 미국S&P500",
+        "topEtfTicker": "360750"
+      },
+      {
+        "peerGroup": "글로벌 로보틱스 & 자동화",
+        "assetClass": "주식-해외",
+        "etfCount": 8,
+        "equalWeightReturnPct": 0.44,
+        "cappedAumWeightedReturnPct": 0.51,
+        "totalAum": 10006.0,
+        "topEtfName": "KODEX 미국휴머노이드로봇",
+        "topEtfTicker": "0038A0"
+      },
+      {
+        "peerGroup": "에너지 (원유·천연가스)",
+        "assetClass": "원자재",
+        "etfCount": 5,
+        "equalWeightReturnPct": -1.5,
+        "cappedAumWeightedReturnPct": -1.63,
+        "totalAum": 1139.7,
+        "topEtfName": "KODEX WTI원유선물(H)",
+        "topEtfTicker": "261220"
+      },
+      {
+        "peerGroup": "인공지능",
+        "assetClass": "주식-해외",
+        "etfCount": 8,
+        "equalWeightReturnPct": 1.06,
+        "cappedAumWeightedReturnPct": 0.72,
+        "totalAum": 9255.3,
+        "topEtfName": "TIME 차이나AI테크액티브",
+        "topEtfTicker": "0043Y0"
+      },
+      {
+        "peerGroup": "생성형 AI & 소프트웨어",
+        "assetClass": "주식-해외",
+        "etfCount": 23,
+        "equalWeightReturnPct": 0.44,
+        "cappedAumWeightedReturnPct": 1.45,
+        "totalAum": 43057.4,
+        "topEtfName": "TIME 글로벌AI인공지능액티브",
+        "topEtfTicker": "456600"
+      },
+      {
+        "peerGroup": "미국 단기국채",
+        "assetClass": "채권",
+        "etfCount": 5,
+        "equalWeightReturnPct": -0.08,
+        "cappedAumWeightedReturnPct": -0.09,
+        "totalAum": 11727.8,
+        "topEtfName": "TIGER 미국달러단기채권액티브",
+        "topEtfTicker": "329750"
+      },
+      {
+        "peerGroup": "단일종목",
+        "assetClass": "주식-해외",
+        "etfCount": 12,
+        "equalWeightReturnPct": 0.16,
+        "cappedAumWeightedReturnPct": 0.26,
+        "totalAum": 4090.6,
+        "topEtfName": "KODEX 미국나스닥AI테크액티브",
+        "topEtfTicker": "411420"
+      },
+      {
+        "peerGroup": "시가총액",
+        "assetClass": "주식-국내",
+        "etfCount": 7,
+        "equalWeightReturnPct": 0.63,
+        "cappedAumWeightedReturnPct": 1.1,
+        "totalAum": 2882.6,
+        "topEtfName": "KODEX 코스피대형주",
+        "topEtfTicker": "337140"
+      },
+      {
+        "peerGroup": "채권",
+        "assetClass": "채권",
+        "etfCount": 3,
+        "equalWeightReturnPct": 0.0,
+        "cappedAumWeightedReturnPct": 0.01,
+        "totalAum": 9270.7,
+        "topEtfName": "RISE 단기특수은행채액티브",
+        "topEtfTicker": "0061Z0"
+      },
+      {
+        "peerGroup": "차이나 테크 & 전기차",
+        "assetClass": "주식-해외",
+        "etfCount": 1,
+        "equalWeightReturnPct": 0.97,
+        "cappedAumWeightedReturnPct": 0.97,
+        "totalAum": 206.0,
+        "topEtfName": "TIGER 차이나글로벌리더스TOP3+",
+        "topEtfTicker": "0067V0"
+      },
+      {
+        "peerGroup": "나스닥 100 코어",
+        "assetClass": "주식-해외",
+        "etfCount": 12,
+        "equalWeightReturnPct": 0.91,
+        "cappedAumWeightedReturnPct": 0.83,
+        "totalAum": 306981.4,
+        "topEtfName": "TIGER 미국나스닥100",
+        "topEtfTicker": "133690"
+      },
+      {
+        "peerGroup": "K-방위산업",
+        "assetClass": "주식-국내",
+        "etfCount": 6,
+        "equalWeightReturnPct": -2.32,
+        "cappedAumWeightedReturnPct": -2.38,
+        "totalAum": 19626.0,
+        "topEtfName": "PLUS K방산",
+        "topEtfTicker": "449450"
+      },
+      {
+        "peerGroup": "글로벌 우주항공 & 방산",
+        "assetClass": "주식-해외",
+        "etfCount": 16,
+        "equalWeightReturnPct": -1.36,
+        "cappedAumWeightedReturnPct": -2.59,
+        "totalAum": 27500.6,
+        "topEtfName": "TIGER 미국우주테크",
+        "topEtfTicker": "0183J0"
+      },
+      {
+        "peerGroup": "글로벌 헬스케어 & 메디컬",
+        "assetClass": "주식-해외",
+        "etfCount": 11,
+        "equalWeightReturnPct": 0.36,
+        "cappedAumWeightedReturnPct": -0.13,
+        "totalAum": 3410.5,
+        "topEtfName": "TIGER 미국나스닥바이오",
+        "topEtfTicker": "203780"
+      },
+      {
+        "peerGroup": "미국 장기국채",
+        "assetClass": "채권",
+        "etfCount": 17,
+        "equalWeightReturnPct": -0.24,
+        "cappedAumWeightedReturnPct": -0.2,
+        "totalAum": 39406.0,
+        "topEtfName": "ACE 미국30년국채액티브(H)",
+        "topEtfTicker": "453850"
+      },
+      {
+        "peerGroup": "리츠·인프라",
+        "assetClass": "리츠·인프라",
+        "etfCount": 15,
+        "equalWeightReturnPct": -0.03,
+        "cappedAumWeightedReturnPct": 0.08,
+        "totalAum": 23697.1,
+        "topEtfName": "TIGER 리츠부동산인프라",
+        "topEtfTicker": "329200"
+      },
+      {
+        "peerGroup": "밸류업 & 금융지주·은행",
+        "assetClass": "주식-국내",
+        "etfCount": 25,
+        "equalWeightReturnPct": 1.18,
+        "cappedAumWeightedReturnPct": 1.28,
+        "totalAum": 52640.3,
+        "topEtfName": "RISE 코리아밸류업",
+        "topEtfTicker": "495050"
+      },
+      {
+        "peerGroup": "원자력 & SMR",
+        "assetClass": "주식-국내",
+        "etfCount": 5,
+        "equalWeightReturnPct": -1.31,
+        "cappedAumWeightedReturnPct": -1.31,
+        "totalAum": 20009.8,
+        "topEtfName": "HANARO 원자력iSelect",
+        "topEtfTicker": "434730"
+      },
+      {
+        "peerGroup": "전력 인프라 & 변압기",
+        "assetClass": "리츠·인프라",
+        "etfCount": 16,
+        "equalWeightReturnPct": -0.31,
+        "cappedAumWeightedReturnPct": -0.41,
+        "totalAum": 85165.5,
+        "topEtfName": "KODEX AI전력핵심설비",
+        "topEtfTicker": "487240"
+      },
+      {
+        "peerGroup": "K-엔터 & 미디어·게임",
+        "assetClass": "주식-해외",
+        "etfCount": 11,
+        "equalWeightReturnPct": -0.22,
+        "cappedAumWeightedReturnPct": 0.04,
+        "totalAum": 2613.2,
+        "topEtfName": "TIGER 미디어컨텐츠",
+        "topEtfTicker": "228810"
+      },
+      {
+        "peerGroup": "미국 배당다우존스",
+        "assetClass": "주식-해외",
+        "etfCount": 12,
+        "equalWeightReturnPct": -0.39,
+        "cappedAumWeightedReturnPct": -0.43,
+        "totalAum": 73950.5,
+        "topEtfName": "TIGER 미국배당다우존스",
+        "topEtfTicker": "458730"
+      },
+      {
+        "peerGroup": "조선 & 해운",
+        "assetClass": "주식-국내",
+        "etfCount": 6,
+        "equalWeightReturnPct": -1.57,
+        "cappedAumWeightedReturnPct": -1.63,
+        "totalAum": 23683.2,
+        "topEtfName": "SOL 조선TOP3플러스",
+        "topEtfTicker": "466920"
+      },
+      {
+        "peerGroup": "미국 빅테크 (M7)",
+        "assetClass": "주식-해외",
+        "etfCount": 11,
+        "equalWeightReturnPct": 0.27,
+        "cappedAumWeightedReturnPct": 0.21,
+        "totalAum": 68660.0,
+        "topEtfName": "TIGER 미국테크TOP10 INDXX",
+        "topEtfTicker": "381170"
+      },
+      {
+        "peerGroup": "K컬처",
+        "assetClass": "주식-해외",
+        "etfCount": 3,
+        "equalWeightReturnPct": -0.57,
+        "cappedAumWeightedReturnPct": -0.24,
+        "totalAum": 1198.6,
+        "topEtfName": "ACE KPOP포커스",
+        "topEtfTicker": "475050"
+      },
+      {
+        "peerGroup": "피지컬 AI & 지능형 로봇",
+        "assetClass": "주식-국내",
+        "etfCount": 5,
+        "equalWeightReturnPct": 0.18,
+        "cappedAumWeightedReturnPct": 0.7,
+        "totalAum": 24019.4,
+        "topEtfName": "KODEX 로봇액티브",
+        "topEtfTicker": "445290"
+      },
+      {
+        "peerGroup": "글로벌 AI 반도체",
+        "assetClass": "주식-해외",
+        "etfCount": 24,
+        "equalWeightReturnPct": 2.52,
+        "cappedAumWeightedReturnPct": 2.79,
+        "totalAum": 137445.0,
+        "topEtfName": "TIGER 미국필라델피아반도체나스닥",
+        "topEtfTicker": "381180"
+      },
+      {
+        "peerGroup": "전통 반도체 소부장",
+        "assetClass": "주식-국내",
+        "etfCount": 15,
+        "equalWeightReturnPct": 2.62,
+        "cappedAumWeightedReturnPct": 3.41,
+        "totalAum": 233058.0,
+        "topEtfName": "TIGER 반도체TOP10",
+        "topEtfTicker": "396500"
+      },
+      {
+        "peerGroup": "혼합자산",
+        "assetClass": "혼합자산",
+        "etfCount": 4,
+        "equalWeightReturnPct": 0.25,
+        "cappedAumWeightedReturnPct": 0.07,
+        "totalAum": 3167.1,
+        "topEtfName": "RISE 글로벌자산배분액티브",
+        "topEtfTicker": "461490"
+      },
+      {
+        "peerGroup": "자동차 & 스마트모빌리티",
+        "assetClass": "주식-국내",
+        "etfCount": 8,
+        "equalWeightReturnPct": -0.73,
+        "cappedAumWeightedReturnPct": -0.93,
+        "totalAum": 24727.3,
+        "topEtfName": "ACE 테슬라밸류체인액티브",
+        "topEtfTicker": "457480"
+      },
+      {
+        "peerGroup": "국내 단기·초단기채",
+        "assetClass": "채권",
+        "etfCount": 19,
+        "equalWeightReturnPct": -0.02,
+        "cappedAumWeightedReturnPct": -0.0,
+        "totalAum": 79024.9,
+        "topEtfName": "KODEX 단기채권PLUS",
+        "topEtfTicker": "214980"
+      },
+      {
+        "peerGroup": "산업·섹터",
+        "assetClass": "주식-해외",
+        "etfCount": 1,
+        "equalWeightReturnPct": -1.17,
+        "cappedAumWeightedReturnPct": -1.17,
+        "totalAum": 104.7,
+        "topEtfName": "HANARO 미국에이전틱AI TOP2+",
+        "topEtfTicker": "0227L0"
+      },
+      {
+        "peerGroup": "철강·화학",
+        "assetClass": "주식-국내",
+        "etfCount": 4,
+        "equalWeightReturnPct": -0.91,
+        "cappedAumWeightedReturnPct": -0.74,
+        "totalAum": 991.1,
+        "topEtfName": "KODEX 에너지화학",
+        "topEtfTicker": "117460"
+      },
+      {
+        "peerGroup": "건설·인프라",
+        "assetClass": "주식-국내",
+        "etfCount": 3,
+        "equalWeightReturnPct": -0.67,
+        "cappedAumWeightedReturnPct": -0.81,
+        "totalAum": 3679.4,
+        "topEtfName": "KODEX 건설",
+        "topEtfTicker": "117700"
+      },
+      {
+        "peerGroup": "농산물 (곡물·소프트)",
+        "assetClass": "원자재",
+        "etfCount": 3,
+        "equalWeightReturnPct": 0.35,
+        "cappedAumWeightedReturnPct": 0.44,
+        "totalAum": 477.0,
+        "topEtfName": "KODEX 3대농산물선물(H)",
+        "topEtfTicker": "271060"
+      },
+      {
+        "peerGroup": "산업용 금속 (구리·비철)",
+        "assetClass": "원자재",
+        "etfCount": 2,
+        "equalWeightReturnPct": 1.62,
+        "cappedAumWeightedReturnPct": 1.64,
+        "totalAum": 1932.5,
+        "topEtfName": "TIGER 구리실물",
+        "topEtfTicker": "160580"
+      },
+      {
+        "peerGroup": "국내 장기국채",
+        "assetClass": "채권",
+        "etfCount": 22,
+        "equalWeightReturnPct": 0.01,
+        "cappedAumWeightedReturnPct": -0.04,
+        "totalAum": 28904.7,
+        "topEtfName": "ACE 국고채10년",
+        "topEtfTicker": "365780"
+      },
+      {
+        "peerGroup": "글로벌 럭셔리 & 소비재",
+        "assetClass": "주식-해외",
+        "etfCount": 7,
+        "equalWeightReturnPct": -0.7,
+        "cappedAumWeightedReturnPct": -0.58,
+        "totalAum": 1123.9,
+        "topEtfName": "TIGER 중국소비테마",
+        "topEtfTicker": "150460"
+      },
+      {
+        "peerGroup": "글로벌 종합채권",
+        "assetClass": "채권",
+        "etfCount": 3,
+        "equalWeightReturnPct": 0.06,
+        "cappedAumWeightedReturnPct": -0.05,
+        "totalAum": 1601.9,
+        "topEtfName": "KODEX iShares미국하이일드액티브",
+        "topEtfTicker": "468380"
+      },
+      {
+        "peerGroup": "베트남 & 이머징 성장주",
+        "assetClass": "주식-해외",
+        "etfCount": 1,
+        "equalWeightReturnPct": -1.6,
+        "cappedAumWeightedReturnPct": -1.6,
+        "totalAum": 3786.3,
+        "topEtfName": "ACE 베트남VN30(합성)",
+        "topEtfTicker": "245710"
+      },
+      {
+        "peerGroup": "IT·반도체",
+        "assetClass": "주식-해외",
+        "etfCount": 2,
+        "equalWeightReturnPct": 2.02,
+        "cappedAumWeightedReturnPct": 2.28,
+        "totalAum": 2873.1,
+        "topEtfName": "KODEX 200IT TR",
+        "topEtfTicker": "363580"
+      },
+      {
+        "peerGroup": "의료 AI & 디지털 헬스",
+        "assetClass": "주식-국내",
+        "etfCount": 3,
+        "equalWeightReturnPct": 0.5,
+        "cappedAumWeightedReturnPct": 0.29,
+        "totalAum": 223.5,
+        "topEtfName": "SOL 의료기기소부장Fn",
+        "topEtfTicker": "464610"
+      },
+      {
+        "peerGroup": "국내 대형주",
+        "assetClass": "주식-국내",
+        "etfCount": 1,
+        "equalWeightReturnPct": 1.37,
+        "cappedAumWeightedReturnPct": 1.37,
+        "totalAum": 9769.9,
+        "topEtfName": "KODEX Top5PlusTR",
+        "topEtfTicker": "315930"
+      },
+      {
+        "peerGroup": "코스피200",
+        "assetClass": "주식-국내",
+        "etfCount": 2,
+        "equalWeightReturnPct": 0.03,
+        "cappedAumWeightedReturnPct": 0.34,
+        "totalAum": 629.7,
+        "topEtfName": "KODEX 200롱코스닥150숏선물",
+        "topEtfTicker": "360140"
+      },
+      {
+        "peerGroup": "친환경 & 신재생에너지",
+        "assetClass": "주식-국내",
+        "etfCount": 10,
+        "equalWeightReturnPct": -0.96,
+        "cappedAumWeightedReturnPct": -1.95,
+        "totalAum": 8265.5,
+        "topEtfName": "KODEX 신재생에너지액티브",
+        "topEtfTicker": "385510"
+      },
+      {
+        "peerGroup": "전기차 & 자율주행",
+        "assetClass": "주식-해외",
+        "etfCount": 4,
+        "equalWeightReturnPct": -0.38,
+        "cappedAumWeightedReturnPct": -0.04,
+        "totalAum": 8103.8,
+        "topEtfName": "TIGER 차이나전기차SOLACTIVE",
+        "topEtfTicker": "371460"
+      },
+      {
+        "peerGroup": "글로벌 신재생에너지",
+        "assetClass": "주식-해외",
+        "etfCount": 6,
+        "equalWeightReturnPct": 0.2,
+        "cappedAumWeightedReturnPct": 0.19,
+        "totalAum": 682.0,
+        "topEtfName": "PLUS 글로벌수소&차세대연료전지",
+        "topEtfTicker": "419650"
+      },
+      {
+        "peerGroup": "기후테크",
+        "assetClass": "주식-국내",
+        "etfCount": 3,
+        "equalWeightReturnPct": -0.89,
+        "cappedAumWeightedReturnPct": -0.85,
+        "totalAum": 451.4,
+        "topEtfName": "KODEX 기후변화솔루션",
+        "topEtfTicker": "404260"
+      },
+      {
+        "peerGroup": "에너지·신재생에너지",
+        "assetClass": "주식-해외",
+        "etfCount": 1,
+        "equalWeightReturnPct": -0.99,
+        "cappedAumWeightedReturnPct": -0.99,
+        "totalAum": 346.0,
+        "topEtfName": "KIWOOM 미국원유에너지기업",
+        "topEtfTicker": "474800"
+      },
+      {
+        "peerGroup": "비만치료제 & GLP-1",
+        "assetClass": "주식-해외",
+        "etfCount": 4,
+        "equalWeightReturnPct": -0.08,
+        "cappedAumWeightedReturnPct": 0.04,
+        "totalAum": 730.4,
+        "topEtfName": "TIGER 글로벌비만치료제TOP2Plus",
+        "topEtfTicker": "476690"
+      }
+    ],
+    "fundFlow": {
+      "general": {
+        "topInflows": [
+          {
+            "rank": 1,
+            "ticker": "379810",
+            "etfName": "KODEX 미국나스닥100",
+            "name": "KODEX 미국나스닥100",
+            "assetClass": "주식-해외",
+            "theme": "나스닥 100 코어",
+            "inflow": 1585.6,
+            "inflowAmount": 1585.6,
+            "netInflowValue": 158561851500.0,
+            "net_flow": 158561851500.0
+          },
+          {
+            "rank": 2,
+            "ticker": "069660",
+            "etfName": "KIWOOM 200",
+            "name": "KIWOOM 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": 279.4,
+            "inflowAmount": 279.4,
+            "netInflowValue": 27938897500.0,
+            "net_flow": 27938897500.0
+          },
+          {
+            "rank": 3,
+            "ticker": "273130",
+            "etfName": "KODEX 종합채권(AA-이상)액티브",
+            "name": "KODEX 종합채권(AA-이상)액티브",
+            "assetClass": "채권",
+            "theme": "우량 회사채·금융채",
+            "inflow": 256.6,
+            "inflowAmount": 256.6,
+            "netInflowValue": 25655619600.0,
+            "net_flow": 25655619600.0
+          },
+          {
+            "rank": 4,
+            "ticker": "486290",
+            "etfName": "TIGER 미국나스닥100타겟데일리커버드콜",
+            "name": "TIGER 미국나스닥100타겟데일리커버드콜",
+            "assetClass": "주식-해외",
+            "theme": "해외 월배당 & 커버드콜",
+            "inflow": 232.1,
+            "inflowAmount": 232.1,
+            "netInflowValue": 23211320000.0,
+            "net_flow": 23211320000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "360750",
+            "etfName": "TIGER 미국S&P500",
+            "name": "TIGER 미국S&P500",
+            "assetClass": "주식-해외",
+            "theme": "S&P 500 시장대표",
+            "inflow": 209.7,
+            "inflowAmount": 209.7,
+            "netInflowValue": 20968928000.0,
+            "net_flow": 20968928000.0
+          }
+        ],
+        "topOutflows": [
+          {
+            "rank": 1,
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "name": "KODEX 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": -838.6,
+            "inflowAmount": -838.6,
+            "netInflowValue": -83860365000.0,
+            "net_flow": -83860365000.0
+          },
+          {
+            "rank": 2,
+            "ticker": "091160",
+            "etfName": "KODEX 반도체",
+            "name": "KODEX 반도체",
+            "assetClass": "주식-국내",
+            "theme": "전통 반도체 소부장",
+            "inflow": -373.0,
+            "inflowAmount": -373.0,
+            "netInflowValue": -37302828750.0,
+            "net_flow": -37302828750.0
+          },
+          {
+            "rank": 3,
+            "ticker": "0177N0",
+            "etfName": "KODEX 삼성전자SK하이닉스채권혼합50",
+            "name": "KODEX 삼성전자SK하이닉스채권혼합50",
+            "assetClass": "채권",
+            "theme": "자산배분 & 채권혼합",
+            "inflow": -190.3,
+            "inflowAmount": -190.3,
+            "netInflowValue": -19030817000.0,
+            "net_flow": -19030817000.0
+          },
+          {
+            "rank": 4,
+            "ticker": "229200",
+            "etfName": "KODEX 코스닥150",
+            "name": "KODEX 코스닥150",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -161.8,
+            "inflowAmount": -161.8,
+            "netInflowValue": -16178844000.0,
+            "net_flow": -16178844000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "0043Y0",
+            "etfName": "TIME 차이나AI테크액티브",
+            "name": "TIME 차이나AI테크액티브",
+            "assetClass": "주식-해외",
+            "theme": "인공지능",
+            "inflow": -137.9,
+            "inflowAmount": -137.9,
+            "netInflowValue": -13789930000.0,
+            "net_flow": -13789930000.0
+          }
+        ]
+      },
+      "all": {
+        "topInflows": [
+          {
+            "rank": 1,
+            "ticker": "488770",
+            "etfName": "KODEX 머니마켓액티브",
+            "name": "KODEX 머니마켓액티브",
+            "assetClass": "금리·파킹",
+            "theme": "금리·파킹",
+            "inflow": 2036.7,
+            "inflowAmount": 2036.7,
+            "netInflowValue": 203666076930.0,
+            "net_flow": 203666076930.0
+          },
+          {
+            "rank": 2,
+            "ticker": "379810",
+            "etfName": "KODEX 미국나스닥100",
+            "name": "KODEX 미국나스닥100",
+            "assetClass": "주식-해외",
+            "theme": "나스닥 100 코어",
+            "inflow": 1585.6,
+            "inflowAmount": 1585.6,
+            "netInflowValue": 158561851500.0,
+            "net_flow": 158561851500.0
+          },
+          {
+            "rank": 3,
+            "ticker": "459580",
+            "etfName": "KODEX CD금리액티브(합성)",
+            "name": "KODEX CD금리액티브(합성)",
+            "assetClass": "금리·파킹",
+            "theme": "금리·파킹",
+            "inflow": 967.9,
+            "inflowAmount": 967.9,
+            "netInflowValue": 96788946600.0,
+            "net_flow": 96788946600.0
+          },
+          {
+            "rank": 4,
+            "ticker": "0048J0",
+            "etfName": "KODEX 미국머니마켓액티브",
+            "name": "KODEX 미국머니마켓액티브",
+            "assetClass": "금리·파킹",
+            "theme": "금리·파킹",
+            "inflow": 510.4,
+            "inflowAmount": 510.4,
+            "netInflowValue": 51040464000.0,
+            "net_flow": 51040464000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "069660",
+            "etfName": "KIWOOM 200",
+            "name": "KIWOOM 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": 279.4,
+            "inflowAmount": 279.4,
+            "netInflowValue": 27938897500.0,
+            "net_flow": 27938897500.0
+          }
+        ],
+        "topOutflows": [
+          {
+            "rank": 1,
+            "ticker": "122630",
+            "etfName": "KODEX 레버리지",
+            "name": "KODEX 레버리지",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -3605.2,
+            "inflowAmount": -3605.2,
+            "netInflowValue": -360518854500.0,
+            "net_flow": -360518854500.0
+          },
+          {
+            "rank": 2,
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "name": "KODEX 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": -838.6,
+            "inflowAmount": -838.6,
+            "netInflowValue": -83860365000.0,
+            "net_flow": -83860365000.0
+          },
+          {
+            "rank": 3,
+            "ticker": "252670",
+            "etfName": "KODEX 200선물인버스2X",
+            "name": "KODEX 200선물인버스2X",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -582.6,
+            "inflowAmount": -582.6,
+            "netInflowValue": -58262400000.0,
+            "net_flow": -58262400000.0
+          },
+          {
+            "rank": 4,
+            "ticker": "114800",
+            "etfName": "KODEX 인버스",
+            "name": "KODEX 인버스",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -420.4,
+            "inflowAmount": -420.4,
+            "netInflowValue": -42042390000.0,
+            "net_flow": -42042390000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "0195R0",
+            "etfName": "TIGER 삼성전자단일종목레버리지",
+            "name": "TIGER 삼성전자단일종목레버리지",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -412.5,
+            "inflowAmount": -412.5,
+            "netInflowValue": -41253145500.0,
+            "net_flow": -41253145500.0
+          }
+        ]
+      }
+    },
+    "periodicFlows": {
+      "dailyFundFlows": {
+        "topInflows": [
+          {
+            "rank": 1,
+            "ticker": "379810",
+            "etfName": "KODEX 미국나스닥100",
+            "name": "KODEX 미국나스닥100",
+            "assetClass": "주식-해외",
+            "theme": "나스닥 100 코어",
+            "inflow": 1585.6,
+            "inflowAmount": 1585.6,
+            "netInflowValue": 158561851500.0,
+            "net_flow": 158561851500.0
+          },
+          {
+            "rank": 2,
+            "ticker": "069660",
+            "etfName": "KIWOOM 200",
+            "name": "KIWOOM 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": 279.4,
+            "inflowAmount": 279.4,
+            "netInflowValue": 27938897500.0,
+            "net_flow": 27938897500.0
+          },
+          {
+            "rank": 3,
+            "ticker": "273130",
+            "etfName": "KODEX 종합채권(AA-이상)액티브",
+            "name": "KODEX 종합채권(AA-이상)액티브",
+            "assetClass": "채권",
+            "theme": "우량 회사채·금융채",
+            "inflow": 256.6,
+            "inflowAmount": 256.6,
+            "netInflowValue": 25655619600.0,
+            "net_flow": 25655619600.0
+          },
+          {
+            "rank": 4,
+            "ticker": "486290",
+            "etfName": "TIGER 미국나스닥100타겟데일리커버드콜",
+            "name": "TIGER 미국나스닥100타겟데일리커버드콜",
+            "assetClass": "주식-해외",
+            "theme": "해외 월배당 & 커버드콜",
+            "inflow": 232.1,
+            "inflowAmount": 232.1,
+            "netInflowValue": 23211320000.0,
+            "net_flow": 23211320000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "360750",
+            "etfName": "TIGER 미국S&P500",
+            "name": "TIGER 미국S&P500",
+            "assetClass": "주식-해외",
+            "theme": "S&P 500 시장대표",
+            "inflow": 209.7,
+            "inflowAmount": 209.7,
+            "netInflowValue": 20968928000.0,
+            "net_flow": 20968928000.0
+          }
+        ],
+        "topOutflows": [
+          {
+            "rank": 1,
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "name": "KODEX 200",
+            "assetClass": "주식-국내",
+            "theme": "코스피 200 코어",
+            "inflow": -838.6,
+            "inflowAmount": -838.6,
+            "netInflowValue": -83860365000.0,
+            "net_flow": -83860365000.0
+          },
+          {
+            "rank": 2,
+            "ticker": "091160",
+            "etfName": "KODEX 반도체",
+            "name": "KODEX 반도체",
+            "assetClass": "주식-국내",
+            "theme": "전통 반도체 소부장",
+            "inflow": -373.0,
+            "inflowAmount": -373.0,
+            "netInflowValue": -37302828750.0,
+            "net_flow": -37302828750.0
+          },
+          {
+            "rank": 3,
+            "ticker": "0177N0",
+            "etfName": "KODEX 삼성전자SK하이닉스채권혼합50",
+            "name": "KODEX 삼성전자SK하이닉스채권혼합50",
+            "assetClass": "채권",
+            "theme": "자산배분 & 채권혼합",
+            "inflow": -190.3,
+            "inflowAmount": -190.3,
+            "netInflowValue": -19030817000.0,
+            "net_flow": -19030817000.0
+          },
+          {
+            "rank": 4,
+            "ticker": "229200",
+            "etfName": "KODEX 코스닥150",
+            "name": "KODEX 코스닥150",
+            "assetClass": "주식-국내",
+            "theme": "핵심ETF",
+            "inflow": -161.8,
+            "inflowAmount": -161.8,
+            "netInflowValue": -16178844000.0,
+            "net_flow": -16178844000.0
+          },
+          {
+            "rank": 5,
+            "ticker": "0043Y0",
+            "etfName": "TIME 차이나AI테크액티브",
+            "name": "TIME 차이나AI테크액티브",
+            "assetClass": "주식-해외",
+            "theme": "인공지능",
+            "inflow": -137.9,
+            "inflowAmount": -137.9,
+            "netInflowValue": -13789930000.0,
+            "net_flow": -13789930000.0
+          }
+        ]
+      }
+    },
+    "weeklyFundFlows": {
+      "topInflows": [
+        {
+          "peerGroup": "우량 회사채·금융채",
+          "assetClass": "채권",
+          "etfCount": 45,
+          "netInflow": 2414,
+          "returnPct": 0.03,
+          "rank": 1
+        },
+        {
+          "peerGroup": "국내 월배당 & 커버드콜",
+          "assetClass": "주식-국내",
+          "etfCount": 21,
+          "netInflow": 2377,
+          "returnPct": -2.94,
+          "rank": 2
+        },
+        {
+          "peerGroup": "S&P 500 시장대표",
+          "assetClass": "주식-해외",
+          "etfCount": 36,
+          "netInflow": 2103,
+          "returnPct": 1.59,
+          "rank": 3
+        },
+        {
+          "peerGroup": "나스닥 100 코어",
+          "assetClass": "주식-해외",
+          "etfCount": 12,
+          "netInflow": 1706,
+          "returnPct": 0.73,
+          "rank": 4
+        },
+        {
+          "peerGroup": "해외 월배당 & 커버드콜",
+          "assetClass": "주식-해외",
+          "etfCount": 32,
+          "netInflow": 929,
+          "returnPct": 1.6,
+          "rank": 5
+        }
+      ],
+      "topOutflows": [
+        {
+          "peerGroup": "코스피 200 코어",
+          "assetClass": "주식-국내",
+          "etfCount": 24,
+          "netInflow": -2130,
+          "returnPct": -4.93,
+          "rank": 1
+        },
+        {
+          "peerGroup": "국내 장기국채",
+          "assetClass": "채권",
+          "etfCount": 22,
+          "netInflow": -1059,
+          "returnPct": -0.07,
+          "rank": 2
+        },
+        {
+          "peerGroup": "AI 반도체 & HBM",
+          "assetClass": "주식-국내",
+          "etfCount": 19,
+          "netInflow": -823,
+          "returnPct": -4.18,
+          "rank": 3
+        },
+        {
+          "peerGroup": "만기매칭형 채권",
+          "assetClass": "채권",
+          "etfCount": 13,
+          "netInflow": -450,
+          "returnPct": -0.05,
+          "rank": 4
+        },
+        {
+          "peerGroup": "밸류업 & 금융지주·은행",
+          "assetClass": "주식-국내",
+          "etfCount": 25,
+          "netInflow": -356,
+          "returnPct": -2.56,
+          "rank": 5
+        }
+      ]
+    },
+    "monthlyFundFlows": {
+      "topInflows": [
+        {
+          "peerGroup": "S&P 500 시장대표",
+          "assetClass": "주식-해외",
+          "etfCount": 36,
+          "netInflow": 12161,
+          "returnPct": -2.24,
+          "rank": 1
+        },
+        {
+          "peerGroup": "국내 월배당 & 커버드콜",
+          "assetClass": "주식-국내",
+          "etfCount": 21,
+          "netInflow": 8568,
+          "returnPct": -0.85,
+          "rank": 2
+        },
+        {
+          "peerGroup": "우량 회사채·금융채",
+          "assetClass": "채권",
+          "etfCount": 45,
+          "netInflow": 7346,
+          "returnPct": -0.34,
+          "rank": 3
+        },
+        {
+          "peerGroup": "나스닥 100 코어",
+          "assetClass": "주식-해외",
+          "etfCount": 12,
+          "netInflow": 7270,
+          "returnPct": -1.75,
+          "rank": 4
+        },
+        {
+          "peerGroup": "해외 월배당 & 커버드콜",
+          "assetClass": "주식-해외",
+          "etfCount": 32,
+          "netInflow": 5204,
+          "returnPct": -3.91,
+          "rank": 5
+        }
+      ],
+      "topOutflows": [
+        {
+          "peerGroup": "코스피 200 코어",
+          "assetClass": "주식-국내",
+          "etfCount": 24,
+          "netInflow": -11436,
+          "returnPct": -1.77,
+          "rank": 1
+        },
+        {
+          "peerGroup": "국내 장기국채",
+          "assetClass": "채권",
+          "etfCount": 22,
+          "netInflow": -3937,
+          "returnPct": -0.45,
+          "rank": 2
+        },
+        {
+          "peerGroup": "AI 반도체 & HBM",
+          "assetClass": "주식-국내",
+          "etfCount": 19,
+          "netInflow": -2820,
+          "returnPct": -1.15,
+          "rank": 3
+        },
+        {
+          "peerGroup": "글로벌 AI 반도체",
+          "assetClass": "주식-해외",
+          "etfCount": 24,
+          "netInflow": -2450,
+          "returnPct": -2.74,
+          "rank": 4
+        },
+        {
+          "peerGroup": "전통 반도체 소부장",
+          "assetClass": "주식-국내",
+          "etfCount": 15,
+          "netInflow": -1575,
+          "returnPct": -0.32,
+          "rank": 5
+        }
+      ]
+    },
+    "focusEtfs": [
+      {
+        "rankNo": 1,
+        "ticker": "069500",
+        "etfName": "KODEX 200",
+        "assetClass": "주식-국내",
+        "closeValue": 111700.0,
+        "changePct": 2.21,
+        "tradeValue": 2327082882055.0,
+        "tradeSharePct": 22.79
+      },
+      {
+        "rankNo": 2,
+        "ticker": "102110",
+        "etfName": "TIGER 200",
+        "assetClass": "주식-국내",
+        "closeValue": 111945.0,
+        "changePct": 2.18,
+        "tradeValue": 1618094584736.0,
+        "tradeSharePct": 15.85
+      },
+      {
+        "rankNo": 3,
+        "ticker": "360750",
+        "etfName": "TIGER 미국S&P500",
+        "assetClass": "주식-해외",
+        "closeValue": 26340.0,
+        "changePct": 0.23,
+        "tradeValue": 680002411514.0,
+        "tradeSharePct": 6.66
+      },
+      {
+        "rankNo": 4,
+        "ticker": "133690",
+        "etfName": "TIGER 미국나스닥100",
+        "assetClass": "주식-해외",
+        "closeValue": 182540.0,
+        "changePct": 0.73,
+        "tradeValue": 597907800328.0,
+        "tradeSharePct": 5.86
+      },
+      {
+        "rankNo": 5,
+        "ticker": "379810",
+        "etfName": "KODEX 미국나스닥100",
+        "assetClass": "주식-해외",
+        "closeValue": 27290.0,
+        "changePct": 0.74,
+        "tradeValue": 535426328030.0,
+        "tradeSharePct": 5.24
+      },
+      {
+        "rankNo": 6,
+        "ticker": "379800",
+        "etfName": "KODEX 미국S&P500",
+        "assetClass": "주식-해외",
+        "closeValue": 23940.0,
+        "changePct": 0.23,
+        "tradeValue": 384312585888.0,
+        "tradeSharePct": 3.76
+      },
+      {
+        "rankNo": 7,
+        "ticker": "396500",
+        "etfName": "TIGER 반도체TOP10",
+        "assetClass": "주식-국내",
+        "closeValue": 38245.0,
+        "changePct": 3.36,
+        "tradeValue": 339963936625.0,
+        "tradeSharePct": 3.33
+      },
+      {
+        "rankNo": 8,
+        "ticker": "229200",
+        "etfName": "KODEX 코스닥150",
+        "assetClass": "주식-국내",
+        "closeValue": 14045.0,
+        "changePct": 1.55,
+        "tradeValue": 300017691434.0,
+        "tradeSharePct": 2.94
+      },
+      {
+        "rankNo": 9,
+        "ticker": "0167A0",
+        "etfName": "SOL AI반도체TOP2플러스",
+        "assetClass": "주식-국내",
+        "closeValue": 18320.0,
+        "changePct": 3.74,
+        "tradeValue": 200911646843.0,
+        "tradeSharePct": 1.97
+      },
+      {
+        "rankNo": 10,
+        "ticker": "091160",
+        "etfName": "KODEX 반도체",
+        "assetClass": "주식-국내",
+        "closeValue": 135250.0,
+        "changePct": 3.6,
+        "tradeValue": 200908253969.0,
+        "tradeSharePct": 1.97
+      }
+    ],
+    "disparityWarning": [
+      {
+        "ticker": "0154H0",
+        "name": "KoAct 차이나바이오헬스케어액티브",
+        "etfName": "KoAct 차이나바이오헬스케어액티브",
+        "assetClass": "주식-해외",
+        "nav": 8907.1,
+        "price": 9325.0,
+        "disparityPct": 4.69,
+        "isExDividend": false,
+        "distributionPerShareKrw": null
+      },
+      {
+        "ticker": "371470",
+        "name": "TIGER 차이나바이오테크SOLACTIVE",
+        "etfName": "TIGER 차이나바이오테크SOLACTIVE",
+        "assetClass": "주식-해외",
+        "nav": 8518.13,
+        "price": 8880.0,
+        "disparityPct": 4.25,
+        "isExDividend": false,
+        "distributionPerShareKrw": null
+      },
+      {
+        "ticker": "450190",
+        "name": "KODEX 한중반도체(합성)",
+        "etfName": "KODEX 한중반도체(합성)",
+        "assetClass": "주식-국내",
+        "nav": 50174.49,
+        "price": 51055.0,
+        "disparityPct": 1.75,
+        "isExDividend": false,
+        "distributionPerShareKrw": null
+      }
+    ],
+    "headlineText": "국내 ETF 시장 AUM 38.9조원 규모, 완만한 상승 마감",
+    "marketTemperature": "완만한 상승",
+    "kospiClose": 7007.72,
+    "kospiChangePct": 1.65,
+    "kosdaqClose": 836.27,
+    "kosdaqChangePct": 1.11,
+    "generalEtfCount": 1028,
+    "generalTotalAum": 388789547308191.0,
+    "generalTotalTradeValue": 10210967192090.0,
+    "generalAumWeightedReturnPct": 1.08,
+    "top50WeightedReturnPct": 1.52,
+    "upCount": 582,
+    "flatCount": 38,
+    "downCount": 408,
+    "breadthRatioPct": 56.61,
+    "top10TradeSharePct": 70.36
+  }
+}

@@ -225,6 +225,28 @@ def purge_dashboard_cache(date_str: str, token: str) -> None:
         print(f"⚠️ Warning: Cache purge error: {e}", file=sys.stderr)
 
 
+def find_next_trading_day(start_date, holidays: set[str]) -> tuple:
+    from datetime import timedelta
+    cur = start_date + timedelta(days=1)
+    korean_weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    while True:
+        ymd = cur.strftime("%Y%m%d")
+        if cur.weekday() < 5 and ymd not in holidays:
+            day_str = cur.strftime("%Y-%m-%d")
+            w_str = korean_weekdays[cur.weekday()]
+            return cur, f"{day_str} ({w_str})"
+        cur += timedelta(days=1)
+
+
+def save_publish_status(target_date: str, status_data: dict) -> None:
+    status_file = Path("OSMU_Archive") / target_date / "osmu_publish_status.json"
+    try:
+        status_file.parent.mkdir(parents=True, exist_ok=True)
+        status_file.write_text(json.dumps(status_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception as e:
+        print(f"⚠️ [Publisher] Failed to write status file: {e}", file=sys.stderr)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Publish market briefing to Threads, Newsletter, and Instagram")
     parser.add_argument("--date", help="Target date in YYYY-MM-DD format")
@@ -253,13 +275,35 @@ def main() -> int:
                     holidays.add(clean)
 
         if now_kst.weekday() >= 5:
+            _, next_pub_str = find_next_trading_day(now_kst, holidays)
             print(f"🛑 [Weekend Guard] Today ({now_kst:%Y-%m-%d} KST) is a weekend. Korean markets are closed. Publishing is forbidden on weekends.")
-            print("   (Automated pipeline skipped. Friday close will be published on Monday morning. Use --force to override)")
+            print(f"   (Automated pipeline skipped. Standby until {next_pub_str} 07:30 KST. Use --force to override)")
+            save_publish_status(target_date, {
+                "target_date": target_date,
+                "status": "standby",
+                "reason": "weekend",
+                "publish_day": now_kst.strftime("%Y-%m-%d"),
+                "next_publish_date": next_pub_str,
+                "next_publish_time": "07:30 KST",
+                "message": f"주말 시장 휴장으로 소셜 발행이 보류(Standby)되었습니다. 다음 거래일인 {next_pub_str} 07:30 KST에 자동 발행됩니다.",
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            })
             return 0
 
         if now_kst.strftime("%Y%m%d") in holidays:
+            _, next_pub_str = find_next_trading_day(now_kst, holidays)
             print(f"🛑 [Holiday Guard] Today ({now_kst:%Y-%m-%d} KST) is a designated Korean market holiday. Markets are closed. Publishing is forbidden on holidays.")
-            print("   (Automated pipeline skipped. Use --force to override)")
+            print(f"   (Automated pipeline skipped. Standby until {next_pub_str} 07:30 KST. Use --force to override)")
+            save_publish_status(target_date, {
+                "target_date": target_date,
+                "status": "standby",
+                "reason": "holiday",
+                "publish_day": now_kst.strftime("%Y-%m-%d"),
+                "next_publish_date": next_pub_str,
+                "next_publish_time": "07:30 KST",
+                "message": f"한국거래소 휴장일(공휴일/연휴)로 소셜 발행이 보류(Standby)되었습니다. 다음 거래일인 {next_pub_str} 07:30 KST에 자동 발행됩니다.",
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            })
             return 0
 
     # 1. Check safety & readiness
@@ -377,8 +421,20 @@ def main() -> int:
 
     if success_count == total_requested:
         print("🎉 All requested channels published without errors!")
+        save_publish_status(target_date, {
+            "target_date": target_date,
+            "status": "published",
+            "results": results,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        })
         return 0
     else:
+        save_publish_status(target_date, {
+            "target_date": target_date,
+            "status": "partial_failed" if success_count > 0 else "failed",
+            "results": results,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        })
         error_file = Path("OSMU_Archive") / target_date / "osmu_publish_error.json"
         try:
             error_file.parent.mkdir(parents=True, exist_ok=True)

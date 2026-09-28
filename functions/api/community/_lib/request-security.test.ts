@@ -85,4 +85,108 @@ describe("Turnstile rate-limit 오류 전파", () => {
       },
     });
   });
+
+  it("운영 환경에서 TURNSTILE_SECRET_KEY가 테스트 키이면 503 CONFIGURATION_ERROR를 반환한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "some-token", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(503);
+    expect(body.error.code).toBe("CONFIGURATION_ERROR");
+    expect(body.error.message).toBe("테스트용 CAPTCHA 키는 Preview 환경에서만 구성할 수 있습니다.");
+  });
+
+  it("COMMUNITY_ENVIRONMENT 환경값이 누락(undefined)되었을 때 테스트 키 구성을 거부한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "some-token", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(503);
+    expect(body.error.code).toBe("CONFIGURATION_ERROR");
+    expect(body.error.message).toBe("테스트용 CAPTCHA 키는 Preview 환경에서만 구성할 수 있습니다.");
+  });
+
+  it("운영 환경에서 클라이언트가 전달한 테스트 토큰을 400 CAPTCHA_REQUIRED로 즉시 거부한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "real-prod-secret",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "1x0000000000000000000000000000000AA", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error.code).toBe("CAPTCHA_REQUIRED");
+    expect(body.error.message).toBe("테스트용 CAPTCHA 토큰은 Preview 환경에서만 사용할 수 있습니다.");
+  });
+
+  it("COMMUNITY_ENVIRONMENT 환경값이 누락(undefined)되었을 때 클라이언트 테스트 토큰을 거부한다", async () => {
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "real-prod-secret",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "1x0000000000000000000000000000000AA", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error.code).toBe("CAPTCHA_REQUIRED");
+    expect(body.error.message).toBe("테스트용 CAPTCHA 토큰은 Preview 환경에서만 사용할 수 있습니다.");
+  });
+
+  it("운영 환경에서 verify 결과 호스트가 dummy나 example.com인 경우 거부한다", async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          success: true,
+          hostname: "dummy",
+          action: "community_otp_request",
+          challenge_ts: new Date().toISOString(),
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    const context = {
+      request: new Request("https://etf-campus.pages.dev/api/community/auth/request-otp"),
+      env: {
+        COMMUNITY_ENVIRONMENT: "production",
+        TURNSTILE_REQUIRED: "true",
+        TURNSTILE_SECRET_KEY: "real-prod-secret",
+        TURNSTILE_EXPECTED_HOSTNAME: "etf-campus.pages.dev",
+      },
+    };
+
+    const response = await verifyTurnstile(context, "real-user-token", "community_otp_request");
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error.code).toBe("CAPTCHA_REQUIRED");
+    expect(body.error.message).toContain("HOSTNAME_MISMATCH");
+  });
 });

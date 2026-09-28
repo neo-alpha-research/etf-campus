@@ -24,6 +24,7 @@ export default defineConfig([
     "compress_final.js",
     "compress_images.js",
     "scratch/**",
+    "scripts/_oneoff/**",
     "workers/**/.wrangler/**",
     "workers/**/dist/**",
     "_archive/**",

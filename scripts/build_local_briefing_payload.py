@@ -340,7 +340,7 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     # 4. Market Indices (Using SSOT lib.indices and lib.calendar)
     market_indices: list[dict[str, Any]] = []
     us_macro_codes = {"SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"}
-    krx_macro_codes = {"KOSPI", "KOSDAQ", "VKOSPI", "KR10Y"}
+    krx_macro_codes = {"KOSPI", "KOSDAQ", "VKOSPI", "KR10Y", "USDKRW"}
 
     if indices_path.exists():
         with indices_path.open("r", encoding="utf-8") as f:

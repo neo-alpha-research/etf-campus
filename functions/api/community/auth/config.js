@@ -12,6 +12,7 @@ export async function onRequestGet(context) {
     return errorResponse(503, "CONFIGURATION_ERROR", "외부 Preview 환경의 보안 설정이 준비되지 않았습니다.");
   }
 
+
   if (required && (!siteKey || !context.env.TURNSTILE_SECRET_KEY || !context.env.TURNSTILE_EXPECTED_HOSTNAME)) {
     return errorResponse(503, "CONFIGURATION_ERROR", "CAPTCHA 보안 설정을 확인해 주세요.");
   }

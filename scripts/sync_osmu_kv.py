@@ -474,6 +474,15 @@ def main() -> int:
             if temp_pointer_file.exists():
                 temp_pointer_file.unlink()
 
+        # 4. Synchronize canonical briefing payload to Cloudflare D1 (market_briefings table SSOT)
+        try:
+            from scripts.sync_briefings_to_d1 import sync_date_to_d1
+            print(f"🔄 Synchronizing canonical briefing payload for {target_date} to D1...", end=" ")
+            d1_ok = sync_date_to_d1(target_date, payload_file, verbose=False)
+            print("✅ Done" if d1_ok else "⚠️ D1 Sync Warning")
+        except Exception as d1_err:
+            print(f"⚠️ [D1 Sync Notice] D1 sync bypassed: {d1_err}")
+
     print(f"\n📊 Summary: {success_count}/{total_count} assets synchronized to Cloudflare KV.")
     if success_count >= (total_count - 1) and total_count > 0:
         print("🎉 OSMU assets and briefing JSON successfully synchronized to KV!")

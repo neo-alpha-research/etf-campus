@@ -30,10 +30,20 @@ export async function enforceDatabaseRateLimit(context, scope, subject, limit, w
   }
 }
 
+const CLOUDFLARE_TEST_SECRET_KEY = "1x0000000000000000000000000000000AA";
+const CLOUDFLARE_TEST_TOKENS = new Set([
+  "1x0000000000000000000000000000000AA",
+  "2x0000000000000000000000000000000AA",
+  "3x0000000000000000000000000000000AA",
+]);
+
 function turnstileConfigurationError(env) {
   const required = env.TURNSTILE_REQUIRED === "true";
   if (externalEnvironment(env) && !required) return "외부 Preview 환경의 보안 설정이 준비되지 않았습니다.";
   if (required && (!env.TURNSTILE_SECRET_KEY || !env.TURNSTILE_EXPECTED_HOSTNAME)) return "CAPTCHA 보안 설정을 확인해 주세요.";
+  if (env.COMMUNITY_ENVIRONMENT !== "preview" && env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY) {
+    return "테스트용 CAPTCHA 키는 Preview 환경에서만 구성할 수 있습니다.";
+  }
   return null;
 }
 
@@ -42,6 +52,14 @@ export async function verifyTurnstile(context, token, expectedAction) {
   if (configurationError) return errorResponse(503, "CONFIGURATION_ERROR", configurationError);
   if (context.env.TURNSTILE_REQUIRED !== "true") return null;
   if (!token || typeof token !== "string") return errorResponse(400, "CAPTCHA_REQUIRED", "보안 확인을 완료해 주세요.");
+
+  const isPreview = context.env.COMMUNITY_ENVIRONMENT === "preview";
+  if (!isPreview && CLOUDFLARE_TEST_TOKENS.has(token)) {
+    return errorResponse(400, "CAPTCHA_REQUIRED", "테스트용 CAPTCHA 토큰은 Preview 환경에서만 사용할 수 있습니다.");
+  }
+
+  // 테스트 모드는 오직 명시적 Preview 환경이면서 서버 시크릿이 공식 테스트 키로 구성된 경우에만 한정
+  const isServerTestMode = isPreview && context.env.TURNSTILE_SECRET_KEY === CLOUDFLARE_TEST_SECRET_KEY;
 
   const formData = new FormData();
   formData.set("secret", context.env.TURNSTILE_SECRET_KEY);
@@ -61,23 +79,27 @@ export async function verifyTurnstile(context, token, expectedAction) {
       || result.hostname?.endsWith(".etf-campus.pages.dev")
       || result.hostname === "etfcampus.kr"
       || result.hostname === "www.etfcampus.kr"
-      || result.hostname === "localhost";
+      || (isServerTestMode && (result.hostname === "localhost" || result.hostname === "example.com" || result.hostname === "dummy"));
 
-    if (!response.ok || result.success !== true || !hostMatch || result.action !== expectedAction || !validAge) {
+    const actionMismatch = !isServerTestMode && result.action !== expectedAction;
+
+    if (!response.ok || result.success !== true || !hostMatch || actionMismatch || !validAge) {
       const reason = !response.ok ? "HTTP_ERROR" : 
                      result.success !== true ? "VERIFY_FAILED" :
                      !hostMatch ? `HOSTNAME_MISMATCH(${result.hostname} vs ${expectedHost})` :
-                     result.action !== expectedAction ? `ACTION_MISMATCH(${result.action})` :
+                     actionMismatch ? `ACTION_MISMATCH(${result.action})` :
                      "TOKEN_EXPIRED";
       return errorResponse(400, "CAPTCHA_REQUIRED", `보안 확인에 실패했습니다 (${reason}). 다시 시도해 주세요.`);
     }
 
-    const replayError = await enforceDatabaseRateLimit(context, "turnstile-token", token, 1, 600);
-    if (replayError) {
-      if (replayError.status === 429) {
-        return errorResponse(400, "CAPTCHA_REQUIRED", "이미 사용했거나 만료된 보안 확인입니다. 다시 시도해 주세요.");
+    if (!isServerTestMode) {
+      const replayError = await enforceDatabaseRateLimit(context, "turnstile-token", token, 1, 600);
+      if (replayError) {
+        if (replayError.status === 429) {
+          return errorResponse(400, "CAPTCHA_REQUIRED", "이미 사용했거나 만료된 보안 확인입니다. 다시 시도해 주세요.");
+        }
+        return replayError;
       }
-      return replayError;
     }
     return null;
   } catch {

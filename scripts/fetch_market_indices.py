@@ -30,14 +30,25 @@ KRX_INDEX_URLS = {
     "KOSDAQ": "https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd",
 }
 
+# 네이버 증권 공식 일별 시세 SSOT (원자재 및 환율)
+NAVER_COMMODITY_FX_CONFIG = {
+    "WTI 원유": {"category": "energy", "reutersCode": "CLcv1", "code": "CLF"},
+    "금 선물": {"category": "metals", "reutersCode": "GCcv1", "code": "GC"},
+    "은 선물": {"category": "metals", "reutersCode": "SIcv1", "code": "SI"},
+    "원/달러": {"category": "exchange", "reutersCode": "FX_USDKRW", "code": "USDKRW"},
+}
+
+# 네이버 증권 공식 국채 금리 SSOT (10년물)
+NAVER_BOND_CONFIG = {
+    "국채 10년": {"reutersCode": "KR10YT=RR", "code": "KR10Y"},
+    "미 국채 10년물": {"reutersCode": "US10YT=RR", "code": "DGS10"},
+}
+
+# 미국 정규 주가지수 및 변동성 (Yahoo Finance 공식 정규장 종가)
 US_TICKERS = {
     "S&P 500": "^GSPC",
     "나스닥": "^IXIC",
-    "미 국채 10년물": "^TNX",
     "VIX": "^VIX",
-    "WTI 원유": "CL=F",
-    "금 선물": "GC=F",
-    "은 선물": "SI=F",
 }
 
 US_MARKET_HOLIDAYS_2026 = {
@@ -70,6 +81,13 @@ ALL_REQUIRED_LABELS = [
 
 
 def get_target_date() -> str:
+    for arg in sys.argv[1:]:
+        if arg.startswith("--target-date="):
+            raw = arg.split("=", 1)[1].strip().replace("-", "")
+            if len(raw) == 8 and raw.isdigit():
+                return raw
+        elif len(arg.replace("-", "")) == 8 and arg.replace("-", "").isdigit():
+            return arg.replace("-", "")
     try:
         with open("data/etf_master_draft.csv", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
@@ -148,25 +166,6 @@ def get_krx_auth_key() -> str | None:
                     return val
     return None
 
-def get_ecos_api_key() -> str | None:
-    key = os.environ.get("ECOS_API_KEY")
-    if key and key.strip():
-        return key.strip().lstrip("\ufeff")
-    dev_vars = Path(".dev.vars")
-    if dev_vars.exists():
-        for line in dev_vars.read_text(encoding="utf-8").splitlines():
-            if line.startswith("ECOS_API_KEY="):
-                val = line.split("=", 1)[1].strip().lstrip("\ufeff")
-                if val:
-                    return val
-    ecos_file = Path("ecos_key.txt")
-    if ecos_file.exists():
-        for line in ecos_file.read_text(encoding="utf-8").splitlines():
-            line = line.strip().lstrip("\ufeff")
-            if line and not line.startswith("#"):
-                return line
-    return None
-
 def fetch_krx_vkospi(auth_key: str, as_of_date: str, retries: int = 3) -> dict | None:
     query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
     url = f"https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?{query}"
@@ -204,101 +203,86 @@ def fetch_krx_vkospi(auth_key: str, as_of_date: str, retries: int = 3) -> dict |
                 logging.error(f"KRX VKOSPI API failed after {retries} attempts: {error}")
                 return None
 
-def fetch_ecos_kr10y(api_key: str, target_date_str: str, retries: int = 3) -> dict | None:
-    """한국은행 ECOS Open API를 통해 대한민국 국고채 10년물 금리를 수집합니다."""
-    target_date = datetime.strptime(target_date_str, "%Y%m%d")
-    start_date = (target_date - timedelta(days=20)).strftime("%Y%m%d")
-    end_date = target_date.strftime("%Y%m%d")
-    url = f"https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/30/817Y002/D/{start_date}/{end_date}/010210000"
 
-    req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0"})
+def fetch_naver_market_index(category: str, reuters_code: str, iso_target: str, retries: int = 3) -> dict | None:
+    """네이버 증권 공식 일별 시세 API를 통해 정규장 마감 종가를 수집합니다 (전산 틱 및 차근월물 왜곡 원천 차단)."""
+    url = f"https://m.stock.naver.com/front-api/marketIndex/prices?category={category}&reutersCode={reuters_code}&page=1&pageSize=30"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "application/json",
+    }
     for attempt in range(1, retries + 1):
         try:
-            with urllib.request.urlopen(req, timeout=25) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-
-            rows = payload.get("StatisticSearch", {}).get("row", [])
-            if not rows:
-                logging.warning(f"ECOS returned no rows for 국고채(10년) between {start_date} and {end_date}")
-                return None
-
-            valid_rows = [r for r in rows if r.get("TIME") and r.get("DATA_VALUE") and r.get("TIME") <= target_date_str]
-            if not valid_rows:
-                logging.warning(f"No valid ECOS rows found up to {target_date_str}")
-                return None
-
-            latest_row = valid_rows[-1]
-            price = float(latest_row["DATA_VALUE"])
-
-            change_points = 0.0
-            if len(valid_rows) >= 2:
-                prev_row = valid_rows[-2]
-                prev_price = float(prev_row["DATA_VALUE"])
-                change_points = round(price - prev_price, 3)
-
-            return {
-                "label": "국채 10년",
-                "code": "KR10Y",
-                "value": price,
-                "change": change_points,
-                "changePoints": change_points,
-                "as_of_date": iso_date(latest_row["TIME"]),
-            }
-        except Exception as error:
-            if attempt < retries:
-                logging.warning(f"ECOS KR10Y attempt {attempt} failed ({error}). Retrying...")
-                time.sleep(attempt * 1.5)
-            else:
-                logging.error(f"ECOS KR10Y fetch failed after {retries} attempts: {error}")
-                return None
-
-def fetch_ecos_usdkrw(api_key: str, target_date_str: str, retries: int = 3) -> dict | None:
-    """한국은행 ECOS Open API를 통해 원/달러 공식 매매기준율을 수집합니다."""
-    target_date = datetime.strptime(target_date_str, "%Y%m%d")
-    start_date = (target_date - timedelta(days=20)).strftime("%Y%m%d")
-    end_date = target_date.strftime("%Y%m%d")
-    url = f"https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/30/731Y001/D/{start_date}/{end_date}/0000001"
-
-    req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0"})
-    for attempt in range(1, retries + 1):
-        try:
-            with urllib.request.urlopen(req, timeout=25) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-
-            rows = payload.get("StatisticSearch", {}).get("row", [])
-            if not rows:
-                return None
-
-            valid_rows = [r for r in rows if r.get("TIME") and r.get("DATA_VALUE") and r.get("TIME") <= target_date_str]
-            if not valid_rows:
-                return None
-
-            latest_row = valid_rows[-1]
-            price = float(latest_row["DATA_VALUE"])
-
-            change_pct = 0.0
-            change_points = 0.0
-            if len(valid_rows) >= 2:
-                prev_row = valid_rows[-2]
-                prev_price = float(prev_row["DATA_VALUE"])
-                change_points = round(price - prev_price, 2)
-                change_pct = round((price - prev_price) / prev_price * 100, 2)
-
-            return {
-                "label": "원/달러",
-                "code": "KRW=X",
-                "value": price,
-                "change": change_pct,
-                "changePoints": change_points,
-                "as_of_date": iso_date(latest_row["TIME"]),
-                "is_closed": False,
-            }
-        except Exception as error:
+            resp = requests.get(url, headers=headers, timeout=15)
+            resp.raise_for_status()
+            data = resp.json()
+            items = data.get("result", [])
+            for item in items:
+                actual_date = str(item.get("localTradedAt", ""))[:10]
+                if actual_date <= iso_target:
+                    close_price = compact_number(item.get("closePrice"))
+                    change_pct = compact_number(item.get("fluctuationsRatio"))
+                    change_pts = compact_number(item.get("fluctuations"))
+                    if close_price <= 0:
+                        logging.error(f"[CLOSING_PRICE GATE] Invalid non-positive closing price ({close_price}) for {reuters_code}")
+                        return None
+                    is_us_holiday = iso_target in US_MARKET_HOLIDAYS_2026 if category in ("energy", "metals") else False
+                    is_closed = is_us_holiday or (actual_date < iso_target)
+                    return {
+                        "value": close_price,
+                        "change": change_pct,
+                        "changePoints": change_pts,
+                        "as_of_date": actual_date,
+                        "is_closed": is_closed,
+                    }
+            logging.warning(f"No Naver market index found on or before {iso_target} for {reuters_code}")
+            return None
+        except Exception as e:
             if attempt < retries:
                 time.sleep(attempt * 1.5)
             else:
-                logging.warning(f"ECOS USD/KRW fetch failed after {retries} attempts: {error}")
+                logging.error(f"Failed to fetch Naver index {reuters_code} after {retries} attempts: {e}")
                 return None
+
+
+def fetch_naver_bond(reuters_code: str, iso_target: str, retries: int = 3) -> dict | None:
+    """네이버 증권 공식 국채 금리 API를 통해 10년물 정규 마감 수익률을 수집합니다."""
+    # 1. 당일 실시간/마감 직후 다이렉트 엔드포인트 조회
+    direct_url = f"https://api.stock.naver.com/marketindex/bond/{reuters_code}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "application/json",
+    }
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(direct_url, headers=headers, timeout=12)
+            if resp.status_code == 200:
+                data = resp.json()
+                actual_date = str(data.get("localTradedAt", ""))[:10]
+                if actual_date == iso_target:
+                    close_price = compact_number(data.get("closePrice"))
+                    fluc = compact_number(data.get("fluctuations"))
+                    if close_price > 0:
+                        return {
+                            "value": close_price,
+                            "change": fluc,
+                            "changePoints": fluc,
+                            "as_of_date": actual_date,
+                            "is_closed": False,
+                        }
+            break
+        except Exception as e:
+            if attempt == retries:
+                logging.warning(f"Direct bond API failed for {reuters_code}: {e}")
+            time.sleep(attempt * 1.0)
+
+    # 2. 일별 시세 API (과거일 조회 및 Fallback)
+    prices_data = fetch_naver_market_index("bond", reuters_code, iso_target, retries=retries)
+    if prices_data:
+        prices_data["change"] = prices_data["changePoints"]
+        return prices_data
+    return None
+
 
 def fetch_index_data(ticker_symbol: str, target_date_str: str, retries: int = 3) -> dict | None:
     target_date = datetime.strptime(target_date_str, "%Y%m%d")
@@ -313,8 +297,7 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str, retries: int = 3)
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     }
 
-    is_kr_fx = ticker_symbol == "KRW=X"
-    tz = ZoneInfo("Asia/Seoul") if is_kr_fx else ZoneInfo("America/New_York")
+    tz = ZoneInfo("America/New_York")
 
     for attempt in range(1, retries + 1):
         try:
@@ -355,22 +338,14 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str, retries: int = 3)
             if price is None or prev_close is None:
                 return None
 
-            if ticker_symbol == "^TNX":
-                change_val = round(price - prev_close, 3)
-                change_points = round(price - prev_close, 3)
-            else:
-                change_val = round(((price - prev_close) / prev_close) * 100, 2)
-                change_points = round(price - prev_close, 2)
+            change_val = round(((price - prev_close) / prev_close) * 100, 2)
+            change_points = round(price - prev_close, 2)
 
             iso_target = f"{target_date_str[:4]}-{target_date_str[4:6]}-{target_date_str[6:8]}"
-
-            if is_kr_fx:
-                is_closed = bool(target_date_actual) and target_date_actual < iso_target
-            else:
-                is_closed = (
-                    iso_target in US_MARKET_HOLIDAYS_2026
-                    or (bool(target_date_actual) and target_date_actual < iso_target)
-                )
+            is_closed = (
+                iso_target in US_MARKET_HOLIDAYS_2026
+                or (bool(target_date_actual) and target_date_actual < iso_target)
+            )
 
             return {
                 "value": round(price, 2),
@@ -421,7 +396,6 @@ def main():
     iso_target = iso_date(target_date_str)
 
     krx_auth_key = get_krx_auth_key()
-    ecos_api_key = get_ecos_api_key()
 
     # Load existing indices snapshot for fallback and duplicate checking
     out_path = Path("data/market_indices.json")
@@ -478,56 +452,75 @@ def main():
             else:
                 failed_labels.append(label)
 
-    # 2. ECOS 대한민국 국고채 10년물
-    if ecos_api_key:
-        logging.info("Fetching 국고채 10년 (KR10Y) from ECOS...")
-        kr10y_data = fetch_ecos_kr10y(ecos_api_key, target_date_str)
-        if kr10y_data:
-            results.append(kr10y_data)
-        elif "국채 10년" in old_map:
-            fb = dict(old_map["국채 10년"])
-            fb["is_stale"] = True
-            results.append(fb)
-            logging.warning("Recovered 국채 10년 from previous snapshot fallback.")
-        else:
-            failed_labels.append("국채 10년")
+    # 2. 국내 국채 10년물 (네이버 증권 공식 마감 종가 SSOT)
+    logging.info("Fetching 국채 10년 (KR10YT=RR) from Naver...")
+    kr10y_data = fetch_naver_bond("KR10YT=RR", iso_target)
+    if kr10y_data:
+        kr10y_data["label"] = "국채 10년"
+        kr10y_data["code"] = "KR10Y"
+        results.append(kr10y_data)
+    elif "국채 10년" in old_map:
+        fb = dict(old_map["국채 10년"])
+        fb["is_stale"] = True
+        results.append(fb)
+        logging.warning("Recovered 국채 10년 from previous snapshot fallback.")
     else:
-        logging.warning("ECOS_API_KEY not found.")
-        if "국채 10년" in old_map:
-            fb = dict(old_map["국채 10년"])
-            fb["is_stale"] = True
-            results.append(fb)
-            logging.warning("Recovered 국채 10년 from previous snapshot fallback.")
-        else:
-            failed_labels.append("국채 10년")
+        failed_labels.append("국채 10년")
 
-    # 3. 원/달러 (1차: ECOS 공인 매매기준율, 2차: Yahoo Finance, 3차: 이전 스냅샷 Fallback)
-    usdkrw_data = None
-    if ecos_api_key:
-        logging.info("Fetching 원/달러 (USD/KRW) official rate from ECOS...")
-        usdkrw_data = fetch_ecos_usdkrw(ecos_api_key, target_date_str)
-
-    if not usdkrw_data:
-        logging.info("Fetching 원/달러 (KRW=X) fallback from Yahoo Finance...")
-        usdkrw_data = fetch_index_data("KRW=X", target_date_str)
-        if usdkrw_data:
-            usdkrw_data["label"] = "원/달러"
-            usdkrw_data["code"] = normalize_index_code("KRW=X")
-            usdkrw_data["source_symbol"] = "KRW=X"
-
+    # 3. 원/달러 (네이버 증권 공식 일별 마감 SSOT)
+    logging.info("Fetching 원/달러 (USD/KRW) official rate from Naver...")
+    usdkrw_data = fetch_naver_market_index("exchange", "FX_USDKRW", iso_target)
     if usdkrw_data:
-        usdkrw_data["code"] = normalize_index_code(usdkrw_data.get("code") or "USDKRW")
+        usdkrw_data["label"] = "원/달러"
+        usdkrw_data["code"] = "USDKRW"
         results.append(usdkrw_data)
     elif "원/달러" in old_map:
         fb = dict(old_map["원/달러"])
-        fb["code"] = normalize_index_code(fb.get("code") or "USDKRW")
+        fb["code"] = "USDKRW"
         fb["is_stale"] = True
         results.append(fb)
         logging.warning("Recovered 원/달러 from previous snapshot fallback.")
     else:
         failed_labels.append("원/달러")
 
-    # 4. 글로벌/미국 지표 (Yahoo Finance)
+    # 4. 원자재 공식 일별 시세 (WTI 원유, 금 선물, 은 선물 - 네이버 증권 SSOT)
+    for label, cfg in NAVER_COMMODITY_FX_CONFIG.items():
+        if label == "원/달러":
+            continue  # 이미 처리됨
+        logging.info(f"Fetching {label} ({cfg['reutersCode']}) from Naver...")
+        data = fetch_naver_market_index(cfg["category"], cfg["reutersCode"], iso_target)
+        if data:
+            data["label"] = label
+            data["code"] = cfg["code"]
+            data["source_symbol"] = cfg["reutersCode"]
+            results.append(data)
+        elif label in old_map:
+            fb = dict(old_map[label])
+            fb["code"] = cfg["code"]
+            fb["is_stale"] = True
+            results.append(fb)
+            logging.warning(f"Recovered {label} from previous snapshot fallback.")
+        else:
+            failed_labels.append(label)
+
+    # 5. 미국 국채 10년물 (네이버 증권 공식 마감 종가 SSOT)
+    logging.info("Fetching 미 국채 10년물 (US10YT=RR) from Naver...")
+    us10y_data = fetch_naver_bond("US10YT=RR", iso_target)
+    if us10y_data:
+        us10y_data["label"] = "미 국채 10년물"
+        us10y_data["code"] = "DGS10"
+        us10y_data["source_symbol"] = "US10YT=RR"
+        results.append(us10y_data)
+    elif "미 국채 10년물" in old_map:
+        fb = dict(old_map["미 국채 10년물"])
+        fb["code"] = "DGS10"
+        fb["is_stale"] = True
+        results.append(fb)
+        logging.warning("Recovered 미 국채 10년물 from previous snapshot fallback.")
+    else:
+        failed_labels.append("미 국채 10년물")
+
+    # 6. 미국 정규 주가지수 및 변동성 (S&P 500, 나스닥, VIX - Yahoo Finance 정규장 종가)
     for label, symbol in US_TICKERS.items():
         logging.info(f"Fetching data for {label} ({symbol}) from Yahoo...")
         data = fetch_index_data(symbol, target_date_str)

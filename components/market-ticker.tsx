@@ -3,8 +3,7 @@
 /**
  * MarketTicker – 헤더 최상단에 표시되는 글로벌 시장 지표 띠.
  *
- * 현재는 정적 더미 데이터를 사용합니다.
- * 추후 Yahoo Finance 등 외부 API → D1 → API Route 경로로 교체 예정.
+ * 공식 일별 마감 종가 SSOT(data/market_indices.json)를 참조하여 렌더링합니다.
  */
 
 import indicesData from "@/data/market_indices.json";

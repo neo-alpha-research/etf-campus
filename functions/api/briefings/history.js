@@ -26,6 +26,9 @@ function toHistoryItem(row) {
     top100AumWeightedReturnPct: row.top100_aum_weighted_return_pct,
     breadthRatioPct: row.breadth_ratio_pct,
     generalEtfCount: row.general_etf_count,
+    upCount: row.up_count,
+    flatCount: row.flat_count,
+    downCount: row.down_count,
   };
 }
 
@@ -50,7 +53,8 @@ export async function onRequestGet(context) {
       `SELECT
         as_of_date, publication_version, published_at, headline_text,
         market_temperature, general_aum_weighted_return_pct,
-        top100_aum_weighted_return_pct, breadth_ratio_pct, general_etf_count
+        top100_aum_weighted_return_pct, breadth_ratio_pct, general_etf_count,
+        up_count, flat_count, down_count
       FROM market_briefings
       WHERE as_of_date >= ?
         AND (? IS NULL OR as_of_date < ?)

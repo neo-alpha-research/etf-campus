@@ -167,6 +167,8 @@ export function validateWithdrawalDisposition(value: unknown): "anonymize" | "de
 
 export const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "db", "both", "unknown", "none"] as const;
 export const AGE_BANDS = ["20s", "30s", "40s", "50s", "60s_plus"] as const;
+export const CURRENT_TERMS_VERSION = "v2026-08-24" as const;
+export const SUPPORTED_TERMS_VERSIONS = [CURRENT_TERMS_VERSION] as const;
 
 export function validateSignupInput(payload: unknown) {
   if (!payload || typeof payload !== "object") throw new CommunityValidationError("가입 입력값이 올바르지 않습니다.");
@@ -180,6 +182,9 @@ export function validateSignupInput(payload: unknown) {
   
   const agreedToMarketing = input.agreedToMarketing === true;
   const termsVersion = plainText(input.termsVersion, "약관 버전", 1, 80);
+  if (termsVersion !== CURRENT_TERMS_VERSION) {
+    throw new CommunityValidationError("유효한 약관 버전이 아닙니다.");
+  }
   
   const utmSource = input.utmSource ? String(input.utmSource) : "direct";
   const utmMedium = input.utmMedium ? String(input.utmMedium) : null;

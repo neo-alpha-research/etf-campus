@@ -41,6 +41,7 @@ function needsAuthentication(normalizedPath, method) {
   if (PUBLIC_AUTH_PATHS.has(normalizedPath) || isOAuthPath(normalizedPath)) return false;
   if (normalizedPath === "/api/community/posts" && method === "GET") return false;
   if (method === "GET" && /^\/api\/community\/posts\/[0-9a-f-]+(?:\/comments)?$/i.test(normalizedPath)) return false;
+  if (normalizedPath === "/api/community/admin/members" && method === "GET") return false;
   return true;
 }
 

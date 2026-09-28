@@ -173,7 +173,8 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
       expect(screen.getByText("이용약관 동의")).toBeInTheDocument();
       expect(screen.getByText("기존 회원")).toBeInTheDocument();
       expect(screen.getByText("기존연구원")).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeInTheDocument();
+      expect(screen.queryByText("회원 정보를 확인하고 있습니다...")).not.toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeEnabled();
     }, { timeout: 4000 });
 
     // 약관 체크박스 선택
@@ -315,8 +316,10 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeInTheDocument();
-    });
+      expect(screen.getByText("이용약관 동의")).toBeInTheDocument();
+      expect(screen.queryByText("회원 정보를 확인하고 있습니다...")).not.toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeEnabled();
+    }, { timeout: 4000 });
 
     // 필수 약관 체크박스 및 선택 마케팅 동의 체크박스 직접 조작
     fireEvent.click(screen.getByLabelText(/만 14세 이상입니다/));

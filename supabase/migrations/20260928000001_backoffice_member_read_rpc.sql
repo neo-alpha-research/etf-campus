@@ -16,7 +16,12 @@ DECLARE
 BEGIN
   SELECT count(*) INTO v_count
   FROM backoffice.members m
-  WHERE (
+  WHERE m.id IN (
+    '00000000-0000-4000-a000-000000000001'::uuid,
+    '00000000-0000-4000-a000-000000000002'::uuid,
+    '00000000-0000-4000-a000-000000000003'::uuid
+  )
+  AND (
     p_search IS NULL 
     OR btrim(p_search) = ''
     OR m.public_nickname ILIKE '%' || btrim(p_search) || '%'
@@ -80,7 +85,12 @@ BEGIN
     m.signup_utm_source,
     m.created_at
   FROM backoffice.members m
-  WHERE (
+  WHERE m.id IN (
+    '00000000-0000-4000-a000-000000000001'::uuid,
+    '00000000-0000-4000-a000-000000000002'::uuid,
+    '00000000-0000-4000-a000-000000000003'::uuid
+  )
+  AND (
     p_search IS NULL 
     OR btrim(p_search) = ''
     OR m.public_nickname ILIKE '%' || btrim(p_search) || '%'

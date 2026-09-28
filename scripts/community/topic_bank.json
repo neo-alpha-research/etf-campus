@@ -154,7 +154,8 @@
         "글로벌",
         "이머징"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-29"
     },
     {
       "id": "sca-010",
@@ -921,7 +922,8 @@
         "매칭",
         "추가납입"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-29"
     },
     {
       "id": "sp-030",
@@ -1307,7 +1309,8 @@
         "외화계좌",
         "환전"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-29"
     },
     {
       "id": "qna-029",

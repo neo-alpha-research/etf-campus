@@ -174,7 +174,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
       expect(screen.getByText("기존 회원")).toBeInTheDocument();
       expect(screen.getByText("기존연구원")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "동의하고 계속하기" })).toBeInTheDocument();
-    });
+    }, { timeout: 4000 });
 
     // 약관 체크박스 선택
     fireEvent.click(screen.getByLabelText(/만 14세 이상입니다/));

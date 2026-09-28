@@ -73,6 +73,7 @@
                 "totalRecordsCount": "{{FetchMembersAndKPI.data?.pagination?.total ?? 0}}",
                 "onPageChange": "{{FetchMembersAndKPI.run()}}",
                 "onPageSizeChange": "{{FetchMembersAndKPI.run()}}",
+                "onRowSelected": "{{showModal('MemberDetailModal')}}",
                 "primaryColumns": {
                   "public_nickname": { "label": "닉네임" },
                   "email_masked": { "label": "이메일(마스킹)" },
@@ -98,7 +99,7 @@
                   "interest_account_type": "{{TableMembers.selectedRow?.interest_account_type ?? '확인 불가'}}",
                   "terms_version": "{{TableMembers.selectedRow?.terms_version ?? '확인 불가'}}",
                   "terms_consented_at": "{{TableMembers.selectedRow?.terms_consented_at ?? '확인 불가'}}",
-                  "marketing_consent": "{{TableMembers.selectedRow?.marketing_consent ? '동의' : '미동의'}}",
+                  "marketing_consent": "{{TableMembers.selectedRow?.marketing_consent === true ? '동의' : (TableMembers.selectedRow?.marketing_consent === false ? '미동의' : '확인 불가')}}",
                   "marketing_consent_at": "{{TableMembers.selectedRow?.marketing_consent_at ?? '확인 불가'}}",
                   "utm_source": "{{TableMembers.selectedRow?.signup_utm_source || '미기록'}}",
                   "utm_medium": "{{TableMembers.selectedRow?.signup_utm_medium ?? '-'}}",

@@ -229,10 +229,65 @@ describe("GET /api/community/admin/members - 운영 및 프리뷰 백오피스 �
 
     const body = await res.json();
     expect(body.stats).toEqual({
+      status: "OK",
       total_members: 10,
       today_signups: 2,
       marketing_consent_count: 7,
       marketing_consent_rate: 70.0,
+    });
+  });
+
+  it("유효하지 않은 역할(role) 필터 전달 시 400 VALIDATION_ERROR를 반환한다", async () => {
+    const ctx = makeContext({
+      url: "https://etf-campus.pages.dev/api/community/admin/members?role=superman",
+      authorization: `Bearer ${VALID_SECRET}`,
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error.code).toBe("VALIDATION_ERROR");
+    expect(body.error.message).toContain("유효하지 않은 역할(role) 필터");
+  });
+
+  it("유효하지 않은 상태(status) 필터 전달 시 400 VALIDATION_ERROR를 반환한다", async () => {
+    const ctx = makeContext({
+      url: "https://etf-campus.pages.dev/api/community/admin/members?status=deleted",
+      authorization: `Bearer ${VALID_SECRET}`,
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error.code).toBe("VALIDATION_ERROR");
+    expect(body.error.message).toContain("유효하지 않은 상태(status) 필터");
+  });
+
+  it("stats 조회 실패 시 stats.status: 'ERROR'와 null 값을 반환하여 0명으로 왜곡하지 않는다", async () => {
+    mocks.rpc.mockImplementation((name: string) => {
+      if (name === "count_backoffice_members") return Promise.resolve({ data: 5, error: null });
+      if (name === "get_backoffice_members") return Promise.resolve({ data: [], error: null });
+      if (name === "get_backoffice_member_stats") {
+        return Promise.resolve({
+          data: null,
+          error: { message: "stats rpc timeout" },
+        });
+      }
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    const ctx = makeContext({
+      url: "https://etf-campus.pages.dev/api/community/admin/members?stats=true",
+      authorization: `Bearer ${VALID_SECRET}`,
+    });
+    const res = await onRequestGet(ctx as unknown as Parameters<typeof onRequestGet>[0]);
+    expect(res.status).toBe(200);
+
+    const body = await res.json();
+    expect(body.stats).toEqual({
+      status: "ERROR",
+      total_members: null,
+      today_signups: null,
+      marketing_consent_count: null,
+      marketing_consent_rate: null,
     });
   });
 

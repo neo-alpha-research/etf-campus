@@ -1,5 +1,7 @@
--- Migration: 20260928000002_backoffice_member_ops_read_rpcs.sql
--- Description: Universal Operational Read-Only RPCs for Backoffice Member Management (Production & Preview)
+-- Migration: 20260928000001_backoffice_member_ops_read_rpcs.sql
+-- Description: Universal Operational Read-Only RPCs for Backoffice Member Management
+-- Target Database: Production DB (uetzvsfqnydzdvnpytus)
+-- WARNING: DO NOT apply to Preview DB (vdjyuqtcqhchopbrhexd) where the 3 synthetic user whitelist must remain locked.
 -- Exposes masked members view, server-side pagination, search, and KPI statistics.
 -- Grants execute ONLY to service_role (Least Privilege). Revokes ALL from PUBLIC, anon, authenticated.
 

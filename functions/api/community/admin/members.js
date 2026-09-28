@@ -60,8 +60,16 @@ export async function onRequestGet(context) {
     return errorResponse(400, "VALIDATION_ERROR", `페이지 번호는 최대 ${MAX_PAGE}까지 허용됩니다.`);
   }
 
-  const rawRole = rawRoleParam && VALID_ROLES.has(rawRoleParam) ? rawRoleParam : null;
-  const rawStatus = rawStatusParam && VALID_STATUSES.has(rawStatusParam) ? rawStatusParam : null;
+  if (rawRoleParam && !VALID_ROLES.has(rawRoleParam)) {
+    return errorResponse(400, "VALIDATION_ERROR", `유효하지 않은 역할(role) 필터입니다: ${rawRoleParam}`);
+  }
+
+  if (rawStatusParam && !VALID_STATUSES.has(rawStatusParam)) {
+    return errorResponse(400, "VALIDATION_ERROR", `유효하지 않은 상태(status) 필터입니다: ${rawStatusParam}`);
+  }
+
+  const rawRole = rawRoleParam || null;
+  const rawStatus = rawStatusParam || null;
 
   const limit = Math.min(Math.max(Number.isFinite(rawLimit) ? rawLimit : DEFAULT_LIMIT, 1), MAX_LIMIT);
   const page = Math.max(Number.isFinite(rawPage) ? rawPage : 1, 1);
@@ -145,14 +153,25 @@ export async function onRequestGet(context) {
     }
 
     let stats = null;
-    if (includeStats && statsResult && !statsResult.error && Array.isArray(statsResult.data) && statsResult.data.length > 0) {
-      const s = statsResult.data[0];
-      stats = {
-        total_members: Number(s.total_members ?? 0),
-        today_signups: Number(s.today_signups ?? 0),
-        marketing_consent_count: Number(s.marketing_consent_count ?? 0),
-        marketing_consent_rate: Number(s.marketing_consent_rate ?? 0.0),
-      };
+    if (includeStats) {
+      if (!statsResult || statsResult.error || !Array.isArray(statsResult.data) || statsResult.data.length === 0) {
+        stats = {
+          status: "ERROR",
+          total_members: null,
+          today_signups: null,
+          marketing_consent_count: null,
+          marketing_consent_rate: null,
+        };
+      } else {
+        const s = statsResult.data[0];
+        stats = {
+          status: "OK",
+          total_members: s.total_members !== null && typeof s.total_members !== "undefined" ? Number(s.total_members) : null,
+          today_signups: s.today_signups !== null && typeof s.today_signups !== "undefined" ? Number(s.today_signups) : null,
+          marketing_consent_count: s.marketing_consent_count !== null && typeof s.marketing_consent_count !== "undefined" ? Number(s.marketing_consent_count) : null,
+          marketing_consent_rate: s.marketing_consent_rate !== null && typeof s.marketing_consent_rate !== "undefined" ? Number(s.marketing_consent_rate) : null,
+        };
+      }
     }
 
     const responsePayload = {

@@ -76,8 +76,9 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     expect(post).not.toContain("1번:");
     expect(post).not.toContain("2번:");
     expect(post).not.toContain("댓글에 1");
-    expect(post).toContain("장기 적립 관점");
-    expect(post).toContain("다들은");
+    expect(post).not.toContain("다들은");
+    expect(post).toContain("다들");
+    expect(post).toContain("연금 계좌");
   });
 
   it("6. 본문 텍스트 내 괄호 및 유니코드 이모지가 없어야 한다", () => {

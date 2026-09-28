@@ -153,8 +153,8 @@ export function generateThreadsThread(
     ? "3. 기관과 외인은 채권 및 대표 지수형 ETF로 자금을 집중했어."
     : "3. 주요 섹터 및 안전자산 ETF로 실질 자금 유출입이 이어졌어.";
 
-  // 5. [마감 CTA] 3층 구조 고밀도 2줄 단문 (기계적 1 vs 2 투표 배제)
-  const ctaLine = `장기 적립 관점과 단기 모멘텀 관점의 해석이 엇갈리는 구간이야.\n다들은 이번 주 수급 흐름을 어떻게 보고 있어?`;
+  // 5. [마감 CTA] 3층 구조 고밀도 2줄 단문 (기계적 1 vs 2 투표 배제 및 섹터 로테이션 관점 질문)
+  const ctaLine = `기술주 차익 실현과 배당·채권형으로의 자금 이동이 뚜렷하게 갈리고 있어.\n다들 이번 주 연금 계좌에서 섹터 비중을 조절하고 있어?`;
 
   // 6. [법정 출처 및 단일 니치 태그]
   const sourceNotice = `* 기준: ${dateStr} 한국거래소 KRX 공시 · 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;

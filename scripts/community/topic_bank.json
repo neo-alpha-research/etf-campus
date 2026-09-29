@@ -289,7 +289,8 @@
         "CD금리",
         "IRP안전자산"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-30"
     },
     {
       "id": "sca-019",
@@ -2078,7 +2079,8 @@
         "자동화투자",
         "DCA"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-30"
     },
     {
       "id": "sp-049",
@@ -2386,7 +2388,8 @@
         "KODEX",
         "TIGER"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-30"
     },
     {
       "id": "qna-039",

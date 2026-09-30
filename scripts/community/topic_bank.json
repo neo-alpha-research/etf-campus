@@ -422,7 +422,8 @@
         "신흥국채",
         "채권분산"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-01"
     },
     {
       "id": "sca-028",
@@ -567,7 +568,8 @@
         "채권ETF",
         "타이밍"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-01"
     },
     {
       "id": "sp-007",
@@ -1190,7 +1192,8 @@
         "MTS",
         "매매비용"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-01"
     },
     {
       "id": "qna-020",

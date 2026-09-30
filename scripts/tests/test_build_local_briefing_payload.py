@@ -13,7 +13,7 @@ from scripts.build_local_briefing_payload import build_briefing_payload
 class TestBuildLocalBriefingPayload(unittest.TestCase):
     def setUp(self):
         self.data_dir = Path("data")
-        self.payload_dict = build_briefing_payload(self.data_dir, target_date="2026-09-17")
+        self.payload_dict = build_briefing_payload(self.data_dir)
         self.briefing = self.payload_dict.get("briefing") or self.payload_dict
 
     def test_commodity_peer_groups_include_energy(self):

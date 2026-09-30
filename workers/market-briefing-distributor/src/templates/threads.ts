@@ -1,5 +1,5 @@
 import type { MarketBriefingPayload } from "../types";
-import type { MarketRegime } from "../services/market-regime";
+import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
 import type { PolishedNarrative } from "../services/gemini";
 import { fitAndClampText } from "./instagram";
 
@@ -135,32 +135,73 @@ export function generateThreadsThread(
     flowRow = `순유입 1위: ${n1} ${s1}`;
   }
 
-  // 4. [분석 불릿 3개] 40~48자 단문 규격 (섹션 간 공백 1행 의무)
+  // 4. [분석 불릿 3개] 40~48자 단문 규격 (전문가 명사형 종결 및 1행 1완결)
   const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
   const themeGap = Math.abs(topThemeRet - botThemeRet).toFixed(1);
 
-  const bullet1 = (kospi >= 0 && etfReturn >= 0)
-    ? "1. 코스피와 일반 ETF가 동반 상승하며 견조한 반등을 기록했어."
-    : (kospi < 0 && etfReturn > kospi)
-    ? "1. 코스피 대비 일반 ETF 수익률이 선방하며 지수 방어력을 보였어."
-    : "1. 시장 변동성 확대 속 주요 대표 지수군이 단기 조정을 거쳤어.";
+  let bullet1 = "1. 시장 변동성 확대 속 주요 대표 지수군 단기 조정 기록.";
+  if (kospi >= 0 && etfReturn >= 0) {
+    bullet1 = "1. 코스피와 일반 ETF 동반 상승하며 견조한 반등세 기록.";
+  } else if (kospi < 0 && etfReturn > kospi) {
+    bullet1 = "1. 코스피 하락 속 일반 ETF 가중수익률 선방하며 지수 방어력 발휘.";
+  } else if (kospi >= 0 && etfReturn < 0) {
+    bullet1 = "1. 대형주 중심 코스피 반등 대비 개별 테마 ETF는 차별화 장세 전개.";
+  } else {
+    bullet1 = "1. 지수 하락 충격이 전방위 ETF 시장으로 확산되며 조정 장세 기록.";
+  }
 
-  const bullet2 = topTheme
-    ? `2. 주도 테마와 하위 테마 간 수익률 격차는 ${themeGap}%p까지 벌어졌어.`
-    : "2. 업종별 자금 순환매가 빠르게 이어지며 테마별 편차가 지속됐어.";
+  const gapNum = Number(themeGap);
+  const gapDesc = gapNum >= 1.0 ? `${themeGap}%p까지 확대.` : `${themeGap}%p 수준으로 균형.`;
+  const bullet2 = (topTheme && bottomTheme && topTheme !== bottomTheme)
+    ? `2. 주도 테마와 하위 테마 간 수익률 격차는 ${gapDesc}`
+    : "2. 업종별 자금 순환매 빠르게 이어지며 테마별 편차 지속.";
 
-  const bullet3 = topInflows.length > 0
-    ? "3. 기관과 외인은 채권 및 대표 지수형 ETF로 자금을 집중했어."
-    : "3. 주요 섹터 및 안전자산 ETF로 실질 자금 유출입이 이어졌어.";
+  // 3번 불릿: 실제 상위 순유입 ETF 자산 성격 동적 판별 (Zero-Hallucination)
+  const allInflowItems = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
+  const flowText = allInflowItems.slice(0, 3).map((f: any) => `${f.name || f.etfName || ""} ${f.theme || ""}`).join(" ");
+  const hasBondFlow = /국채|미국채|채권|KOFR|SOFR|CD|금리|파킹|머니마켓|단기채/i.test(flowText);
+  const hasIndexFlow = /200|S&P|나스닥|다우|대표|코스피|시장/i.test(flowText);
+  const hasTechFlow = /반도체|AI|테크|빅테크|2차전지|로봇|바이오/i.test(flowText);
+  const hasDividendFlow = /배당|커버드콜|인컴|리츠/i.test(flowText);
 
-  // 5. [마감 CTA] 3층 구조 고밀도 2줄 단문 (기계적 1 vs 2 투표 배제 및 섹터 로테이션 관점 질문)
-  const ctaLine = `기술주 차익 실현과 배당·채권형으로의 자금 이동이 뚜렷하게 갈리고 있어.\n다들 이번 주 연금 계좌에서 섹터 비중을 조절하고 있어?`;
+  let flowTarget = "대표 지수 및 주도 테마 ETF";
+  if (hasTechFlow && hasIndexFlow) {
+    flowTarget = "AI반도체와 대표 지수형 ETF";
+  } else if (hasTechFlow && hasDividendFlow) {
+    flowTarget = "주도 기술주와 배당 인컴형 ETF";
+  } else if (hasBondFlow && hasIndexFlow) {
+    flowTarget = "안전자산 채권과 대표 지수형 ETF";
+  } else if (hasBondFlow) {
+    flowTarget = "초단기 채권 및 안전자산 ETF";
+  } else if (hasIndexFlow) {
+    flowTarget = "시장 대표 지수형 ETF";
+  } else if (hasTechFlow) {
+    flowTarget = "주도 기술주 및 혁신 테마 ETF";
+  } else if (hasDividendFlow) {
+    flowTarget = "고배당 및 월지급식 인컴 ETF";
+  } else if (allInflowItems[0]) {
+    const topEtf = cleanEtfName(allInflowItems[0].name || (allInflowItems[0] as any).etfName).slice(0, 8);
+    flowTarget = `${topEtf} 등 주요 ETF`;
+  }
 
-  // 6. [법정 출처 및 단일 니치 태그]
+  const bullet3 = allInflowItems.length > 0
+    ? `3. 기관 및 외국인은 ${flowTarget}로 실질 자금 집중.`
+    : "3. 주요 섹터 및 대표 지수형 ETF로 실질 자금 유출입 지속.";
+
+  // 5. [시장 관전 포인트] 전문가 정중한 설명체 (사족 질문 100% 완전 제거)
+  const regime = narrative || classifyMarketRegime(payload);
+  const rawWatchPoint = regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다.";
+  const cleanWatchPoint = rawWatchPoint
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
+    .replace(/\?[^\n]*/g, ".")
+    .trim();
+  const watchPointLine = `* 관전 포인트: ${cleanWatchPoint}`;
+
+  // 6. [법정 출처] (주제 태그는 스레드 전용 토픽 메타데이터로 분리하여 본문 중복 방지)
   const sourceNotice = `* 기준: ${dateStr} 한국거래소 KRX 공시 · 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
-  const topicTag = selectThreadsTopicTag();
 
-  // 조립: 섹션 간 공백 1행(\n\n) 유지 와이어프레임
+  // 조립: 섹션 간 공백 1행(\n\n) 유지 와이어프레임 (사족 질문 배제 및 모바일 고밀도 가독성)
   const mainPost = `${formattedDate} ETF 마켓 동향
 
 ${indexRow}
@@ -173,11 +214,9 @@ ${bullet2}
 
 ${bullet3}
 
-${ctaLine}
+${watchPointLine}
 
-${sourceNotice}
-
-${topicTag}`;
+${sourceNotice}`;
 
   return [
     { sequence: 1, content: mainPost.trim() }
@@ -324,7 +363,7 @@ export function generateThreadsImageSvg(
           <!-- Row 1: Badge & ETF Count -->
           <rect x="24" y="22" width="145" height="42" rx="12" fill="#FEE2E2"/>
           <text x="96" y="49" fill="#DC2626" font-size="22" font-weight="900" text-anchor="middle">▲ 상위 1위</text>
-          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${topTheme.etfCount || 5}개 ETF 구성</text>
+          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">${topTheme.etfCount ? `총 ${topTheme.etfCount}개 ETF 구성` : ""}</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
           <text x="24" y="126" fill="#0F172A" font-size="${fitAndClampText(cleanTopTheme, 550, 42, 28).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanTopTheme, 550, 42, 28).text)}</text>
@@ -338,7 +377,7 @@ export function generateThreadsImageSvg(
           <!-- Row 1: Badge & ETF Count -->
           <rect x="24" y="22" width="145" height="42" rx="12" fill="#DBEAFE"/>
           <text x="96" y="49" fill="#1D4ED8" font-size="22" font-weight="900" text-anchor="middle">▼ 하위 1위</text>
-          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${bottomTheme.etfCount || 8}개 ETF 구성</text>
+          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">${bottomTheme.etfCount ? `총 ${bottomTheme.etfCount}개 ETF 구성` : ""}</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
           <text x="24" y="126" fill="#0F172A" font-size="${fitAndClampText(cleanBottomTheme, 550, 42, 28).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanBottomTheme, 550, 42, 28).text)}</text>

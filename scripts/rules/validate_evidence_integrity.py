@@ -497,7 +497,7 @@ def validate_evidence_integrity(
 
                 # Strict S2: excerpt must be an authentic verbatim substring in the evidence file
                 file_text = ev_file.read_text(encoding="utf-8")
-                if excerpt not in file_text:
+                if excerpt.replace("\r\n", "\n") not in file_text.replace("\r\n", "\n"):
                     violations["S2"].append({
                         "statute_id": sid,
                         "evidence_ref": ev_ref,
@@ -721,7 +721,7 @@ def validate_evidence_integrity(
                             "evidence_ref": ev_ref,
                             "reason": "에이전트 작성 요약/해설 메모는 공식 evidence_ref로 허용되지 않음 (공식 정본 문서 필수)",
                         })
-                    if excerpt and excerpt not in ftext:
+                    if excerpt and excerpt.replace("\r\n", "\n") not in ftext.replace("\r\n", "\n"):
                         violations["S5"].append({
                             "ticker": sid,
                             "statute_id": sid,

@@ -300,8 +300,26 @@ def main() -> int:
     _, next_trading_str = find_next_trading_day(now_kst, holidays)
     next_pub_date = status_data.get("next_publish_date") or next_trading_str
 
-    if is_standby and status_data.get("status") != "published":
-        reason_label = "추석 연휴" if "0924" in now_kst.strftime("%Y%m%d") or "0925" in now_kst.strftime("%Y%m%d") else ("주말" if is_weekend else "공휴일")
+    status_val = status_data.get("status")
+    results = status_data.get("results", {})
+
+    if status_val == "published":
+        header = f"🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료 ({as_of_date})\n"
+        th_ok = results.get("threads", {}).get("success")
+        ig_ok = results.get("instagram", {}).get("success")
+        nl_ok = results.get("newsletter", {}).get("success")
+
+        th_str = "발행 완료" if th_ok else "보류/미실행"
+        ig_str = "6장 캐러셀 발행 완료" if ig_ok else "보류/미실행"
+        nl_str = "배포 완료" if nl_ok else "보류/미실행"
+
+        status_text = (
+            f"{as_of_date} 마켓 브리핑 및 OSMU 에셋이 소셜 채널에 배포되었습니다.\n\n"
+            f"• 🧵 스레드(@neo.alphareader): {th_str}\n"
+            f"• 📸 인스타그램(@neo.alphareader): {ig_str}\n"
+            f"• 📧 뉴스레터: {nl_str}\n"
+        )
+    elif is_standby or status_val == "standby":
         header = f"✨ [ETF CAMPUS] 마켓 브리핑 & OSMU 준비 완료 ({as_of_date})\n"
         status_text = (
             f"연휴/휴장 기간 중 독자 소셜 피드 노이즈 방지를 위해 3대 채널 배포는 보류(Standby)되었습니다.\n\n"
@@ -310,13 +328,30 @@ def main() -> int:
             f"• ⏰ 3대 채널 자동 발행 예정: {next_pub_date} 아침 07:30 KST\n"
             f"  (운영 대시보드에서 검토 후 '즉시 발송' 가능)\n"
         )
-    else:
-        header = f"🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료 ({as_of_date})\n"
+    elif status_val == "partial_failed":
+        header = f"⚠️ [ETF CAMPUS] 마켓 브리핑 채널 일부 배포 실패 ({as_of_date})\n"
+        th_ok = results.get("threads", {}).get("success")
+        ig_ok = results.get("instagram", {}).get("success")
+        nl_ok = results.get("newsletter", {}).get("success")
+
+        th_str = "발행 성공" if th_ok else f"실패 ({results.get('threads', {}).get('error', '오류')})"
+        ig_str = "발행 성공" if ig_ok else f"실패 ({results.get('instagram', {}).get('error', '오류')})"
+        nl_str = "발행 성공" if nl_ok else f"실패 ({results.get('newsletter', {}).get('error', '오류')})"
+
         status_text = (
-            f"{as_of_date} 마켓 브리핑 및 OSMU 에셋이 3대 채널에 자동 배포되었습니다.\n\n"
-            "• 🧵 스레드(@neo.alphareader): 발행 완료\n"
-            "• 📸 인스타그램(@neo.alphareader): 6장 캐러셀 발행 완료\n"
-            "• 📧 뉴스레터: 배포 완료\n"
+            f"{as_of_date} 마켓 브리핑 채널 배포 중 일부 오류가 발생했습니다.\n\n"
+            f"• 🧵 스레드: {th_str}\n"
+            f"• 📸 인스타그램: {ig_str}\n"
+            f"• 📧 뉴스레터: {nl_str}\n"
+        )
+    else:
+        # Asset ready, awaiting publication
+        header = f"✨ [ETF CAMPUS] 마켓 브리핑 & OSMU 에셋 준비 완료 ({as_of_date})\n"
+        status_text = (
+            f"{as_of_date} 마켓 브리핑 웹페이지 및 OSMU 에셋이 안전하게 생성되었습니다.\n\n"
+            "• 🌐 웹페이지 마켓 브리핑: 최신 데이터 반영 완료\n"
+            "• 📦 OSMU 에셋(스레드/인스타/뉴스레터): KV 적재 완료\n"
+            "• ℹ️ 소셜 채널 자동 배포: 대기 중 (대시보드에서 상태 확인 및 즉시 발송 가능)\n"
         )
 
     links = (

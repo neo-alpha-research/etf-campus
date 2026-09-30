@@ -72,13 +72,13 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     }
   });
 
-  it("5. 기계적 1 vs 2 투표 문구가 배제되고 3층 구조 질문이 탑재되어야 한다", () => {
+  it("5. 기계적 투표 및 사족 질문 CTA가 완전히 배제되고 전문가 관전 포인트가 탑재되어야 한다", () => {
     expect(post).not.toContain("1번:");
     expect(post).not.toContain("2번:");
-    expect(post).not.toContain("댓글에 1");
-    expect(post).not.toContain("다들은");
-    expect(post).toContain("다들");
-    expect(post).toContain("연금 계좌");
+    expect(post).not.toContain("댓글에");
+    expect(post).not.toContain("다들");
+    expect(post).not.toContain("?");
+    expect(post).toContain("관전 포인트:");
   });
 
   it("6. 본문 텍스트 내 괄호 및 유니코드 이모지가 없어야 한다", () => {
@@ -88,8 +88,9 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     expect(post).not.toMatch(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u);
   });
 
-  it("7. 단일 니치 토픽 태그 #ETF투자가 포함되어야 한다", () => {
+  it("7. 단일 니치 토픽 태그 #ETF투자가 정의되고 본문 중복이 배제되어야 한다", () => {
     expect(selectThreadsTopicTag()).toBe("#ETF투자");
-    expect(post).toContain("#ETF투자");
+    // 본문 끝은 출처 공시로 단정하게 마감되고, 토픽 태그는 메타데이터로 분리됨
+    expect(post).toContain("* 기준:");
   });
 });

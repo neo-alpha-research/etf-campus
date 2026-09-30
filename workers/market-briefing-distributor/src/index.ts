@@ -1,7 +1,7 @@
 import { validateBriefingPayload } from "./circuit-breaker";
 import { generateInstagramCarousel, generateInstagramCaption } from "./templates/instagram";
 import { generateNewsletterHtml } from "./templates/newsletter";
-import { generateThreadsThread, generateThreadsImageSvg } from "./templates/threads";
+import { generateThreadsThread, generateThreadsImageSvg, selectThreadsTopicTag } from "./templates/threads";
 import { reviewAndRefineWithGemini, type PolishedNarrative } from "./services/gemini";
 import { classifyMarketRegime } from "./services/market-regime";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
@@ -525,6 +525,10 @@ export async function publishToThreadsLive(
       searchParams.set("media_type", "TEXT");
     }
     searchParams.set("text", mainPost);
+    const topicTag = selectThreadsTopicTag();
+    if (topicTag) {
+      searchParams.set("topic_tag", topicTag.replace(/^#/, ""));
+    }
     searchParams.set("access_token", env.THREADS_ACCESS_TOKEN);
 
     const createRes = await fetch(createUrl, {

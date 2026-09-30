@@ -46,13 +46,13 @@ describe("인스타그램 템플릿 모바일 뷰포트 및 캡션 레이아웃 
     expect(goldenZone).toContain("코스피");
   });
 
-  it("2. 지표 블록은 스레드와 동일하게 2열 대칭 파이프 그리드를 유지해야 한다", () => {
-    const lines = caption.split("\n");
-    const indicatorLines = lines.filter(l => l.includes("|"));
-    expect(indicatorLines.length).toBeGreaterThanOrEqual(2);
-    for (const l of indicatorLines) {
-      expect(l.length).toBeLessThanOrEqual(28);
-    }
+  it("2. 지표 블록은 코스피/코스닥, 주도 테마, 실질 순유입 3행으로 구성되어야 한다", () => {
+    expect(caption).toContain("코스피");
+    expect(caption).toContain("코스닥");
+    expect(caption).toContain("주도 테마:");
+    expect(caption).toContain("실질 순유입:");
+    expect(caption).toContain("사이버보안");
+    expect(caption).toContain("KODEX 200위클리");
   });
 
   it("3. 인스타그램 탐색 및 SEO 유입을 위한 5대 큐레이션 해시태그가 #ETF투자 우선순위로 유지되어야 한다", () => {

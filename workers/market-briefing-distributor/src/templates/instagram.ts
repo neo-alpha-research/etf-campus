@@ -988,27 +988,15 @@ export function generateInstagramCaption(
   const topSign = topThemeRet > 0 ? "+" : "";
   const botSign = botThemeRet > 0 ? "+" : "";
 
-  const shortTheme = (name?: string, maxLen = 6): string => {
-    if (!name) return "테마";
-    const cleaned = cleanTheme(name);
-    return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;
-  };
-  let themeRow = "상위 테마 안정 | 하위 테마 조정";
-  if (topTheme && bottomTheme && topTheme !== bottomTheme) {
-    const s1 = `${topSign}${topThemeRet.toFixed(1)}%`;
-    const s2 = `${botSign}${botThemeRet.toFixed(1)}%`;
-    const nameBudget = 23 - s1.length - s2.length;
-    const maxT1 = Math.max(3, Math.floor(nameBudget / 2));
-    const maxT2 = Math.max(3, nameBudget - maxT1);
-    const t1 = shortTheme(topTheme.peerGroup, maxT1);
-    const t2 = shortTheme(bottomTheme.peerGroup, maxT2);
-    themeRow = `${t1} ${s1} | ${t2} ${s2}`;
-    if (themeRow.length > 28) {
-      themeRow = `상위 테마: ${shortTheme(topTheme.peerGroup, 8)} ${s1}`;
-    }
+  // 2. [지표 2행] 주도 테마 (대표 1위 완결 표기)
+  let themeRow = "주도 테마: 시장 전반 보합";
+  if (topTheme && topTheme.peerGroup) {
+    const cleanTop = cleanTheme(topTheme.peerGroup);
+    themeRow = `주도 테마: ${cleanTop} ${topSign}${topThemeRet.toFixed(1)}%`;
   }
 
-  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
+  // 3. [지표 3행] 실질 순유입 1위 종목 (대표 1위 완결 표기)
+  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const getFlowVal = (item: any): number => {
     if (!item) return 0;
     if (typeof item.inflow === "number" && !isNaN(item.inflow)) return Math.round(item.inflow);
@@ -1018,26 +1006,13 @@ export function generateInstagramCaption(
     return 0;
   };
 
-  let flowRow = "스마트머니 집계 중";
-  if (topInflows.length >= 2) {
-    const v1 = getFlowVal(topInflows[0]);
-    const v2 = getFlowVal(topInflows[1]);
-    const s1 = `+${v1.toLocaleString()}억`;
-    const s2 = `+${v2.toLocaleString()}억`;
-    const nameBudget = 23 - s1.length - s2.length;
-    const maxN1 = Math.max(3, Math.floor(nameBudget / 2));
-    const maxN2 = Math.max(3, nameBudget - maxN1);
-    const n1 = cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, maxN1);
-    const n2 = cleanEtf(topInflows[1].name || (topInflows[1] as any).etfName).slice(0, maxN2);
-    flowRow = `${n1} ${s1} | ${n2} ${s2}`;
-    if (flowRow.length > 28) {
-      flowRow = `순유입 1위: ${cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, 8)} ${s1}`;
-    }
-  } else if (topInflows.length === 1) {
-    const v1 = getFlowVal(topInflows[0]);
-    const s1 = `+${v1.toLocaleString()}억`;
-    const n1 = cleanEtf(topInflows[0].name || (topInflows[0] as any).etfName).slice(0, 10);
-    flowRow = `순유입 1위: ${n1} ${s1}`;
+  let flowRow = "실질 순유입: 집계 중";
+  if (topInflows.length > 0) {
+    const firstEtf = topInflows[0];
+    const v1 = getFlowVal(firstEtf);
+    const firstName = cleanEtf(firstEtf.name || (firstEtf as any).etfName || "핵심 ETF");
+    const flowSign = v1 >= 0 ? "+" : "";
+    flowRow = `실질 순유입: ${firstName} ${flowSign}${v1.toLocaleString()}억`;
   }
 
   // 2. [핵심 진단 불릿]

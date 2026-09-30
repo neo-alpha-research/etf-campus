@@ -47,20 +47,16 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     expect(firstLine.length).toBeLessThanOrEqual(45);
   });
 
-  it("2. 지표 라인(| 포함)은 1행 1완결을 위해 28자 이내여야 한다", () => {
-    const lines = post.split("\n");
-    const indicatorLines = lines.filter(l => l.includes("|"));
-    expect(indicatorLines.length).toBeGreaterThanOrEqual(2);
-    for (const line of indicatorLines) {
-      expect(line.length).toBeLessThanOrEqual(28);
-    }
-  });
-
-  it("3. 지표 라인은 코스피/코스닥, 상하위 테마, 스마트머니 순으로 3행 2열 대칭이어야 한다", () => {
+  it("2. 지표 라인은 코스피/코스닥, 주도 테마, 실질 순유입 3행으로 구성되어야 한다", () => {
     expect(post).toContain("코스피");
     expect(post).toContain("코스닥");
+    expect(post).toContain("주도 테마:");
+    expect(post).toContain("실질 순유입:");
+  });
+
+  it("3. 주도 테마와 실질 순유입 1위 종목명은 글자 잘림 없이 완결형으로 노출되어야 한다", () => {
     expect(post).toContain("사이버보안");
-    expect(post).toContain("비만치료제");
+    expect(post).toContain("KODEX 200위클리");
   });
 
   it("4. 분석 불릿은 1., 2., 3. 번호가 매겨지고 48자 이내 단문이어야 한다", () => {

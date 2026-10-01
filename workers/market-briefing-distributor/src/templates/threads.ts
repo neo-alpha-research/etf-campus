@@ -157,18 +157,9 @@ export function generateThreadsThread(
     ? `3. 기관 및 외국인은 ${flowTarget}로 실질 자금 집중.`
     : "3. 주요 섹터 및 대표 지수형 ETF로 실질 자금 유출입 지속.";
 
-  // 5. [시장 관전 포인트] 전문가 정중한 설명체 (사족 질문 100% 완전 제거)
-  const regime = narrative || classifyMarketRegime(payload);
-  const rawWatchPoint = regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다.";
-  const cleanWatchPoint = rawWatchPoint
-    .replace(/\s*\([^)]*\)/g, "")
-    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
-    .replace(/\?[^\n]*/g, ".")
-    .trim();
-  const watchPointLine = `* 관전 포인트: ${cleanWatchPoint}`;
-
-  // 6. [법정 출처] (주제 태그는 스레드 전용 토픽 메타데이터로 분리하여 본문 중복 방지)
+  // 5. [법정 출처 및 자본시장법 제101조 면책] (유사투자자문 시비 원천 차단을 위해 사족 관전포인트 전면 배제)
   const sourceNotice = `* 기준: ${dateStr} 한국거래소 KRX 공시 · 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
+  const legalDisclaimer = `* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.`;
 
   // 조립: 섹션 간 공백 1행(\n\n) 유지 와이어프레임 (사족 질문 배제 및 모바일 고밀도 가독성)
   const mainPost = `${formattedDate} ETF 마켓 동향
@@ -183,9 +174,8 @@ ${bullet2}
 
 ${bullet3}
 
-${watchPointLine}
-
-${sourceNotice}`;
+${sourceNotice}
+${legalDisclaimer}`;
 
   return [
     { sequence: 1, content: mainPost.trim() }

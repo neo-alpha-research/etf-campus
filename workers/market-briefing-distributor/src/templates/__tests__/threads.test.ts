@@ -68,13 +68,14 @@ describe("스레드 템플릿 모바일 레이아웃 및 타이포그래피 예�
     }
   });
 
-  it("5. 기계적 투표 및 사족 질문 CTA가 완전히 배제되고 전문가 관전 포인트가 탑재되어야 한다", () => {
+  it("5. 기계적 투표 및 사족 질문 CTA, 자문형 관전포인트가 완전히 배제되고 자본시장법 제101조 면책 문구가 탑재되어야 한다", () => {
     expect(post).not.toContain("1번:");
     expect(post).not.toContain("2번:");
     expect(post).not.toContain("댓글에");
     expect(post).not.toContain("다들");
     expect(post).not.toContain("?");
-    expect(post).toContain("관전 포인트:");
+    expect(post).not.toContain("관전 포인트:");
+    expect(post).toContain("본 자료는 투자 판단을 돕기 위한 정보 제공용이며");
   });
 
   it("6. 본문 텍스트 내 괄호 및 유니코드 이모지가 없어야 한다", () => {

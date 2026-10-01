@@ -222,6 +222,18 @@ export function generateInstagramCarousel(
       <clipPath id="summaryBannerTextClip">
         <rect x="0" y="0" width="880" height="96" rx="22"/>
       </clipPath>
+      <clipPath id="heroSummaryClip">
+        <rect x="0" y="0" width="870" height="54" rx="14"/>
+      </clipPath>
+      <clipPath id="chipClip">
+        <rect x="0" y="0" width="280" height="74" rx="14"/>
+      </clipPath>
+      <clipPath id="wideChipClip">
+        <rect x="0" y="0" width="870" height="74" rx="14"/>
+      </clipPath>
+      <clipPath id="factBandClip">
+        <rect x="0" y="0" width="870" height="72" rx="14"/>
+      </clipPath>
       <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
         * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji'; }
@@ -865,6 +877,23 @@ export function generateInstagramCarousel(
   const growthW = Math.max(20, Math.round(totalBarW * (growthPct / 100)));
   const defW = Math.max(20, totalBarW - coreW - growthW);
 
+  const formatBarSegmentLabel = (name: string, pct: number, sumEok: number, widthPx: number): { text: string; fontSize: number } => {
+    if (widthPx >= 220) {
+      return { text: `${name} ${pct}% (+${sumEok.toLocaleString()}억)`, fontSize: 23 };
+    }
+    if (widthPx >= 110) {
+      return { text: `${name} ${pct}%`, fontSize: 21 };
+    }
+    if (widthPx >= 48) {
+      return { text: `${pct}%`, fontSize: 22 };
+    }
+    return { text: '', fontSize: 0 };
+  };
+
+  const coreLabel = formatBarSegmentLabel("시장대표", corePct, coreSum, coreW);
+  const growthLabel = formatBarSegmentLabel("공격성장", growthPct, growthSum, growthW);
+  const defLabel = formatBarSegmentLabel("방어", defensivePct, defensiveSum, defW);
+
   // Hero Summary Text
   let heroSummary = `시장대표 패시브 적립(${corePct}%)과 성장 테마 저가매수(${growthPct}%)로 스마트머니 ${corePct + growthPct}% 집중`;
   if (growthPct >= corePct && growthPct >= defensivePct) {
@@ -872,8 +901,9 @@ export function generateInstagramCarousel(
   } else if (defensivePct >= corePct && defensivePct >= growthPct) {
     heroSummary = `방어형 인컴·채권 자산(${defensivePct}%)과 시장대표 지수(${corePct}%)로 완충 수급 집중`;
   }
+  const fittedHeroSummary = fitAndClampText(heroSummary, 680, 21, 18);
 
-  // Render Individual Style Card Helper
+  // Render Individual Style Card Helper (Guaranteed Zero Overflow Standard Template)
   const renderStyleCard = (
     styleNum: string,
     styleTitle: string,
@@ -895,73 +925,88 @@ export function generateInstagramCarousel(
       const top3 = items.slice(0, 3);
       middleContent = top3.map((it: any, idx: number) => {
         const rawName = (it.name || it.etfName || defaultTheme).replace(/\s*\([^)]*\)/g, '').trim();
-        const fitted = fitAndClampText(rawName, 175, 18, 18);
+        const fitted = fitAndClampText(rawName, 214, 18.5, 18);
         const val = getInflowVal(it);
         const posX = 35 + idx * 295;
         return `
-          <g transform="translate(${posX}, 84)">
-            <rect width="280" height="62" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
-            <rect x="12" y="14" width="34" height="34" rx="8" fill="${badgeBg}"/>
-            <text x="29" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">${idx + 1}</text>
-            <text x="56" y="32" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
-            <text x="56" y="52" fill="${badgeTextColor}" font-size="18" font-weight="900" class="tabular">+${val.toLocaleString()}억원 유입</text>
+          <g transform="translate(${posX}, 86)" clip-path="url(#chipClip)">
+            <rect width="280" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+            <rect x="12" y="17" width="38" height="40" rx="10" fill="${badgeBg}"/>
+            <text x="31" y="44" fill="${badgeTextColor}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
+            <text x="58" y="38" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+            <text x="58" y="61" fill="${badgeTextColor}" font-size="18" font-weight="900" class="tabular">+${val.toLocaleString()}억원 유입</text>
           </g>
         `;
       }).join("");
     } else if (items.length === 1) {
       const it = items[0];
       const rawName = (it.name || it.etfName || defaultTheme).replace(/\s*\([^)]*\)/g, '').trim();
-      const fitted = fitAndClampText(rawName, 240, 20, 18);
+      const fitted = fitAndClampText(rawName, 290, 23, 19);
       const val = getInflowVal(it);
-      const subNote = styleTitle.includes("성장")
-        ? "(단일 종목 순유입 전체 1위)"
-        : "(우량 신용등급 안전 완충)";
+      const itName = it.name || it.etfName || "";
+      let subNote = "(단일 종목 순유입 집중)";
+      if (styleTitle.includes("성장")) {
+        subNote = (it.changePct ?? 0) < 0 ? "(단일 종목 순유입 압도적 1위)" : "(주도 성장 단일 종목 집중)";
+      } else if (styleTitle.includes("방어")) {
+        if (/채권|국채|회사채/i.test(itName)) subNote = "(우량 신용등급 안전 완충)";
+        else if (/파킹|KOFR|CD|금리/i.test(itName)) subNote = "(단기 파킹 유동성 완충)";
+        else if (/배당|인컴|커버드콜/i.test(itName)) subNote = "(고배당 인컴 현금흐름)";
+        else subNote = "(변동성 방어 수급 완충)";
+      } else {
+        subNote = "(대표 지수 패시브 자금 집중)";
+      }
+      const fittedNote = fitAndClampText(subNote, 260, 19, 18);
+
       middleContent = `
-        <g transform="translate(35, 84)">
-          <rect width="870" height="62" rx="12" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
-          <rect x="16" y="14" width="75" height="34" rx="8" fill="#FFFFFF"/>
-          <text x="53.5" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">1위 집중</text>
-          <text x="105" y="40" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
-          <rect x="365" y="14" width="165" height="34" rx="8" fill="#FFFFFF" stroke="${badgeBorder}" stroke-width="1.2"/>
-          <text x="447.5" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle" class="tabular">+${val.toLocaleString()}억원 순유입</text>
-          <text x="545" y="40" fill="#475569" font-size="18" font-weight="800">${escapeXml(subNote)}</text>
+        <g transform="translate(35, 86)" clip-path="url(#wideChipClip)">
+          <rect width="870" height="74" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
+          <rect x="16" y="17" width="85" height="40" rx="10" fill="#FFFFFF"/>
+          <text x="58.5" y="43" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">1위 집중</text>
+          <text x="112" y="46" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+          <rect x="415" y="17" width="165" height="40" rx="10" fill="#FFFFFF" stroke="${badgeBorder}" stroke-width="1.2"/>
+          <text x="497.5" y="43" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle" class="tabular">+${val.toLocaleString()}억원 순유입</text>
+          <text x="595" y="45" fill="#475569" font-size="${fittedNote.fontSize}" font-weight="800">${escapeXml(fittedNote.text)}</text>
         </g>
       `;
     } else {
       middleContent = `
-        <g transform="translate(35, 84)">
-          <rect width="870" height="62" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
-          <text x="435" y="38" fill="#64748B" font-size="18" font-weight="800" text-anchor="middle">✔ 당일 상위 순유입 종목군 내 집계 대기</text>
+        <g transform="translate(35, 86)">
+          <rect width="870" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+          <text x="435" y="44" fill="#64748B" font-size="19" font-weight="800" text-anchor="middle">✔ 당일 상위 순유입 종목군 내 집계 대기</text>
         </g>
       `;
     }
 
+    const fittedFact = fitAndClampText(factText, 680, 21, 18);
+
     return `
       <g transform="translate(70, ${yPos})" filter="url(#cardShadow)">
-        <rect width="940" height="242" rx="24" fill="#FFFFFF" stroke="${themeBorder}" stroke-width="2"/>
-        <rect x="0" y="0" width="8" height="242" rx="4" fill="${barFill}"/>
+        <rect width="940" height="268" rx="24" fill="#FFFFFF" stroke="${themeBorder}" stroke-width="2"/>
+        <rect x="0" y="0" width="8" height="268" rx="4" fill="${barFill}"/>
 
         <!-- Header line: 스타일명 + 직관적 한글 목적 뱃지 + 금액/점유율 -->
-        <rect x="35" y="18" width="165" height="42" rx="10" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
-        <text x="117.5" y="47" fill="${badgeTextColor}" font-size="22" font-weight="900" text-anchor="middle">${styleNum} ${styleTitle}</text>
+        <rect x="35" y="18" width="160" height="42" rx="10" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
+        <text x="115" y="46" fill="${badgeTextColor}" font-size="20" font-weight="900" text-anchor="middle">${styleNum} ${styleTitle}</text>
         
-        <rect x="210" y="18" width="150" height="42" rx="10" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.2"/>
-        <text x="285" y="46" fill="#475569" font-size="20" font-weight="900" text-anchor="middle">${purposeBadge}</text>
+        <rect x="210" y="18" width="165" height="42" rx="10" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.2"/>
+        <text x="292.5" y="46" fill="#334155" font-size="20" font-weight="900" text-anchor="middle">${purposeBadge}</text>
 
-        <text x="905" y="48" fill="${badgeTextColor}" font-size="30" font-weight="900" text-anchor="end" class="tabular">+${sum.toLocaleString()}억원 <tspan font-size="20" fill="#64748B" font-weight="800">(점유율 ${pct}%)</tspan></text>
+        <text x="905" y="49" fill="${badgeTextColor}" font-size="32" font-weight="900" text-anchor="end" class="tabular">+${sum.toLocaleString()}억원 <tspan font-size="22" fill="#64748B" font-weight="800">(점유율 ${pct}%)</tspan></text>
 
-        <line x1="35" y1="72" x2="905" y2="72" stroke="#F1F5F9" stroke-width="1.5"/>
+        <line x1="35" y1="74" x2="905" y2="74" stroke="#F1F5F9" stroke-width="1.5"/>
 
-        <!-- Middle: Dynamic Items Chips Grid -->
+        <!-- Middle: Dynamic Items Chips Grid (Guaranteed Zero Overflow) -->
         ${middleContent}
 
-        <!-- Bottom: Factual Commentary Band (y=160, h=64) -->
-        <rect x="35" y="160" width="870" height="64" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
-        <rect x="48" y="174" width="105" height="36" rx="8" fill="#FFFFFF"/>
-        <text x="100.5" y="199" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">수급 팩트</text>
-        <text x="168" y="198" fill="#1E293B" font-size="20" font-weight="800">
-          ${escapeXml(factText)}
-        </text>
+        <!-- Bottom: Factual Commentary Band (Strictly Clamped to 680px) -->
+        <g transform="translate(35, 176)" clip-path="url(#factBandClip)">
+          <rect width="870" height="72" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
+          <rect x="14" y="16" width="115" height="40" rx="10" fill="#FFFFFF"/>
+          <text x="71.5" y="42" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">수급 팩트</text>
+          <text x="144" y="43" fill="#1E293B" font-size="${fittedFact.fontSize}" font-weight="800">
+            ${escapeXml(fittedFact.text)}
+          </text>
+        </g>
       </g>
     `;
   };
@@ -982,108 +1027,138 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">6 / ${totalSlides}</text>
       </g>
 
-      <!-- 1. Hero 3-Way Segment Bar Card (y=104, h=204) -->
+      <!-- 1. Hero 3-Way Segment Bar Card (y=104, h=210) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="204" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
+        <rect width="940" height="210" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
         
         <!-- Title row inside Hero -->
-        <text x="35" y="42" fill="#0F172A" font-size="25" font-weight="900">
+        <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">
           스마트머니 3대 스타일 로테이션
         </text>
-        <rect x="695" y="18" width="210" height="38" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="800" y="43" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" class="tabular">
+        <rect x="690" y="16" width="215" height="40" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="797.5" y="42" fill="#047857" font-size="21" font-weight="900" text-anchor="middle" class="tabular">
           총 순유입 +${totalFlowSum > 0 ? totalFlowSum.toLocaleString() : top5InflowSum.toLocaleString()}억원
         </text>
 
-        <!-- 3-Segment Stack Bar (y=62, w=870, h=56, rx=16) -->
-        <g transform="translate(35, 62)">
+        <!-- 3-Segment Stack Bar (y=64, w=870, h=58, rx=16) -->
+        <g transform="translate(35, 64)">
           <clipPath id="heroBarClip">
-            <rect width="870" height="56" rx="16"/>
+            <rect width="870" height="58" rx="16"/>
           </clipPath>
           <g clip-path="url(#heroBarClip)">
-            <rect x="0" y="0" width="${coreW}" height="56" fill="#10B981"/>
-            <rect x="${coreW}" y="0" width="${growthW}" height="56" fill="#F43F5E"/>
-            <rect x="${coreW + growthW}" y="0" width="${defW}" height="56" fill="#3B82F6"/>
+            <rect x="0" y="0" width="${coreW}" height="58" fill="#10B981"/>
+            <rect x="${coreW}" y="0" width="${growthW}" height="58" fill="#F43F5E"/>
+            <rect x="${coreW + growthW}" y="0" width="${defW}" height="58" fill="#3B82F6"/>
           </g>
           
-          <!-- Segment Text Labels inside Bar -->
-          <text x="${coreW / 2}" y="36" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🏛️ 시장대표 ${corePct}% (+${coreSum.toLocaleString()}억)</text>
-          <text x="${coreW + growthW / 2}" y="36" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🚀 공격성장 ${growthPct}% (+${growthSum.toLocaleString()}억)</text>
-          <text x="${coreW + growthW + defW / 2}" y="36" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle">🛡️ ${defensivePct}%</text>
+          <!-- Segment Text Labels inside Bar (Smart Threshold Labeling: Zero Overflow) -->
+          ${coreLabel.text ? `<text x="${coreW / 2}" y="37" fill="#FFFFFF" font-size="${coreLabel.fontSize}" font-weight="900" text-anchor="middle">${coreLabel.text}</text>` : ''}
+          ${growthLabel.text ? `<text x="${coreW + growthW / 2}" y="37" fill="#FFFFFF" font-size="${growthLabel.fontSize}" font-weight="900" text-anchor="middle">${growthLabel.text}</text>` : ''}
+          ${defLabel.text ? `<text x="${coreW + growthW + defW / 2}" y="37" fill="#FFFFFF" font-size="${defLabel.fontSize}" font-weight="900" text-anchor="middle">${defLabel.text}</text>` : ''}
         </g>
 
-        <!-- Hero Summary Fact Text (y=134) -->
-        <rect x="35" y="134" width="870" height="52" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-        <text x="470" y="167" fill="#1E293B" font-size="21" font-weight="800" text-anchor="middle">
-          💡 ${escapeXml(heroSummary)}
-        </text>
+        <!-- Hero Summary Fact Text (y=138, h=54) with clipPath -->
+        <g transform="translate(35, 138)" clip-path="url(#heroSummaryClip)">
+          <rect width="870" height="54" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+          <rect x="14" y="9" width="95" height="36" rx="8" fill="#DCFCE7"/>
+          <text x="61.5" y="33" fill="#15803D" font-size="19" font-weight="900" text-anchor="middle">핵심 요약</text>
+          <text x="125" y="34" fill="#1E293B" font-size="${fittedHeroSummary.fontSize}" font-weight="800">
+            ${escapeXml(fittedHeroSummary.text)}
+          </text>
+        </g>
       </g>
 
-      <!-- 2. Detailed Style Cards (y=324, step=256, h=242) -->
+      <!-- 2. Detailed Style Cards (y=330, step=282, h=268) -->
+      ${(() => {
+        const kospiChg = payload.kospiChangePct ?? 0;
+        const coreFact = kospiChg >= 0
+          ? "지수 상승 탄력 속 대표 벤치마크군으로 기계적 패시브 적립 자금 유입"
+          : "지수 조정에도 대표 벤치마크군으로 기계적 패시브 적립 자금 최다 유입";
 
-      <!-- Card 01: [시장 대표형] (y=324, h=242) -->
-      ${renderStyleCard(
-        "01",
-        "시장 대표형",
-        "지수 패시브 적립",
-        coreItems,
-        coreSum,
-        corePct,
-        "#BBF7D0",
-        "#10B981",
-        "#DCFCE7",
-        "#86EFAC",
-        "#15803D",
-        "지수 조정에도 대표 벤치마크군으로 기계적 패시브 적립 자금 최다 유입",
-        "대표 지수 ETF",
-        324
-      )}
+        const topGrowth = growthItems[0];
+        const growthChg = topGrowth?.changePct ?? 0;
+        const growthPurpose = growthChg >= 0 ? "혁신 성장 모멘텀" : "혁신 성장 저가매수";
+        const growthFact = growthItems.length > 0 && growthChg >= 0
+          ? "주도 기술주 및 성장 테마의 상승 탄력을 겨냥한 스마트머니 집중 매수"
+          : "단기 낙폭 과대 기술주 테마를 겨냥한 스마트머니의 선별적 저가 매수세 집중";
 
-      <!-- Card 02: [공격 성장형] (y=580, h=242) -->
-      ${renderStyleCard(
-        "02",
-        "공격 성장형",
-        "혁신 성장 저가매수",
-        growthItems,
-        growthSum,
-        growthPct,
-        "#FECDD3",
-        "#F43F5E",
-        "#FFE4E6",
-        "#FDA4AF",
-        "#BE123C",
-        "단기 낙폭 과대 기술주 테마를 겨냥한 스마트머니의 선별적 저가 매수세 집중",
-        "혁신 성장 ETF",
-        580
-      )}
+        const topDef = defensiveItems[0];
+        const defName = topDef ? (topDef.name || topDef.etfName || "") : "";
+        let defPurpose = "변동성 방어·채권";
+        let defFact = "시장 변동성 속 우량 크레딧 회사채 중심의 안전 이자수익 완충 수급 형성";
+        if (defensiveItems.length > 0) {
+          if (/채권|국채|회사채/i.test(defName)) {
+            defPurpose = "우량 채권·이자수익";
+            defFact = "시장 변동성 속 우량 크레딧 회사채 중심의 안전 이자수익 완충 수급 형성";
+          } else if (/배당|인컴|커버드콜/i.test(defName)) {
+            defPurpose = "고배당·월인컴";
+            defFact = "변동성 방어와 안정적 정기 현금흐름을 위한 고배당·인컴형 수급 집중";
+          } else if (/파킹|KOFR|SOFR|CD|머니마켓|단기채/i.test(defName)) {
+            defPurpose = "단기 파킹·유동성";
+            defFact = "단기 자금 보관 및 대기성 자금의 안전 파킹형 ETF 순유입 형성";
+          }
+        } else {
+          defFact = "방어형 자산군 대비 주식 및 성장형 자산으로의 스마트머니 쏠림 지속";
+        }
 
-      <!-- Card 03: [방어 인컴형] (y=836, h=242) -->
-      ${renderStyleCard(
-        "03",
-        "방어 인컴형",
-        "변동성 방어·채권",
-        defensiveItems,
-        defensiveSum,
-        defensivePct,
-        "#BFDBFE",
-        "#3B82F6",
-        "#DBEAFE",
-        "#93C5FD",
-        "#1D4ED8",
-        "시장 변동성 속 우량 크레딧 회사채 중심의 안전 이자수익 완충 수급 형성",
-        "방어 채권 ETF",
-        836
-      )}
+        return `
+          <!-- Card 01: [시장 대표형] (y=330, h=268) -->
+          ${renderStyleCard(
+            "01",
+            "시장 대표형",
+            "지수 패시브 적립",
+            coreItems,
+            coreSum,
+            corePct,
+            "#BBF7D0",
+            "#10B981",
+            "#DCFCE7",
+            "#86EFAC",
+            "#15803D",
+            coreFact,
+            "대표 지수 ETF",
+            330
+          )}
 
-      <!-- Bottom KRX Notice Banner (y=1092, h=54) -->
-      <g transform="translate(70, 1092)">
-        <rect width="940" height="54" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
-        <text x="470" y="34" fill="#475569" font-size="20" font-weight="800" text-anchor="middle">
-          KRX ${formattedDate} 마감 공시 기준 · 당일 실질 순유입 상위 종목군 스타일 분류 통계
-        </text>
-      </g>
+          <!-- Card 02: [공격 성장형] (y=614, h=268) -->
+          ${renderStyleCard(
+            "02",
+            "공격 성장형",
+            growthPurpose,
+            growthItems,
+            growthSum,
+            growthPct,
+            "#FECDD3",
+            "#F43F5E",
+            "#FFE4E6",
+            "#FDA4AF",
+            "#BE123C",
+            growthFact,
+            "혁신 성장 ETF",
+            614
+          )}
 
-      <!-- Common Disclaimer & Watermark -->
+          <!-- Card 03: [방어 인컴형] (y=898, h=268) -->
+          ${renderStyleCard(
+            "03",
+            "방어 인컴형",
+            defPurpose,
+            defensiveItems,
+            defensiveSum,
+            defensivePct,
+            "#BFDBFE",
+            "#3B82F6",
+            "#DBEAFE",
+            "#93C5FD",
+            "#1D4ED8",
+            defFact,
+            "방어 채권 ETF",
+            898
+          )}
+        `;
+      })()}
+
+      <!-- Common Disclaimer & Watermark (KRX Notice Box Completely Purged) -->
       ${commonFooter}
     </svg>
   `;

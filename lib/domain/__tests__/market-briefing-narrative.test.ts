@@ -154,6 +154,23 @@ describe('Market Briefing Narrative Engine (2차원 정밀 시황 매트릭스)'
       expect(res.headline).toContain('쏠림 현상이 뚜렷했습니다.');
     });
 
+    it('concentrationSentence가 생략된 2대 핵심 축 표준일 때 쏠림 없이 시장 등락과 테마만으로 headline이 구성된다', () => {
+      const res = generateMarketNarrative({
+        generalEtfCount: 1000,
+        upCount: 700,
+        flatCount: 50,
+        downCount: 250,
+        generalAumWeightedReturnPct: 1.8,
+        themeSentence: '오늘 시장을 이끈 주도 테마는 2차전지 +3.50%였습니다.',
+      });
+
+      expect(res.regimeKey).toBe('SURGE_BROAD_BASED');
+      expect(res.headline).toContain('오늘 시장을 이끈 주도 테마는 2차전지 +3.50%였습니다.');
+      expect(res.headline).not.toContain('쏠림');
+      const sentences = res.headline.split('. ').map(s => s.trim()).filter(Boolean);
+      expect(sentences).toHaveLength(2);
+    });
+
     it('ETF 개수가 0개이거나 flatCount가 undefined일 때도 에러 없이 fallback을 반환한다', () => {
       const res = generateMarketNarrative({
         generalEtfCount: 0,

@@ -2,7 +2,7 @@
  * Market Briefing Narrative Engine
  * 
  * 2차원 정밀 시황 매트릭스 (수익률 규모 [7단계] × 종목 분산도 [3단계]) 기반
- * 동적 헤드라인(대제목) 및 3줄 요약 결론 문구 생성 엔진
+ * 동적 헤드라인(대제목) 및 핵심 요약 결론 문구 생성 엔진
  */
 
 export type ReturnTier =
@@ -24,7 +24,7 @@ export type MarketRegimeKey = `${ReturnTier}_${BreadthRegime}`;
 export interface RegimeTemplate {
   /** 메인 대제목 (이모지 포함, 시황의 핵심 심리 대변) */
   dynamicTitle: string;
-  /** 3줄 요약 1번째 줄 결론 맺음말 (예: '전방위적인 상승 랠리를 펼치며 시장을 뜨겁게 달궜습니다.') */
+  /** 핵심 요약 1번째 줄 결론 맺음말 (예: '전방위적인 상승 랠리를 펼치며 시장을 뜨겁게 달궜습니다.') */
   summaryConclusion: string;
   /** STEP 2 체온계 보조 설명문 (Breadth & Large vs Small Cap Dynamics) */
   breadthSentence: string;
@@ -283,7 +283,7 @@ function formatSignedPct(value: number): string {
 }
 
 /**
- * 정밀 시황 매트릭스를 기반으로 동적 헤드라인 및 3줄 요약 문장을 생성하는 메인 엔진 함수
+ * 정밀 시황 매트릭스를 기반으로 동적 헤드라인 및 핵심 요약 문장을 생성하는 메인 엔진 함수
  */
 export function generateMarketNarrative(input: MarketNarrativeInput): MarketNarrativeResult {
   const generalCount = Math.max(input.generalEtfCount, 0);
@@ -315,7 +315,7 @@ export function generateMarketNarrative(input: MarketNarrativeInput): MarketNarr
   const themePart = input.themeSentence ? ` ${input.themeSentence}` : '';
   const concPart = input.concentrationSentence ? ` ${input.concentrationSentence}` : '';
 
-  // 3줄 요약 1번째 줄 완성 문장
+  // 핵심 요약 1번째 줄 완성 문장
   const firstSentence = `일반 ETF ${countStr}개 중 상승 ${upStr}개, 보합 ${flatStr}개, 하락 ${downStr}개로 평균 ${signedRetStr} ${directionVerb} ${template.summaryConclusion}`;
   const headline = `${firstSentence}${themePart}${concPart}`.trim();
 

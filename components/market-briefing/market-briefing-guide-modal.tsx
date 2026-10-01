@@ -209,7 +209,7 @@ export function MarketBriefingGuideModal({
                   <span>⚡</span> 30초 퀵스캔
                 </span>
                 <p className="text-neutral-700 leading-relaxed text-[11.5px]">
-                  <b>출근길/장전</b>: 상단 <b>‘3줄 요약’</b> ➔ <b>‘STEP 2 시장 체온’</b> ➔ <b>‘당일 수급 1위 ETF’</b>만 30초 스캔하세요.
+                  <b>출근길/장전</b>: 상단 <b>‘핵심 요약’</b> ➔ <b>‘STEP 2 시장 체온’</b> ➔ <b>‘당일 수급 1위 ETF’</b>만 30초 스캔하세요.
                 </p>
               </div>
             </div>

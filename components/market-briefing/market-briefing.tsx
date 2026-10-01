@@ -697,12 +697,7 @@ export function MarketBriefing() {
     const topIsPositive = (top3[0]?.cappedAumWeightedReturnPct ?? 0) > 0;
     const leadVerb = topIsPositive ? "오늘 시장을 이끈 주도 테마는" : "상대적으로 선방한 상위 테마는";
 
-    themeSentence = `${leadVerb} ${topStr} 순이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
-  }
-  
-  let concentrationSentence = "";
-  if (pulse.top10TradeSharePct > 40) {
-    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${(pulse?.top10TradeSharePct || 0).toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
+    themeSentence = `${leadVerb} ${topStr} 순이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다.`;
   }
 
   const narrative = generateMarketNarrative({
@@ -715,7 +710,6 @@ export function MarketBriefing() {
     top50AumWeightedReturnPct: pulse.top50AumWeightedReturnPct,
     top10TradeSharePct: pulse.top10TradeSharePct,
     themeSentence,
-    concentrationSentence,
   });
 
   const { dynamicTitle, headline } = narrative;
@@ -989,17 +983,18 @@ export function MarketBriefing() {
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <div className="flex items-center gap-1.5">
                     <span className="text-[15px]">💡</span>
-                    <p className="text-[12px] font-extrabold tracking-wide text-neutral-500">3줄 요약 브리핑</p>
+                    <p className="text-[12px] font-extrabold tracking-wide text-neutral-500">핵심 요약 브리핑</p>
                   </div>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {(headline || "").split('. ').map((sentence, i) => {
-                    if (!sentence) return null;
+                    const clean = sentence.trim();
+                    if (!clean) return null;
                     return (
                       <div key={i} className="flex items-start gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#9ACD68] mt-2 shrink-0"></div>
                         <p className="text-[14px] font-medium leading-relaxed text-neutral-800">
-                          {sentence.trim()}{sentence.endsWith('.') ? '' : '.'}
+                          {clean}{clean.endsWith('.') ? '' : '.'}
                         </p>
                       </div>
                     );

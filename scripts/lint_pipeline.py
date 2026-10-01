@@ -818,8 +818,8 @@ def check_osmu_mobile_layout_budget_in_files(threads_code: str, instagram_code: 
         if "#ETF투자" not in threads_code:
             errors.append("threads.ts: selectThreadsTopicTag must return single high-discovery topic tag '#ETF투자' (FM-016).")
 
-    if "28" not in threads_code or "nameBudget" not in threads_code:
-        errors.append("threads.ts: Indicator row 28-character dynamic budget enforcement missing (FM-016).")
+    if "주도 테마:" not in threads_code or "실질 순유입:" not in threads_code:
+        errors.append("threads.ts: 3-row compact indicator layout ('주도 테마:', '실질 순유입:') enforcement missing (FM-016).")
 
     if "1번:" in threads_code and "replace" not in threads_code:
         errors.append("threads.ts: Mechanical 1 vs 2 polling CTA detected (violates FM-016 & AGENTS.md).")

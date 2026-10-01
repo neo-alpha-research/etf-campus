@@ -929,12 +929,12 @@ export function generateInstagramCarousel(
         const val = getInflowVal(it);
         const posX = 35 + idx * 295;
         return `
-          <g transform="translate(${posX}, 86)" clip-path="url(#chipClip)">
-            <rect width="280" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
-            <rect x="12" y="17" width="38" height="40" rx="10" fill="${badgeBg}"/>
-            <text x="31" y="44" fill="${badgeTextColor}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
-            <text x="58" y="38" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
-            <text x="58" y="61" fill="${badgeTextColor}" font-size="18" font-weight="900" class="tabular">+${val.toLocaleString()}억원 유입</text>
+          <g transform="translate(${posX}, 88)" clip-path="url(#chipClip)">
+            <rect width="280" height="76" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+            <rect x="12" y="17" width="38" height="42" rx="10" fill="${badgeBg}"/>
+            <text x="31" y="45" fill="${badgeTextColor}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
+            <text x="58" y="39" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+            <text x="58" y="63" fill="${badgeTextColor}" font-size="18" font-weight="900" class="tabular">+${val.toLocaleString()}억원 유입</text>
           </g>
         `;
       }).join("");
@@ -958,21 +958,21 @@ export function generateInstagramCarousel(
       const fittedNote = fitAndClampText(subNote, 260, 19, 18);
 
       middleContent = `
-        <g transform="translate(35, 86)" clip-path="url(#wideChipClip)">
-          <rect width="870" height="74" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
-          <rect x="16" y="17" width="85" height="40" rx="10" fill="#FFFFFF"/>
-          <text x="58.5" y="43" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">1위 집중</text>
-          <text x="112" y="46" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
-          <rect x="415" y="17" width="165" height="40" rx="10" fill="#FFFFFF" stroke="${badgeBorder}" stroke-width="1.2"/>
-          <text x="497.5" y="43" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle" class="tabular">+${val.toLocaleString()}억원 순유입</text>
-          <text x="595" y="45" fill="#475569" font-size="${fittedNote.fontSize}" font-weight="800">${escapeXml(fittedNote.text)}</text>
+        <g transform="translate(35, 88)" clip-path="url(#wideChipClip)">
+          <rect width="870" height="76" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
+          <rect x="16" y="17" width="85" height="42" rx="10" fill="#FFFFFF"/>
+          <text x="58.5" y="44" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">1위 집중</text>
+          <text x="112" y="47" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+          <rect x="415" y="17" width="165" height="42" rx="10" fill="#FFFFFF" stroke="${badgeBorder}" stroke-width="1.2"/>
+          <text x="497.5" y="44" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle" class="tabular">+${val.toLocaleString()}억원 순유입</text>
+          <text x="595" y="46" fill="#475569" font-size="${fittedNote.fontSize}" font-weight="800">${escapeXml(fittedNote.text)}</text>
         </g>
       `;
     } else {
       middleContent = `
-        <g transform="translate(35, 86)">
-          <rect width="870" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
-          <text x="435" y="44" fill="#64748B" font-size="19" font-weight="800" text-anchor="middle">✔ 당일 상위 순유입 종목군 내 집계 대기</text>
+        <g transform="translate(35, 88)">
+          <rect width="870" height="76" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+          <text x="435" y="45" fill="#64748B" font-size="19" font-weight="800" text-anchor="middle">✔ 당일 상위 순유입 종목군 내 집계 대기</text>
         </g>
       `;
     }
@@ -981,8 +981,8 @@ export function generateInstagramCarousel(
 
     return `
       <g transform="translate(70, ${yPos})" filter="url(#cardShadow)">
-        <rect width="940" height="268" rx="24" fill="#FFFFFF" stroke="${themeBorder}" stroke-width="2"/>
-        <rect x="0" y="0" width="8" height="268" rx="4" fill="${barFill}"/>
+        <rect width="940" height="276" rx="24" fill="#FFFFFF" stroke="${themeBorder}" stroke-width="2"/>
+        <rect x="0" y="0" width="8" height="276" rx="4" fill="${barFill}"/>
 
         <!-- Header line: 스타일명 + 직관적 한글 목적 뱃지 + 금액/점유율 -->
         <rect x="35" y="18" width="160" height="42" rx="10" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
@@ -999,11 +999,11 @@ export function generateInstagramCarousel(
         ${middleContent}
 
         <!-- Bottom: Factual Commentary Band (Strictly Clamped to 680px) -->
-        <g transform="translate(35, 176)" clip-path="url(#factBandClip)">
-          <rect width="870" height="72" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
-          <rect x="14" y="16" width="115" height="40" rx="10" fill="#FFFFFF"/>
-          <text x="71.5" y="42" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">수급 팩트</text>
-          <text x="144" y="43" fill="#1E293B" font-size="${fittedFact.fontSize}" font-weight="800">
+        <g transform="translate(35, 180)" clip-path="url(#factBandClip)">
+          <rect width="870" height="76" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
+          <rect x="14" y="17" width="115" height="42" rx="10" fill="#FFFFFF"/>
+          <text x="71.5" y="44" fill="${badgeTextColor}" font-size="19" font-weight="900" text-anchor="middle">수급 팩트</text>
+          <text x="144" y="45" fill="#1E293B" font-size="${fittedFact.fontSize}" font-weight="800">
             ${escapeXml(fittedFact.text)}
           </text>
         </g>
@@ -1027,48 +1027,52 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">6 / ${totalSlides}</text>
       </g>
 
-      <!-- 1. Hero 3-Way Segment Bar Card (y=104, h=210) -->
-      <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="210" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
+      <!-- 1. Hero 3-Way Segment Bar Card (y=102, h=214) -->
+      <g transform="translate(70, 102)" filter="url(#cardShadow)">
+        <rect width="940" height="214" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
         
-        <!-- Title row inside Hero -->
+        <!-- Title row inside Hero: 스타일 로테이션 + 명시적 당일 순유입 TOP 10 뱃지 + 합산 금액 -->
         <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">
           스마트머니 3대 스타일 로테이션
         </text>
-        <rect x="690" y="16" width="215" height="40" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="797.5" y="42" fill="#047857" font-size="21" font-weight="900" text-anchor="middle" class="tabular">
-          총 순유입 +${totalFlowSum > 0 ? totalFlowSum.toLocaleString() : top5InflowSum.toLocaleString()}억원
+        <rect x="425" y="16" width="180" height="40" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="515" y="42" fill="#475569" font-size="19" font-weight="900" text-anchor="middle">
+          당일 순유입 TOP 10
+        </text>
+        <rect x="680" y="16" width="225" height="40" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="792.5" y="42" fill="#047857" font-size="21" font-weight="900" text-anchor="middle" class="tabular">
+          TOP 10 합산 +${(totalFlowSum > 0 ? totalFlowSum : top5InflowSum).toLocaleString()}억
         </text>
 
-        <!-- 3-Segment Stack Bar (y=64, w=870, h=58, rx=16) -->
-        <g transform="translate(35, 64)">
+        <!-- 3-Segment Stack Bar (y=66, w=870, h=60, rx=16) -->
+        <g transform="translate(35, 66)">
           <clipPath id="heroBarClip">
-            <rect width="870" height="58" rx="16"/>
+            <rect width="870" height="60" rx="16"/>
           </clipPath>
           <g clip-path="url(#heroBarClip)">
-            <rect x="0" y="0" width="${coreW}" height="58" fill="#10B981"/>
-            <rect x="${coreW}" y="0" width="${growthW}" height="58" fill="#F43F5E"/>
-            <rect x="${coreW + growthW}" y="0" width="${defW}" height="58" fill="#3B82F6"/>
+            <rect x="0" y="0" width="${coreW}" height="60" fill="#10B981"/>
+            <rect x="${coreW}" y="0" width="${growthW}" height="60" fill="#F43F5E"/>
+            <rect x="${coreW + growthW}" y="0" width="${defW}" height="60" fill="#3B82F6"/>
           </g>
           
           <!-- Segment Text Labels inside Bar (Smart Threshold Labeling: Zero Overflow) -->
-          ${coreLabel.text ? `<text x="${coreW / 2}" y="37" fill="#FFFFFF" font-size="${coreLabel.fontSize}" font-weight="900" text-anchor="middle">${coreLabel.text}</text>` : ''}
-          ${growthLabel.text ? `<text x="${coreW + growthW / 2}" y="37" fill="#FFFFFF" font-size="${growthLabel.fontSize}" font-weight="900" text-anchor="middle">${growthLabel.text}</text>` : ''}
-          ${defLabel.text ? `<text x="${coreW + growthW + defW / 2}" y="37" fill="#FFFFFF" font-size="${defLabel.fontSize}" font-weight="900" text-anchor="middle">${defLabel.text}</text>` : ''}
+          ${coreLabel.text ? `<text x="${coreW / 2}" y="38" fill="#FFFFFF" font-size="${coreLabel.fontSize}" font-weight="900" text-anchor="middle">${coreLabel.text}</text>` : ''}
+          ${growthLabel.text ? `<text x="${coreW + growthW / 2}" y="38" fill="#FFFFFF" font-size="${growthLabel.fontSize}" font-weight="900" text-anchor="middle">${growthLabel.text}</text>` : ''}
+          ${defLabel.text ? `<text x="${coreW + growthW + defW / 2}" y="38" fill="#FFFFFF" font-size="${defLabel.fontSize}" font-weight="900" text-anchor="middle">${defLabel.text}</text>` : ''}
         </g>
 
-        <!-- Hero Summary Fact Text (y=138, h=54) with clipPath -->
-        <g transform="translate(35, 138)" clip-path="url(#heroSummaryClip)">
-          <rect width="870" height="54" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-          <rect x="14" y="9" width="95" height="36" rx="8" fill="#DCFCE7"/>
-          <text x="61.5" y="33" fill="#15803D" font-size="19" font-weight="900" text-anchor="middle">핵심 요약</text>
-          <text x="125" y="34" fill="#1E293B" font-size="${fittedHeroSummary.fontSize}" font-weight="800">
+        <!-- Hero Summary Fact Text (y=142, h=56) with clipPath -->
+        <g transform="translate(35, 142)" clip-path="url(#heroSummaryClip)">
+          <rect width="870" height="56" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+          <rect x="14" y="10" width="95" height="36" rx="8" fill="#DCFCE7"/>
+          <text x="61.5" y="34" fill="#15803D" font-size="19" font-weight="900" text-anchor="middle">핵심 요약</text>
+          <text x="125" y="35" fill="#1E293B" font-size="${fittedHeroSummary.fontSize}" font-weight="800">
             ${escapeXml(fittedHeroSummary.text)}
           </text>
         </g>
       </g>
 
-      <!-- 2. Detailed Style Cards (y=330, step=282, h=268) -->
+      <!-- 2. Detailed Style Cards (y=334, step=294, h=276) -->
       ${(() => {
         const kospiChg = payload.kospiChangePct ?? 0;
         const coreFact = kospiChg >= 0
@@ -1102,7 +1106,7 @@ export function generateInstagramCarousel(
         }
 
         return `
-          <!-- Card 01: [시장 대표형] (y=330, h=268) -->
+          <!-- Card 01: [시장 대표형] (y=334, h=276) -->
           ${renderStyleCard(
             "01",
             "시장 대표형",
@@ -1117,10 +1121,10 @@ export function generateInstagramCarousel(
             "#15803D",
             coreFact,
             "대표 지수 ETF",
-            330
+            334
           )}
 
-          <!-- Card 02: [공격 성장형] (y=614, h=268) -->
+          <!-- Card 02: [공격 성장형] (y=628, h=276) -->
           ${renderStyleCard(
             "02",
             "공격 성장형",
@@ -1135,10 +1139,10 @@ export function generateInstagramCarousel(
             "#BE123C",
             growthFact,
             "혁신 성장 ETF",
-            614
+            628
           )}
 
-          <!-- Card 03: [방어 인컴형] (y=898, h=268) -->
+          <!-- Card 03: [방어 인컴형] (y=922, h=276) -->
           ${renderStyleCard(
             "03",
             "방어 인컴형",
@@ -1153,7 +1157,7 @@ export function generateInstagramCarousel(
             "#1D4ED8",
             defFact,
             "방어 채권 ETF",
-            898
+            922
           )}
         `;
       })()}

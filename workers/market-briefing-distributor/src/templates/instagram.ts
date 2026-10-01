@@ -873,19 +873,98 @@ export function generateInstagramCarousel(
     heroSummary = `방어형 인컴·채권 자산(${defensivePct}%)과 시장대표 지수(${corePct}%)로 완충 수급 집중`;
   }
 
-  // Format ETF lines
-  const formatEtfLine = (items: any[], defaultTheme: string): string => {
-    if (items.length === 0) return `• 당일 상위 순유입 종목군 내 집계 대기`;
-    return "• " + items.slice(0, 3).map((it: any) => {
-      const cName = (it.name || it.etfName || defaultTheme).replace(/\s*\([^)]*\)/g, '').trim();
+  // Render Individual Style Card Helper
+  const renderStyleCard = (
+    styleNum: string,
+    styleTitle: string,
+    purposeBadge: string,
+    items: any[],
+    sum: number,
+    pct: number,
+    themeBorder: string,
+    barFill: string,
+    badgeBg: string,
+    badgeBorder: string,
+    badgeTextColor: string,
+    factText: string,
+    defaultTheme: string,
+    yPos: number
+  ): string => {
+    let middleContent = "";
+    if (items.length >= 2) {
+      const top3 = items.slice(0, 3);
+      middleContent = top3.map((it: any, idx: number) => {
+        const rawName = (it.name || it.etfName || defaultTheme).replace(/\s*\([^)]*\)/g, '').trim();
+        const fitted = fitAndClampText(rawName, 175, 18, 18);
+        const val = getInflowVal(it);
+        const posX = 35 + idx * 295;
+        return `
+          <g transform="translate(${posX}, 84)">
+            <rect width="280" height="62" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+            <rect x="12" y="14" width="34" height="34" rx="8" fill="${badgeBg}"/>
+            <text x="29" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">${idx + 1}</text>
+            <text x="56" y="32" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+            <text x="56" y="52" fill="${badgeTextColor}" font-size="18" font-weight="900" class="tabular">+${val.toLocaleString()}억원 유입</text>
+          </g>
+        `;
+      }).join("");
+    } else if (items.length === 1) {
+      const it = items[0];
+      const rawName = (it.name || it.etfName || defaultTheme).replace(/\s*\([^)]*\)/g, '').trim();
+      const fitted = fitAndClampText(rawName, 240, 20, 18);
       const val = getInflowVal(it);
-      return `${cName} (+${val.toLocaleString()}억)`;
-    }).join(" · ");
-  };
+      const subNote = styleTitle.includes("성장")
+        ? "(단일 종목 순유입 전체 1위)"
+        : "(우량 신용등급 안전 완충)";
+      middleContent = `
+        <g transform="translate(35, 84)">
+          <rect width="870" height="62" rx="12" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
+          <rect x="16" y="14" width="75" height="34" rx="8" fill="#FFFFFF"/>
+          <text x="53.5" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">1위 집중</text>
+          <text x="105" y="40" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">${escapeXml(fitted.text)}</text>
+          <rect x="365" y="14" width="165" height="34" rx="8" fill="#FFFFFF" stroke="${badgeBorder}" stroke-width="1.2"/>
+          <text x="447.5" y="38" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle" class="tabular">+${val.toLocaleString()}억원 순유입</text>
+          <text x="545" y="40" fill="#475569" font-size="18" font-weight="800">${escapeXml(subNote)}</text>
+        </g>
+      `;
+    } else {
+      middleContent = `
+        <g transform="translate(35, 84)">
+          <rect width="870" height="62" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.4"/>
+          <text x="435" y="38" fill="#64748B" font-size="18" font-weight="800" text-anchor="middle">✔ 당일 상위 순유입 종목군 내 집계 대기</text>
+        </g>
+      `;
+    }
 
-  const coreLine = formatEtfLine(coreItems, "대표 지수 ETF");
-  const growthLine = formatEtfLine(growthItems, "혁신 성장 ETF");
-  const defensiveLine = formatEtfLine(defensiveItems, "방어 채권 ETF");
+    return `
+      <g transform="translate(70, ${yPos})" filter="url(#cardShadow)">
+        <rect width="940" height="242" rx="24" fill="#FFFFFF" stroke="${themeBorder}" stroke-width="2"/>
+        <rect x="0" y="0" width="8" height="242" rx="4" fill="${barFill}"/>
+
+        <!-- Header line: 스타일명 + 직관적 한글 목적 뱃지 + 금액/점유율 -->
+        <rect x="35" y="18" width="165" height="42" rx="10" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.4"/>
+        <text x="117.5" y="47" fill="${badgeTextColor}" font-size="22" font-weight="900" text-anchor="middle">${styleNum} ${styleTitle}</text>
+        
+        <rect x="210" y="18" width="150" height="42" rx="10" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.2"/>
+        <text x="285" y="46" fill="#475569" font-size="20" font-weight="900" text-anchor="middle">${purposeBadge}</text>
+
+        <text x="905" y="48" fill="${badgeTextColor}" font-size="30" font-weight="900" text-anchor="end" class="tabular">+${sum.toLocaleString()}억원 <tspan font-size="20" fill="#64748B" font-weight="800">(점유율 ${pct}%)</tspan></text>
+
+        <line x1="35" y1="72" x2="905" y2="72" stroke="#F1F5F9" stroke-width="1.5"/>
+
+        <!-- Middle: Dynamic Items Chips Grid -->
+        ${middleContent}
+
+        <!-- Bottom: Factual Commentary Band (y=160, h=64) -->
+        <rect x="35" y="160" width="870" height="64" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.2"/>
+        <rect x="48" y="174" width="105" height="36" rx="8" fill="#FFFFFF"/>
+        <text x="100.5" y="199" fill="${badgeTextColor}" font-size="18" font-weight="900" text-anchor="middle">수급 팩트</text>
+        <text x="168" y="198" fill="#1E293B" font-size="20" font-weight="800">
+          ${escapeXml(factText)}
+        </text>
+      </g>
+    `;
+  };
 
   const slide6Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 오늘 시장 수급 나침반: 스마트머니 스타일 로테이션">
@@ -903,131 +982,104 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">6 / ${totalSlides}</text>
       </g>
 
-      <!-- 1. Hero 3-Way Segment Bar Card (y=104, h=200) -->
+      <!-- 1. Hero 3-Way Segment Bar Card (y=104, h=204) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="200" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
+        <rect width="940" height="204" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
         
         <!-- Title row inside Hero -->
-        <text x="35" y="44" fill="#0F172A" font-size="24" font-weight="900">
+        <text x="35" y="42" fill="#0F172A" font-size="25" font-weight="900">
           스마트머니 3대 스타일 로테이션
         </text>
-        <rect x="710" y="20" width="195" height="38" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="807.5" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" class="tabular">
+        <rect x="695" y="18" width="210" height="38" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="800" y="43" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" class="tabular">
           총 순유입 +${totalFlowSum > 0 ? totalFlowSum.toLocaleString() : top5InflowSum.toLocaleString()}억원
         </text>
 
-        <!-- 3-Segment Stack Bar (y=62, w=870, h=58, rx=16) -->
+        <!-- 3-Segment Stack Bar (y=62, w=870, h=56, rx=16) -->
         <g transform="translate(35, 62)">
           <clipPath id="heroBarClip">
-            <rect width="870" height="58" rx="16"/>
+            <rect width="870" height="56" rx="16"/>
           </clipPath>
           <g clip-path="url(#heroBarClip)">
-            <rect x="0" y="0" width="${coreW}" height="58" fill="#10B981"/>
-            <rect x="${coreW}" y="0" width="${growthW}" height="58" fill="#F43F5E"/>
-            <rect x="${coreW + growthW}" y="0" width="${defW}" height="58" fill="#3B82F6"/>
+            <rect x="0" y="0" width="${coreW}" height="56" fill="#10B981"/>
+            <rect x="${coreW}" y="0" width="${growthW}" height="56" fill="#F43F5E"/>
+            <rect x="${coreW + growthW}" y="0" width="${defW}" height="56" fill="#3B82F6"/>
           </g>
           
-          <!-- Segment Text Labels -->
-          <text x="${coreW / 2}" y="38" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🏛️ 시장대표 ${corePct}%</text>
-          <text x="${coreW + growthW / 2}" y="38" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🚀 공격성장 ${growthPct}%</text>
-          <text x="${coreW + growthW + defW / 2}" y="38" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle">🛡️ ${defensivePct}%</text>
+          <!-- Segment Text Labels inside Bar -->
+          <text x="${coreW / 2}" y="36" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🏛️ 시장대표 ${corePct}% (+${coreSum.toLocaleString()}억)</text>
+          <text x="${coreW + growthW / 2}" y="36" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">🚀 공격성장 ${growthPct}% (+${growthSum.toLocaleString()}억)</text>
+          <text x="${coreW + growthW + defW / 2}" y="36" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle">🛡️ ${defensivePct}%</text>
         </g>
 
-        <!-- Hero Summary Fact Text (y=162) -->
-        <rect x="35" y="136" width="870" height="48" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-        <text x="470" y="167" fill="#1E293B" font-size="20" font-weight="800" text-anchor="middle">
+        <!-- Hero Summary Fact Text (y=134) -->
+        <rect x="35" y="134" width="870" height="52" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+        <text x="470" y="167" fill="#1E293B" font-size="21" font-weight="800" text-anchor="middle">
           💡 ${escapeXml(heroSummary)}
         </text>
       </g>
 
-      <!-- 2. Detailed Style Cards (y=320, step=236, h=220) -->
+      <!-- 2. Detailed Style Cards (y=324, step=256, h=242) -->
 
-      <!-- Card 01: [시장 대표형] (y=320, h=220) -->
-      <g transform="translate(70, 320)" filter="url(#cardShadow)">
-        <rect width="940" height="220" rx="24" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="2"/>
-        <rect x="0" y="0" width="8" height="220" rx="4" fill="#10B981"/>
+      <!-- Card 01: [시장 대표형] (y=324, h=242) -->
+      ${renderStyleCard(
+        "01",
+        "시장 대표형",
+        "지수 패시브 적립",
+        coreItems,
+        coreSum,
+        corePct,
+        "#BBF7D0",
+        "#10B981",
+        "#DCFCE7",
+        "#86EFAC",
+        "#15803D",
+        "지수 조정에도 대표 벤치마크군으로 기계적 패시브 적립 자금 최다 유입",
+        "대표 지수 ETF",
+        324
+      )}
 
-        <!-- Header line -->
-        <rect x="35" y="20" width="180" height="46" rx="12" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
-        <text x="125" y="51" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">01 시장 대표형</text>
-        <text x="235" y="52" fill="#0F172A" font-size="26" font-weight="900">Core Passive Index</text>
-        <text x="905" y="52" fill="#15803D" font-size="28" font-weight="900" text-anchor="end" class="tabular">+${coreSum.toLocaleString()}억원 <tspan font-size="20" fill="#475569" font-weight="800">(점유율 ${corePct}%)</tspan></text>
+      <!-- Card 02: [공격 성장형] (y=580, h=242) -->
+      ${renderStyleCard(
+        "02",
+        "공격 성장형",
+        "혁신 성장 저가매수",
+        growthItems,
+        growthSum,
+        growthPct,
+        "#FECDD3",
+        "#F43F5E",
+        "#FFE4E6",
+        "#FDA4AF",
+        "#BE123C",
+        "단기 낙폭 과대 기술주 테마를 겨냥한 스마트머니의 선별적 저가 매수세 집중",
+        "혁신 성장 ETF",
+        580
+      )}
 
-        <line x1="35" y1="80" x2="905" y2="80" stroke="#F1F5F9" stroke-width="1.5"/>
+      <!-- Card 03: [방어 인컴형] (y=836, h=242) -->
+      ${renderStyleCard(
+        "03",
+        "방어 인컴형",
+        "변동성 방어·채권",
+        defensiveItems,
+        defensiveSum,
+        defensivePct,
+        "#BFDBFE",
+        "#3B82F6",
+        "#DBEAFE",
+        "#93C5FD",
+        "#1D4ED8",
+        "시장 변동성 속 우량 크레딧 회사채 중심의 안전 이자수익 완충 수급 형성",
+        "방어 채권 ETF",
+        836
+      )}
 
-        <!-- Inflow ETF Items -->
-        <text x="35" y="118" fill="#1E293B" font-size="24" font-weight="900">
-          ${escapeXml(coreLine)}
-        </text>
-
-        <!-- Factual Commentary Band -->
-        <rect x="35" y="142" width="870" height="60" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.2"/>
-        <rect x="48" y="154" width="110" height="36" rx="8" fill="#DCFCE7"/>
-        <text x="103" y="179" fill="#15803D" font-size="18" font-weight="900" text-anchor="middle">수급 팩트</text>
-        <text x="175" y="180" fill="#166534" font-size="21" font-weight="800">
-          양대 지수 조정에도 시장 대표 벤치마크 지수군으로 기계적 패시브 적립 자금 최다 유입
-        </text>
-      </g>
-
-      <!-- Card 02: [공격 성장형] (y=556, h=220) -->
-      <g transform="translate(70, 556)" filter="url(#cardShadow)">
-        <rect width="940" height="220" rx="24" fill="#FFFFFF" stroke="#FECDD3" stroke-width="2"/>
-        <rect x="0" y="0" width="8" height="220" rx="4" fill="#F43F5E"/>
-
-        <!-- Header line -->
-        <rect x="35" y="20" width="180" height="46" rx="12" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.4"/>
-        <text x="125" y="51" fill="#BE123C" font-size="24" font-weight="900" text-anchor="middle">02 공격 성장형</text>
-        <text x="235" y="52" fill="#0F172A" font-size="26" font-weight="900">Growth &amp; Tech</text>
-        <text x="905" y="52" fill="#BE123C" font-size="28" font-weight="900" text-anchor="end" class="tabular">+${growthSum.toLocaleString()}억원 <tspan font-size="20" fill="#475569" font-weight="800">(점유율 ${growthPct}%)</tspan></text>
-
-        <line x1="35" y1="80" x2="905" y2="80" stroke="#F1F5F9" stroke-width="1.5"/>
-
-        <!-- Inflow ETF Items -->
-        <text x="35" y="118" fill="#1E293B" font-size="24" font-weight="900">
-          ${escapeXml(growthLine)}
-        </text>
-
-        <!-- Factual Commentary Band -->
-        <rect x="35" y="142" width="870" height="60" rx="14" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.2"/>
-        <rect x="48" y="154" width="110" height="36" rx="8" fill="#FFE4E6"/>
-        <text x="103" y="179" fill="#BE123C" font-size="18" font-weight="900" text-anchor="middle">수급 팩트</text>
-        <text x="175" y="180" fill="#9F1239" font-size="21" font-weight="800">
-          단기 낙폭 과대 기술주 테마를 겨냥한 스마트머니의 선별적 저가 매수세 집중
-        </text>
-      </g>
-
-      <!-- Card 03: [방어 인컴형] (y=792, h=220) -->
-      <g transform="translate(70, 792)" filter="url(#cardShadow)">
-        <rect width="940" height="220" rx="24" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
-        <rect x="0" y="0" width="8" height="220" rx="4" fill="#3B82F6"/>
-
-        <!-- Header line -->
-        <rect x="35" y="20" width="180" height="46" rx="12" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.4"/>
-        <text x="125" y="51" fill="#1D4ED8" font-size="24" font-weight="900" text-anchor="middle">03 방어 인컴형</text>
-        <text x="235" y="52" fill="#0F172A" font-size="26" font-weight="900">Defensive &amp; Income</text>
-        <text x="905" y="52" fill="#1D4ED8" font-size="28" font-weight="900" text-anchor="end" class="tabular">+${defensiveSum.toLocaleString()}억원 <tspan font-size="20" fill="#475569" font-weight="800">(점유율 ${defensivePct}%)</tspan></text>
-
-        <line x1="35" y1="80" x2="905" y2="80" stroke="#F1F5F9" stroke-width="1.5"/>
-
-        <!-- Inflow ETF Items -->
-        <text x="35" y="118" fill="#1E293B" font-size="24" font-weight="900">
-          ${escapeXml(defensiveLine)}
-        </text>
-
-        <!-- Factual Commentary Band -->
-        <rect x="35" y="142" width="870" height="60" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
-        <rect x="48" y="154" width="110" height="36" rx="8" fill="#DBEAFE"/>
-        <text x="103" y="179" fill="#1D4ED8" font-size="18" font-weight="900" text-anchor="middle">수급 팩트</text>
-        <text x="175" y="180" fill="#1E40AF" font-size="21" font-weight="800">
-          시장 변동성 속 우량 크레딧 회사채 중심의 안전 이자수익 완충 수급 형성
-        </text>
-      </g>
-
-      <!-- Bottom KRX Notice Banner (y=1036, h=56) -->
-      <g transform="translate(70, 1036)">
-        <rect width="940" height="56" rx="16" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
-        <text x="470" y="36" fill="#475569" font-size="20" font-weight="800" text-anchor="middle">
-          KRX 전 거래일 마감 공시 기준 · 당일 실질 순유입 상위 종목군 스타일 분류 통계
+      <!-- Bottom KRX Notice Banner (y=1092, h=54) -->
+      <g transform="translate(70, 1092)">
+        <rect width="940" height="54" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+        <text x="470" y="34" fill="#475569" font-size="20" font-weight="800" text-anchor="middle">
+          KRX ${formattedDate} 마감 공시 기준 · 당일 실질 순유입 상위 종목군 스타일 분류 통계
         </text>
       </g>
 

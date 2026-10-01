@@ -1087,7 +1087,8 @@
         "소득없음",
         "세액공제"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-02"
     },
     {
       "id": "qna-012",
@@ -1486,7 +1487,8 @@
         "KOSPI200",
         "S&P500"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-02"
     },
     {
       "id": "sca-040",
@@ -2178,7 +2180,8 @@
         "자산배분",
         "이머징"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-02"
     },
     {
       "id": "sp-055",

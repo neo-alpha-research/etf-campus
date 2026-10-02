@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-02T10:28:08.707542Z",
+  "generatedAt": "2026-10-02T23:01:37.070288Z",
   "source": "SEIBro / KRX official distribution ledger",
   "summaryCount": 1171,
   "summaries": [
@@ -335,7 +335,7 @@
       "eventCount": 22,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1192,
-      "ttmDividendYieldPct": 13.83,
+      "ttmDividendYieldPct": 13.89,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345029+00:00"
     },
@@ -432,7 +432,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 72,
-      "ttmDividendYieldPct": 0.75,
+      "ttmDividendYieldPct": 0.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995445+00:00"
     },
@@ -487,7 +487,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 0.18,
+      "ttmDividendYieldPct": 0.17,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -944,7 +944,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 296,
-      "ttmDividendYieldPct": 3.5,
+      "ttmDividendYieldPct": 3.52,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654256+00:00"
     },
@@ -1265,7 +1265,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1481,
-      "ttmDividendYieldPct": 16.25,
+      "ttmDividendYieldPct": 16.36,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303125+00:00"
     },
@@ -1306,7 +1306,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 196,
-      "ttmDividendYieldPct": 1.76,
+      "ttmDividendYieldPct": 1.77,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -1458,7 +1458,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 106,
-      "ttmDividendYieldPct": 0.19,
+      "ttmDividendYieldPct": 0.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797046+00:00"
     },
@@ -1957,7 +1957,7 @@
       "eventCount": 20,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1177,
-      "ttmDividendYieldPct": 12.68,
+      "ttmDividendYieldPct": 12.66,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521136+00:00"
     },
@@ -2012,7 +2012,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 89,
-      "ttmDividendYieldPct": 0.52,
+      "ttmDividendYieldPct": 0.54,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -2291,7 +2291,7 @@
       "eventCount": 18,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 240,
-      "ttmDividendYieldPct": 2.09,
+      "ttmDividendYieldPct": 2.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317340+00:00"
     },
@@ -2584,7 +2584,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1344,
-      "ttmDividendYieldPct": 18.31,
+      "ttmDividendYieldPct": 18.35,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531741+00:00"
     },
@@ -3183,7 +3183,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 240,
-      "ttmDividendYieldPct": 2.33,
+      "ttmDividendYieldPct": 2.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303113+00:00"
     },
@@ -3224,7 +3224,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 0.73,
+      "ttmDividendYieldPct": 0.74,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -3599,7 +3599,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1787,
-      "ttmDividendYieldPct": 17.31,
+      "ttmDividendYieldPct": 17.25,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119298+00:00"
     },
@@ -3654,7 +3654,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 91,
-      "ttmDividendYieldPct": 0.49,
+      "ttmDividendYieldPct": 0.5,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317437+00:00"
     },
@@ -3695,7 +3695,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 21,
-      "ttmDividendYieldPct": 0.15,
+      "ttmDividendYieldPct": 0.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -3987,7 +3987,7 @@
       "eventCount": 18,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 580,
-      "ttmDividendYieldPct": 4.71,
+      "ttmDividendYieldPct": 4.74,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521123+00:00"
     },
@@ -4042,7 +4042,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 25,
-      "ttmDividendYieldPct": 0.1,
+      "ttmDividendYieldPct": 0.11,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -4097,7 +4097,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 67,
-      "ttmDividendYieldPct": 0.41,
+      "ttmDividendYieldPct": 0.42,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -4138,7 +4138,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 140,
-      "ttmDividendYieldPct": 1.18,
+      "ttmDividendYieldPct": 1.19,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -4179,7 +4179,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 83,
-      "ttmDividendYieldPct": 0.71,
+      "ttmDividendYieldPct": 0.72,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -4290,7 +4290,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 122,
-      "ttmDividendYieldPct": 0.96,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:47.322503+00:00"
     },
@@ -4387,7 +4387,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 103,
-      "ttmDividendYieldPct": 0.94,
+      "ttmDividendYieldPct": 0.95,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145998+00:00"
     },
@@ -4552,7 +4552,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 504,
-      "ttmDividendYieldPct": 4.33,
+      "ttmDividendYieldPct": 4.25,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531838+00:00"
     },
@@ -4955,7 +4955,7 @@
       "eventCount": 17,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2286,
-      "ttmDividendYieldPct": 25.25,
+      "ttmDividendYieldPct": 25.32,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521029+00:00"
     },
@@ -5220,7 +5220,7 @@
       "eventCount": 17,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2185,
-      "ttmDividendYieldPct": 27.78,
+      "ttmDividendYieldPct": 27.71,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520932+00:00"
     },
@@ -5761,7 +5761,7 @@
       "eventCount": 17,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 336,
-      "ttmDividendYieldPct": 3.58,
+      "ttmDividendYieldPct": 3.6,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445013+00:00"
     },
@@ -6012,7 +6012,7 @@
       "eventCount": 16,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 173,
-      "ttmDividendYieldPct": 1.42,
+      "ttmDividendYieldPct": 1.43,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145987+00:00"
     },
@@ -6122,7 +6122,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 65,
-      "ttmDividendYieldPct": 0.73,
+      "ttmDividendYieldPct": 0.75,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -6316,7 +6316,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 51,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:43.599385+00:00"
     },
@@ -6567,7 +6567,7 @@
       "eventCount": 16,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 639,
-      "ttmDividendYieldPct": 4.73,
+      "ttmDividendYieldPct": 4.75,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154769+00:00"
     },
@@ -6664,7 +6664,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 58,
-      "ttmDividendYieldPct": 0.75,
+      "ttmDividendYieldPct": 0.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531873+00:00"
     },
@@ -7166,7 +7166,7 @@
       "eventCount": 16,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 835,
-      "ttmDividendYieldPct": 7.59,
+      "ttmDividendYieldPct": 7.62,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995281+00:00"
     },
@@ -7221,7 +7221,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 112,
-      "ttmDividendYieldPct": 1.35,
+      "ttmDividendYieldPct": 1.32,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -7289,7 +7289,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 57,
-      "ttmDividendYieldPct": 0.48,
+      "ttmDividendYieldPct": 0.49,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -7526,7 +7526,7 @@
       "eventCount": 15,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 669,
-      "ttmDividendYieldPct": 4.41,
+      "ttmDividendYieldPct": 4.39,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.320940+00:00"
     },
@@ -7609,7 +7609,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 187,
-      "ttmDividendYieldPct": 1.64,
+      "ttmDividendYieldPct": 1.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654291+00:00"
     },
@@ -7747,7 +7747,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 76,
-      "ttmDividendYieldPct": 0.87,
+      "ttmDividendYieldPct": 0.89,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303090+00:00"
     },
@@ -7788,7 +7788,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 263,
-      "ttmDividendYieldPct": 2.03,
+      "ttmDividendYieldPct": 2.05,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -7969,7 +7969,7 @@
       "eventCount": 11,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 193,
-      "ttmDividendYieldPct": 1.68,
+      "ttmDividendYieldPct": 1.69,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969768+00:00"
     },
@@ -8066,7 +8066,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 206,
-      "ttmDividendYieldPct": 1.65,
+      "ttmDividendYieldPct": 1.67,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445000+00:00"
     },
@@ -8203,7 +8203,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 80,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 1.02,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345004+00:00"
     },
@@ -8244,7 +8244,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3,
-      "ttmDividendYieldPct": 0.02,
+      "ttmDividendYieldPct": 0.03,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -8285,7 +8285,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 146,
-      "ttmDividendYieldPct": 1.66,
+      "ttmDividendYieldPct": 1.69,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -8367,7 +8367,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 85,
-      "ttmDividendYieldPct": 0.73,
+      "ttmDividendYieldPct": 0.74,
       "isTr": false,
       "updatedAt": "2026-09-17T09:40:05.119469+00:00"
     },
@@ -8464,7 +8464,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 67,
-      "ttmDividendYieldPct": 0.48,
+      "ttmDividendYieldPct": 0.49,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:47.322551+00:00"
     },
@@ -8742,7 +8742,7 @@
       "eventCount": 15,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1250,
-      "ttmDividendYieldPct": 15.1,
+      "ttmDividendYieldPct": 15.11,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154816+00:00"
     },
@@ -9101,7 +9101,7 @@
       "eventCount": 13,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 215,
-      "ttmDividendYieldPct": 2.02,
+      "ttmDividendYieldPct": 2.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119376+00:00"
     },
@@ -9183,7 +9183,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 12,
-      "ttmDividendYieldPct": 0.12,
+      "ttmDividendYieldPct": 0.13,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -9321,7 +9321,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 31,
-      "ttmDividendYieldPct": 0.25,
+      "ttmDividendYieldPct": 0.26,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520893+00:00"
     },
@@ -9544,7 +9544,7 @@
       "eventCount": 14,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 160,
-      "ttmDividendYieldPct": 1.41,
+      "ttmDividendYieldPct": 1.43,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797146+00:00"
     },
@@ -9725,7 +9725,7 @@
       "eventCount": 11,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 180,
-      "ttmDividendYieldPct": 1.82,
+      "ttmDividendYieldPct": 1.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531778+00:00"
     },
@@ -9948,7 +9948,7 @@
       "eventCount": 14,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 366,
-      "ttmDividendYieldPct": 3.89,
+      "ttmDividendYieldPct": 3.88,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531766+00:00"
     },
@@ -10171,7 +10171,7 @@
       "eventCount": 14,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 376,
-      "ttmDividendYieldPct": 4.04,
+      "ttmDividendYieldPct": 4.05,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531754+00:00"
     },
@@ -10380,7 +10380,7 @@
       "eventCount": 13,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 648,
-      "ttmDividendYieldPct": 6.87,
+      "ttmDividendYieldPct": 6.82,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321031+00:00"
     },
@@ -10589,7 +10589,7 @@
       "eventCount": 13,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 336,
-      "ttmDividendYieldPct": 3.43,
+      "ttmDividendYieldPct": 3.42,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321018+00:00"
     },
@@ -10810,7 +10810,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 129,
-      "ttmDividendYieldPct": 1.14,
+      "ttmDividendYieldPct": 1.16,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969915+00:00"
     },
@@ -11019,7 +11019,7 @@
       "eventCount": 13,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 244,
-      "ttmDividendYieldPct": 2.17,
+      "ttmDividendYieldPct": 2.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145696+00:00"
     },
@@ -11200,7 +11200,7 @@
       "eventCount": 11,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 557,
-      "ttmDividendYieldPct": 4.29,
+      "ttmDividendYieldPct": 4.28,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321137+00:00"
     },
@@ -11255,7 +11255,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 65,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.86,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -11450,7 +11450,7 @@
       "eventCount": 12,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 400,
-      "ttmDividendYieldPct": 4.34,
+      "ttmDividendYieldPct": 4.32,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119184+00:00"
     },
@@ -11752,7 +11752,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 52,
-      "ttmDividendYieldPct": 0.4,
+      "ttmDividendYieldPct": 0.41,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:41.139930+00:00"
     },
@@ -11987,7 +11987,7 @@
       "eventCount": 13,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1058,
-      "ttmDividendYieldPct": 15.7,
+      "ttmDividendYieldPct": 16.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303079+00:00"
     },
@@ -12182,7 +12182,7 @@
       "eventCount": 12,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 4200,
-      "ttmDividendYieldPct": 24.2,
+      "ttmDividendYieldPct": 24.03,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321183+00:00"
     },
@@ -12237,7 +12237,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 71,
-      "ttmDividendYieldPct": 0.92,
+      "ttmDividendYieldPct": 0.93,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521015+00:00"
     },
@@ -12682,7 +12682,7 @@
       "eventCount": 12,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 645,
-      "ttmDividendYieldPct": 5.08,
+      "ttmDividendYieldPct": 5.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321042+00:00"
     },
@@ -12942,7 +12942,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 73,
-      "ttmDividendYieldPct": 0.85,
+      "ttmDividendYieldPct": 0.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.444985+00:00"
     },
@@ -12997,7 +12997,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 86,
-      "ttmDividendYieldPct": 1.05,
+      "ttmDividendYieldPct": 1.04,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -13038,7 +13038,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 35,
-      "ttmDividendYieldPct": 0.65,
+      "ttmDividendYieldPct": 0.61,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -13079,7 +13079,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 33,
-      "ttmDividendYieldPct": 0.27,
+      "ttmDividendYieldPct": 0.28,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -13274,7 +13274,7 @@
       "eventCount": 12,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1230,
-      "ttmDividendYieldPct": 5.75,
+      "ttmDividendYieldPct": 5.72,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321078+00:00"
     },
@@ -13469,7 +13469,7 @@
       "eventCount": 12,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1280,
-      "ttmDividendYieldPct": 12.04,
+      "ttmDividendYieldPct": 11.93,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303056+00:00"
     },
@@ -13705,7 +13705,7 @@
       "eventCount": 11,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 696,
-      "ttmDividendYieldPct": 5.54,
+      "ttmDividendYieldPct": 5.52,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119400+00:00"
     },
@@ -14122,7 +14122,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 87,
-      "ttmDividendYieldPct": 0.8,
+      "ttmDividendYieldPct": 0.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520944+00:00"
     },
@@ -14466,7 +14466,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 340,
-      "ttmDividendYieldPct": 3.24,
+      "ttmDividendYieldPct": 3.28,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321125+00:00"
     },
@@ -14644,7 +14644,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 93,
-      "ttmDividendYieldPct": 0.49,
+      "ttmDividendYieldPct": 0.48,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797228+00:00"
     },
@@ -14972,7 +14972,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 118,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 1.0,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145964+00:00"
     },
@@ -15249,7 +15249,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 158,
-      "ttmDividendYieldPct": 1.46,
+      "ttmDividendYieldPct": 1.47,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.444957+00:00"
     },
@@ -15416,7 +15416,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 110,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303034+00:00"
     },
@@ -15583,7 +15583,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1024,
-      "ttmDividendYieldPct": 16.23,
+      "ttmDividendYieldPct": 16.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445134+00:00"
     },
@@ -15927,7 +15927,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1675,
-      "ttmDividendYieldPct": 21.22,
+      "ttmDividendYieldPct": 21.16,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119310+00:00"
     },
@@ -16091,7 +16091,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 51,
-      "ttmDividendYieldPct": 0.5,
+      "ttmDividendYieldPct": 0.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833134+00:00"
     },
@@ -16299,7 +16299,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1050,
-      "ttmDividendYieldPct": 11.27,
+      "ttmDividendYieldPct": 11.35,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321007+00:00"
     },
@@ -16520,7 +16520,7 @@
       "eventCount": 10,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 458,
-      "ttmDividendYieldPct": 3.49,
+      "ttmDividendYieldPct": 3.46,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797181+00:00"
     },
@@ -16810,7 +16810,7 @@
       "eventCount": 9,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 887,
-      "ttmDividendYieldPct": 9.31,
+      "ttmDividendYieldPct": 9.38,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345053+00:00"
     },
@@ -16865,7 +16865,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 6,
-      "ttmDividendYieldPct": 0.09,
+      "ttmDividendYieldPct": 0.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345041+00:00"
     },
@@ -16987,7 +16987,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 25,
-      "ttmDividendYieldPct": 0.15,
+      "ttmDividendYieldPct": 0.16,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303011+00:00"
     },
@@ -17126,7 +17126,7 @@
       "eventCount": 8,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 420,
-      "ttmDividendYieldPct": 3.95,
+      "ttmDividendYieldPct": 3.94,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521111+00:00"
     },
@@ -17251,7 +17251,7 @@
       "eventCount": 7,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 284,
-      "ttmDividendYieldPct": 2.4,
+      "ttmDividendYieldPct": 2.37,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321066+00:00"
     },
@@ -17390,7 +17390,7 @@
       "eventCount": 8,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 450,
-      "ttmDividendYieldPct": 4.8,
+      "ttmDividendYieldPct": 4.78,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317244+00:00"
     },
@@ -17529,7 +17529,7 @@
       "eventCount": 8,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 374,
-      "ttmDividendYieldPct": 3.6,
+      "ttmDividendYieldPct": 3.56,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654244+00:00"
     },
@@ -17570,7 +17570,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 259,
-      "ttmDividendYieldPct": 2.18,
+      "ttmDividendYieldPct": 2.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -18018,7 +18018,7 @@
       "eventCount": 6,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 1178,
-      "ttmDividendYieldPct": 9.92,
+      "ttmDividendYieldPct": 9.87,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520846+00:00"
     },
@@ -18304,7 +18304,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 12,
-      "ttmDividendYieldPct": 0.1,
+      "ttmDividendYieldPct": 0.11,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654195+00:00"
     },
@@ -18428,7 +18428,7 @@
       "eventCount": 6,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 1265,
-      "ttmDividendYieldPct": 8.54,
+      "ttmDividendYieldPct": 8.63,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155108+00:00"
     },
@@ -19203,7 +19203,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 365,
-      "ttmDividendYieldPct": 3.54,
+      "ttmDividendYieldPct": 3.57,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833108+00:00"
     },
@@ -19687,7 +19687,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 30,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.31,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321114+00:00"
     },
@@ -19821,7 +19821,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 615,
-      "ttmDividendYieldPct": 6.74,
+      "ttmDividendYieldPct": 6.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145941+00:00"
     },
@@ -19930,7 +19930,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 668,
-      "ttmDividendYieldPct": 7.51,
+      "ttmDividendYieldPct": 7.48,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797034+00:00"
     },
@@ -20013,7 +20013,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 266,
-      "ttmDividendYieldPct": 2.95,
+      "ttmDividendYieldPct": 2.94,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302999+00:00"
     },
@@ -20225,7 +20225,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 438,
-      "ttmDividendYieldPct": 5.98,
+      "ttmDividendYieldPct": 5.94,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833094+00:00"
     },
@@ -20306,7 +20306,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 20,
-      "ttmDividendYieldPct": 0.22,
+      "ttmDividendYieldPct": 0.23,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:50.120248+00:00"
     },
@@ -20427,7 +20427,7 @@
       "eventCount": 3,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 495,
-      "ttmDividendYieldPct": 5.89,
+      "ttmDividendYieldPct": 5.87,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303182+00:00"
     },
@@ -20495,7 +20495,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 31,
-      "ttmDividendYieldPct": 0.35,
+      "ttmDividendYieldPct": 0.36,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:48.529224+00:00"
     },
@@ -20589,7 +20589,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 167,
-      "ttmDividendYieldPct": 1.67,
+      "ttmDividendYieldPct": 1.66,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:50.921486+00:00"
     },
@@ -20738,7 +20738,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 24,
-      "ttmDividendYieldPct": 0.24,
+      "ttmDividendYieldPct": 0.25,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:51.705822+00:00"
     },
@@ -21470,7 +21470,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 1070,
-      "ttmDividendYieldPct": 0.96,
+      "ttmDividendYieldPct": 0.95,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833079+00:00"
     },
@@ -21986,7 +21986,7 @@
       "eventCount": 29,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 628,
-      "ttmDividendYieldPct": 4.0,
+      "ttmDividendYieldPct": 3.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833061+00:00"
     },
@@ -22097,7 +22097,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 713,
-      "ttmDividendYieldPct": 2.8,
+      "ttmDividendYieldPct": 2.79,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302987+00:00"
     },
@@ -22320,7 +22320,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 550,
-      "ttmDividendYieldPct": 3.36,
+      "ttmDividendYieldPct": 3.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969719+00:00"
     },
@@ -22640,7 +22640,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 586,
-      "ttmDividendYieldPct": 2.87,
+      "ttmDividendYieldPct": 2.95,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317267+00:00"
     },
@@ -23641,7 +23641,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 180,
-      "ttmDividendYieldPct": 1.26,
+      "ttmDividendYieldPct": 1.24,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797022+00:00"
     },
@@ -24060,7 +24060,7 @@
       "eventCount": 28,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 815,
-      "ttmDividendYieldPct": 4.77,
+      "ttmDividendYieldPct": 4.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321276+00:00"
     },
@@ -24283,7 +24283,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 200,
-      "ttmDividendYieldPct": 3.26,
+      "ttmDividendYieldPct": 3.28,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445050+00:00"
     },
@@ -24422,7 +24422,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 970,
-      "ttmDividendYieldPct": 0.87,
+      "ttmDividendYieldPct": 0.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317316+00:00"
     },
@@ -25104,7 +25104,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 2837,
-      "ttmDividendYieldPct": 2.68,
+      "ttmDividendYieldPct": 2.67,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:47.322606+00:00"
     },
@@ -25145,7 +25145,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 807,
-      "ttmDividendYieldPct": 1.31,
+      "ttmDividendYieldPct": 1.3,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -25619,7 +25619,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 2664,
-      "ttmDividendYieldPct": 2.48,
+      "ttmDividendYieldPct": 2.47,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:47.322564+00:00"
     },
@@ -25924,7 +25924,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 76,
-      "ttmDividendYieldPct": 0.54,
+      "ttmDividendYieldPct": 0.52,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970104+00:00"
     },
@@ -26049,7 +26049,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 240,
-      "ttmDividendYieldPct": 1.97,
+      "ttmDividendYieldPct": 1.94,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145906+00:00"
     },
@@ -26118,7 +26118,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 660,
-      "ttmDividendYieldPct": 3.51,
+      "ttmDividendYieldPct": 3.62,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -26215,7 +26215,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 34,
-      "ttmDividendYieldPct": 0.5,
+      "ttmDividendYieldPct": 0.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797010+00:00"
     },
@@ -26410,7 +26410,7 @@
       "eventCount": 12,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 550,
-      "ttmDividendYieldPct": 0.66,
+      "ttmDividendYieldPct": 0.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654160+00:00"
     },
@@ -26587,7 +26587,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 27,
-      "ttmDividendYieldPct": 0.36,
+      "ttmDividendYieldPct": 0.34,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -27017,7 +27017,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 937,
-      "ttmDividendYieldPct": 0.5,
+      "ttmDividendYieldPct": 0.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303136+00:00"
     },
@@ -27548,7 +27548,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2699,
-      "ttmDividendYieldPct": 2.6,
+      "ttmDividendYieldPct": 2.59,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654148+00:00"
     },
@@ -27769,7 +27769,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 205,
-      "ttmDividendYieldPct": 0.57,
+      "ttmDividendYieldPct": 0.56,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -27894,7 +27894,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 140,
-      "ttmDividendYieldPct": 1.17,
+      "ttmDividendYieldPct": 1.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -28019,7 +28019,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 1090,
-      "ttmDividendYieldPct": 2.37,
+      "ttmDividendYieldPct": 2.38,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -28156,7 +28156,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 65,
-      "ttmDividendYieldPct": 0.85,
+      "ttmDividendYieldPct": 0.86,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -28392,7 +28392,7 @@
       "eventCount": 8,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 300,
-      "ttmDividendYieldPct": 2.81,
+      "ttmDividendYieldPct": 2.8,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -28545,7 +28545,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 90,
-      "ttmDividendYieldPct": 0.51,
+      "ttmDividendYieldPct": 0.49,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970093+00:00"
     },
@@ -28963,7 +28963,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 418,
-      "ttmDividendYieldPct": 2.55,
+      "ttmDividendYieldPct": 2.54,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995355+00:00"
     },
@@ -29144,7 +29144,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 177,
-      "ttmDividendYieldPct": 1.45,
+      "ttmDividendYieldPct": 1.46,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531699+00:00"
     },
@@ -29420,7 +29420,7 @@
       "eventCount": 5,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 160,
-      "ttmDividendYieldPct": 0.62,
+      "ttmDividendYieldPct": 0.61,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -29545,7 +29545,7 @@
       "eventCount": 7,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 150,
-      "ttmDividendYieldPct": 0.63,
+      "ttmDividendYieldPct": 0.62,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -29739,7 +29739,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 119,
-      "ttmDividendYieldPct": 1.78,
+      "ttmDividendYieldPct": 1.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317172+00:00"
     },
@@ -29906,7 +29906,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 670,
-      "ttmDividendYieldPct": 0.77,
+      "ttmDividendYieldPct": 0.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302952+00:00"
     },
@@ -29947,7 +29947,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 785,
-      "ttmDividendYieldPct": 1.01,
+      "ttmDividendYieldPct": 1.02,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -30446,7 +30446,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 870,
-      "ttmDividendYieldPct": 1.09,
+      "ttmDividendYieldPct": 1.08,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -30683,7 +30683,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 1010,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.89,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970082+00:00"
     },
@@ -30752,7 +30752,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3742,
-      "ttmDividendYieldPct": 3.59,
+      "ttmDividendYieldPct": 3.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -30863,7 +30863,7 @@
       "eventCount": 6,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 115,
-      "ttmDividendYieldPct": 1.58,
+      "ttmDividendYieldPct": 1.6,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -31058,7 +31058,7 @@
       "eventCount": 12,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 970,
-      "ttmDividendYieldPct": 0.86,
+      "ttmDividendYieldPct": 0.85,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.146021+00:00"
     },
@@ -31099,7 +31099,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 750,
-      "ttmDividendYieldPct": 1.16,
+      "ttmDividendYieldPct": 1.15,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -31140,7 +31140,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 236,
-      "ttmDividendYieldPct": 0.51,
+      "ttmDividendYieldPct": 0.5,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -31307,7 +31307,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 964,
-      "ttmDividendYieldPct": 0.86,
+      "ttmDividendYieldPct": 0.85,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654136+00:00"
     },
@@ -31918,7 +31918,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 62,
-      "ttmDividendYieldPct": 0.79,
+      "ttmDividendYieldPct": 0.78,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -32098,7 +32098,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 730,
-      "ttmDividendYieldPct": 0.83,
+      "ttmDividendYieldPct": 0.82,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -32600,7 +32600,7 @@
       "eventCount": 31,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1059,
-      "ttmDividendYieldPct": 4.36,
+      "ttmDividendYieldPct": 4.32,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317280+00:00"
     },
@@ -33131,7 +33131,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 990,
-      "ttmDividendYieldPct": 3.92,
+      "ttmDividendYieldPct": 3.9,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833171+00:00"
     },
@@ -33200,7 +33200,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3631,
-      "ttmDividendYieldPct": 3.98,
+      "ttmDividendYieldPct": 3.93,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -33241,7 +33241,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 775,
-      "ttmDividendYieldPct": 2.4,
+      "ttmDividendYieldPct": 2.43,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -33463,7 +33463,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 610,
-      "ttmDividendYieldPct": 3.0,
+      "ttmDividendYieldPct": 2.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145894+00:00"
     },
@@ -33936,7 +33936,7 @@
       "eventCount": 26,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2804,
-      "ttmDividendYieldPct": 3.54,
+      "ttmDividendYieldPct": 3.56,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531648+00:00"
     },
@@ -34978,7 +34978,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 310,
-      "ttmDividendYieldPct": 2.65,
+      "ttmDividendYieldPct": 2.72,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -35145,7 +35145,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 1493,
-      "ttmDividendYieldPct": 2.65,
+      "ttmDividendYieldPct": 2.63,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970059+00:00"
     },
@@ -35227,7 +35227,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 40,
-      "ttmDividendYieldPct": 0.17,
+      "ttmDividendYieldPct": 0.18,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -35391,7 +35391,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1458,
-      "ttmDividendYieldPct": 1.25,
+      "ttmDividendYieldPct": 1.24,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -35514,7 +35514,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 160,
-      "ttmDividendYieldPct": 0.45,
+      "ttmDividendYieldPct": 0.47,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -35568,7 +35568,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 220,
-      "ttmDividendYieldPct": 1.05,
+      "ttmDividendYieldPct": 1.06,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -35818,7 +35818,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 1100,
-      "ttmDividendYieldPct": 4.79,
+      "ttmDividendYieldPct": 4.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145870+00:00"
     },
@@ -35999,7 +35999,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 906,
-      "ttmDividendYieldPct": 2.66,
+      "ttmDividendYieldPct": 2.64,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654123+00:00"
     },
@@ -36250,7 +36250,7 @@
       "eventCount": 16,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 737,
-      "ttmDividendYieldPct": 2.71,
+      "ttmDividendYieldPct": 2.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145858+00:00"
     },
@@ -36388,7 +36388,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 187,
-      "ttmDividendYieldPct": 0.93,
+      "ttmDividendYieldPct": 0.94,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -36694,7 +36694,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 510,
-      "ttmDividendYieldPct": 3.17,
+      "ttmDividendYieldPct": 3.19,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -36735,7 +36735,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 20,
-      "ttmDividendYieldPct": 1.77,
+      "ttmDividendYieldPct": 1.82,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -36776,7 +36776,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 185,
-      "ttmDividendYieldPct": 3.16,
+      "ttmDividendYieldPct": 3.1,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -36912,7 +36912,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 37,
-      "ttmDividendYieldPct": 1.01,
+      "ttmDividendYieldPct": 1.0,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37050,7 +37050,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 389,
-      "ttmDividendYieldPct": 1.41,
+      "ttmDividendYieldPct": 1.4,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155073+00:00"
     },
@@ -37091,7 +37091,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 56,
-      "ttmDividendYieldPct": 2.48,
+      "ttmDividendYieldPct": 2.47,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37132,7 +37132,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 510,
-      "ttmDividendYieldPct": 0.75,
+      "ttmDividendYieldPct": 0.76,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37173,7 +37173,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 230,
-      "ttmDividendYieldPct": 1.47,
+      "ttmDividendYieldPct": 1.51,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37214,7 +37214,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 116,
-      "ttmDividendYieldPct": 0.71,
+      "ttmDividendYieldPct": 0.72,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37296,7 +37296,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 160,
-      "ttmDividendYieldPct": 1.1,
+      "ttmDividendYieldPct": 1.11,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37573,7 +37573,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 404,
-      "ttmDividendYieldPct": 1.77,
+      "ttmDividendYieldPct": 1.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155061+00:00"
     },
@@ -37656,7 +37656,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 90,
-      "ttmDividendYieldPct": 0.48,
+      "ttmDividendYieldPct": 0.49,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37739,7 +37739,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 270,
-      "ttmDividendYieldPct": 2.21,
+      "ttmDividendYieldPct": 2.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -37906,7 +37906,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 325,
-      "ttmDividendYieldPct": 2.64,
+      "ttmDividendYieldPct": 2.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302913+00:00"
     },
@@ -37989,7 +37989,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 325,
-      "ttmDividendYieldPct": 1.57,
+      "ttmDividendYieldPct": 1.55,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -38281,7 +38281,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 29,
-      "ttmDividendYieldPct": 0.69,
+      "ttmDividendYieldPct": 0.71,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -38364,7 +38364,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 45,
-      "ttmDividendYieldPct": 1.71,
+      "ttmDividendYieldPct": 1.73,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -38628,7 +38628,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 143,
-      "ttmDividendYieldPct": 0.75,
+      "ttmDividendYieldPct": 0.74,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302901+00:00"
     },
@@ -38808,7 +38808,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 318,
-      "ttmDividendYieldPct": 0.84,
+      "ttmDividendYieldPct": 0.83,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970047+00:00"
     },
@@ -39096,7 +39096,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1065,
-      "ttmDividendYieldPct": 4.75,
+      "ttmDividendYieldPct": 4.85,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -39556,7 +39556,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 464,
-      "ttmDividendYieldPct": 3.0,
+      "ttmDividendYieldPct": 2.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321194+00:00"
     },
@@ -39750,7 +39750,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 200,
-      "ttmDividendYieldPct": 1.49,
+      "ttmDividendYieldPct": 1.47,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -39791,7 +39791,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 308,
-      "ttmDividendYieldPct": 0.61,
+      "ttmDividendYieldPct": 0.62,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -39901,7 +39901,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 350,
-      "ttmDividendYieldPct": 0.98,
+      "ttmDividendYieldPct": 0.99,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -40026,7 +40026,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 380,
-      "ttmDividendYieldPct": 2.41,
+      "ttmDividendYieldPct": 2.39,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -40067,7 +40067,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 453,
-      "ttmDividendYieldPct": 0.13,
+      "ttmDividendYieldPct": 0.12,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -40108,7 +40108,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 0.61,
+      "ttmDividendYieldPct": 0.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -40260,7 +40260,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 143,
-      "ttmDividendYieldPct": 0.65,
+      "ttmDividendYieldPct": 0.66,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -40357,7 +40357,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 215,
-      "ttmDividendYieldPct": 2.33,
+      "ttmDividendYieldPct": 2.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302887+00:00"
     },
@@ -40999,7 +40999,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 473,
-      "ttmDividendYieldPct": 1.4,
+      "ttmDividendYieldPct": 1.41,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796973+00:00"
     },
@@ -41236,7 +41236,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 760,
-      "ttmDividendYieldPct": 4.16,
+      "ttmDividendYieldPct": 4.27,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.344992+00:00"
     },
@@ -41375,7 +41375,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 224,
-      "ttmDividendYieldPct": 1.89,
+      "ttmDividendYieldPct": 1.95,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797135+00:00"
     },
@@ -41416,7 +41416,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 89,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -41498,7 +41498,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 355,
-      "ttmDividendYieldPct": 3.63,
+      "ttmDividendYieldPct": 3.79,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -41747,7 +41747,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 522,
-      "ttmDividendYieldPct": 1.36,
+      "ttmDividendYieldPct": 1.38,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155049+00:00"
     },
@@ -41928,7 +41928,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 613,
-      "ttmDividendYieldPct": 3.57,
+      "ttmDividendYieldPct": 3.56,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317146+00:00"
     },
@@ -42417,7 +42417,7 @@
       "eventCount": 33,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 573,
-      "ttmDividendYieldPct": 3.78,
+      "ttmDividendYieldPct": 3.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317328+00:00"
     },
@@ -42556,7 +42556,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 350,
-      "ttmDividendYieldPct": 1.83,
+      "ttmDividendYieldPct": 1.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833235+00:00"
     },
@@ -42734,7 +42734,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 246,
-      "ttmDividendYieldPct": 1.34,
+      "ttmDividendYieldPct": 1.33,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654112+00:00"
     },
@@ -42815,7 +42815,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 1206,
-      "ttmDividendYieldPct": 0.58,
+      "ttmDividendYieldPct": 0.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43089,7 +43089,7 @@
       "eventCount": 7,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 100,
-      "ttmDividendYieldPct": 0.86,
+      "ttmDividendYieldPct": 0.87,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43130,7 +43130,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 42,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.91,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43350,7 +43350,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 100,
-      "ttmDividendYieldPct": 0.85,
+      "ttmDividendYieldPct": 0.87,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43391,7 +43391,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 248,
-      "ttmDividendYieldPct": 1.6,
+      "ttmDividendYieldPct": 1.62,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43432,7 +43432,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 56,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.01,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43667,7 +43667,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 135,
-      "ttmDividendYieldPct": 0.96,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -43708,7 +43708,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 135,
-      "ttmDividendYieldPct": 0.87,
+      "ttmDividendYieldPct": 0.89,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -44109,7 +44109,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 625,
-      "ttmDividendYieldPct": 1.88,
+      "ttmDividendYieldPct": 1.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.970036+00:00"
     },
@@ -44372,7 +44372,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 179,
-      "ttmDividendYieldPct": 1.23,
+      "ttmDividendYieldPct": 1.22,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.444892+00:00"
     },
@@ -44607,7 +44607,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 400,
-      "ttmDividendYieldPct": 2.22,
+      "ttmDividendYieldPct": 2.23,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -44689,7 +44689,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 174,
-      "ttmDividendYieldPct": 1.48,
+      "ttmDividendYieldPct": 1.49,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -44730,7 +44730,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 94,
-      "ttmDividendYieldPct": 2.11,
+      "ttmDividendYieldPct": 2.12,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -44771,7 +44771,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 295,
-      "ttmDividendYieldPct": 0.34,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -45008,7 +45008,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 571,
-      "ttmDividendYieldPct": 3.59,
+      "ttmDividendYieldPct": 3.66,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634116+00:00"
     },
@@ -45216,7 +45216,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 645,
-      "ttmDividendYieldPct": 3.5,
+      "ttmDividendYieldPct": 3.55,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634104+00:00"
     },
@@ -45438,7 +45438,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 325,
-      "ttmDividendYieldPct": 2.0,
+      "ttmDividendYieldPct": 1.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995406+00:00"
     },
@@ -45752,7 +45752,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1727,
-      "ttmDividendYieldPct": 1.57,
+      "ttmDividendYieldPct": 1.56,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -46320,7 +46320,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 137,
-      "ttmDividendYieldPct": 0.58,
+      "ttmDividendYieldPct": 0.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -46639,7 +46639,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 463,
-      "ttmDividendYieldPct": 6.21,
+      "ttmDividendYieldPct": 6.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:46.490445+00:00"
     },
@@ -46693,7 +46693,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 666,
-      "ttmDividendYieldPct": 2.04,
+      "ttmDividendYieldPct": 2.07,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -47180,7 +47180,7 @@
       "eventCount": 5,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 215,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.01,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -47805,7 +47805,7 @@
       "eventCount": 35,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 754,
-      "ttmDividendYieldPct": 4.4,
+      "ttmDividendYieldPct": 4.36,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634093+00:00"
     },
@@ -47902,7 +47902,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 283,
-      "ttmDividendYieldPct": 1.31,
+      "ttmDividendYieldPct": 1.3,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145832+00:00"
     },
@@ -48205,7 +48205,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 482,
-      "ttmDividendYieldPct": 2.72,
+      "ttmDividendYieldPct": 2.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145816+00:00"
     },
@@ -48246,7 +48246,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1479,
-      "ttmDividendYieldPct": 1.28,
+      "ttmDividendYieldPct": 1.29,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -48371,7 +48371,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 347,
-      "ttmDividendYieldPct": 2.43,
+      "ttmDividendYieldPct": 2.48,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797123+00:00"
     },
@@ -48775,7 +48775,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 690,
-      "ttmDividendYieldPct": 3.17,
+      "ttmDividendYieldPct": 3.14,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317131+00:00"
     },
@@ -48996,7 +48996,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 204,
-      "ttmDividendYieldPct": 0.6,
+      "ttmDividendYieldPct": 0.59,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302860+00:00"
     },
@@ -49833,7 +49833,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 922,
-      "ttmDividendYieldPct": 6.92,
+      "ttmDividendYieldPct": 6.88,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833158+00:00"
     },
@@ -49874,7 +49874,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 487,
-      "ttmDividendYieldPct": 0.94,
+      "ttmDividendYieldPct": 0.93,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -50405,7 +50405,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 785,
-      "ttmDividendYieldPct": 10.9,
+      "ttmDividendYieldPct": 10.84,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317116+00:00"
     },
@@ -50543,7 +50543,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 246,
-      "ttmDividendYieldPct": 1.49,
+      "ttmDividendYieldPct": 1.53,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -50610,7 +50610,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 143,
-      "ttmDividendYieldPct": 1.8,
+      "ttmDividendYieldPct": 1.75,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -50790,7 +50790,7 @@
       "eventCount": 8,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 430,
-      "ttmDividendYieldPct": 0.85,
+      "ttmDividendYieldPct": 0.84,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -51208,7 +51208,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 450,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.91,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796947+00:00"
     },
@@ -51305,7 +51305,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 432,
-      "ttmDividendYieldPct": 0.87,
+      "ttmDividendYieldPct": 0.88,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155026+00:00"
     },
@@ -51542,7 +51542,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 343,
-      "ttmDividendYieldPct": 0.69,
+      "ttmDividendYieldPct": 0.68,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520969+00:00"
     },
@@ -51583,7 +51583,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 170,
-      "ttmDividendYieldPct": 2.14,
+      "ttmDividendYieldPct": 2.15,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -51861,7 +51861,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 890,
-      "ttmDividendYieldPct": 0.8,
+      "ttmDividendYieldPct": 0.79,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797095+00:00"
     },
@@ -51915,7 +51915,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 347,
-      "ttmDividendYieldPct": 0.68,
+      "ttmDividendYieldPct": 0.67,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -51956,7 +51956,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 698,
-      "ttmDividendYieldPct": 1.14,
+      "ttmDividendYieldPct": 1.15,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -52010,7 +52010,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 602,
-      "ttmDividendYieldPct": 1.07,
+      "ttmDividendYieldPct": 1.06,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -52801,7 +52801,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 1028,
-      "ttmDividendYieldPct": 1.42,
+      "ttmDividendYieldPct": 1.41,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995367+00:00"
     },
@@ -53092,7 +53092,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 385,
-      "ttmDividendYieldPct": 0.8,
+      "ttmDividendYieldPct": 0.79,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796921+00:00"
     },
@@ -53229,7 +53229,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 228,
-      "ttmDividendYieldPct": 0.67,
+      "ttmDividendYieldPct": 0.68,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -53436,7 +53436,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 55,
-      "ttmDividendYieldPct": 0.3,
+      "ttmDividendYieldPct": 0.29,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -53641,7 +53641,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 156,
-      "ttmDividendYieldPct": 1.22,
+      "ttmDividendYieldPct": 1.23,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634082+00:00"
     },
@@ -54016,7 +54016,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 358,
-      "ttmDividendYieldPct": 1.23,
+      "ttmDividendYieldPct": 1.24,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445038+00:00"
     },
@@ -54057,7 +54057,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 205,
-      "ttmDividendYieldPct": 2.33,
+      "ttmDividendYieldPct": 2.34,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -54277,7 +54277,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 150,
-      "ttmDividendYieldPct": 1.44,
+      "ttmDividendYieldPct": 1.42,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796909+00:00"
     },
@@ -54458,7 +54458,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 310,
-      "ttmDividendYieldPct": 1.68,
+      "ttmDividendYieldPct": 1.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654065+00:00"
     },
@@ -54875,7 +54875,7 @@
       "eventCount": 26,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 755,
-      "ttmDividendYieldPct": 6.19,
+      "ttmDividendYieldPct": 6.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531728+00:00"
     },
@@ -55082,7 +55082,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 402,
-      "ttmDividendYieldPct": 3.86,
+      "ttmDividendYieldPct": 3.88,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155014+00:00"
     },
@@ -55179,7 +55179,7 @@
       "eventCount": 5,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 140,
-      "ttmDividendYieldPct": 1.46,
+      "ttmDividendYieldPct": 1.48,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -55542,7 +55542,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 700,
-      "ttmDividendYieldPct": 3.17,
+      "ttmDividendYieldPct": 3.14,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445063+00:00"
     },
@@ -55639,7 +55639,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 74,
-      "ttmDividendYieldPct": 0.17,
+      "ttmDividendYieldPct": 0.16,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317098+00:00"
     },
@@ -55876,7 +55876,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 840,
-      "ttmDividendYieldPct": 2.91,
+      "ttmDividendYieldPct": 2.9,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796895+00:00"
     },
@@ -56056,7 +56056,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 100,
-      "ttmDividendYieldPct": 0.22,
+      "ttmDividendYieldPct": 0.21,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -56600,7 +56600,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 396,
-      "ttmDividendYieldPct": 9.81,
+      "ttmDividendYieldPct": 9.79,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833247+00:00"
     },
@@ -57046,7 +57046,7 @@
       "eventCount": 14,
       "paymentCycle": "TR (재투자)",
       "ttmAmountKrw": 380,
-      "ttmDividendYieldPct": 2.15,
+      "ttmDividendYieldPct": 2.16,
       "isTr": true,
       "updatedAt": "2026-10-02T10:28:04.521184+00:00"
     },
@@ -57269,7 +57269,7 @@
       "eventCount": 14,
       "paymentCycle": "TR (재투자)",
       "ttmAmountKrw": 403,
-      "ttmDividendYieldPct": 1.86,
+      "ttmDividendYieldPct": 1.87,
       "isTr": true,
       "updatedAt": "2026-10-02T10:28:06.119325+00:00"
     },
@@ -57338,7 +57338,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 106,
-      "ttmDividendYieldPct": 0.82,
+      "ttmDividendYieldPct": 0.83,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -57644,7 +57644,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 4737,
-      "ttmDividendYieldPct": 3.86,
+      "ttmDividendYieldPct": 3.87,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531715+00:00"
     },
@@ -57937,7 +57937,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 4122,
-      "ttmDividendYieldPct": 4.99,
+      "ttmDividendYieldPct": 5.01,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833184+00:00"
     },
@@ -58004,7 +58004,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 39,
-      "ttmDividendYieldPct": 0.71,
+      "ttmDividendYieldPct": 0.73,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -58045,7 +58045,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 59,
-      "ttmDividendYieldPct": 1.66,
+      "ttmDividendYieldPct": 1.63,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -58576,7 +58576,7 @@
       "eventCount": 44,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 3104,
-      "ttmDividendYieldPct": 3.11,
+      "ttmDividendYieldPct": 3.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.344981+00:00"
     },
@@ -58673,7 +58673,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 287,
-      "ttmDividendYieldPct": 0.83,
+      "ttmDividendYieldPct": 0.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.344969+00:00"
     },
@@ -58867,7 +58867,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 300,
-      "ttmDividendYieldPct": 1.21,
+      "ttmDividendYieldPct": 1.2,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.344958+00:00"
     },
@@ -59509,7 +59509,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 288,
-      "ttmDividendYieldPct": 6.33,
+      "ttmDividendYieldPct": 6.3,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634046+00:00"
     },
@@ -60040,7 +60040,7 @@
       "eventCount": 44,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 762,
-      "ttmDividendYieldPct": 7.1,
+      "ttmDividendYieldPct": 7.19,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833223+00:00"
     },
@@ -60571,7 +60571,7 @@
       "eventCount": 44,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 411,
-      "ttmDividendYieldPct": 3.57,
+      "ttmDividendYieldPct": 3.6,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833196+00:00"
     },
@@ -60612,7 +60612,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 721,
-      "ttmDividendYieldPct": 7.23,
+      "ttmDividendYieldPct": 7.22,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -60736,7 +60736,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -61122,7 +61122,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 253,
-      "ttmDividendYieldPct": 0.96,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634033+00:00"
     },
@@ -61359,7 +61359,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 253,
-      "ttmDividendYieldPct": 0.97,
+      "ttmDividendYieldPct": 0.98,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654052+00:00"
     },
@@ -61647,7 +61647,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 30,
-      "ttmDividendYieldPct": 0.48,
+      "ttmDividendYieldPct": 0.47,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -61730,7 +61730,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 45,
-      "ttmDividendYieldPct": 0.65,
+      "ttmDividendYieldPct": 0.66,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -61882,7 +61882,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 45,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -61965,7 +61965,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 25,
-      "ttmDividendYieldPct": 0.68,
+      "ttmDividendYieldPct": 0.67,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -62117,7 +62117,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 2670,
-      "ttmDividendYieldPct": 3.25,
+      "ttmDividendYieldPct": 3.23,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -62354,7 +62354,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 161,
-      "ttmDividendYieldPct": 0.5,
+      "ttmDividendYieldPct": 0.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445025+00:00"
     },
@@ -63187,7 +63187,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 120,
-      "ttmDividendYieldPct": 1.96,
+      "ttmDividendYieldPct": 2.01,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797169+00:00"
     },
@@ -63298,7 +63298,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 70,
-      "ttmDividendYieldPct": 1.11,
+      "ttmDividendYieldPct": 1.14,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797158+00:00"
     },
@@ -63380,7 +63380,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 140,
-      "ttmDividendYieldPct": 1.54,
+      "ttmDividendYieldPct": 1.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -63421,7 +63421,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 60,
-      "ttmDividendYieldPct": 0.68,
+      "ttmDividendYieldPct": 0.69,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -63462,7 +63462,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 20,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -63615,7 +63615,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 76,
-      "ttmDividendYieldPct": 1.21,
+      "ttmDividendYieldPct": 1.24,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317353+00:00"
     },
@@ -64145,7 +64145,7 @@
       "eventCount": 30,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 302,
-      "ttmDividendYieldPct": 2.08,
+      "ttmDividendYieldPct": 2.09,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634021+00:00"
     },
@@ -64186,7 +64186,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 230,
-      "ttmDividendYieldPct": 1.8,
+      "ttmDividendYieldPct": 1.83,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -64423,7 +64423,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 170,
-      "ttmDividendYieldPct": 0.69,
+      "ttmDividendYieldPct": 0.68,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654040+00:00"
     },
@@ -64743,7 +64743,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 197,
-      "ttmDividendYieldPct": 0.79,
+      "ttmDividendYieldPct": 0.78,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797072+00:00"
     },
@@ -64826,7 +64826,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 180,
-      "ttmDividendYieldPct": 0.73,
+      "ttmDividendYieldPct": 0.71,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797059+00:00"
     },
@@ -65077,7 +65077,7 @@
       "eventCount": 16,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 259,
-      "ttmDividendYieldPct": 1.14,
+      "ttmDividendYieldPct": 1.15,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:41.139861+00:00"
     },
@@ -65132,7 +65132,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 687,
-      "ttmDividendYieldPct": 4.06,
+      "ttmDividendYieldPct": 4.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145804+00:00"
     },
@@ -65243,7 +65243,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 479,
-      "ttmDividendYieldPct": 2.03,
+      "ttmDividendYieldPct": 2.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.634008+00:00"
     },
@@ -65354,7 +65354,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 282,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.03,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654028+00:00"
     },
@@ -65478,7 +65478,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 77,
-      "ttmDividendYieldPct": 0.24,
+      "ttmDividendYieldPct": 0.25,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -65882,7 +65882,7 @@
       "eventCount": 10,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 90,
-      "ttmDividendYieldPct": 0.52,
+      "ttmDividendYieldPct": 0.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531789+00:00"
     },
@@ -65979,7 +65979,7 @@
       "eventCount": 5,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 35,
-      "ttmDividendYieldPct": 0.34,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66062,7 +66062,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 10,
-      "ttmDividendYieldPct": 0.03,
+      "ttmDividendYieldPct": 0.02,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66145,7 +66145,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 136,
-      "ttmDividendYieldPct": 0.84,
+      "ttmDividendYieldPct": 0.83,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66366,7 +66366,7 @@
       "eventCount": 8,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 2429,
-      "ttmDividendYieldPct": 4.75,
+      "ttmDividendYieldPct": 4.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:47.322593+00:00"
     },
@@ -66449,7 +66449,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 135,
-      "ttmDividendYieldPct": 0.56,
+      "ttmDividendYieldPct": 0.55,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66532,7 +66532,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 120,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.01,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66765,7 +66765,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 100,
-      "ttmDividendYieldPct": 1.45,
+      "ttmDividendYieldPct": 1.47,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -66848,7 +66848,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 55,
-      "ttmDividendYieldPct": 0.17,
+      "ttmDividendYieldPct": 0.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969988+00:00"
     },
@@ -67071,7 +67071,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 226,
-      "ttmDividendYieldPct": 0.39,
+      "ttmDividendYieldPct": 0.4,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995566+00:00"
     },
@@ -67265,7 +67265,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 54,
-      "ttmDividendYieldPct": 0.55,
+      "ttmDividendYieldPct": 0.56,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -67375,7 +67375,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 141,
-      "ttmDividendYieldPct": 0.94,
+      "ttmDividendYieldPct": 0.95,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -67679,7 +67679,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 163,
-      "ttmDividendYieldPct": 1.05,
+      "ttmDividendYieldPct": 1.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633995+00:00"
     },
@@ -68246,7 +68246,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 110,
-      "ttmDividendYieldPct": 1.65,
+      "ttmDividendYieldPct": 1.67,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -68287,7 +68287,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 25,
-      "ttmDividendYieldPct": 0.2,
+      "ttmDividendYieldPct": 0.21,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -68524,7 +68524,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 186,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.91,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520919+00:00"
     },
@@ -68579,7 +68579,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 198,
-      "ttmDividendYieldPct": 2.16,
+      "ttmDividendYieldPct": 2.22,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.155003+00:00"
     },
@@ -68633,7 +68633,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 100,
-      "ttmDividendYieldPct": 0.84,
+      "ttmDividendYieldPct": 0.83,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -69813,7 +69813,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 198,
-      "ttmDividendYieldPct": 0.82,
+      "ttmDividendYieldPct": 0.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633982+00:00"
     },
@@ -70008,7 +70008,7 @@
       "eventCount": 12,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 237,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654015+00:00"
     },
@@ -70245,7 +70245,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 171,
-      "ttmDividendYieldPct": 0.71,
+      "ttmDividendYieldPct": 0.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520814+00:00"
     },
@@ -70701,7 +70701,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 122,
-      "ttmDividendYieldPct": 0.56,
+      "ttmDividendYieldPct": 0.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71103,7 +71103,7 @@
       "eventCount": 15,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 97,
-      "ttmDividendYieldPct": 0.57,
+      "ttmDividendYieldPct": 0.58,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521041+00:00"
     },
@@ -71228,7 +71228,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 464,
-      "ttmDividendYieldPct": 2.93,
+      "ttmDividendYieldPct": 2.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154979+00:00"
     },
@@ -71269,7 +71269,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 9,
-      "ttmDividendYieldPct": 0.56,
+      "ttmDividendYieldPct": 0.55,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71310,7 +71310,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 5,
-      "ttmDividendYieldPct": 0.43,
+      "ttmDividendYieldPct": 0.42,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71392,7 +71392,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 58,
-      "ttmDividendYieldPct": 1.41,
+      "ttmDividendYieldPct": 1.39,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71541,7 +71541,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 106,
-      "ttmDividendYieldPct": 0.88,
+      "ttmDividendYieldPct": 0.9,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71596,7 +71596,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 70,
-      "ttmDividendYieldPct": 1.18,
+      "ttmDividendYieldPct": 1.21,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71803,7 +71803,7 @@
       "eventCount": 6,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 45,
-      "ttmDividendYieldPct": 0.24,
+      "ttmDividendYieldPct": 0.23,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -71844,7 +71844,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 380,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.92,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -72038,7 +72038,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 32,
-      "ttmDividendYieldPct": 0.36,
+      "ttmDividendYieldPct": 0.37,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345112+00:00"
     },
@@ -72106,7 +72106,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 11,
-      "ttmDividendYieldPct": 0.22,
+      "ttmDividendYieldPct": 0.23,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -72244,7 +72244,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 60,
-      "ttmDividendYieldPct": 0.21,
+      "ttmDividendYieldPct": 0.2,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -72313,7 +72313,7 @@
       "eventCount": 3,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 30,
-      "ttmDividendYieldPct": 0.44,
+      "ttmDividendYieldPct": 0.42,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633958+00:00"
     },
@@ -72633,7 +72633,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 250,
-      "ttmDividendYieldPct": 0.4,
+      "ttmDividendYieldPct": 0.41,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -72909,7 +72909,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 717,
-      "ttmDividendYieldPct": 1.4,
+      "ttmDividendYieldPct": 1.39,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -72964,7 +72964,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 105,
-      "ttmDividendYieldPct": 1.98,
+      "ttmDividendYieldPct": 1.97,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -73815,7 +73815,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 276,
-      "ttmDividendYieldPct": 2.21,
+      "ttmDividendYieldPct": 2.22,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317066+00:00"
     },
@@ -74387,7 +74387,7 @@
       "eventCount": 36,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 495,
-      "ttmDividendYieldPct": 8.28,
+      "ttmDividendYieldPct": 8.24,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154967+00:00"
     },
@@ -74568,7 +74568,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 182,
-      "ttmDividendYieldPct": 0.94,
+      "ttmDividendYieldPct": 0.95,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633947+00:00"
     },
@@ -74651,7 +74651,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 75,
-      "ttmDividendYieldPct": 0.45,
+      "ttmDividendYieldPct": 0.44,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -74706,7 +74706,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1325,
-      "ttmDividendYieldPct": 1.18,
+      "ttmDividendYieldPct": 1.17,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -74747,7 +74747,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 108,
-      "ttmDividendYieldPct": 0.2,
+      "ttmDividendYieldPct": 0.19,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -75835,7 +75835,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 197,
-      "ttmDividendYieldPct": 0.91,
+      "ttmDividendYieldPct": 0.92,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521089+00:00"
     },
@@ -75918,7 +75918,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 280,
-      "ttmDividendYieldPct": 0.49,
+      "ttmDividendYieldPct": 0.5,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -76015,7 +76015,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 145,
-      "ttmDividendYieldPct": 0.79,
+      "ttmDividendYieldPct": 0.8,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833283+00:00"
     },
@@ -76377,7 +76377,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 279,
-      "ttmDividendYieldPct": 1.77,
+      "ttmDividendYieldPct": 1.78,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345089+00:00"
     },
@@ -76558,7 +76558,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 273,
-      "ttmDividendYieldPct": 1.63,
+      "ttmDividendYieldPct": 1.64,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969810+00:00"
     },
@@ -77101,7 +77101,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 142,
-      "ttmDividendYieldPct": 0.76,
+      "ttmDividendYieldPct": 0.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.532027+00:00"
     },
@@ -77282,7 +77282,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 160,
-      "ttmDividendYieldPct": 1.12,
+      "ttmDividendYieldPct": 1.13,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.653946+00:00"
     },
@@ -77337,7 +77337,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 250,
-      "ttmDividendYieldPct": 1.66,
+      "ttmDividendYieldPct": 1.68,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633934+00:00"
     },
@@ -77392,7 +77392,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 235,
-      "ttmDividendYieldPct": 1.39,
+      "ttmDividendYieldPct": 1.4,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154954+00:00"
     },
@@ -77447,7 +77447,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 180,
-      "ttmDividendYieldPct": 1.03,
+      "ttmDividendYieldPct": 1.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633922+00:00"
     },
@@ -77488,7 +77488,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 2380,
-      "ttmDividendYieldPct": 2.24,
+      "ttmDividendYieldPct": 2.23,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78032,7 +78032,7 @@
       "eventCount": 20,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 4464,
-      "ttmDividendYieldPct": 4.75,
+      "ttmDividendYieldPct": 4.74,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969866+00:00"
     },
@@ -78073,7 +78073,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 272,
-      "ttmDividendYieldPct": 2.3,
+      "ttmDividendYieldPct": 2.31,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78128,7 +78128,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 293,
-      "ttmDividendYieldPct": 2.88,
+      "ttmDividendYieldPct": 2.92,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317425+00:00"
     },
@@ -78169,7 +78169,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 334,
-      "ttmDividendYieldPct": 2.41,
+      "ttmDividendYieldPct": 2.43,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78210,7 +78210,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 288,
-      "ttmDividendYieldPct": 1.88,
+      "ttmDividendYieldPct": 1.9,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78251,7 +78251,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 1.12,
+      "ttmDividendYieldPct": 1.18,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78459,7 +78459,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 2525,
-      "ttmDividendYieldPct": 2.52,
+      "ttmDividendYieldPct": 2.51,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78528,7 +78528,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3280,
-      "ttmDividendYieldPct": 3.35,
+      "ttmDividendYieldPct": 3.33,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -78666,7 +78666,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 230,
-      "ttmDividendYieldPct": 2.14,
+      "ttmDividendYieldPct": 2.13,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.302810+00:00"
     },
@@ -78748,7 +78748,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1703,
-      "ttmDividendYieldPct": 1.93,
+      "ttmDividendYieldPct": 1.92,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -79279,7 +79279,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 486,
-      "ttmDividendYieldPct": 4.25,
+      "ttmDividendYieldPct": 4.29,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633821+00:00"
     },
@@ -79361,7 +79361,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 370,
-      "ttmDividendYieldPct": 3.24,
+      "ttmDividendYieldPct": 3.26,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -80016,7 +80016,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1184,
-      "ttmDividendYieldPct": 9.72,
+      "ttmDividendYieldPct": 9.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321264+00:00"
     },
@@ -80547,7 +80547,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1345,
-      "ttmDividendYieldPct": 12.47,
+      "ttmDividendYieldPct": 12.56,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796881+00:00"
     },
@@ -81078,7 +81078,7 @@
       "eventCount": 45,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2290,
-      "ttmDividendYieldPct": 8.03,
+      "ttmDividendYieldPct": 7.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797216+00:00"
     },
@@ -81394,7 +81394,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 161,
-      "ttmDividendYieldPct": 0.92,
+      "ttmDividendYieldPct": 0.93,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833259+00:00"
     },
@@ -81684,7 +81684,7 @@
       "eventCount": 5,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 146,
-      "ttmDividendYieldPct": 0.54,
+      "ttmDividendYieldPct": 0.53,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.796863+00:00"
     },
@@ -83035,7 +83035,7 @@
       "eventCount": 14,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 426,
-      "ttmDividendYieldPct": 0.51,
+      "ttmDividendYieldPct": 0.52,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.532015+00:00"
     },
@@ -83174,7 +83174,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 589,
-      "ttmDividendYieldPct": 3.58,
+      "ttmDividendYieldPct": 3.55,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633910+00:00"
     },
@@ -83424,7 +83424,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 85,
-      "ttmDividendYieldPct": 0.61,
+      "ttmDividendYieldPct": 0.62,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317365+00:00"
     },
@@ -84136,7 +84136,7 @@
       "eventCount": 41,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 750,
-      "ttmDividendYieldPct": 0.66,
+      "ttmDividendYieldPct": 0.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445290+00:00"
     },
@@ -84247,7 +84247,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 163,
-      "ttmDividendYieldPct": 0.91,
+      "ttmDividendYieldPct": 0.92,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145792+00:00"
     },
@@ -84721,7 +84721,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 362,
-      "ttmDividendYieldPct": 2.04,
+      "ttmDividendYieldPct": 2.05,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521171+00:00"
     },
@@ -84790,7 +84790,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 500,
-      "ttmDividendYieldPct": 0.95,
+      "ttmDividendYieldPct": 0.94,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -84914,7 +84914,7 @@
       "eventCount": 4,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 280,
-      "ttmDividendYieldPct": 0.93,
+      "ttmDividendYieldPct": 0.92,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -85553,7 +85553,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 75,
-      "ttmDividendYieldPct": 0.15,
+      "ttmDividendYieldPct": 0.14,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -85608,7 +85608,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 326,
-      "ttmDividendYieldPct": 2.02,
+      "ttmDividendYieldPct": 2.03,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.653928+00:00"
     },
@@ -85899,7 +85899,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 212,
-      "ttmDividendYieldPct": 1.02,
+      "ttmDividendYieldPct": 1.03,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154930+00:00"
     },
@@ -86243,7 +86243,7 @@
       "eventCount": 4,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 425,
-      "ttmDividendYieldPct": 1.19,
+      "ttmDividendYieldPct": 1.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521004+00:00"
     },
@@ -86297,7 +86297,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 612,
-      "ttmDividendYieldPct": 1.72,
+      "ttmDividendYieldPct": 1.7,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -86379,7 +86379,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1296,
-      "ttmDividendYieldPct": 1.53,
+      "ttmDividendYieldPct": 1.51,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -86420,7 +86420,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 201,
-      "ttmDividendYieldPct": 1.63,
+      "ttmDividendYieldPct": 1.61,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -86461,7 +86461,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 101,
-      "ttmDividendYieldPct": 2.41,
+      "ttmDividendYieldPct": 2.4,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -86992,7 +86992,7 @@
       "eventCount": 42,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 375,
-      "ttmDividendYieldPct": 2.94,
+      "ttmDividendYieldPct": 2.92,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654279+00:00"
     },
@@ -87185,7 +87185,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 111,
-      "ttmDividendYieldPct": 0.46,
+      "ttmDividendYieldPct": 0.47,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345123+00:00"
     },
@@ -87925,7 +87925,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 293,
-      "ttmDividendYieldPct": 2.51,
+      "ttmDividendYieldPct": 2.54,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.653896+00:00"
     },
@@ -88134,7 +88134,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 203,
-      "ttmDividendYieldPct": 1.46,
+      "ttmDividendYieldPct": 1.49,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154918+00:00"
     },
@@ -88343,7 +88343,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 254,
-      "ttmDividendYieldPct": 1.42,
+      "ttmDividendYieldPct": 1.43,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154907+00:00"
     },
@@ -88761,7 +88761,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 173,
-      "ttmDividendYieldPct": 1.61,
+      "ttmDividendYieldPct": 1.63,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531992+00:00"
     },
@@ -88802,7 +88802,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 135,
-      "ttmDividendYieldPct": 1.4,
+      "ttmDividendYieldPct": 1.41,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -89542,7 +89542,7 @@
       "eventCount": 13,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 140,
-      "ttmDividendYieldPct": 1.33,
+      "ttmDividendYieldPct": 1.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445159+00:00"
     },
@@ -89735,7 +89735,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3028,
-      "ttmDividendYieldPct": 3.04,
+      "ttmDividendYieldPct": 3.03,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -89972,7 +89972,7 @@
       "eventCount": 15,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 495,
-      "ttmDividendYieldPct": 4.26,
+      "ttmDividendYieldPct": 4.27,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633775+00:00"
     },
@@ -90503,7 +90503,7 @@
       "eventCount": 41,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 638,
-      "ttmDividendYieldPct": 6.97,
+      "ttmDividendYieldPct": 6.98,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633897+00:00"
     },
@@ -90641,7 +90641,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 16,
-      "ttmDividendYieldPct": 0.36,
+      "ttmDividendYieldPct": 0.34,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -90682,7 +90682,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 765,
-      "ttmDividendYieldPct": 1.38,
+      "ttmDividendYieldPct": 1.37,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -90917,7 +90917,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 121,
-      "ttmDividendYieldPct": 1.55,
+      "ttmDividendYieldPct": 1.6,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445278+00:00"
     },
@@ -91040,7 +91040,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 90,
-      "ttmDividendYieldPct": 1.84,
+      "ttmDividendYieldPct": 1.87,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -91122,7 +91122,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 365,
-      "ttmDividendYieldPct": 2.04,
+      "ttmDividendYieldPct": 2.07,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -91163,7 +91163,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 170,
-      "ttmDividendYieldPct": 1.63,
+      "ttmDividendYieldPct": 1.61,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -91204,7 +91204,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 184,
-      "ttmDividendYieldPct": 1.99,
+      "ttmDividendYieldPct": 1.98,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -91286,7 +91286,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 190,
-      "ttmDividendYieldPct": 0.52,
+      "ttmDividendYieldPct": 0.5,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -91940,7 +91940,7 @@
       "eventCount": 40,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2306,
-      "ttmDividendYieldPct": 5.18,
+      "ttmDividendYieldPct": 5.17,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969795+00:00"
     },
@@ -92471,7 +92471,7 @@
       "eventCount": 39,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 434,
-      "ttmDividendYieldPct": 3.1,
+      "ttmDividendYieldPct": 3.09,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797193+00:00"
     },
@@ -93002,7 +93002,7 @@
       "eventCount": 39,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 767,
-      "ttmDividendYieldPct": 6.31,
+      "ttmDividendYieldPct": 6.29,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.320954+00:00"
     },
@@ -93533,7 +93533,7 @@
       "eventCount": 39,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1093,
-      "ttmDividendYieldPct": 10.66,
+      "ttmDividendYieldPct": 10.65,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995624+00:00"
     },
@@ -93950,7 +93950,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 321,
-      "ttmDividendYieldPct": 1.84,
+      "ttmDividendYieldPct": 1.86,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833330+00:00"
     },
@@ -94563,7 +94563,7 @@
       "eventCount": 39,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 347,
-      "ttmDividendYieldPct": 3.13,
+      "ttmDividendYieldPct": 3.16,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969953+00:00"
     },
@@ -95094,7 +95094,7 @@
       "eventCount": 38,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 856,
-      "ttmDividendYieldPct": 8.19,
+      "ttmDividendYieldPct": 8.23,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445267+00:00"
     },
@@ -95260,7 +95260,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 37,
-      "ttmDividendYieldPct": 0.23,
+      "ttmDividendYieldPct": 0.22,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95301,7 +95301,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 681,
-      "ttmDividendYieldPct": 1.33,
+      "ttmDividendYieldPct": 1.32,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95397,7 +95397,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3500,
-      "ttmDividendYieldPct": 3.33,
+      "ttmDividendYieldPct": 3.31,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95562,7 +95562,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 15,
-      "ttmDividendYieldPct": 0.06,
+      "ttmDividendYieldPct": 0.07,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95603,7 +95603,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 350,
-      "ttmDividendYieldPct": 0.9,
+      "ttmDividendYieldPct": 0.93,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95686,7 +95686,7 @@
       "eventCount": 4,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 19,
-      "ttmDividendYieldPct": 0.39,
+      "ttmDividendYieldPct": 0.38,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969825+00:00"
     },
@@ -95755,7 +95755,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 10,
-      "ttmDividendYieldPct": 0.21,
+      "ttmDividendYieldPct": 0.2,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -95904,7 +95904,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 55,
-      "ttmDividendYieldPct": 0.17,
+      "ttmDividendYieldPct": 0.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -96000,7 +96000,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 318,
-      "ttmDividendYieldPct": 2.57,
+      "ttmDividendYieldPct": 2.58,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445255+00:00"
     },
@@ -96195,7 +96195,7 @@
       "eventCount": 12,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 348,
-      "ttmDividendYieldPct": 2.77,
+      "ttmDividendYieldPct": 2.78,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995613+00:00"
     },
@@ -96571,7 +96571,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 167,
-      "ttmDividendYieldPct": 0.94,
+      "ttmDividendYieldPct": 0.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995467+00:00"
     },
@@ -96612,7 +96612,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 89,
-      "ttmDividendYieldPct": 0.65,
+      "ttmDividendYieldPct": 0.66,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -96905,7 +96905,7 @@
       "eventCount": 19,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1260,
-      "ttmDividendYieldPct": 2.83,
+      "ttmDividendYieldPct": 2.84,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317390+00:00"
     },
@@ -96974,7 +96974,7 @@
       "eventCount": 3,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 135,
-      "ttmDividendYieldPct": 0.56,
+      "ttmDividendYieldPct": 0.55,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97139,7 +97139,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 150,
-      "ttmDividendYieldPct": 0.72,
+      "ttmDividendYieldPct": 0.74,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97194,7 +97194,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 11,
-      "ttmDividendYieldPct": 0.1,
+      "ttmDividendYieldPct": 0.09,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97235,7 +97235,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 360,
-      "ttmDividendYieldPct": 2.24,
+      "ttmDividendYieldPct": 2.3,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97317,7 +97317,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 470,
-      "ttmDividendYieldPct": 1.08,
+      "ttmDividendYieldPct": 1.12,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97358,7 +97358,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 188,
-      "ttmDividendYieldPct": 2.98,
+      "ttmDividendYieldPct": 2.91,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -97539,7 +97539,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 220,
-      "ttmDividendYieldPct": 0.81,
+      "ttmDividendYieldPct": 0.82,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154739+00:00"
     },
@@ -98070,7 +98070,7 @@
       "eventCount": 36,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 240,
-      "ttmDividendYieldPct": 1.55,
+      "ttmDividendYieldPct": 1.53,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317472+00:00"
     },
@@ -98696,7 +98696,7 @@
       "eventCount": 33,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1028,
-      "ttmDividendYieldPct": 4.0,
+      "ttmDividendYieldPct": 3.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969940+00:00"
     },
@@ -98737,7 +98737,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 50,
-      "ttmDividendYieldPct": 0.15,
+      "ttmDividendYieldPct": 0.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -99128,7 +99128,7 @@
       "eventCount": 26,
       "paymentCycle": "수시 분배",
       "ttmAmountKrw": 444,
-      "ttmDividendYieldPct": 4.36,
+      "ttmDividendYieldPct": 4.37,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145779+00:00"
     },
@@ -99645,7 +99645,7 @@
       "eventCount": 35,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 774,
-      "ttmDividendYieldPct": 7.43,
+      "ttmDividendYieldPct": 7.47,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633808+00:00"
     },
@@ -100162,7 +100162,7 @@
       "eventCount": 35,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 502,
-      "ttmDividendYieldPct": 4.89,
+      "ttmDividendYieldPct": 4.9,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633793+00:00"
     },
@@ -100524,7 +100524,7 @@
       "eventCount": 11,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 157,
-      "ttmDividendYieldPct": 0.41,
+      "ttmDividendYieldPct": 0.42,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317459+00:00"
     },
@@ -100856,7 +100856,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 71,
-      "ttmDividendYieldPct": 1.22,
+      "ttmDividendYieldPct": 1.2,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317448+00:00"
     },
@@ -101102,7 +101102,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1613,
-      "ttmDividendYieldPct": 1.56,
+      "ttmDividendYieldPct": 1.55,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -101493,7 +101493,7 @@
       "eventCount": 26,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1470,
-      "ttmDividendYieldPct": 3.22,
+      "ttmDividendYieldPct": 3.19,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633885+00:00"
     },
@@ -101714,7 +101714,7 @@
       "eventCount": 4,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 29,
-      "ttmDividendYieldPct": 0.09,
+      "ttmDividendYieldPct": 0.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995530+00:00"
     },
@@ -102217,7 +102217,7 @@
       "eventCount": 34,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 4561,
-      "ttmDividendYieldPct": 22.34,
+      "ttmDividendYieldPct": 22.25,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531909+00:00"
     },
@@ -102368,7 +102368,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 381,
-      "ttmDividendYieldPct": 1.49,
+      "ttmDividendYieldPct": 1.5,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -102857,7 +102857,7 @@
       "eventCount": 33,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 838,
-      "ttmDividendYieldPct": 11.48,
+      "ttmDividendYieldPct": 11.52,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833342+00:00"
     },
@@ -103512,7 +103512,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 7368,
-      "ttmDividendYieldPct": 7.5,
+      "ttmDividendYieldPct": 7.48,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -104042,7 +104042,7 @@
       "eventCount": 33,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 992,
-      "ttmDividendYieldPct": 13.32,
+      "ttmDividendYieldPct": 13.41,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520865+00:00"
     },
@@ -104208,7 +104208,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 52,
-      "ttmDividendYieldPct": 0.21,
+      "ttmDividendYieldPct": 0.22,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969929+00:00"
     },
@@ -104429,7 +104429,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 80,
-      "ttmDividendYieldPct": 0.25,
+      "ttmDividendYieldPct": 0.26,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -104904,7 +104904,7 @@
       "eventCount": 32,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1568,
-      "ttmDividendYieldPct": 10.36,
+      "ttmDividendYieldPct": 10.51,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321229+00:00"
     },
@@ -105083,7 +105083,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 271,
-      "ttmDividendYieldPct": 1.79,
+      "ttmDividendYieldPct": 1.76,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445170+00:00"
     },
@@ -105667,7 +105667,7 @@
       "eventCount": 32,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1272,
-      "ttmDividendYieldPct": 16.42,
+      "ttmDividendYieldPct": 16.37,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633873+00:00"
     },
@@ -105845,7 +105845,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 40,
-      "ttmDividendYieldPct": 0.14,
+      "ttmDividendYieldPct": 0.15,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -105955,7 +105955,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 237,
-      "ttmDividendYieldPct": 1.69,
+      "ttmDividendYieldPct": 1.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145643+00:00"
     },
@@ -106416,7 +106416,7 @@
       "eventCount": 31,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 399,
-      "ttmDividendYieldPct": 4.17,
+      "ttmDividendYieldPct": 4.22,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833318+00:00"
     },
@@ -106918,7 +106918,7 @@
       "eventCount": 31,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2567,
-      "ttmDividendYieldPct": 20.22,
+      "ttmDividendYieldPct": 20.13,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445193+00:00"
     },
@@ -107084,7 +107084,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 76,
-      "ttmDividendYieldPct": 0.43,
+      "ttmDividendYieldPct": 0.44,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521065+00:00"
     },
@@ -107251,7 +107251,7 @@
       "eventCount": 10,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 169,
-      "ttmDividendYieldPct": 1.65,
+      "ttmDividendYieldPct": 1.69,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531957+00:00"
     },
@@ -107347,7 +107347,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 265,
-      "ttmDividendYieldPct": 2.93,
+      "ttmDividendYieldPct": 2.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995601+00:00"
     },
@@ -107849,7 +107849,7 @@
       "eventCount": 31,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 892,
-      "ttmDividendYieldPct": 13.99,
+      "ttmDividendYieldPct": 13.98,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833294+00:00"
     },
@@ -108310,7 +108310,7 @@
       "eventCount": 31,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 165,
-      "ttmDividendYieldPct": 1.67,
+      "ttmDividendYieldPct": 1.7,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:00.317413+00:00"
     },
@@ -109204,7 +109204,7 @@
       "eventCount": 30,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 398,
-      "ttmDividendYieldPct": 4.8,
+      "ttmDividendYieldPct": 4.81,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633860+00:00"
     },
@@ -109651,7 +109651,7 @@
       "eventCount": 30,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 387,
-      "ttmDividendYieldPct": 9.26,
+      "ttmDividendYieldPct": 9.2,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321160+00:00"
     },
@@ -109888,7 +109888,7 @@
       "eventCount": 15,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1586,
-      "ttmDividendYieldPct": 7.22,
+      "ttmDividendYieldPct": 7.19,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145766+00:00"
     },
@@ -110094,7 +110094,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 116,
-      "ttmDividendYieldPct": 1.72,
+      "ttmDividendYieldPct": 1.73,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531897+00:00"
     },
@@ -110135,7 +110135,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 85,
-      "ttmDividendYieldPct": 0.48,
+      "ttmDividendYieldPct": 0.49,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -110272,7 +110272,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 40,
-      "ttmDividendYieldPct": 0.14,
+      "ttmDividendYieldPct": 0.15,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -110425,7 +110425,7 @@
       "eventCount": 9,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 83,
-      "ttmDividendYieldPct": 0.92,
+      "ttmDividendYieldPct": 0.94,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531885+00:00"
     },
@@ -110913,7 +110913,7 @@
       "eventCount": 29,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2650,
-      "ttmDividendYieldPct": 26.34,
+      "ttmDividendYieldPct": 26.77,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321253+00:00"
     },
@@ -111346,7 +111346,7 @@
       "eventCount": 29,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1943,
-      "ttmDividendYieldPct": 20.26,
+      "ttmDividendYieldPct": 20.36,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119285+00:00"
     },
@@ -111779,7 +111779,7 @@
       "eventCount": 29,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 3482,
-      "ttmDividendYieldPct": 22.97,
+      "ttmDividendYieldPct": 23.04,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.521159+00:00"
     },
@@ -111959,7 +111959,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 67,
-      "ttmDividendYieldPct": 0.3,
+      "ttmDividendYieldPct": 0.31,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154894+00:00"
     },
@@ -112378,7 +112378,7 @@
       "eventCount": 28,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 600,
-      "ttmDividendYieldPct": 6.6,
+      "ttmDividendYieldPct": 6.56,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445218+00:00"
     },
@@ -113675,7 +113675,7 @@
       "eventCount": 28,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 429,
-      "ttmDividendYieldPct": 5.45,
+      "ttmDividendYieldPct": 5.46,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995554+00:00"
     },
@@ -113716,7 +113716,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 1321,
-      "ttmDividendYieldPct": 1.35,
+      "ttmDividendYieldPct": 1.34,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -114176,7 +114176,7 @@
       "eventCount": 28,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1225,
-      "ttmDividendYieldPct": 10.63,
+      "ttmDividendYieldPct": 10.71,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145753+00:00"
     },
@@ -114356,7 +114356,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 167,
-      "ttmDividendYieldPct": 1.46,
+      "ttmDividendYieldPct": 1.5,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633847+00:00"
     },
@@ -114775,7 +114775,7 @@
       "eventCount": 28,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1837,
-      "ttmDividendYieldPct": 15.48,
+      "ttmDividendYieldPct": 15.68,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154882+00:00"
     },
@@ -115317,7 +115317,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 79,
-      "ttmDividendYieldPct": 0.34,
+      "ttmDividendYieldPct": 0.35,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -115735,7 +115735,7 @@
       "eventCount": 27,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 429,
-      "ttmDividendYieldPct": 5.5,
+      "ttmDividendYieldPct": 5.49,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.344934+00:00"
     },
@@ -116140,7 +116140,7 @@
       "eventCount": 27,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 828,
-      "ttmDividendYieldPct": 3.78,
+      "ttmDividendYieldPct": 3.75,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:03.654267+00:00"
     },
@@ -116320,7 +116320,7 @@
       "eventCount": 8,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 60,
-      "ttmDividendYieldPct": 0.38,
+      "ttmDividendYieldPct": 0.39,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:58.303147+00:00"
     },
@@ -116375,7 +116375,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 75,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995315+00:00"
     },
@@ -116416,7 +116416,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 33,
-      "ttmDividendYieldPct": 0.28,
+      "ttmDividendYieldPct": 0.29,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -116876,7 +116876,7 @@
       "eventCount": 27,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1642,
-      "ttmDividendYieldPct": 15.45,
+      "ttmDividendYieldPct": 15.63,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833416+00:00"
     },
@@ -117110,7 +117110,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 60,
-      "ttmDividendYieldPct": 0.3,
+      "ttmDividendYieldPct": 0.31,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.146032+00:00"
     },
@@ -117706,7 +117706,7 @@
       "eventCount": 26,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 824,
-      "ttmDividendYieldPct": 6.31,
+      "ttmDividendYieldPct": 6.33,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145740+00:00"
     },
@@ -118537,7 +118537,7 @@
       "eventCount": 26,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1464,
-      "ttmDividendYieldPct": 23.86,
+      "ttmDividendYieldPct": 23.71,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:56.633834+00:00"
     },
@@ -119859,7 +119859,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2905,
-      "ttmDividendYieldPct": 19.84,
+      "ttmDividendYieldPct": 20.17,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.145712+00:00"
     },
@@ -120222,7 +120222,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1457,
-      "ttmDividendYieldPct": 17.31,
+      "ttmDividendYieldPct": 17.3,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321055+00:00"
     },
@@ -120483,7 +120483,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 250,
-      "ttmDividendYieldPct": 1.42,
+      "ttmDividendYieldPct": 1.41,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833392+00:00"
     },
@@ -120887,7 +120887,7 @@
       "eventCount": 24,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2233,
-      "ttmDividendYieldPct": 21.19,
+      "ttmDividendYieldPct": 21.44,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531933+00:00"
     },
@@ -120928,7 +120928,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 496,
-      "ttmDividendYieldPct": 10.25,
+      "ttmDividendYieldPct": 10.29,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -121177,7 +121177,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 58,
-      "ttmDividendYieldPct": 0.24,
+      "ttmDividendYieldPct": 0.25,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833379+00:00"
     },
@@ -121818,7 +121818,7 @@
       "eventCount": 23,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1816,
-      "ttmDividendYieldPct": 15.81,
+      "ttmDividendYieldPct": 16.06,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321241+00:00"
     },
@@ -121859,7 +121859,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 21,
-      "ttmDividendYieldPct": 0.16,
+      "ttmDividendYieldPct": 0.17,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -122208,7 +122208,7 @@
       "eventCount": 23,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1344,
-      "ttmDividendYieldPct": 12.73,
+      "ttmDividendYieldPct": 12.6,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520957+00:00"
     },
@@ -122570,7 +122570,7 @@
       "eventCount": 23,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 2005,
-      "ttmDividendYieldPct": 22.44,
+      "ttmDividendYieldPct": 22.64,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154843+00:00"
     },
@@ -122694,7 +122694,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 400,
-      "ttmDividendYieldPct": 1.22,
+      "ttmDividendYieldPct": 1.21,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:01.969904+00:00"
     },
@@ -123209,7 +123209,7 @@
       "eventCount": 23,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1294,
-      "ttmDividendYieldPct": 15.07,
+      "ttmDividendYieldPct": 14.97,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321102+00:00"
     },
@@ -123835,7 +123835,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 315,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 0.98,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.321090+00:00"
     },
@@ -124476,7 +124476,7 @@
       "eventCount": 22,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 642,
-      "ttmDividendYieldPct": 2.02,
+      "ttmDividendYieldPct": 2.01,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:55.797083+00:00"
     },
@@ -124797,7 +124797,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 355,
-      "ttmDividendYieldPct": 1.11,
+      "ttmDividendYieldPct": 1.1,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:04.520905+00:00"
     },
@@ -124921,7 +124921,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 320,
-      "ttmDividendYieldPct": 0.99,
+      "ttmDividendYieldPct": 0.98,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345017+00:00"
     },
@@ -125256,7 +125256,7 @@
       "eventCount": 22,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 384,
-      "ttmDividendYieldPct": 1.19,
+      "ttmDividendYieldPct": 1.18,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995492+00:00"
     },
@@ -125311,7 +125311,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 54,
-      "ttmDividendYieldPct": 0.27,
+      "ttmDividendYieldPct": 0.28,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:57.445146+00:00"
     },
@@ -125673,7 +125673,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 324,
-      "ttmDividendYieldPct": 1.0,
+      "ttmDividendYieldPct": 0.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531861+00:00"
     },
@@ -125784,7 +125784,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 300,
-      "ttmDividendYieldPct": 0.93,
+      "ttmDividendYieldPct": 0.92,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995479+00:00"
     },
@@ -125895,7 +125895,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 288,
-      "ttmDividendYieldPct": 0.86,
+      "ttmDividendYieldPct": 0.85,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:53.345100+00:00"
     },
@@ -125936,7 +125936,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 344,
-      "ttmDividendYieldPct": 1.36,
+      "ttmDividendYieldPct": 1.35,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -125991,7 +125991,7 @@
       "eventCount": 2,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 180,
-      "ttmDividendYieldPct": 1.15,
+      "ttmDividendYieldPct": 1.16,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -126102,7 +126102,7 @@
       "eventCount": 6,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 288,
-      "ttmDividendYieldPct": 2.3,
+      "ttmDividendYieldPct": 2.34,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995590+00:00"
     },
@@ -126143,7 +126143,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 88,
-      "ttmDividendYieldPct": 0.68,
+      "ttmDividendYieldPct": 0.69,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -126268,7 +126268,7 @@
       "eventCount": 7,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 75,
-      "ttmDividendYieldPct": 0.32,
+      "ttmDividendYieldPct": 0.33,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154868+00:00"
     },
@@ -126589,7 +126589,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 515,
-      "ttmDividendYieldPct": 5.3,
+      "ttmDividendYieldPct": 5.29,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:02.833367+00:00"
     },
@@ -126978,7 +126978,7 @@
       "eventCount": 1,
       "paymentCycle": "연 분배",
       "ttmAmountKrw": 3354,
-      "ttmDividendYieldPct": 3.59,
+      "ttmDividendYieldPct": 3.57,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -127075,7 +127075,7 @@
       "eventCount": 5,
       "paymentCycle": "분기 분배",
       "ttmAmountKrw": 46,
-      "ttmDividendYieldPct": 0.3,
+      "ttmDividendYieldPct": 0.31,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.154856+00:00"
     },
@@ -127396,7 +127396,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 3126,
-      "ttmDividendYieldPct": 15.07,
+      "ttmDividendYieldPct": 14.99,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:05.320890+00:00"
     },
@@ -127717,7 +127717,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 1870,
-      "ttmDividendYieldPct": 16.61,
+      "ttmDividendYieldPct": 16.48,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:54.995342+00:00"
     },
@@ -127772,7 +127772,7 @@
       "eventCount": 2,
       "paymentCycle": "반기 분배",
       "ttmAmountKrw": 156,
-      "ttmDividendYieldPct": 2.1,
+      "ttmDividendYieldPct": 2.12,
       "isTr": false,
       "updatedAt": "2026-10-02T10:27:59.531680+00:00"
     },
@@ -128093,7 +128093,7 @@
       "eventCount": 21,
       "paymentCycle": "월 분배",
       "ttmAmountKrw": 594,
-      "ttmDividendYieldPct": 3.65,
+      "ttmDividendYieldPct": 3.63,
       "isTr": false,
       "updatedAt": "2026-10-02T10:28:06.119352+00:00"
     },

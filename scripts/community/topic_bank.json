@@ -199,7 +199,8 @@
         "테마ETF",
         "비용"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-03"
     },
     {
       "id": "sca-013",
@@ -864,7 +865,8 @@
         "해외ETF",
         "환헤지판단"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-03"
     },
     {
       "id": "sp-026",
@@ -1127,7 +1129,8 @@
         "ETF검색",
         "MTS"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-03"
     },
     {
       "id": "qna-015",

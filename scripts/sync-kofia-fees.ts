@@ -50,7 +50,13 @@ async function runPipeline() {
 
     console.log("🧪 [Quality Gate] 수수료 레지스트리 불변식 및 도메인 단위 테스트 검증...");
     const feeTestCmd = `npx vitest run lib/data/__tests__/etf-fee-registry.test.ts lib/domain/__tests__/etf-fee-utils.test.ts`;
-    execSync(feeTestCmd, { stdio: "inherit" });
+    execSync(feeTestCmd, {
+      stdio: "inherit",
+      env: {
+        ...process.env,
+        NODE_ENV: "test",
+      },
+    });
     console.log("🎉 수수료 데이터 무결성 및 단위 테스트 전수 통과.");
   } catch (error) {
     console.error("❌ KOFIA 파이프라인 실행 중 오류 발생:", error);

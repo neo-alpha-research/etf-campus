@@ -536,7 +536,8 @@
         "연금계좌",
         "전략"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-04"
     },
     {
       "id": "sp-005",
@@ -1049,7 +1050,8 @@
         "납입순서",
         "IRP연금저축"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-04"
     },
     {
       "id": "qna-009",
@@ -1474,7 +1476,8 @@
         "계좌별비교",
         "절세"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-10-04"
     },
     {
       "id": "sca-039",
